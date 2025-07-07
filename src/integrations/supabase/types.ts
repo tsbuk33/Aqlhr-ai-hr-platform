@@ -300,6 +300,94 @@ export type Database = {
           },
         ]
       }
+      attendance_breaks: {
+        Row: {
+          break_end: string | null
+          break_start: string
+          break_type: string | null
+          created_at: string | null
+          duration_minutes: number | null
+          id: string
+          notes: string | null
+          session_id: string | null
+        }
+        Insert: {
+          break_end?: string | null
+          break_start: string
+          break_type?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          notes?: string | null
+          session_id?: string | null
+        }
+        Update: {
+          break_end?: string | null
+          break_start?: string
+          break_type?: string | null
+          created_at?: string | null
+          duration_minutes?: number | null
+          id?: string
+          notes?: string | null
+          session_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_breaks_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "mobile_attendance_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attendance_locations: {
+        Row: {
+          address: string
+          company_id: string | null
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          latitude: number
+          longitude: number
+          name: string
+          name_ar: string | null
+          radius_meters: number | null
+        }
+        Insert: {
+          address: string
+          company_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          latitude: number
+          longitude: number
+          name: string
+          name_ar?: string | null
+          radius_meters?: number | null
+        }
+        Update: {
+          address?: string
+          company_id?: string | null
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          latitude?: number
+          longitude?: number
+          name?: string
+          name_ar?: string | null
+          radius_meters?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_locations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -566,6 +654,127 @@ export type Database = {
           },
           {
             foreignKeyName: "leave_requests_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mobile_attendance_sessions: {
+        Row: {
+          break_duration: number | null
+          check_in_time: string | null
+          check_out_time: string | null
+          created_at: string | null
+          device_info: Json
+          employee_id: string | null
+          id: string
+          location_accuracy: number | null
+          location_lat: number | null
+          location_lng: number | null
+          notes: string | null
+          overtime_hours: number | null
+          photo_check_in_url: string | null
+          photo_check_out_url: string | null
+          status: string | null
+          sync_status: string | null
+          updated_at: string | null
+          work_hours: number | null
+        }
+        Insert: {
+          break_duration?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string | null
+          device_info: Json
+          employee_id?: string | null
+          id?: string
+          location_accuracy?: number | null
+          location_lat?: number | null
+          location_lng?: number | null
+          notes?: string | null
+          overtime_hours?: number | null
+          photo_check_in_url?: string | null
+          photo_check_out_url?: string | null
+          status?: string | null
+          sync_status?: string | null
+          updated_at?: string | null
+          work_hours?: number | null
+        }
+        Update: {
+          break_duration?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string | null
+          device_info?: Json
+          employee_id?: string | null
+          id?: string
+          location_accuracy?: number | null
+          location_lat?: number | null
+          location_lng?: number | null
+          notes?: string | null
+          overtime_hours?: number | null
+          photo_check_in_url?: string | null
+          photo_check_out_url?: string | null
+          status?: string | null
+          sync_status?: string | null
+          updated_at?: string | null
+          work_hours?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mobile_attendance_sessions_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      mobile_devices: {
+        Row: {
+          app_version: string | null
+          created_at: string | null
+          device_id: string
+          device_name: string
+          device_type: string
+          employee_id: string | null
+          id: string
+          is_active: boolean | null
+          last_seen: string | null
+          os_version: string | null
+          push_token: string | null
+        }
+        Insert: {
+          app_version?: string | null
+          created_at?: string | null
+          device_id: string
+          device_name: string
+          device_type: string
+          employee_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_seen?: string | null
+          os_version?: string | null
+          push_token?: string | null
+        }
+        Update: {
+          app_version?: string | null
+          created_at?: string | null
+          device_id?: string
+          device_name?: string
+          device_type?: string
+          employee_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_seen?: string | null
+          os_version?: string | null
+          push_token?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mobile_devices_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
