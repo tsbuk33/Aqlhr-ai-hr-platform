@@ -229,6 +229,75 @@ const App = () => (
                     {/* Additional Modules Routes */}
                     <Route path="/tools/smart-kpi" element={<SmartKPITool />} />
                     <Route path="/tools/sanadhr-connect" element={<SanadHRConnect />} />
+                    
+                    {/* Government Integration Sub-routes */}
+                    <Route path="/government/qiwa" element={<QiwaIntegration />} />
+                    <Route path="/government/absher" element={<AbsherPlatform />} />
+                    <Route path="/government/mudad" element={<MudadPlatform />} />
+                    <Route path="/government/nitaqat" element={<NitaqatCompliance />} />
+                    <Route path="/government/tvtc" element={<TVTCIntegration />} />
+                    <Route path="/government/mol" element={<MOLCompliance />} />
+                    <Route path="/government/zatca" element={<ZATCAIntegration />} />
+                    <Route path="/government/elm" element={<ELMPlatform />} />
+                    
+                    {/* Payroll Sub-routes */}
+                    <Route path="/payroll/wps" element={<WPSProcessing />} />
+                    <Route path="/payroll/gosi" element={<GOSIIntegration />} />
+                    <Route path="/payroll/eosb" element={<EOSBCalculations />} />
+                    <Route path="/payroll/tax" element={<TaxCompliance />} />
+                    <Route path="/payroll/expenses" element={<ExpenseManagement />} />
+                    <Route path="/payroll/analytics" element={<PayrollAnalytics />} />
+                    <Route path="/payroll/banking" element={<BankIntegration />} />
+                    <Route path="/payroll/budgeting" element={<BudgetForecasting />} />
+                    
+                    {/* Core HR Additional Sub-routes */}
+                    <Route path="/core-hr/time-attendance" element={<TimeAttendance />} />
+                    <Route path="/core-hr/performance" element={<PerformanceManagement />} />
+                    <Route path="/core-hr/leave" element={<LeaveManagement />} />
+                    <Route path="/core-hr/training" element={<TrainingDevelopment />} />
+                    <Route path="/core-hr/recruitment" element={<RecruitmentOnboarding />} />
+                    <Route path="/core-hr/compensation" element={<CompensationBenefits />} />
+                    <Route path="/core-hr/workflow" element={<WorkflowAutomation />} />
+                    <Route path="/core-hr/mobile" element={<MobileHR />} />
+                    
+                    {/* Strategic HR Sub-routes */}
+                    <Route path="/strategic/workforce-planning" element={<WorkforcePlanning />} />
+                    <Route path="/strategic/succession" element={<SuccessionPlanning />} />
+                    <Route path="/strategic/talent-acquisition" element={<TalentAcquisition />} />
+                    <Route path="/strategic/org-development" element={<OrganizationalDevelopment />} />
+                    <Route path="/strategic/performance" element={<PerformanceStrategy />} />
+                    <Route path="/strategic/compensation" element={<CompensationStrategy />} />
+                    <Route path="/strategic/diversity" element={<DiversityInclusion />} />
+                    <Route path="/strategic/leadership" element={<LeadershipDevelopment />} />
+                    <Route path="/strategic/experience" element={<EmployeeExperience />} />
+                    <Route path="/strategic/transformation" element={<HRTransformation />} />
+                    
+                    {/* Consulting Sub-routes */}
+                    <Route path="/consulting/executive-compensation" element={<ExecutiveCompensation />} />
+                    <Route path="/consulting/restructuring" element={<OrganizationalRestructuring />} />
+                    <Route path="/consulting/culture" element={<CultureTransformation />} />
+                    <Route path="/consulting/merger" element={<MergerIntegration />} />
+                    <Route path="/consulting/digital" element={<DigitalTransformation />} />
+                    <Route path="/consulting/talent" element={<TalentStrategy />} />
+                    <Route path="/consulting/leadership" element={<LeadershipConsulting />} />
+                    <Route path="/consulting/change" element={<ChangeManagement />} />
+                    <Route path="/consulting/optimization" element={<HROptimization />} />
+                    <Route path="/consulting/risk" element={<RiskAssessment />} />
+                    <Route path="/consulting/benchmarking" element={<BenchmarkingAnalysis />} />
+                    <Route path="/consulting/planning" element={<StrategicPlanning />} />
+                    
+                    {/* Analytics Sub-routes */}
+                    <Route path="/analytics/workforce" element={<WorkforceAnalytics />} />
+                    <Route path="/analytics/predictive" element={<PredictiveModeling />} />
+                    <Route path="/analytics/realtime" element={<RealtimeDashboards />} />
+                    <Route path="/analytics/cost" element={<CostAnalytics />} />
+                    <Route path="/analytics/compliance" element={<ComplianceReportingAnalytics />} />
+                    <Route path="/analytics/performance" element={<PerformanceAnalytics />} />
+                    <Route path="/analytics/turnover" element={<TurnoverAnalysis />} />
+                    <Route path="/analytics/benchmarking" element={<BenchmarkingReports />} />
+                    <Route path="/analytics/custom" element={<CustomReporting />} />
+                    <Route path="/analytics/visualization" element={<DataVisualization />} />
+                    <Route path="/analytics/executive" element={<ExecutiveReporting />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>
