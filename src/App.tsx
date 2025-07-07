@@ -94,6 +94,50 @@ import ComplianceReporting from "./pages/compliance/ComplianceReporting";
 import LegalDocumentTracking from "./pages/compliance/LegalDocumentTracking";
 import DocumentationManagement from "./pages/compliance/DocumentationManagement";
 import EvidenceManagement from "./pages/compliance/EvidenceManagement";
+// Core HR additional modules
+import EmployeeMasterData from "./pages/core-hr/EmployeeMasterData";
+import BenefitsAdministration from "./pages/core-hr/BenefitsAdministration";
+import SuccessionPlanningCore from "./pages/core-hr/SuccessionPlanningCore";
+import CompensationManagementCore from "./pages/core-hr/CompensationManagementCore";
+// AI & Automation modules
+import AISyncEngine from "./pages/ai-automation/AISyncEngine";
+import SmartRecommendations from "./pages/ai-automation/SmartRecommendations";
+import PredictiveAnalyticsEngine from "./pages/ai-automation/PredictiveAnalyticsEngine";
+import DocumentIntelligence from "./pages/ai-automation/DocumentIntelligence";
+import ArabicEnglishNLP from "./pages/ai-automation/ArabicEnglishNLP";
+import AutomatedWorkflowEngine from "./pages/ai-automation/AutomatedWorkflowEngine";
+// Employee Welfare & Safety modules
+import WelfareComplianceDashboard from "./pages/welfare-safety/WelfareComplianceDashboard";
+import GrievanceReporting from "./pages/welfare-safety/GrievanceReporting";
+import FoodHousingTransport from "./pages/welfare-safety/FoodHousingTransport";
+import WellbeingTracker from "./pages/welfare-safety/WellbeingTracker";
+import EthicsScore from "./pages/welfare-safety/EthicsScore";
+import AIDiagnosisRecommendations from "./pages/welfare-safety/AIDiagnosisRecommendations";
+import ComplianceFramework from "./pages/welfare-safety/ComplianceFramework";
+import MultiViewDashboards from "./pages/welfare-safety/MultiViewDashboards";
+// Diagnostic Framework modules
+import RetentionStrategyAssessment from "./pages/diagnostic/RetentionStrategyAssessment";
+import HRProcessImprovement from "./pages/diagnostic/HRProcessImprovement";
+import HRRoleOptimization from "./pages/diagnostic/HRRoleOptimization";
+import HRValueChainAnalysis from "./pages/diagnostic/HRValueChainAnalysis";
+import OrgStructureAssessment from "./pages/diagnostic/OrgStructureAssessment";
+import CultureChangeTracker from "./pages/diagnostic/CultureChangeTracker";
+import IPOReadinessDiagnostic from "./pages/diagnostic/IPOReadinessDiagnostic";
+// Local Content Compliance modules
+import WorkforceLocalizationTracker from "./pages/local-content/WorkforceLocalizationTracker";
+import SupplierDevelopmentMonitor from "./pages/local-content/SupplierDevelopmentMonitor";
+import InvestmentTrackingSystem from "./pages/local-content/InvestmentTrackingSystem";
+import AILocalContentIntelligence from "./pages/local-content/AILocalContentIntelligence";
+import RegulatoryComplianceMonitor from "./pages/local-content/RegulatoryComplianceMonitor";
+import LocalizationStrategicPlanning from "./pages/local-content/LocalizationStrategicPlanning";
+// Platform Features modules
+import LanguageToggleFeature from "./pages/platform-features/LanguageToggle";
+import MobileAppFeature from "./pages/platform-features/MobileApp";
+import SecurityFramework from "./pages/platform-features/SecurityFramework";
+import APIGateway from "./pages/platform-features/APIGateway";
+// Additional modules
+import SmartKPITool from "./pages/additional/SmartKPITool";
+import SanadHRConnect from "./pages/additional/SanadHRConnect";
 
 const queryClient = new QueryClient();
 
@@ -134,6 +178,57 @@ const App = () => (
                     <Route path="/strategic" element={<Strategic />} />
                     <Route path="/consulting" element={<Consulting />} />
                     <Route path="/analytics" element={<Analytics />} />
+                    
+                    {/* Core HR Extended Routes */}
+                    <Route path="/core-hr/master-data" element={<EmployeeMasterData />} />
+                    <Route path="/core-hr/benefits" element={<BenefitsAdministration />} />
+                    <Route path="/core-hr/succession-planning" element={<SuccessionPlanningCore />} />
+                    <Route path="/core-hr/compensation-management" element={<CompensationManagementCore />} />
+                    
+                    {/* AI & Automation Routes */}
+                    <Route path="/ai-automation/sync-engine" element={<AISyncEngine />} />
+                    <Route path="/ai-automation/smart-recommendations" element={<SmartRecommendations />} />
+                    <Route path="/ai-automation/predictive-analytics" element={<PredictiveAnalyticsEngine />} />
+                    <Route path="/ai-automation/document-intelligence" element={<DocumentIntelligence />} />
+                    <Route path="/ai-automation/arabic-english-nlp" element={<ArabicEnglishNLP />} />
+                    <Route path="/ai-automation/automated-workflow" element={<AutomatedWorkflowEngine />} />
+                    
+                    {/* Employee Welfare & Safety Routes */}
+                    <Route path="/welfare-safety/compliance-dashboard" element={<WelfareComplianceDashboard />} />
+                    <Route path="/welfare-safety/grievance-reporting" element={<GrievanceReporting />} />
+                    <Route path="/welfare-safety/food-housing-transport" element={<FoodHousingTransport />} />
+                    <Route path="/welfare-safety/wellbeing-tracker" element={<WellbeingTracker />} />
+                    <Route path="/welfare-safety/ethics-score" element={<EthicsScore />} />
+                    <Route path="/welfare-safety/ai-diagnosis" element={<AIDiagnosisRecommendations />} />
+                    <Route path="/welfare-safety/compliance-framework" element={<ComplianceFramework />} />
+                    <Route path="/welfare-safety/multi-view-dashboards" element={<MultiViewDashboards />} />
+                    
+                    {/* Diagnostic Framework Routes */}
+                    <Route path="/diagnostic/retention-strategy" element={<RetentionStrategyAssessment />} />
+                    <Route path="/diagnostic/hr-process-improvement" element={<HRProcessImprovement />} />
+                    <Route path="/diagnostic/hr-role-optimization" element={<HRRoleOptimization />} />
+                    <Route path="/diagnostic/hr-value-chain" element={<HRValueChainAnalysis />} />
+                    <Route path="/diagnostic/org-structure" element={<OrgStructureAssessment />} />
+                    <Route path="/diagnostic/culture-change" element={<CultureChangeTracker />} />
+                    <Route path="/diagnostic/ipo-readiness" element={<IPOReadinessDiagnostic />} />
+                    
+                    {/* Local Content Compliance Routes */}
+                    <Route path="/local-content/workforce-localization" element={<WorkforceLocalizationTracker />} />
+                    <Route path="/local-content/supplier-development" element={<SupplierDevelopmentMonitor />} />
+                    <Route path="/local-content/investment-tracking" element={<InvestmentTrackingSystem />} />
+                    <Route path="/local-content/ai-intelligence" element={<AILocalContentIntelligence />} />
+                    <Route path="/local-content/regulatory-compliance" element={<RegulatoryComplianceMonitor />} />
+                    <Route path="/local-content/strategic-planning" element={<LocalizationStrategicPlanning />} />
+                    
+                    {/* Platform Features Routes */}
+                    <Route path="/platform/language-toggle" element={<LanguageToggleFeature />} />
+                    <Route path="/platform/mobile-app" element={<MobileAppFeature />} />
+                    <Route path="/platform/security-framework" element={<SecurityFramework />} />
+                    <Route path="/platform/api-gateway" element={<APIGateway />} />
+                    
+                    {/* Additional Modules Routes */}
+                    <Route path="/tools/smart-kpi" element={<SmartKPITool />} />
+                    <Route path="/tools/sanadhr-connect" element={<SanadHRConnect />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
                   </Routes>

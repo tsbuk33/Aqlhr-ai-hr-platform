@@ -37,10 +37,147 @@ const platformModules = [
     icon: Users,
     badge: "12",
     subItems: [
-      { title: "Employee Master Data", url: "/core-hr/employees" },
-      { title: "Organizational Structure", url: "/core-hr/organization" },
+      { title: "Employee Master Data", url: "/core-hr/master-data" },
+      { title: "Payroll Processing", url: "/payroll" },
+      { title: "Benefits Administration", url: "/core-hr/benefits" },
+      { title: "Performance Management", url: "/core-hr/performance" },
+      { title: "Recruitment & Hiring", url: "/core-hr/recruitment" },
+      { title: "Training & Development", url: "/core-hr/training" },
+      { title: "Time & Attendance", url: "/core-hr/time-attendance" },
+      { title: "Leave Management", url: "/core-hr/leave" },
+      { title: "Succession Planning", url: "/core-hr/succession-planning" },
+      { title: "Compensation Management", url: "/core-hr/compensation-management" },
       { title: "Employee Self-Service", url: "/core-hr/self-service" },
-      { title: "Document Management", url: "/core-hr/documents" },
+      { title: "Manager Dashboard", url: "/core-hr/organization" },
+    ]
+  },
+  { 
+    title: "AI & Automation", 
+    url: "/ai-automation", 
+    icon: Check,
+    badge: "6",
+    subItems: [
+      { title: "AI Sync Engine", url: "/ai-automation/sync-engine" },
+      { title: "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
+      { title: "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
+      { title: "Document Intelligence", url: "/ai-automation/document-intelligence" },
+      { title: "Arabic-English NLP", url: "/ai-automation/arabic-english-nlp" },
+      { title: "Automated Workflows", url: "/ai-automation/automated-workflow" },
+    ]
+  },
+  { 
+    title: "Government Integrations", 
+    url: "/government", 
+    icon: FileText,
+    badge: "8",
+    subItems: [
+      { title: "Qiwa Integration", url: "/government/qiwa" },
+      { title: "GOSI Integration", url: "/government/gosi" },
+      { title: "Mudad Platform", url: "/government/mudad" },
+      { title: "Muqeem/ELM Platform", url: "/government/elm" },
+      { title: "Absher Platform", url: "/government/absher" },
+      { title: "HRSD Integration", url: "/government/mol" },
+      { title: "TVTC/Doroob", url: "/government/tvtc" },
+      { title: "Health Insurance", url: "/government/zatca" },
+    ]
+  },
+  { 
+    title: "Employee Welfare & Safety", 
+    url: "/welfare-safety", 
+    icon: ArrowUp,
+    badge: "8",
+    subItems: [
+      { title: "Welfare Compliance Dashboard", url: "/welfare-safety/compliance-dashboard" },
+      { title: "Grievance & Harassment Reporting", url: "/welfare-safety/grievance-reporting" },
+      { title: "Food, Housing & Transport", url: "/welfare-safety/food-housing-transport" },
+      { title: "Wellbeing Tracker", url: "/welfare-safety/wellbeing-tracker" },
+      { title: "Ethics Score", url: "/welfare-safety/ethics-score" },
+      { title: "AI Diagnosis & Recommendations", url: "/welfare-safety/ai-diagnosis" },
+      { title: "Compliance Framework", url: "/welfare-safety/compliance-framework" },
+      { title: "Multi-View Dashboards", url: "/welfare-safety/multi-view-dashboards" },
+    ]
+  },
+  { 
+    title: "Diagnostic Frameworks", 
+    url: "/diagnostic", 
+    icon: ArrowDown,
+    badge: "7",
+    subItems: [
+      { title: "Retention Strategy Assessment", url: "/diagnostic/retention-strategy" },
+      { title: "HR Process Improvement", url: "/diagnostic/hr-process-improvement" },
+      { title: "HR Role Optimization", url: "/diagnostic/hr-role-optimization" },
+      { title: "HR Value Chain Analysis", url: "/diagnostic/hr-value-chain" },
+      { title: "Org Structure Assessment", url: "/diagnostic/org-structure" },
+      { title: "Culture Change Tracker", url: "/diagnostic/culture-change" },
+      { title: "IPO Readiness Diagnostic", url: "/diagnostic/ipo-readiness" },
+    ]
+  },
+  { 
+    title: "Local Content Compliance", 
+    url: "/local-content", 
+    icon: Clock,
+    badge: "6",
+    subItems: [
+      { title: "Workforce Localization Tracker", url: "/local-content/workforce-localization" },
+      { title: "Supplier Development Monitor", url: "/local-content/supplier-development" },
+      { title: "Investment Tracking System", url: "/local-content/investment-tracking" },
+      { title: "AI Local Content Intelligence", url: "/local-content/ai-intelligence" },
+      { title: "Regulatory Compliance Monitor", url: "/local-content/regulatory-compliance" },
+      { title: "Localization Strategic Planning", url: "/local-content/strategic-planning" },
+    ]
+  },
+  { 
+    title: "Payroll & Financial", 
+    url: "/payroll", 
+    icon: Calendar,
+    badge: "8",
+    subItems: [
+      { title: "WPS Processing", url: "/payroll/wps" },
+      { title: "GOSI Integration", url: "/payroll/gosi" },
+      { title: "EOSB Calculations", url: "/payroll/eosb" },
+      { title: "Tax Compliance", url: "/payroll/tax" },
+      { title: "Expense Management", url: "/payroll/expenses" },
+      { title: "Payroll Analytics", url: "/payroll/analytics" },
+      { title: "Bank Integration", url: "/payroll/banking" },
+      { title: "Budget Forecasting", url: "/payroll/budgeting" },
+    ]
+  },
+  { 
+    title: "Strategic HR", 
+    url: "/strategic", 
+    icon: ArrowUp,
+    badge: "10",
+    subItems: [
+      { title: "Workforce Planning", url: "/strategic/workforce-planning" },
+      { title: "Succession Planning", url: "/strategic/succession" },
+      { title: "Talent Acquisition", url: "/strategic/talent-acquisition" },
+      { title: "Organizational Development", url: "/strategic/org-development" },
+      { title: "Performance Strategy", url: "/strategic/performance" },
+      { title: "Compensation Strategy", url: "/strategic/compensation" },
+      { title: "Diversity & Inclusion", url: "/strategic/diversity" },
+      { title: "Leadership Development", url: "/strategic/leadership" },
+      { title: "Employee Experience", url: "/strategic/experience" },
+      { title: "HR Transformation", url: "/strategic/transformation" },
+    ]
+  },
+  { 
+    title: "Premium Consulting", 
+    url: "/consulting", 
+    icon: Clock,
+    badge: "12",
+    subItems: [
+      { title: "Executive Compensation", url: "/consulting/executive-compensation" },
+      { title: "Organizational Restructuring", url: "/consulting/restructuring" },
+      { title: "Culture Transformation", url: "/consulting/culture" },
+      { title: "M&A Integration", url: "/consulting/merger" },
+      { title: "Digital Transformation", url: "/consulting/digital" },
+      { title: "Talent Strategy", url: "/consulting/talent" },
+      { title: "Leadership Consulting", url: "/consulting/leadership" },
+      { title: "Change Management", url: "/consulting/change" },
+      { title: "HR Optimization", url: "/consulting/optimization" },
+      { title: "Risk Assessment", url: "/consulting/risk" },
+      { title: "Benchmarking Analysis", url: "/consulting/benchmarking" },
+      { title: "Strategic Planning", url: "/consulting/planning" },
     ]
   },
   { 
@@ -62,40 +199,45 @@ const platformModules = [
     ]
   },
   { 
-    title: "Payroll & Financial", 
-    url: "/payroll", 
-    icon: Calendar,
-    badge: "8"
-  },
-  { 
-    title: "AI Features", 
-    url: "/ai-features", 
-    icon: Check,
-    badge: "8"
-  },
-  { 
-    title: "Government Integrations", 
-    url: "/government", 
-    icon: FileText,
-    badge: "8"
-  },
-  { 
-    title: "Strategic HR", 
-    url: "/strategic", 
-    icon: ArrowUp,
-    badge: "10"
-  },
-  { 
-    title: "Premium Consulting", 
-    url: "/consulting", 
-    icon: Clock,
-    badge: "12"
-  },
-  { 
     title: "Advanced Analytics", 
     url: "/analytics", 
     icon: ArrowDown,
-    badge: "11"
+    badge: "11",
+    subItems: [
+      { title: "Workforce Analytics", url: "/analytics/workforce" },
+      { title: "Predictive Modeling", url: "/analytics/predictive" },
+      { title: "Realtime Dashboards", url: "/analytics/realtime" },
+      { title: "Cost Analytics", url: "/analytics/cost" },
+      { title: "Compliance Reporting", url: "/analytics/compliance" },
+      { title: "Performance Analytics", url: "/analytics/performance" },
+      { title: "Turnover Analysis", url: "/analytics/turnover" },
+      { title: "Benchmarking Reports", url: "/analytics/benchmarking" },
+      { title: "Custom Reporting", url: "/analytics/custom" },
+      { title: "Data Visualization", url: "/analytics/visualization" },
+      { title: "Executive Reporting", url: "/analytics/executive" },
+    ]
+  },
+  { 
+    title: "Platform Features", 
+    url: "/platform", 
+    icon: Check,
+    badge: "4",
+    subItems: [
+      { title: "Language Toggle (AR/EN)", url: "/platform/language-toggle" },
+      { title: "Mobile App", url: "/platform/mobile-app" },
+      { title: "Security Framework", url: "/platform/security-framework" },
+      { title: "API Gateway", url: "/platform/api-gateway" },
+    ]
+  },
+  { 
+    title: "Additional Tools", 
+    url: "/tools", 
+    icon: ArrowUp,
+    badge: "2",
+    subItems: [
+      { title: "Smart KPI Tool", url: "/tools/smart-kpi" },
+      { title: "SanadHR Connect", url: "/tools/sanadhr-connect" },
+    ]
   },
 ];
 
