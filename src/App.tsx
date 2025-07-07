@@ -15,6 +15,33 @@ import Organization from "./pages/Organization";
 import SelfService from "./pages/SelfService";
 import Documents from "./pages/Documents";
 import Payroll from "./pages/Payroll";
+// Core HR sub-modules
+import TimeAttendance from "./pages/core-hr/TimeAttendance";
+import PerformanceManagement from "./pages/core-hr/PerformanceManagement";
+import LeaveManagement from "./pages/core-hr/LeaveManagement";
+import TrainingDevelopment from "./pages/core-hr/TrainingDevelopment";
+import RecruitmentOnboarding from "./pages/core-hr/RecruitmentOnboarding";
+import CompensationBenefits from "./pages/core-hr/CompensationBenefits";
+import WorkflowAutomation from "./pages/core-hr/WorkflowAutomation";
+import MobileHR from "./pages/core-hr/MobileHR";
+// Payroll sub-modules
+import WPSProcessing from "./pages/payroll/WPSProcessing";
+import GOSIIntegration from "./pages/payroll/GOSIIntegration";
+import EOSBCalculations from "./pages/payroll/EOSBCalculations";
+import TaxCompliance from "./pages/payroll/TaxCompliance";
+import ExpenseManagement from "./pages/payroll/ExpenseManagement";
+import PayrollAnalytics from "./pages/payroll/PayrollAnalytics";
+import BankIntegration from "./pages/payroll/BankIntegration";
+import BudgetForecasting from "./pages/payroll/BudgetForecasting";
+// Government sub-modules
+import QiwaIntegration from "./pages/government/QiwaIntegration";
+import AbsherPlatform from "./pages/government/AbsherPlatform";
+import MudadPlatform from "./pages/government/MudadPlatform";
+import NitaqatCompliance from "./pages/government/NitaqatCompliance";
+import TVTCIntegration from "./pages/government/TVTCIntegration";
+import MOLCompliance from "./pages/government/MOLCompliance";
+import ZATCAIntegration from "./pages/government/ZATCAIntegration";
+import ELMPlatform from "./pages/government/ELMPlatform";
 import AIFeatures from "./pages/AIFeatures";
 import Government from "./pages/Government";
 import Strategic from "./pages/Strategic";
