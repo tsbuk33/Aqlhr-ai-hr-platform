@@ -1,1 +1,16 @@
 project_id = "qcuhjcyjlkfizesndmth"
+
+[functions.ai-sync-engine]
+verify_jwt = false
+
+[functions.ai-recommendation-engine]
+verify_jwt = false
+
+[functions.ai-predictive-analytics]
+verify_jwt = false
+
+[functions.ai-document-intelligence]
+verify_jwt = false
+
+[functions.ai-nlp-processor]
+verify_jwt = false

@@ -9,6 +9,248 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ai_document_processing: {
+        Row: {
+          company_id: string | null
+          confidence_score: number | null
+          created_at: string | null
+          document_type: string
+          error_message: string | null
+          extracted_data: Json | null
+          file_name: string
+          file_url: string | null
+          id: string
+          language_detected: string | null
+          processed_at: string | null
+          processing_status: string | null
+          processing_time_ms: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          document_type: string
+          error_message?: string | null
+          extracted_data?: Json | null
+          file_name: string
+          file_url?: string | null
+          id?: string
+          language_detected?: string | null
+          processed_at?: string | null
+          processing_status?: string | null
+          processing_time_ms?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          document_type?: string
+          error_message?: string | null
+          extracted_data?: Json | null
+          file_name?: string
+          file_url?: string | null
+          id?: string
+          language_detected?: string | null
+          processed_at?: string | null
+          processing_status?: string | null
+          processing_time_ms?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_document_processing_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_predictions: {
+        Row: {
+          company_id: string | null
+          confidence_interval: Json | null
+          created_at: string | null
+          employee_id: string | null
+          expires_at: string | null
+          id: string
+          influencing_factors: Json
+          model_type: string
+          model_version: string | null
+          prediction_date: string | null
+          prediction_score: number
+          risk_level: string
+        }
+        Insert: {
+          company_id?: string | null
+          confidence_interval?: Json | null
+          created_at?: string | null
+          employee_id?: string | null
+          expires_at?: string | null
+          id?: string
+          influencing_factors: Json
+          model_type: string
+          model_version?: string | null
+          prediction_date?: string | null
+          prediction_score: number
+          risk_level: string
+        }
+        Update: {
+          company_id?: string | null
+          confidence_interval?: Json | null
+          created_at?: string | null
+          employee_id?: string | null
+          expires_at?: string | null
+          id?: string
+          influencing_factors?: Json
+          model_type?: string
+          model_version?: string | null
+          prediction_date?: string | null
+          prediction_score?: number
+          risk_level?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_predictions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_predictions_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_recommendations: {
+        Row: {
+          company_id: string | null
+          confidence_score: number | null
+          created_at: string | null
+          employee_id: string | null
+          id: string
+          implementation_deadline: string | null
+          priority: string | null
+          reasoning: string
+          recommendation_type: string
+          recommended_action: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          implementation_deadline?: string | null
+          priority?: string | null
+          reasoning: string
+          recommendation_type: string
+          recommended_action: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          implementation_deadline?: string | null
+          priority?: string | null
+          reasoning?: string
+          recommendation_type?: string
+          recommended_action?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_recommendations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_recommendations_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_recommendations_reviewed_by_fkey"
+            columns: ["reviewed_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_sync_events: {
+        Row: {
+          affected_modules: string[]
+          company_id: string | null
+          created_at: string | null
+          error_message: string | null
+          event_type: string
+          id: string
+          payload: Json
+          processed_at: string | null
+          source_record_id: string
+          source_table: string
+          sync_latency_ms: number | null
+          sync_status: string | null
+        }
+        Insert: {
+          affected_modules: string[]
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          event_type: string
+          id?: string
+          payload: Json
+          processed_at?: string | null
+          source_record_id: string
+          source_table: string
+          sync_latency_ms?: number | null
+          sync_status?: string | null
+        }
+        Update: {
+          affected_modules?: string[]
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          source_record_id?: string
+          source_table?: string
+          sync_latency_ms?: number | null
+          sync_status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_sync_events_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attendance: {
         Row: {
           check_in: string | null
