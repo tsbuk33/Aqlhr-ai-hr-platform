@@ -98,7 +98,7 @@ const AISyncEngine = () => {
 
             {/* Arrow 1 */}
             <div className="px-4">
-              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
+              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? '' : 'rotate-180'}`} />
             </div>
 
             {/* Step 2 */}
@@ -117,7 +117,7 @@ const AISyncEngine = () => {
 
             {/* Arrow 2 */}
             <div className="px-4">
-              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
+              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? '' : 'rotate-180'}`} />
             </div>
 
             {/* Step 3 */}
