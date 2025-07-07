@@ -8,24 +8,27 @@ export const OfficialLogos: React.FC = () => {
         Official Saudi Arabia Initiatives
       </h3>
       <div className="flex flex-wrap justify-center items-center gap-8">
-        <PartnerLogo 
-          src="/partners/vision2030.svg" 
-          alt="Saudi Vision 2030" 
-          href="https://vision2030.gov.sa"
-          className="h-16"
-        />
-        <PartnerLogo 
-          src="/partners/expo2030.png" 
-          alt="Expo 2030 Riyadh" 
-          href="https://www.expo2030riyadh.sa/"
-          className="h-16"
-        />
-        <PartnerLogo 
-          src="/partners/worldcup2034.png" 
-          alt="FIFA World Cup 2034 Saudi Arabia" 
-          href="https://saudi2034.com.sa/"
-          className="h-16"
-        />
+        <div className="flex items-center justify-center">
+          <img
+            src="/partners/vision2030.svg"
+            alt="Saudi Vision 2030"
+            className="h-16 w-auto object-contain"
+          />
+        </div>
+        <div className="flex items-center justify-center">
+          <img
+            src="/partners/expo2030.png"
+            alt="Expo 2030 Riyadh"
+            className="h-16 w-auto object-contain"
+          />
+        </div>
+        <div className="flex items-center justify-center">
+          <img
+            src="/partners/worldcup2034.png"
+            alt="FIFA World Cup 2034 Saudi Arabia"
+            className="h-16 w-auto object-contain"
+          />
+        </div>
       </div>
       <p className="text-xs text-muted-foreground text-center mt-4">
         SanadHR - Supporting Saudi Arabia's Vision for the Future

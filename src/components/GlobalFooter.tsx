@@ -41,28 +41,29 @@ export const GlobalFooter: React.FC = () => {
         </div>
 
         {/* National Initiatives Section */}
-        <section className="mt-8 pt-8 border-t border-border">
-          <h4 className="text-sm font-semibold text-muted-foreground mb-4">
+        <section className="mt-8 space-y-2">
+          <h4 className="text-sm font-semibold text-muted-foreground">
             National Initiatives
           </h4>
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-8">
-            <PartnerLogo 
-              src="/partners/vision2030.svg" 
-              alt="Saudi Vision 2030" 
-              href="https://vision2030.gov.sa" 
+
+          <div className="flex flex-wrap gap-6 items-center">
+            <PartnerLogo
+              src="/partners/worldcup2034.png"
+              alt="FIFA World Cup 2034 Saudi Arabia"
+              href="https://saudi2034.com.sa/"
             />
-            <PartnerLogo 
-              src="/partners/expo2030.png" 
-              alt="Expo 2030 Riyadh" 
-              href="https://www.expo2030riyadh.sa/" 
+            <PartnerLogo
+              src="/partners/expo2030.png"
+              alt="Expo 2030 Riyadh"
+              href="https://www.expo2030riyadh.sa/"
             />
-            <PartnerLogo 
-              src="/partners/worldcup2034.png" 
-              alt="FIFA World Cup 2034 Saudi Arabia" 
-              href="https://saudi2034.com.sa/" 
+            <PartnerLogo
+              src="/partners/vision2030.svg"
+              alt="Saudi Vision 2030"
+              href="https://vision2030.gov.sa/"
             />
           </div>
-          <p className="text-xs text-muted-foreground mt-4 text-center md:text-left">
+          <p className="text-xs text-muted-foreground">
             Supporting Saudi Arabia's Vision for the Future
           </p>
         </section>
