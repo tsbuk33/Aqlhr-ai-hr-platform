@@ -28,9 +28,9 @@ const AISyncEngine = () => {
           <CardDescription>Advanced distributed architecture ensures instant data consistency across all modules</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-center">
             {/* Step 1 */}
-            <div className="text-center space-y-4">
+            <div className="md:col-span-2 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <Activity className="h-8 w-8 text-white" />
               </div>
@@ -43,10 +43,13 @@ const AISyncEngine = () => {
               </Badge>
             </div>
 
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
+            {/* Arrow 1 */}
+            <div className="md:col-span-1 flex justify-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+            </div>
 
             {/* Step 2 */}
-            <div className="text-center space-y-4">
+            <div className="md:col-span-2 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Network className="h-8 w-8 text-white" />
               </div>
@@ -59,10 +62,13 @@ const AISyncEngine = () => {
               </Badge>
             </div>
 
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
+            {/* Arrow 2 */}
+            <div className="md:col-span-1 flex justify-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+            </div>
 
             {/* Step 3 */}
-            <div className="text-center space-y-4">
+            <div className="md:col-span-2 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Database className="h-8 w-8 text-white" />
               </div>
