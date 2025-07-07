@@ -1,5 +1,6 @@
 import { MetricCard } from "@/components/MetricCard";
 import { RecentActivity } from "@/components/RecentActivity";
+import { OfficialLogos } from "@/components/OfficialLogos";
 import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown } from "lucide-react";
 
 const Index = () => {
@@ -124,26 +125,31 @@ const Index = () => {
       </div>
 
       {/* Platform Status */}
-      <div className="bg-surface rounded-xl p-6 border border-border">
-        <h3 className="text-lg font-semibold text-foreground mb-4">Platform Status Overview</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-status-success">12</div>
-            <div className="text-sm text-muted-foreground">Core HR Modules</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-brand-primary">8</div>
-            <div className="text-sm text-muted-foreground">Payroll Modules</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-brand-accent">8</div>
-            <div className="text-sm text-muted-foreground">AI Features</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold text-brand-secondary">47</div>
-            <div className="text-sm text-muted-foreground">Active Workflows</div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-surface rounded-xl p-6 border border-border">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Platform Status Overview</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-status-success">12</div>
+              <div className="text-sm text-muted-foreground">Core HR Modules</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-brand-primary">8</div>
+              <div className="text-sm text-muted-foreground">Payroll Modules</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-brand-accent">8</div>
+              <div className="text-sm text-muted-foreground">AI Features</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-brand-secondary">47</div>
+              <div className="text-sm text-muted-foreground">Active Workflows</div>
+            </div>
           </div>
         </div>
+
+        {/* Official Logos */}
+        <OfficialLogos />
       </div>
     </div>
   );
