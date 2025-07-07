@@ -22,6 +22,7 @@ interface TestResult {
 
 const TestHarness: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
   const [seedAmount, setSeedAmount] = useState(100);
   const [saudizationMix, setSaudizationMix] = useState(67);
   const [testResults, setTestResults] = useState<TestResult[]>([
@@ -40,9 +41,25 @@ const TestHarness: React.FC = () => {
   const { employees, refetch: refetchEmployees } = useEmployees();
   const { classifyEmployee } = useGOSI();
 
+  // Environment configuration
+  const LATENCY_BUDGET = parseInt(import.meta.env.VITE_SYNC_LATENCY_BUDGET ?? '200');
+  const RENDER_BUDGET = parseInt(import.meta.env.VITE_RENDER_BUDGET ?? '3000');
+
+  React.useEffect(() => {
+    return () => setIsMounted(false);
+  }, []);
+
   const updateTestResult = (name: string, updates: Partial<TestResult>) => {
+    if (!isMounted) return;
     setTestResults(prev => prev.map(test => 
       test.name === name ? { ...test, ...updates } : test
+    ));
+  };
+
+  const markRunningTestsAsFailed = (reason: string) => {
+    if (!isMounted) return;
+    setTestResults(prev => prev.map(test => 
+      test.status === 'running' ? { ...test, status: 'failed' as const, details: reason } : test
     ));
   };
 
@@ -50,7 +67,6 @@ const TestHarness: React.FC = () => {
     setIsRunning(true);
     setProgress(0);
     
-    const LATENCY_BUDGET = parseInt(import.meta.env.VITE_SYNC_LATENCY_BUDGET ?? '200');
     const progressIncrement = 100 / testResults.length;
     
     try {
@@ -136,7 +152,7 @@ const TestHarness: React.FC = () => {
       await new Promise(resolve => setTimeout(resolve, 500)); // Simulate render test
       const renderTime = Date.now() - renderStart;
       
-      if (renderTime < 3000) {
+      if (renderTime < RENDER_BUDGET) {
         updateTestResult('Dashboard Rendering', { 
           status: 'passed',
           details: `Rendered in ${renderTime}ms`
@@ -144,7 +160,7 @@ const TestHarness: React.FC = () => {
       } else {
         updateTestResult('Dashboard Rendering', { 
           status: 'failed',
-          details: `Render time too slow: ${renderTime}ms`
+          details: `Render time too slow: ${renderTime}ms (budget: ${RENDER_BUDGET}ms)`
         });
       }
       setProgress(prev => prev + progressIncrement);
@@ -173,31 +189,34 @@ const TestHarness: React.FC = () => {
       });
 
     } catch (error) {
+      markRunningTestsAsFailed('Harness aborted');
       toast({
         title: "Test Harness Failed",
         description: error instanceof Error ? error.message : "Unknown error occurred",
         variant: "destructive"
       });
     } finally {
-      setIsRunning(false);
+      if (isMounted) {
+        setIsRunning(false);
+      }
     }
   };
 
   const getStatusIcon = (status: TestResult['status']) => {
     switch (status) {
-      case 'passed': return <CheckCircle className="h-4 w-4 text-status-success" />;
-      case 'failed': return <XCircle className="h-4 w-4 text-status-danger" />;
-      case 'running': return <Clock className="h-4 w-4 text-status-warning animate-spin" />;
+      case 'passed': return <CheckCircle className="h-4 w-4 text-emerald-600" />;
+      case 'failed': return <XCircle className="h-4 w-4 text-red-600" />;
+      case 'running': return <Clock className="h-4 w-4 text-amber-600 animate-spin" />;
       default: return <Clock className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
   const getStatusColor = (status: TestResult['status']) => {
     switch (status) {
-      case 'passed': return 'bg-status-success';
-      case 'failed': return 'bg-status-danger';
-      case 'running': return 'bg-status-warning';
-      default: return 'bg-muted';
+      case 'passed': return 'text-emerald-600 border-emerald-200';
+      case 'failed': return 'text-red-600 border-red-200';
+      case 'running': return 'text-amber-600 border-amber-200';
+      default: return 'text-muted-foreground border-muted';
     }
   };
 
@@ -239,6 +258,7 @@ const TestHarness: React.FC = () => {
               value={seedAmount}
               onChange={(e) => setSeedAmount(Number(e.target.value))}
               disabled={isRunning}
+              aria-label="Number of employees to seed for testing"
             />
           </div>
           <div>
@@ -251,6 +271,7 @@ const TestHarness: React.FC = () => {
               disabled={isRunning}
               min="0"
               max="100"
+              aria-label="Percentage of Saudi employees in the seed data"
             />
           </div>
         </CardContent>
@@ -331,6 +352,14 @@ const TestHarness: React.FC = () => {
                 <Badge variant={getSyncStats().failed > 0 ? "destructive" : "outline"}>
                   {getSyncStats().failed}
                 </Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Latency Budget</span>
+                <Badge variant="secondary">{LATENCY_BUDGET}ms</Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Render Budget</span>
+                <Badge variant="secondary">{RENDER_BUDGET}ms</Badge>
               </div>
             </div>
           </CardContent>
