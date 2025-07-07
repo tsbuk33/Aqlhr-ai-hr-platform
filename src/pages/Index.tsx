@@ -20,7 +20,7 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span>85+ Modules Active</span>
+              <span>106 Modules Active</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
