@@ -18,14 +18,11 @@ export const PartnerLogo: React.FC<PartnerLogoProps> = ({ src, alt, href }) => (
       alt={alt}
       loading="lazy"
       className="
-        h-12 w-auto
+        h-12 w-auto max-w-[160px]
         object-contain
-        grayscale
-        hover:grayscale-0
-        transition
-        duration-200
-        ease-in-out
-        filter invert dark:invert-0
+        grayscale hover:grayscale-0
+        transition duration-200 ease-in-out
+        dark:invert-0
       "
     />
     <span className="sr-only">{alt}</span>

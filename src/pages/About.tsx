@@ -79,27 +79,21 @@ const About = () => {
               Supporting National Initiatives
             </h3>
             <div className="flex flex-wrap items-center justify-center gap-12">
-              <div className="flex items-center justify-center">
-                <img
-                  src="/partners/vision2030.svg"
-                  alt="Saudi Vision 2030"
-                  className="h-16 w-auto object-contain"
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <img
-                  src="/partners/expo2030.png"
-                  alt="Expo 2030 Riyadh"
-                  className="h-16 w-auto object-contain"
-                />
-              </div>
-              <div className="flex items-center justify-center">
-                <img
-                  src="/partners/worldcup2034.png"
-                  alt="FIFA World Cup 2034 Saudi Arabia"
-                  className="h-16 w-auto object-contain"
-                />
-              </div>
+              <PartnerLogo 
+                src="/partners/vision2030.svg" 
+                alt="Saudi Vision 2030" 
+                href="https://vision2030.gov.sa"
+              />
+              <PartnerLogo 
+                src="/partners/expo2030.svg" 
+                alt="Expo 2030 Riyadh" 
+                href="https://www.expo2030riyadh.sa/"
+              />
+              <PartnerLogo 
+                src="/partners/worldcup2034.svg" 
+                alt="FIFA World Cup 2034 Saudi Arabia" 
+                href="https://saudi2034.com.sa/"
+              />
             </div>
           </div>
         </div>
