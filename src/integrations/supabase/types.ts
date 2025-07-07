@@ -604,6 +604,44 @@ export type Database = {
           },
         ]
       }
+      kpi_measurements: {
+        Row: {
+          created_at: string | null
+          id: string
+          kpi_id: string | null
+          measured_value: number
+          measurement_date: string | null
+          measurement_source: string | null
+          notes: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          kpi_id?: string | null
+          measured_value: number
+          measurement_date?: string | null
+          measurement_source?: string | null
+          notes?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          kpi_id?: string | null
+          measured_value?: number
+          measurement_date?: string | null
+          measurement_source?: string | null
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kpi_measurements_kpi_id_fkey"
+            columns: ["kpi_id"]
+            isOneToOne: false
+            referencedRelation: "module_kpis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leave_requests: {
         Row: {
           approved_at: string | null
@@ -778,6 +816,134 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      module_categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          name_ar: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          name_ar?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          name_ar?: string | null
+        }
+        Relationships: []
+      }
+      module_kpis: {
+        Row: {
+          calculation_method: string | null
+          created_at: string | null
+          current_value: number | null
+          id: string
+          is_active: boolean | null
+          kpi_name: string
+          kpi_name_ar: string | null
+          kpi_order: number
+          module_id: string | null
+          target_value: number | null
+          unit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          calculation_method?: string | null
+          created_at?: string | null
+          current_value?: number | null
+          id?: string
+          is_active?: boolean | null
+          kpi_name: string
+          kpi_name_ar?: string | null
+          kpi_order: number
+          module_id?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          calculation_method?: string | null
+          created_at?: string | null
+          current_value?: number | null
+          id?: string
+          is_active?: boolean | null
+          kpi_name?: string
+          kpi_name_ar?: string | null
+          kpi_order?: number
+          module_id?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "module_kpis_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modules: {
+        Row: {
+          category_id: string | null
+          company_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          name_ar: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          category_id?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          name_ar?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          category_id?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          name_ar?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modules_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "module_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "modules_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
