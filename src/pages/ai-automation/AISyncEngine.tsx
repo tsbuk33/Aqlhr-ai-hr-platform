@@ -28,9 +28,60 @@ const AISyncEngine = () => {
           <CardDescription>Advanced distributed architecture ensures instant data consistency across all modules</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-center">
+          {/* Mobile Layout */}
+          <div className="md:hidden space-y-6">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
+                <Activity className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg">Event Detection</h3>
+              <p className="text-sm text-muted-foreground">
+                AI monitors all data changes in real-time across every module and system
+              </p>
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                Microsecond Detection
+              </Badge>
+            </div>
+            
+            <div className="flex justify-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground rotate-90" />
+            </div>
+            
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
+                <Network className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg">Smart Routing</h3>
+              <p className="text-sm text-muted-foreground">
+                Intelligent routing determines which modules need updates and prioritizes critical paths
+              </p>
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                AI-Prioritized
+              </Badge>
+            </div>
+            
+            <div className="flex justify-center">
+              <ArrowRight className="h-6 w-6 text-muted-foreground rotate-90" />
+            </div>
+            
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
+                <Database className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg">Atomic Updates</h3>
+              <p className="text-sm text-muted-foreground">
+                All related data is updated simultaneously ensuring perfect consistency
+              </p>
+              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+                99.97% Success
+              </Badge>
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between">
             {/* Step 1 */}
-            <div className="md:col-span-2 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <Activity className="h-8 w-8 text-white" />
               </div>
@@ -44,12 +95,12 @@ const AISyncEngine = () => {
             </div>
 
             {/* Arrow 1 */}
-            <div className="md:col-span-1 flex justify-center">
+            <div className="px-4">
               <ArrowRight className="h-6 w-6 text-muted-foreground" />
             </div>
 
             {/* Step 2 */}
-            <div className="md:col-span-2 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Network className="h-8 w-8 text-white" />
               </div>
@@ -63,12 +114,12 @@ const AISyncEngine = () => {
             </div>
 
             {/* Arrow 2 */}
-            <div className="md:col-span-1 flex justify-center">
+            <div className="px-4">
               <ArrowRight className="h-6 w-6 text-muted-foreground" />
             </div>
 
             {/* Step 3 */}
-            <div className="md:col-span-2 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Database className="h-8 w-8 text-white" />
               </div>
