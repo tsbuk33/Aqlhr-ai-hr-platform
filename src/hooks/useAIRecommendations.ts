@@ -49,7 +49,7 @@ export const useAIRecommendations = (companyId?: string, employeeId?: string) =>
       const { data, error } = await query;
 
       if (error) throw error;
-      setRecommendations(data || []);
+      setRecommendations((data as any) || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {

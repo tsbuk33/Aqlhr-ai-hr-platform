@@ -29,8 +29,12 @@ const AIFeatures = () => {
             <EduBox
               title="SanadHR AI Suite"
               description="Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations"
-              linkedModules={['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
-            />
+              howToUse="Navigate through different AI features using the tabs below"
+              linkedFeatures={['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
+              userLevel="hr_admin"
+            >
+              <></>
+            </EduBox>
           </h1>
           <p className="text-muted-foreground">Intelligent HR automation powered by advanced AI</p>
         </div>

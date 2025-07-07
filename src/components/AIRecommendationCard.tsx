@@ -66,11 +66,15 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
               <CardTitle className="text-lg capitalize">
                 {recommendation.recommendation_type.replace('_', ' ')}
               </CardTitle>
-                <EduBox
-                  title="AI Recommendation"
-                  description="AI-generated recommendation based on employee performance, attendance, and historical data"
-                  linkedModules={['Performance Management', 'HR Analytics', 'Employee Development']}
-                />
+              <EduBox
+                title="AI Recommendation"
+                description="AI-generated recommendation based on employee performance, attendance, and historical data"
+                howToUse="Review the reasoning and confidence score before taking action on recommendations"
+                linkedFeatures={['Performance Management', 'HR Analytics', 'Employee Development']}
+                userLevel="hr_admin"
+              >
+                <></>
+              </EduBox>
             </div>
             
             {recommendation.employee && (

@@ -83,8 +83,12 @@ const AISyncDashboard: React.FC = () => {
                 <EduBox
                   title="AI Sync Engine"
                   description="Automatically synchronizes data changes across all 105+ HR modules within 200ms latency"
-                  linkedModules={['All HR Modules', 'Real-time Updates', 'Data Consistency']}
-                />
+                  howToUse="Monitor sync events or trigger manual sync when needed"
+                  linkedFeatures={['All HR Modules', 'Real-time Updates', 'Data Consistency']}
+                  userLevel="hr_admin"
+                >
+                  <></>
+                </EduBox>
               </CardTitle>
               <CardDescription>
                 Monitor and control real-time data synchronization across all HR modules
