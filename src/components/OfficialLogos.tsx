@@ -1,7 +1,5 @@
 import React from 'react';
-import vision2030Logo from '@/assets/saudi-vision-2030.svg';
-import worldCup2034Logo from '@/assets/saudi-2034-logo.png';
-import expo2030Logo from '@/assets/expo-2030-riyadh-logo.png';
+import { PartnerLogo } from './PartnerLogo';
 
 export const OfficialLogos: React.FC = () => {
   return (
@@ -10,32 +8,24 @@ export const OfficialLogos: React.FC = () => {
         Official Saudi Arabia Initiatives
       </h3>
       <div className="flex flex-wrap justify-center items-center gap-8">
-        <div className="flex flex-col items-center space-y-2">
-          <img 
-            src={vision2030Logo} 
-            alt="Saudi Vision 2030" 
-            className="h-16 w-auto object-contain"
-          />
-          <span className="text-sm text-muted-foreground">Vision 2030</span>
-        </div>
-        
-        <div className="flex flex-col items-center space-y-2">
-          <img 
-            src={expo2030Logo} 
-            alt="Riyadh Expo 2030" 
-            className="h-16 w-auto object-contain"
-          />
-          <span className="text-sm text-muted-foreground">Riyadh Expo 2030</span>
-        </div>
-        
-        <div className="flex flex-col items-center space-y-2">
-          <img 
-            src={worldCup2034Logo} 
-            alt="FIFA World Cup 2034 Saudi Arabia" 
-            className="h-16 w-auto object-contain"
-          />
-          <span className="text-sm text-muted-foreground">World Cup 2034</span>
-        </div>
+        <PartnerLogo 
+          src="/partners/vision2030.svg" 
+          alt="Saudi Vision 2030" 
+          href="https://vision2030.gov.sa"
+          className="h-16"
+        />
+        <PartnerLogo 
+          src="/partners/expo2030.png" 
+          alt="Expo 2030 Riyadh" 
+          href="https://www.expo2030riyadh.sa/"
+          className="h-16"
+        />
+        <PartnerLogo 
+          src="/partners/worldcup2034.png" 
+          alt="FIFA World Cup 2034 Saudi Arabia" 
+          href="https://saudi2034.com.sa/"
+          className="h-16"
+        />
       </div>
       <p className="text-xs text-muted-foreground text-center mt-4">
         SanadHR - Supporting Saudi Arabia's Vision for the Future

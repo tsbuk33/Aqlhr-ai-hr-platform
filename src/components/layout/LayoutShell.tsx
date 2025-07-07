@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppSidebar } from '@/components/AppSidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
+import { GlobalFooter } from '@/components/GlobalFooter';
 
 interface LayoutShellProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
         <main className="flex-1 overflow-auto">
           {children}
         </main>
+        <GlobalFooter />
       </div>
     </div>
   );

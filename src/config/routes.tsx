@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // Core modules
 const Index = lazy(() => import('../pages/Index'));
 const NotFound = lazy(() => import('../pages/NotFound'));
+const About = lazy(() => import('../pages/About'));
 const CoreHR = lazy(() => import('../pages/CoreHR'));
 const Employees = lazy(() => import('../pages/Employees'));
 const Organization = lazy(() => import('../pages/Organization'));
@@ -157,6 +158,7 @@ export interface RouteConfig {
 export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
   { path: '/', element: Index },
+  { path: '/about', element: About },
   
   // Main modules - auth required
   { path: '/core-hr', element: CoreHR, auth: true },
