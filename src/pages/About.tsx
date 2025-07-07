@@ -85,12 +85,12 @@ const About = () => {
                 href="https://vision2030.gov.sa"
               />
               <PartnerLogo 
-                src="/partners/expo2030.svg" 
+                src="/partners/expo2030.png" 
                 alt="Expo 2030 Riyadh" 
                 href="https://www.expo2030riyadh.sa/"
               />
               <PartnerLogo 
-                src="/partners/worldcup2034.svg" 
+                src="/partners/worldcup2034.png" 
                 alt="FIFA World Cup 2034 Saudi Arabia" 
                 href="https://saudi2034.com.sa/"
               />
