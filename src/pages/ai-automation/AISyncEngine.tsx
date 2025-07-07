@@ -10,7 +10,7 @@ const AISyncEngine = () => {
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent leading-tight pb-2">
           AI Sync Engine
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
