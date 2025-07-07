@@ -23,6 +23,9 @@ export interface Employee {
   status: 'active' | 'inactive' | 'terminated' | 'on_leave';
   created_at: string;
   updated_at: string;
+  gosi_system_type?: 'OLD' | 'NEW';
+  gosi_employee_rate?: number;
+  gosi_employer_rate?: number;
 }
 
 export const useEmployees = () => {

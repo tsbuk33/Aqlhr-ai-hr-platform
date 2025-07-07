@@ -480,6 +480,53 @@ export type Database = {
         }
         Relationships: []
       }
+      employee_gosi_config: {
+        Row: {
+          created_at: string | null
+          current_employee_rate: number
+          current_employer_rate: number
+          effective_from: string
+          employee_id: string | null
+          gosi_system_type: string
+          hire_date: string
+          id: string
+          nationality: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_employee_rate: number
+          current_employer_rate: number
+          effective_from: string
+          employee_id?: string | null
+          gosi_system_type: string
+          hire_date: string
+          id?: string
+          nationality: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_employee_rate?: number
+          current_employer_rate?: number
+          effective_from?: string
+          employee_id?: string | null
+          gosi_system_type?: string
+          hire_date?: string
+          id?: string
+          nationality?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_gosi_config_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: true
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employees: {
         Row: {
           company_id: string | null
@@ -559,6 +606,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      gosi_rate_history: {
+        Row: {
+          created_at: string | null
+          effective_from: string
+          effective_to: string | null
+          employee_rate: number
+          employer_rate: number
+          id: string
+          nationality: string
+          system_type: string
+        }
+        Insert: {
+          created_at?: string | null
+          effective_from: string
+          effective_to?: string | null
+          employee_rate: number
+          employer_rate: number
+          id?: string
+          nationality: string
+          system_type: string
+        }
+        Update: {
+          created_at?: string | null
+          effective_from?: string
+          effective_to?: string | null
+          employee_rate?: number
+          employer_rate?: number
+          id?: string
+          nationality?: string
+          system_type?: string
+        }
+        Relationships: []
       }
       gov_integration_status: {
         Row: {
@@ -1132,7 +1212,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      auto_classify_employee_gosi: {
+        Args: { p_employee_id: string }
+        Returns: undefined
+      }
+      calculate_gosi_rates: {
+        Args: { p_employee_id: string; p_as_of_date?: string }
+        Returns: {
+          employee_rate: number
+          employer_rate: number
+          system_type: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
