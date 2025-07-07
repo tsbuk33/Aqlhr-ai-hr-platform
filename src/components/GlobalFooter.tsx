@@ -16,7 +16,7 @@ export const GlobalFooter: React.FC = () => {
               Complete HR Management Platform - Designed for Excellence in Saudi Arabia
             </p>
             <p className="text-xs text-muted-foreground">
-              © 2024 SanadHR. All rights reserved.
+              © 2025 SanadHR. All rights reserved.
             </p>
           </div>
           
