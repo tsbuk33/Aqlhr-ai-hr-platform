@@ -24,6 +24,13 @@ export const PartnerLogo: React.FC<PartnerLogoProps> = ({ src, alt, href }) => (
         transition duration-200 ease-in-out
         dark:invert-0
       "
+      onError={(e) => {
+        console.error('Failed to load logo:', src);
+        console.log('Image element:', e.target);
+      }}
+      onLoad={() => {
+        console.log('Successfully loaded logo:', src);
+      }}
     />
     <span className="sr-only">{alt}</span>
   </a>

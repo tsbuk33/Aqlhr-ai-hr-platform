@@ -14,12 +14,12 @@ export const OfficialLogos: React.FC = () => {
           href="https://vision2030.gov.sa"
         />
         <PartnerLogo 
-          src="/partners/expo2030.png" 
+          src="/partners/expo2030-transparent.png" 
           alt="Expo 2030 Riyadh" 
           href="https://www.expo2030riyadh.sa/"
         />
         <PartnerLogo 
-          src="/partners/worldcup2034.png" 
+          src="/partners/worldcup2034-transparent.png" 
           alt="FIFA World Cup 2034 Saudi Arabia" 
           href="https://saudi2034.com.sa/"
         />
