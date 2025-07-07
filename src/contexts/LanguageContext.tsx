@@ -108,6 +108,73 @@ const translations = {
     'gov.status': 'الحالة',
     'gov.last_sync': 'آخر مزامنة',
     'gov.sync_now': 'مزامنة الآن',
+    
+    // Tab labels
+    'tabs.sync_status': 'حالة المزامنة',
+    'tabs.architecture': 'البنية التحتية',
+    'tabs.monitoring': 'المراقبة المباشرة',
+    'tabs.performance': 'الأداء',
+    
+    // Status page content
+    'status.module_sync_title': 'حالة مزامنة الوحدات',
+    'status.module_sync_desc': 'الحالة المباشرة لجميع وحدات الموارد البشرية المتصلة',
+    'status.core_hr_modules': 'وحدات الموارد البشرية الأساسية',
+    'status.government_integrations': 'التكاملات الحكومية',
+    'status.employee_data': 'بيانات الموظفين',
+    'status.payroll_processing': 'معالجة كشف الرواتب',
+    'status.performance_management': 'إدارة الأداء',
+    'status.time_attendance': 'الوقت والحضور',
+    'status.gosi_integration': 'تكامل التأمينات الاجتماعية',
+    'status.qiwa_platform': 'منصة قوى',
+    'status.mudad_integration': 'تكامل مدد',
+    'status.zatca_compliance': 'امتثال الزكاة والضريبة',
+    'status.synced': 'متزامن',
+    'status.events_day': 'أحداث/يوم',
+    
+    // Architecture page
+    'arch.title': 'بنية محرك المزامنة',
+    'arch.desc': 'كيف يحافظ نظامنا الموزع على اتساق البيانات',
+    'arch.event_driven': 'البنية القائمة على الأحداث',
+    'arch.event_driven_desc': 'كل تغيير في البيانات يؤدي إلى أحداث يتم نشرها فوراً إلى الوحدات ذات الصلة',
+    'arch.distributed_db': 'مزامنة قاعدة البيانات الموزعة',
+    'arch.distributed_db_desc': 'النسخ المتقدم يضمن اتساق البيانات عبر عدة مثيلات من قواعد البيانات',
+    'arch.fault_tolerance': 'تحمل الأخطاء والاستعادة',
+    'arch.fault_tolerance_desc': 'آليات إعادة المحاولة التلقائية وإجراءات التراجع تضمن سلامة البيانات',
+    
+    // Monitoring page
+    'monitor.title': 'لوحة مراقبة المزامنة المباشرة',
+    'monitor.desc': 'مقاييس أداء المزامنة المباشرة ومراقبة الصحة',
+    'monitor.system_uptime': 'وقت تشغيل النظام (30 يوم)',
+    'monitor.avg_sync_latency': 'متوسط زمن استجابة المزامنة',
+    'monitor.failed_syncs_today': 'المزامنات الفاشلة (اليوم)',
+    'monitor.recent_activity': 'النشاط الأخير',
+    'monitor.employee_master': 'البيانات الرئيسية للموظفين',
+    'monitor.payroll_system': 'نظام كشف الرواتب',
+    'monitor.time_attendance': 'الوقت والحضور',
+    'monitor.profile_update': 'تحديث الملف الشخصي',
+    'monitor.salary_adjustment': 'تعديل الراتب',
+    'monitor.clock_in_out': 'تسجيل الدخول/الخروج',
+    'monitor.contribution_update': 'تحديث المساهمات',
+    'monitor.success': 'نجح',
+    'monitor.retry': 'إعادة المحاولة',
+    
+    // Performance page
+    'perf.title': 'تحليلات الأداء',
+    'perf.desc': 'اتجاهات أداء محرك المزامنة ورؤى التحسين',
+    'perf.trends': 'اتجاهات الأداء',
+    'perf.optimization': 'رؤى التحسين',
+    'perf.avg_latency': 'متوسط زمن الاستجابة',
+    'perf.success_rate': 'معدل النجاح',
+    'perf.throughput': 'الإنتاجية',
+    'perf.this_month': 'هذا الشهر',
+    'perf.improvement': 'تحسن',
+    'perf.increase': 'زيادة',
+    'perf.db_pooling': 'تجميع اتصالات قاعدة البيانات قلل زمن الاستجابة بنسبة 18%',
+    'perf.ai_load_balancing': 'توزيع الأحمال بالذكاء الاصطناعي حسن الإنتاجية بنسبة 31%',
+    
+    // Control Center
+    'control.title': 'مركز التحكم في محرك المزامنة',
+    'control.desc': 'مراقبة وإدارة مزامنة البيانات في الوقت الفعلي',
   },
   en: {
     // Navigation

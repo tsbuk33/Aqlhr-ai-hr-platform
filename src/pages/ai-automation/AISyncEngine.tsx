@@ -7,7 +7,7 @@ import { ArrowRight, RefreshCw, Database, Zap, CheckCircle, Clock, Network, Acti
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const AISyncEngine = () => {
-  const { t } = useLanguage();
+  const { t, isRTL } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
@@ -81,7 +81,7 @@ const AISyncEngine = () => {
           </div>
 
           {/* Desktop Layout */}
-          <div className="hidden md:flex items-center justify-between">
+          <div className={`hidden md:flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
             {/* Step 1 */}
             <div className="flex-1 text-center space-y-4">
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
@@ -98,7 +98,7 @@ const AISyncEngine = () => {
 
             {/* Arrow 1 */}
             <div className="px-4">
-              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
             </div>
 
             {/* Step 2 */}
@@ -117,7 +117,7 @@ const AISyncEngine = () => {
 
             {/* Arrow 2 */}
             <div className="px-4">
-              <ArrowRight className="h-6 w-6 text-muted-foreground" />
+              <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? 'rotate-180' : ''}`} />
             </div>
 
             {/* Step 3 */}
@@ -207,56 +207,56 @@ const AISyncEngine = () => {
       {/* Detailed Sync Analysis */}
       <Tabs defaultValue="status" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="status">Sync Status</TabsTrigger>
-          <TabsTrigger value="architecture">Architecture</TabsTrigger>
-          <TabsTrigger value="monitoring">Real-time Monitoring</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
+          <TabsTrigger value="status">{t('tabs.sync_status')}</TabsTrigger>
+          <TabsTrigger value="architecture">{t('tabs.architecture')}</TabsTrigger>
+          <TabsTrigger value="monitoring">{t('tabs.monitoring')}</TabsTrigger>
+          <TabsTrigger value="performance">{t('tabs.performance')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="status" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Module Synchronization Status</CardTitle>
-              <CardDescription>Real-time status of all connected HR modules</CardDescription>
+            <CardHeader className="text-center">
+              <CardTitle>{t('status.module_sync_title')}</CardTitle>
+              <CardDescription>{t('status.module_sync_desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium">Core HR Modules</h4>
+                  <h4 className="font-medium text-center">{t('status.core_hr_modules')}</h4>
                   {[
-                    { name: "Employee Data", status: "Synced", latency: "0.12s", events: "1,234" },
-                    { name: "Payroll Processing", status: "Synced", latency: "0.18s", events: "892" },
-                    { name: "Performance Management", status: "Synced", latency: "0.21s", events: "567" },
-                    { name: "Time & Attendance", status: "Synced", latency: "0.09s", events: "2,341" }
+                    { nameKey: "status.employee_data", status: "status.synced", latency: "0.12s", events: "1,234" },
+                    { nameKey: "status.payroll_processing", status: "status.synced", latency: "0.18s", events: "892" },
+                    { nameKey: "status.performance_management", status: "status.synced", latency: "0.21s", events: "567" },
+                    { nameKey: "status.time_attendance", status: "status.synced", latency: "0.09s", events: "2,341" }
                   ].map((module, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 bg-brand-success rounded-full"></div>
-                        <span className="font-medium">{module.name}</span>
+                        <span className="font-medium">{t(module.nameKey)}</span>
                       </div>
                       <div className="text-right text-sm">
                         <div className="text-muted-foreground">{module.latency}</div>
-                        <div className="text-xs text-muted-foreground">{module.events} events/day</div>
+                        <div className="text-xs text-muted-foreground">{module.events} {t('status.events_day')}</div>
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium">Government Integrations</h4>
+                  <h4 className="font-medium text-center">{t('status.government_integrations')}</h4>
                   {[
-                    { name: "GOSI Integration", status: "Synced", latency: "0.31s", events: "234" },
-                    { name: "Qiwa Platform", status: "Synced", latency: "0.28s", events: "156" },
-                    { name: "Mudad Integration", status: "Synced", latency: "0.25s", events: "89" },
-                    { name: "ZATCA Compliance", status: "Synced", latency: "0.33s", events: "67" }
+                    { nameKey: "status.gosi_integration", status: "status.synced", latency: "0.31s", events: "234" },
+                    { nameKey: "status.qiwa_platform", status: "status.synced", latency: "0.28s", events: "156" },
+                    { nameKey: "status.mudad_integration", status: "status.synced", latency: "0.25s", events: "89" },
+                    { nameKey: "status.zatca_compliance", status: "status.synced", latency: "0.33s", events: "67" }
                   ].map((module, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <div className="w-3 h-3 bg-brand-success rounded-full"></div>
-                        <span className="font-medium">{module.name}</span>
+                        <span className="font-medium">{t(module.nameKey)}</span>
                       </div>
                       <div className="text-right text-sm">
                         <div className="text-muted-foreground">{module.latency}</div>
-                        <div className="text-xs text-muted-foreground">{module.events} events/day</div>
+                        <div className="text-xs text-muted-foreground">{module.events} {t('status.events_day')}</div>
                       </div>
                     </div>
                   ))}
@@ -268,32 +268,32 @@ const AISyncEngine = () => {
 
         <TabsContent value="architecture" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Sync Engine Architecture</CardTitle>
-              <CardDescription>How our distributed system maintains data consistency</CardDescription>
+            <CardHeader className="text-center">
+              <CardTitle>{t('arch.title')}</CardTitle>
+              <CardDescription>{t('arch.desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                   <h4 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
                     <Activity className="h-4 w-4" />
-                    Event-Driven Architecture
+                    {t('arch.event_driven')}
                   </h4>
-                  <p className="text-sm text-blue-700">Every data change triggers events that are instantly propagated to relevant modules</p>
+                  <p className="text-sm text-blue-700">{t('arch.event_driven_desc')}</p>
                 </div>
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                   <h4 className="font-medium text-green-900 mb-2 flex items-center gap-2">
                     <Database className="h-4 w-4" />
-                    Distributed Database Sync
+                    {t('arch.distributed_db')}
                   </h4>
-                  <p className="text-sm text-green-700">Advanced replication ensures data consistency across multiple database instances</p>
+                  <p className="text-sm text-green-700">{t('arch.distributed_db_desc')}</p>
                 </div>
                 <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                   <h4 className="font-medium text-purple-900 mb-2 flex items-center gap-2">
                     <Shield className="h-4 w-4" />
-                    Fault Tolerance & Recovery
+                    {t('arch.fault_tolerance')}
                   </h4>
-                  <p className="text-sm text-purple-700">Automatic retry mechanisms and rollback procedures ensure data integrity</p>
+                  <p className="text-sm text-purple-700">{t('arch.fault_tolerance_desc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -302,44 +302,44 @@ const AISyncEngine = () => {
 
         <TabsContent value="monitoring" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Real-time Monitoring Dashboard</CardTitle>
-              <CardDescription>Live sync performance metrics and health monitoring</CardDescription>
+            <CardHeader className="text-center">
+              <CardTitle>{t('monitor.title')}</CardTitle>
+              <CardDescription>{t('monitor.desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-success">100%</div>
-                  <p className="text-sm text-muted-foreground">System Uptime (30 days)</p>
+                  <p className="text-sm text-muted-foreground">{t('monitor.system_uptime')}</p>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-primary">0.23s</div>
-                  <p className="text-sm text-muted-foreground">Average Sync Latency</p>
+                  <p className="text-sm text-muted-foreground">{t('monitor.avg_sync_latency')}</p>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-accent">3</div>
-                  <p className="text-sm text-muted-foreground">Failed Syncs (Today)</p>
+                  <p className="text-sm text-muted-foreground">{t('monitor.failed_syncs_today')}</p>
                 </div>
               </div>
               <div className="mt-6">
-                <h4 className="font-medium mb-4">Recent Sync Activity</h4>
+                <h4 className="font-medium mb-4 text-center">{t('monitor.recent_activity')}</h4>
                 <div className="space-y-3">
                   {[
-                    { time: "14:23:12", module: "Employee Master Data", event: "Profile Update", status: "Success" },
-                    { time: "14:23:08", module: "Payroll System", event: "Salary Adjustment", status: "Success" },
-                    { time: "14:22:56", module: "Time Attendance", event: "Clock In/Out", status: "Success" },
-                    { time: "14:22:45", module: "GOSI Integration", event: "Contribution Update", status: "Retry" }
+                    { time: "14:23:12", moduleKey: "monitor.employee_master", eventKey: "monitor.profile_update", status: "monitor.success" },
+                    { time: "14:23:08", moduleKey: "monitor.payroll_system", eventKey: "monitor.salary_adjustment", status: "monitor.success" },
+                    { time: "14:22:56", moduleKey: "monitor.time_attendance", eventKey: "monitor.clock_in_out", status: "monitor.success" },
+                    { time: "14:22:45", moduleKey: "status.gosi_integration", eventKey: "monitor.contribution_update", status: "monitor.retry" }
                   ].map((activity, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
                         <Clock className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm font-mono">{activity.time}</span>
-                        <span className="text-sm">{activity.module}</span>
+                        <span className="text-sm">{t(activity.moduleKey)}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">{activity.event}</span>
-                        <Badge variant={activity.status === "Success" ? "default" : "secondary"}>
-                          {activity.status}
+                        <span className="text-sm text-muted-foreground">{t(activity.eventKey)}</span>
+                        <Badge variant={activity.status === "monitor.success" ? "default" : "secondary"}>
+                          {t(activity.status)}
                         </Badge>
                       </div>
                     </div>
@@ -352,37 +352,37 @@ const AISyncEngine = () => {
 
         <TabsContent value="performance" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Performance Analytics</CardTitle>
-              <CardDescription>Sync engine performance trends and optimization insights</CardDescription>
+            <CardHeader className="text-center">
+              <CardTitle>{t('perf.title')}</CardTitle>
+              <CardDescription>{t('perf.desc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium">Performance Trends</h4>
+                  <h4 className="font-medium text-center">{t('perf.trends')}</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Average Latency</span>
-                      <span className="text-sm font-medium text-brand-success">↓ 12% this month</span>
+                      <span className="text-sm">{t('perf.avg_latency')}</span>
+                      <span className="text-sm font-medium text-brand-success">↓ 12% {t('perf.this_month')}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Success Rate</span>
-                      <span className="text-sm font-medium text-brand-success">↑ 0.3% improvement</span>
+                      <span className="text-sm">{t('perf.success_rate')}</span>
+                      <span className="text-sm font-medium text-brand-success">↑ 0.3% {t('perf.improvement')}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Throughput</span>
-                      <span className="text-sm font-medium text-brand-primary">↑ 23% increase</span>
+                      <span className="text-sm">{t('perf.throughput')}</span>
+                      <span className="text-sm font-medium text-brand-primary">↑ 23% {t('perf.increase')}</span>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium">Optimization Insights</h4>
+                  <h4 className="font-medium text-center">{t('perf.optimization')}</h4>
                   <div className="space-y-3">
                     <div className="p-3 bg-blue-50 border-l-4 border-blue-400">
-                      <p className="text-sm text-blue-800">Database connection pooling reduced latency by 18%</p>
+                      <p className="text-sm text-blue-800">{t('perf.db_pooling')}</p>
                     </div>
                     <div className="p-3 bg-green-50 border-l-4 border-green-400">
-                      <p className="text-sm text-green-800">AI-powered load balancing improved throughput by 31%</p>
+                      <p className="text-sm text-green-800">{t('perf.ai_load_balancing')}</p>
                     </div>
                   </div>
                 </div>
@@ -394,12 +394,12 @@ const AISyncEngine = () => {
 
       {/* Control Center */}
       <Card>
-        <CardHeader>
-          <CardTitle>Sync Engine Control Center</CardTitle>
-          <CardDescription>Monitor and manage real-time data synchronization</CardDescription>
+        <CardHeader className="text-center">
+          <CardTitle>{t('control.title')}</CardTitle>
+          <CardDescription>{t('control.desc')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 justify-center">
             <Button className="bg-gradient-primary hover:opacity-90">
               <RefreshCw className="h-4 w-4 mr-2" />
               {t('ai_sync.force_full_sync')}
