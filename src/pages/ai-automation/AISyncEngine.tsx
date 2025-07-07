@@ -139,12 +139,12 @@ const AISyncEngine = () => {
 
       {/* Real-time Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="relative overflow-hidden">
+        <Card className="relative overflow-hidden h-full">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-primary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.daily_sync_events')}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-primary">15,678</div>
               <div className="flex items-center gap-2 text-sm">
@@ -156,12 +156,12 @@ const AISyncEngine = () => {
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden">
+        <Card className="relative overflow-hidden h-full">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-secondary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.sync_success_rate')}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="space-y-3">
               <div className="text-4xl font-bold text-brand-success">99.97%</div>
               <Progress value={99.97} className="h-2" />
@@ -170,12 +170,12 @@ const AISyncEngine = () => {
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden">
+        <Card className="relative overflow-hidden h-full">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-accent opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.average_latency')}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-accent">0.23s</div>
               <div className="flex items-center gap-2 text-sm">
@@ -187,12 +187,12 @@ const AISyncEngine = () => {
           </CardContent>
         </Card>
 
-        <Card className="relative overflow-hidden">
+        <Card className="relative overflow-hidden h-full">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-hero opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.connected_modules')}</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-warning">106</div>
               <div className="flex items-center gap-2 text-sm">

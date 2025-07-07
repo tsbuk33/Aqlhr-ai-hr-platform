@@ -3,13 +3,13 @@ import { PartnerLogo } from './PartnerLogo';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export const GlobalFooter: React.FC = () => {
-  const { t, isRTL } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className="bg-surface border-t border-border">
       <div className="container mx-auto px-6 py-8">
         {/* Main Footer Content */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4">SanadHR</h3>
             <p className="text-sm text-muted-foreground mb-4">
@@ -41,12 +41,12 @@ export const GlobalFooter: React.FC = () => {
         </div>
 
         {/* National Initiatives Section */}
-        <section className={`mt-8 space-y-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <section className="mt-8 space-y-2">
           <h4 className="text-sm font-semibold text-muted-foreground">
             {t('footer.national_initiatives')}
           </h4>
 
-          <div className={`flex flex-wrap gap-6 items-center ${isRTL ? 'justify-end' : 'justify-start'}`}>
+          <div className="flex flex-wrap gap-6 items-center">
             <PartnerLogo
               src="/partners/worldcup2034-official.svg"
               alt="FIFA World Cup 2034 Saudi Arabia"
