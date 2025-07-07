@@ -6,7 +6,20 @@ interface SeedOptions {
   locale: string;
   salaryRange: [number, number];
   saudizationMix: number; // percentage of Saudi employees
+  companyId?: string;
+  hireDateRange?: [Date, Date];
 }
+
+interface SeedResult {
+  success: boolean;
+  employeesCreated: number;
+  saudiCreated: number;
+  expatCreated: number;
+  durationMs: number;
+  errors: string[];
+}
+
+type NewEmployee = Omit<Employee, 'id' | 'created_at' | 'updated_at'>;
 
 const SAUDI_FIRST_NAMES = [
   'أحمد', 'محمد', 'عبدالله', 'فهد', 'سالم', 'خالد', 'عبدالعزيز', 'ناصر',
@@ -38,16 +51,21 @@ const POSITIONS = [
   'Analyst', 'Executive', 'Director', 'Supervisor'
 ];
 
+const POSITIONS_AR = [
+  'مدير', 'أخصائي أول', 'أخصائي', 'منسق',
+  'محلل', 'تنفيذي', 'مدير عام', 'مشرف'
+];
+
 function generateNationalId(): string {
-  return '1' + Math.random().toString().slice(2, 11);
+  return 'TEST-1' + Math.random().toString().slice(2, 10);
 }
 
 function generateIqamaNumber(): string {
-  return '2' + Math.random().toString().slice(2, 11);
+  return 'TEST-2' + Math.random().toString().slice(2, 10);
 }
 
-function generateEmployeeNumber(): string {
-  return 'EMP' + Date.now().toString().slice(-6) + Math.floor(Math.random() * 1000);
+function generateEmployeeNumber(index: number): string {
+  return 'EMP' + Date.now().toString().slice(-6) + String(index).padStart(4, '0');
 }
 
 function getRandomFromArray<T>(array: T[]): T {
@@ -55,113 +73,181 @@ function getRandomFromArray<T>(array: T[]): T {
 }
 
 function generateSalary(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  // Use normal distribution for more realistic salary curves
+  const mean = (min + max) / 2;
+  const stdDev = (max - min) / 6;
+  
+  // Box-Muller transform for normal distribution
+  const u1 = Math.random();
+  const u2 = Math.random();
+  const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  
+  const normalValue = mean + z * stdDev;
+  return Math.max(min, Math.min(max, Math.round(normalValue)));
 }
 
-function generateHireDate(): string {
-  const start = new Date('2020-01-01');
-  const end = new Date();
+function generateUniqueEmail(firstName: string, lastName: string, employeeNumber: string): string {
+  const cleanFirst = firstName.toLowerCase().replace(/[^a-z]/g, '');
+  const cleanLast = lastName.toLowerCase().replace(/[^a-z]/g, '');
+  return `${cleanFirst}.${cleanLast}.${employeeNumber}@testcompany.com`;
+}
+
+function generateHireDate(range?: [Date, Date]): string {
+  const start = range ? range[0] : new Date(Date.now() - 365 * 24 * 60 * 60 * 1000); // 1 year ago
+  const end = range ? range[1] : new Date();
   const date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
   return date.toISOString().split('T')[0];
 }
 
-export async function seedEmployees(options: SeedOptions): Promise<{
-  success: boolean;
-  employeesCreated: number;
-  errors: string[];
-}> {
-  const { amount, salaryRange, saudizationMix } = options;
+function generateSaudiPhone(): string {
+  const prefix = '+9665';
+  const number = Math.floor(Math.random() * 90000000 + 10000000);
+  return prefix + number.toString();
+}
+
+export async function seedEmployees(options: SeedOptions): Promise<SeedResult> {
+  const startTime = Date.now();
+  const { amount, salaryRange, saudizationMix, companyId, hireDateRange } = options;
   const errors: string[] = [];
-  let employeesCreated = 0;
+  let saudiCreated = 0;
+  let expatCreated = 0;
 
-  // Get first company for seeding
-  const { data: companies } = await supabase
-    .from('companies')
-    .select('id')
-    .limit(1);
+  // Handle company selection
+  let targetCompanyId = companyId;
+  if (!targetCompanyId) {
+    const { data: companies } = await supabase
+      .from('companies')
+      .select('id, name')
+      .limit(5);
 
-  if (!companies?.length) {
-    return {
-      success: false,
-      employeesCreated: 0,
-      errors: ['No companies found. Please create a company first.']
-    };
+    if (!companies?.length) {
+      return {
+        success: false,
+        employeesCreated: 0,
+        saudiCreated: 0,
+        expatCreated: 0,
+        durationMs: Date.now() - startTime,
+        errors: ['No companies found. Please create a company first.']
+      };
+    }
+
+    if (companies.length > 1) {
+      const companyList = companies.map(c => `${c.name} (${c.id})`).join(', ');
+      return {
+        success: false,
+        employeesCreated: 0,
+        saudiCreated: 0,
+        expatCreated: 0,
+        durationMs: Date.now() - startTime,
+        errors: [`Multiple companies found. Please specify companyId. Available: ${companyList}`]
+      };
+    }
+
+    targetCompanyId = companies[0].id;
   }
 
-  const companyId = companies[0].id;
   const saudiCount = Math.floor((amount * saudizationMix) / 100);
   const expatCount = amount - saudiCount;
 
-  console.log(`Seeding ${amount} employees: ${saudiCount} Saudi, ${expatCount} Expat`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Seeding ${amount} employees: ${saudiCount} Saudi, ${expatCount} Expat`);
+  }
 
   try {
-    // Generate Saudi employees
+    // Build Saudi employees array
+    const saudiEmployees: NewEmployee[] = [];
     for (let i = 0; i < saudiCount; i++) {
       const firstName = getRandomFromArray(SAUDI_FIRST_NAMES);
       const lastName = getRandomFromArray(SAUDI_LAST_NAMES);
+      const empNumber = generateEmployeeNumber(i);
+      const positionIndex = Math.floor(Math.random() * POSITIONS.length);
       
-      const employee: Omit<Employee, 'id' | 'created_at' | 'updated_at'> = {
-        company_id: companyId,
-        employee_number: generateEmployeeNumber(),
+      saudiEmployees.push({
+        company_id: targetCompanyId,
+        employee_number: empNumber,
         national_id: generateNationalId(),
         first_name: firstName,
         last_name: lastName,
         first_name_ar: firstName,
         last_name_ar: lastName,
-        email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@company.com`,
-        phone: '+966' + Math.floor(Math.random() * 900000000 + 100000000),
+        email: generateUniqueEmail(firstName, lastName, empNumber),
+        phone: generateSaudiPhone(),
         nationality: 'Saudi',
         is_saudi: true,
-        hire_date: generateHireDate(),
+        hire_date: generateHireDate(hireDateRange),
         department: getRandomFromArray(DEPARTMENTS),
-        position: getRandomFromArray(POSITIONS),
-        position_ar: getRandomFromArray(POSITIONS),
+        position: POSITIONS[positionIndex],
+        position_ar: POSITIONS_AR[positionIndex],
         salary: generateSalary(salaryRange[0], salaryRange[1]),
         status: 'active'
-      };
+      });
+    }
 
-      const { error } = await supabase
+    // Batch insert Saudi employees
+    if (saudiEmployees.length > 0) {
+      const { error: saudiError, data } = await supabase
         .from('employees')
-        .insert([employee]);
+        .insert(saudiEmployees)
+        .select('id');
 
-      if (error) {
-        errors.push(`Failed to create Saudi employee ${i + 1}: ${error.message}`);
+      if (saudiError) {
+        errors.push(`Failed to create Saudi employees: ${saudiError.message}`);
       } else {
-        employeesCreated++;
+        saudiCreated = data?.length || 0;
       }
     }
 
-    // Generate Expat employees
+    // Short-circuit on high error count
+    if (errors.length > 5) {
+      return {
+        success: false,
+        employeesCreated: saudiCreated,
+        saudiCreated,
+        expatCreated: 0,
+        durationMs: Date.now() - startTime,
+        errors: [...errors, 'Aborting due to high error count']
+      };
+    }
+
+    // Build Expat employees array
+    const expatEmployees: NewEmployee[] = [];
     for (let i = 0; i < expatCount; i++) {
       const firstName = getRandomFromArray(EXPAT_FIRST_NAMES);
       const lastName = getRandomFromArray(EXPAT_LAST_NAMES);
+      const empNumber = generateEmployeeNumber(saudiCount + i);
+      const positionIndex = Math.floor(Math.random() * POSITIONS.length);
       
-      const employee: Omit<Employee, 'id' | 'created_at' | 'updated_at'> = {
-        company_id: companyId,
-        employee_number: generateEmployeeNumber(),
+      expatEmployees.push({
+        company_id: targetCompanyId,
+        employee_number: empNumber,
         national_id: '',
         iqama_number: generateIqamaNumber(),
         first_name: firstName,
         last_name: lastName,
-        email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@company.com`,
-        phone: '+966' + Math.floor(Math.random() * 900000000 + 100000000),
+        email: generateUniqueEmail(firstName, lastName, empNumber),
+        phone: generateSaudiPhone(),
         nationality: getRandomFromArray(['Indian', 'Pakistani', 'Egyptian', 'Jordanian', 'Lebanese']),
         is_saudi: false,
-        hire_date: generateHireDate(),
+        hire_date: generateHireDate(hireDateRange),
         department: getRandomFromArray(DEPARTMENTS),
-        position: getRandomFromArray(POSITIONS),
+        position: POSITIONS[positionIndex],
+        position_ar: POSITIONS_AR[positionIndex],
         salary: generateSalary(salaryRange[0], salaryRange[1]),
         status: 'active'
-      };
+      });
+    }
 
-      const { error } = await supabase
+    // Batch insert Expat employees
+    if (expatEmployees.length > 0) {
+      const { error: expatError, data } = await supabase
         .from('employees')
-        .insert([employee]);
+        .insert(expatEmployees)
+        .select('id');
 
-      if (error) {
-        errors.push(`Failed to create Expat employee ${i + 1}: ${error.message}`);
+      if (expatError) {
+        errors.push(`Failed to create Expat employees: ${expatError.message}`);
       } else {
-        employeesCreated++;
+        expatCreated = data?.length || 0;
       }
     }
 
@@ -169,9 +255,15 @@ export async function seedEmployees(options: SeedOptions): Promise<{
     errors.push(`Seeding failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 
+  const durationMs = Date.now() - startTime;
+  const employeesCreated = saudiCreated + expatCreated;
+
   return {
     success: errors.length === 0,
     employeesCreated,
+    saudiCreated,
+    expatCreated,
+    durationMs,
     errors
   };
 }
