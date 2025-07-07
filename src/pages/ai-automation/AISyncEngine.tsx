@@ -81,9 +81,9 @@ const AISyncEngine = () => {
           </div>
 
           {/* Desktop Layout */}
-          <div className={`hidden md:flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className={`hidden md:flex items-stretch justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
             {/* Step 1 */}
-            <div className="flex-1 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4 flex flex-col justify-center">
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <Activity className="h-8 w-8 text-white" />
               </div>
@@ -91,18 +91,18 @@ const AISyncEngine = () => {
               <p className="text-sm text-muted-foreground">
                 {t('ai_sync.event_detection_desc')}
               </p>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 mx-auto">
                 {t('ai_sync.microsecond_detection')}
               </Badge>
             </div>
 
             {/* Arrow 1 */}
-            <div className="px-4">
+            <div className="px-4 flex items-center">
               <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? '' : 'rotate-180'}`} />
             </div>
 
             {/* Step 2 */}
-            <div className="flex-1 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4 flex flex-col justify-center">
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Network className="h-8 w-8 text-white" />
               </div>
@@ -110,18 +110,18 @@ const AISyncEngine = () => {
               <p className="text-sm text-muted-foreground">
                 {t('ai_sync.smart_routing_desc')}
               </p>
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 mx-auto">
                 {t('ai_sync.ai_prioritized')}
               </Badge>
             </div>
 
             {/* Arrow 2 */}
-            <div className="px-4">
+            <div className="px-4 flex items-center">
               <ArrowRight className={`h-6 w-6 text-muted-foreground ${isRTL ? '' : 'rotate-180'}`} />
             </div>
 
             {/* Step 3 */}
-            <div className="flex-1 text-center space-y-4">
+            <div className="flex-1 text-center space-y-4 flex flex-col justify-center">
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Database className="h-8 w-8 text-white" />
               </div>
@@ -129,7 +129,7 @@ const AISyncEngine = () => {
               <p className="text-sm text-muted-foreground">
                 {t('ai_sync.atomic_updates_desc')}
               </p>
-              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
+              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 mx-auto">
                 {t('ai_sync.success_rate')}
               </Badge>
             </div>
