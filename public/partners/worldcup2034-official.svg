@@ -1,0 +1,13 @@
+<!-- This is a placeholder for the official FIFA World Cup 2034 Saudi Arabia logo -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <rect width="400" height="200" fill="#1a1a1a"/>
+  <text x="200" y="120" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold">
+    HOST NATION
+  </text>
+  <text x="200" y="150" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="20">
+    SAUDI ARABIA
+  </text>
+  <!-- Soccer ball icon placeholder -->
+  <circle cx="320" cy="100" r="30" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+  <path d="M 290 100 L 350 100 M 320 70 L 320 130" stroke="#1a1a1a" stroke-width="2"/>
+</svg>
