@@ -24,6 +24,13 @@ import ComplianceOverview from "./pages/compliance";
 import RegulatoryCompliance from "./pages/compliance/RegulatoryCompliance";
 import CommitteeManagement from "./pages/compliance/CommitteeManagement";
 import AuditTrails from "./pages/compliance/AuditTrails";
+import PolicyManagement from "./pages/compliance/PolicyManagement";
+import RiskManagement from "./pages/compliance/RiskManagement";
+import GovernanceFramework from "./pages/compliance/GovernanceFramework";
+import ComplianceReporting from "./pages/compliance/ComplianceReporting";
+import LegalDocumentTracking from "./pages/compliance/LegalDocumentTracking";
+import DocumentationManagement from "./pages/compliance/DocumentationManagement";
+import EvidenceManagement from "./pages/compliance/EvidenceManagement";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +58,13 @@ const App = () => (
                     <Route path="/compliance/regulatory" element={<RegulatoryCompliance />} />
                     <Route path="/compliance/committees" element={<CommitteeManagement />} />
                     <Route path="/compliance/audit-trails" element={<AuditTrails />} />
+                    <Route path="/compliance/risk-management" element={<RiskManagement />} />
+                    <Route path="/compliance/policies" element={<PolicyManagement />} />
+                    <Route path="/compliance/governance" element={<GovernanceFramework />} />
+                    <Route path="/compliance/reporting" element={<ComplianceReporting />} />
+                    <Route path="/compliance/legal-docs" element={<LegalDocumentTracking />} />
+                    <Route path="/compliance/documentation" element={<DocumentationManagement />} />
+                    <Route path="/compliance/evidence" element={<EvidenceManagement />} />
                     <Route path="/payroll" element={<Payroll />} />
                     <Route path="/ai-features" element={<AIFeatures />} />
                     <Route path="/government" element={<Government />} />
