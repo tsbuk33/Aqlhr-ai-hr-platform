@@ -4,17 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, RefreshCw, Database, Zap, CheckCircle, Clock, Network, Activity, Shield } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AISyncEngine = () => {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent leading-tight pb-2">
-          AI Sync Engine
+          {t('ai_sync.title')}
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Intelligent real-time data synchronization that keeps all 106 HR modules perfectly aligned and updated
+          {t('ai_sync.subtitle')}
         </p>
       </div>
 
@@ -23,9 +25,9 @@ const AISyncEngine = () => {
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl flex items-center justify-center gap-2">
             <RefreshCw className="h-6 w-6 text-brand-primary" />
-            How SanadHR Maintains Real-Time Data Sync
+            {t('ai_sync.how_title')}
           </CardTitle>
-          <CardDescription>Advanced distributed architecture ensures instant data consistency across all modules</CardDescription>
+          <CardDescription>{t('ai_sync.how_subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           {/* Mobile Layout */}
@@ -34,12 +36,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <Activity className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Event Detection</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.event_detection')}</h3>
               <p className="text-sm text-muted-foreground">
-                AI monitors all data changes in real-time across every module and system
+                {t('ai_sync.event_detection_desc')}
               </p>
               <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                Microsecond Detection
+                {t('ai_sync.microsecond_detection')}
               </Badge>
             </div>
             
@@ -51,12 +53,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Network className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Smart Routing</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.smart_routing')}</h3>
               <p className="text-sm text-muted-foreground">
-                Intelligent routing determines which modules need updates and prioritizes critical paths
+                {t('ai_sync.smart_routing_desc')}
               </p>
               <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                AI-Prioritized
+                {t('ai_sync.ai_prioritized')}
               </Badge>
             </div>
             
@@ -68,12 +70,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Database className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Atomic Updates</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.atomic_updates')}</h3>
               <p className="text-sm text-muted-foreground">
-                All related data is updated simultaneously ensuring perfect consistency
+                {t('ai_sync.atomic_updates_desc')}
               </p>
               <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                99.97% Success
+                {t('ai_sync.success_rate')}
               </Badge>
             </div>
           </div>
@@ -85,12 +87,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <Activity className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Event Detection</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.event_detection')}</h3>
               <p className="text-sm text-muted-foreground">
-                AI monitors all data changes in real-time across every module and system
+                {t('ai_sync.event_detection_desc')}
               </p>
               <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                Microsecond Detection
+                {t('ai_sync.microsecond_detection')}
               </Badge>
             </div>
 
@@ -104,12 +106,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Network className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Smart Routing</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.smart_routing')}</h3>
               <p className="text-sm text-muted-foreground">
-                Intelligent routing determines which modules need updates and prioritizes critical paths
+                {t('ai_sync.smart_routing_desc')}
               </p>
               <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                AI-Prioritized
+                {t('ai_sync.ai_prioritized')}
               </Badge>
             </div>
 
@@ -123,12 +125,12 @@ const AISyncEngine = () => {
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Database className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Atomic Updates</h3>
+              <h3 className="font-semibold text-lg">{t('ai_sync.atomic_updates')}</h3>
               <p className="text-sm text-muted-foreground">
-                All related data is updated simultaneously ensuring perfect consistency
+                {t('ai_sync.atomic_updates_desc')}
               </p>
               <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                99.97% Success
+                {t('ai_sync.success_rate')}
               </Badge>
             </div>
           </div>
@@ -140,14 +142,14 @@ const AISyncEngine = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-primary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Daily Sync Events</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.daily_sync_events')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-primary">15,678</div>
               <div className="flex items-center gap-2 text-sm">
                 <Activity className="h-4 w-4 text-brand-success" />
-                <span className="text-brand-success">Real-time processing</span>
+                <span className="text-brand-success">{t('ai_sync.real_time_processing')}</span>
               </div>
               <p className="text-xs text-muted-foreground">Peak: 2,341 events/hour</p>
             </div>
@@ -157,13 +159,13 @@ const AISyncEngine = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-secondary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Sync Success Rate</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.sync_success_rate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="text-4xl font-bold text-brand-success">99.97%</div>
               <Progress value={99.97} className="h-2" />
-              <p className="text-xs text-muted-foreground">24/7 monitoring</p>
+              <p className="text-xs text-muted-foreground">{t('ai_sync.monitoring_24_7')}</p>
             </div>
           </CardContent>
         </Card>
@@ -171,14 +173,14 @@ const AISyncEngine = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-accent opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Average Latency</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.average_latency')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-accent">0.23s</div>
               <div className="flex items-center gap-2 text-sm">
                 <Zap className="h-4 w-4 text-brand-accent" />
-                <span className="text-muted-foreground">Lightning fast</span>
+                <span className="text-muted-foreground">{t('ai_sync.lightning_fast')}</span>
               </div>
               <p className="text-xs text-muted-foreground">Target: &lt;0.5s</p>
             </div>
@@ -188,14 +190,14 @@ const AISyncEngine = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-hero opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Connected Modules</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{t('ai_sync.connected_modules')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-warning">106</div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle className="h-4 w-4 text-brand-success" />
-                <span className="text-brand-success">All systems online</span>
+                <span className="text-brand-success">{t('ai_sync.all_systems_online')}</span>
               </div>
             </div>
           </CardContent>
@@ -400,15 +402,15 @@ const AISyncEngine = () => {
           <div className="flex flex-wrap gap-4">
             <Button className="bg-gradient-primary hover:opacity-90">
               <RefreshCw className="h-4 w-4 mr-2" />
-              Force Full Sync
+              {t('ai_sync.force_full_sync')}
             </Button>
             <Button variant="outline">
               <Activity className="h-4 w-4 mr-2" />
-              View Sync Logs
+              {t('ai_sync.view_sync_logs')}
             </Button>
             <Button variant="outline">
               <Shield className="h-4 w-4 mr-2" />
-              Run Health Check
+              {t('ai_sync.run_health_check')}
             </Button>
           </div>
         </CardContent>
