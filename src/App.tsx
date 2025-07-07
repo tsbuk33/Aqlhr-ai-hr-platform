@@ -138,6 +138,7 @@ import APIGateway from "./pages/platform-features/APIGateway";
 // Additional modules
 import SmartKPITool from "./pages/additional/SmartKPITool";
 import SanadHRConnect from "./pages/additional/SanadHRConnect";
+import TestHarness from "./pages/TestHarness";
 
 const queryClient = new QueryClient();
 
@@ -229,6 +230,7 @@ const App = () => (
                     {/* Additional Modules Routes */}
                     <Route path="/tools/smart-kpi" element={<SmartKPITool />} />
                     <Route path="/tools/sanadhr-connect" element={<SanadHRConnect />} />
+                    <Route path="/test-harness" element={<TestHarness />} />
                     
                     {/* Government Integration Sub-routes */}
                     <Route path="/government/qiwa" element={<QiwaIntegration />} />
