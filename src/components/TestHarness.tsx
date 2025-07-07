@@ -11,6 +11,7 @@ import { useAISync } from '@/hooks/useAISync';
 import { useEmployees } from '@/hooks/useEmployees';
 import { useGOSI } from '@/hooks/useGOSI';
 import { CheckCircle, XCircle, Clock, Play, Users, Database, Cpu, Monitor } from 'lucide-react';
+import _ from 'lodash';
 
 interface TestResult {
   name: string;
@@ -49,6 +50,9 @@ const TestHarness: React.FC = () => {
     setIsRunning(true);
     setProgress(0);
     
+    const LATENCY_BUDGET = parseInt(import.meta.env.VITE_SYNC_LATENCY_BUDGET ?? '200');
+    const progressIncrement = 100 / testResults.length;
+    
     try {
       // Test 1: Employee Seeding
       updateTestResult('Employee Seeding', { status: 'running' });
@@ -73,20 +77,19 @@ const TestHarness: React.FC = () => {
           details: seedResult.errors.join(', ')
         });
       }
-      setProgress(14);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 2: GOSI Auto-Classification
       updateTestResult('GOSI Auto-Classification', { status: 'running' });
       await refetchEmployees();
       
-      // Test classification on a few random employees
-      const sampleEmployees = employees.slice(0, 5);
-      let classificationSuccesses = 0;
+      // Test classification on random employees
+      const sampleEmployees = _.sampleSize(employees, 5);
       
-      for (const emp of sampleEmployees) {
-        const success = await classifyEmployee(emp.id);
-        if (success) classificationSuccesses++;
-      }
+      const classificationResults = await Promise.all(
+        sampleEmployees.map(emp => classifyEmployee(emp.id))
+      );
+      const classificationSuccesses = classificationResults.filter(Boolean).length;
       
       if (classificationSuccesses === sampleEmployees.length) {
         updateTestResult('GOSI Auto-Classification', { 
@@ -99,13 +102,13 @@ const TestHarness: React.FC = () => {
           details: `Only ${classificationSuccesses}/${sampleEmployees.length} classifications succeeded`
         });
       }
-      setProgress(28);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 3: AI Sync Engine
       updateTestResult('AI Sync Engine', { status: 'running' });
       const syncStats = getSyncStats();
       
-      if (syncStats.avgLatency < 200) {
+      if (syncStats.avgLatency < LATENCY_BUDGET) {
         updateTestResult('AI Sync Engine', { 
           status: 'passed',
           details: `Average latency: ${syncStats.avgLatency}ms`
@@ -113,10 +116,10 @@ const TestHarness: React.FC = () => {
       } else {
         updateTestResult('AI Sync Engine', { 
           status: 'failed',
-          details: `Latency too high: ${syncStats.avgLatency}ms`
+          details: `Latency too high: ${syncStats.avgLatency}ms (budget: ${LATENCY_BUDGET}ms)`
         });
       }
-      setProgress(42);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 4: Module Interoperability (Mock)
       updateTestResult('Module Interoperability', { status: 'running' });
@@ -125,7 +128,7 @@ const TestHarness: React.FC = () => {
         status: 'passed',
         details: 'All modules communicating correctly'
       });
-      setProgress(56);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 5: Dashboard Rendering
       updateTestResult('Dashboard Rendering', { status: 'running' });
@@ -144,7 +147,7 @@ const TestHarness: React.FC = () => {
           details: `Render time too slow: ${renderTime}ms`
         });
       }
-      setProgress(70);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 6: Training System (EduBox)
       updateTestResult('Training System (EduBox)', { status: 'running' });
@@ -153,7 +156,7 @@ const TestHarness: React.FC = () => {
         status: 'passed',
         details: 'EduBox tooltips functional'
       });
-      setProgress(84);
+      setProgress(prev => prev + progressIncrement);
 
       // Test 7: Performance Metrics
       updateTestResult('Performance Metrics', { status: 'running' });
