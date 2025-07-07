@@ -175,6 +175,15 @@ const translations = {
     // Control Center
     'control.title': 'مركز التحكم في محرك المزامنة',
     'control.desc': 'مراقبة وإدارة مزامنة البيانات في الوقت الفعلي',
+    
+    // Footer
+    'footer.sanadhr_desc': 'منصة إدارة الموارد البشرية الكاملة - مصممة للتميز في المملكة العربية السعودية',
+    'footer.all_rights': '© 2025 سند للموارد البشرية. جميع الحقوق محفوظة.',
+    'footer.quick_links': 'روابط سريعة',
+    'footer.contact': 'اتصل بنا',
+    'footer.riyadh': 'الرياض، المملكة العربية السعودية',
+    'footer.national_initiatives': 'المبادرات الوطنية',
+    'footer.vision_support': 'دعم رؤية المملكة العربية السعودية للمستقبل',
   },
   en: {
     // Navigation
@@ -268,6 +277,82 @@ const translations = {
     'gov.status': 'Status',
     'gov.last_sync': 'Last Sync',
     'gov.sync_now': 'Sync Now',
+    
+    // Tab labels
+    'tabs.sync_status': 'Sync Status',
+    'tabs.architecture': 'Architecture',
+    'tabs.monitoring': 'Real-time Monitoring',
+    'tabs.performance': 'Performance',
+    
+    // Status page content
+    'status.module_sync_title': 'Module Synchronization Status',
+    'status.module_sync_desc': 'Real-time status of all connected HR modules',
+    'status.core_hr_modules': 'Core HR Modules',
+    'status.government_integrations': 'Government Integrations',
+    'status.employee_data': 'Employee Data',
+    'status.payroll_processing': 'Payroll Processing',
+    'status.performance_management': 'Performance Management',
+    'status.time_attendance': 'Time & Attendance',
+    'status.gosi_integration': 'GOSI Integration',
+    'status.qiwa_platform': 'Qiwa Platform',
+    'status.mudad_integration': 'Mudad Integration',
+    'status.zatca_compliance': 'ZATCA Compliance',
+    'status.synced': 'Synced',
+    'status.events_day': 'events/day',
+    
+    // Architecture page
+    'arch.title': 'Sync Engine Architecture',
+    'arch.desc': 'How our distributed system maintains data consistency',
+    'arch.event_driven': 'Event-Driven Architecture',
+    'arch.event_driven_desc': 'Every data change triggers events that are instantly propagated to relevant modules',
+    'arch.distributed_db': 'Distributed Database Sync',
+    'arch.distributed_db_desc': 'Advanced replication ensures data consistency across multiple database instances',
+    'arch.fault_tolerance': 'Fault Tolerance & Recovery',
+    'arch.fault_tolerance_desc': 'Automatic retry mechanisms and rollback procedures ensure data integrity',
+    
+    // Monitoring page
+    'monitor.title': 'Real-time Monitoring Dashboard',
+    'monitor.desc': 'Live sync performance metrics and health monitoring',
+    'monitor.system_uptime': 'System Uptime (30 days)',
+    'monitor.avg_sync_latency': 'Average Sync Latency',
+    'monitor.failed_syncs_today': 'Failed Syncs (Today)',
+    'monitor.recent_activity': 'Recent Sync Activity',
+    'monitor.employee_master': 'Employee Master Data',
+    'monitor.payroll_system': 'Payroll System',
+    'monitor.time_attendance': 'Time Attendance',
+    'monitor.profile_update': 'Profile Update',
+    'monitor.salary_adjustment': 'Salary Adjustment',
+    'monitor.clock_in_out': 'Clock In/Out',
+    'monitor.contribution_update': 'Contribution Update',
+    'monitor.success': 'Success',
+    'monitor.retry': 'Retry',
+    
+    // Performance page
+    'perf.title': 'Performance Analytics',
+    'perf.desc': 'Sync engine performance trends and optimization insights',
+    'perf.trends': 'Performance Trends',
+    'perf.optimization': 'Optimization Insights',
+    'perf.avg_latency': 'Average Latency',
+    'perf.success_rate': 'Success Rate',
+    'perf.throughput': 'Throughput',
+    'perf.this_month': 'this month',
+    'perf.improvement': 'improvement',
+    'perf.increase': 'increase',
+    'perf.db_pooling': 'Database connection pooling reduced latency by 18%',
+    'perf.ai_load_balancing': 'AI-powered load balancing improved throughput by 31%',
+    
+    // Control Center
+    'control.title': 'Sync Engine Control Center',
+    'control.desc': 'Monitor and manage real-time data synchronization',
+    
+    // Footer
+    'footer.sanadhr_desc': 'Complete HR Management Platform - Designed for Excellence in Saudi Arabia',
+    'footer.all_rights': 'SanadHR. All rights reserved 2025 ©',
+    'footer.quick_links': 'Quick Links',
+    'footer.contact': 'Contact',
+    'footer.riyadh': 'Riyadh, Saudi Arabia',
+    'footer.national_initiatives': 'National Initiatives',
+    'footer.vision_support': 'Supporting Saudi Arabia\'s Vision for the Future',
   }
 };
 

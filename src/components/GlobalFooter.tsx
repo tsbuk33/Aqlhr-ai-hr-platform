@@ -13,27 +13,27 @@ export const GlobalFooter: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4">SanadHR</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Complete HR Management Platform - Designed for Excellence in Saudi Arabia
+              {t('footer.sanadhr_desc')}
             </p>
             <p className="text-xs text-muted-foreground">
-              © 2025 SanadHR. All rights reserved.
+              {t('footer.all_rights')}
             </p>
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-4">{t('footer.quick_links')}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="/core-hr" className="hover:text-foreground transition-colors">Core HR</a></li>
-              <li><a href="/payroll" className="hover:text-foreground transition-colors">Payroll</a></li>
-              <li><a href="/ai-features" className="hover:text-foreground transition-colors">AI Features</a></li>
-              <li><a href="/government" className="hover:text-foreground transition-colors">Government Integration</a></li>
+              <li><a href="/core-hr" className="hover:text-foreground transition-colors">{t('nav.core_hr')}</a></li>
+              <li><a href="/payroll" className="hover:text-foreground transition-colors">{t('nav.payroll')}</a></li>
+              <li><a href="/ai-features" className="hover:text-foreground transition-colors">{t('nav.ai_features')}</a></li>
+              <li><a href="/government" className="hover:text-foreground transition-colors">{t('nav.government')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Contact</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-4">{t('footer.contact')}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Riyadh, Saudi Arabia</li>
+              <li>{t('footer.riyadh')}</li>
               <li>info@sanadhr.com</li>
               <li>+966 11 XXX XXXX</li>
             </ul>
@@ -43,7 +43,7 @@ export const GlobalFooter: React.FC = () => {
         {/* National Initiatives Section */}
         <section className="mt-8 space-y-2">
           <h4 className="text-sm font-semibold text-muted-foreground">
-            National Initiatives
+            {t('footer.national_initiatives')}
           </h4>
 
           <div className="flex flex-wrap gap-6 items-center">
@@ -64,7 +64,7 @@ export const GlobalFooter: React.FC = () => {
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            Supporting Saudi Arabia's Vision for the Future
+            {t('footer.vision_support')}
           </p>
         </section>
       </div>
