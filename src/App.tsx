@@ -19,6 +19,10 @@ import Government from "./pages/Government";
 import Strategic from "./pages/Strategic";
 import Consulting from "./pages/Consulting";
 import Analytics from "./pages/Analytics";
+import ComplianceOverview from "./pages/compliance";
+import RegulatoryCompliance from "./pages/compliance/RegulatoryCompliance";
+import CommitteeManagement from "./pages/compliance/CommitteeManagement";
+import AuditTrails from "./pages/compliance/AuditTrails";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +45,10 @@ const App = () => (
                   <Route path="/core-hr/organization" element={<Organization />} />
                   <Route path="/core-hr/self-service" element={<SelfService />} />
                   <Route path="/core-hr/documents" element={<Documents />} />
+                  <Route path="/compliance" element={<ComplianceOverview />} />
+                  <Route path="/compliance/regulatory" element={<RegulatoryCompliance />} />
+                  <Route path="/compliance/committees" element={<CommitteeManagement />} />
+                  <Route path="/compliance/audit-trails" element={<AuditTrails />} />
                   <Route path="/payroll" element={<Payroll />} />
                   <Route path="/ai-features" element={<AIFeatures />} />
                   <Route path="/government" element={<Government />} />

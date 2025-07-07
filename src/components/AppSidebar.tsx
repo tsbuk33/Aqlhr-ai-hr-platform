@@ -44,6 +44,24 @@ const platformModules = [
     ]
   },
   { 
+    title: "Compliance & Governance", 
+    url: "/compliance", 
+    icon: FileText,
+    badge: "10",
+    subItems: [
+      { title: "Regulatory Compliance", url: "/compliance/regulatory" },
+      { title: "Committee Management", url: "/compliance/committees" },
+      { title: "Audit Trail Management", url: "/compliance/audit-trails" },
+      { title: "Risk Management", url: "/compliance/risk-management" },
+      { title: "Policy Management", url: "/compliance/policies" },
+      { title: "Governance Framework", url: "/compliance/governance" },
+      { title: "Compliance Reporting", url: "/compliance/reporting" },
+      { title: "Legal Document Tracking", url: "/compliance/legal-docs" },
+      { title: "Documentation Management", url: "/compliance/documentation" },
+      { title: "Evidence Management", url: "/compliance/evidence" },
+    ]
+  },
+  { 
     title: "Payroll & Financial", 
     url: "/payroll", 
     icon: Calendar,
