@@ -433,8 +433,7 @@ const translations = {
     'core_hr.automated_collection': 'الجمع والتحقق التلقائي',
     'core_hr.absher_integration_desc': 'التكامل مع أبشر مع الجوال',
     'core_hr.reviews_completed': 'المراجعات المكتملة',
-    'core_hr.360_evaluations': 'تقييمات 360 درجة والأهداف',
-    'core_hr.performance_evaluations': 'تقييمات الأداء 360 درجة',
+    'core_hr.goal_tracking': 'تتبع الأهداف والمعالم',
 
     // Documents
     'documents.management': 'إدارة الوثائق',
