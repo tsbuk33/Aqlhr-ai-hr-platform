@@ -481,6 +481,13 @@ const translations = {
     'core_hr.succession_coverage': 'تغطية التعاقب',
     'core_hr.risk_score': 'درجة المخاطر',
 
+    // Core HR Overview Page
+    'core_hr.core_hr_modules': 'وحدات الموارد البشرية الأساسية',
+    'core_hr.core_hr_modules_desc': 'إدارة عمليات الموارد البشرية بكفاءة',
+    'core_hr.organizational_structure_desc': 'مخطط تنظيمي ديناميكي مع تتبع السعودة',
+    'core_hr.employee_self_service_desc': 'بوابة شخصية مع وصول محمول',
+    'core_hr.document_management_desc': 'الجمع والتحقق الآلي',
+
     // Documents
     'documents.management': 'إدارة الوثائق',
     'documents.automated_collection': 'الجمع والتحقق التلقائي',
