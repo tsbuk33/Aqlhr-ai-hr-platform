@@ -1,3 +1,4 @@
+import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,20 @@ import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  DollarSign, 
+  Users, 
+  Shield, 
+  Calculator,
+  CreditCard,
+  Building,
+  TrendingUp,
+  FileText,
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  PieChart
+} from "lucide-react";
 
 interface GOSISummary {
   total_employees: number;
@@ -18,7 +33,7 @@ interface GOSISummary {
 }
 
 const Payroll = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [gosiSummary, setGOSISummary] = useState<GOSISummary | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -54,158 +69,297 @@ const Payroll = () => {
   const oldSystemPercentage = gosiSummary ? 
     (gosiSummary.old_system_count / gosiSummary.total_employees) * 100 : 0;
 
-  return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">{t('payroll.payroll_financial')}</h1>
-          <p className="text-muted-foreground">{t('payroll.wps_processing_gosi')}</p>
-        </div>
-        <Button onClick={fetchGOSISummary} variant="outline">
-          Refresh GOSI Data
-        </Button>
-      </div>
-      
-      {/* GOSI Royal Decree M/273 Summary */}
-      <div className="bg-gradient-subtle p-6 rounded-lg border">
-        <div className="flex items-center gap-2 mb-4">
-          <h2 className="text-xl font-semibold">GOSI Contribution System (Royal Decree M/273)</h2>
-          <Badge variant="secondary">Effective July 1, 2025</Badge>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">System Distribution</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">Old System</span>
-                  <Badge variant="outline">{gosiSummary?.old_system_count || 0}</Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm">New System</span>
-                  <Badge variant="default">{gosiSummary?.new_system_count || 0}</Badge>
-                </div>
-                <Progress value={oldSystemPercentage} className="h-2" />
-                <p className="text-xs text-muted-foreground">
-                  {oldSystemPercentage.toFixed(1)}% on old system
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+  const stats = [
+    {
+      title: language === 'ar' ? 'كشف الراتب لشهر ديسمبر 2024' : 'December 2024 Payroll',
+      value: 'SAR 456,000',
+      icon: DollarSign,
+      variant: "primary" as const,
+      trend: { value: "5%", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'الموظفين المعالجين' : 'Employees Processed',
+      value: gosiSummary?.total_employees || 2847,
+      icon: Users,
+      variant: "success" as const,
+      trend: { value: "12", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'مساهمات التأمينات الاجتماعية' : 'GOSI Contributions',
+      value: `SAR ${loading ? '45,600' : (gosiSummary?.total_contributions || 45600).toLocaleString()}`,
+      icon: Shield,
+      variant: "accent" as const,
+      trend: { value: "2%", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'متوسط الراتب' : 'Average Salary',
+      value: 'SAR 18,500',
+      icon: Calculator,
+      variant: "warning" as const
+    }
+  ];
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Employee Contributions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-brand-primary">
-                SAR {loading ? '---' : (gosiSummary?.total_employee_contributions || 0).toLocaleString()}
-              </div>
-              <p className="text-xs text-muted-foreground">Monthly deductions</p>
-            </CardContent>
-          </Card>
+  const quickActions = [
+    {
+      title: language === 'ar' ? 'معالجة الرواتب WPS' : 'WPS Payroll Processing',
+      description: language === 'ar' ? 'حسابات الرواتب الآلية وإنشاء ملفات البنك' : 'Automated salary calculations and bank file generation',
+      icon: CreditCard,
+      color: "bg-blue-500",
+      onClick: () => console.log('Navigate to WPS processing')
+    },
+    {
+      title: language === 'ar' ? 'مزايا نهاية الخدمة' : 'End of Service Benefits',
+      description: language === 'ar' ? 'حسابات EOSB وإدارة المسؤوليات' : 'EOSB calculations and liability management',
+      icon: Calculator,
+      color: "bg-green-500",
+      onClick: () => console.log('Navigate to EOSB')
+    },
+    {
+      title: language === 'ar' ? 'التكامل مع البنوك' : 'Bank Integration',
+      description: language === 'ar' ? 'تكامل مع الأنظمة المصرفية' : 'Integration with banking systems',
+      icon: Building,
+      color: "bg-purple-500",
+      onClick: () => console.log('Navigate to bank integration')
+    },
+    {
+      title: language === 'ar' ? 'الامتثال الضريبي' : 'Tax Compliance',
+      description: language === 'ar' ? 'إدارة الضرائب والامتثال' : 'Tax management and compliance',
+      icon: FileText,
+      color: "bg-orange-500",
+      onClick: () => console.log('Navigate to tax compliance')
+    }
+  ];
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Employer Contributions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-brand-success">
-                SAR {loading ? '---' : (gosiSummary?.total_employer_contributions || 0).toLocaleString()}
-              </div>
-              <p className="text-xs text-muted-foreground">Company obligations</p>
-            </CardContent>
-          </Card>
+  const documents = [
+    {
+      name: language === 'ar' ? 'كشف_رواتب_ديسمبر_2024.pdf' : 'payroll_summary_december_2024.pdf',
+      type: language === 'ar' ? 'كشف الرواتب' : 'Payroll Summary',
+      date: '2024-12-30',
+      size: '4.2 MB'
+    },
+    {
+      name: language === 'ar' ? 'تقرير_التأمينات_الاجتماعية.xlsx' : 'gosi_contributions_report.xlsx',
+      type: language === 'ar' ? 'تقرير التأمينات' : 'GOSI Report',
+      date: '2024-12-30',
+      size: '2.8 MB'
+    },
+    {
+      name: language === 'ar' ? 'ملف_البنك_WPS.txt' : 'wps_bank_file.txt',
+      type: language === 'ar' ? 'ملف البنك' : 'Bank File',
+      date: '2024-12-30',
+      size: '125 KB'
+    }
+  ];
 
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm">Total GOSI</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-brand-accent">
-                SAR {loading ? '---' : (gosiSummary?.total_contributions || 0).toLocaleString()}
-              </div>
-              <p className="text-xs text-muted-foreground">Combined monthly</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Traditional Payroll Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>December 2024 Payroll</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-primary">SAR 456,000</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Employees Processed</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-success">{gosiSummary?.total_employees || 2847}</p>
-            <div className="flex gap-2 mt-2">
-              <Badge variant="outline">
-                {gosiSummary?.saudi_count || 0} Saudi
-              </Badge>
+  const tabs = [
+    {
+      id: 'overview',
+      label: language === 'ar' ? 'نظرة عامة' : 'Overview',
+      content: (
+        <div className="space-y-6">
+          {/* GOSI Royal Decree M/273 Summary */}
+          <div className="bg-gradient-subtle p-6 rounded-lg border">
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-xl font-semibold">
+                {language === 'ar' ? 'نظام مساهمات التأمينات الاجتماعية (المرسوم الملكي م/273)' : 'GOSI Contribution System (Royal Decree M/273)'}
+              </h2>
               <Badge variant="secondary">
-                {gosiSummary?.expat_count || 0} Expat
+                {language === 'ar' ? 'ساري المفعول 1 يوليو 2025' : 'Effective July 1, 2025'}
               </Badge>
             </div>
-          </CardContent>
-        </Card>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">
+                    {language === 'ar' ? 'توزيع النظام' : 'System Distribution'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">{language === 'ar' ? 'النظام القديم' : 'Old System'}</span>
+                      <Badge variant="outline">{gosiSummary?.old_system_count || 0}</Badge>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">{language === 'ar' ? 'النظام الجديد' : 'New System'}</span>
+                      <Badge variant="default">{gosiSummary?.new_system_count || 0}</Badge>
+                    </div>
+                    <Progress value={oldSystemPercentage} className="h-2" />
+                    <p className="text-xs text-muted-foreground">
+                      {oldSystemPercentage.toFixed(1)}% {language === 'ar' ? 'على النظام القديم' : 'on old system'}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>GOSI Contributions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-accent">
-              SAR {loading ? '45,600' : (gosiSummary?.total_contributions || 45600).toLocaleString()}
-            </p>
-            <p className="text-sm text-muted-foreground">Royal Decree M/273 compliant</p>
-          </CardContent>
-        </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">
+                    {language === 'ar' ? 'مساهمات الموظفين' : 'Employee Contributions'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-primary">
+                    SAR {loading ? '---' : (gosiSummary?.total_employee_contributions || 0).toLocaleString()}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {language === 'ar' ? 'الاستقطاعات الشهرية' : 'Monthly deductions'}
+                  </p>
+                </CardContent>
+              </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Average Salary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-primary">SAR 18,500</p>
-          </CardContent>
-        </Card>
-      </div>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">
+                    {language === 'ar' ? 'مساهمات صاحب العمل' : 'Employer Contributions'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-success">
+                    SAR {loading ? '---' : (gosiSummary?.total_employer_contributions || 0).toLocaleString()}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {language === 'ar' ? 'التزامات الشركة' : 'Company obligations'}
+                  </p>
+                </CardContent>
+              </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>WPS Payroll Processing</CardTitle>
-            <CardDescription>Automated salary calculations and bank file generation</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">100% compliance status</p>
-          </CardContent>
-        </Card>
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-sm">
+                    {language === 'ar' ? 'إجمالي التأمينات' : 'Total GOSI'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-accent">
+                    SAR {loading ? '---' : (gosiSummary?.total_contributions || 0).toLocaleString()}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {language === 'ar' ? 'المجموع الشهري' : 'Combined monthly'}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>End of Service Benefits</CardTitle>
-            <CardDescription>EOSB calculations and liability management</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">Total liability: SAR 2,340,000</p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <CreditCard className="h-5 w-5 text-primary" />
+                  {language === 'ar' ? 'معالجة الرواتب WPS' : 'WPS Payroll Processing'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'حسابات الرواتب الآلية وإنشاء ملفات البنك' : 'Automated salary calculations and bank file generation'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '100% حالة الامتثال' : '100% compliance status'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="h-5 w-5 text-success" />
+                  {language === 'ar' ? 'مزايا نهاية الخدمة' : 'End of Service Benefits'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'حسابات EOSB وإدارة المسؤوليات' : 'EOSB calculations and liability management'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? 'إجمالي المسؤولية: ريال سعودي 2,340,000' : 'Total liability: SAR 2,340,000'}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'processing',
+      label: language === 'ar' ? 'المعالجة' : 'Processing',
+      content: (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{language === 'ar' ? 'حالة معالجة الرواتب' : 'Payroll Processing Status'}</CardTitle>
+              <CardDescription>
+                {language === 'ar' ? 'مراقبة مباشرة لحالة معالجة الرواتب' : 'Real-time monitoring of payroll processing status'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-success/10 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-success" />
+                    <span className="font-medium">
+                      {language === 'ar' ? 'حساب الرواتب' : 'Salary Calculation'}
+                    </span>
+                  </div>
+                  <Badge className="bg-success text-white">
+                    {language === 'ar' ? 'مكتمل' : 'Complete'}
+                  </Badge>
+                </div>
+                
+                <div className="flex justify-between items-center p-3 bg-success/10 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-success" />
+                    <span className="font-medium">
+                      {language === 'ar' ? 'إنشاء ملف البنك' : 'Bank File Generation'}
+                    </span>
+                  </div>
+                  <Badge className="bg-success text-white">
+                    {language === 'ar' ? 'مكتمل' : 'Complete'}
+                  </Badge>
+                </div>
+                
+                <div className="flex justify-between items-center p-3 bg-warning/10 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <Clock className="h-5 w-5 text-warning" />
+                    <span className="font-medium">
+                      {language === 'ar' ? 'تقديم التأمينات الاجتماعية' : 'GOSI Submission'}
+                    </span>
+                  </div>
+                  <Badge className="bg-warning text-white">
+                    {language === 'ar' ? 'قيد المعالجة' : 'Processing'}
+                  </Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )
+    }
+  ];
+
+  const headerActions = (
+    <Button onClick={fetchGOSISummary} variant="outline">
+      <TrendingUp className="h-4 w-4" />
+      <span className="ml-2">
+        {language === 'ar' ? 'تحديث بيانات التأمينات' : 'Refresh GOSI Data'}
+      </span>
+    </Button>
+  );
+
+  return (
+    <EnhancedPageLayout
+      title={language === 'ar' ? 'الرواتب والشؤون المالية' : 'Payroll & Financial'}
+      description={language === 'ar' ? 'معالجة WPS والتأمينات الاجتماعية' : 'WPS processing and GOSI integration'}
+      showUserInfo={true}
+      showQuickActions={true}
+      showTabs={true}
+      stats={stats}
+      quickActions={quickActions}
+      documents={documents}
+      tabs={tabs}
+      headerActions={headerActions}
+    />
   );
 };
 

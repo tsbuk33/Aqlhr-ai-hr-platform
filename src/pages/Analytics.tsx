@@ -1,115 +1,278 @@
+import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  BarChart, 
+  Activity, 
+  TrendingUp, 
+  DollarSign,
+  Database,
+  PieChart,
+  LineChart,
+  Target,
+  Users,
+  FileText,
+  Download,
+  Upload,
+  Filter
+} from "lucide-react";
 
 const Analytics = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+
+  const stats = [
+    {
+      title: language === 'ar' ? 'إجمالي التقارير' : 'Total Reports',
+      value: 247,
+      icon: FileText,
+      variant: "primary" as const,
+      trend: { value: "12%", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'لوحات القيادة النشطة' : 'Active Dashboards',
+      value: 18,
+      icon: Activity,
+      variant: "success" as const,
+      trend: { value: "5%", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'دقة البيانات' : 'Data Accuracy',
+      value: '99.2%',
+      icon: Target,
+      variant: "accent" as const,
+      trend: { value: "0.5%", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'تتبع العائد على الاستثمار' : 'ROI Tracking',
+      value: '340%',
+      icon: TrendingUp,
+      variant: "warning" as const,
+      trend: { value: "45%", isPositive: true }
+    }
+  ];
+
+  const quickActions = [
+    {
+      title: language === 'ar' ? 'تحليل القوى العاملة' : 'Workforce Analytics',
+      description: language === 'ar' ? 'مقاييس شاملة للموارد البشرية' : 'Comprehensive HR metrics',
+      icon: Users,
+      color: "bg-blue-500",
+      onClick: () => console.log('Navigate to workforce analytics')
+    },
+    {
+      title: language === 'ar' ? 'النمذجة التنبؤية' : 'Predictive Modeling',
+      description: language === 'ar' ? 'التنبؤ بالدوران والأداء' : 'Turnover and performance forecasting',
+      icon: TrendingUp,
+      color: "bg-green-500",
+      onClick: () => console.log('Navigate to predictive modeling')
+    },
+    {
+      title: language === 'ar' ? 'لوحات القيادة المباشرة' : 'Real-time Dashboards',
+      description: language === 'ar' ? 'مراقبة KPI المباشرة' : 'Live KPI monitoring',
+      icon: BarChart,
+      color: "bg-purple-500",
+      onClick: () => console.log('Navigate to dashboards')
+    },
+    {
+      title: language === 'ar' ? 'تحليل التكاليف' : 'Cost Analytics',
+      description: language === 'ar' ? 'تكلفة التوظيف والكفاءة' : 'Cost per hire and efficiency',
+      icon: DollarSign,
+      color: "bg-orange-500",
+      onClick: () => console.log('Navigate to cost analytics')
+    }
+  ];
+
+  const documents = [
+    {
+      name: language === 'ar' ? 'تقرير_تحليل_القوى_العاملة_ديسمبر_2024.pdf' : 'workforce_analytics_report_december_2024.pdf',
+      type: language === 'ar' ? 'تقرير تحليلي' : 'Analytics Report',
+      date: '2024-12-30',
+      size: '3.2 MB'
+    },
+    {
+      name: language === 'ar' ? 'نموذج_التنبؤ_بالأداء.xlsx' : 'performance_prediction_model.xlsx',
+      type: language === 'ar' ? 'نموذج بيانات' : 'Data Model',
+      date: '2024-12-28',
+      size: '1.8 MB'
+    },
+    {
+      name: language === 'ar' ? 'لوحة_قيادة_الامتثال.pdf' : 'compliance_dashboard_summary.pdf',
+      type: language === 'ar' ? 'ملخص لوحة القيادة' : 'Dashboard Summary',
+      date: '2024-12-25',
+      size: '2.1 MB'
+    }
+  ];
+
+  const tabs = [
+    {
+      id: 'overview',
+      label: language === 'ar' ? 'نظرة عامة' : 'Overview',
+      content: (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  {language === 'ar' ? 'تحليل القوى العاملة' : 'Workforce Analytics'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مقاييس شاملة للموارد البشرية' : 'Comprehensive HR metrics'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '247 تقرير مخصص' : '247 custom reports'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-success" />
+                  {language === 'ar' ? 'النمذجة التنبؤية' : 'Predictive Modeling'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'التنبؤ بالدوران والأداء' : 'Turnover and performance forecasting'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '94.7% دقة' : '94.7% accuracy'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart className="h-5 w-5 text-accent" />
+                  {language === 'ar' ? 'لوحات القيادة المباشرة' : 'Real-time Dashboards'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مراقبة KPI المباشرة' : 'Live KPI monitoring'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '18 لوحة قيادة نشطة' : '18 active dashboards'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <DollarSign className="h-5 w-5 text-warning" />
+                  {language === 'ar' ? 'تحليل التكاليف' : 'Cost Analytics'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'تكلفة التوظيف والكفاءة' : 'Cost per hire and efficiency'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? 'ريال سعودي 12,500 تكلفة التوظيف' : 'SAR 12,500 cost per hire'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-secondary" />
+                  {language === 'ar' ? 'تقارير الامتثال' : 'Compliance Reporting'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'تتبع الامتثال التنظيمي' : 'Regulatory compliance tracking'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '96.8% نقاط الامتثال' : '96.8% compliance score'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <PieChart className="h-5 w-5 text-primary" />
+                  {language === 'ar' ? 'تحليل الأداء' : 'Performance Analytics'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مقاييس فردية وجماعية' : 'Individual and team metrics'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'ar' ? '2,456 تقييم' : '2,456 evaluations'}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'reports',
+      label: language === 'ar' ? 'التقارير' : 'Reports',
+      content: (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{language === 'ar' ? 'مولد التقارير' : 'Report Generator'}</CardTitle>
+              <CardDescription>
+                {language === 'ar' ? 'إنشاء تقارير مخصصة للتحليلات' : 'Generate custom analytics reports'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="p-4 border rounded-lg text-center hover:bg-muted/50 cursor-pointer">
+                  <Users className="h-8 w-8 mx-auto mb-2 text-primary" />
+                  <p className="text-sm font-medium">
+                    {language === 'ar' ? 'تقرير الموظفين' : 'Employee Report'}
+                  </p>
+                </div>
+                <div className="p-4 border rounded-lg text-center hover:bg-muted/50 cursor-pointer">
+                  <TrendingUp className="h-8 w-8 mx-auto mb-2 text-success" />
+                  <p className="text-sm font-medium">
+                    {language === 'ar' ? 'تقرير الأداء' : 'Performance Report'}
+                  </p>
+                </div>
+                <div className="p-4 border rounded-lg text-center hover:bg-muted/50 cursor-pointer">
+                  <DollarSign className="h-8 w-8 mx-auto mb-2 text-warning" />
+                  <p className="text-sm font-medium">
+                    {language === 'ar' ? 'تقرير التكاليف' : 'Cost Report'}
+                  </p>
+                </div>
+                <div className="p-4 border rounded-lg text-center hover:bg-muted/50 cursor-pointer">
+                  <FileText className="h-8 w-8 mx-auto mb-2 text-accent" />
+                  <p className="text-sm font-medium">
+                    {language === 'ar' ? 'تقرير مخصص' : 'Custom Report'}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )
+    }
+  ];
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('analytics.advanced_analytics')}</h1>
-        <p className="text-muted-foreground">{t('analytics.data_driven_insights')}</p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Reports</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-primary">247</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Active Dashboards</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-success">18</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Data Accuracy</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-accent">99.2%</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>ROI Tracking</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold text-primary">340%</p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Workforce Analytics</CardTitle>
-            <CardDescription>Comprehensive HR metrics</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">247 custom reports</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Predictive Modeling</CardTitle>
-            <CardDescription>Turnover and performance forecasting</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">94.7% accuracy</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Real-time Dashboards</CardTitle>
-            <CardDescription>Live KPI monitoring</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">18 active dashboards</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Cost Analytics</CardTitle>
-            <CardDescription>Cost per hire and efficiency</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">SAR 12,500 cost per hire</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Compliance Reporting</CardTitle>
-            <CardDescription>Regulatory compliance tracking</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">96.8% compliance score</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Performance Analytics</CardTitle>
-            <CardDescription>Individual and team metrics</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">2,456 evaluations</p>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    <EnhancedPageLayout
+      title={language === 'ar' ? 'التحليلات المتقدمة' : 'Advanced Analytics'}
+      description={language === 'ar' ? 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية' : 'Data-driven insights for strategic decision making'}
+      showUserInfo={true}
+      showQuickActions={true}
+      showTabs={true}
+      stats={stats}
+      quickActions={quickActions}
+      documents={documents}
+      tabs={tabs}
+    />
   );
 };
 
