@@ -71,31 +71,31 @@ const Payroll = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'كشف الراتب لشهر ديسمبر 2024' : 'December 2024 Payroll',
-      value: 'SAR 456,000',
+      title: language === 'ar' ? 'إجمالي مساهمات GOSI' : 'Total GOSI Contributions',
+      value: `SAR ${loading ? '455,624' : (gosiSummary?.total_contributions || 455624).toLocaleString()}`,
       icon: DollarSign,
       variant: "primary" as const,
-      trend: { value: "5%", isPositive: true }
+      trend: { value: "Progressive rates applied", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'الموظفين المعالجين' : 'Employees Processed',
-      value: gosiSummary?.total_employees || 2847,
-      icon: Users,
-      variant: "success" as const,
-      trend: { value: "12", isPositive: true }
+      title: language === 'ar' ? 'حالة WPS' : 'WPS Compliance',
+      value: language === 'ar' ? '100% متوافق' : '100% Compliant',
+      icon: CheckCircle,
+      variant: "success" as const
     },
     {
-      title: language === 'ar' ? 'مساهمات التأمينات الاجتماعية' : 'GOSI Contributions',
-      value: `SAR ${loading ? '45,600' : (gosiSummary?.total_contributions || 45600).toLocaleString()}`,
+      title: language === 'ar' ? 'تكامل البنوك السعودية' : 'Saudi Bank Integration',
+      value: language === 'ar' ? '5 بنوك' : '5 Banks',
       icon: Shield,
       variant: "accent" as const,
-      trend: { value: "2%", isPositive: true }
+      trend: { value: "SARIE connected", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'متوسط الراتب' : 'Average Salary',
-      value: 'SAR 18,500',
-      icon: Calculator,
-      variant: "warning" as const
+      title: language === 'ar' ? 'امتثال الزكاة والضريبة' : 'ZATCA Compliance',
+      value: '98.5%',
+      icon: FileText,
+      variant: "warning" as const,
+      trend: { value: "VAT ready", isPositive: true }
     }
   ];
 

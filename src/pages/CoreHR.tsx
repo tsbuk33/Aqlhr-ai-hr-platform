@@ -21,32 +21,32 @@ const CoreHR = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'إجمالي الموظفين' : 'Total Employees',
-      value: 2847,
+      title: language === 'ar' ? 'الموظفون السعوديون' : 'Saudi Employees',
+      value: 1913,
       icon: Users,
       variant: "primary" as const,
-      trend: { value: "8%", isPositive: true }
+      trend: { value: "45 this quarter", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'معدل السعودة' : 'Saudization Rate',
-      value: '67%',
+      title: language === 'ar' ? 'حالة نطاقات' : 'Nitaqat Status',
+      value: language === 'ar' ? 'أخضر' : 'Green',
       icon: Shield,
       variant: "success" as const,
-      trend: { value: "3%", isPositive: true }
+      trend: { value: "maintained", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'معدل الحضور' : 'Attendance Rate',
-      value: '98.2%',
+      title: language === 'ar' ? 'عقود قيوى نشطة' : 'Active Qiwa Contracts',
+      value: 2801,
       icon: Clock,
       variant: "accent" as const,
-      trend: { value: "0.5%", isPositive: true }
+      trend: { value: "23 pending", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'المستندات المعالجة' : 'Documents Processed',
-      value: 15678,
+      title: language === 'ar' ? 'امتثال قانون العمل' : 'Labor Law Compliance',
+      value: '96.8%',
       icon: FileText,
       variant: "warning" as const,
-      trend: { value: "12%", isPositive: true }
+      trend: { value: "1.2%", isPositive: true }
     }
   ];
 

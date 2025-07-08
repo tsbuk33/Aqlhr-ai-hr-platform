@@ -20,31 +20,31 @@ const TimeAttendance = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'حضور اليوم' : "Today's Attendance",
-      value: '98.2%',
+      title: language === 'ar' ? 'ساعات العمل السعودية' : 'Saudi Working Hours',
+      value: '8h/day',
       icon: CheckCircle,
       variant: "success" as const,
-      trend: { value: "0.3%", isPositive: true }
+      trend: { value: "Labor law compliant", isPositive: true }
     },
     {
       title: language === 'ar' ? 'تكامل أبشر' : 'Absher Integration',
-      value: language === 'ar' ? 'نشط' : 'Active',
+      value: language === 'ar' ? 'نشط ومتزامن' : 'Active & Synced',
       icon: Shield,
       variant: "primary" as const
     },
     {
-      title: language === 'ar' ? 'تسجيل الدخول عبر الهاتف' : 'Mobile Check-ins',
-      value: 2456,
+      title: language === 'ar' ? 'الإجازات الرسمية السعودية' : 'Saudi National Holidays',
+      value: language === 'ar' ? '13 إجازة' : '13 Holidays',
       icon: Smartphone,
       variant: "accent" as const,
-      trend: { value: "156", isPositive: true }
+      trend: { value: "Auto-applied", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'ساعات إضافية' : 'Overtime Hours',
-      value: 234,
+      title: language === 'ar' ? 'امتثال قانون العمل' : 'Labor Law Compliance',
+      value: '100%',
       icon: Timer,
       variant: "warning" as const,
-      trend: { value: "12", isPositive: false }
+      trend: { value: "Overtime rules applied", isPositive: true }
     }
   ];
 

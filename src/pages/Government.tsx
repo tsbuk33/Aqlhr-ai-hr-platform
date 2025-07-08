@@ -21,31 +21,32 @@ const Government = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'التكاملات النشطة' : 'Active Integrations',
+      title: language === 'ar' ? 'منصات حكومية متصلة' : 'Gov Platforms Connected',
       value: 8,
-      icon: Globe,
+      icon: Activity,
       variant: "primary" as const,
-      trend: { value: "2", isPositive: true }
+      trend: { value: "ZATCA, Qiwa, GOSI, Absher", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'حالة الصحة الإجمالية' : 'Overall Health',
-      value: '98.7%',
+      title: language === 'ar' ? 'امتثال وزارة العمل' : 'MOL Compliance',
+      value: '100%',
       icon: CheckCircle,
       variant: "success" as const,
-      trend: { value: "0.3%", isPositive: true }
+      trend: { value: "All requirements met", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'مستوى الامتثال' : 'Compliance Level',
-      value: '100%',
-      icon: Shield,
-      variant: "accent" as const
-    },
-    {
-      title: language === 'ar' ? 'المعاملات الشهرية' : 'Monthly Transactions',
-      value: 12456,
+      title: language === 'ar' ? 'تحديثات تلقائية' : 'Auto Updates',
+      value: language === 'ar' ? '24/7 نشط' : '24/7 Active',
       icon: Activity,
+      variant: "accent" as const,
+      trend: { value: "Real-time sync", isPositive: true }
+    },
+    {
+      title: language === 'ar' ? 'تقييم الامتثال الشامل' : 'Overall Compliance Score',
+      value: '98.9%',
+      icon: Shield,
       variant: "warning" as const,
-      trend: { value: "8%", isPositive: true }
+      trend: { value: "Above target", isPositive: true }
     }
   ];
 

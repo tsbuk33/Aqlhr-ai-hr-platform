@@ -23,32 +23,32 @@ const Strategic = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'العدد الحالي للموظفين' : 'Current Headcount',
-      value: number(2847),
+      title: language === 'ar' ? 'هدف السعودة 2030' : 'Saudization Target 2030',
+      value: `${percentage(75)} ${language === 'ar' ? 'مستهدف' : 'target'}`,
       icon: Users,
       variant: "primary" as const,
-      trend: { value: "8%", isPositive: true }
+      trend: { value: "7.8% to go", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'النمو المخطط' : 'Planned Growth',
-      value: `+${percentage(15)}`,
+      title: language === 'ar' ? 'تطوير المواهب السعودية' : 'Saudi Talent Development',
+      value: number(456),
       icon: TrendingUp,
       variant: "success" as const,
-      trend: { value: "3%", isPositive: true }
+      trend: { value: "23 this month", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'فجوات المهارات' : 'Skills Gaps',
-      value: number(89),
+      title: language === 'ar' ? 'برامج التوطين' : 'Localization Programs',
+      value: number(12),
       icon: Target,
       variant: "warning" as const,
-      trend: { value: "12", isPositive: false }
+      trend: { value: "3 new", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'تغطية الخلافة' : 'Succession Coverage',
-      value: percentage(57),
+      title: language === 'ar' ? 'خطط الإحلال السعودي' : 'Saudi Succession Plans',
+      value: percentage(78),
       icon: Award,
       variant: "accent" as const,
-      trend: { value: "5%", isPositive: true }
+      trend: { value: "8%", isPositive: true }
     }
   ];
 

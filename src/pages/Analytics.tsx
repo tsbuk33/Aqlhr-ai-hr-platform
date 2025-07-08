@@ -22,63 +22,63 @@ const Analytics = () => {
 
   const stats = [
     {
-      title: language === 'ar' ? 'إجمالي التقارير' : 'Total Reports',
-      value: 247,
+      title: language === 'ar' ? 'معدل السعودة' : 'Saudization Rate',
+      value: '67.2%',
       icon: FileText,
       variant: "primary" as const,
-      trend: { value: "12%", isPositive: true }
+      trend: { value: "2.1%", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'لوحات القيادة النشطة' : 'Active Dashboards',
-      value: 18,
+      title: language === 'ar' ? 'امتثال نطاقات' : 'Nitaqat Compliance',
+      value: language === 'ar' ? 'أخضر' : 'Green',
       icon: Activity,
       variant: "success" as const,
-      trend: { value: "5%", isPositive: true }
+      trend: { value: "stable", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'دقة البيانات' : 'Data Accuracy',
-      value: '99.2%',
+      title: language === 'ar' ? 'دقة GOSI' : 'GOSI Accuracy',
+      value: '99.8%',
       icon: Target,
       variant: "accent" as const,
-      trend: { value: "0.5%", isPositive: true }
+      trend: { value: "0.2%", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'تتبع العائد على الاستثمار' : 'ROI Tracking',
-      value: '340%',
+      title: language === 'ar' ? 'امتثال WPS' : 'WPS Compliance',
+      value: '100%',
       icon: TrendingUp,
       variant: "warning" as const,
-      trend: { value: "45%", isPositive: true }
+      trend: { value: "maintained", isPositive: true }
     }
   ];
 
   const quickActions = [
     {
-      title: language === 'ar' ? 'تحليل القوى العاملة' : 'Workforce Analytics',
-      description: language === 'ar' ? 'مقاييس شاملة للموارد البشرية' : 'Comprehensive HR metrics',
+      title: language === 'ar' ? 'تحليل السعودة' : 'Saudization Analytics',
+      description: language === 'ar' ? 'تتبع ومراقبة معدلات السعودة' : 'Track and monitor Saudization rates',
       icon: Users,
       color: "bg-blue-500",
-      onClick: () => console.log('Navigate to workforce analytics')
+      onClick: () => console.log('Navigate to saudization analytics')
     },
     {
-      title: language === 'ar' ? 'النمذجة التنبؤية' : 'Predictive Modeling',
-      description: language === 'ar' ? 'التنبؤ بالدوران والأداء' : 'Turnover and performance forecasting',
+      title: language === 'ar' ? 'تحليل GOSI' : 'GOSI Analytics',
+      description: language === 'ar' ? 'تحليل مساهمات التأمينات الاجتماعية' : 'Social insurance contribution analysis',
       icon: TrendingUp,
       color: "bg-green-500",
-      onClick: () => console.log('Navigate to predictive modeling')
+      onClick: () => console.log('Navigate to gosi analytics')
     },
     {
-      title: language === 'ar' ? 'لوحات القيادة المباشرة' : 'Real-time Dashboards',
-      description: language === 'ar' ? 'مراقبة KPI المباشرة' : 'Live KPI monitoring',
+      title: language === 'ar' ? 'تقارير وزارة العمل' : 'MOL Reports',
+      description: language === 'ar' ? 'تقارير الامتثال لوزارة العمل' : 'Ministry of Labor compliance reports',
       icon: BarChart,
       color: "bg-purple-500",
-      onClick: () => console.log('Navigate to dashboards')
+      onClick: () => console.log('Navigate to mol reports')
     },
     {
-      title: language === 'ar' ? 'تحليل التكاليف' : 'Cost Analytics',
-      description: language === 'ar' ? 'تكلفة التوظيف والكفاءة' : 'Cost per hire and efficiency',
+      title: language === 'ar' ? 'تحليل WPS' : 'WPS Analytics',
+      description: language === 'ar' ? 'تحليل نظام حماية الأجور' : 'Wage Protection System analysis',
       icon: DollarSign,
       color: "bg-orange-500",
-      onClick: () => console.log('Navigate to cost analytics')
+      onClick: () => console.log('Navigate to wps analytics')
     }
   ];
 
