@@ -25,9 +25,9 @@ const SmartRecommendations = () => {
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl flex items-center justify-center gap-2">
             <Brain className="h-6 w-6 text-brand-primary" />
-            How SanadHR Creates Smart Recommendations
+            {t('ai.how_sanadhr_creates')}
           </CardTitle>
-          <CardDescription>Advanced machine learning analyzes multiple data points for optimal talent decisions</CardDescription>
+          <CardDescription>{t('ai.advanced_ml_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
