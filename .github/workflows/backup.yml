@@ -1,0 +1,98 @@
+name: 🔄 SanadHR Nightly Backup
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 02:00 UTC daily
+  workflow_dispatch:       # Allow manual triggering
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    env:
+      TIMESTAMP: ${{ github.run_number }}-$(date +%F-%H%M)
+      
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for complete backup
+          
+      - name: 📦 Create Repository Archive
+        run: |
+          TIMESTAMP=$(date +%F-%H%M)
+          BACKUP_NAME="sanadhr-backup-$TIMESTAMP"
+          
+          # Create comprehensive archive
+          git archive --format=zip --prefix=$BACKUP_NAME/ -o $BACKUP_NAME.zip HEAD
+          
+          # Generate checksums
+          sha256sum $BACKUP_NAME.zip > checksums-$TIMESTAMP.txt
+          
+          # Create backup metadata
+          cat > backup-metadata-$TIMESTAMP.json << EOF
+          {
+            "timestamp": "$(date -Iseconds)",
+            "commit_sha": "${{ github.sha }}",
+            "commit_message": "$(git log -1 --pretty=%B)",
+            "branch": "${{ github.ref_name }}",
+            "total_commits": $(git rev-list --count HEAD),
+            "backup_size": "$(stat -c%s $BACKUP_NAME.zip) bytes",
+            "checksum": "$(cat checksums-$TIMESTAMP.txt)"
+          }
+          EOF
+          
+          # Display backup info
+          echo "📊 Backup created: $BACKUP_NAME.zip"
+          echo "📏 Size: $(du -h $BACKUP_NAME.zip | cut -f1)"
+          echo "🔑 SHA256: $(cat checksums-$TIMESTAMP.txt)"
+          
+      - name: ☁️ Upload to AWS S3
+        if: ${{ secrets.AWS_ACCESS_KEY_ID && secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          TIMESTAMP=$(date +%F-%H%M)
+          pip install awscli
+          
+          # Upload backup files
+          aws s3 cp sanadhr-backup-$TIMESTAMP.zip s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
+          aws s3 cp backup-metadata-$TIMESTAMP.json s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
+          aws s3 cp checksums-$TIMESTAMP.txt s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
+          
+          echo "✅ Backup uploaded to S3"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+      - name: 💾 Store as GitHub Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sanadhr-backup-${{ github.run_number }}
+          path: |
+            sanadhr-backup-*.zip
+            backup-metadata-*.json
+            checksums-*.txt
+          retention-days: 30
+          
+      - name: 🧹 Cleanup Old S3 Backups (Optional)
+        if: ${{ secrets.AWS_ACCESS_KEY_ID && secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          # Keep only last 30 days of backups
+          CUTOFF_DATE=$(date -d '30 days ago' +%Y-%m-%d)
+          echo "🗑️ Cleaning up backups older than $CUTOFF_DATE"
+          # Note: Implement specific cleanup logic based on your S3 structure
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+
+  notify:
+    needs: backup
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: 📧 Backup Status Notification
+        run: |
+          if [ "${{ needs.backup.result }}" == "success" ]; then
+            echo "✅ SanadHR backup completed successfully at $(date)"
+          else
+            echo "❌ SanadHR backup failed at $(date)"
+          fi
