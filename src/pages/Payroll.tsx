@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface GOSISummary {
   total_employees: number;
@@ -17,6 +18,7 @@ interface GOSISummary {
 }
 
 const Payroll = () => {
+  const { t } = useLanguage();
   const [gosiSummary, setGOSISummary] = useState<GOSISummary | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -56,8 +58,8 @@ const Payroll = () => {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Payroll & Financial</h1>
-          <p className="text-muted-foreground">WPS payroll processing and GOSI management (Royal Decree M/273)</p>
+          <h1 className="text-3xl font-bold text-foreground">{t('payroll.payroll_financial')}</h1>
+          <p className="text-muted-foreground">{t('payroll.wps_processing_gosi')}</p>
         </div>
         <Button onClick={fetchGOSISummary} variant="outline">
           Refresh GOSI Data
