@@ -1,11 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Consulting = () => {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Premium Consulting Tools</h1>
-        <p className="text-muted-foreground">Executive-level HR consulting and transformation</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('consulting.premium_consulting')}</h1>
+        <p className="text-muted-foreground">{t('consulting.executive_hr_consulting')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

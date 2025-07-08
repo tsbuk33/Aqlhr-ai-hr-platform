@@ -4,17 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Brain, Target, TrendingUp, Users, Star, Award, Lightbulb, BarChart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SmartRecommendations = () => {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          Smart Recommendations Engine
+          {t('ai.smart_recommendations')}
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          AI-powered talent intelligence that identifies the perfect matches for transfers, promotions, and role assignments
+          {t('ai.smart_recommendations_desc')}
         </p>
       </div>
 

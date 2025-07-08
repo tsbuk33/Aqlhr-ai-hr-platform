@@ -1,11 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Government = () => {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Government Integrations</h1>
-        <p className="text-muted-foreground">Seamless integration with Saudi government platforms</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('government.government_integrations')}</h1>
+        <p className="text-muted-foreground">{t('government.seamless_integration')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

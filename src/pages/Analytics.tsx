@@ -1,11 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Analytics = () => {
+  const { t } = useLanguage();
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Advanced Analytics</h1>
-        <p className="text-muted-foreground">Data-driven insights and workforce analytics</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('analytics.advanced_analytics')}</h1>
+        <p className="text-muted-foreground">{t('analytics.data_driven_insights')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
