@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useLocalization } from "@/hooks/useLocalization";
 
 interface MetricCardProps {
   title: string;
@@ -8,11 +9,13 @@ interface MetricCardProps {
   description?: string;
   icon: ReactNode;
   trend?: {
-    value: string;
+    value: string | number;
     isPositive: boolean;
   };
   variant?: "default" | "primary" | "secondary" | "accent" | "success" | "warning" | "danger";
   className?: string;
+  type?: 'currency' | 'number' | 'percentage' | 'days' | 'hours' | 'text';
+  currency?: 'SAR' | 'USD';
 }
 
 const variantStyles = {
@@ -32,9 +35,44 @@ export function MetricCard({
   icon, 
   trend, 
   variant = "default",
-  className 
+  className,
+  type = 'text',
+  currency = 'SAR'
 }: MetricCardProps) {
   const isColored = variant !== "default";
+  const { currency: formatCurrency, number, percentage, days, hours } = useLocalization();
+  
+  const formatValue = (val: string | number): string => {
+    if (typeof val === 'string') return val;
+    
+    switch (type) {
+      case 'currency':
+        return formatCurrency(val, currency);
+      case 'number':
+        return number(val);
+      case 'percentage':
+        return percentage(val);
+      case 'days':
+        return days(val).toString();
+      case 'hours':
+        return hours(val).toString();
+      default:
+        return val.toString();
+    }
+  };
+
+  const formatTrendValue = (trendVal: string | number): string => {
+    if (typeof trendVal === 'string') return trendVal;
+    
+    switch (type) {
+      case 'percentage':
+        return percentage(trendVal);
+      case 'number':
+        return number(trendVal);
+      default:
+        return trendVal.toString();
+    }
+  };
   
   return (
     <Card className={cn(
@@ -55,7 +93,7 @@ export function MetricCard({
               "text-2xl font-bold",
               isColored ? "text-white" : "text-foreground"
             )}>
-              {value}
+              {formatValue(value)}
             </p>
             {description && (
               <p className={cn(
@@ -73,7 +111,7 @@ export function MetricCard({
                     ? (isColored ? "text-green-200" : "text-status-success")
                     : (isColored ? "text-red-200" : "text-status-danger")
                 )}>
-                  {trend.isPositive ? "↗" : "↘"} {trend.value}
+                  {trend.isPositive ? "↗" : "↘"} {formatTrendValue(trend.value)}
                 </span>
               </div>
             )}

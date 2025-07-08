@@ -1,8 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useLocalization } from "@/hooks/useLocalization";
 
 const Strategic = () => {
   const { t } = useLanguage();
+  const { number, percentage } = useLocalization();
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
@@ -16,7 +18,7 @@ const Strategic = () => {
             <CardTitle>Current Headcount</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-primary">2,847</p>
+            <p className="text-3xl font-bold text-primary">{number(2847)}</p>
           </CardContent>
         </Card>
 
@@ -25,7 +27,7 @@ const Strategic = () => {
             <CardTitle>Planned Growth</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-success">+15%</p>
+            <p className="text-3xl font-bold text-success">+{percentage(15)}</p>
           </CardContent>
         </Card>
 
@@ -34,7 +36,7 @@ const Strategic = () => {
             <CardTitle>Skills Gaps</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-warning">89</p>
+            <p className="text-3xl font-bold text-warning">{number(89)}</p>
           </CardContent>
         </Card>
 
@@ -43,7 +45,7 @@ const Strategic = () => {
             <CardTitle>Succession Coverage</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-accent">57%</p>
+            <p className="text-3xl font-bold text-accent">{percentage(57)}</p>
           </CardContent>
         </Card>
       </div>
@@ -55,7 +57,7 @@ const Strategic = () => {
             <CardDescription>Scenario modeling and planning</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">89 identified skills gaps</p>
+            <p className="text-sm text-muted-foreground">{number(89)} identified skills gaps</p>
           </CardContent>
         </Card>
 
@@ -65,7 +67,7 @@ const Strategic = () => {
             <CardDescription>Pipeline and succession planning</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">156 key positions tracked</p>
+            <p className="text-sm text-muted-foreground">{number(156)} key positions tracked</p>
           </CardContent>
         </Card>
 
@@ -75,7 +77,7 @@ const Strategic = () => {
             <CardDescription>Nitaqat compliance monitoring</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">67.2% current rate</p>
+            <p className="text-sm text-muted-foreground">{percentage(67.2)} current rate</p>
           </CardContent>
         </Card>
       </div>

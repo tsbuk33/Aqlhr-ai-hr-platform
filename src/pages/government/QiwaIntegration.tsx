@@ -3,20 +3,39 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
+import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard";
+import { FocusManager } from "@/components/accessibility/FocusManager";
+import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
+import { Activity, CheckCircle, Clock, Shield } from "lucide-react";
 
 const QiwaIntegration = () => {
+  const { t, isRTL } = useLanguage();
+  const { directionClasses, formatters, dateFormatters } = usePerformantLocalization();
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Qiwa Integration</h1>
-          <p className="text-muted-foreground">Employment contracts and work permits management</p>
+    <FocusManager autoFocus restoreFocus>
+      <div className={`container mx-auto p-6 space-y-6 ${directionClasses.container}`} dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className={`flex justify-between items-center ${directionClasses.flex}`}>
+          <div className={directionClasses.text}>
+            <h1 className="text-3xl font-bold text-foreground">
+              {t('government.qiwa_integration')}
+              <ScreenReaderText>
+                {t('government.qiwa_integration_desc')}
+              </ScreenReaderText>
+            </h1>
+            <p className="text-muted-foreground">{t('government.employment_contracts_permits')}</p>
+          </div>
+          <div className={`flex gap-2 ${directionClasses.flex}`}>
+            <Badge variant="outline" className="bg-status-success text-white">
+              {t('common.connected')}
+            </Badge>
+            <Button variant="outline">
+              {t('common.sync_now')}
+            </Button>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Badge variant="outline" className="bg-status-success text-white">Connected</Badge>
-          <Button variant="outline">Sync Now</Button>
-        </div>
-      </div>
       
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
@@ -28,47 +47,48 @@ const QiwaIntegration = () => {
         
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Active Contracts</CardTitle>
-                <CardDescription>Total employment contracts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-primary">2,847</div>
-                <p className="text-xs text-muted-foreground mt-2">+12 this month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Processing Success</CardTitle>
-                <CardDescription>Successful API calls</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-success">98.1%</div>
-                <Progress value={98.1} className="mt-2" />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Monthly Transfers</CardTitle>
-                <CardDescription>Employee transfers</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-accent">45</div>
-                <p className="text-xs text-muted-foreground mt-2">-3 from last month</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Compliance Score</CardTitle>
-                <CardDescription>Overall compliance</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-warning">100%</div>
-                <Badge variant="outline" className="mt-2 bg-status-success text-white">Excellent</Badge>
-              </CardContent>
-            </Card>
+            <MemoizedMetricCard
+              title={t('government.active_contracts')}
+              value={2847}
+              description={`+${formatters.number(12)} ${t('common.this_month')}`}
+              icon={<Activity className="h-6 w-6" />}
+              type="number"
+              variant="primary"
+              trend={{
+                value: 12,
+                isPositive: true
+              }}
+            />
+            <MemoizedMetricCard
+              title={t('government.processing_success')}
+              value={98.1}
+              description={t('government.successful_api_calls')}
+              icon={<CheckCircle className="h-6 w-6" />}
+              type="percentage"
+              variant="success"
+            />
+            <MemoizedMetricCard
+              title={t('government.monthly_transfers')}
+              value={45}
+              description={`-${formatters.number(3)} ${t('common.last_month')}`}
+              icon={<Clock className="h-6 w-6" />}
+              type="number"
+              variant="accent"
+              trend={{
+                value: 3,
+                isPositive: false
+              }}
+            />
+            <MemoizedMetricCard
+              title={t('government.compliance_score')}
+              value={100}
+              description={t('government.overall_compliance')}
+              icon={<Shield className="h-6 w-6" />}
+              type="percentage"
+              variant="warning"
+            />
           </div>
+          <Progress value={98.1} className="mt-4" aria-label={`${t('government.processing_success')}: ${formatters.percentage(98.1)}`} />
         </TabsContent>
         
         <TabsContent value="contracts">
@@ -142,7 +162,8 @@ const QiwaIntegration = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </FocusManager>
   );
 };
 
