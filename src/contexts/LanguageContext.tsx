@@ -456,6 +456,7 @@ const translations = {
     // Training & Development (additional translations)
     'core_hr.active_programs': 'البرامج النشطة',
     'core_hr.tvtc_certified': 'معتمدون من التقني والمهني',
+    'core_hr.training_hours': 'ساعات التدريب',
     'core_hr.completion_rate': 'معدل الإنجاز',
 
     // Workflow Automation (additional translations)
