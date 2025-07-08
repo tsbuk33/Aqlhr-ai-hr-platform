@@ -435,6 +435,52 @@ const translations = {
     'core_hr.reviews_completed': 'المراجعات المكتملة',
     'core_hr.goal_tracking': 'تتبع الأهداف والمعالم',
 
+    // Leave Management (additional translations)
+    'core_hr.pending_requests': 'الطلبات المعلقة',
+    'core_hr.approved_this_month': 'الموافق عليها هذا الشهر',
+    'core_hr.annual_leave_balance': 'رصيد الإجازة السنوية',
+    'core_hr.emergency_leaves': 'الإجازات الطارئة',
+
+    // Mobile HR (additional translations)
+    'core_hr.app_downloads': 'تحميلات التطبيق',
+    'core_hr.daily_active_users': 'المستخدمون النشطون يومياً',
+    'core_hr.app_rating': 'تقييم التطبيق',
+    'core_hr.mobile_requests': 'الطلبات المحمولة',
+
+    // Recruitment & Onboarding (additional translations)
+    'core_hr.open_positions': 'المناصب المفتوحة',
+    'core_hr.new_hires_this_month': 'التوظيفات الجديدة هذا الشهر',
+    'core_hr.onboarding_progress': 'تقدم التأهيل',
+    'core_hr.time_to_hire': 'وقت التوظيف',
+
+    // Training & Development (additional translations)
+    'core_hr.active_programs': 'البرامج النشطة',
+    'core_hr.tvtc_certified': 'معتمدون من التقني والمهني',
+    'core_hr.completion_rate': 'معدل الإنجاز',
+
+    // Workflow Automation (additional translations)
+    'core_hr.automated_tasks': 'المهام الآلية',
+    'core_hr.time_saved': 'الوقت المُوفّر',
+    'core_hr.success_rate': 'معدل النجاح',
+
+    // Compensation & Benefits (additional translations)
+    'core_hr.average_salary': 'متوسط الراتب',
+    'core_hr.benefits_enrolled': 'المسجلون في المزايا',
+    'core_hr.bonus_distributed': 'المكافآت الموزعة',
+    'core_hr.eosb_liability': 'التزام مكافأة نهاية الخدمة',
+
+    // Compensation Management Core (additional translations)
+    'core_hr.compensation_bands': 'نطاقات التعويض',
+    'core_hr.merit_increase': 'زيادة الاستحقاق',
+    'core_hr.market_alignment': 'التوافق مع السوق',
+    'core_hr.budget_variance': 'انحراف الميزانية',
+
+    // Succession Planning (additional translations)
+    'core_hr.key_positions': 'المناصب الرئيسية',
+    'core_hr.ready_successors': 'الخلفاء الجاهزون',
+    'core_hr.succession_coverage': 'تغطية التعاقب',
+    'core_hr.risk_score': 'درجة المخاطر',
+
     // Documents
     'documents.management': 'إدارة الوثائق',
     'documents.automated_collection': 'الجمع والتحقق التلقائي',

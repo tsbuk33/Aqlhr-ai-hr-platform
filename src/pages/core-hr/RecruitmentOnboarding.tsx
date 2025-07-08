@@ -1,17 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const RecruitmentOnboarding = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Recruitment & Onboarding</h1>
-        <p className="text-muted-foreground">End-to-end hiring process management</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('core_hr.recruitment_onboarding')}</h1>
+        <p className="text-muted-foreground">{t('core_hr.recruitment_onboarding_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Open Positions</CardTitle>
+            <CardTitle>{t('core_hr.open_positions')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">23</div>
@@ -19,7 +22,7 @@ const RecruitmentOnboarding = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>New Hires This Month</CardTitle>
+            <CardTitle>{t('core_hr.new_hires_this_month')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">45</div>
@@ -27,7 +30,7 @@ const RecruitmentOnboarding = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Onboarding Progress</CardTitle>
+            <CardTitle>{t('core_hr.onboarding_progress')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">87%</div>
@@ -35,7 +38,7 @@ const RecruitmentOnboarding = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Time to Hire</CardTitle>
+            <CardTitle>{t('core_hr.time_to_hire')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">21 days</div>
