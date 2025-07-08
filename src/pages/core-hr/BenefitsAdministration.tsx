@@ -1,17 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BenefitsAdministration = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Benefits Administration</h1>
-        <p className="text-muted-foreground">Comprehensive employee benefits management</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('core_hr.benefits_administration')}</h1>
+        <p className="text-muted-foreground">{t('core_hr.benefits_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Enrolled Employees</CardTitle>
+            <CardTitle>{t('core_hr.enrolled_employees')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">2,456</div>
@@ -19,7 +22,7 @@ const BenefitsAdministration = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Active Benefits</CardTitle>
+            <CardTitle>{t('core_hr.active_benefits')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">34</div>
@@ -27,7 +30,7 @@ const BenefitsAdministration = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Claims Processed</CardTitle>
+            <CardTitle>{t('core_hr.claims_processed')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">1,892</div>
@@ -35,7 +38,7 @@ const BenefitsAdministration = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Satisfaction Rate</CardTitle>
+            <CardTitle>{t('core_hr.satisfaction_rate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">94.7%</div>
