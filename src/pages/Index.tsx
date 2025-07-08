@@ -2,29 +2,32 @@ import { MetricCard } from "@/components/MetricCard";
 import { RecentActivity } from "@/components/RecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="p-6 space-y-6 bg-background min-h-full">
       {/* Welcome Section */}
       <div className="bg-gradient-hero rounded-2xl p-8 text-white">
         <div className="max-w-4xl">
-          <h1 className="text-3xl font-bold mb-2">Welcome to SanadHR</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('dashboard.title')}</h1>
           <p className="text-white/90 text-lg mb-4">
-            Complete HR Management Platform - Designed for Excellence in Saudi Arabia
+            {t('dashboard.subtitle')}
           </p>
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span>All Systems Operational</span>
+              <span>{t('dashboard.all_systems_operational')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span>106 Modules Active</span>
+              <span>106 {t('dashboard.modules_active')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span>Government Integrations Live</span>
+              <span>{t('dashboard.government_integrations_live')}</span>
             </div>
           </div>
         </div>
@@ -33,32 +36,32 @@ const Index = () => {
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
-          title="Total Employees"
+          title={t('dashboard.total_employees')}
           value="2,847"
-          description="Complete profile management"
+          description={t('dashboard.complete_profile_management')}
           icon={<Users className="h-6 w-6" />}
           variant="primary"
           trend={{ value: "+12%", isPositive: true }}
         />
         <MetricCard
-          title="AI Processes"
+          title={t('dashboard.ai_processes')}
           value="18"
-          description="Automated workflows active"
+          description={t('dashboard.automated_workflows_active')}
           icon={<Check className="h-6 w-6" />}
           variant="secondary"
           trend={{ value: "+3", isPositive: true }}
         />
         <MetricCard
-          title="Gov Integrations"
+          title={t('dashboard.gov_integrations')}
           value="8"
-          description="Connected platforms"
+          description={t('dashboard.connected_platforms')}
           icon={<FileText className="h-6 w-6" />}
           variant="accent"
         />
         <MetricCard
-          title="Compliance Score"
+          title={t('dashboard.compliance_score')}
           value="96.8%"
-          description="Regulatory compliance"
+          description={t('dashboard.regulatory_compliance')}
           icon={<ArrowUp className="h-6 w-6" />}
           variant="success"
           trend={{ value: "+2.1%", isPositive: true }}
@@ -68,30 +71,30 @@ const Index = () => {
       {/* Secondary Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard
-          title="Saudization Rate"
+          title={t('dashboard.saudization_rate')}
           value="67.2%"
-          description="Target: 70% (Green Nitaqat)"
+          description={t('dashboard.green_nitaqat_target')}
           icon={<Calendar className="h-6 w-6" />}
           trend={{ value: "+1.8%", isPositive: true }}
         />
         <MetricCard
-          title="Active Users"
+          title={t('dashboard.active_users')}
           value="1,847"
-          description="Employee self-service"
+          description={t('dashboard.employee_self_service')}
           icon={<Users className="h-6 w-6" />}
           trend={{ value: "+156", isPositive: true }}
         />
         <MetricCard
-          title="Documents Processed"
+          title={t('dashboard.documents_processed')}
           value="15,678"
-          description="AI-powered verification"
+          description={t('dashboard.ai_powered_verification')}
           icon={<FileText className="h-6 w-6" />}
           trend={{ value: "+1,234", isPositive: true }}
         />
         <MetricCard
-          title="Training Hours"
+          title={t('dashboard.training_hours')}
           value="1,247"
-          description="Skills development completed"
+          description={t('dashboard.skills_development_completed')}
           icon={<BookOpen className="h-6 w-6" />}
           trend={{ value: "+89h", isPositive: true }}
         />
@@ -107,16 +110,16 @@ const Index = () => {
         {/* Quick Stats */}
         <div className="space-y-6">
           <MetricCard
-            title="Monthly Payroll"
+            title={t('dashboard.monthly_payroll')}
             value="SAR 456K"
-            description="December 2024 processed"
+            description={t('dashboard.december_2024_processed')}
             icon={<Calendar className="h-6 w-6" />}
             variant="warning"
           />
           <MetricCard
-            title="Attendance Rate"
+            title={t('dashboard.attendance_rate')}
             value="98.2%"
-            description="Real-time tracking"
+            description={t('dashboard.real_time_tracking')}
             icon={<Clock className="h-6 w-6" />}
             variant="default"
             trend={{ value: "+0.5%", isPositive: true }}
@@ -127,23 +130,23 @@ const Index = () => {
       {/* Platform Status */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-surface rounded-xl p-6 border border-border">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Platform Status Overview</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4">{t('dashboard.platform_status_overview')}</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-status-success">12</div>
-              <div className="text-sm text-muted-foreground">Core HR Modules</div>
+              <div className="text-sm text-muted-foreground">{t('dashboard.core_hr_modules')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-brand-primary">8</div>
-              <div className="text-sm text-muted-foreground">Payroll Modules</div>
+              <div className="text-sm text-muted-foreground">{t('dashboard.payroll_modules')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-brand-accent">8</div>
-              <div className="text-sm text-muted-foreground">AI Features</div>
+              <div className="text-sm text-muted-foreground">{t('dashboard.ai_features')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-brand-secondary">47</div>
-              <div className="text-sm text-muted-foreground">Active Workflows</div>
+              <div className="text-sm text-muted-foreground">{t('dashboard.active_workflows')}</div>
             </div>
           </div>
         </div>
