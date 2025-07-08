@@ -1,47 +1,50 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Documents = () => {
+  const { t } = useLanguage();
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Document Management</h1>
-        <p className="text-muted-foreground">Automated collection and verification</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('documents.management')}</h1>
+        <p className="text-muted-foreground">{t('documents.automated_collection')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Documents Processed</CardTitle>
+            <CardTitle>{t('documents.processed')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-primary">15,678</p>
+            <p className="text-3xl font-bold text-brand-primary">15,678</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>AI Accuracy</CardTitle>
+            <CardTitle>{t('documents.ai_accuracy')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-success">98.9%</p>
+            <p className="text-3xl font-bold text-brand-success">98.9%</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Pending Review</CardTitle>
+            <CardTitle>{t('documents.pending_review')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-warning">156</p>
+            <p className="text-3xl font-bold text-brand-warning">156</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Storage Used</CardTitle>
+            <CardTitle>{t('documents.storage_used')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold text-accent">2.3 TB</p>
+            <p className="text-3xl font-bold text-brand-accent">2.3 TB</p>
           </CardContent>
         </Card>
       </div>
@@ -49,31 +52,31 @@ const Documents = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>ID Verification</CardTitle>
-            <CardDescription>Automatic ID document processing</CardDescription>
+            <CardTitle>{t('documents.id_verification')}</CardTitle>
+            <CardDescription>{t('documents.automatic_processing')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">99.1% accuracy rate</p>
+            <p className="text-sm text-muted-foreground">{t('documents.accuracy_rate')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Contract Management</CardTitle>
-            <CardDescription>Digital contract storage</CardDescription>
+            <CardTitle>{t('documents.contract_management')}</CardTitle>
+            <CardDescription>{t('documents.digital_storage')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">2,847 contracts active</p>
+            <p className="text-sm text-muted-foreground">{t('documents.contracts_active')}</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Compliance Tracking</CardTitle>
-            <CardDescription>Document expiry monitoring</CardDescription>
+            <CardTitle>{t('documents.compliance_tracking')}</CardTitle>
+            <CardDescription>{t('documents.expiry_monitoring')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">Auto notifications enabled</p>
+            <p className="text-sm text-muted-foreground">{t('documents.auto_notifications')}</p>
           </CardContent>
         </Card>
       </div>

@@ -489,6 +489,37 @@ const translations = {
     'core_hr.employee_self_service_desc': 'بوابة شخصية مع وصول محمول',
     'core_hr.document_management_desc': 'الجمع والتحقق الآلي',
 
+    // Employee Self-Service
+    'core_hr.mobile_usage': 'استخدام الهاتف المحمول',
+    'core_hr.requests_processed': 'الطلبات المعالجة',
+    'core_hr.leave_management_service': 'إدارة الإجازات',
+    'core_hr.leave_management_service_desc': 'طلب وتتبع أرصدة الإجازات',
+    'core_hr.payslip_access': 'الوصول إلى قسيمة الراتب',
+    'core_hr.payslip_access_desc': 'تحميل وعرض قسائم الرواتب',
+    'core_hr.digital_access': 'وصول رقمي',
+    'core_hr.realtime_updates': 'تحديثات فورية',
+
+    // Employees
+    'employees.master_data': 'البيانات الرئيسية للموظفين',
+    'employees.complete_profile_mgmt': 'إدارة الملف الشخصي الكامل مع الامتثال السعودي',
+    'employees.add_employee_short': 'إضافة موظف',
+    'employees.total_employees': 'إجمالي الموظفين',
+    'employees.active_contracts': 'العقود النشطة',
+    'employees.compliance_score': 'نقاط الامتثال',
+    'employees.employee_directory': 'دليل الموظفين',
+    'employees.manage_profiles': 'إدارة الملفات الشخصية والمعلومات',
+    'employees.table_implemented': 'سيتم تنفيذ جدول الموظفين هنا',
+
+    // Organization
+    'organization.structure': 'الهيكل التنظيمي',
+    'organization.dynamic_chart': 'مخطط تنظيمي ديناميكي مع تتبع السعودة',
+    'organization.total_departments': 'إجمالي الأقسام',
+    'organization.management_levels': 'مستويات الإدارة',
+    'organization.open_positions': 'المناصب الشاغرة',
+    'organization.org_chart': 'المخطط التنظيمي',
+    'organization.visual_representation': 'التمثيل المرئي لهيكل الشركة',
+    'organization.interactive_chart': 'سيتم عرض المخطط التنظيمي التفاعلي هنا',
+
     // Documents
     'documents.management': 'إدارة الوثائق',
     'documents.automated_collection': 'الجمع والتحقق التلقائي',
@@ -506,16 +537,6 @@ const translations = {
     'documents.expiry_monitoring': 'مراقبة انتهاء صلاحية الوثائق',
     'documents.auto_notifications': 'الإشعارات التلقائية مفعلة',
 
-    // Employees
-    'employees.master_data': 'البيانات الرئيسية للموظفين',
-    'employees.complete_profile_mgmt': 'إدارة الملف الشخصي الكامل مع الامتثال السعودي',
-    'employees.total_employees': 'إجمالي الموظفين',
-    'employees.active_contracts': 'العقود النشطة',
-    'employees.compliance_score': 'نقاط الامتثال',
-    'employees.employee_directory': 'دليل الموظفين',
-    'employees.manage_profiles': 'إدارة الملفات الشخصية والمعلومات',
-    'employees.table_implemented': 'سيتم تنفيذ جدول الموظفين هنا',
-
     // Government
     'government.integrations': 'التكاملات الحكومية',
     'government.seamless_integration': 'التكامل السلس مع المنصات الحكومية السعودية',
@@ -529,16 +550,6 @@ const translations = {
     'government.mudad_platform': 'منصة مدد',
     'government.wage_protection': 'نظام حماية الأجور',
     'government.compliance_status': 'امتثال بنسبة 100%',
-
-    // Organization
-    'organization.structure': 'الهيكل التنظيمي',
-    'organization.dynamic_chart': 'مخطط تنظيمي ديناميكي مع تتبع السعودة',
-    'organization.total_departments': 'إجمالي الأقسام',
-    'organization.management_levels': 'مستويات الإدارة',
-    'organization.open_positions': 'المناصب الشاغرة',
-    'organization.org_chart': 'المخطط التنظيمي',
-    'organization.visual_representation': 'التمثيل المرئي لهيكل الشركة',
-    'organization.interactive_chart': 'سيتم عرض المخطط التنظيمي التفاعلي هنا',
 
     // Payroll
     'payroll.financial': 'الرواتب والمالية',
