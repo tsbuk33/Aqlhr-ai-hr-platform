@@ -22,230 +22,80 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Platform modules based on SanadHR structure
-const platformModules = [
+const getPlatformModules = (t: (key: string) => string) => [
   { 
-    title: "Dashboard", 
+    titleKey: "nav.dashboard",
+    title: t("nav.dashboard"), 
     url: "/", 
     icon: BookOpen,
     badge: "1"
   },
   { 
-    title: "Core HR Modules", 
+    titleKey: "nav.core_hr",
+    title: t("nav.core_hr"), 
     url: "/core-hr", 
     icon: Users,
     badge: "12",
     subItems: [
-      { title: "Employee Master Data", url: "/core-hr/master-data" },
-      { title: "Payroll Processing", url: "/payroll" },
-      { title: "Benefits Administration", url: "/core-hr/benefits" },
-      { title: "Performance Management", url: "/core-hr/performance" },
-      { title: "Recruitment & Hiring", url: "/core-hr/recruitment" },
-      { title: "Training & Development", url: "/core-hr/training" },
-      { title: "Time & Attendance", url: "/core-hr/time-attendance" },
-      { title: "Leave Management", url: "/core-hr/leave" },
-      { title: "Succession Planning", url: "/core-hr/succession-planning" },
-      { title: "Compensation Management", url: "/core-hr/compensation-management" },
-      { title: "Employee Self-Service", url: "/core-hr/self-service" },
-      { title: "Manager Dashboard", url: "/core-hr/organization" },
+      { titleKey: "nav.employee_master_data", title: t("nav.employee_master_data"), url: "/core-hr/master-data" },
+      { titleKey: "nav.payroll_processing", title: t("nav.payroll_processing"), url: "/payroll" },
+      { titleKey: "nav.benefits_administration", title: t("nav.benefits_administration"), url: "/core-hr/benefits" },
+      { titleKey: "nav.performance_management", title: t("nav.performance_management"), url: "/core-hr/performance" },
+      { titleKey: "nav.recruitment_hiring", title: t("nav.recruitment_hiring"), url: "/core-hr/recruitment" },
+      { titleKey: "nav.training_development", title: t("nav.training_development"), url: "/core-hr/training" },
+      { titleKey: "nav.time_attendance", title: t("nav.time_attendance"), url: "/core-hr/time-attendance" },
+      { titleKey: "nav.leave_management", title: t("nav.leave_management"), url: "/core-hr/leave" },
+      { titleKey: "nav.succession_planning", title: t("nav.succession_planning"), url: "/core-hr/succession-planning" },
+      { titleKey: "nav.compensation_management", title: t("nav.compensation_management"), url: "/core-hr/compensation-management" },
+      { titleKey: "nav.employee_self_service", title: t("nav.employee_self_service"), url: "/core-hr/self-service" },
+      { titleKey: "nav.manager_dashboard", title: t("nav.manager_dashboard"), url: "/core-hr/organization" },
     ]
   },
   { 
-    title: "AI & Automation", 
+    titleKey: "nav.ai_automation",
+    title: t("nav.ai_automation"), 
     url: "/ai-automation", 
     icon: Check,
     badge: "6",
     subItems: [
-      { title: "AI Sync Engine", url: "/ai-automation/sync-engine" },
-      { title: "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
-      { title: "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
-      { title: "Document Intelligence", url: "/ai-automation/document-intelligence" },
-      { title: "Arabic-English NLP", url: "/ai-automation/arabic-english-nlp" },
-      { title: "Automated Workflows", url: "/ai-automation/automated-workflow" },
+      { titleKey: "nav.ai_sync_engine", title: t("nav.ai_sync_engine"), url: "/ai-automation/sync-engine" },
+      { titleKey: "nav.smart_recommendations", title: t("nav.smart_recommendations"), url: "/ai-automation/smart-recommendations" },
+      { titleKey: "nav.predictive_analytics", title: t("nav.predictive_analytics"), url: "/ai-automation/predictive-analytics" },
+      { titleKey: "nav.document_intelligence", title: t("nav.document_intelligence"), url: "/ai-automation/document-intelligence" },
+      { titleKey: "nav.arabic_english_nlp", title: t("nav.arabic_english_nlp"), url: "/ai-automation/arabic-english-nlp" },
+      { titleKey: "nav.automated_workflows", title: t("nav.automated_workflows"), url: "/ai-automation/automated-workflow" },
     ]
   },
   { 
-    title: "Government Integrations", 
+    titleKey: "nav.government",
+    title: t("nav.government"), 
     url: "/government", 
     icon: FileText,
     badge: "8",
     subItems: [
-      { title: "Qiwa Integration", url: "/government/qiwa" },
-      { title: "GOSI Integration", url: "/government/gosi" },
-      { title: "Mudad Platform", url: "/government/mudad" },
-      { title: "Muqeem/ELM Platform", url: "/government/elm" },
-      { title: "Absher Platform", url: "/government/absher" },
-      { title: "HRSD Integration", url: "/government/mol" },
-      { title: "TVTC/Doroob", url: "/government/tvtc" },
-      { title: "Health Insurance", url: "/government/zatca" },
-    ]
-  },
-  { 
-    title: "Employee Welfare & Safety", 
-    url: "/welfare-safety", 
-    icon: ArrowUp,
-    badge: "8",
-    subItems: [
-      { title: "Welfare Compliance Dashboard", url: "/welfare-safety/compliance-dashboard" },
-      { title: "Grievance & Harassment Reporting", url: "/welfare-safety/grievance-reporting" },
-      { title: "Food, Housing & Transport", url: "/welfare-safety/food-housing-transport" },
-      { title: "Wellbeing Tracker", url: "/welfare-safety/wellbeing-tracker" },
-      { title: "Ethics Score", url: "/welfare-safety/ethics-score" },
-      { title: "AI Diagnosis & Recommendations", url: "/welfare-safety/ai-diagnosis" },
-      { title: "Compliance Framework", url: "/welfare-safety/compliance-framework" },
-      { title: "Multi-View Dashboards", url: "/welfare-safety/multi-view-dashboards" },
-    ]
-  },
-  { 
-    title: "Diagnostic Frameworks", 
-    url: "/diagnostic", 
-    icon: ArrowDown,
-    badge: "7",
-    subItems: [
-      { title: "Retention Strategy Assessment", url: "/diagnostic/retention-strategy" },
-      { title: "HR Process Improvement", url: "/diagnostic/hr-process-improvement" },
-      { title: "HR Role Optimization", url: "/diagnostic/hr-role-optimization" },
-      { title: "HR Value Chain Analysis", url: "/diagnostic/hr-value-chain" },
-      { title: "Org Structure Assessment", url: "/diagnostic/org-structure" },
-      { title: "Culture Change Tracker", url: "/diagnostic/culture-change" },
-      { title: "IPO Readiness Diagnostic", url: "/diagnostic/ipo-readiness" },
-    ]
-  },
-  { 
-    title: "Local Content Compliance", 
-    url: "/local-content", 
-    icon: Clock,
-    badge: "6",
-    subItems: [
-      { title: "Workforce Localization Tracker", url: "/local-content/workforce-localization" },
-      { title: "Supplier Development Monitor", url: "/local-content/supplier-development" },
-      { title: "Investment Tracking System", url: "/local-content/investment-tracking" },
-      { title: "AI Local Content Intelligence", url: "/local-content/ai-intelligence" },
-      { title: "Regulatory Compliance Monitor", url: "/local-content/regulatory-compliance" },
-      { title: "Localization Strategic Planning", url: "/local-content/strategic-planning" },
-    ]
-  },
-  { 
-    title: "Payroll & Financial", 
-    url: "/payroll", 
-    icon: Calendar,
-    badge: "8",
-    subItems: [
-      { title: "WPS Processing", url: "/payroll/wps" },
-      { title: "GOSI Integration", url: "/payroll/gosi" },
-      { title: "EOSB Calculations", url: "/payroll/eosb" },
-      { title: "Tax Compliance", url: "/payroll/tax" },
-      { title: "Expense Management", url: "/payroll/expenses" },
-      { title: "Payroll Analytics", url: "/payroll/analytics" },
-      { title: "Bank Integration", url: "/payroll/banking" },
-      { title: "Budget Forecasting", url: "/payroll/budgeting" },
-    ]
-  },
-  { 
-    title: "Strategic HR", 
-    url: "/strategic", 
-    icon: ArrowUp,
-    badge: "10",
-    subItems: [
-      { title: "Workforce Planning", url: "/strategic/workforce-planning" },
-      { title: "Succession Planning", url: "/strategic/succession" },
-      { title: "Talent Acquisition", url: "/strategic/talent-acquisition" },
-      { title: "Organizational Development", url: "/strategic/org-development" },
-      { title: "Performance Strategy", url: "/strategic/performance" },
-      { title: "Compensation Strategy", url: "/strategic/compensation" },
-      { title: "Diversity & Inclusion", url: "/strategic/diversity" },
-      { title: "Leadership Development", url: "/strategic/leadership" },
-      { title: "Employee Experience", url: "/strategic/experience" },
-      { title: "HR Transformation", url: "/strategic/transformation" },
-    ]
-  },
-  { 
-    title: "Premium Consulting", 
-    url: "/consulting", 
-    icon: Clock,
-    badge: "12",
-    subItems: [
-      { title: "Executive Compensation", url: "/consulting/executive-compensation" },
-      { title: "Organizational Restructuring", url: "/consulting/restructuring" },
-      { title: "Culture Transformation", url: "/consulting/culture" },
-      { title: "M&A Integration", url: "/consulting/merger" },
-      { title: "Digital Transformation", url: "/consulting/digital" },
-      { title: "Talent Strategy", url: "/consulting/talent" },
-      { title: "Leadership Consulting", url: "/consulting/leadership" },
-      { title: "Change Management", url: "/consulting/change" },
-      { title: "HR Optimization", url: "/consulting/optimization" },
-      { title: "Risk Assessment", url: "/consulting/risk" },
-      { title: "Benchmarking Analysis", url: "/consulting/benchmarking" },
-      { title: "Strategic Planning", url: "/consulting/planning" },
-    ]
-  },
-  { 
-    title: "Compliance & Governance", 
-    url: "/compliance", 
-    icon: FileText,
-    badge: "10",
-    subItems: [
-      { title: "Regulatory Compliance", url: "/compliance/regulatory" },
-      { title: "Committee Management", url: "/compliance/committees" },
-      { title: "Audit Trail Management", url: "/compliance/audit-trails" },
-      { title: "Risk Management", url: "/compliance/risk-management" },
-      { title: "Policy Management", url: "/compliance/policies" },
-      { title: "Governance Framework", url: "/compliance/governance" },
-      { title: "Compliance Reporting", url: "/compliance/reporting" },
-      { title: "Legal Document Tracking", url: "/compliance/legal-docs" },
-      { title: "Documentation Management", url: "/compliance/documentation" },
-      { title: "Evidence Management", url: "/compliance/evidence" },
-    ]
-  },
-  { 
-    title: "Advanced Analytics", 
-    url: "/analytics", 
-    icon: ArrowDown,
-    badge: "11",
-    subItems: [
-      { title: "Workforce Analytics", url: "/analytics/workforce" },
-      { title: "Predictive Modeling", url: "/analytics/predictive" },
-      { title: "Realtime Dashboards", url: "/analytics/realtime" },
-      { title: "Cost Analytics", url: "/analytics/cost" },
-      { title: "Compliance Reporting", url: "/analytics/compliance" },
-      { title: "Performance Analytics", url: "/analytics/performance" },
-      { title: "Turnover Analysis", url: "/analytics/turnover" },
-      { title: "Benchmarking Reports", url: "/analytics/benchmarking" },
-      { title: "Custom Reporting", url: "/analytics/custom" },
-      { title: "Data Visualization", url: "/analytics/visualization" },
-      { title: "Executive Reporting", url: "/analytics/executive" },
-    ]
-  },
-  { 
-    title: "Platform Features", 
-    url: "/platform", 
-    icon: Check,
-    badge: "4",
-    subItems: [
-      { title: "Language Toggle (AR/EN)", url: "/platform/language-toggle" },
-      { title: "Mobile App", url: "/platform/mobile-app" },
-      { title: "Security Framework", url: "/platform/security-framework" },
-      { title: "API Gateway", url: "/platform/api-gateway" },
-    ]
-  },
-  { 
-    title: "Additional Tools", 
-    url: "/tools", 
-    icon: ArrowUp,
-    badge: "2",
-    subItems: [
-      { title: "Smart KPI Tool", url: "/tools/smart-kpi" },
-      { title: "SanadHR Connect", url: "/tools/sanadhr-connect" },
+      { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
+      { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },
+      { titleKey: "nav.mudad_platform", title: t("nav.mudad_platform"), url: "/government/mudad" },
+      { titleKey: "nav.elm_platform", title: t("nav.elm_platform"), url: "/government/elm" },
+      { titleKey: "nav.absher_platform", title: t("nav.absher_platform"), url: "/government/absher" },
+      { titleKey: "nav.hrsd_integration", title: t("nav.hrsd_integration"), url: "/government/mol" },
+      { titleKey: "nav.tvtc_doroob", title: t("nav.tvtc_doroob"), url: "/government/tvtc" },
+      { titleKey: "nav.health_insurance", title: t("nav.health_insurance"), url: "/government/zatca" },
     ]
   },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
+  const { t } = useLanguage();
   const location = useLocation();
   const currentPath = location.pathname;
-  const [expandedGroups, setExpandedGroups] = useState<string[]>(["Core HR Modules"]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([t("nav.core_hr")]);
+
+  const platformModules = getPlatformModules(t);
 
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
@@ -280,14 +130,14 @@ export function AppSidebar() {
             {state !== "collapsed" && (
               <div>
                 <h1 className="text-lg font-bold text-sidebar-primary-foreground">SanadHR</h1>
-                <p className="text-xs text-sidebar-foreground/70">Complete HR Management Platform</p>
+                <p className="text-xs text-sidebar-foreground/70">{t('sidebar.complete_hr_platform')}</p>
               </div>
             )}
           </div>
           {state !== "collapsed" && (
             <div className="mt-4 flex items-center gap-2 text-xs">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span className="text-sidebar-foreground/70">All Systems Operational</span>
+              <span className="text-sidebar-foreground/70">{t('sidebar.all_systems_operational')}</span>
             </div>
           )}
         </div>
@@ -295,7 +145,7 @@ export function AppSidebar() {
         {/* Platform Modules */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium">
-            Platform Modules
+            {t('sidebar.platform_modules')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -366,7 +216,7 @@ export function AppSidebar() {
           <div className="mt-auto p-4 border-t border-sidebar-border">
             <div className="flex items-center justify-center">
               <button className="bg-brand-secondary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary/90 transition-colors">
-                🌐 العربية / English
+                {t('sidebar.language_toggle')}
               </button>
             </div>
           </div>

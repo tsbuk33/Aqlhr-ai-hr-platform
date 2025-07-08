@@ -11,7 +11,7 @@ export const GlobalFooter: React.FC = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">SanadHR</h3>
+            <h3 className="text-lg font-semibold text-foreground mb-4">{t('footer.sanadhr')}</h3>
             <p className="text-sm text-muted-foreground mb-4">
               {t('footer.sanadhr_desc')}
             </p>
@@ -25,7 +25,7 @@ export const GlobalFooter: React.FC = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="/core-hr" className="hover:text-foreground transition-colors">{t('nav.core_hr')}</a></li>
               <li><a href="/payroll" className="hover:text-foreground transition-colors">{t('nav.payroll')}</a></li>
-              <li><a href="/ai-features" className="hover:text-foreground transition-colors">{t('nav.ai_features')}</a></li>
+              <li><a href="/ai-automation" className="hover:text-foreground transition-colors">{t('nav.ai_automation')}</a></li>
               <li><a href="/government" className="hover:text-foreground transition-colors">{t('nav.government')}</a></li>
             </ul>
           </div>

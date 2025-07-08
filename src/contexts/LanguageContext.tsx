@@ -17,15 +17,81 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 // Translations dictionary
 const translations = {
   ar: {
-    // Navigation
+    // Navigation Main Categories
     'nav.dashboard': 'لوحة التحكم',
-    'nav.core_hr': 'الموارد البشرية الأساسية',
-    'nav.employees': 'الموظفون',
-    'nav.payroll': 'كشف الرواتب',
-    'nav.analytics': 'التحليلات',
-    'nav.compliance': 'الامتثال والحوكمة',
+    'nav.core_hr': 'وحدات الموارد البشرية الأساسية',
+    'nav.ai_automation': 'الذكاء الاصطناعي والأتمتة',
     'nav.government': 'التكامل الحكومي',
-    'nav.ai_features': 'مميزات الذكاء الاصطناعي',
+    'nav.welfare_safety': 'رفاهية الموظفين والسلامة',
+    'nav.diagnostic': 'إطار التشخيص',
+    'nav.local_content': 'امتثال المحتوى المحلي',
+    'nav.payroll': 'كشف الرواتب والشؤون المالية',
+    'nav.strategic': 'الموارد البشرية الاستراتيجية',
+    'nav.consulting': 'الاستشارات المتميزة',
+    'nav.compliance': 'الامتثال والحوكمة',
+    'nav.analytics': 'التحليلات المتقدمة',
+    'nav.platform': 'مميزات المنصة',
+    'nav.tools': 'أدوات إضافية',
+
+    // Navigation Sub-items - Core HR
+    'nav.employee_master_data': 'البيانات الأساسية للموظفين',
+    'nav.payroll_processing': 'معالجة كشف الرواتب',
+    'nav.benefits_administration': 'إدارة المزايا',
+    'nav.performance_management': 'إدارة الأداء',
+    'nav.recruitment_hiring': 'التوظيف والتعيين',
+    'nav.training_development': 'التدريب والتطوير',
+    'nav.time_attendance': 'الوقت والحضور',
+    'nav.leave_management': 'إدارة الإجازات',
+    'nav.succession_planning': 'تخطيط التعاقب',
+    'nav.compensation_management': 'إدارة التعويضات',
+    'nav.employee_self_service': 'الخدمة الذاتية للموظفين',
+    'nav.manager_dashboard': 'لوحة تحكم المدير',
+
+    // Navigation Sub-items - AI & Automation
+    'nav.ai_sync_engine': 'محرك المزامنة الذكي',
+    'nav.smart_recommendations': 'التوصيات الذكية',
+    'nav.predictive_analytics': 'التحليلات التنبؤية',
+    'nav.document_intelligence': 'ذكاء الوثائق',
+    'nav.arabic_english_nlp': 'معالجة اللغة العربية-الإنجليزية',
+    'nav.automated_workflows': 'سير العمل الآلي',
+
+    // Navigation Sub-items - Government Integrations
+    'nav.qiwa_integration': 'تكامل قوى',
+    'nav.gosi_integration': 'تكامل التأمينات الاجتماعية',
+    'nav.mudad_platform': 'منصة مدد',
+    'nav.elm_platform': 'منصة مقيم/إلم',
+    'nav.absher_platform': 'منصة أبشر',
+    'nav.hrsd_integration': 'تكامل وزارة الموارد البشرية',
+    'nav.tvtc_doroob': 'المؤسسة العامة للتدريب/دروب',
+    'nav.health_insurance': 'التأمين الصحي',
+
+    // Navigation Sub-items - Employee Welfare & Safety
+    'nav.welfare_compliance_dashboard': 'لوحة تحكم امتثال الرفاهية',
+    'nav.grievance_reporting': 'الإبلاغ عن المظالم والتحرش',
+    'nav.food_housing_transport': 'الطعام والسكن والنقل',
+    'nav.wellbeing_tracker': 'متتبع الرفاهية',
+    'nav.ethics_score': 'نقاط الأخلاق',
+    'nav.ai_diagnosis': 'التشخيص والتوصيات بالذكاء الاصطناعي',
+    'nav.compliance_framework': 'إطار الامتثال',
+    'nav.multi_view_dashboards': 'لوحات التحكم متعددة العرض',
+
+    // Navigation Sub-items - Strategic HR
+    'nav.workforce_planning': 'تخطيط القوى العاملة',
+    'nav.succession_planning_strategic': 'تخطيط التعاقب',
+    'nav.talent_acquisition': 'اكتساب المواهب',
+    'nav.org_development': 'التطوير التنظيمي',
+    'nav.performance_strategy': 'استراتيجية الأداء',
+    'nav.compensation_strategy': 'استراتيجية التعويضات',
+    'nav.diversity_inclusion': 'التنوع والشمول',
+    'nav.leadership_development': 'تطوير القيادة',
+    'nav.employee_experience': 'تجربة الموظف',
+    'nav.hr_transformation': 'تحول الموارد البشرية',
+
+    // Sidebar UI
+    'sidebar.platform_modules': 'وحدات المنصة',
+    'sidebar.complete_hr_platform': 'منصة إدارة الموارد البشرية الشاملة',
+    'sidebar.all_systems_operational': 'جميع الأنظمة تعمل',
+    'sidebar.language_toggle': '🌐 العربية / English',
     
     // AI Sync Engine
     'ai_sync.title': 'محرك المزامنة الذكي',
@@ -200,14 +266,14 @@ const translations = {
     'control.title': 'مركز التحكم في محرك المزامنة',
     'control.desc': 'مراقبة وإدارة مزامنة البيانات في الوقت الفعلي',
     
-    // Footer
+    // Footer (additional keys)
     'footer.sanadhr_desc': 'منصة إدارة الموارد البشرية الكاملة - مصممة للتميز في المملكة العربية السعودية',
     'footer.all_rights': '© 2025 سند للموارد البشرية. جميع الحقوق محفوظة.',
     'footer.quick_links': 'روابط سريعة',
-    'footer.contact': 'اتصل بنا',
     'footer.riyadh': 'الرياض، المملكة العربية السعودية',
     'footer.national_initiatives': 'المبادرات الوطنية',
     'footer.vision_support': 'دعم رؤية المملكة العربية السعودية للمستقبل',
+    'footer.contact': 'اتصل بنا',
 
     // Page titles and descriptions
     'pages.about': 'حول سند للموارد البشرية',
