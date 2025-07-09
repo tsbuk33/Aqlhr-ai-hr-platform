@@ -57,7 +57,7 @@ const QiwaIntegration = () => {
           <MemoizedMetricCard
             title={isRTL ? "الموظفين النشطين" : "Active Employees"}
             value={2847}
-            description={`+${formatters.number(12)} ${isRTL ? 'هذا الشهر' : 'this month'}`}
+            description={`+12 ${isRTL ? 'هذا الشهر' : 'this month'}`}
             icon={<Users className="h-6 w-6" />}
             type="number"
             variant="primary"
@@ -77,7 +77,7 @@ const QiwaIntegration = () => {
           <MemoizedMetricCard
             title={isRTL ? "تصاريح العمل المعلقة" : "Pending Work Permits"}
             value={45}
-            description={`-${formatters.number(3)} ${isRTL ? 'الشهر الماضي' : 'last month'}`}
+            description={`-3 ${isRTL ? 'الشهر الماضي' : 'last month'}`}
             icon={<FileText className="h-6 w-6" />}
             type="number"
             variant="accent"
