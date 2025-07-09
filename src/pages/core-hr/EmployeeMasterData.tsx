@@ -262,6 +262,7 @@ const EmployeeMasterData = () => {
       arabicLabel: 'نوع التوظيف',
       type: 'select' as const,
       options: [
+        { value: 'saudi_national', label: language === 'ar' ? 'سعودي الجنسية' : 'Saudi National' },
         { value: 'local', label: language === 'ar' ? 'محلي' : 'Local' },
         { value: 'international', label: language === 'ar' ? 'دولي' : 'International' }
       ]
@@ -453,7 +454,7 @@ const EmployeeMasterData = () => {
     },
     {
       name: 'life_insurance_home_country',
-      label: 'Life Insurance in Home Country',
+      label: 'Life Insurance',
       arabicLabel: 'التأمين على الحياة',
       type: 'checkbox' as const
     },
@@ -483,7 +484,7 @@ const EmployeeMasterData = () => {
     },
     {
       name: 'kpis_ar',
-      label: 'KPIs (Arabic)',
+      label: 'KPIs',
       arabicLabel: 'مؤشرات الأداء الرئيسية (عربي)',
       type: 'textarea' as const
     },
@@ -495,7 +496,7 @@ const EmployeeMasterData = () => {
     },
     {
       name: 'work_location_ar',
-      label: 'Work Location (Arabic)',
+      label: 'Work Location',
       arabicLabel: 'موقع العمل (عربي)',
       type: 'text' as const
     },
@@ -507,7 +508,7 @@ const EmployeeMasterData = () => {
     },
     {
       name: 'project_name_ar',
-      label: 'Project Name (Arabic)',
+      label: 'Project Name',
       arabicLabel: 'اسم المشروع (عربي)',
       type: 'text' as const
     },
@@ -619,7 +620,7 @@ const EmployeeMasterData = () => {
     },
     {
       name: 'company_job_title_ar',
-      label: 'Company Job Title (Arabic)',
+      label: 'Company Job Title',
       arabicLabel: 'المسمى الوظيفي في الشركة (عربي)',
       type: 'text' as const
     },
