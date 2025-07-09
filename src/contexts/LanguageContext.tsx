@@ -48,16 +48,19 @@ const translations = {
     'nav.manager_dashboard': 'لوحة تحكم المدير',
 
     // Navigation Sub-items - AI & Automation
-    'nav.ai_sync_engine': 'محرك المزامنة الذكي',
     'nav.smart_recommendations': 'التوصيات الذكية',
     'nav.predictive_analytics': 'التحليلات التنبؤية',
-    'nav.document_intelligence': 'ذكاء الوثائق',
-    'nav.arabic_english_nlp': 'معالجة اللغة العربية-الإنجليزية',
+    'nav.document_intelligence': 'ذكاء المستندات',
+    'nav.arabic_english_nlp': 'معالجة اللغة الطبيعية',
     'nav.automated_workflows': 'سير العمل الآلي',
-
-    // Navigation Sub-items - Government Integrations
+    'nav.ai_sync_engine': 'محرك المزامنة الذكي',
+    
+    // Navigation Sub-items - Government
     'nav.qiwa_integration': 'تكامل قوى',
     'nav.gosi_integration': 'تكامل التأمينات الاجتماعية',
+    
+    // Core HR - Benefits Administration
+    'core_hr.benefits_administration': 'إدارة المزايا',
     'nav.mudad_platform': 'منصة مدد',
     'nav.elm_platform': 'منصة مقيم/إلم',
     'nav.absher_platform': 'منصة أبشر',
@@ -199,6 +202,23 @@ const translations = {
     'gov.last_sync': 'آخر مزامنة',
     'gov.sync_now': 'مزامنة الآن',
     
+    // Missing Government Keys
+    'government.health_insurance': 'التأمين الصحي',
+    'government.health_insurance_desc': 'إدارة وتتبع بوالص التأمين الصحي للموظفين',
+    'government.coverage_rate': 'معدل التغطية',
+    'government.active_policies': 'البوالص النشطة',
+    'government.monthly_premium': 'القسط الشهري',
+    'government.claims_processed': 'المطالبات المعالجة',
+    'government.mol_compliance': 'الامتثال لوزارة العمل',
+    'government.mol_compliance_desc': 'مراقبة الامتثال لقوانين وزارة العمل والتنمية الاجتماعية',
+    'government.compliance_score': 'درجة الامتثال',
+    'government.active_violations': 'المخالفات النشطة',
+    'government.resolved_issues': 'القضايا المحلولة',
+    'government.inspection_ready': 'جاهز للتفتيش',
+    'government.mudad_title_ar': 'منصة مدد للتأشيرات',
+    'government.elm_desc_ar': 'منصة إلم للتدريب التقني والمهني',
+    'government.zatca_desc_ar': 'هيئة الزكاة والضريبة والجمارك',
+    
     // Tab labels
     'tabs.sync_status': 'حالة المزامنة',
     'tabs.architecture': 'البنية التحتية',
@@ -276,7 +296,6 @@ const translations = {
     'footer.contact': 'اتصل بنا',
 
     // Core HR Module Titles and Descriptions
-    'core_hr.benefits_administration': 'إدارة المزايا',
     'core_hr.benefits_desc': 'إدارة شاملة لمزايا الموظفين',
     'core_hr.compensation_benefits': 'التعويضات والمزايا',
     'core_hr.compensation_benefits_desc': 'إدارة شاملة للرواتب والمزايا',
@@ -567,12 +586,6 @@ const translations = {
      'government.mudad_platform': 'منصة مدد',
      'government.wage_protection': 'نظام حماية الأجور',
      'government.compliance_status': 'امتثال بنسبة 100%',
-     'government.mol_compliance': 'امتثال وزارة الموارد البشرية',
-     'government.mol_compliance_desc': 'لوائح وامتثال وزارة الموارد البشرية',
-     'government.compliance_score': 'نقاط الامتثال',
-     'government.active_violations': 'المخالفات النشطة',
-     'government.resolved_issues': 'القضايا المحلولة',
-     'government.inspection_ready': 'جاهز للتفتيش',
 
     // Payroll
     'payroll.financial': 'الرواتب والمالية',

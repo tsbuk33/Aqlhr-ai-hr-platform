@@ -49,6 +49,7 @@ const TVTCIntegration = lazy(() => import('../pages/government/TVTCIntegration')
 const MOLCompliance = lazy(() => import('../pages/government/MOLCompliance'));
 const ZATCAIntegration = lazy(() => import('../pages/government/ZATCAIntegration'));
 const ELMPlatform = lazy(() => import('../pages/government/ELMPlatform'));
+const HealthInsurancePlatform = lazy(() => import('../pages/government/HealthInsurancePlatform'));
 
 // Strategic HR modules
 const WorkforcePlanning = lazy(() => import('../pages/strategic/WorkforcePlanning'));
@@ -255,6 +256,10 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/mol', element: MOLCompliance, auth: true },
   { path: '/government/zatca', element: ZATCAIntegration, auth: true },
   { path: '/government/elm', element: ELMPlatform, auth: true },
+  { path: '/government/health-insurance', element: HealthInsurancePlatform, auth: true },
+  
+  // GOSI Integration aliases
+  { path: '/government/gosi', element: GOSIIntegration, auth: true },
   
   // Payroll Sub-routes - auth required
   { path: '/payroll/wps', element: WPSProcessing, auth: true },
