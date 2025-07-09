@@ -4,17 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Bot, CheckCircle, Clock, AlertTriangle, Zap, Users, FileText } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AutomatedWorkflowEngine = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          Automated Workflow Engine
+          {t('ai.automated_workflow_engine')}
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Transform your HR processes with intelligent automation that learns, adapts, and optimizes workflows in real-time
+          {t('ai.automated_workflow_desc')}
         </p>
       </div>
 
@@ -23,9 +26,9 @@ const AutomatedWorkflowEngine = () => {
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl flex items-center justify-center gap-2">
             <Bot className="h-6 w-6 text-brand-primary" />
-            How SanadHR Automates Your Workflows
+            {t('ai.how_sanadhr_automates')}
           </CardTitle>
-          <CardDescription>Real-time process intelligence and automation pipeline</CardDescription>
+          <CardDescription>{t('ai.realtime_process_intelligence')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

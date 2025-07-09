@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useLocalization } from "@/hooks/useLocalization";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface MetricCardProps {
   title: string;
@@ -41,6 +42,7 @@ export function MetricCard({
 }: MetricCardProps) {
   const isColored = variant !== "default";
   const { currency: formatCurrency, number, percentage, days, hours } = useLocalization();
+  const { isRTL } = useLanguage();
   
   const formatValue = (val: string | number): string => {
     if (typeof val === 'string') return val;
@@ -81,30 +83,39 @@ export function MetricCard({
       className
     )}>
       <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-2">
+        <div className={cn(
+          "flex items-center justify-between gap-4",
+          isRTL ? "flex-row-reverse" : "flex-row"
+        )}>
+          <div className="space-y-2 flex-1 min-w-0">
             <p className={cn(
-              "text-sm font-medium",
-              isColored ? "text-white/80" : "text-muted-foreground"
+              "text-sm font-medium truncate",
+              isColored ? "text-white/80" : "text-muted-foreground",
+              isRTL ? "text-right" : "text-left"
             )}>
               {title}
             </p>
             <p className={cn(
               "text-2xl font-bold",
-              isColored ? "text-white" : "text-foreground"
+              isColored ? "text-white" : "text-foreground",
+              isRTL ? "text-right" : "text-left"
             )}>
               {formatValue(value)}
             </p>
             {description && (
               <p className={cn(
-                "text-xs",
-                isColored ? "text-white/70" : "text-muted-foreground"
+                "text-xs text-ellipsis overflow-hidden",
+                isColored ? "text-white/70" : "text-muted-foreground",
+                isRTL ? "text-right" : "text-left"
               )}>
                 {description}
               </p>
             )}
             {trend && (
-              <div className="flex items-center gap-1">
+              <div className={cn(
+                "flex items-center gap-1",
+                isRTL ? "justify-end" : "justify-start"
+              )}>
                 <span className={cn(
                   "text-xs font-medium",
                   trend.isPositive 
@@ -118,7 +129,7 @@ export function MetricCard({
           </div>
           
           <div className={cn(
-            "p-3 rounded-xl",
+            "p-3 rounded-xl flex-shrink-0",
             isColored 
               ? "bg-white/20 text-white" 
               : "bg-surface-secondary text-muted-foreground"

@@ -1,17 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const DocumentIntelligence = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Document Intelligence</h1>
-        <p className="text-muted-foreground">OCR/NLP processing for document automation</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('ai.document_intelligence')}</h1>
+        <p className="text-muted-foreground">{t('ai.document_intelligence_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Documents Processed</CardTitle>
+            <CardTitle>{t('ai.documents_processed')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">8,943</div>
@@ -19,7 +22,7 @@ const DocumentIntelligence = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Accuracy Rate</CardTitle>
+            <CardTitle>{t('ai.accuracy_rate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">96.8%</div>
@@ -27,7 +30,7 @@ const DocumentIntelligence = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Processing Time</CardTitle>
+            <CardTitle>{t('ai.processing_time')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">1.2s</div>
@@ -35,7 +38,7 @@ const DocumentIntelligence = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Languages Supported</CardTitle>
+            <CardTitle>{t('ai.languages_supported')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">15</div>

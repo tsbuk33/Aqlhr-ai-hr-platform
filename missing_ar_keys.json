@@ -2,11 +2,11 @@
   "audit_metadata": {
     "timestamp": "2025-01-09T08:30:00Z",
     "version": "1.0.0-rc1",
-    "audit_type": "pre_release_validation"
+    "audit_type": "i18n_arabic_fix_audit"
   },
   "summary": {
     "filesScanned": 247,
-    "hardcodedStringsFound": 0,
+    "hardcodedStringsFound": 48,
     "tKeysFound": 892,
     "enKeysCount": 892,
     "arKeysCount": 892,
