@@ -684,6 +684,81 @@ export type Database = {
           },
         ]
       }
+      invoices: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          currency: string | null
+          due_date: string | null
+          id: string
+          invoice_data: Json | null
+          invoice_number: string
+          issued_date: string | null
+          paid_date: string | null
+          payment_id: string | null
+          status: string | null
+          subtotal: number
+          total_amount: number
+          updated_at: string | null
+          user_id: string | null
+          vat_amount: number
+          vat_rate: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_data?: Json | null
+          invoice_number: string
+          issued_date?: string | null
+          paid_date?: string | null
+          payment_id?: string | null
+          status?: string | null
+          subtotal: number
+          total_amount: number
+          updated_at?: string | null
+          user_id?: string | null
+          vat_amount: number
+          vat_rate?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          due_date?: string | null
+          id?: string
+          invoice_data?: Json | null
+          invoice_number?: string
+          issued_date?: string | null
+          paid_date?: string | null
+          payment_id?: string | null
+          status?: string | null
+          subtotal?: number
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string | null
+          vat_amount?: number
+          vat_rate?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kpi_measurements: {
         Row: {
           created_at: string | null
@@ -1028,6 +1103,81 @@ export type Database = {
           },
         ]
       }
+      payments: {
+        Row: {
+          amount: number
+          company_id: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          hyperpay_checkout_id: string | null
+          hyperpay_payment_id: string | null
+          id: string
+          invoice_number: string | null
+          payment_method: string | null
+          payment_type: string
+          status: string | null
+          subscription_id: string | null
+          total_amount: number
+          updated_at: string | null
+          user_id: string | null
+          vat_amount: number | null
+        }
+        Insert: {
+          amount: number
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          hyperpay_checkout_id?: string | null
+          hyperpay_payment_id?: string | null
+          id?: string
+          invoice_number?: string | null
+          payment_method?: string | null
+          payment_type: string
+          status?: string | null
+          subscription_id?: string | null
+          total_amount: number
+          updated_at?: string | null
+          user_id?: string | null
+          vat_amount?: number | null
+        }
+        Update: {
+          amount?: number
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          hyperpay_checkout_id?: string | null
+          hyperpay_payment_id?: string | null
+          id?: string
+          invoice_number?: string | null
+          payment_method?: string | null
+          payment_type?: string
+          status?: string | null
+          subscription_id?: string | null
+          total_amount?: number
+          updated_at?: string | null
+          user_id?: string | null
+          vat_amount?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       payroll: {
         Row: {
           allowances: number | null
@@ -1150,6 +1300,119 @@ export type Database = {
             columns: ["reviewer_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscription_plans: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          description_ar: string | null
+          description_en: string | null
+          features: Json
+          id: string
+          is_active: boolean | null
+          max_employees: number | null
+          max_modules: number | null
+          name_ar: string
+          name_en: string
+          plan_code: string
+          price_annual: number
+          price_monthly: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          features: Json
+          id?: string
+          is_active?: boolean | null
+          max_employees?: number | null
+          max_modules?: number | null
+          name_ar: string
+          name_en: string
+          plan_code: string
+          price_annual: number
+          price_monthly: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean | null
+          max_employees?: number | null
+          max_modules?: number | null
+          name_ar?: string
+          name_en?: string
+          plan_code?: string
+          price_annual?: number
+          price_monthly?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          billing_cycle: string
+          company_id: string | null
+          created_at: string | null
+          currency: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          hyperpay_subscription_id: string | null
+          id: string
+          plan_type: string
+          status: string | null
+          trial_end_date: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          billing_cycle: string
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          hyperpay_subscription_id?: string | null
+          id?: string
+          plan_type: string
+          status?: string | null
+          trial_end_date?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          billing_cycle?: string
+          company_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          hyperpay_subscription_id?: string | null
+          id?: string
+          plan_type?: string
+          status?: string | null
+          trial_end_date?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
