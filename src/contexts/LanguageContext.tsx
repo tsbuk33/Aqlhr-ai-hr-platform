@@ -70,6 +70,17 @@ const translations = {
     'nav.zatca_integration': 'تكامل هيئة الزكاة والضريبة والجمارك',
     'nav.seha_platform': 'منصة صحة',
     'nav.chi_platform': 'مجلس الضمان الصحي',
+    
+    // New Government Portals
+    'nav.qiyas_assessment': 'هيئة تقويم التعليم والتدريب (قياس)',
+    'nav.ncaaa_accreditation': 'المركز الوطني للتقويم والاعتماد الأكاديمي',
+    'nav.education_ministry': 'وزارة التعليم - التحقق من الشهادات',
+    'nav.taqat_hrdf': 'صندوق تنمية الموارد البشرية (طاقات)',
+    'nav.ncei_employment': 'المركز الوطني لمعلومات سوق العمل',
+    'nav.interior_ministry': 'وزارة الداخلية - التصاريح الأمنية',
+    'nav.esnad_notarization': 'منصة إسناد للتوثيق الإلكتروني',
+    'nav.saudi_post': 'البريد السعودي - التحقق من العناوين',
+    'nav.tawakkalna_compliance': 'توكلنا - الامتثال والتحقق',
 
     // ZATCA Integration
     'zatca.title': 'تكامل هيئة الزكاة والضريبة والجمارك',
@@ -970,6 +981,17 @@ const translations = {
     'nav.zatca_integration': 'ZATCA Integration',
     'nav.seha_platform': 'Seha Platform',
     'nav.chi_platform': 'CHI Platform',
+    
+    // New Government Portals
+    'nav.qiyas_assessment': 'Qiyas Assessment Center',
+    'nav.ncaaa_accreditation': 'NCAAA Accreditation',
+    'nav.education_ministry': 'Ministry of Education',
+    'nav.taqat_hrdf': 'TAQAT - HRDF',
+    'nav.ncei_employment': 'NCEI Employment Center',
+    'nav.interior_ministry': 'Ministry of Interior',
+    'nav.esnad_notarization': 'ESNAD Notarization',
+    'nav.saudi_post': 'Saudi Post Verification',
+    'nav.tawakkalna_compliance': 'Tawakkalna Compliance',
       
        // ZATCA Integration
        'zatca.title': 'ZATCA Integration',
