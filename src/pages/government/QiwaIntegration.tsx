@@ -4,7 +4,7 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { Activity, CheckCircle, Clock, Shield, Building2 } from "lucide-react";
+import { Activity, CheckCircle, Clock, Shield, Building2, Users, FileText, TrendingUp } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const QiwaIntegration = () => {
@@ -14,28 +14,36 @@ const QiwaIntegration = () => {
   const handleTestConnection = async () => {
     toast({
       title: isRTL ? "اختبار اتصال قوى" : "Testing Qiwa Connection",
-      description: isRTL ? "جاري فحص الاتصال..." : "Testing connection..."
+      description: isRTL ? "جاري فحص الاتصال مع منصة قوى..." : "Testing connection with Qiwa platform..."
     });
-    // Simulate API test
+    // Simulate API test with SanadHR integration
     await new Promise(resolve => setTimeout(resolve, 2000));
+    toast({
+      title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
+      description: isRTL ? "تم ربط منصة قوى مع سند الموارد البشرية بنجاح" : "Qiwa platform successfully connected with SanadHR"
+    });
   };
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة قوى" : "Qiwa Sync",
-      description: isRTL ? "جاري مزامنة البيانات..." : "Syncing data..."
+      title: isRTL ? "مزامنة قوى مع سند" : "Qiwa-SanadHR Sync",
+      description: isRTL ? "جاري مزامنة بيانات الموظفين وعقود العمل..." : "Syncing employee data and work contracts..."
     });
-    // Simulate sync
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Simulate comprehensive sync with SanadHR
+    await new Promise(resolve => setTimeout(resolve, 2500));
+    toast({
+      title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
+      description: isRTL ? "تم تحديث جميع البيانات في سند الموارد البشرية" : "All data updated in SanadHR system"
+    });
   };
 
   return (
     <FocusManager autoFocus restoreFocus>
       <UnifiedGovernmentInterface
-        platformName="Qiwa Integration"
-        platformNameAr="تكامل قوى"
-        description="Employment contracts and work permits management"
-        descriptionAr="إدارة عقود العمل وتصاريح العمل"
+        platformName="Qiwa Platform Integration"
+        platformNameAr="تكامل منصة قوى"
+        description="Employment services, work permits, and Nitaqat compliance management"
+        descriptionAr="خدمات التوظيف وتصاريح العمل وإدارة امتثال النطاقات"
         icon={Building2}
         connectionStatus={{
           status: 'connected',
@@ -47,10 +55,10 @@ const QiwaIntegration = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard
-            title={t('government.active_contracts')}
+            title={isRTL ? "الموظفين النشطين" : "Active Employees"}
             value={2847}
-            description={`+${formatters.number(12)} ${t('common.this_month')}`}
-            icon={<Activity className="h-6 w-6" />}
+            description={`+${formatters.number(12)} ${isRTL ? 'هذا الشهر' : 'this month'}`}
+            icon={<Users className="h-6 w-6" />}
             type="number"
             variant="primary"
             trend={{
@@ -59,33 +67,86 @@ const QiwaIntegration = () => {
             }}
           />
           <MemoizedMetricCard
-            title={t('government.processing_success')}
+            title={isRTL ? "نسبة نجاح العمليات" : "Process Success Rate"}
             value={98.1}
-            description={t('government.successful_api_calls')}
+            description={isRTL ? "معاملات ناجحة عبر الواجهة البرمجية" : "Successful API transactions"}
             icon={<CheckCircle className="h-6 w-6" />}
             type="percentage"
             variant="success"
           />
           <MemoizedMetricCard
-            title={t('government.monthly_transfers')}
+            title={isRTL ? "تصاريح العمل المعلقة" : "Pending Work Permits"}
             value={45}
-            description={`-${formatters.number(3)} ${t('common.last_month')}`}
-            icon={<Clock className="h-6 w-6" />}
+            description={`-${formatters.number(3)} ${isRTL ? 'الشهر الماضي' : 'last month'}`}
+            icon={<FileText className="h-6 w-6" />}
             type="number"
             variant="accent"
             trend={{
               value: 3,
-              isPositive: false
+              isPositive: true
             }}
           />
           <MemoizedMetricCard
-            title={t('government.compliance_score')}
-            value={100}
-            description={t('government.overall_compliance')}
-            icon={<Shield className="h-6 w-6" />}
+            title={isRTL ? "درجة امتثال النطاقات" : "Nitaqat Compliance Score"}
+            value={87.5}
+            description={isRTL ? "مستوى الامتثال الإجمالي" : "Overall compliance level"}
+            icon={<TrendingUp className="h-6 w-6" />}
             type="percentage"
             variant="warning"
           />
+        </div>
+
+        {/* Additional SanadHR Integration Features */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="p-6 border rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <Activity className="h-5 w-5" />
+              {isRTL ? "خدمات قوى المتصلة بسند" : "Qiwa Services Connected to SanadHR"}
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "نقل الموظفين بين المنشآت" : "Employee Transfer Between Establishments"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "إصدار تأشيرات العمل الدائمة" : "Permanent Work Visa Issuance"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "حاسبة النطاقات" : "Nitaqat Calculator"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "توظيف الموظفين غير السعوديين" : "Non-Saudi Employee Hiring"}
+              </li>
+            </ul>
+          </div>
+          
+          <div className="p-6 border rounded-lg">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              {isRTL ? "مزايا التكامل مع سند" : "SanadHR Integration Benefits"}
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "مزامنة تلقائية للبيانات" : "Automated Data Synchronization"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "تحديث فوري لحالة التصاريح" : "Real-time Permit Status Updates"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "تقارير امتثال النطاقات" : "Nitaqat Compliance Reports"}
+              </li>
+              <li className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-success" />
+                {isRTL ? "إدارة متكاملة للموارد البشرية" : "Integrated HR Management"}
+              </li>
+            </ul>
+          </div>
         </div>
       </UnifiedGovernmentInterface>
     </FocusManager>
