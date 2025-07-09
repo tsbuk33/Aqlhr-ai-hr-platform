@@ -13,28 +13,28 @@ const ELMPlatform = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
-            {isRTL ? 'منصة مقيم' : 'Muqeem Platform'}
+            {isRTL ? 'منصة مقيم' : 'Muqeem Platform - Resident Management System'}
           </h1>
           <p className="text-muted-foreground">
-            {isRTL ? 'منصة إلكترونية متكاملة لإدارة شؤون المقيمين والجوازات' : 'Integrated Electronic Platform for Resident Affairs and Passport Management'}
+            {isRTL ? 'منصة إلكترونية متكاملة لإدارة شؤون المقيمين والجوازات' : 'Comprehensive Electronic Platform for Resident Affairs Management and Passport Services Integration'}
           </p>
         </div>
         <div className="flex gap-2">
           <Badge variant="outline" className="bg-status-success text-white">
-            {isRTL ? 'متصل' : 'Connected'}
+            {isRTL ? 'متصل' : 'API Connected'}
           </Badge>
           <Button variant="outline">
-            {isRTL ? 'اختبار الاتصال' : 'Test Connection'}
+            {isRTL ? 'اختبار الاتصال' : 'Test Integration'}
           </Button>
         </div>
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className={`grid w-full grid-cols-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-          <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
-          <TabsTrigger value="resident-services">{isRTL ? 'خدمات المقيمين' : 'Resident Services'}</TabsTrigger>
-          <TabsTrigger value="passport-operations">{isRTL ? 'عمليات الجوازات' : 'Passport Operations'}</TabsTrigger>
-          <TabsTrigger value="reports-analytics">{isRTL ? 'التقارير والتحليلات' : 'Reports & Analytics'}</TabsTrigger>
+          <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Dashboard Overview'}</TabsTrigger>
+          <TabsTrigger value="resident-services">{isRTL ? 'خدمات المقيمين' : 'Workforce Management'}</TabsTrigger>
+          <TabsTrigger value="passport-operations">{isRTL ? 'عمليات الجوازات' : 'Immigration Services'}</TabsTrigger>
+          <TabsTrigger value="reports-analytics">{isRTL ? 'التقارير والتحليلات' : 'Compliance Reporting'}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
@@ -108,74 +108,74 @@ const ELMPlatform = () => {
           <Card>
             <CardHeader>
               <CardTitle>
-                {isRTL ? 'خدمات المقيمين الشاملة' : 'Comprehensive Resident Services'}
+                {isRTL ? 'خدمات المقيمين الشاملة' : 'Enterprise Workforce Immigration Management'}
               </CardTitle>
               <CardDescription>
-                {isRTL ? 'إدارة شاملة لشؤون المقيمين والإقامات' : 'Comprehensive management of resident affairs and residence permits'}
+                {isRTL ? 'إدارة شاملة لشؤون المقيمين والإقامات' : 'End-to-end immigration lifecycle management for corporate workforce operations'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <div>
-                    <span className="font-medium">
-                      {isRTL ? 'تجديد الإقامات' : 'Residence Permit Renewal'}
-                    </span>
-                    <p className="text-sm text-muted-foreground">
-                      {isRTL ? 'تجديد إقامات الموظفين إلكترونياً' : 'Electronic renewal of employee residence permits'}
-                    </p>
-                  </div>
-                  <Badge className="bg-status-success text-white">
-                    {isRTL ? 'متاح' : 'Available'}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-medium">
-                      {isRTL ? 'تأشيرات الخروج والعودة' : 'Exit Re-entry Visas'}
-                    </span>
-                    <p className="text-sm text-muted-foreground">
-                      {isRTL ? 'إصدار تأشيرات الخروج والعودة للمقيمين' : 'Issue exit re-entry visas for residents'}
-                    </p>
-                  </div>
-                  <Badge className="bg-status-success text-white">
-                    {isRTL ? 'متاح' : 'Available'}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-medium">
-                      {isRTL ? 'نقل المعلومات' : 'Information Transfer'}
-                    </span>
-                    <p className="text-sm text-muted-foreground">
-                      {isRTL ? 'نقل معلومات المقيمين بين المنشآت' : 'Transfer resident information between establishments'}
-                    </p>
-                  </div>
-                  <Badge className="bg-status-success text-white">
-                    {isRTL ? 'متاح' : 'Available'}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-medium">
-                      {isRTL ? 'إلغاء الإقامات' : 'Residence Cancellation'}
-                    </span>
-                    <p className="text-sm text-muted-foreground">
-                      {isRTL ? 'إلغاء إقامات الموظفين المغادرين' : 'Cancel residence permits for departing employees'}
-                    </p>
-                  </div>
-                  <Badge className="bg-status-success text-white">
-                    {isRTL ? 'متاح' : 'Available'}
-                  </Badge>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="font-medium">
-                      {isRTL ? 'تحديث البيانات' : 'Data Updates'}
-                    </span>
-                    <p className="text-sm text-muted-foreground">
-                      {isRTL ? 'تحديث بيانات المقيمين والمعلومات الشخصية' : 'Update resident data and personal information'}
-                    </p>
+                     <span className="font-medium">
+                       {isRTL ? 'تجديد الإقامات' : 'Automated Residence Permit Renewal'}
+                     </span>
+                     <p className="text-sm text-muted-foreground">
+                       {isRTL ? 'تجديد إقامات الموظفين إلكترونياً' : 'Streamlined electronic renewal process for employee residence permits with bulk processing capabilities'}
+                     </p>
+                   </div>
+                   <Badge className="bg-status-success text-white">
+                     {isRTL ? 'متاح' : 'Available'}
+                   </Badge>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <div>
+                     <span className="font-medium">
+                       {isRTL ? 'تأشيرات الخروج والعودة' : 'Business Travel Visa Management'}
+                     </span>
+                     <p className="text-sm text-muted-foreground">
+                       {isRTL ? 'إصدار تأشيرات الخروج والعودة للمقيمين' : 'Corporate travel authorization system for exit re-entry visas with approval workflows'}
+                     </p>
+                   </div>
+                   <Badge className="bg-status-success text-white">
+                     {isRTL ? 'متاح' : 'Available'}
+                   </Badge>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <div>
+                     <span className="font-medium">
+                       {isRTL ? 'نقل المعلومات' : 'Employee Transfer Management'}
+                     </span>
+                     <p className="text-sm text-muted-foreground">
+                       {isRTL ? 'نقل معلومات المقيمين بين المنشآت' : 'Seamless employee transfer process between corporate entities with data migration support'}
+                     </p>
+                   </div>
+                   <Badge className="bg-status-success text-white">
+                     {isRTL ? 'متاح' : 'Available'}
+                   </Badge>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <div>
+                     <span className="font-medium">
+                       {isRTL ? 'إلغاء الإقامات' : 'Employee Offboarding Services'}
+                     </span>
+                     <p className="text-sm text-muted-foreground">
+                       {isRTL ? 'إلغاء إقامات الموظفين المغادرين' : 'Automated termination processing for departing employees with compliance documentation'}
+                     </p>
+                   </div>
+                   <Badge className="bg-status-success text-white">
+                     {isRTL ? 'متاح' : 'Available'}
+                   </Badge>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <div>
+                     <span className="font-medium">
+                       {isRTL ? 'تحديث البيانات' : 'Employee Data Management'}
+                     </span>
+                     <p className="text-sm text-muted-foreground">
+                       {isRTL ? 'تحديث بيانات المقيمين والمعلومات الشخصية' : 'Real-time employee profile updates with government database synchronization'}
+                     </p>
                   </div>
                   <Badge className="bg-status-success text-white">
                     {isRTL ? 'متاح' : 'Available'}
@@ -190,36 +190,36 @@ const ELMPlatform = () => {
           <Card>
             <CardHeader>
               <CardTitle>
-                {isRTL ? 'عمليات الجوازات المتقدمة' : 'Advanced Passport Operations'}
+                {isRTL ? 'عمليات الجوازات المتقدمة' : 'Enterprise Immigration & Compliance Operations'}
               </CardTitle>
               <CardDescription>
-                {isRTL ? 'إدارة شاملة لعمليات الجوازات والتأشيرات' : 'Comprehensive management of passport and visa operations'}
+                {isRTL ? 'إدارة شاملة لعمليات الجوازات والتأشيرات' : 'Comprehensive immigration compliance management with automated workflows and real-time status tracking'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2 p-4 border rounded-lg">
                   <h4 className="font-semibold">
-                    {isRTL ? 'التحقق من التأشيرات' : 'Visa Verification'}
+                    {isRTL ? 'التحقق من التأشيرات' : 'Enterprise Visa Verification System'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    {isRTL ? 'التحقق من صحة التأشيرات والوثائق' : 'Verify the validity of visas and documents'}
+                    {isRTL ? 'التحقق من صحة التأشيرات والوثائق' : 'Real-time visa and document authentication with government database integration'}
                   </p>
                   <div className="flex justify-between items-center">
                     <Badge className="bg-status-success text-white">
-                      {isRTL ? 'نشط' : 'Active'}
+                      {isRTL ? 'نشط' : 'Live API'}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
-                      {isRTL ? '2,456 عملية اليوم' : '2,456 operations today'}
+                      {isRTL ? '2,456 عملية اليوم' : '2,456 verifications today'}
                     </span>
                   </div>
                 </div>
                 <div className="space-y-2 p-4 border rounded-lg">
                   <h4 className="font-semibold">
-                    {isRTL ? 'تصاريح دخول مكة' : 'Makkah Entry Permits'}
+                    {isRTL ? 'تصاريح دخول مكة' : 'Religious Tourism Permits'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    {isRTL ? 'إصدار تصاريح دخول مكة المكرمة' : 'Issue permits for entering Makkah Al-Mukarramah'}
+                    {isRTL ? 'إصدار تصاريح دخول مكة المكرمة' : 'Automated Makkah entry permit processing for religious tourism workforce'}
                   </p>
                   <div className="flex justify-between items-center">
                     <Badge className="bg-status-success text-white">
@@ -232,26 +232,26 @@ const ELMPlatform = () => {
                 </div>
                 <div className="space-y-2 p-4 border rounded-lg">
                   <h4 className="font-semibold">
-                    {isRTL ? 'توصيل الإقامات' : 'Residence Delivery'}
+                    {isRTL ? 'توصيل الإقامات' : 'Document Logistics Service'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    {isRTL ? 'خدمة توصيل الإقامات المعالجة' : 'Delivery service for processed residence permits'}
+                    {isRTL ? 'خدمة توصيل الإقامات المعالجة' : 'Enterprise document delivery service for processed residence permits and corporate documentation'}
                   </p>
                   <div className="flex justify-between items-center">
                     <Badge className="bg-status-info text-white">
                       {isRTL ? 'متاح' : 'Available'}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
-                      {isRTL ? '345 طلب اليوم' : '345 requests today'}
+                      {isRTL ? '345 طلب اليوم' : '345 deliveries today'}
                     </span>
                   </div>
                 </div>
                 <div className="space-y-2 p-4 border rounded-lg">
                   <h4 className="font-semibold">
-                    {isRTL ? 'الباقات المتخصصة' : 'Specialized Packages'}
+                    {isRTL ? 'الباقات المتخصصة' : 'Enterprise Service Packages'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
-                    {isRTL ? 'باقات مقيم الشاملة والمتخصصة' : 'Comprehensive and specialized Muqeem packages'}
+                    {isRTL ? 'باقات مقيم الشاملة والمتخصصة' : 'Comprehensive immigration service packages with unlimited operations and priority support'}
                   </p>
                   <div className="flex justify-between items-center">
                     <Badge className="bg-status-warning text-white">
@@ -271,10 +271,10 @@ const ELMPlatform = () => {
           <Card>
             <CardHeader>
               <CardTitle>
-                {isRTL ? 'التقارير والتحليلات المتقدمة' : 'Advanced Reports & Analytics'}
+                {isRTL ? 'التقارير والتحليلات المتقدمة' : 'Executive Immigration Reporting & Analytics'}
               </CardTitle>
               <CardDescription>
-                {isRTL ? 'تقارير شاملة ومفصلة لإدارة المقيمين' : 'Comprehensive and detailed reports for resident management'}
+                {isRTL ? 'تقارير شاملة ومفصلة لإدارة المقيمين' : 'Enterprise-grade immigration analytics with government compliance verification and audit trail capabilities'}
               </CardDescription>
             </CardHeader>
             <CardContent>
