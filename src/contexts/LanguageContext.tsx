@@ -62,8 +62,9 @@ const translations = {
     // Core HR - Benefits Administration
     'core_hr.benefits_administration': 'إدارة المزايا',
     'nav.mudad_platform': 'منصة مدد',
-    'nav.elm_platform': 'منصة مقيم',
+    'nav.elm_platform': 'منصة عنصر',
     'nav.absher_platform': 'منصة أبشر',
+    'nav.muqeem_platform': 'منصة مقيم',
     'nav.hrsd_integration': 'تكامل وزارة الموارد البشرية',
     'nav.tvtc_doroob': 'المؤسسة العامة للتدريب/دروب',
     'nav.zatca_integration': 'تكامل هيئة الزكاة والضريبة والجمارك',
@@ -954,11 +955,12 @@ const translations = {
      // Navigation Sub-items - Government
      'nav.qiwa_integration': 'Qiwa Integration',
      'nav.gosi_integration': 'GOSI Integration',
-     'nav.mudad_platform': 'Mudad Platform',
-     'nav.elm_platform': 'Muqeem Platform',
-     'nav.absher_platform': 'Absher Platform',
-     'nav.hrsd_integration': 'HRSD Integration',
-     'nav.tvtc_doroob': 'TVTC/Doroob Platform',
+      'nav.mudad_platform': 'Mudad Platform',
+      'nav.elm_platform': 'ELM Platform',
+      'nav.absher_platform': 'Absher Platform',
+      'nav.muqeem_platform': 'Muqeem Platform',
+      'nav.hrsd_integration': 'HRSD Integration',
+      'nav.tvtc_doroob': 'TVTC/Doroob Platform',
       'nav.zatca_integration': 'ZATCA Integration',
       
        // ZATCA Integration

@@ -43,6 +43,7 @@ const BudgetForecasting = lazy(() => import('../pages/payroll/BudgetForecasting'
 // Government sub-modules
 const QiwaIntegration = lazy(() => import('../pages/government/QiwaIntegration'));
 const AbsherPlatform = lazy(() => import('../pages/government/AbsherPlatform'));
+const MuqeemPlatform = lazy(() => import('../pages/government/MuqeemPlatform'));
 const MudadPlatform = lazy(() => import('../pages/government/MudadPlatform'));
 const NitaqatCompliance = lazy(() => import('../pages/government/NitaqatCompliance'));
 const TVTCIntegration = lazy(() => import('../pages/government/TVTCIntegration'));
@@ -251,6 +252,7 @@ export const ROUTES: RouteConfig[] = [
   // Government Integration Sub-routes
   { path: '/government/qiwa', element: QiwaIntegration, auth: true },
   { path: '/government/absher', element: AbsherPlatform, auth: true },
+  { path: '/government/muqeem', element: MuqeemPlatform, auth: true },
   { path: '/government/mudad', element: MudadPlatform, auth: true },
   { path: '/government/nitaqat', element: NitaqatCompliance, auth: true },
   { path: '/government/tvtc', element: TVTCIntegration, auth: true },
