@@ -58,6 +58,46 @@ export interface Employee {
   company_sim_card?: boolean;
   schooling_fees_coverage?: 'none' | 'one_child' | 'two_children' | 'all_children';
   parents_medical_insurance?: boolean;
+  // Additional comprehensive fields
+  line_manager_extension?: string;
+  vacation_days_per_year?: number;
+  company_phone?: string;
+  iban_number?: string;
+  emergency_contact_name?: string;
+  emergency_contact_number?: string;
+  life_insurance_home_country?: boolean;
+  visa_number?: string;
+  job_description?: string;
+  job_description_ar?: string;
+  kpis?: string;
+  kpis_ar?: string;
+  work_location?: string;
+  work_location_ar?: string;
+  project_name?: string;
+  project_name_ar?: string;
+  project_number?: string;
+  project_cost_number?: string;
+  overtime_eligible?: boolean;
+  joining_date?: string;
+  contract_type?: string;
+  shift_type?: 'day' | 'night';
+  company_housing?: boolean;
+  education_level?: string;
+  certificates?: string;
+  certificates_ar?: string;
+  experience_years?: number;
+  grade_level?: string;
+  driver_license_number?: string;
+  company_job_title?: string;
+  company_job_title_ar?: string;
+  job_level?: 'junior' | 'senior' | 'manager' | 'director' | 'cxo';
+  salary_level?: string;
+  gosi_cost_per_month?: number;
+  passport_expiry_date?: string;
+  qiwa_contract?: boolean;
+  saudi_engineer_card_number?: string;
+  medical_conditions?: string;
+  medical_conditions_ar?: string;
 }
 
 export const useEmployees = () => {

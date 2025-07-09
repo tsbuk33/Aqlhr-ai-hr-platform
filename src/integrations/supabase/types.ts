@@ -535,29 +535,54 @@ export type Database = {
           annual_tickets_count: number | null
           annual_tickets_type: string | null
           basic_salary: number | null
+          certificates: string | null
+          certificates_ar: string | null
           company_email: string | null
+          company_housing: boolean | null
           company_id: string | null
+          company_job_title: string | null
+          company_job_title_ar: string | null
+          company_phone: string | null
           company_provides_transportation: boolean | null
           company_sim_card: boolean | null
+          contract_type: string | null
           created_at: string | null
           department: string | null
+          driver_license_number: string | null
+          education_level: string | null
           email: string | null
+          emergency_contact_name: string | null
+          emergency_contact_number: string | null
           employee_number: string
+          experience_years: number | null
           family_status: string | null
           first_name: string
           first_name_ar: string | null
           gender: string | null
+          gosi_cost_per_month: number | null
+          grade_level: string | null
           hire_date: string | null
           hired_request_number: string | null
           housing_allowance_percentage: number | null
+          iban_number: string | null
           id: string
           iqama_number: string | null
           iqama_title: string | null
           iqama_title_ar: string | null
           is_saudi: boolean | null
+          job_description: string | null
+          job_description_ar: string | null
+          job_level: string | null
           job_location: string | null
+          joining_date: string | null
+          kpis: string | null
+          kpis_ar: string | null
           last_name: string
           last_name_ar: string | null
+          life_insurance_home_country: boolean | null
+          line_manager_extension: string | null
+          medical_conditions: string | null
+          medical_conditions_ar: string | null
           national_address: string | null
           national_id: string | null
           nationality: string | null
@@ -565,7 +590,9 @@ export type Database = {
           number_of_wives: number | null
           other_benefits: string | null
           other_benefits_ar: string | null
+          overtime_eligible: boolean | null
           parents_medical_insurance: boolean | null
+          passport_expiry_date: string | null
           passport_number: string | null
           personal_email: string | null
           phone: string | null
@@ -573,14 +600,26 @@ export type Database = {
           position_ar: string | null
           position_hired_for: string | null
           position_hired_for_ar: string | null
+          project_cost_number: string | null
           project_hired_for: string | null
           project_hired_for_ar: string | null
+          project_name: string | null
+          project_name_ar: string | null
+          project_number: string | null
+          qiwa_contract: boolean | null
           recruitment_type: string | null
           salary: number | null
+          salary_level: string | null
+          saudi_engineer_card_number: string | null
           schooling_fees_coverage: string | null
+          shift_type: string | null
           status: string | null
           transportation_allowance_percentage: number | null
           updated_at: string | null
+          vacation_days_per_year: number | null
+          visa_number: string | null
+          work_location: string | null
+          work_location_ar: string | null
         }
         Insert: {
           actual_job_title?: string | null
@@ -589,29 +628,54 @@ export type Database = {
           annual_tickets_count?: number | null
           annual_tickets_type?: string | null
           basic_salary?: number | null
+          certificates?: string | null
+          certificates_ar?: string | null
           company_email?: string | null
+          company_housing?: boolean | null
           company_id?: string | null
+          company_job_title?: string | null
+          company_job_title_ar?: string | null
+          company_phone?: string | null
           company_provides_transportation?: boolean | null
           company_sim_card?: boolean | null
+          contract_type?: string | null
           created_at?: string | null
           department?: string | null
+          driver_license_number?: string | null
+          education_level?: string | null
           email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_number?: string | null
           employee_number: string
+          experience_years?: number | null
           family_status?: string | null
           first_name: string
           first_name_ar?: string | null
           gender?: string | null
+          gosi_cost_per_month?: number | null
+          grade_level?: string | null
           hire_date?: string | null
           hired_request_number?: string | null
           housing_allowance_percentage?: number | null
+          iban_number?: string | null
           id?: string
           iqama_number?: string | null
           iqama_title?: string | null
           iqama_title_ar?: string | null
           is_saudi?: boolean | null
+          job_description?: string | null
+          job_description_ar?: string | null
+          job_level?: string | null
           job_location?: string | null
+          joining_date?: string | null
+          kpis?: string | null
+          kpis_ar?: string | null
           last_name: string
           last_name_ar?: string | null
+          life_insurance_home_country?: boolean | null
+          line_manager_extension?: string | null
+          medical_conditions?: string | null
+          medical_conditions_ar?: string | null
           national_address?: string | null
           national_id?: string | null
           nationality?: string | null
@@ -619,7 +683,9 @@ export type Database = {
           number_of_wives?: number | null
           other_benefits?: string | null
           other_benefits_ar?: string | null
+          overtime_eligible?: boolean | null
           parents_medical_insurance?: boolean | null
+          passport_expiry_date?: string | null
           passport_number?: string | null
           personal_email?: string | null
           phone?: string | null
@@ -627,14 +693,26 @@ export type Database = {
           position_ar?: string | null
           position_hired_for?: string | null
           position_hired_for_ar?: string | null
+          project_cost_number?: string | null
           project_hired_for?: string | null
           project_hired_for_ar?: string | null
+          project_name?: string | null
+          project_name_ar?: string | null
+          project_number?: string | null
+          qiwa_contract?: boolean | null
           recruitment_type?: string | null
           salary?: number | null
+          salary_level?: string | null
+          saudi_engineer_card_number?: string | null
           schooling_fees_coverage?: string | null
+          shift_type?: string | null
           status?: string | null
           transportation_allowance_percentage?: number | null
           updated_at?: string | null
+          vacation_days_per_year?: number | null
+          visa_number?: string | null
+          work_location?: string | null
+          work_location_ar?: string | null
         }
         Update: {
           actual_job_title?: string | null
@@ -643,29 +721,54 @@ export type Database = {
           annual_tickets_count?: number | null
           annual_tickets_type?: string | null
           basic_salary?: number | null
+          certificates?: string | null
+          certificates_ar?: string | null
           company_email?: string | null
+          company_housing?: boolean | null
           company_id?: string | null
+          company_job_title?: string | null
+          company_job_title_ar?: string | null
+          company_phone?: string | null
           company_provides_transportation?: boolean | null
           company_sim_card?: boolean | null
+          contract_type?: string | null
           created_at?: string | null
           department?: string | null
+          driver_license_number?: string | null
+          education_level?: string | null
           email?: string | null
+          emergency_contact_name?: string | null
+          emergency_contact_number?: string | null
           employee_number?: string
+          experience_years?: number | null
           family_status?: string | null
           first_name?: string
           first_name_ar?: string | null
           gender?: string | null
+          gosi_cost_per_month?: number | null
+          grade_level?: string | null
           hire_date?: string | null
           hired_request_number?: string | null
           housing_allowance_percentage?: number | null
+          iban_number?: string | null
           id?: string
           iqama_number?: string | null
           iqama_title?: string | null
           iqama_title_ar?: string | null
           is_saudi?: boolean | null
+          job_description?: string | null
+          job_description_ar?: string | null
+          job_level?: string | null
           job_location?: string | null
+          joining_date?: string | null
+          kpis?: string | null
+          kpis_ar?: string | null
           last_name?: string
           last_name_ar?: string | null
+          life_insurance_home_country?: boolean | null
+          line_manager_extension?: string | null
+          medical_conditions?: string | null
+          medical_conditions_ar?: string | null
           national_address?: string | null
           national_id?: string | null
           nationality?: string | null
@@ -673,7 +776,9 @@ export type Database = {
           number_of_wives?: number | null
           other_benefits?: string | null
           other_benefits_ar?: string | null
+          overtime_eligible?: boolean | null
           parents_medical_insurance?: boolean | null
+          passport_expiry_date?: string | null
           passport_number?: string | null
           personal_email?: string | null
           phone?: string | null
@@ -681,14 +786,26 @@ export type Database = {
           position_ar?: string | null
           position_hired_for?: string | null
           position_hired_for_ar?: string | null
+          project_cost_number?: string | null
           project_hired_for?: string | null
           project_hired_for_ar?: string | null
+          project_name?: string | null
+          project_name_ar?: string | null
+          project_number?: string | null
+          qiwa_contract?: boolean | null
           recruitment_type?: string | null
           salary?: number | null
+          salary_level?: string | null
+          saudi_engineer_card_number?: string | null
           schooling_fees_coverage?: string | null
+          shift_type?: string | null
           status?: string | null
           transportation_allowance_percentage?: number | null
           updated_at?: string | null
+          vacation_days_per_year?: number | null
+          visa_number?: string | null
+          work_location?: string | null
+          work_location_ar?: string | null
         }
         Relationships: [
           {

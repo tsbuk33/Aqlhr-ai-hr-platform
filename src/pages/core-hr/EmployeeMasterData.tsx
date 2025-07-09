@@ -396,6 +396,290 @@ const EmployeeMasterData = () => {
       label: 'Parents Medical Insurance',
       arabicLabel: 'التأمين الطبي للوالدين',
       type: 'checkbox' as const
+    },
+
+    // Additional comprehensive fields
+    {
+      name: 'line_manager_extension',
+      label: 'Line Manager Extension Number',
+      arabicLabel: 'رقم تحويل المدير المباشر',
+      type: 'text' as const
+    },
+    {
+      name: 'vacation_days_per_year',
+      label: 'Vacation Days Per Year',
+      arabicLabel: 'أيام الإجازة السنوية',
+      type: 'number' as const,
+      validation: {
+        min: 21,
+        max: 30
+      }
+    },
+    {
+      name: 'company_phone',
+      label: 'Company Phone Number',
+      arabicLabel: 'رقم هاتف الشركة',
+      type: 'text' as const,
+      validation: {
+        pattern: /^[\+]?[1-9][\d]{0,15}$/,
+        message: language === 'ar' ? 'رقم هاتف غير صحيح' : 'Invalid phone number'
+      }
+    },
+    {
+      name: 'iban_number',
+      label: 'IBAN Number',
+      arabicLabel: 'رقم الآيبان',
+      type: 'text' as const,
+      validation: {
+        pattern: /^SA\d{22}$/,
+        message: language === 'ar' ? 'رقم آيبان غير صحيح (يجب أن يبدأ بـ SA ويحتوي على 24 رقم)' : 'Invalid IBAN (must start with SA and contain 24 digits)'
+      }
+    },
+    {
+      name: 'emergency_contact_name',
+      label: 'Emergency Contact Name',
+      arabicLabel: 'اسم جهة الاتصال في الطوارئ',
+      type: 'text' as const
+    },
+    {
+      name: 'emergency_contact_number',
+      label: 'Emergency Contact Number',
+      arabicLabel: 'رقم جهة الاتصال في الطوارئ',
+      type: 'text' as const,
+      validation: {
+        pattern: /^[\+]?[1-9][\d]{0,15}$/,
+        message: language === 'ar' ? 'رقم هاتف غير صحيح' : 'Invalid phone number'
+      }
+    },
+    {
+      name: 'life_insurance_home_country',
+      label: 'Life Insurance in Home Country',
+      arabicLabel: 'التأمين على الحياة في البلد الأم',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'visa_number',
+      label: 'Visa Number (International Employees)',
+      arabicLabel: 'رقم التأشيرة (للموظفين الدوليين)',
+      type: 'text' as const
+    },
+    {
+      name: 'job_description',
+      label: 'Job Description',
+      arabicLabel: 'الوصف الوظيفي',
+      type: 'textarea' as const
+    },
+    {
+      name: 'job_description_ar',
+      label: 'Job Description (Arabic)',
+      arabicLabel: 'الوصف الوظيفي (عربي)',
+      type: 'textarea' as const
+    },
+    {
+      name: 'kpis',
+      label: 'Key Performance Indicators (KPIs)',
+      arabicLabel: 'مؤشرات الأداء الرئيسية',
+      type: 'textarea' as const
+    },
+    {
+      name: 'kpis_ar',
+      label: 'KPIs (Arabic)',
+      arabicLabel: 'مؤشرات الأداء الرئيسية (عربي)',
+      type: 'textarea' as const
+    },
+    {
+      name: 'work_location',
+      label: 'Work Location',
+      arabicLabel: 'موقع العمل',
+      type: 'text' as const
+    },
+    {
+      name: 'work_location_ar',
+      label: 'Work Location (Arabic)',
+      arabicLabel: 'موقع العمل (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'project_name',
+      label: 'Project Name',
+      arabicLabel: 'اسم المشروع',
+      type: 'text' as const
+    },
+    {
+      name: 'project_name_ar',
+      label: 'Project Name (Arabic)',
+      arabicLabel: 'اسم المشروع (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'project_number',
+      label: 'Project Number',
+      arabicLabel: 'رقم المشروع',
+      type: 'text' as const
+    },
+    {
+      name: 'project_cost_number',
+      label: 'Project Cost Number',
+      arabicLabel: 'رقم تكلفة المشروع',
+      type: 'text' as const
+    },
+    {
+      name: 'overtime_eligible',
+      label: 'Overtime Eligible',
+      arabicLabel: 'مؤهل للعمل الإضافي',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'joining_date',
+      label: 'Joining Date',
+      arabicLabel: 'تاريخ الانضمام',
+      type: 'date' as const
+    },
+    {
+      name: 'contract_type',
+      label: 'Contract Type (HRSD Approved)',
+      arabicLabel: 'نوع العقد (معتمد من وزارة الموارد البشرية)',
+      type: 'select' as const,
+      options: [
+        { value: 'permanent', label: language === 'ar' ? 'دائم' : 'Permanent' },
+        { value: 'temporary', label: language === 'ar' ? 'مؤقت' : 'Temporary' },
+        { value: 'contract', label: language === 'ar' ? 'عقد محدد المدة' : 'Fixed-term Contract' },
+        { value: 'part_time', label: language === 'ar' ? 'دوام جزئي' : 'Part-time' },
+        { value: 'seasonal', label: language === 'ar' ? 'موسمي' : 'Seasonal' }
+      ]
+    },
+    {
+      name: 'shift_type',
+      label: 'Shift Type',
+      arabicLabel: 'نوع الوردية',
+      type: 'select' as const,
+      options: [
+        { value: 'day', label: language === 'ar' ? 'نهاري' : 'Day Shift' },
+        { value: 'night', label: language === 'ar' ? 'ليلي' : 'Night Shift' }
+      ]
+    },
+    {
+      name: 'company_housing',
+      label: 'Company Provides Housing',
+      arabicLabel: 'الشركة توفر السكن',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'education_level',
+      label: 'Level of Education',
+      arabicLabel: 'المستوى التعليمي',
+      type: 'select' as const,
+      options: [
+        { value: 'high_school', label: language === 'ar' ? 'ثانوية عامة' : 'High School' },
+        { value: 'diploma', label: language === 'ar' ? 'دبلوم' : 'Diploma' },
+        { value: 'bachelor', label: language === 'ar' ? 'بكالوريوس' : 'Bachelor\'s Degree' },
+        { value: 'master', label: language === 'ar' ? 'ماجستير' : 'Master\'s Degree' },
+        { value: 'phd', label: language === 'ar' ? 'دكتوراه' : 'PhD' }
+      ]
+    },
+    {
+      name: 'certificates',
+      label: 'Certificates',
+      arabicLabel: 'الشهادات',
+      type: 'textarea' as const
+    },
+    {
+      name: 'certificates_ar',
+      label: 'Certificates (Arabic)',
+      arabicLabel: 'الشهادات (عربي)',
+      type: 'textarea' as const
+    },
+    {
+      name: 'experience_years',
+      label: 'Experience in Years',
+      arabicLabel: 'سنوات الخبرة',
+      type: 'number' as const,
+      validation: {
+        min: 0,
+        max: 50
+      }
+    },
+    {
+      name: 'grade_level',
+      label: 'Grade Level',
+      arabicLabel: 'مستوى الدرجة',
+      type: 'text' as const
+    },
+    {
+      name: 'driver_license_number',
+      label: 'Driver License Number',
+      arabicLabel: 'رقم رخصة القيادة',
+      type: 'text' as const
+    },
+    {
+      name: 'company_job_title',
+      label: 'Company Job Title',
+      arabicLabel: 'المسمى الوظيفي في الشركة',
+      type: 'text' as const
+    },
+    {
+      name: 'company_job_title_ar',
+      label: 'Company Job Title (Arabic)',
+      arabicLabel: 'المسمى الوظيفي في الشركة (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'job_level',
+      label: 'Job Level',
+      arabicLabel: 'مستوى الوظيفة',
+      type: 'select' as const,
+      options: [
+        { value: 'junior', label: language === 'ar' ? 'مبتدئ' : 'Junior' },
+        { value: 'senior', label: language === 'ar' ? 'أول' : 'Senior' },
+        { value: 'manager', label: language === 'ar' ? 'مدير' : 'Manager' },
+        { value: 'director', label: language === 'ar' ? 'مدير عام' : 'Director' },
+        { value: 'cxo', label: language === 'ar' ? 'مستوى تنفيذي' : 'CxO Level' }
+      ]
+    },
+    {
+      name: 'salary_level',
+      label: 'Salary Level',
+      arabicLabel: 'مستوى الراتب',
+      type: 'text' as const
+    },
+    {
+      name: 'gosi_cost_per_month',
+      label: 'GOSI Cost Per Month (SAR)',
+      arabicLabel: 'تكلفة التأمينات الاجتماعية شهرياً (ريال)',
+      type: 'number' as const,
+      validation: {
+        min: 0
+      }
+    },
+    {
+      name: 'passport_expiry_date',
+      label: 'Passport Expiry Date',
+      arabicLabel: 'تاريخ انتهاء جواز السفر',
+      type: 'date' as const
+    },
+    {
+      name: 'qiwa_contract',
+      label: 'Qiwa Contract',
+      arabicLabel: 'عقد قوى',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'saudi_engineer_card_number',
+      label: 'Saudi Engineer Card Number',
+      arabicLabel: 'رقم بطاقة المهندس السعودي',
+      type: 'text' as const
+    },
+    {
+      name: 'medical_conditions',
+      label: 'Medical Conditions',
+      arabicLabel: 'الحالات الطبية',
+      type: 'textarea' as const
+    },
+    {
+      name: 'medical_conditions_ar',
+      label: 'Medical Conditions (Arabic)',
+      arabicLabel: 'الحالات الطبية (عربي)',
+      type: 'textarea' as const
     }
   ];
 
