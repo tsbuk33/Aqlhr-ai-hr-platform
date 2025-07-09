@@ -955,7 +955,7 @@ const translations = {
      'nav.qiwa_integration': 'Qiwa Integration',
      'nav.gosi_integration': 'GOSI Integration',
      'nav.mudad_platform': 'Mudad Platform',
-     'nav.elm_platform': 'ELM Platform',
+     'nav.elm_platform': 'Muqeem Platform',
      'nav.absher_platform': 'Absher Platform',
      'nav.hrsd_integration': 'HRSD Integration',
      'nav.tvtc_doroob': 'TVTC/Doroob Platform',
