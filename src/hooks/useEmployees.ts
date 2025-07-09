@@ -26,6 +26,38 @@ export interface Employee {
   gosi_system_type?: 'OLD' | 'NEW';
   gosi_employee_rate?: number;
   gosi_employer_rate?: number;
+  // New comprehensive fields
+  job_location?: string;
+  actual_job_title?: string;
+  actual_job_title_ar?: string;
+  iqama_title?: string;
+  iqama_title_ar?: string;
+  national_address?: string;
+  personal_email?: string;
+  company_email?: string;
+  family_status?: 'family' | 'non_family';
+  recruitment_type?: 'local' | 'international';
+  passport_number?: string;
+  number_of_wives?: number;
+  number_of_children?: number;
+  position_hired_for?: string;
+  position_hired_for_ar?: string;
+  project_hired_for?: string;
+  project_hired_for_ar?: string;
+  hired_request_number?: string;
+  gender?: 'male' | 'female';
+  basic_salary?: number;
+  housing_allowance_percentage?: number;
+  transportation_allowance_percentage?: number;
+  company_provides_transportation?: boolean;
+  other_benefits?: string;
+  other_benefits_ar?: string;
+  agreed_annual_bonus?: number;
+  annual_tickets_type?: 'single' | 'family';
+  annual_tickets_count?: number;
+  company_sim_card?: boolean;
+  schooling_fees_coverage?: 'none' | 'one_child' | 'two_children' | 'all_children';
+  parents_medical_insurance?: boolean;
 }
 
 export const useEmployees = () => {

@@ -71,33 +71,68 @@ const EmployeeMasterData = () => {
   ];
 
   const employeeFormFields = [
+    // Basic Information Section
     {
-      name: 'firstName',
+      name: 'first_name',
       label: 'First Name',
       arabicLabel: 'الاسم الأول',
       type: 'text' as const,
       required: true
     },
     {
-      name: 'lastName',
+      name: 'last_name',
       label: 'Last Name',
       arabicLabel: 'اسم العائلة',
       type: 'text' as const,
       required: true
     },
     {
-      name: 'employeeNumber',
+      name: 'first_name_ar',
+      label: 'First Name (Arabic)',
+      arabicLabel: 'الاسم الأول (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'last_name_ar',
+      label: 'Last Name (Arabic)',
+      arabicLabel: 'اسم العائلة (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'employee_number',
       label: 'Employee Number',
       arabicLabel: 'رقم الموظف',
       type: 'text' as const,
       required: true
     },
     {
-      name: 'email',
-      label: 'Email Address',
-      arabicLabel: 'البريد الإلكتروني',
-      type: 'email' as const,
+      name: 'gender',
+      label: 'Gender',
+      arabicLabel: 'الجنس',
+      type: 'select' as const,
       required: true,
+      options: [
+        { value: 'male', label: language === 'ar' ? 'ذكر' : 'Male' },
+        { value: 'female', label: language === 'ar' ? 'أنثى' : 'Female' }
+      ]
+    },
+
+    // Contact Information
+    {
+      name: 'personal_email',
+      label: 'Personal Email Address',
+      arabicLabel: 'البريد الإلكتروني الشخصي',
+      type: 'email' as const,
+      validation: {
+        pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        message: language === 'ar' ? 'تنسيق البريد الإلكتروني غير صحيح' : 'Invalid email format'
+      }
+    },
+    {
+      name: 'company_email',
+      label: 'Company Email Address',
+      arabicLabel: 'البريد الإلكتروني للشركة',
+      type: 'email' as const,
       validation: {
         pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         message: language === 'ar' ? 'تنسيق البريد الإلكتروني غير صحيح' : 'Invalid email format'
@@ -113,6 +148,44 @@ const EmployeeMasterData = () => {
         message: language === 'ar' ? 'رقم هاتف غير صحيح' : 'Invalid phone number'
       }
     },
+    {
+      name: 'national_address',
+      label: 'National Address',
+      arabicLabel: 'العنوان الوطني',
+      type: 'textarea' as const
+    },
+
+    // Identification
+    {
+      name: 'national_id',
+      label: 'National ID',
+      arabicLabel: 'رقم الهوية الوطنية',
+      type: 'text' as const
+    },
+    {
+      name: 'iqama_number',
+      label: 'Iqama Number',
+      arabicLabel: 'رقم الإقامة',
+      type: 'text' as const
+    },
+    {
+      name: 'passport_number',
+      label: 'Passport Number',
+      arabicLabel: 'رقم جواز السفر',
+      type: 'text' as const
+    },
+    {
+      name: 'nationality',
+      label: 'Nationality',
+      arabicLabel: 'الجنسية',
+      type: 'select' as const,
+      options: [
+        { value: 'saudi', label: language === 'ar' ? 'سعودي' : 'Saudi' },
+        { value: 'other', label: language === 'ar' ? 'أخرى' : 'Other' }
+      ]
+    },
+
+    // Job Information
     {
       name: 'department',
       label: 'Department',
@@ -134,30 +207,195 @@ const EmployeeMasterData = () => {
       required: true
     },
     {
-      name: 'salary',
-      label: 'Salary (SAR)',
-      arabicLabel: 'الراتب (ريال سعودي)',
-      type: 'number' as const,
-      validation: {
-        min: 3000,
-        max: 50000
-      }
+      name: 'actual_job_title',
+      label: 'Actual Job Title',
+      arabicLabel: 'المسمى الوظيفي الفعلي',
+      type: 'text' as const
     },
     {
-      name: 'nationality',
-      label: 'Nationality',
-      arabicLabel: 'الجنسية',
+      name: 'actual_job_title_ar',
+      label: 'Actual Job Title (Arabic)',
+      arabicLabel: 'المسمى الوظيفي الفعلي (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'iqama_title',
+      label: 'Iqama Title',
+      arabicLabel: 'المسمى في الإقامة',
+      type: 'text' as const
+    },
+    {
+      name: 'iqama_title_ar',
+      label: 'Iqama Title (Arabic)',
+      arabicLabel: 'المسمى في الإقامة (عربي)',
+      type: 'text' as const
+    },
+    {
+      name: 'job_location',
+      label: 'Job Location',
+      arabicLabel: 'مكان العمل',
+      type: 'text' as const
+    },
+    {
+      name: 'position_hired_for',
+      label: 'Position Hired For',
+      arabicLabel: 'المنصب المعين له',
+      type: 'text' as const
+    },
+    {
+      name: 'project_hired_for',
+      label: 'Project Hired For',
+      arabicLabel: 'المشروع المعين له',
+      type: 'text' as const
+    },
+    {
+      name: 'hired_request_number',
+      label: 'Hired Request Number',
+      arabicLabel: 'رقم طلب التوظيف',
+      type: 'text' as const
+    },
+
+    // Recruitment Information
+    {
+      name: 'recruitment_type',
+      label: 'Recruitment Type',
+      arabicLabel: 'نوع التوظيف',
       type: 'select' as const,
       options: [
-        { value: 'saudi', label: language === 'ar' ? 'سعودي' : 'Saudi' },
-        { value: 'other', label: language === 'ar' ? 'أخرى' : 'Other' }
+        { value: 'local', label: language === 'ar' ? 'محلي' : 'Local' },
+        { value: 'international', label: language === 'ar' ? 'دولي' : 'International' }
+      ]
+    },
+
+    // Family Information
+    {
+      name: 'family_status',
+      label: 'Family Status',
+      arabicLabel: 'الحالة العائلية',
+      type: 'select' as const,
+      options: [
+        { value: 'family', label: language === 'ar' ? 'عائلي' : 'Family' },
+        { value: 'non_family', label: language === 'ar' ? 'غير عائلي' : 'Non-Family' }
       ]
     },
     {
-      name: 'notes',
-      label: 'Additional Notes',
-      arabicLabel: 'ملاحظات إضافية',
+      name: 'number_of_wives',
+      label: 'Number of Wives',
+      arabicLabel: 'عدد الزوجات',
+      type: 'number' as const,
+      validation: {
+        min: 0,
+        max: 4
+      }
+    },
+    {
+      name: 'number_of_children',
+      label: 'Number of Children',
+      arabicLabel: 'عدد الأطفال',
+      type: 'number' as const,
+      validation: {
+        min: 0
+      }
+    },
+
+    // Salary and Benefits
+    {
+      name: 'basic_salary',
+      label: 'Basic Salary (SAR)',
+      arabicLabel: 'الراتب الأساسي (ريال سعودي)',
+      type: 'number' as const,
+      validation: {
+        min: 3000
+      }
+    },
+    {
+      name: 'housing_allowance_percentage',
+      label: 'Housing Allowance (%)',
+      arabicLabel: 'بدل السكن (%)',
+      type: 'number' as const,
+      validation: {
+        min: 0,
+        max: 100
+      }
+    },
+    {
+      name: 'company_provides_transportation',
+      label: 'Company Provides Transportation',
+      arabicLabel: 'الشركة توفر المواصلات',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'transportation_allowance_percentage',
+      label: 'Transportation Allowance (%)',
+      arabicLabel: 'بدل المواصلات (%)',
+      type: 'number' as const,
+      validation: {
+        min: 0,
+        max: 100
+      }
+    },
+    {
+      name: 'agreed_annual_bonus',
+      label: 'Agreed Annual Bonus (SAR)',
+      arabicLabel: 'المكافأة السنوية المتفق عليها (ريال)',
+      type: 'number' as const,
+      validation: {
+        min: 0
+      }
+    },
+    {
+      name: 'other_benefits',
+      label: 'Other Benefits',
+      arabicLabel: 'مزايا أخرى',
       type: 'textarea' as const
+    },
+
+    // Annual Benefits
+    {
+      name: 'annual_tickets_type',
+      label: 'Annual Tickets Type',
+      arabicLabel: 'نوع التذاكر السنوية',
+      type: 'select' as const,
+      options: [
+        { value: 'single', label: language === 'ar' ? 'فردي' : 'Single' },
+        { value: 'family', label: language === 'ar' ? 'عائلي' : 'Family' }
+      ]
+    },
+    {
+      name: 'annual_tickets_count',
+      label: 'Annual Tickets Count',
+      arabicLabel: 'عدد التذاكر السنوية',
+      type: 'number' as const,
+      validation: {
+        min: 0,
+        max: 10
+      }
+    },
+
+    // Company Benefits
+    {
+      name: 'company_sim_card',
+      label: 'Company SIM Card',
+      arabicLabel: 'شريحة الشركة',
+      type: 'checkbox' as const
+    },
+    {
+      name: 'schooling_fees_coverage',
+      label: 'Schooling Fees Coverage',
+      arabicLabel: 'تغطية رسوم المدارس',
+      type: 'select' as const,
+      options: [
+        { value: 'none', label: language === 'ar' ? 'لا يوجد' : 'None' },
+        { value: 'one_child', label: language === 'ar' ? 'طفل واحد' : 'One Child' },
+        { value: 'two_children', label: language === 'ar' ? 'طفلان' : 'Two Children' },
+        { value: 'all_children', label: language === 'ar' ? 'جميع الأطفال' : 'All Children' }
+      ]
+    },
+    {
+      name: 'parents_medical_insurance',
+      label: 'Parents Medical Insurance',
+      arabicLabel: 'التأمين الطبي للوالدين',
+      type: 'checkbox' as const
     }
   ];
 

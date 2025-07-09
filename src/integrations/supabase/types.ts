@@ -529,72 +529,165 @@ export type Database = {
       }
       employees: {
         Row: {
+          actual_job_title: string | null
+          actual_job_title_ar: string | null
+          agreed_annual_bonus: number | null
+          annual_tickets_count: number | null
+          annual_tickets_type: string | null
+          basic_salary: number | null
+          company_email: string | null
           company_id: string | null
+          company_provides_transportation: boolean | null
+          company_sim_card: boolean | null
           created_at: string | null
           department: string | null
           email: string | null
           employee_number: string
+          family_status: string | null
           first_name: string
           first_name_ar: string | null
+          gender: string | null
           hire_date: string | null
+          hired_request_number: string | null
+          housing_allowance_percentage: number | null
           id: string
           iqama_number: string | null
+          iqama_title: string | null
+          iqama_title_ar: string | null
           is_saudi: boolean | null
+          job_location: string | null
           last_name: string
           last_name_ar: string | null
+          national_address: string | null
           national_id: string | null
           nationality: string | null
+          number_of_children: number | null
+          number_of_wives: number | null
+          other_benefits: string | null
+          other_benefits_ar: string | null
+          parents_medical_insurance: boolean | null
+          passport_number: string | null
+          personal_email: string | null
           phone: string | null
           position: string | null
           position_ar: string | null
+          position_hired_for: string | null
+          position_hired_for_ar: string | null
+          project_hired_for: string | null
+          project_hired_for_ar: string | null
+          recruitment_type: string | null
           salary: number | null
+          schooling_fees_coverage: string | null
           status: string | null
+          transportation_allowance_percentage: number | null
           updated_at: string | null
         }
         Insert: {
+          actual_job_title?: string | null
+          actual_job_title_ar?: string | null
+          agreed_annual_bonus?: number | null
+          annual_tickets_count?: number | null
+          annual_tickets_type?: string | null
+          basic_salary?: number | null
+          company_email?: string | null
           company_id?: string | null
+          company_provides_transportation?: boolean | null
+          company_sim_card?: boolean | null
           created_at?: string | null
           department?: string | null
           email?: string | null
           employee_number: string
+          family_status?: string | null
           first_name: string
           first_name_ar?: string | null
+          gender?: string | null
           hire_date?: string | null
+          hired_request_number?: string | null
+          housing_allowance_percentage?: number | null
           id?: string
           iqama_number?: string | null
+          iqama_title?: string | null
+          iqama_title_ar?: string | null
           is_saudi?: boolean | null
+          job_location?: string | null
           last_name: string
           last_name_ar?: string | null
+          national_address?: string | null
           national_id?: string | null
           nationality?: string | null
+          number_of_children?: number | null
+          number_of_wives?: number | null
+          other_benefits?: string | null
+          other_benefits_ar?: string | null
+          parents_medical_insurance?: boolean | null
+          passport_number?: string | null
+          personal_email?: string | null
           phone?: string | null
           position?: string | null
           position_ar?: string | null
+          position_hired_for?: string | null
+          position_hired_for_ar?: string | null
+          project_hired_for?: string | null
+          project_hired_for_ar?: string | null
+          recruitment_type?: string | null
           salary?: number | null
+          schooling_fees_coverage?: string | null
           status?: string | null
+          transportation_allowance_percentage?: number | null
           updated_at?: string | null
         }
         Update: {
+          actual_job_title?: string | null
+          actual_job_title_ar?: string | null
+          agreed_annual_bonus?: number | null
+          annual_tickets_count?: number | null
+          annual_tickets_type?: string | null
+          basic_salary?: number | null
+          company_email?: string | null
           company_id?: string | null
+          company_provides_transportation?: boolean | null
+          company_sim_card?: boolean | null
           created_at?: string | null
           department?: string | null
           email?: string | null
           employee_number?: string
+          family_status?: string | null
           first_name?: string
           first_name_ar?: string | null
+          gender?: string | null
           hire_date?: string | null
+          hired_request_number?: string | null
+          housing_allowance_percentage?: number | null
           id?: string
           iqama_number?: string | null
+          iqama_title?: string | null
+          iqama_title_ar?: string | null
           is_saudi?: boolean | null
+          job_location?: string | null
           last_name?: string
           last_name_ar?: string | null
+          national_address?: string | null
           national_id?: string | null
           nationality?: string | null
+          number_of_children?: number | null
+          number_of_wives?: number | null
+          other_benefits?: string | null
+          other_benefits_ar?: string | null
+          parents_medical_insurance?: boolean | null
+          passport_number?: string | null
+          personal_email?: string | null
           phone?: string | null
           position?: string | null
           position_ar?: string | null
+          position_hired_for?: string | null
+          position_hired_for_ar?: string | null
+          project_hired_for?: string | null
+          project_hired_for_ar?: string | null
+          recruitment_type?: string | null
           salary?: number | null
+          schooling_fees_coverage?: string | null
           status?: string | null
+          transportation_allowance_percentage?: number | null
           updated_at?: string | null
         }
         Relationships: [
