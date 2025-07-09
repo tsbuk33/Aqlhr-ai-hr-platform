@@ -56,42 +56,38 @@ const QiwaIntegration = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard
             title={isRTL ? "الموظفين النشطين" : "Active Employees"}
-            value={2847}
+            value="2,847"
             description={`+12 ${isRTL ? 'هذا الشهر' : 'this month'}`}
             icon={<Users className="h-6 w-6" />}
-            type="number"
             variant="primary"
             trend={{
-              value: 12,
+              value: "12",
               isPositive: true
             }}
           />
           <MemoizedMetricCard
             title={isRTL ? "نسبة نجاح العمليات" : "Process Success Rate"}
-            value={98.1}
+            value="98.1%"
             description={isRTL ? "معاملات ناجحة عبر الواجهة البرمجية" : "Successful API transactions"}
             icon={<CheckCircle className="h-6 w-6" />}
-            type="percentage"
             variant="success"
           />
           <MemoizedMetricCard
             title={isRTL ? "تصاريح العمل المعلقة" : "Pending Work Permits"}
-            value={45}
+            value="45"
             description={`-3 ${isRTL ? 'الشهر الماضي' : 'last month'}`}
             icon={<FileText className="h-6 w-6" />}
-            type="number"
             variant="accent"
             trend={{
-              value: 3,
+              value: "3",
               isPositive: true
             }}
           />
           <MemoizedMetricCard
             title={isRTL ? "درجة امتثال النطاقات" : "Nitaqat Compliance Score"}
-            value={87.5}
+            value="87.5%"
             description={isRTL ? "مستوى الامتثال الإجمالي" : "Overall compliance level"}
             icon={<TrendingUp className="h-6 w-6" />}
-            type="percentage"
             variant="warning"
           />
         </div>
