@@ -6,6 +6,7 @@ import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
 import { Activity, CheckCircle, Clock, Shield, Heart, Users, FileText, TrendingUp, Stethoscope, Pill } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const SehaPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -16,12 +17,23 @@ const SehaPlatform = () => {
       title: isRTL ? "اختبار اتصال صحة" : "Testing Seha Connection",
       description: isRTL ? "جاري فحص الاتصال مع منصة صحة..." : "Testing connection with Seha platform..."
     });
-    // Simulate API test with SanadHR integration
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    toast({
-      title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-      description: isRTL ? "تم ربط منصة صحة مع سند الموارد البشرية بنجاح" : "Seha platform successfully connected with SanadHR"
-    });
+    
+    try {
+      // Call Seha integration edge function
+      const { data, error } = await supabase.functions.invoke('seha-integration');
+      
+      if (error) throw error;
+      
+      toast({
+        title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful", 
+        description: isRTL ? "تم ربط منصة صحة مع سند الموارد البشرية بنجاح" : "Seha platform successfully connected with SanadHR"
+      });
+    } catch (error) {
+      toast({
+        title: isRTL ? "فشل في الاتصال" : "Connection Failed",
+        description: isRTL ? "حدث خطأ أثناء الاتصال بمنصة صحة" : "Error connecting to Seha platform"
+      });
+    }
   };
 
   const handleSyncNow = async () => {
@@ -29,12 +41,29 @@ const SehaPlatform = () => {
       title: isRTL ? "مزامنة صحة مع سند" : "Seha-SanadHR Sync",
       description: isRTL ? "جاري مزامنة بيانات التأمين الصحي والوصفات الطبية..." : "Syncing health insurance data and medical prescriptions..."
     });
-    // Simulate comprehensive sync with SanadHR
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    toast({
-      title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-      description: isRTL ? "تم تحديث جميع البيانات الصحية في سند الموارد البشرية" : "All health data updated in SanadHR system"
-    });
+    
+    try {
+      // Call Seha integration for health data sync
+      const { data, error } = await supabase.functions.invoke('seha-integration', {
+        body: { 
+          action: 'sync_health_data',
+          employee_id: 'sample-employee-id',
+          health_data: { sync_type: 'full_sync' }
+        }
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
+        description: isRTL ? "تم تحديث جميع البيانات الصحية في سند الموارد البشرية" : "All health data updated in SanadHR system"
+      });
+    } catch (error) {
+      toast({
+        title: isRTL ? "فشل في المزامنة" : "Sync Failed", 
+        description: isRTL ? "حدث خطأ أثناء مزامنة البيانات" : "Error during data synchronization"
+      });
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
 import { Activity, CheckCircle, Clock, Shield, FileText, Users, TrendingUp, Building, UserCheck, ClipboardCheck } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const CHIPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -16,12 +17,23 @@ const CHIPlatform = () => {
       title: isRTL ? "اختبار اتصال مجلس الضمان الصحي" : "Testing CHI Connection",
       description: isRTL ? "جاري فحص الاتصال مع مجلس الضمان الصحي..." : "Testing connection with CHI platform..."
     });
-    // Simulate API test with SanadHR integration
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    toast({
-      title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-      description: isRTL ? "تم ربط مجلس الضمان الصحي مع سند الموارد البشرية بنجاح" : "CHI platform successfully connected with SanadHR"
-    });
+    
+    try {
+      // Call CHI integration edge function
+      const { data, error } = await supabase.functions.invoke('chi-integration');
+      
+      if (error) throw error;
+      
+      toast({
+        title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
+        description: isRTL ? "تم ربط مجلس الضمان الصحي مع سند الموارد البشرية بنجاح" : "CHI platform successfully connected with SanadHR"
+      });
+    } catch (error) {
+      toast({
+        title: isRTL ? "فشل في الاتصال" : "Connection Failed",
+        description: isRTL ? "حدث خطأ أثناء الاتصال بمجلس الضمان الصحي" : "Error connecting to CHI platform"
+      });
+    }
   };
 
   const handleSyncNow = async () => {
@@ -29,12 +41,29 @@ const CHIPlatform = () => {
       title: isRTL ? "مزامنة مجلس الضمان الصحي مع سند" : "CHI-SanadHR Sync",
       description: isRTL ? "جاري مزامنة بيانات التأمين الصحي والامتثال..." : "Syncing health insurance data and compliance information..."
     });
-    // Simulate comprehensive sync with SanadHR
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    toast({
-      title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-      description: isRTL ? "تم تحديث جميع بيانات التأمين الصحي في سند الموارد البشرية" : "All health insurance data updated in SanadHR system"
-    });
+    
+    try {
+      // Call CHI integration for compliance check
+      const { data, error } = await supabase.functions.invoke('chi-integration', {
+        body: { 
+          action: 'compliance_check',
+          company_id: 'sample-company-id',
+          check_type: 'full_audit'
+        }
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
+        description: isRTL ? "تم تحديث جميع بيانات التأمين الصحي في سند الموارد البشرية" : "All health insurance data updated in SanadHR system"
+      });
+    } catch (error) {
+      toast({
+        title: isRTL ? "فشل في المزامنة" : "Sync Failed",
+        description: isRTL ? "حدث خطأ أثناء مزامنة البيانات" : "Error during data synchronization"
+      });
+    }
   };
 
   return (
@@ -98,27 +127,53 @@ const CHIPlatform = () => {
             <div className="flex items-center gap-3 mb-4">
               <Shield className="h-6 w-6 text-primary" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "خدمات التأمين الصحي" : "Health Insurance Services"}
+                {isRTL ? "خدمات CHI الرئيسية" : "Core CHI Services"}
               </h3>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                <span className="text-sm font-medium">
-                  {isRTL ? "التحقق من التأمين" : "Insurance Verification"}
-                </span>
-                <span className="text-sm text-muted-foreground">15,678</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {isRTL ? "الاستعلام عن معلومات التأمين" : "Insurance Information Inquiry"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {isRTL ? "التحقق من تفاصيل التأمين للموظفين" : "Verify employee insurance details"}
+                  </span>
+                </div>
+                <span className="text-sm text-success">{isRTL ? "نشط" : "Active"}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                <span className="text-sm font-medium">
-                  {isRTL ? "استعلامات المطالبات" : "Claims Inquiries"}
-                </span>
-                <span className="text-sm text-muted-foreground">8,456</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {isRTL ? "إدارة المطالبات الصحية" : "Claims Processing Management"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {isRTL ? "معالجة ومتابعة المطالبات الطبية" : "Process and track medical claims"}
+                  </span>
+                </div>
+                <span className="text-sm text-success">{isRTL ? "نشط" : "Active"}</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                <span className="text-sm font-medium">
-                  {isRTL ? "تقارير الامتثال" : "Compliance Reports"}
-                </span>
-                <span className="text-sm text-muted-foreground">234</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {isRTL ? "شبكة مقدمي الخدمة" : "Provider Network Management"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {isRTL ? "إدارة شبكة مقدمي الرعاية الصحية" : "Manage healthcare provider network"}
+                  </span>
+                </div>
+                <span className="text-sm text-success">{isRTL ? "نشط" : "Active"}</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium">
+                    {isRTL ? "مراقبة الامتثال التنظيمي" : "Regulatory Compliance Monitoring"}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {isRTL ? "ضمان الامتثال للوائح التأمين الصحي" : "Ensure health insurance regulatory compliance"}
+                  </span>
+                </div>
+                <span className="text-sm text-success">{isRTL ? "نشط" : "Active"}</span>
               </div>
             </div>
           </div>
@@ -127,30 +182,53 @@ const CHIPlatform = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "حالة التكامل مع سند" : "SanadHR Integration Status"}
+                {isRTL ? "تكامل CHI مع سند الموارد البشرية" : "CHI-SanadHR Integration"}
               </h3>
             </div>
             <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">{isRTL ? "مزامنة البيانات" : "Data Synchronization"}</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-success rounded-full"></div>
-                  <span className="text-sm text-success">{isRTL ? "نشط" : "Active"}</span>
+              <div className="p-3 bg-primary/5 border border-primary/20 rounded">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">
+                    {isRTL ? "بيانات الموظفين" : "Employee Data"}
+                  </span>
                 </div>
+                <p className="text-xs text-muted-foreground">
+                  {isRTL ? "مزامنة تلقائية لبيانات التأمين الصحي مع ملفات الموظفين" : "Auto-sync health insurance data with employee profiles"}
+                </p>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">{isRTL ? "آخر مزامنة" : "Last Sync"}</span>
-                <span className="text-sm text-muted-foreground">
-                  {dateFormatters.date(new Date())}
-                </span>
+              <div className="p-3 bg-success/5 border border-success/20 rounded">
+                <div className="flex items-center gap-2 mb-2">
+                  <ClipboardCheck className="h-4 w-4 text-success" />
+                  <span className="text-sm font-medium text-success">
+                    {isRTL ? "إدارة المزايا" : "Benefits Administration"}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {isRTL ? "حساب تلقائي لأقساط التأمين في كشوف المرتبات" : "Automatic insurance premium calculations in payroll"}
+                </p>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">{isRTL ? "معدل نجاح المزامنة" : "Sync Success Rate"}</span>
-                <span className="text-sm text-success">98.7%</span>
+              <div className="p-3 bg-accent/5 border border-accent/20 rounded">
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="h-4 w-4 text-accent" />
+                  <span className="text-sm font-medium text-accent">
+                    {isRTL ? "تقارير الامتثال" : "Compliance Reporting"}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {isRTL ? "تقارير آلية لحالة الامتثال التنظيمي" : "Automated regulatory compliance status reports"}
+                </p>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm">{isRTL ? "السجلات المزامنة" : "Records Synchronized"}</span>
-                <span className="text-sm text-muted-foreground">15,678</span>
+              <div className="p-3 bg-warning/5 border border-warning/20 rounded">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="h-4 w-4 text-warning" />
+                  <span className="text-sm font-medium text-warning">
+                    {isRTL ? "تحليلات التكلفة" : "Cost Analytics"}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {isRTL ? "مراقبة تكاليف الرعاية الصحية واتجاهاتها" : "Monitor healthcare costs and trends"}
+                </p>
               </div>
             </div>
           </div>
