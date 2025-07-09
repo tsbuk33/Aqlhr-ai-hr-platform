@@ -1,6 +1,10 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { GovernmentAPIIntegration } from "@/components/integration/GovernmentAPIIntegration";
+import { ComprehensiveTestSuite } from "@/components/testing/ComprehensiveTestSuite";
+import { PerformanceMonitor } from "@/components/monitoring/PerformanceMonitor";
+import { SecurityEnhancements } from "@/components/security/SecurityEnhancements";
 import { 
   BarChart, 
   Activity, 
@@ -14,7 +18,11 @@ import {
   FileText,
   Download,
   Upload,
-  Filter
+  Filter,
+  Shield,
+  Globe,
+  Zap,
+  TestTube
 } from "lucide-react";
 
 const Analytics = () => {
@@ -256,6 +264,77 @@ const Analytics = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+      )
+    },
+    {
+      id: 'integration',
+      label: language === 'ar' ? 'التكامل والاختبار' : 'Integration & Testing',
+      content: (
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Globe className="h-5 w-5" />
+                  {language === 'ar' ? 'تكامل الواجهات الحكومية' : 'Government API Integration'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'حالة الاتصال مع الأنظمة الحكومية' : 'Government system connection status'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <GovernmentAPIIntegration />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Shield className="h-5 w-5" />
+                  {language === 'ar' ? 'الأمان والحماية' : 'Security & Protection'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مراقبة أمان النظام والحماية' : 'System security monitoring and protection'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <SecurityEnhancements />
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TestTube className="h-5 w-5" />
+                  {language === 'ar' ? 'اختبارات شاملة' : 'Comprehensive Testing'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مجموعة اختبارات كاملة للنظام' : 'Complete system testing suite'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ComprehensiveTestSuite />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5" />
+                  {language === 'ar' ? 'مراقبة الأداء' : 'Performance Monitoring'}
+                </CardTitle>
+                <CardDescription>
+                  {language === 'ar' ? 'مراقبة أداء النظام في الوقت الفعلي' : 'Real-time system performance monitoring'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <PerformanceMonitor />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       )
     }
