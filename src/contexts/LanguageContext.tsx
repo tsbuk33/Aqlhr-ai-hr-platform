@@ -62,7 +62,7 @@ const translations = {
     // Core HR - Benefits Administration
     'core_hr.benefits_administration': 'إدارة المزايا',
     'nav.mudad_platform': 'منصة مدد',
-    'nav.elm_platform': 'منصة عنصر',
+    'nav.elm_platform': 'منصة علم',
     'nav.absher_platform': 'منصة أبشر',
     'nav.muqeem_platform': 'منصة مقيم',
     'nav.hrsd_integration': 'تكامل وزارة الموارد البشرية',
