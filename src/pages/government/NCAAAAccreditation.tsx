@@ -4,51 +4,51 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { Activity, CheckCircle, Clock, Shield, GraduationCap, Users, FileText, TrendingUp, Award, BookOpen } from "lucide-react";
+import { Activity, CheckCircle, Clock, Shield, GraduationCap, Users, FileText, TrendingUp, Award, School } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
-const QiyasAssessment = () => {
+const NCAAAAccreditation = () => {
   const { t, isRTL } = useLanguage();
   const { formatters, dateFormatters } = usePerformantLocalization();
 
   const handleTestConnection = async () => {
     toast({
-      title: isRTL ? "اختبار اتصال قياس" : "Testing Qiyas Connection",
-      description: isRTL ? "جاري فحص الاتصال مع منصة قياس..." : "Testing connection with Qiyas platform..."
+      title: isRTL ? "اختبار اتصال NCAAA" : "Testing NCAAA Connection",
+      description: isRTL ? "جاري فحص الاتصال مع مركز الاعتماد الأكاديمي..." : "Testing connection with NCAAA platform..."
     });
     
     try {
-      // Call Qiyas integration edge function
-      const { data, error } = await supabase.functions.invoke('qiyas-integration');
+      // Call NCAAA integration edge function
+      const { data, error } = await supabase.functions.invoke('ncaaa-integration');
       
       if (error) throw error;
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-        description: isRTL ? "تم ربط منصة قياس مع سند الموارد البشرية بنجاح" : "Qiyas platform successfully connected with SanadHR"
+        description: isRTL ? "تم ربط مركز الاعتماد الأكاديمي مع سند الموارد البشرية بنجاح" : "NCAAA platform successfully connected with SanadHR"
       });
     } catch (error) {
       toast({
         title: isRTL ? "فشل في الاتصال" : "Connection Failed",
-        description: isRTL ? "حدث خطأ أثناء الاتصال بمنصة قياس" : "Error connecting to Qiyas platform"
+        description: isRTL ? "حدث خطأ أثناء الاتصال بمركز الاعتماد الأكاديمي" : "Error connecting to NCAAA platform"
       });
     }
   };
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة قياس مع سند" : "Qiyas-SanadHR Sync",
-      description: isRTL ? "جاري مزامنة نتائج التقييمات والشهادات..." : "Syncing assessment results and certificates..."
+      title: isRTL ? "مزامنة NCAAA مع سند" : "NCAAA-SanadHR Sync",
+      description: isRTL ? "جاري مزامنة بيانات الاعتماد الأكاديمي..." : "Syncing academic accreditation data..."
     });
     
     try {
-      // Call Qiyas integration for assessment sync
-      const { data, error } = await supabase.functions.invoke('qiyas-integration', {
+      // Call NCAAA integration for accreditation sync
+      const { data, error } = await supabase.functions.invoke('ncaaa-integration', {
         body: { 
-          action: 'sync_assessments',
-          employee_id: 'sample-employee-id',
-          assessment_type: 'professional_certification'
+          action: 'sync_accreditations',
+          institution_id: 'sample-institution-id',
+          accreditation_type: 'academic_program'
         }
       });
       
@@ -56,7 +56,7 @@ const QiyasAssessment = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع بيانات التقييمات في سند الموارد البشرية" : "All assessment data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع بيانات الاعتماد في سند الموارد البشرية" : "All accreditation data updated in SanadHR system"
       });
     } catch (error) {
       toast({
@@ -69,11 +69,11 @@ const QiyasAssessment = () => {
   return (
     <FocusManager autoFocus restoreFocus>
       <UnifiedGovernmentInterface
-        platformName="Qiyas Assessment Platform Integration"
-        platformNameAr="تكامل منصة قياس للتقييم"
-        description="Professional assessments, certification programs, and skills evaluation"
-        descriptionAr="التقييمات المهنية وبرامج الشهادات وتقييم المهارات"
-        icon={GraduationCap}
+        platformName="NCAAA Accreditation Platform Integration"
+        platformNameAr="تكامل مركز الاعتماد الأكاديمي"
+        description="Academic accreditation verification, quality assurance, and institutional standards"
+        descriptionAr="التحقق من الاعتماد الأكاديمي وضمان الجودة ومعايير المؤسسات"
+        icon={School}
         connectionStatus={{
           status: 'connected',
           lastSync: '2024-01-15T10:30:00Z'
@@ -81,42 +81,42 @@ const QiyasAssessment = () => {
         onTestConnection={handleTestConnection}
         onSyncNow={handleSyncNow}
       >
-        <ScreenReaderText>{isRTL ? "إحصائيات تكامل منصة قياس للتقييم" : "Qiyas assessment platform integration statistics"}</ScreenReaderText>
+        <ScreenReaderText>{isRTL ? "إحصائيات تكامل مركز الاعتماد الأكاديمي" : "NCAAA academic accreditation platform integration statistics"}</ScreenReaderText>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard
-            title={isRTL ? "التقييمات المكتملة" : "Completed Assessments"}
-            value="2,847"
-            description={`+123 ${isRTL ? 'هذا الشهر' : 'this month'}`}
-            icon={<BookOpen className="h-6 w-6" />}
+            title={isRTL ? "البرامج المعتمدة" : "Accredited Programs"}
+            value="1,456"
+            description={`+43 ${isRTL ? 'هذا الشهر' : 'this month'}`}
+            icon={<School className="h-6 w-6" />}
             variant="primary"
             trend={{
-              value: "123",
+              value: "43",
               isPositive: true
             }}
           />
           <MemoizedMetricCard
             title={isRTL ? "نسبة نجاح العمليات" : "Process Success Rate"}
-            value="98.9%"
+            value="97.8%"
             description={isRTL ? "معاملات ناجحة عبر الواجهة البرمجية" : "Successful API transactions"}
             icon={<CheckCircle className="h-6 w-6" />}
             variant="success"
           />
           <MemoizedMetricCard
-            title={isRTL ? "الشهادات الصادرة" : "Certificates Issued"}
-            value="1,923"
-            description={`+89 ${isRTL ? 'الشهر الماضي' : 'last month'}`}
-            icon={<Award className="h-6 w-6" />}
+            title={isRTL ? "المؤسسات المعتمدة" : "Accredited Institutions"}
+            value="234"
+            description={`+12 ${isRTL ? 'الشهر الماضي' : 'last month'}`}
+            icon={<GraduationCap className="h-6 w-6" />}
             variant="accent"
             trend={{
-              value: "89",
+              value: "12",
               isPositive: true
             }}
           />
           <MemoizedMetricCard
-            title={isRTL ? "معدل النجاح" : "Success Rate"}
-            value="87.3%"
-            description={isRTL ? "نسبة نجاح التقييمات" : "Assessment success rate"}
+            title={isRTL ? "معدل ضمان الجودة" : "Quality Assurance Rate"}
+            value="94.5%"
+            description={isRTL ? "نسبة الامتثال لمعايير الجودة" : "Quality standards compliance rate"}
             icon={<TrendingUp className="h-6 w-6" />}
             variant="warning"
           />
@@ -125,29 +125,29 @@ const QiyasAssessment = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
           <div className="bg-card p-6 rounded-lg border">
             <div className="flex items-center gap-3 mb-4">
-              <GraduationCap className="h-6 w-6 text-primary" />
+              <School className="h-6 w-6 text-primary" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "خدمات التقييم المهني" : "Professional Assessment Services"}
+                {isRTL ? "خدمات الاعتماد الأكاديمي" : "Academic Accreditation Services"}
               </h3>
             </div>
             <div className="space-y-4">
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
                 <span className="text-sm font-medium">
-                  {isRTL ? "تقييمات الكفاءة المهنية" : "Professional Competency Assessments"}
+                  {isRTL ? "اعتماد البرامج الأكاديمية" : "Academic Program Accreditation"}
                 </span>
-                <span className="text-sm text-muted-foreground">1,234</span>
+                <span className="text-sm text-muted-foreground">1,456</span>
               </div>
               <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
                 <span className="text-sm font-medium">
-                  {isRTL ? "الاختبارات التخصصية" : "Specialized Examinations"}
+                  {isRTL ? "اعتماد المؤسسات التعليمية" : "Educational Institution Accreditation"}
+                </span>
+                <span className="text-sm text-muted-foreground">234</span>
+              </div>
+              <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
+                <span className="text-sm font-medium">
+                  {isRTL ? "تقييمات ضمان الجودة" : "Quality Assurance Evaluations"}
                 </span>
                 <span className="text-sm text-muted-foreground">892</span>
-              </div>
-              <div className="flex justify-between items-center p-3 bg-muted/50 rounded">
-                <span className="text-sm font-medium">
-                  {isRTL ? "شهادات معتمدة" : "Certified Credentials"}
-                </span>
-                <span className="text-sm text-muted-foreground">1,923</span>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ const QiyasAssessment = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "تكامل قياس مع سند الموارد البشرية" : "Qiyas-SanadHR Integration"}
+                {isRTL ? "تكامل NCAAA مع سند الموارد البشرية" : "NCAAA-SanadHR Integration"}
               </h3>
             </div>
             <div className="space-y-4">
@@ -175,11 +175,11 @@ const QiyasAssessment = () => {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm">{isRTL ? "معدل نجاح المزامنة" : "Sync Success Rate"}</span>
-                <span className="text-sm text-success">98.9%</span>
+                <span className="text-sm text-success">97.8%</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm">{isRTL ? "السجلات المزامنة" : "Records Synchronized"}</span>
-                <span className="text-sm text-muted-foreground">2,847</span>
+                <span className="text-sm text-muted-foreground">1,456</span>
               </div>
             </div>
           </div>
@@ -189,26 +189,26 @@ const QiyasAssessment = () => {
           <div className="flex items-center gap-3 mb-4">
             <FileText className="h-6 w-6 text-accent" />
             <h3 className="text-lg font-semibold">
-              {isRTL ? "تقارير التقييم والشهادات" : "Assessment & Certificate Reports"}
+              {isRTL ? "تقارير الاعتماد وضمان الجودة" : "Accreditation & Quality Assurance Reports"}
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 bg-muted/50 rounded">
-              <div className="text-2xl font-bold text-primary">2,847</div>
+              <div className="text-2xl font-bold text-primary">1,456</div>
               <div className="text-sm text-muted-foreground">
-                {isRTL ? "تقييمات مكتملة" : "Completed Assessments"}
+                {isRTL ? "برامج معتمدة" : "Accredited Programs"}
               </div>
             </div>
             <div className="text-center p-4 bg-muted/50 rounded">
-              <div className="text-2xl font-bold text-success">1,923</div>
+              <div className="text-2xl font-bold text-success">234</div>
               <div className="text-sm text-muted-foreground">
-                {isRTL ? "شهادات صادرة" : "Certificates Issued"}
+                {isRTL ? "مؤسسات معتمدة" : "Accredited Institutions"}
               </div>
             </div>
             <div className="text-center p-4 bg-muted/50 rounded">
-              <div className="text-2xl font-bold text-warning">87.3%</div>
+              <div className="text-2xl font-bold text-warning">94.5%</div>
               <div className="text-sm text-muted-foreground">
-                {isRTL ? "معدل النجاح" : "Success Rate"}
+                {isRTL ? "معدل ضمان الجودة" : "Quality Assurance Rate"}
               </div>
             </div>
           </div>
@@ -218,4 +218,4 @@ const QiyasAssessment = () => {
   );
 };
 
-export default QiyasAssessment;
+export default NCAAAAccreditation;
