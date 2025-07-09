@@ -68,6 +68,7 @@ const translations = {
     'nav.hrsd_integration': 'تكامل وزارة الموارد البشرية',
     'nav.tvtc_doroob': 'المؤسسة العامة للتدريب/دروب',
     'nav.zatca_integration': 'تكامل هيئة الزكاة والضريبة والجمارك',
+    'nav.seha_platform': 'منصة صحة',
 
     // ZATCA Integration
     'zatca.title': 'تكامل هيئة الزكاة والضريبة والجمارك',
@@ -694,6 +695,8 @@ const translations = {
      'government.absher_desc': 'منصة الخدمات الحكومية الإلكترونية',
      'government.medical_insurance': 'التأمين الطبي',
      'government.medical_insurance_desc': 'نظام إدارة التأمين الطبي للموظفين',
+     'government.seha_platform': 'منصة صحة',
+     'government.seha_desc': 'الخدمات الصحية والوصفات الإلكترونية وإدارة التأمين الطبي',
      
      // Absher Platform specific keys
      'government.verification': 'التحقق',
@@ -961,7 +964,8 @@ const translations = {
       'nav.muqeem_platform': 'Muqeem Platform',
       'nav.hrsd_integration': 'HRSD Integration',
       'nav.tvtc_doroob': 'TVTC/Doroob Platform',
-      'nav.zatca_integration': 'ZATCA Integration',
+    'nav.zatca_integration': 'ZATCA Integration',
+    'nav.seha_platform': 'Seha Platform',
       
        // ZATCA Integration
        'zatca.title': 'ZATCA Integration',
