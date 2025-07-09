@@ -55,6 +55,17 @@ const CHIPlatform = lazy(() => import('../pages/government/CHIPlatform'));
 const HealthInsurancePlatform = lazy(() => import('../pages/government/HealthInsurancePlatform'));
 const MedicalInsurancePlatform = lazy(() => import('../pages/government/MedicalInsurancePlatform'));
 
+// New Government Portals
+const QiyasAssessment = lazy(() => import('../pages/government/QiyasAssessment'));
+const NCAAAccreditation = lazy(() => import('../pages/government/NCAAAccreditation'));
+const EducationMinistry = lazy(() => import('../pages/government/EducationMinistry'));
+const TaqatHRDF = lazy(() => import('../pages/government/TaqatHRDF'));
+const NCEIEmployment = lazy(() => import('../pages/government/NCEIEmployment'));
+const InteriorMinistry = lazy(() => import('../pages/government/InteriorMinistry'));
+const ESNADNotarization = lazy(() => import('../pages/government/ESNADNotarization'));
+const SaudiPostVerification = lazy(() => import('../pages/government/SaudiPostVerification'));
+const TawakkalnaCompliance = lazy(() => import('../pages/government/TawakkalnaCompliance'));
+
 // Strategic HR modules
 const WorkforcePlanning = lazy(() => import('../pages/strategic/WorkforcePlanning'));
 const SuccessionPlanning = lazy(() => import('../pages/strategic/SuccessionPlanning'));
@@ -263,11 +274,20 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/elm', element: ELMPlatform, auth: true },
   { path: '/government/seha', element: SehaPlatform, auth: true },
   { path: '/government/chi', element: CHIPlatform, auth: true },
+  { path: '/government/gosi', element: GOSIIntegration, auth: true },
   { path: '/government/health-insurance', element: HealthInsurancePlatform, auth: true },
   { path: '/government/medical-insurance', element: MedicalInsurancePlatform, auth: true },
   
-  // GOSI Integration aliases
-  { path: '/government/gosi', element: GOSIIntegration, auth: true },
+  // New Government Portal Routes
+  { path: '/government/qiyas', element: QiyasAssessment, auth: true },
+  { path: '/government/ncaaa', element: NCAAAccreditation, auth: true },
+  { path: '/government/education', element: EducationMinistry, auth: true },
+  { path: '/government/taqat', element: TaqatHRDF, auth: true },
+  { path: '/government/ncei', element: NCEIEmployment, auth: true },
+  { path: '/government/interior', element: InteriorMinistry, auth: true },
+  { path: '/government/esnad', element: ESNADNotarization, auth: true },
+  { path: '/government/saudi-post', element: SaudiPostVerification, auth: true },
+  { path: '/government/tawakkalna', element: TawakkalnaCompliance, auth: true },
   
   // Payroll Sub-routes - auth required
   { path: '/payroll/wps', element: WPSProcessing, auth: true },

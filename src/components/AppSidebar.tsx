@@ -75,7 +75,7 @@ const getPlatformModules = (t: (key: string) => string) => [
     title: t("nav.government"), 
     url: "/government", 
     icon: FileText,
-    badge: "11",
+    badge: "20",
     subItems: [
       { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
       { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },
@@ -88,6 +88,15 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.hrsd_integration", title: t("nav.hrsd_integration"), url: "/government/mol" },
       { titleKey: "nav.tvtc_doroob", title: t("nav.tvtc_doroob"), url: "/government/tvtc" },
       { titleKey: "nav.zatca_integration", title: t("nav.zatca_integration"), url: "/government/zatca" },
+      { titleKey: "nav.qiyas_assessment", title: t("nav.qiyas_assessment"), url: "/government/qiyas" },
+      { titleKey: "nav.ncaaa_accreditation", title: t("nav.ncaaa_accreditation"), url: "/government/ncaaa" },
+      { titleKey: "nav.education_ministry", title: t("nav.education_ministry"), url: "/government/education" },
+      { titleKey: "nav.taqat_hrdf", title: t("nav.taqat_hrdf"), url: "/government/taqat" },
+      { titleKey: "nav.ncei_employment", title: t("nav.ncei_employment"), url: "/government/ncei" },
+      { titleKey: "nav.interior_ministry", title: t("nav.interior_ministry"), url: "/government/interior" },
+      { titleKey: "nav.esnad_notarization", title: t("nav.esnad_notarization"), url: "/government/esnad" },
+      { titleKey: "nav.saudi_post", title: t("nav.saudi_post"), url: "/government/saudi-post" },
+      { titleKey: "nav.tawakkalna_compliance", title: t("nav.tawakkalna_compliance"), url: "/government/tawakkalna" },
     ]
   },
 ];
