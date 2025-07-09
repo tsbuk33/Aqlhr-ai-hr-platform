@@ -29,10 +29,10 @@ const ELMPlatform = () => {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold text-foreground">
-            {isRTL ? 'منصة مقيم' : 'Muqeem Platform - Resident Management System'}
+            {isRTL ? 'منصة عنصر' : 'ELM Platform - Human Resources Management System'}
           </h1>
           <p className="text-muted-foreground">
-            {isRTL ? 'منصة إلكترونية متكاملة لإدارة شؤون المقيمين والجوازات' : 'Comprehensive Electronic Platform for Resident Affairs Management and Passport Services Integration'}
+            {isRTL ? 'منصة إلكترونية متكاملة لإدارة الموارد البشرية والخدمات التعليمية' : 'Comprehensive Electronic Platform for Human Resources Management and Educational Services Integration'}
           </p>
         </div>
         <div className="flex gap-2">
