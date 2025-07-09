@@ -172,12 +172,12 @@ export function AppSidebar() {
                   >
                     {item.subItems ? (
                       <div className="w-full flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <item.icon className="h-4 w-4" />
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          <item.icon className="h-4 w-4 flex-shrink-0" />
                           {state !== "collapsed" && (
                             <>
-                              <span>{item.title}</span>
-                              <span className="text-xs bg-sidebar-accent text-sidebar-accent-foreground px-1.5 py-0.5 rounded">
+                              <span className="truncate flex-1">{item.title}</span>
+                              <span className="text-xs bg-sidebar-accent text-sidebar-accent-foreground px-1.5 py-0.5 rounded flex-shrink-0">
                                 {item.badge}
                               </span>
                             </>
