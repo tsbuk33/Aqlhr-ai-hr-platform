@@ -69,6 +69,7 @@ const translations = {
     'nav.tvtc_doroob': 'المؤسسة العامة للتدريب/دروب',
     'nav.zatca_integration': 'تكامل هيئة الزكاة والضريبة والجمارك',
     'nav.seha_platform': 'منصة صحة',
+    'nav.chi_platform': 'مجلس الضمان الصحي',
 
     // ZATCA Integration
     'zatca.title': 'تكامل هيئة الزكاة والضريبة والجمارك',
@@ -697,6 +698,8 @@ const translations = {
      'government.medical_insurance_desc': 'نظام إدارة التأمين الطبي للموظفين',
      'government.seha_platform': 'منصة صحة',
      'government.seha_desc': 'الخدمات الصحية والوصفات الإلكترونية وإدارة التأمين الطبي',
+     'government.chi_platform': 'مجلس الضمان الصحي',
+     'government.chi_desc': 'تنظيم التأمين الصحي ومراقبة الامتثال والتحول الرقمي',
      
      // Absher Platform specific keys
      'government.verification': 'التحقق',
@@ -966,6 +969,7 @@ const translations = {
       'nav.tvtc_doroob': 'TVTC/Doroob Platform',
     'nav.zatca_integration': 'ZATCA Integration',
     'nav.seha_platform': 'Seha Platform',
+    'nav.chi_platform': 'CHI Platform',
       
        // ZATCA Integration
        'zatca.title': 'ZATCA Integration',
@@ -1328,6 +1332,14 @@ const translations = {
     'government.api_security': 'API Security',
     'government.compliance_status': 'Compliance Status',
     'government.compliant': 'Compliant',
+
+    // Government platform translations  
+    'government.medical_insurance': 'Medical Insurance',
+    'government.medical_insurance_desc': 'Employee medical insurance management system',
+    'government.seha_platform': 'Seha Platform',
+    'government.seha_desc': 'Healthcare services, electronic prescriptions, and medical insurance management',
+    'government.chi_platform': 'CHI Platform',
+    'government.chi_desc': 'Health insurance regulation, compliance monitoring, and digital transformation',
 
     // Strategic
     'strategic.strategic_hr': 'Strategic HR',

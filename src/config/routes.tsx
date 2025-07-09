@@ -51,6 +51,7 @@ const MOLCompliance = lazy(() => import('../pages/government/MOLCompliance'));
 const ZATCAIntegration = lazy(() => import('../pages/government/ZATCAIntegration'));
 const ELMPlatform = lazy(() => import('../pages/government/ELMPlatform'));
 const SehaPlatform = lazy(() => import('../pages/government/SehaPlatform'));
+const CHIPlatform = lazy(() => import('../pages/government/CHIPlatform'));
 const HealthInsurancePlatform = lazy(() => import('../pages/government/HealthInsurancePlatform'));
 const MedicalInsurancePlatform = lazy(() => import('../pages/government/MedicalInsurancePlatform'));
 
@@ -261,6 +262,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/zatca', element: ZATCAIntegration, auth: true },
   { path: '/government/elm', element: ELMPlatform, auth: true },
   { path: '/government/seha', element: SehaPlatform, auth: true },
+  { path: '/government/chi', element: CHIPlatform, auth: true },
   { path: '/government/health-insurance', element: HealthInsurancePlatform, auth: true },
   { path: '/government/medical-insurance', element: MedicalInsurancePlatform, auth: true },
   

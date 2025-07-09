@@ -75,7 +75,7 @@ const getPlatformModules = (t: (key: string) => string) => [
     title: t("nav.government"), 
     url: "/government", 
     icon: FileText,
-    badge: "10",
+    badge: "11",
     subItems: [
       { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
       { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },
@@ -84,6 +84,7 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.absher_platform", title: t("nav.absher_platform"), url: "/government/absher" },
       { titleKey: "nav.muqeem_platform", title: t("nav.muqeem_platform"), url: "/government/muqeem" },
       { titleKey: "nav.seha_platform", title: t("nav.seha_platform"), url: "/government/seha" },
+      { titleKey: "nav.chi_platform", title: t("nav.chi_platform"), url: "/government/chi" },
       { titleKey: "nav.hrsd_integration", title: t("nav.hrsd_integration"), url: "/government/mol" },
       { titleKey: "nav.tvtc_doroob", title: t("nav.tvtc_doroob"), url: "/government/tvtc" },
       { titleKey: "nav.zatca_integration", title: t("nav.zatca_integration"), url: "/government/zatca" },
