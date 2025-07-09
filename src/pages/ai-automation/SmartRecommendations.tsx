@@ -36,12 +36,12 @@ const SmartRecommendations = () => {
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <BarChart className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Data Collection</h3>
+              <h3 className="font-semibold text-lg">{t('ai.data_collection')}</h3>
               <p className="text-sm text-muted-foreground">
-                AI analyzes performance metrics, skills, experience, and behavioral patterns
+                {t('ai.data_collection_desc')}
               </p>
               <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                50+ Data Points
+                50+ {t('ai.data_points')}
               </Badge>
             </div>
 
@@ -52,12 +52,12 @@ const SmartRecommendations = () => {
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Brain className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">AI Matching</h3>
+              <h3 className="font-semibold text-lg">{t('ai.ai_matching')}</h3>
               <p className="text-sm text-muted-foreground">
-                Machine learning models calculate compatibility scores across multiple dimensions
+                {t('ai.ai_matching_desc')}
               </p>
               <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                Neural Networks
+                {t('ai.neural_networks')}
               </Badge>
             </div>
 
@@ -149,10 +149,10 @@ const SmartRecommendations = () => {
       {/* Detailed Analysis Tabs */}
       <Tabs defaultValue="recommendations" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="recommendations">Current Recommendations</TabsTrigger>
-          <TabsTrigger value="analysis">AI Analysis</TabsTrigger>
-          <TabsTrigger value="factors">Decision Factors</TabsTrigger>
-          <TabsTrigger value="outcomes">Success Tracking</TabsTrigger>
+          <TabsTrigger value="recommendations">{t('ai.current_recommendations')}</TabsTrigger>
+          <TabsTrigger value="analysis">{t('ai.ai_analysis')}</TabsTrigger>
+          <TabsTrigger value="factors">{t('ai.decision_factors')}</TabsTrigger>
+          <TabsTrigger value="outcomes">{t('ai.success_tracking')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="recommendations" className="space-y-6">

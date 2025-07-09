@@ -1,18 +1,21 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Download, Users, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WorkforcePlanning = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Strategic Workforce Planning</h1>
-          <p className="text-muted-foreground">Future workforce scenario modeling and planning</p>
+          <h1 className="text-3xl font-bold text-foreground">{t('strategic.workforce_planning')}</h1>
+          <p className="text-muted-foreground">{t('strategic.scenario_modeling')}</p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline"><Upload className="h-4 w-4 mr-2" />Upload Excel</Button>
-          <Button variant="outline"><Download className="h-4 w-4 mr-2" />Export Report</Button>
+          <Button variant="outline"><Upload className="h-4 w-4 mr-2" />{t('strategic.upload_excel')}</Button>
+          <Button variant="outline"><Download className="h-4 w-4 mr-2" />{t('strategic.export_report')}</Button>
         </div>
       </div>
       
@@ -21,7 +24,7 @@ const WorkforcePlanning = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Users className="h-5 w-5 text-brand-primary" />
-              Current Headcount
+              {t('strategic.current_headcount')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -32,7 +35,7 @@ const WorkforcePlanning = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-brand-success" />
-              Projected Growth
+              {t('strategic.planned_growth')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -41,7 +44,7 @@ const WorkforcePlanning = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Skills Gaps Identified</CardTitle>
+            <CardTitle>{t('strategic.skills_gaps')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">89</div>
@@ -49,7 +52,7 @@ const WorkforcePlanning = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Planning Accuracy</CardTitle>
+            <CardTitle>{t('strategic.planning_accuracy')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">94.2%</div>
