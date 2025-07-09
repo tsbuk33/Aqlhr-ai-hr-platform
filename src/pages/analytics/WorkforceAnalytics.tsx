@@ -1,14 +1,17 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Download, BarChart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const WorkforceAnalytics = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Workforce Analytics</h1>
-          <p className="text-muted-foreground">Comprehensive workforce metrics and insights</p>
+          <h1 className="text-3xl font-bold text-foreground">{t('analytics.workforce_analytics')}</h1>
+          <p className="text-muted-foreground">{t('analytics.workforce_analytics_desc')}</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline"><Upload className="h-4 w-4 mr-2" />Upload Data</Button>

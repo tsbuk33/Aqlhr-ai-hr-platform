@@ -1,14 +1,17 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Download } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExecutiveCompensation = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Executive Compensation</h1>
-          <p className="text-muted-foreground">C-level compensation design and benchmarking</p>
+          <h1 className="text-3xl font-bold text-foreground">{t('consulting.executive_compensation')}</h1>
+          <p className="text-muted-foreground">{t('consulting.executive_compensation_desc')}</p>
         </div>
         <div className="flex gap-3">
           <Button variant="outline"><Upload className="h-4 w-4 mr-2" />Upload Market Data</Button>

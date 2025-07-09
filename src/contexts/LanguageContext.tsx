@@ -806,6 +806,13 @@ const translations = {
      'common.total': 'الإجمالي',
      'common.refresh_data': 'تحديث البيانات',
      
+     // Analytics translations  
+     'analytics.workforce_analytics': 'تحليلات القوى العاملة',
+     'analytics.workforce_analytics_desc': 'مقاييس ورؤى شاملة للقوى العاملة',
+     
+     // Consulting translations
+     'consulting.executive_compensation': 'تعويضات المديرين التنفيذيين', 
+     'consulting.executive_compensation_desc': 'تصميم ومقارنة تعويضات المستوى التنفيذي',
 
   },
   en: {
