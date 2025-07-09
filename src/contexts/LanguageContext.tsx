@@ -66,7 +66,7 @@ const translations = {
     'nav.absher_platform': 'منصة أبشر',
     'nav.hrsd_integration': 'تكامل وزارة الموارد البشرية',
     'nav.tvtc_doroob': 'المؤسسة العامة للتدريب/دروب',
-    'nav.health_insurance': 'التأمين الصحي',
+    'nav.zatca_integration': 'تكامل هيئة الزكاة والضريبة والجمارك',
 
     // Navigation Sub-items - Employee Welfare & Safety
     'nav.welfare_compliance_dashboard': 'لوحة تحكم امتثال الرفاهية',
@@ -878,7 +878,7 @@ const translations = {
      'nav.absher_platform': 'Absher Platform',
      'nav.hrsd_integration': 'HRSD Integration',
      'nav.tvtc_doroob': 'TVTC/Doroob Platform',
-     'nav.health_insurance': 'Health Insurance',
+     'nav.zatca_integration': 'ZATCA Integration',
      
      // Sidebar UI
      'sidebar.platform_modules': 'Platform Modules',

@@ -84,7 +84,7 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.absher_platform", title: t("nav.absher_platform"), url: "/government/absher" },
       { titleKey: "nav.hrsd_integration", title: t("nav.hrsd_integration"), url: "/government/mol" },
       { titleKey: "nav.tvtc_doroob", title: t("nav.tvtc_doroob"), url: "/government/tvtc" },
-      { titleKey: "nav.health_insurance", title: t("nav.health_insurance"), url: "/government/zatca" },
+      { titleKey: "nav.zatca_integration", title: t("nav.zatca_integration"), url: "/government/zatca" },
     ]
   },
 ];
