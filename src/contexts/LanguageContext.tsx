@@ -108,6 +108,22 @@ const translations = {
     'zatca.active': 'نشط',
     'zatca.met': 'مستوفى',
 
+    // TVTC/Doroob Integration
+    'tvtc.title': 'تكامل دروب - المؤسسة العامة للتدريب التقني والمهني',
+    'tvtc.subtitle': 'منصة دروب للتدريب والتطوير المهني',
+    'tvtc.certified_trainees': 'المتدربون المعتمدون',
+    'tvtc.active_programs': 'البرامج النشطة',
+    'tvtc.completion_rate': 'معدل الإنجاز',
+    'tvtc.training_hours': 'ساعات التدريب',
+    'tvtc.total_beneficiaries': 'إجمالي المستفيدين',
+    'tvtc.training_programs': 'البرامج التدريبية',
+    'tvtc.overview': 'نظرة عامة',
+    'tvtc.programs': 'البرامج',
+    'tvtc.certificates': 'الشهادات',
+    'tvtc.integration_status': 'حالة التكامل',
+    'tvtc.doroob_platform': 'منصة دروب',
+    'tvtc.training_statistics': 'إحصائيات التدريب',
+
     // Navigation Sub-items - Employee Welfare & Safety
     'nav.welfare_compliance_dashboard': 'لوحة تحكم امتثال الرفاهية',
     'nav.grievance_reporting': 'الإبلاغ عن المظالم والتحرش',
@@ -959,6 +975,22 @@ const translations = {
       'zatca.record_keeping': 'Record Keeping',
       'zatca.active': 'Active',
       'zatca.met': 'Met',
+      
+      // TVTC/Doroob Integration
+      'tvtc.title': 'TVTC/Doroob Integration',
+      'tvtc.subtitle': 'Technical and Vocational Training Corporation platform',
+      'tvtc.certified_trainees': 'Certified Trainees',
+      'tvtc.active_programs': 'Active Programs',
+      'tvtc.completion_rate': 'Completion Rate',
+      'tvtc.training_hours': 'Training Hours',
+      'tvtc.total_beneficiaries': 'Total Beneficiaries',
+      'tvtc.training_programs': 'Training Programs',
+      'tvtc.overview': 'Overview',
+      'tvtc.programs': 'Programs',
+      'tvtc.certificates': 'Certificates',
+      'tvtc.integration_status': 'Integration Status',
+      'tvtc.doroob_platform': 'Doroob Platform',
+      'tvtc.training_statistics': 'Training Statistics',
       
       // Sidebar UI
      'sidebar.platform_modules': 'Platform Modules',
