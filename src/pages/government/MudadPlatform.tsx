@@ -204,8 +204,8 @@ const MudadPlatform = () => {
         </Card>
       </div>
 
-      {/* SanadHR Integration */}
-      <Card className="border-2 border-dashed border-primary/20">
+      {/* SanadHR Payroll Integration */}
+      <Card className="border-2 border-dashed border-primary/20 bg-gradient-to-r from-primary/5 to-success/5">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-gradient-primary rounded-lg">
@@ -213,62 +213,196 @@ const MudadPlatform = () => {
             </div>
             <div>
               <CardTitle className="text-primary">
-                {language === 'ar' ? 'التكامل مع سند الموارد البشرية' : 'SanadHR Integration'}
+                {language === 'ar' ? 'الربط المباشر مع نظام الرواتب - سند الموارد البشرية' : 'Direct Payroll Integration - SanadHR'}
               </CardTitle>
               <CardDescription>
                 {language === 'ar' 
-                  ? 'ربط مباشر مع منصة سند لإدارة الموارد البشرية' 
-                  : 'Direct integration with SanadHR platform'
+                  ? 'تزامن تلقائي ثنائي الاتجاه مع نظام الرواتب لضمان الامتثال الكامل لبرنامج حماية الأجور' 
+                  : 'Bi-directional automatic sync with payroll system ensuring full WPP compliance'
                 }
               </CardDescription>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-primary/5 rounded-lg border border-primary/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Users className="h-4 w-4 text-primary" />
-                <span className="font-medium text-primary">
-                  {language === 'ar' ? 'بيانات الموظفين' : 'Employee Data'}
-                </span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Payroll Data Flow */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-primary flex items-center gap-2">
+                <TrendingUp className="h-4 w-4" />
+                {language === 'ar' ? 'تدفق بيانات الرواتب' : 'Payroll Data Flow'}
+              </h4>
+              
+              <div className="space-y-3">
+                <div className="p-3 bg-primary/5 rounded-lg border-l-4 border-l-primary">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">
+                      {language === 'ar' ? 'الرواتب الأساسية والبدلات' : 'Basic Salaries & Allowances'}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <Activity className="h-3 w-3 text-success animate-pulse" />
+                      <span className="text-xs text-success">{language === 'ar' ? 'مزامن' : 'Synced'}</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {language === 'ar' 
+                      ? 'تحديث مباشر من نظام الرواتب كل 5 دقائق' 
+                      : 'Real-time updates from payroll system every 5 minutes'
+                    }
+                  </p>
+                </div>
+
+                <div className="p-3 bg-success/5 rounded-lg border-l-4 border-l-success">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">
+                      {language === 'ar' ? 'الاستقطاعات والضرائب' : 'Deductions & Taxes'}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle className="h-3 w-3 text-success" />
+                      <span className="text-xs text-success">{language === 'ar' ? 'محدث' : 'Updated'}</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {language === 'ar' 
+                      ? 'تطبيق تلقائي لقواعد الاستقطاع والضرائب' 
+                      : 'Automatic application of deduction and tax rules'
+                    }
+                  </p>
+                </div>
+
+                <div className="p-3 bg-warning/5 rounded-lg border-l-4 border-l-warning">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">
+                      {language === 'ar' ? 'تقارير الامتثال الشهرية' : 'Monthly Compliance Reports'}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-3 w-3 text-warning" />
+                      <span className="text-xs text-warning">{language === 'ar' ? 'مجدول' : 'Scheduled'}</span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {language === 'ar' 
+                      ? 'توليد وإرسال تقارير الامتثال تلقائياً في نهاية كل شهر' 
+                      : 'Auto-generation and submission of compliance reports monthly'
+                    }
+                  </p>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {language === 'ar' 
-                  ? 'مزامنة تلقائية لبيانات الموظفين والرواتب' 
-                  : 'Automatic sync of employee data and salaries'
-                }
-              </p>
             </div>
-            
-            <div className="p-4 bg-success/5 rounded-lg border border-success/10">
-              <div className="flex items-center gap-2 mb-2">
-                <Activity className="h-4 w-4 text-success" />
-                <span className="font-medium text-success">
-                  {language === 'ar' ? 'المراقبة المباشرة' : 'Real-time Monitoring'}
-                </span>
+
+            {/* Integration Status */}
+            <div className="space-y-4">
+              <h4 className="font-semibold text-success flex items-center gap-2">
+                <Monitor className="h-4 w-4" />
+                {language === 'ar' ? 'حالة التكامل المباشر' : 'Live Integration Status'}
+              </h4>
+              
+              <div className="p-4 bg-success/10 rounded-lg border border-success/20">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="font-medium text-success">
+                    {language === 'ar' ? 'اتصال نظام الرواتب' : 'Payroll System Connection'}
+                  </span>
+                  <Badge className="bg-success text-white">
+                    <div className="w-2 h-2 bg-white rounded-full mr-1 animate-pulse"></div>
+                    {language === 'ar' ? 'متصل' : 'Connected'}
+                  </Badge>
+                </div>
+                
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span>{language === 'ar' ? 'آخر مزامنة:' : 'Last Sync:'}</span>
+                    <span className="font-mono">
+                      {language === 'ar' ? 'منذ 2 دقيقة' : '2 min ago'}
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>{language === 'ar' ? 'معاملات اليوم:' : 'Today\'s Transactions:'}</span>
+                    <span className="font-mono text-primary">247</span>
+                  </div>
+                  
+                  <div className="flex justify-between">
+                    <span>{language === 'ar' ? 'نسبة نجاح المزامنة:' : 'Sync Success Rate:'}</span>
+                    <span className="font-mono text-success">99.8%</span>
+                  </div>
+                </div>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {language === 'ar' 
-                  ? 'مراقبة مباشرة لحالة الامتثال والمدفوعات' 
-                  : 'Real-time monitoring of compliance and payments'
-                }
-              </p>
+
+              <div className="p-4 bg-primary/10 rounded-lg border border-primary/20">
+                <h5 className="font-medium text-primary mb-2">
+                  {language === 'ar' ? 'الميزات النشطة' : 'Active Features'}
+                </h5>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-3 w-3 text-success" />
+                    <span className="text-sm">
+                      {language === 'ar' ? 'المراقبة المباشرة للمدفوعات' : 'Real-time Payment Monitoring'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-3 w-3 text-success" />
+                    <span className="text-sm">
+                      {language === 'ar' ? 'التحقق التلقائي من الامتثال' : 'Automated Compliance Verification'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-3 w-3 text-success" />
+                    <span className="text-sm">
+                      {language === 'ar' ? 'إشعارات المخالفات الفورية' : 'Instant Violation Alerts'}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-3 w-3 text-success" />
+                    <span className="text-sm">
+                      {language === 'ar' ? 'تقارير الامتثال الآلية' : 'Automated Compliance Reports'}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div className="p-4 bg-warning/5 rounded-lg border border-warning/10">
-              <div className="flex items-center gap-2 mb-2">
-                <FileText className="h-4 w-4 text-warning" />
-                <span className="font-medium text-warning">
-                  {language === 'ar' ? 'التقارير الآلية' : 'Automated Reports'}
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {language === 'ar' 
-                  ? 'توليد تقارير الامتثال والمدفوعات تلقائياً' 
-                  : 'Automatic generation of compliance and payment reports'
-                }
-              </p>
+          </div>
+
+          {/* Quick Actions for Payroll Integration */}
+          <div className="mt-6 p-4 bg-gradient-to-r from-primary/5 to-accent/5 rounded-lg border border-primary/10">
+            <h5 className="font-medium mb-3 text-primary">
+              {language === 'ar' ? 'إجراءات سريعة للرواتب' : 'Payroll Quick Actions'}
+            </h5>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <button className="p-3 bg-white rounded border border-primary/20 hover:border-primary/40 transition-colors text-left">
+                <div className="font-medium text-sm text-primary">
+                  {language === 'ar' ? 'مزامنة فورية' : 'Instant Sync'}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {language === 'ar' ? 'تحديث البيانات الآن' : 'Update data now'}
+                </div>
+              </button>
+              
+              <button className="p-3 bg-white rounded border border-success/20 hover:border-success/40 transition-colors text-left">
+                <div className="font-medium text-sm text-success">
+                  {language === 'ar' ? 'تقرير الامتثال' : 'Compliance Report'}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {language === 'ar' ? 'عرض التقرير الحالي' : 'View current report'}
+                </div>
+              </button>
+              
+              <button className="p-3 bg-white rounded border border-warning/20 hover:border-warning/40 transition-colors text-left">
+                <div className="font-medium text-sm text-warning">
+                  {language === 'ar' ? 'سجل المعاملات' : 'Transaction Log'}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {language === 'ar' ? 'عرض السجل الكامل' : 'View full log'}
+                </div>
+              </button>
+              
+              <button className="p-3 bg-white rounded border border-accent/20 hover:border-accent/40 transition-colors text-left">
+                <div className="font-medium text-sm text-accent">
+                  {language === 'ar' ? 'إعدادات التكامل' : 'Integration Settings'}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {language === 'ar' ? 'تخصيص الإعدادات' : 'Customize settings'}
+                </div>
+              </button>
             </div>
           </div>
         </CardContent>
