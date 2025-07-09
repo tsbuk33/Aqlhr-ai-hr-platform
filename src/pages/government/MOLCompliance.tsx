@@ -40,7 +40,9 @@ const MOLCompliance = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-success">0</div>
-                <p className="text-xs text-muted-foreground mt-2">جميع المخالفات محلولة</p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {isRTL ? 'جميع المخالفات محلولة' : 'All violations resolved'}
+                </p>
               </CardContent>
             </Card>
             <Card>
@@ -50,7 +52,9 @@ const MOLCompliance = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-accent">23</div>
-                <p className="text-xs text-muted-foreground mt-2">خلال العام الحالي</p>
+                <p className="text-xs text-muted-foreground mt-2">
+                  {isRTL ? 'خلال العام الحالي' : 'This year'}
+                </p>
               </CardContent>
             </Card>
             <Card>
@@ -60,7 +64,9 @@ const MOLCompliance = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-warning">✓</div>
-                <Badge className="mt-2 bg-status-info text-white">مارس 2024</Badge>
+                <Badge className="mt-2 bg-status-info text-white">
+                  {isRTL ? 'مارس 2024' : 'March 2024'}
+                </Badge>
               </CardContent>
             </Card>
           </div>
@@ -70,29 +76,41 @@ const MOLCompliance = () => {
           <Card>
             <CardHeader>
               <CardTitle>{t('mol.compliance_status')}</CardTitle>
-              <CardDescription>حالة الامتثال للوائح وزارة الموارد البشرية</CardDescription>
+              <CardDescription>
+                {isRTL ? 'حالة الامتثال للوائح وزارة الموارد البشرية' : 'Ministry of Human Resources compliance status'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span>{t('mol.employee_rights')}</span>
-                  <Badge className="bg-status-success text-white">متوافق</Badge>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'متوافق' : 'Compliant'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>{t('mol.safety_standards')}</span>
-                  <Badge className="bg-status-success text-white">متوافق</Badge>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'متوافق' : 'Compliant'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
                   <span>{t('mol.training_requirements')}</span>
-                  <Badge className="bg-status-success text-white">مكتمل</Badge>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'مكتمل' : 'Complete'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>متطلبات السعودة</span>
-                  <Badge className="bg-status-success text-white">محقق</Badge>
+                  <span>{isRTL ? 'متطلبات السعودة' : 'Saudization Requirements'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'محقق' : 'Achieved'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>نظام العمل والعمال</span>
-                  <Badge className="bg-status-success text-white">متوافق</Badge>
+                  <span>{isRTL ? 'نظام العمل والعمال' : 'Labor and Workers Law'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'متوافق' : 'Compliant'}
+                  </Badge>
                 </div>
               </div>
             </CardContent>
@@ -103,24 +121,42 @@ const MOLCompliance = () => {
           <Card>
             <CardHeader>
               <CardTitle>{t('mol.inspection_history')}</CardTitle>
-              <CardDescription>سجل التفتيشات والزيارات الحكومية</CardDescription>
+              <CardDescription>
+                {isRTL ? 'سجل التفتيشات والزيارات الحكومية' : 'Government inspections and visits log'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2 p-4 border rounded-lg">
-                  <h4 className="font-semibold">آخر تفتيش</h4>
-                  <p className="text-lg font-bold text-brand-success">سبتمبر 2023</p>
-                  <p className="text-sm text-muted-foreground">لا توجد مخالفات</p>
+                  <h4 className="font-semibold">
+                    {isRTL ? 'آخر تفتيش' : 'Last Inspection'}
+                  </h4>
+                  <p className="text-lg font-bold text-brand-success">
+                    {isRTL ? 'سبتمبر 2023' : 'September 2023'}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {isRTL ? 'لا توجد مخالفات' : 'No violations found'}
+                  </p>
                 </div>
                 <div className="space-y-2 p-4 border rounded-lg">
-                  <h4 className="font-semibold">التفتيش القادم</h4>
-                  <p className="text-lg font-bold text-brand-warning">مارس 2024</p>
-                  <p className="text-sm text-muted-foreground">تفتيش دوري</p>
+                  <h4 className="font-semibold">
+                    {isRTL ? 'التفتيش القادم' : 'Next Inspection'}
+                  </h4>
+                  <p className="text-lg font-bold text-brand-warning">
+                    {isRTL ? 'مارس 2024' : 'March 2024'}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {isRTL ? 'تفتيش دوري' : 'Routine inspection'}
+                  </p>
                 </div>
                 <div className="space-y-2 p-4 border rounded-lg">
-                  <h4 className="font-semibold">الاستعداد</h4>
+                  <h4 className="font-semibold">
+                    {isRTL ? 'الاستعداد' : 'Readiness'}
+                  </h4>
                   <p className="text-lg font-bold text-brand-accent">100%</p>
-                  <p className="text-sm text-muted-foreground">جميع المتطلبات جاهزة</p>
+                  <p className="text-sm text-muted-foreground">
+                    {isRTL ? 'جميع المتطلبات جاهزة' : 'All requirements ready'}
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -131,29 +167,41 @@ const MOLCompliance = () => {
           <Card>
             <CardHeader>
               <CardTitle>{t('mol.documentation')}</CardTitle>
-              <CardDescription>الوثائق والسجلات المطلوبة</CardDescription>
+              <CardDescription>
+                {isRTL ? 'الوثائق والسجلات المطلوبة' : 'Required documents and records'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span>سجلات الحضور والانصراف</span>
-                  <Badge className="bg-status-success text-white">محدث</Badge>
+                  <span>{isRTL ? 'سجلات الحضور والانصراف' : 'Attendance Records'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'محدث' : 'Updated'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>عقود العمل</span>
-                  <Badge className="bg-status-success text-white">مكتملة</Badge>
+                  <span>{isRTL ? 'عقود العمل' : 'Employment Contracts'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'مكتملة' : 'Complete'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>سجلات الرواتب</span>
-                  <Badge className="bg-status-success text-white">محفوظة</Badge>
+                  <span>{isRTL ? 'سجلات الرواتب' : 'Payroll Records'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'محفوظة' : 'Archived'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>شهادات التدريب</span>
-                  <Badge className="bg-status-success text-white">موثقة</Badge>
+                  <span>{isRTL ? 'شهادات التدريب' : 'Training Certificates'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'موثقة' : 'Documented'}
+                  </Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>تقارير السلامة المهنية</span>
-                  <Badge className="bg-status-success text-white">محدثة</Badge>
+                  <span>{isRTL ? 'تقارير السلامة المهنية' : 'Occupational Safety Reports'}</span>
+                  <Badge className="bg-status-success text-white">
+                    {isRTL ? 'محدثة' : 'Current'}
+                  </Badge>
                 </div>
               </div>
             </CardContent>
