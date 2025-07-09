@@ -65,6 +65,7 @@ const InteriorMinistry = lazy(() => import('../pages/government/InteriorMinistry
 const ESNADNotarization = lazy(() => import('../pages/government/ESNADNotarization'));
 const SaudiPostVerification = lazy(() => import('../pages/government/SaudiPostVerification'));
 const TawakkalnaCompliance = lazy(() => import('../pages/government/TawakkalnaCompliance'));
+const UmmAlQuraCalendar = lazy(() => import('../pages/government/UmmAlQuraCalendar'));
 
 // Strategic HR modules
 const WorkforcePlanning = lazy(() => import('../pages/strategic/WorkforcePlanning'));
@@ -288,6 +289,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/esnad', element: ESNADNotarization, auth: true },
   { path: '/government/saudi-post', element: SaudiPostVerification, auth: true },
   { path: '/government/tawakkalna', element: TawakkalnaCompliance, auth: true },
+  { path: '/government/umm-al-qura', element: UmmAlQuraCalendar, auth: true },
   
   // Payroll Sub-routes - auth required
   { path: '/payroll/wps', element: WPSProcessing, auth: true },

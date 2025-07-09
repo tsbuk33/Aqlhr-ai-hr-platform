@@ -81,6 +81,7 @@ const translations = {
     'nav.esnad_notarization': 'منصة إسناد للتوثيق الإلكتروني',
     'nav.saudi_post': 'البريد السعودي - التحقق من العناوين',
     'nav.tawakkalna_compliance': 'توكلنا - الامتثال والتحقق',
+    'nav.umm_al_qura_calendar': 'تقويم أم القرى - التقويم الهجري الرسمي',
 
     // ZATCA Integration
     'zatca.title': 'تكامل هيئة الزكاة والضريبة والجمارك',
@@ -992,6 +993,7 @@ const translations = {
     'nav.esnad_notarization': 'ESNAD Notarization',
     'nav.saudi_post': 'Saudi Post Verification',
     'nav.tawakkalna_compliance': 'Tawakkalna Compliance',
+    'nav.umm_al_qura_calendar': 'Umm Al-Qura Calendar - Official Hijri Calendar',
       
        // ZATCA Integration
        'zatca.title': 'ZATCA Integration',

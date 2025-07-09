@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Search, Settings } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
 
 export function DashboardHeader() {
   const { t } = useLanguage();
@@ -20,6 +21,7 @@ export function DashboardHeader() {
         </div>
 
         <div className="flex items-center gap-3">
+          <HijriCalendarWidget compact className="hidden lg:flex" />
           <LanguageToggle />
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
             <Search className="h-4 w-4" />

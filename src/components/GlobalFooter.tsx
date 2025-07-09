@@ -1,6 +1,7 @@
 import React from 'react';
 import { PartnerLogo } from './PartnerLogo';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 
 export const GlobalFooter: React.FC = () => {
   const { t } = useLanguage();
@@ -8,6 +9,11 @@ export const GlobalFooter: React.FC = () => {
   return (
     <footer className="bg-surface border-t border-border">
       <div className="container mx-auto px-6 py-8">
+        {/* Calendar Widget - Mobile Only */}
+        <div className="lg:hidden mb-6">
+          <HijriCalendarWidget />
+        </div>
+
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>

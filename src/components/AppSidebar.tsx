@@ -97,6 +97,7 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.esnad_notarization", title: t("nav.esnad_notarization"), url: "/government/esnad" },
       { titleKey: "nav.saudi_post", title: t("nav.saudi_post"), url: "/government/saudi-post" },
       { titleKey: "nav.tawakkalna_compliance", title: t("nav.tawakkalna_compliance"), url: "/government/tawakkalna" },
+      { titleKey: "nav.umm_al_qura_calendar", title: t("nav.umm_al_qura_calendar"), url: "/government/umm-al-qura" },
     ]
   },
 ];
