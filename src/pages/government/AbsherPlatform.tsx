@@ -30,45 +30,63 @@ const AbsherPlatform = () => {
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t('government.verified_ids')}</CardTitle>
-                <CardDescription>{t('government.total_id_verifications')}</CardDescription>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="min-h-[160px]">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {t('government.verified_ids')}
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  {t('government.total_id_verifications')}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-primary">2,456</div>
+              <CardContent className="pt-0">
+                <div className="text-2xl font-bold text-brand-primary">2,456</div>
                 <p className="text-xs text-muted-foreground mt-2">+89 {t('common.today')}</p>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t('government.verification_rate')}</CardTitle>
-                <CardDescription>{t('government.success_percentage')}</CardDescription>
+            <Card className="min-h-[160px]">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {t('government.verification_rate')}
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  {t('government.success_percentage')}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-success">97.8%</div>
+              <CardContent className="pt-0">
+                <div className="text-2xl font-bold text-brand-success">97.8%</div>
                 <Progress value={97.8} className="mt-2" />
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t('government.response_time')}</CardTitle>
-                <CardDescription>{t('government.average_api_response')}</CardDescription>
+            <Card className="min-h-[160px]">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {t('government.response_time')}
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  {t('government.average_api_response')}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-accent">1.2s</div>
+              <CardContent className="pt-0">
+                <div className="text-2xl font-bold text-brand-accent">1.2s</div>
                 <Badge className="mt-2 bg-status-success text-white">{t('common.excellent')}</Badge>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>{t('government.daily_checks')}</CardTitle>
-                <CardDescription>{t('government.verifications_today')}</CardDescription>
+            <Card className="min-h-[160px]">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {t('government.daily_checks')}
+                </CardTitle>
+                <CardDescription className="text-xs">
+                  {t('government.verifications_today')}
+                </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-brand-warning">234</div>
-                <p className="text-xs text-muted-foreground mt-2">{t('common.peak')}: 345 ({t('common.last_week')})</p>
+              <CardContent className="pt-0">
+                <div className="text-2xl font-bold text-brand-warning">234</div>
+                <p className="text-xs text-muted-foreground mt-2 break-words">
+                  {t('common.peak')}: 345 ({t('common.last_week')})
+                </p>
               </CardContent>
             </Card>
           </div>
