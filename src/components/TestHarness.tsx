@@ -9,8 +9,9 @@ import { SystemMetrics } from '@/components/test-harness/SystemMetrics';
 
 const TestHarness: React.FC = () => {
   const [isMounted, setIsMounted] = useState(true);
-  const [seedAmount, setSeedAmount] = useState(100);
+  const [seedAmount, setSeedAmount] = useState(1000);
   const [saudizationMix, setSaudizationMix] = useState(67);
+  const [fullTestSuite, setFullTestSuite] = useState(false);
   
   const {
     isRunning,
@@ -28,25 +29,34 @@ const TestHarness: React.FC = () => {
 
   const handleRunTests = () => {
     if (!isMounted) return;
-    runTests(seedAmount, saudizationMix);
+    runTests(seedAmount, saudizationMix, fullTestSuite);
   };
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">SanadHR Test Harness</h1>
-          <p className="text-muted-foreground">End-to-end validation for 106 modules + scalability testing</p>
+          <h1 className="text-3xl font-bold text-foreground">🛡️ SanadHR Pre-Release Test Suite</h1>
+          <p className="text-muted-foreground">Comprehensive QA validation for production deployment</p>
         </div>
-        <Button 
-          onClick={handleRunTests} 
-          disabled={isRunning}
-          size="lg"
-          className="gap-2"
-        >
-          <Play className="h-4 w-4" />
-          {isRunning ? 'Running Tests...' : 'Run Smoke Tests'}
-        </Button>
+        <div className="flex gap-3">
+          <Button 
+            onClick={() => setFullTestSuite(!fullTestSuite)} 
+            variant={fullTestSuite ? "default" : "outline"}
+            size="lg"
+          >
+            {fullTestSuite ? '🚀 Full Suite' : '⚡ Quick Tests'}
+          </Button>
+          <Button 
+            onClick={handleRunTests} 
+            disabled={isRunning}
+            size="lg"
+            className="gap-2"
+          >
+            <Play className="h-4 w-4" />
+            {isRunning ? 'Running Tests...' : (fullTestSuite ? 'Run Full Suite' : 'Run Quick Tests')}
+          </Button>
+        </div>
       </div>
 
       <TestConfiguration

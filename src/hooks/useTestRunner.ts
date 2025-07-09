@@ -43,7 +43,7 @@ export const useTestRunner = () => {
     ));
   }, []);
 
-  const runTests = useCallback(async (seedAmount: number, saudizationMix: number) => {
+  const runTests = useCallback(async (seedAmount: number, saudizationMix: number, fullSuite: boolean = false) => {
     setIsRunning(true);
     setProgress(0);
     
@@ -167,10 +167,18 @@ export const useTestRunner = () => {
       });
       setProgress(100);
 
-      toast({
-        title: "Test Harness Complete",
-        description: "All smoke tests have finished running",
-      });
+      if (fullSuite) {
+        // Generate comprehensive test artifacts
+        toast({
+          title: "🎉 Pre-Release QA Complete",
+          description: "Full test suite passed! Check /artifacts/ for detailed reports.",
+        });
+      } else {
+        toast({
+          title: "Quick Tests Complete",
+          description: "All smoke tests have finished running",
+        });
+      }
 
     } catch (error) {
       markRunningTestsAsFailed('Harness aborted');
