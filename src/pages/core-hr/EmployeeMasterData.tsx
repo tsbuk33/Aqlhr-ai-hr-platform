@@ -454,7 +454,7 @@ const EmployeeMasterData = () => {
     {
       name: 'life_insurance_home_country',
       label: 'Life Insurance in Home Country',
-      arabicLabel: 'التأمين على الحياة في البلد الأم',
+      arabicLabel: 'التأمين على الحياة',
       type: 'checkbox' as const
     },
     {
