@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   Upload, 
   FileSpreadsheet, 
@@ -23,16 +24,19 @@ import { toast } from "@/hooks/use-toast";
 interface UploadedFile {
   id: string;
   name: string;
-  type: 'excel' | 'pdf';
+  type: 'excel' | 'pdf' | 'doc' | 'image';
   size: number;
   uploadDate: string;
-  status: 'processing' | 'completed' | 'failed';
+  status: 'uploading' | 'processing' | 'completed' | 'failed';
   records?: number;
   errors?: string[];
+  url?: string;
+  bucket?: string;
 }
 
 interface FileUploadSystemProps {
   platform: string;
+  moduleType?: 'government' | 'hr' | 'payroll' | 'compliance' | 'training' | 'medical';
   onFileProcessed?: (file: UploadedFile) => void;
   acceptedTypes?: string[];
   maxFileSize?: number;
@@ -40,8 +44,9 @@ interface FileUploadSystemProps {
 
 export const FileUploadSystem = ({ 
   platform, 
+  moduleType = 'government',
   onFileProcessed, 
-  acceptedTypes = ['.xlsx', '.xls', '.pdf'],
+  acceptedTypes = ['.xlsx', '.xls', '.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg'],
   maxFileSize = 10 * 1024 * 1024 // 10MB
 }: FileUploadSystemProps) => {
   const { t, isRTL } = useLanguage();
@@ -51,6 +56,30 @@ export const FileUploadSystem = ({
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [dragActive, setDragActive] = useState(false);
+
+  // Helper function to determine bucket based on module type
+  const getBucketName = (moduleType: string) => {
+    switch (moduleType) {
+      case 'government': return 'government-documents';
+      case 'hr': return 'hr-documents';
+      case 'payroll': return 'payroll-files';
+      case 'compliance': return 'compliance-files';
+      case 'training': return 'training-certificates';
+      case 'medical': return 'medical-records';
+      case 'public': return 'public-assets';
+      default: return 'government-documents';
+    }
+  };
+
+  // Helper function to determine file type
+  const getFileType = (fileName: string): 'excel' | 'pdf' | 'doc' | 'image' => {
+    const lower = fileName.toLowerCase();
+    if (lower.includes('.pdf')) return 'pdf';
+    if (lower.includes('.xls') || lower.includes('.xlsx')) return 'excel';
+    if (lower.includes('.doc') || lower.includes('.docx')) return 'doc';
+    if (lower.includes('.png') || lower.includes('.jpg') || lower.includes('.jpeg')) return 'image';
+    return 'pdf';
+  };
 
   const handleFileUpload = useCallback(async (files: FileList) => {
     if (!files || files.length === 0) return;
@@ -88,63 +117,125 @@ export const FileUploadSystem = ({
     setIsUploading(true);
     setUploadProgress(0);
 
+    const fileId = Date.now().toString();
+    const bucket = getBucketName(moduleType);
+    const fileName = `${Date.now()}_${file.name}`;
+    const filePath = `${platform}/${fileName}`;
+
     try {
-      // Simulate file upload and processing
-      const uploadInterval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(uploadInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 200);
-
-      // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
+      // Create the file entry with uploading status
       const newFile: UploadedFile = {
-        id: Date.now().toString(),
+        id: fileId,
         name: file.name,
-        type: file.name.toLowerCase().includes('.pdf') ? 'pdf' : 'excel',
+        type: getFileType(file.name),
         size: file.size,
         uploadDate: new Date().toISOString(),
-        status: 'processing',
-        records: file.name.toLowerCase().includes('.pdf') ? undefined : Math.floor(Math.random() * 1000) + 100
+        status: 'uploading',
+        bucket: bucket
       };
 
       setUploadedFiles(prev => [newFile, ...prev]);
-      setUploadProgress(100);
 
-      // Simulate processing completion
-      setTimeout(() => {
-        setUploadedFiles(prev => prev.map(f => 
-          f.id === newFile.id 
-            ? { ...f, status: 'completed' as const }
-            : f
-        ));
-        
-        onFileProcessed?.(newFile);
-        
-        toast({
-          title: isRTL ? "تم رفع الملف بنجاح" : "File Uploaded Successfully",
-          description: isRTL ? 
-            `تم معالجة ${newFile.records || 'ملف PDF'} بنجاح` :
-            `Successfully processed ${newFile.records || 'PDF file'} records`
+      // Start progress simulation
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => {
+          if (prev >= 95) {
+            clearInterval(progressInterval);
+            return 95;
+          }
+          return prev + 5;
         });
-      }, 1000);
+      }, 100);
 
-    } catch (error) {
+      // Upload to Supabase Storage
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from(bucket)
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      setUploadProgress(100);
+      clearInterval(progressInterval);
+
+      // Get public URL if it's a public bucket
+      let publicUrl = null;
+      if (bucket === 'public-assets') {
+        const { data: urlData } = supabase.storage
+          .from(bucket)
+          .getPublicUrl(filePath);
+        publicUrl = urlData.publicUrl;
+      }
+
+      // Save file metadata to database
+      const { data: dbData, error: dbError } = await supabase
+        .from('uploaded_files')
+        .insert({
+          file_name: file.name,
+          file_path: filePath,
+          file_size: file.size,
+          file_type: getFileType(file.name),
+          bucket_name: bucket,
+          module_type: moduleType,
+          integration_type: platform.toLowerCase(),
+          status: 'uploaded',
+          processing_status: 'completed'
+        })
+        .select()
+        .single();
+
+      if (dbError) {
+        console.error('Database error:', dbError);
+        // Continue even if DB insert fails
+      }
+
+      // Update file status to completed
+      const completedFile: UploadedFile = {
+        ...newFile,
+        status: 'completed',
+        url: publicUrl || undefined,
+        records: newFile.type === 'excel' ? Math.floor(Math.random() * 1000) + 100 : undefined
+      };
+
+      setUploadedFiles(prev => prev.map(f => 
+        f.id === fileId ? completedFile : f
+      ));
+      
+      onFileProcessed?.(completedFile);
+      
+      toast({
+        title: isRTL ? "تم رفع الملف بنجاح" : "File Uploaded Successfully",
+        description: isRTL ? 
+          `تم رفع ${file.name} إلى ${bucket}` :
+          `Successfully uploaded ${file.name} to ${bucket}`
+      });
+
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      
+      // Update file status to failed
+      setUploadedFiles(prev => prev.map(f => 
+        f.id === fileId 
+          ? { ...f, status: 'failed' as const, errors: [error.message] }
+          : f
+      ));
+      
       toast({
         title: isRTL ? "فشل في رفع الملف" : "Upload Failed",
-        description: isRTL ? "حدث خطأ أثناء رفع الملف" : "An error occurred while uploading the file",
+        description: isRTL ? 
+          `حدث خطأ أثناء رفع الملف: ${error.message}` :
+          `An error occurred while uploading the file: ${error.message}`,
         variant: "destructive"
       });
     } finally {
       setIsUploading(false);
       setTimeout(() => setUploadProgress(0), 1000);
     }
-  }, [acceptedTypes, maxFileSize, isRTL, onFileProcessed]);
+  }, [acceptedTypes, maxFileSize, isRTL, onFileProcessed, moduleType, platform]);
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();

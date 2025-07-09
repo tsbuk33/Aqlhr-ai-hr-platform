@@ -1207,6 +1207,71 @@ export type Database = {
           },
         ]
       }
+      uploaded_files: {
+        Row: {
+          bucket_name: string
+          company_id: string | null
+          created_at: string | null
+          error_message: string | null
+          extracted_data: Json | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          integration_type: string | null
+          module_type: string | null
+          processing_status: string | null
+          status: string | null
+          updated_at: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          bucket_name: string
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          extracted_data?: Json | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          integration_type?: string | null
+          module_type?: string | null
+          processing_status?: string | null
+          status?: string | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          bucket_name?: string
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          extracted_data?: Json | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          integration_type?: string | null
+          module_type?: string | null
+          processing_status?: string | null
+          status?: string | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "uploaded_files_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
