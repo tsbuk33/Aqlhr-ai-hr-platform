@@ -3,45 +3,48 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AbsherPlatform = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Absher Platform</h1>
-          <p className="text-muted-foreground">Identity verification and document validation</p>
+          <h1 className="text-3xl font-bold text-foreground">{t('government.absher_platform')}</h1>
+          <p className="text-muted-foreground">{t('government.absher_desc')}</p>
         </div>
         <div className="flex gap-2">
-          <Badge variant="outline" className="bg-status-success text-white">Online</Badge>
-          <Button variant="outline">Test Connection</Button>
+          <Badge variant="outline" className="bg-status-success text-white">{t('common.online')}</Badge>
+          <Button variant="outline">{t('government.test_connection')}</Button>
         </div>
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="verification">Verification</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="overview">{t('common.overview')}</TabsTrigger>
+          <TabsTrigger value="verification">{t('government.verification')}</TabsTrigger>
+          <TabsTrigger value="documents">{t('government.documents')}</TabsTrigger>
+          <TabsTrigger value="security">{t('government.security')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Verified IDs</CardTitle>
-                <CardDescription>Total ID verifications</CardDescription>
+                <CardTitle>{t('government.verified_ids')}</CardTitle>
+                <CardDescription>{t('government.total_id_verifications')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-primary">2,456</div>
-                <p className="text-xs text-muted-foreground mt-2">+89 today</p>
+                <p className="text-xs text-muted-foreground mt-2">+89 {t('common.today')}</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Verification Rate</CardTitle>
-                <CardDescription>Success percentage</CardDescription>
+                <CardTitle>{t('government.verification_rate')}</CardTitle>
+                <CardDescription>{t('government.success_percentage')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-success">97.8%</div>
@@ -50,22 +53,22 @@ const AbsherPlatform = () => {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Response Time</CardTitle>
-                <CardDescription>Average API response</CardDescription>
+                <CardTitle>{t('government.response_time')}</CardTitle>
+                <CardDescription>{t('government.average_api_response')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-accent">1.2s</div>
-                <Badge className="mt-2 bg-status-success text-white">Excellent</Badge>
+                <Badge className="mt-2 bg-status-success text-white">{t('common.excellent')}</Badge>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Daily Checks</CardTitle>
-                <CardDescription>Verifications today</CardDescription>
+                <CardTitle>{t('government.daily_checks')}</CardTitle>
+                <CardDescription>{t('government.verifications_today')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-warning">234</div>
-                <p className="text-xs text-muted-foreground mt-2">Peak: 345 (last week)</p>
+                <p className="text-xs text-muted-foreground mt-2">{t('common.peak')}: 345 ({t('common.last_week')})</p>
               </CardContent>
             </Card>
           </div>
@@ -74,21 +77,21 @@ const AbsherPlatform = () => {
         <TabsContent value="verification">
           <Card>
             <CardHeader>
-              <CardTitle>Identity Verification Process</CardTitle>
-              <CardDescription>Real-time ID validation through Absher</CardDescription>
+              <CardTitle>{t('government.identity_verification_process')}</CardTitle>
+              <CardDescription>{t('government.realtime_id_validation')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <h4 className="font-semibold">Saudi Nationals</h4>
+                  <h4 className="font-semibold">{t('government.saudi_nationals')}</h4>
                   <p className="text-2xl font-bold text-brand-success">1,876</p>
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-semibold">Residents</h4>
+                  <h4 className="font-semibold">{t('government.residents')}</h4>
                   <p className="text-2xl font-bold text-brand-accent">580</p>
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-semibold">Failed Verifications</h4>
+                  <h4 className="font-semibold">{t('government.failed_verifications')}</h4>
                   <p className="text-2xl font-bold text-brand-warning">12</p>
                 </div>
               </div>
@@ -99,22 +102,22 @@ const AbsherPlatform = () => {
         <TabsContent value="documents">
           <Card>
             <CardHeader>
-              <CardTitle>Document Validation</CardTitle>
-              <CardDescription>Validate official documents through Absher</CardDescription>
+              <CardTitle>{t('government.document_validation')}</CardTitle>
+              <CardDescription>{t('government.validate_official_documents')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span>National ID Cards</span>
-                  <Badge className="bg-status-success text-white">2,456 Validated</Badge>
+                  <span>{t('government.national_id_cards')}</span>
+                  <Badge className="bg-status-success text-white">2,456 {t('government.validated')}</Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Residence Permits</span>
-                  <Badge className="bg-status-success text-white">580 Validated</Badge>
+                  <span>{t('government.residence_permits')}</span>
+                  <Badge className="bg-status-success text-white">580 {t('government.validated')}</Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Passport Documents</span>
-                  <Badge className="bg-status-success text-white">234 Validated</Badge>
+                  <span>{t('government.passport_documents')}</span>
+                  <Badge className="bg-status-success text-white">234 {t('government.validated')}</Badge>
                 </div>
               </div>
             </CardContent>
@@ -124,22 +127,22 @@ const AbsherPlatform = () => {
         <TabsContent value="security">
           <Card>
             <CardHeader>
-              <CardTitle>Security & Privacy</CardTitle>
-              <CardDescription>Data protection and security measures</CardDescription>
+              <CardTitle>{t('government.security_privacy')}</CardTitle>
+              <CardDescription>{t('government.data_protection_measures')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span>Data Encryption</span>
+                  <span>{t('government.data_encryption')}</span>
                   <Badge className="bg-status-success text-white">AES-256</Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>API Security</span>
+                  <span>{t('government.api_security')}</span>
                   <Badge className="bg-status-success text-white">OAuth 2.0</Badge>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span>Compliance Status</span>
-                  <Badge className="bg-status-success text-white">PDPL Compliant</Badge>
+                  <span>{t('government.compliance_status')}</span>
+                  <Badge className="bg-status-success text-white">PDPL {t('government.compliant')}</Badge>
                 </div>
               </div>
             </CardContent>

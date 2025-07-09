@@ -716,7 +716,17 @@ const translations = {
     'platform.payroll_modules': 'وحدات كشف الرواتب',
     'platform.ai_features': 'مميزات الذكاء الاصطناعي',
     'platform.active_workflows': 'سير العمل النشط',
-
+    
+    // Common terms for government pages
+    'common.online': 'متصل',
+    'common.active': 'نشط',
+    'common.overview': 'نظرة عامة',
+    'common.today': 'اليوم',
+    'common.this_month': 'هذا الشهر',
+    'common.excellent': 'ممتاز',
+    'common.peak': 'الذروة',
+    'common.last_week': 'الأسبوع الماضي',
+    'common.sar': 'ريال',
 
   },
   en: {
