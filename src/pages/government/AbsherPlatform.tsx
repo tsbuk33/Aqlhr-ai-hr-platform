@@ -175,7 +175,7 @@ const AbsherPlatform = () => {
                     <span className="font-medium">
                       {isRTL ? 'شهادة السعودة' : 'Saudization Certificate'}
                     </span>
-                    <Badge className="bg-success text-white">
+                    <Badge className="bg-primary text-white">
                       {isRTL ? 'نشط' : 'Active'}
                     </Badge>
                   </div>
