@@ -75,7 +75,7 @@ const getPlatformModules = (t: (key: string) => string) => [
     title: t("nav.government"), 
     url: "/government", 
     icon: FileText,
-    badge: "20",
+    badge: "21",
     subItems: [
       { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
       { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },

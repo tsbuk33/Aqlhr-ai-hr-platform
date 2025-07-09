@@ -139,7 +139,7 @@ const UmmAlQuraCalendar = () => {
 
   const formatHijriDate = (hijri: HijriDate) => {
     if (isRTL) {
-      return `${hijri.day} ${hijri.month} ${hijri.year} هـ`;
+      return `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
     } else {
       const monthEn = hijriMonths.en[hijri.monthNumber - 1] || hijri.month;
       return `${hijri.day} ${monthEn} ${hijri.year} AH`;
