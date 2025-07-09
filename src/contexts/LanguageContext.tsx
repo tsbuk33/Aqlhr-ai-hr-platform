@@ -810,15 +810,54 @@ const translations = {
 
   },
   en: {
-    // Navigation
-    'nav.dashboard': 'Dashboard',
-    'nav.core_hr': 'Core HR',
-    'nav.employees': 'Employees',
-    'nav.payroll': 'Payroll',
-    'nav.analytics': 'Analytics',
-    'nav.compliance': 'Compliance & Governance',
-    'nav.government': 'Government Integration',
-    'nav.ai_features': 'AI Features',
+     // Navigation
+     'nav.dashboard': 'Dashboard',
+     'nav.core_hr': 'Core HR',
+     'nav.ai_automation': 'AI & Automation',
+     'nav.government': 'Government Integration',
+     'nav.employees': 'Employees',
+     'nav.payroll': 'Payroll',
+     'nav.analytics': 'Analytics',
+     'nav.compliance': 'Compliance & Governance',
+     'nav.ai_features': 'AI Features',
+     
+     // Navigation Sub-items - Core HR
+     'nav.employee_master_data': 'Employee Master Data',
+     'nav.payroll_processing': 'Payroll Processing',
+     'nav.benefits_administration': 'Benefits Administration',
+     'nav.performance_management': 'Performance Management',
+     'nav.recruitment_hiring': 'Recruitment & Hiring',
+     'nav.training_development': 'Training & Development',
+     'nav.time_attendance': 'Time & Attendance',
+     'nav.leave_management': 'Leave Management',
+     'nav.succession_planning': 'Succession Planning',
+     'nav.compensation_management': 'Compensation Management',
+     'nav.employee_self_service': 'Employee Self Service',
+     'nav.manager_dashboard': 'Manager Dashboard',
+     
+     // Navigation Sub-items - AI & Automation
+     'nav.ai_sync_engine': 'AI Sync Engine',
+     'nav.smart_recommendations': 'Smart Recommendations',
+     'nav.predictive_analytics': 'Predictive Analytics',
+     'nav.document_intelligence': 'Document Intelligence',
+     'nav.arabic_english_nlp': 'Arabic-English NLP',
+     'nav.automated_workflows': 'Automated Workflows',
+     
+     // Navigation Sub-items - Government
+     'nav.qiwa_integration': 'Qiwa Integration',
+     'nav.gosi_integration': 'GOSI Integration',
+     'nav.mudad_platform': 'Mudad Platform',
+     'nav.elm_platform': 'ELM Platform',
+     'nav.absher_platform': 'Absher Platform',
+     'nav.hrsd_integration': 'HRSD Integration',
+     'nav.tvtc_doroob': 'TVTC/Doroob Platform',
+     'nav.health_insurance': 'Health Insurance',
+     
+     // Sidebar UI
+     'sidebar.platform_modules': 'Platform Modules',
+     'sidebar.complete_hr_platform': 'Complete HR Platform',
+     'sidebar.all_systems_operational': 'All Systems Operational',
+     'sidebar.language_toggle': '🌐 العربية / English',
     
     // AI Sync Engine
     'ai_sync.title': 'AI Sync Engine',

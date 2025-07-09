@@ -23,6 +23,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 // Platform modules based on SanadHR structure
 const getPlatformModules = (t: (key: string) => string) => [
@@ -215,9 +216,7 @@ export function AppSidebar() {
         {state !== "collapsed" && (
           <div className="mt-auto p-4 border-t border-sidebar-border">
             <div className="flex items-center justify-center">
-              <button className="bg-brand-secondary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary/90 transition-colors">
-                {t('sidebar.language_toggle')}
-              </button>
+              <LanguageToggle />
             </div>
           </div>
         )}
