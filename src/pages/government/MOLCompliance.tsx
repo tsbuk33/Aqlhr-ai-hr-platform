@@ -166,8 +166,8 @@ const MOLCompliance = () => {
                     <span className="font-medium">
                       {isRTL ? 'خدمات ذوي الإعاقة' : 'Disability Services'}
                     </span>
-                    <Badge className="bg-success text-white">
-                      {isRTL ? 'متاح' : 'Available'}
+                    <Badge className="bg-primary text-white">
+                      {isRTL ? 'نشط' : 'Active'}
                     </Badge>
                   </div>
                   
