@@ -176,17 +176,13 @@ const TawakkalnaCompliance = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="tawakkalna"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.csv,.jpg,.jpeg,.png"
-          maxFileSize={10}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="tawakkalna"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".csv",".jpg",".jpeg",".png"]}
+          maxFileSize={10 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات توكلنا' : 'Upload Tawakkalna Files'}
-          description={isRTL 
-            ? 'رفع بيانات الحالة الصحية، شهادات التطعيم، وتقارير الامتثال' 
-            : 'Upload health status data, vaccination certificates, and compliance reports'
-          }
         />
       )
     }

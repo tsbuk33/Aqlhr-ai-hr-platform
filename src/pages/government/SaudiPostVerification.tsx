@@ -176,17 +176,13 @@ const SaudiPostVerification = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="saudi_post"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.csv,.doc,.docx"
-          maxFileSize={10}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="saudi_post"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".csv",".doc",".docx"]}
+          maxFileSize={10 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات التحقق من العناوين' : 'Upload Address Verification Files'}
-          description={isRTL 
-            ? 'رفع قوائم العناوين، بيانات الموظفين، وطلبات التحقق البريدي' 
-            : 'Upload address lists, employee data, and postal verification requests'
-          }
         />
       )
     }

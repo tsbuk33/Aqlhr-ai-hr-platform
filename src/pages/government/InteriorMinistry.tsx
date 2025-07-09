@@ -176,17 +176,13 @@ const InteriorMinistry = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="interior_ministry"
-          acceptedFileTypes=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.doc,.docx"
-          maxFileSize={10}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="interior_ministry"
+          moduleType="government"
+          acceptedTypes={[".pdf",".jpg",".jpeg",".png",".xlsx",".xls",".doc",".docx"]}
+          maxFileSize={10 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات التصاريح الأمنية' : 'Upload Security Clearance Files'}
-          description={isRTL 
-            ? 'رفع طلبات التصاريح، وثائق الهوية، وتقارير التحقق الأمني' 
-            : 'Upload clearance requests, identity documents, and security verification reports'
-          }
         />
       )
     }

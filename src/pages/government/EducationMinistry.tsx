@@ -176,17 +176,13 @@ const EducationMinistry = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="education_ministry"
-          acceptedFileTypes=".pdf,.jpg,.jpeg,.png,.xlsx,.xls,.doc,.docx"
-          maxFileSize={10}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="education_ministry"
+          moduleType="government"
+          acceptedTypes={[".pdf",".jpg",".jpeg",".png",".xlsx",".xls",".doc",".docx"]}
+          maxFileSize={10 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات التحقق من الشهادات' : 'Upload Degree Verification Files'}
-          description={isRTL 
-            ? 'رفع الشهادات الأكاديمية، شهادات التخرج، وطلبات التحقق' 
-            : 'Upload academic certificates, graduation certificates, and verification requests'
-          }
         />
       )
     }

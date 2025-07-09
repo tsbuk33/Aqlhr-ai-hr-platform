@@ -176,17 +176,13 @@ const NCEIEmployment = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="ncei"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.doc,.docx,.csv"
-          maxFileSize={20}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="ncei"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx",".csv"]}
+          maxFileSize={20 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات معلومات التوظيف' : 'Upload Employment Information Files'}
-          description={isRTL 
-            ? 'رفع بيانات التوظيف، تقارير سوق العمل، وإحصائيات المهارات' 
-            : 'Upload employment data, labor market reports, and skills statistics'
-          }
         />
       )
     }

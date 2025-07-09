@@ -176,17 +176,13 @@ const NCAAAccreditation = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="ncaaa"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.doc,.docx"
-          maxFileSize={15}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="ncaaa"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx"]}
+          maxFileSize={15 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات الاعتماد الأكاديمي' : 'Upload Academic Accreditation Files'}
-          description={isRTL 
-            ? 'رفع وثائق الاعتماد، تقارير الجودة، والشهادات الأكاديمية' 
-            : 'Upload accreditation documents, quality reports, and academic certificates'
-          }
         />
       )
     }

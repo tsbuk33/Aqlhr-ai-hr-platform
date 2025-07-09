@@ -177,17 +177,13 @@ const QiyasAssessment = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="qiyas"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.doc,.docx"
-          maxFileSize={10}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="qiwa"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx"]}
+          maxFileSize={10 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات قياس' : 'Upload Qiyas Files'}
-          description={isRTL 
-            ? 'رفع تقارير التقييم، الشهادات، ونتائج الاختبارات' 
-            : 'Upload assessment reports, certificates, and test results'
-          }
         />
       )
     }

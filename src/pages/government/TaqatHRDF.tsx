@@ -176,17 +176,13 @@ const TaqatHRDF = () => {
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
         <FileUploadSystem
-          integrationType="taqat"
-          acceptedFileTypes=".pdf,.xlsx,.xls,.doc,.docx"
-          maxFileSize={15}
-          onUpload={(files) => {
-            setUploadedFiles(prev => [...prev, ...files]);
+          platform="taqat"
+          moduleType="government"
+          acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx"]}
+          maxFileSize={15 * 1024 * 1024}
+          onFileProcessed={(files) => {
+            setUploadedFiles(prev => [...prev, files]);
           }}
-          title={isRTL ? 'رفع ملفات طاقات' : 'Upload TAQAT Files'}
-          description={isRTL 
-            ? 'رفع خطط التدريب، تقارير التقدم، وطلبات التمويل' 
-            : 'Upload training plans, progress reports, and funding requests'
-          }
         />
       )
     }
