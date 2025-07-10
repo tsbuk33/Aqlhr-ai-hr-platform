@@ -1,6 +1,7 @@
 import { MetricCard } from "@/components/MetricCard";
 import { RecentActivity } from "@/components/RecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
+import { CompanyIntelligenceImporter } from "@/components/CompanyIntelligenceImporter";
 import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -154,6 +155,11 @@ const Index = () => {
 
         {/* Official Logos */}
         <OfficialLogos />
+      </div>
+
+      {/* Company Intelligence Data Import */}
+      <div className="flex justify-center">
+        <CompanyIntelligenceImporter />
       </div>
     </div>
   );
