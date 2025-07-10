@@ -105,6 +105,7 @@ const BenchmarkingReports = lazy(() => import('../pages/analytics/BenchmarkingRe
 const CustomReporting = lazy(() => import('../pages/analytics/CustomReporting'));
 const DataVisualization = lazy(() => import('../pages/analytics/DataVisualization'));
 const ExecutiveReporting = lazy(() => import('../pages/analytics/ExecutiveReporting'));
+const EmployeeReports = lazy(() => import('../pages/analytics/EmployeeReports'));
 
 // Compliance modules
 const ComplianceOverview = lazy(() => import('../pages/compliance'));
@@ -339,4 +340,5 @@ export const ROUTES: RouteConfig[] = [
   { path: '/analytics/custom', element: CustomReporting, auth: true },
   { path: '/analytics/visualization', element: DataVisualization, auth: true },
   { path: '/analytics/executive', element: ExecutiveReporting, auth: true },
+  { path: '/analytics/employee-reports', element: EmployeeReports, auth: true, adminOnly: true },
 ];

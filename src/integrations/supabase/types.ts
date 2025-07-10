@@ -1850,6 +1850,10 @@ export type Database = {
           system_type: string
         }[]
       }
+      generate_comprehensive_employee_report: {
+        Args: { _company_id?: string; _filters?: Json; _report_name?: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _user_id: string
