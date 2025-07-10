@@ -53,11 +53,11 @@ const Index = () => {
         />
         <MetricCard
           title={t('dashboard.gov_integrations')}
-          value="21"
+          value="22"
           description={t('dashboard.connected_platforms')}
           icon={<FileText className="h-6 w-6" />}
           variant="accent"
-          trend={{ value: "+13", isPositive: true }}
+          trend={{ value: "Saudi Engineering Body", isPositive: true }}
         />
         <MetricCard
           title={t('dashboard.compliance_score')}

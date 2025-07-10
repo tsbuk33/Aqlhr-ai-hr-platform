@@ -75,7 +75,7 @@ const getPlatformModules = (t: (key: string) => string) => [
     title: t("nav.government"), 
     url: "/government", 
     icon: FileText,
-    badge: "21",
+    badge: "22",
     subItems: [
       { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
       { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },
@@ -98,6 +98,7 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.saudi_post", title: t("nav.saudi_post"), url: "/government/saudi-post" },
       { titleKey: "nav.tawakkalna_compliance", title: t("nav.tawakkalna_compliance"), url: "/government/tawakkalna" },
       { titleKey: "nav.umm_al_qura_calendar", title: t("nav.umm_al_qura_calendar"), url: "/government/umm-al-qura" },
+      { titleKey: "nav.saudi_engineering_body", title: t("nav.saudi_engineering_body"), url: "/government/saudi-engineering" },
     ]
   },
 ];
