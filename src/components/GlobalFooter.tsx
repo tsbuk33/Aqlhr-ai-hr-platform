@@ -2,12 +2,11 @@ import React from 'react';
 import { PartnerLogo } from './PartnerLogo';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
-
 export const GlobalFooter: React.FC = () => {
-  const { t } = useLanguage();
-
-  return (
-    <footer className="bg-surface border-t border-border">
+  const {
+    t
+  } = useLanguage();
+  return <footer className="bg-surface border-t border-border">
       <div className="container mx-auto px-6 py-8">
         {/* Calendar Widget - Mobile Only */}
         <div className="lg:hidden mb-6">
@@ -17,7 +16,7 @@ export const GlobalFooter: React.FC = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-4">{t('footer.sanadhr')}</h3>
+            
             <p className="text-sm text-muted-foreground mb-4">
               {t('footer.sanadhr_desc')}
             </p>
@@ -53,27 +52,14 @@ export const GlobalFooter: React.FC = () => {
           </h4>
 
           <div className="flex flex-wrap gap-6 items-center">
-            <PartnerLogo
-              src="/partners/worldcup2034-official.svg"
-              alt="FIFA World Cup 2034 Saudi Arabia"
-              href="https://saudi2034.com.sa/"
-            />
-            <PartnerLogo
-              src="/partners/expo2030-official.svg"
-              alt="Expo 2030 Riyadh"
-              href="https://www.expo2030riyadh.sa/"
-            />
-            <PartnerLogo
-              src="/partners/vision2030.svg"
-              alt="Saudi Vision 2030"
-              href="https://vision2030.gov.sa/"
-            />
+            <PartnerLogo src="/partners/worldcup2034-official.svg" alt="FIFA World Cup 2034 Saudi Arabia" href="https://saudi2034.com.sa/" />
+            <PartnerLogo src="/partners/expo2030-official.svg" alt="Expo 2030 Riyadh" href="https://www.expo2030riyadh.sa/" />
+            <PartnerLogo src="/partners/vision2030.svg" alt="Saudi Vision 2030" href="https://vision2030.gov.sa/" />
           </div>
           <p className="text-xs text-muted-foreground">
             {t('footer.vision_support')}
           </p>
         </section>
       </div>
-    </footer>
-  );
+    </footer>;
 };
