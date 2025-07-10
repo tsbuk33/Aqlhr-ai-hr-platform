@@ -87,19 +87,20 @@ export const HijriCalendarWidget = ({
   const fetchCalendarData = async () => {
     setIsLoading(true);
     try {
-      // Try to get data from Umm Al-Qura integration
+      // Always try to get data from official Umm Al-Qura integration first
       const { data, error } = await supabase.functions.invoke('umm-al-qura-integration');
       
-      if (error) throw error;
-
-      if (data?.success) {
+      if (!error && data?.success && data?.data?.hijriDate) {
+        // Use the official Umm Al-Qura data
         setCalendarData({
           gregorian: new Date(),
           hijri: data.data.hijriDate,
-          timezone: data.data.timezone
+          timezone: data.data.timezone || 'Asia/Riyadh'
         });
+        console.log('Using official Umm Al-Qura calendar data:', data.data.hijriDate);
       } else {
-        // Fallback to local calculation
+        console.warn('Umm Al-Qura integration failed, using local fallback:', error);
+        // Only use local calculation as absolute fallback
         const now = new Date();
         const hijriDate = convertToHijri(now);
         setCalendarData({
@@ -109,7 +110,7 @@ export const HijriCalendarWidget = ({
         });
       }
     } catch (error) {
-      console.error('Calendar fetch error:', error);
+      console.error('Error fetching Umm Al-Qura calendar data:', error);
       // Fallback to local calculation
       const now = new Date();
       const hijriDate = convertToHijri(now);
