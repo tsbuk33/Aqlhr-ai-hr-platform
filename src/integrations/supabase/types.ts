@@ -536,6 +536,60 @@ export type Database = {
         }
         Relationships: []
       }
+      companies_private_top500: {
+        Row: {
+          boe_registration_no: string | null
+          created_at: string
+          headquarters_city_id: string | null
+          id: string
+          name_ar: string
+          name_en: string
+          revenue_rank: number | null
+          sector_id: string | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          boe_registration_no?: string | null
+          created_at?: string
+          headquarters_city_id?: string | null
+          id?: string
+          name_ar: string
+          name_en: string
+          revenue_rank?: number | null
+          sector_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          boe_registration_no?: string | null
+          created_at?: string
+          headquarters_city_id?: string | null
+          id?: string
+          name_ar?: string
+          name_en?: string
+          revenue_rank?: number | null
+          sector_id?: string | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "companies_private_top500_headquarters_city_id_fkey"
+            columns: ["headquarters_city_id"]
+            isOneToOne: false
+            referencedRelation: "saudi_cities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "companies_private_top500_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "saudi_sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employee_gosi_config: {
         Row: {
           created_at: string | null
@@ -1620,6 +1674,169 @@ export type Database = {
           },
         ]
       }
+      saudi_activities: {
+        Row: {
+          classification_code: string
+          created_at: string
+          id: string
+          name_ar: string
+          name_en: string
+          sector_id: string
+          updated_at: string
+        }
+        Insert: {
+          classification_code: string
+          created_at?: string
+          id?: string
+          name_ar: string
+          name_en: string
+          sector_id: string
+          updated_at?: string
+        }
+        Update: {
+          classification_code?: string
+          created_at?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+          sector_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saudi_activities_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "saudi_sectors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saudi_cities: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          name_ar: string
+          name_en: string
+          region_id: string
+          timezone: string | null
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          name_ar: string
+          name_en: string
+          region_id: string
+          timezone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+          region_id?: string
+          timezone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saudi_cities_region_id_fkey"
+            columns: ["region_id"]
+            isOneToOne: false
+            referencedRelation: "saudi_regions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saudi_gov_entities: {
+        Row: {
+          created_at: string
+          entity_key: string
+          id: string
+          name_ar: string
+          name_en: string
+          updated_at: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          entity_key: string
+          id?: string
+          name_ar: string
+          name_en: string
+          updated_at?: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          entity_key?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+          updated_at?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      saudi_regions: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          name_ar: string
+          name_en: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          name_ar: string
+          name_en: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      saudi_sectors: {
+        Row: {
+          created_at: string
+          id: string
+          name_ar: string
+          name_en: string
+          sic_code: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name_ar: string
+          name_en: string
+          sic_code: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+          sic_code?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       subscription_plans: {
         Row: {
           created_at: string | null
@@ -2006,6 +2223,25 @@ export type Database = {
       generate_comprehensive_employee_report: {
         Args: { _company_id?: string; _filters?: Json; _report_name?: string }
         Returns: string
+      }
+      get_activities_by_sector: {
+        Args: { sector_code: string }
+        Returns: {
+          id: string
+          classification_code: string
+          name_en: string
+          name_ar: string
+        }[]
+      }
+      get_cities_by_region: {
+        Args: { region_code: string }
+        Returns: {
+          id: string
+          code: string
+          name_en: string
+          name_ar: string
+          timezone: string
+        }[]
       }
       has_role: {
         Args: {

@@ -1,7 +1,15 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  useRegions, 
+  useCities, 
+  useSectors, 
+  useGovEntities, 
+  useTop500Companies 
+} from "@/hooks/useSaudiReference";
 import { 
   Globe, 
   Shield, 
@@ -13,7 +21,9 @@ import {
   Activity,
   Database,
   Settings,
-  Monitor
+  Monitor,
+  MapPin,
+  Users
 } from "lucide-react";
 
 const Government = () => {
@@ -101,6 +111,13 @@ const Government = () => {
       size: '5.1 MB'
     }
   ];
+
+  // Saudi Reference Database status
+  const { data: regionsData } = useRegions();
+  const { data: citiesData } = useCities();
+  const { data: sectorsData } = useSectors();
+  const { data: govEntitiesData } = useGovEntities();
+  const { data: companiesData } = useTop500Companies({ limit: 10 });
 
   const tabs = [
     {
@@ -209,6 +226,76 @@ const Government = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+      )
+    },
+    {
+      id: 'reference-data',
+      label: language === 'ar' ? 'البيانات المرجعية' : 'Reference Data',
+      content: (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{language === 'ar' ? 'قاعدة البيانات المرجعية السعودية' : 'Saudi Reference Database'}</CardTitle>
+              <CardDescription>
+                {language === 'ar' ? 'بيانات مرجعية شاملة للمناطق والمدن والقطاعات والشركات السعودية' : 'Comprehensive reference data for Saudi regions, cities, sectors, and companies'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <MapPin className="h-8 w-8 mx-auto mb-2 text-primary" />
+                  <div className="text-2xl font-bold">{regionsData?.data?.length || 13}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {language === 'ar' ? 'المناطق' : 'Regions'}
+                  </div>
+                </div>
+                
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <Building className="h-8 w-8 mx-auto mb-2 text-success" />
+                  <div className="text-2xl font-bold">{citiesData?.data?.length || 24}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {language === 'ar' ? 'المدن' : 'Cities'}
+                  </div>
+                </div>
+                
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <Globe className="h-8 w-8 mx-auto mb-2 text-accent" />
+                  <div className="text-2xl font-bold">{sectorsData?.data?.length || 20}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {language === 'ar' ? 'القطاعات' : 'Sectors'}
+                  </div>
+                </div>
+                
+                <div className="text-center p-4 bg-muted/50 rounded-lg">
+                  <Users className="h-8 w-8 mx-auto mb-2 text-warning" />
+                  <div className="text-2xl font-bold">{companiesData?.data?.length || 15}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {language === 'ar' ? 'أكبر الشركات' : 'Top Companies'}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-6 space-y-4">
+                <h4 className="font-semibold">{language === 'ar' ? 'الجهات الحكومية المتكاملة' : 'Integrated Government Entities'}</h4>
+                <div className="grid gap-3">
+                  {govEntitiesData?.data?.slice(0, 5).map((entity: any) => (
+                    <div key={entity.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <CheckCircle className="h-4 w-4 text-success" />
+                        <span className="font-medium">
+                          {language === 'ar' ? entity.name_ar : entity.name_en}
+                        </span>
+                      </div>
+                      <Badge className="bg-success text-white">
+                        {language === 'ar' ? 'متاح' : 'Available'}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )
     },
