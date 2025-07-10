@@ -527,10 +527,58 @@ export type Database = {
           },
         ]
       }
+      employee_reports: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          filters: Json | null
+          generated_at: string | null
+          generated_by: string
+          id: string
+          report_data: Json
+          report_description: string | null
+          report_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          filters?: Json | null
+          generated_at?: string | null
+          generated_by: string
+          id?: string
+          report_data: Json
+          report_description?: string | null
+          report_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          filters?: Json | null
+          generated_at?: string | null
+          generated_by?: string
+          id?: string
+          report_data?: Json
+          report_description?: string | null
+          report_name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employee_reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employees: {
         Row: {
           actual_job_title: string | null
           actual_job_title_ar: string | null
+          additional_attributes: Json | null
           agreed_annual_bonus: number | null
           annual_tickets_count: number | null
           annual_tickets_type: string | null
@@ -624,6 +672,7 @@ export type Database = {
         Insert: {
           actual_job_title?: string | null
           actual_job_title_ar?: string | null
+          additional_attributes?: Json | null
           agreed_annual_bonus?: number | null
           annual_tickets_count?: number | null
           annual_tickets_type?: string | null
@@ -717,6 +766,7 @@ export type Database = {
         Update: {
           actual_job_title?: string | null
           actual_job_title_ar?: string | null
+          additional_attributes?: Json | null
           agreed_annual_bonus?: number | null
           annual_tickets_count?: number | null
           annual_tickets_type?: string | null
