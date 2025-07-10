@@ -8,7 +8,8 @@ import {
   BookOpen, 
   Check, 
   ArrowUp, 
-  ArrowDown 
+  ArrowDown,
+  Settings 
 } from "lucide-react";
 import {
   Sidebar,
@@ -99,6 +100,39 @@ const getPlatformModules = (t: (key: string) => string) => [
       { titleKey: "nav.tawakkalna_compliance", title: t("nav.tawakkalna_compliance"), url: "/government/tawakkalna" },
       { titleKey: "nav.umm_al_qura_calendar", title: t("nav.umm_al_qura_calendar"), url: "/government/umm-al-qura" },
       { titleKey: "nav.saudi_engineering_body", title: t("nav.saudi_engineering_body"), url: "/government/saudi-engineering" },
+    ]
+  },
+  { 
+    titleKey: "nav.tools",
+    title: t("nav.tools"), 
+    url: "/tools", 
+    icon: Settings,
+    badge: "24",
+    subItems: [
+      { titleKey: "nav.communication_collaboration", title: t("nav.communication_collaboration"), url: "/tools/communication" },
+      { titleKey: "nav.microsoft_teams", title: t("nav.microsoft_teams"), url: "/tools/microsoft-teams" },
+      { titleKey: "nav.slack", title: t("nav.slack"), url: "/tools/slack" },
+      { titleKey: "nav.whatsapp_business", title: t("nav.whatsapp_business"), url: "/tools/whatsapp-business" },
+      { titleKey: "nav.outlook_integration", title: t("nav.outlook_integration"), url: "/tools/outlook" },
+      { titleKey: "nav.gmail_integration", title: t("nav.gmail_integration"), url: "/tools/gmail" },
+      { titleKey: "nav.document_management", title: t("nav.document_management"), url: "/tools/document-management" },
+      { titleKey: "nav.sharepoint", title: t("nav.sharepoint"), url: "/tools/sharepoint" },
+      { titleKey: "nav.google_drive", title: t("nav.google_drive"), url: "/tools/google-drive" },
+      { titleKey: "nav.onedrive", title: t("nav.onedrive"), url: "/tools/onedrive" },
+      { titleKey: "nav.dropbox", title: t("nav.dropbox"), url: "/tools/dropbox" },
+      { titleKey: "nav.docusign", title: t("nav.docusign"), url: "/tools/docusign" },
+      { titleKey: "nav.adobe_sign", title: t("nav.adobe_sign"), url: "/tools/adobe-sign" },
+      { titleKey: "nav.calendar_scheduling", title: t("nav.calendar_scheduling"), url: "/tools/calendar" },
+      { titleKey: "nav.google_calendar", title: t("nav.google_calendar"), url: "/tools/google-calendar" },
+      { titleKey: "nav.outlook_calendar", title: t("nav.outlook_calendar"), url: "/tools/outlook-calendar" },
+      { titleKey: "nav.calendly", title: t("nav.calendly"), url: "/tools/calendly" },
+      { titleKey: "nav.room_booking", title: t("nav.room_booking"), url: "/tools/room-booking" },
+      { titleKey: "nav.analytics_bi", title: t("nav.analytics_bi"), url: "/tools/analytics" },
+      { titleKey: "nav.power_bi", title: t("nav.power_bi"), url: "/tools/power-bi" },
+      { titleKey: "nav.tableau", title: t("nav.tableau"), url: "/tools/tableau" },
+      { titleKey: "nav.google_analytics", title: t("nav.google_analytics"), url: "/tools/google-analytics" },
+      { titleKey: "nav.custom_connectors", title: t("nav.custom_connectors"), url: "/tools/custom-connectors" },
+      { titleKey: "nav.learning_development", title: t("nav.learning_development"), url: "/tools/learning" }
     ]
   },
 ];

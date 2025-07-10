@@ -167,6 +167,9 @@ const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
 const SanadHRConnect = lazy(() => import('../pages/additional/SanadHRConnect'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 
+// Tools & Integrations module
+const Tools = lazy(() => import('../pages/Tools'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
@@ -178,6 +181,7 @@ export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
   { path: '/', element: Index },
   { path: '/about', element: About },
+  { path: '/tools', element: Tools },
   
   // Main modules - auth required
   { path: '/core-hr', element: CoreHR, auth: true },
