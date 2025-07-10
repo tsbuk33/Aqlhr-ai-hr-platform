@@ -256,6 +256,62 @@ export type Database = {
           },
         ]
       }
+      ai_tool_recommendations: {
+        Row: {
+          company_id: string | null
+          confidence_score: number | null
+          created_at: string | null
+          expected_benefits: Json | null
+          id: string
+          implementation_complexity: string | null
+          priority: string | null
+          reasoning: string
+          recommended_tool: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          status: string | null
+          tool_category: string
+        }
+        Insert: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          expected_benefits?: Json | null
+          id?: string
+          implementation_complexity?: string | null
+          priority?: string | null
+          reasoning: string
+          recommended_tool: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          tool_category: string
+        }
+        Update: {
+          company_id?: string | null
+          confidence_score?: number | null
+          created_at?: string | null
+          expected_benefits?: Json | null
+          id?: string
+          implementation_complexity?: string | null
+          priority?: string | null
+          reasoning?: string
+          recommended_tool?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          status?: string | null
+          tool_category?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_tool_recommendations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attendance: {
         Row: {
           check_in: string | null
@@ -1677,6 +1733,103 @@ export type Database = {
           },
         ]
       }
+      tool_integrations: {
+        Row: {
+          api_credentials: Json | null
+          company_id: string | null
+          configuration: Json | null
+          created_at: string | null
+          id: string
+          is_enabled: boolean | null
+          last_sync: string | null
+          sync_status: string | null
+          tool_category: string
+          tool_name: string
+          updated_at: string | null
+        }
+        Insert: {
+          api_credentials?: Json | null
+          company_id?: string | null
+          configuration?: Json | null
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          last_sync?: string | null
+          sync_status?: string | null
+          tool_category: string
+          tool_name: string
+          updated_at?: string | null
+        }
+        Update: {
+          api_credentials?: Json | null
+          company_id?: string | null
+          configuration?: Json | null
+          created_at?: string | null
+          id?: string
+          is_enabled?: boolean | null
+          last_sync?: string | null
+          sync_status?: string | null
+          tool_category?: string
+          tool_name?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_integrations_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tool_usage_analytics: {
+        Row: {
+          action_type: string
+          company_id: string | null
+          created_at: string | null
+          error_message: string | null
+          execution_time_ms: number | null
+          id: string
+          metadata: Json | null
+          success: boolean | null
+          tool_name: string
+          user_id: string | null
+        }
+        Insert: {
+          action_type: string
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          metadata?: Json | null
+          success?: boolean | null
+          tool_name: string
+          user_id?: string | null
+        }
+        Update: {
+          action_type?: string
+          company_id?: string | null
+          created_at?: string | null
+          error_message?: string | null
+          execution_time_ms?: number | null
+          id?: string
+          metadata?: Json | null
+          success?: boolean | null
+          tool_name?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_usage_analytics_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       training_records: {
         Row: {
           certificate_url: string | null
@@ -1860,6 +2013,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
         }
         Returns: boolean
+      }
+      sync_tool_integration: {
+        Args: { p_company_id: string; p_tool_name: string; p_action?: string }
+        Returns: undefined
       }
     }
     Enums: {

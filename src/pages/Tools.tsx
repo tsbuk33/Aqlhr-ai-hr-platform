@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   MessageSquare, 
   FileText, 
@@ -15,6 +16,7 @@ import {
   Cloud,
   Share2
 } from 'lucide-react';
+import ToolIntegrationManager from '@/components/tools/ToolIntegrationManager';
 
 const Tools = () => {
   const { t, isRTL } = useLanguage();
@@ -106,174 +108,191 @@ const Tools = () => {
 
   return (
     <div className={`container mx-auto p-6 space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <Settings className="h-5 w-5 text-white" />
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">
+            {isRTL ? 'نظرة عامة' : 'Overview'}
+          </TabsTrigger>
+          <TabsTrigger value="management">
+            {isRTL ? 'إدارة التكاملات' : 'Integration Management'}
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-8">
+          {/* Header */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+                <Settings className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">{t('nav.tools')}</h1>
+                <p className="text-muted-foreground">
+                  {isRTL 
+                    ? `${totalTools} أداة وتكامل متاح عبر 6 فئات` 
+                    : `${totalTools} tools and integrations across 6 categories`}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">{t('nav.tools')}</h1>
-            <p className="text-muted-foreground">
-              {isRTL 
-                ? `${totalTools} أداة وتكامل متاح عبر 6 فئات` 
-                : `${totalTools} tools and integrations across 6 categories`}
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <Separator />
+          <Separator />
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Share2 className="h-6 w-6 text-blue-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">{totalTools}</p>
-                <p className="text-sm text-muted-foreground">
-                  {isRTL ? 'إجمالي الأدوات' : 'Total Tools'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <Users className="h-6 w-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">6</p>
-                <p className="text-sm text-muted-foreground">
-                  {isRTL ? 'فئات التكامل' : 'Integration Categories'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Cloud className="h-6 w-6 text-purple-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">95%</p>
-                <p className="text-sm text-muted-foreground">
-                  {isRTL ? 'وقت التشغيل' : 'Uptime'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <Settings className="h-6 w-6 text-orange-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">22</p>
-                <p className="text-sm text-muted-foreground">
-                  {isRTL ? 'التكاملات النشطة' : 'Active Integrations'}
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Tools Categories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {toolCategories.map((category, index) => {
-          const IconComponent = category.icon;
-          return (
-            <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 ${category.color} rounded-lg flex items-center justify-center`}>
-                    <IconComponent className="h-5 w-5 text-white" />
+          {/* Statistics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Share2 className="h-6 w-6 text-blue-600" />
                   </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-lg">{category.title}</CardTitle>
-                    <Badge variant="secondary" className="mt-1">
-                      {category.count} {isRTL ? 'أدوات' : 'tools'}
-                    </Badge>
+                  <div>
+                    <p className="text-2xl font-bold text-foreground">{totalTools}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isRTL ? 'إجمالي الأدوات' : 'Total Tools'}
+                    </p>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="mb-4">
-                  {category.description}
-                </CardDescription>
-                <div className="space-y-2">
-                  {category.items.map((item, itemIndex) => (
-                    <div
-                      key={itemIndex}
-                      className="flex items-center gap-2 text-sm text-muted-foreground"
-                    >
-                      <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full" />
-                      {item}
-                    </div>
-                  ))}
                 </div>
               </CardContent>
             </Card>
-          );
-        })}
-      </div>
-
-      {/* Integration Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="h-5 w-5" />
-            {isRTL ? 'حالة التكامل' : 'Integration Status'}
-          </CardTitle>
-          <CardDescription>
-            {isRTL 
-              ? 'نظرة عامة على حالة جميع عمليات التكامل والأدوات المتصلة'
-              : 'Overview of all connected integrations and tools status'}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">18</div>
-              <div className="text-sm text-muted-foreground">
-                {isRTL ? 'متصل' : 'Connected'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-600">4</div>
-              <div className="text-sm text-muted-foreground">
-                {isRTL ? 'قيد الإعداد' : 'Configuring'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">2</div>
-              <div className="text-sm text-muted-foreground">
-                {isRTL ? 'متاح' : 'Available'}
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-muted-foreground">0</div>
-              <div className="text-sm text-muted-foreground">
-                {isRTL ? 'غير متصل' : 'Disconnected'}
-              </div>
-            </div>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <Users className="h-6 w-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-foreground">6</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isRTL ? 'فئات التكامل' : 'Integration Categories'}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Cloud className="h-6 w-6 text-purple-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-foreground">95%</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isRTL ? 'وقت التشغيل' : 'Uptime'}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <Settings className="h-6 w-6 text-orange-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-foreground">22</p>
+                    <p className="text-sm text-muted-foreground">
+                      {isRTL ? 'التكاملات النشطة' : 'Active Integrations'}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+
+          {/* Tools Categories */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {toolCategories.map((category, index) => {
+              const IconComponent = category.icon;
+              return (
+                <Card key={index} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 ${category.color} rounded-lg flex items-center justify-center`}>
+                        <IconComponent className="h-5 w-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg">{category.title}</CardTitle>
+                        <Badge variant="secondary" className="mt-1">
+                          {category.count} {isRTL ? 'أدوات' : 'tools'}
+                        </Badge>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="mb-4">
+                      {category.description}
+                    </CardDescription>
+                    <div className="space-y-2">
+                      {category.items.map((item, itemIndex) => (
+                        <div
+                          key={itemIndex}
+                          className="flex items-center gap-2 text-sm text-muted-foreground"
+                        >
+                          <div className="w-1.5 h-1.5 bg-muted-foreground rounded-full" />
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* Integration Status */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5" />
+                {isRTL ? 'حالة التكامل' : 'Integration Status'}
+              </CardTitle>
+              <CardDescription>
+                {isRTL 
+                  ? 'نظرة عامة على حالة جميع عمليات التكامل والأدوات المتصلة'
+                  : 'Overview of all connected integrations and tools status'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">18</div>
+                  <div className="text-sm text-muted-foreground">
+                    {isRTL ? 'متصل' : 'Connected'}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-yellow-600">4</div>
+                  <div className="text-sm text-muted-foreground">
+                    {isRTL ? 'قيد الإعداد' : 'Configuring'}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">2</div>
+                  <div className="text-sm text-muted-foreground">
+                    {isRTL ? 'متاح' : 'Available'}
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-muted-foreground">0</div>
+                  <div className="text-sm text-muted-foreground">
+                    {isRTL ? 'غير متصل' : 'Disconnected'}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="management">
+          <ToolIntegrationManager companyId="default-company-id" />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
