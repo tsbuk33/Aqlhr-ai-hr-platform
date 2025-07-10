@@ -45,18 +45,19 @@ const Index = () => {
         />
         <MetricCard
           title={t('dashboard.ai_processes')}
-          value="18"
-          description={t('dashboard.automated_workflows_active')}
+          value="10"
+          description={t('dashboard.ai_tools_active')}
           icon={<Check className="h-6 w-6" />}
           variant="secondary"
-          trend={{ value: "+3", isPositive: true }}
+          trend={{ value: "+5", isPositive: true }}
         />
         <MetricCard
           title={t('dashboard.gov_integrations')}
-          value="8"
+          value="21"
           description={t('dashboard.connected_platforms')}
           icon={<FileText className="h-6 w-6" />}
           variant="accent"
+          trend={{ value: "+13", isPositive: true }}
         />
         <MetricCard
           title={t('dashboard.compliance_score')}
@@ -141,11 +142,11 @@ const Index = () => {
               <div className="text-sm text-muted-foreground">{t('dashboard.payroll_modules')}</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-brand-accent">8</div>
+              <div className="text-2xl font-bold text-brand-accent">10</div>
               <div className="text-sm text-muted-foreground">{t('dashboard.ai_features')}</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-brand-secondary">47</div>
+              <div className="text-2xl font-bold text-brand-secondary">85</div>
               <div className="text-sm text-muted-foreground">{t('dashboard.active_workflows')}</div>
             </div>
           </div>

@@ -287,18 +287,30 @@ async function syncSuccessionModule(employee: any, event: SyncEvent) {
 }
 
 function determineAffectedModules(employee: any, eventType: string): string[] {
-  const baseModules = ['performance', 'org_chart'];
+  const baseModules = [
+    'performance', 'org_chart', 'ai_recommendations', 'onboarding_assistant',
+    'skills_gap_analyzer', 'compliance_predictor', 'sentiment_analyzer', 'content_generator'
+  ];
   
   if (employee.salary) {
     baseModules.push('payroll', 'gosi');
   }
   
   if (employee.is_saudi !== undefined) {
-    baseModules.push('qiwa');
+    baseModules.push('qiwa', 'nitaqat', 'government_compliance');
   }
   
-  if (employee.position) {
-    baseModules.push('succession_planning');
+  if (employee.position || employee.department) {
+    baseModules.push('succession_planning', 'training_recommendations');
+  }
+  
+  if (employee.hire_date || employee.joining_date) {
+    baseModules.push('onboarding_workflow', 'training_schedule');
+  }
+  
+  // AI Tools integration
+  if (eventType.includes('UPDATE') || eventType.includes('INSERT')) {
+    baseModules.push('predictive_analytics', 'document_intelligence', 'nlp_processor');
   }
   
   return [...new Set(baseModules)]; // Remove duplicates
