@@ -51,14 +51,34 @@ export const HijriCalendarWidget = ({
       });
       
       const parts = hijriFormatter.formatToParts(gregorianDate);
-      const day = parseInt(parts.find(p => p.type === 'day')?.value || '1');
-      const month = parts.find(p => p.type === 'month')?.value || 'محرم';
-      const year = parseInt(parts.find(p => p.type === 'year')?.value || '1446');
+      const dayPart = parts.find(p => p.type === 'day')?.value;
+      const monthPart = parts.find(p => p.type === 'month')?.value;
+      const yearPart = parts.find(p => p.type === 'year')?.value;
+      
+      // Validate all parts exist before parsing
+      if (!dayPart || !monthPart || !yearPart) {
+        throw new Error('Missing date parts');
+      }
+      
+      const day = parseInt(dayPart);
+      const month = monthPart;
+      const year = parseInt(yearPart);
+      
+      // Validate parsed values
+      if (isNaN(day) || isNaN(year)) {
+        throw new Error('Invalid date values');
+      }
       
       const monthNumber = hijriMonths.ar.indexOf(month) + 1;
       
-      return { day, month, year, monthNumber: monthNumber > 0 ? monthNumber : 1 };
-    } catch {
+      return { 
+        day, 
+        month, 
+        year, 
+        monthNumber: monthNumber > 0 ? monthNumber : 1 
+      };
+    } catch (error) {
+      console.warn('Hijri conversion failed, using fallback:', error);
       // Fallback calculation
       return { day: 15, month: 'محرم', year: 1446, monthNumber: 1 };
     }
