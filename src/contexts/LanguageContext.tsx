@@ -250,9 +250,9 @@ const translations = {
     // Dashboard
     'dashboard.title': 'مرحباً بكم في سند للموارد البشرية',
     'dashboard.subtitle': 'منصة إدارة الموارد البشرية الشاملة - مصممة للتميز في المملكة العربية السعودية',
-    'dashboard.all_systems_operational': 'جميع الأنظمة تعمل',
-    'dashboard.modules_active': 'وحدة نشطة',
-    'dashboard.government_integrations_live': 'التكامل الحكومي مباشر',
+     'dashboard.all_systems_operational': 'جميع الأنظمة تعمل',
+     'dashboard.modules_active': 'الوحدات النشطة', 
+     'dashboard.government_integrations_live': 'التكاملات الحكومية',
      'dashboard.total_employees': 'لوحة الموظفين',
      'dashboard.complete_profile_management': 'إدارة الملفات الشخصية الكاملة',
      'dashboard.ai_processes': 'لوحة الذكاء',
@@ -278,8 +278,8 @@ const translations = {
      'dashboard.payroll_modules': 'وحدات كشف الرواتب',
      'dashboard.ai_features': 'ميزات الذكاء الاصطناعي',
      'dashboard.active_workflows': 'سير العمل النشط',
-    
-    // Employee Management
+     
+     // Employee Management
     'employees.title': 'إدارة الموظفين',
     'employees.add_employee': 'إضافة موظف جديد',
     'employees.employee_number': 'رقم الموظف',
@@ -1196,9 +1196,12 @@ const translations = {
      'common.peak': 'Peak',
      'common.last_week': 'Last Week',
     
-    // Dashboard
+     // Dashboard
      'dashboard.title': 'SanadHR - Dashboard',
      'dashboard.subtitle': 'Saudi Arabia\'s Most Advanced HR Management System',
+     'dashboard.all_systems_operational': 'All Systems Operational',
+     'dashboard.modules_active': 'Modules Active',
+     'dashboard.government_integrations_live': 'Government Integrations Live',
      'dashboard.total_employees': 'Dashboard Employees',
      'dashboard.ai_processes': 'Dashboard AI',
      'dashboard.gov_integrations': 'Dashboard Integration',
