@@ -204,74 +204,38 @@ serve(async (req) => {
 });
 
 function convertToHijri(gregorianDate: Date): HijriDate {
-  try {
-    // Use Intl.DateTimeFormat with Islamic calendar
-    const hijriFormatter = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
-      timeZone: 'Asia/Riyadh',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    });
-    
-    const parts = hijriFormatter.formatToParts(gregorianDate);
-    console.log('Hijri formatter parts:', parts);
-    
-    const dayPart = parts.find(p => p.type === 'day')?.value;
-    const monthPart = parts.find(p => p.type === 'month')?.value;
-    const yearPart = parts.find(p => p.type === 'year')?.value;
-    
-    console.log('Extracted parts:', { dayPart, monthPart, yearPart });
-    
-    // Validate all parts exist before parsing
-    if (!dayPart || !monthPart || !yearPart) {
-      console.warn('Missing date parts, using fallback calculation');
-      throw new Error('Missing date parts');
-    }
-    
-    const day = parseInt(dayPart);
-    const month = monthPart;
-    const year = parseInt(yearPart);
-    
-    // Validate parsed values
-    if (isNaN(day) || isNaN(year)) {
-      console.warn('Invalid parsed values, using fallback calculation');
-      throw new Error('Invalid date values');
-    }
-    
-    // Arabic month names mapping
-    const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
-    const monthNumber = hijriMonths.indexOf(month) + 1;
-    
-    const result = {
-      day,
-      month,
-      monthNumber: monthNumber > 0 ? monthNumber : 1,
-      year
-    };
-    
-    console.log('Successfully converted to Hijri:', result);
-    return result;
-  } catch (error) {
-    console.error('Hijri conversion error:', error);
-    // Use reliable fallback calculation based on approximate conversion
-    const msPerDay = 24 * 60 * 60 * 1000;
-    const islamicEpoch = new Date(622, 6, 16); // July 16, 622 CE (approximate)
-    const daysSinceEpoch = Math.floor((gregorianDate.getTime() - islamicEpoch.getTime()) / msPerDay);
-    const hijriYear = Math.floor(daysSinceEpoch / 354.367) + 1; // Islamic year is ~354.367 days
-    const dayOfYear = daysSinceEpoch % 354;
-    const hijriMonth = Math.floor(dayOfYear / 29.5) + 1;
-    const hijriDay = Math.floor(dayOfYear % 29.5) + 1;
-    
-    const fallbackResult = {
-      day: Math.max(1, hijriDay),
-      month: 'محرم',
-      monthNumber: Math.max(1, Math.min(12, hijriMonth)),
-      year: Math.max(1445, hijriYear)
-    };
-    
-    console.log('Using fallback calculation:', fallbackResult);
-    return fallbackResult;
-  }
+  console.log('Converting Gregorian date to Hijri:', gregorianDate);
+  
+  // Always use mathematical calculation since Intl API is unreliable in Deno
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const islamicEpoch = new Date(622, 6, 16); // July 16, 622 CE (approximate start of Islamic calendar)
+  const daysSinceEpoch = Math.floor((gregorianDate.getTime() - islamicEpoch.getTime()) / msPerDay);
+  
+  // Islamic year is approximately 354.367 days
+  const hijriYear = Math.floor(daysSinceEpoch / 354.367) + 1;
+  const dayOfYear = daysSinceEpoch % Math.floor(354.367);
+  
+  // Calculate month and day (Islamic months are approximately 29.5 days)
+  const hijriMonth = Math.floor(dayOfYear / 29.5) + 1;
+  const hijriDay = Math.floor(dayOfYear % 29.5) + 1;
+  
+  // Arabic month names
+  const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+  
+  // Ensure values are within valid ranges
+  const validMonth = Math.max(1, Math.min(12, hijriMonth));
+  const validDay = Math.max(1, Math.min(30, hijriDay));
+  const validYear = Math.max(1400, hijriYear); // Ensure reasonable year
+  
+  const result = {
+    day: validDay,
+    month: hijriMonths[validMonth - 1] || 'محرم',
+    monthNumber: validMonth,
+    year: validYear
+  };
+  
+  console.log('Hijri conversion result:', result);
+  return result;
 }
 
 /* Edge function for Umm Al-Qura Calendar Platform Integration
