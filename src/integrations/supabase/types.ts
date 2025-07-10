@@ -590,6 +590,51 @@ export type Database = {
           },
         ]
       }
+      company_intelligence: {
+        Row: {
+          company_id: string
+          company_name_ar: string | null
+          company_name_en: string | null
+          company_type: string | null
+          confidence_score: number | null
+          contract_potential_score: number | null
+          created_at: string | null
+          id: number
+          nitaqat_color: string | null
+          saudization_rate: number | null
+          sector_primary: string | null
+          total_employees: number | null
+        }
+        Insert: {
+          company_id: string
+          company_name_ar?: string | null
+          company_name_en?: string | null
+          company_type?: string | null
+          confidence_score?: number | null
+          contract_potential_score?: number | null
+          created_at?: string | null
+          id?: number
+          nitaqat_color?: string | null
+          saudization_rate?: number | null
+          sector_primary?: string | null
+          total_employees?: number | null
+        }
+        Update: {
+          company_id?: string
+          company_name_ar?: string | null
+          company_name_en?: string | null
+          company_type?: string | null
+          confidence_score?: number | null
+          contract_potential_score?: number | null
+          created_at?: string | null
+          id?: number
+          nitaqat_color?: string | null
+          saudization_rate?: number | null
+          sector_primary?: string | null
+          total_employees?: number | null
+        }
+        Relationships: []
+      }
       employee_gosi_config: {
         Row: {
           created_at: string | null
