@@ -214,29 +214,63 @@ function convertToHijri(gregorianDate: Date): HijriDate {
     });
     
     const parts = hijriFormatter.formatToParts(gregorianDate);
-    const day = parseInt(parts.find(p => p.type === 'day')?.value || '1');
-    const month = parts.find(p => p.type === 'month')?.value || 'محرم';
-    const year = parseInt(parts.find(p => p.type === 'year')?.value || '1446');
+    console.log('Hijri formatter parts:', parts);
+    
+    const dayPart = parts.find(p => p.type === 'day')?.value;
+    const monthPart = parts.find(p => p.type === 'month')?.value;
+    const yearPart = parts.find(p => p.type === 'year')?.value;
+    
+    console.log('Extracted parts:', { dayPart, monthPart, yearPart });
+    
+    // Validate all parts exist before parsing
+    if (!dayPart || !monthPart || !yearPart) {
+      console.warn('Missing date parts, using fallback calculation');
+      throw new Error('Missing date parts');
+    }
+    
+    const day = parseInt(dayPart);
+    const month = monthPart;
+    const year = parseInt(yearPart);
+    
+    // Validate parsed values
+    if (isNaN(day) || isNaN(year)) {
+      console.warn('Invalid parsed values, using fallback calculation');
+      throw new Error('Invalid date values');
+    }
     
     // Arabic month names mapping
     const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
     const monthNumber = hijriMonths.indexOf(month) + 1;
     
-    return {
+    const result = {
       day,
       month,
       monthNumber: monthNumber > 0 ? monthNumber : 1,
       year
     };
+    
+    console.log('Successfully converted to Hijri:', result);
+    return result;
   } catch (error) {
     console.error('Hijri conversion error:', error);
-    // Fallback to approximate calculation
-    return {
-      day: 15,
+    // Use reliable fallback calculation based on approximate conversion
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const islamicEpoch = new Date(622, 6, 16); // July 16, 622 CE (approximate)
+    const daysSinceEpoch = Math.floor((gregorianDate.getTime() - islamicEpoch.getTime()) / msPerDay);
+    const hijriYear = Math.floor(daysSinceEpoch / 354.367) + 1; // Islamic year is ~354.367 days
+    const dayOfYear = daysSinceEpoch % 354;
+    const hijriMonth = Math.floor(dayOfYear / 29.5) + 1;
+    const hijriDay = Math.floor(dayOfYear % 29.5) + 1;
+    
+    const fallbackResult = {
+      day: Math.max(1, hijriDay),
       month: 'محرم',
-      monthNumber: 1,
-      year: 1446
+      monthNumber: Math.max(1, Math.min(12, hijriMonth)),
+      year: Math.max(1445, hijriYear)
     };
+    
+    console.log('Using fallback calculation:', fallbackResult);
+    return fallbackResult;
   }
 }
 
