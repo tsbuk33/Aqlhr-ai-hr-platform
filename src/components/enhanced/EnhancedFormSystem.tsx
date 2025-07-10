@@ -164,6 +164,15 @@ export const EnhancedFormSystem: React.FC<EnhancedFormProps> = ({
             className={cn(error && "border-destructive", directionClasses.text)}
             dir={isRTL ? 'rtl' : 'ltr'}
           />
+        ) : field.type === 'date' ? (
+          <Input
+            id={field.name}
+            type="date"
+            value={formData[field.name] || ''}
+            onChange={(e) => handleFieldChange(field.name, e.target.value)}
+            className={cn(error && "border-destructive", directionClasses.text)}
+            dir={isRTL ? 'rtl' : 'ltr'}
+          />
         ) : field.type === 'textarea' ? (
           <Textarea
             id={field.name}
