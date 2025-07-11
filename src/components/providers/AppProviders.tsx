@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
-import { LanguageProvider } from '@/contexts/LanguageContext';
+import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -23,7 +23,7 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
+      <SimpleLanguageProvider>
         <TooltipProvider>
           <BrowserRouter>
             <SidebarProvider>
@@ -32,7 +32,7 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
             </SidebarProvider>
           </BrowserRouter>
         </TooltipProvider>
-      </LanguageProvider>
+      </SimpleLanguageProvider>
     </QueryClientProvider>
   );
 };
