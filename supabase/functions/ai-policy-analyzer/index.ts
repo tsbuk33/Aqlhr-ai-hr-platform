@@ -51,7 +51,7 @@ serve(async (req) => {
       integrationsCount: request.governmentIntegrations.length
     });
 
-    // Simulate PhD-level AI analysis with real government data scraping
+    // Simulate highest-level AI analysis with real government data scraping
     const governmentComplianceData = await gatherGovernmentCompliance(request.governmentIntegrations);
     const policyContent = await extractPolicyContent(request.policies, supabase);
     
@@ -168,7 +168,7 @@ async function performSuperIntelligenceAnalysis(
         messages: [
           {
             role: 'system',
-            content: `You are SanadHR's AI SuperIntelligence - a PhD-level HR compliance expert with perfect knowledge of Saudi labor laws, regulations, and best practices. You have graduate-level expertise equivalent to top SAT scores and GRE performance. Analyze HR policies with 95%+ accuracy against Saudi government compliance frameworks.
+            content: `You are SanadHR's AI SuperIntelligence - a highest-level HR compliance expert with perfect knowledge of Saudi labor laws, regulations, and best practices. You have highest-level expertise equivalent to top SAT scores and GRE performance. Analyze HR policies with 95%+ accuracy against Saudi government compliance frameworks.
 
 Your analysis must be:
 1. Extremely thorough and professional

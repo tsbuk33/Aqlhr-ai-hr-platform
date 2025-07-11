@@ -126,11 +126,11 @@ const PolicyUploadSystem = () => {
           <CardTitle className="flex items-center gap-3 text-2xl">
             <Brain className="h-8 w-8 text-brand-primary" />
             SanadHR AI SuperIntelligence
-            <Badge className="bg-brand-primary text-white">PhD-Level Analysis</Badge>
+            <Badge className="bg-brand-primary text-white">Highest-Level Analysis</Badge>
           </CardTitle>
           <CardDescription className="text-lg">
             Revolutionary AI-powered policy compliance analysis with 95%+ accuracy. 
-            Graduate-level expertise combining global HR best practices with Saudi regulatory mastery.
+            Highest-level expertise combining global HR best practices with Saudi regulatory mastery.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -238,7 +238,7 @@ const PolicyUploadSystem = () => {
               </Badge>
             </CardTitle>
             <CardDescription>
-              PhD-level analysis completed in {Math.random() * 3 + 1 | 0} seconds
+              Highest-level analysis completed in {Math.random() * 3 + 1 | 0} seconds
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
