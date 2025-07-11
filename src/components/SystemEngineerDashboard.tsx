@@ -19,10 +19,14 @@ import {
   BarChart3,
   Settings,
   Clock,
-  XCircle
+  XCircle,
+  Globe
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { TranslationIntegrityEngine } from '@/components/TranslationIntegrityEngine';
+import AutonomousSystemBrain from './AutonomousSystemBrain';
+import PredictiveAnalyticsEngine from './PredictiveAnalyticsEngine';
+import ComplianceAutomationEngine from './ComplianceAutomationEngine';
 
 interface HealthResult {
   module_name: string;
@@ -399,15 +403,44 @@ const SystemEngineerDashboard = () => {
         </div>
       )}
 
-      {/* Main Dashboard Tabs */}
-      <Tabs defaultValue="modules" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+      {/* Advanced AI System Tabs */}
+      <Tabs defaultValue="brain" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="brain" className="flex items-center gap-2">
+            <Brain className="h-4 w-4" />
+            Autonomous Brain
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            Predictive Analytics
+          </TabsTrigger>
+          <TabsTrigger value="compliance" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            Compliance Automation
+          </TabsTrigger>
+          <TabsTrigger value="translation" className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            Translation Engine
+          </TabsTrigger>
           <TabsTrigger value="modules">{tr.moduleHealth}</TabsTrigger>
-          <TabsTrigger value="translation">Translation Integrity</TabsTrigger>
-          <TabsTrigger value="diagnostics">{tr.systemDiagnostics}</TabsTrigger>
-          <TabsTrigger value="recommendations">{tr.aiRecommendations}</TabsTrigger>
           <TabsTrigger value="learning">{tr.adaptiveLearning}</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="brain">
+          <AutonomousSystemBrain />
+        </TabsContent>
+
+        <TabsContent value="analytics">
+          <PredictiveAnalyticsEngine />
+        </TabsContent>
+
+        <TabsContent value="compliance">
+          <ComplianceAutomationEngine />
+        </TabsContent>
+
+        <TabsContent value="translation">
+          <TranslationIntegrityEngine />
+        </TabsContent>
 
         <TabsContent value="modules" className="space-y-4">
           <Card>
