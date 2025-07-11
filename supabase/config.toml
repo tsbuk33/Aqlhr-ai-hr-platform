@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.system-engineer-discovery]
 verify_jwt = false
+
+[functions.ai-translation-engine]
+verify_jwt = false

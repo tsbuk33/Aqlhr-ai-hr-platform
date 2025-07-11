@@ -2360,6 +2360,156 @@ export type Database = {
           },
         ]
       }
+      translation_audits: {
+        Row: {
+          ai_patched_keys: number | null
+          audit_results: Json | null
+          audit_status: string
+          audit_type: string
+          completed_at: string | null
+          created_at: string | null
+          hardcoded_strings_found: number | null
+          id: string
+          missing_arabic_keys: number | null
+          needs_review_count: number | null
+          total_keys_scanned: number | null
+        }
+        Insert: {
+          ai_patched_keys?: number | null
+          audit_results?: Json | null
+          audit_status?: string
+          audit_type: string
+          completed_at?: string | null
+          created_at?: string | null
+          hardcoded_strings_found?: number | null
+          id?: string
+          missing_arabic_keys?: number | null
+          needs_review_count?: number | null
+          total_keys_scanned?: number | null
+        }
+        Update: {
+          ai_patched_keys?: number | null
+          audit_results?: Json | null
+          audit_status?: string
+          audit_type?: string
+          completed_at?: string | null
+          created_at?: string | null
+          hardcoded_strings_found?: number | null
+          id?: string
+          missing_arabic_keys?: number | null
+          needs_review_count?: number | null
+          total_keys_scanned?: number | null
+        }
+        Relationships: []
+      }
+      translation_cache_invalidations: {
+        Row: {
+          affected_keys: string[] | null
+          created_at: string | null
+          id: string
+          invalidation_reason: string
+          triggered_by: string | null
+        }
+        Insert: {
+          affected_keys?: string[] | null
+          created_at?: string | null
+          id?: string
+          invalidation_reason: string
+          triggered_by?: string | null
+        }
+        Update: {
+          affected_keys?: string[] | null
+          created_at?: string | null
+          id?: string
+          invalidation_reason?: string
+          triggered_by?: string | null
+        }
+        Relationships: []
+      }
+      translation_patches: {
+        Row: {
+          applied_at: string | null
+          approval_status: string | null
+          approved_by: string | null
+          confidence_score: number | null
+          id: string
+          language: string
+          patch_source: string | null
+          patched_text: string
+          translation_key: string
+        }
+        Insert: {
+          applied_at?: string | null
+          approval_status?: string | null
+          approved_by?: string | null
+          confidence_score?: number | null
+          id?: string
+          language: string
+          patch_source?: string | null
+          patched_text: string
+          translation_key: string
+        }
+        Update: {
+          applied_at?: string | null
+          approval_status?: string | null
+          approved_by?: string | null
+          confidence_score?: number | null
+          id?: string
+          language?: string
+          patch_source?: string | null
+          patched_text?: string
+          translation_key?: string
+        }
+        Relationships: []
+      }
+      translation_registry: {
+        Row: {
+          arabic_text: string | null
+          context_info: string | null
+          created_at: string | null
+          english_text: string | null
+          id: string
+          is_ai_generated: boolean | null
+          last_updated_ar: string | null
+          last_updated_en: string | null
+          needs_review: boolean | null
+          source_file: string
+          source_line: number | null
+          translation_key: string
+          updated_at: string | null
+        }
+        Insert: {
+          arabic_text?: string | null
+          context_info?: string | null
+          created_at?: string | null
+          english_text?: string | null
+          id?: string
+          is_ai_generated?: boolean | null
+          last_updated_ar?: string | null
+          last_updated_en?: string | null
+          needs_review?: boolean | null
+          source_file: string
+          source_line?: number | null
+          translation_key: string
+          updated_at?: string | null
+        }
+        Update: {
+          arabic_text?: string | null
+          context_info?: string | null
+          created_at?: string | null
+          english_text?: string | null
+          id?: string
+          is_ai_generated?: boolean | null
+          last_updated_ar?: string | null
+          last_updated_en?: string | null
+          needs_review?: boolean | null
+          source_file?: string
+          source_line?: number | null
+          translation_key?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       uploaded_files: {
         Row: {
           bucket_name: string
@@ -2468,6 +2618,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_translation_patch: {
+        Args: {
+          p_key: string
+          p_language: string
+          p_text: string
+          p_confidence?: number
+        }
+        Returns: string
+      }
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
@@ -2516,6 +2675,17 @@ export type Database = {
           p_module_path: string
           p_module_category: string
           p_metadata?: Json
+        }
+        Returns: string
+      }
+      register_translation_key: {
+        Args: {
+          p_key: string
+          p_source_file: string
+          p_source_line?: number
+          p_context?: string
+          p_english_text?: string
+          p_arabic_text?: string
         }
         Returns: string
       }

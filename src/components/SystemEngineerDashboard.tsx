@@ -22,6 +22,7 @@ import {
   XCircle
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { TranslationIntegrityEngine } from '@/components/TranslationIntegrityEngine';
 
 interface HealthResult {
   module_name: string;
@@ -400,8 +401,9 @@ const SystemEngineerDashboard = () => {
 
       {/* Main Dashboard Tabs */}
       <Tabs defaultValue="modules" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="modules">{tr.moduleHealth}</TabsTrigger>
+          <TabsTrigger value="translation">Translation Integrity</TabsTrigger>
           <TabsTrigger value="diagnostics">{tr.systemDiagnostics}</TabsTrigger>
           <TabsTrigger value="recommendations">{tr.aiRecommendations}</TabsTrigger>
           <TabsTrigger value="learning">{tr.adaptiveLearning}</TabsTrigger>
@@ -474,6 +476,10 @@ const SystemEngineerDashboard = () => {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="translation" className="space-y-4">
+          <TranslationIntegrityEngine />
         </TabsContent>
 
         <TabsContent value="diagnostics" className="space-y-4">
