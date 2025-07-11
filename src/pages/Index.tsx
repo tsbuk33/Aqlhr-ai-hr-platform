@@ -4,7 +4,10 @@ import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { AIAnalysisReport } from "@/components/AIAnalysisReport";
 import PolicyUploadSystem from "@/components/PolicyUploadSystem";
-import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown } from "lucide-react";
+import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown, Brain } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
@@ -164,6 +167,41 @@ const Index = () => {
 
       {/* HR Policy Management System */}
       <PolicyUploadSystem />
+
+      {/* System Engineer Dashboard */}
+      <Card className="bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/20">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 text-xl">
+            <div className="p-2 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
+              <Brain className="h-6 w-6" />
+            </div>
+            {t('dashboard.system_engineer')}
+          </CardTitle>
+          <CardDescription>
+            {t('dashboard.system_engineer_description')}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2">
+              <Badge variant="outline" className="text-blue-600 border-blue-200">
+                {t('dashboard.auto_adaptive')}
+              </Badge>
+              <Badge variant="outline" className="text-green-600 border-green-200">
+                {t('dashboard.future_proof')}
+              </Badge>
+              <Badge variant="outline" className="text-purple-600 border-purple-200">
+                {t('dashboard.continuous_monitoring')}
+              </Badge>
+            </div>
+            <Link to="/system-engineer">
+              <button className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
+                {t('dashboard.open_dashboard')}
+              </button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Company Data Integration */}
       <div className="flex justify-center">

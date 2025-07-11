@@ -1995,6 +1995,221 @@ export type Database = {
           },
         ]
       }
+      system_adaptive_learning: {
+        Row: {
+          created_at: string
+          id: string
+          implementation_status: string | null
+          improvement_suggestion: string | null
+          improvement_suggestion_ar: string | null
+          last_applied: string | null
+          learning_category: string
+          pattern_detected: string
+          pattern_frequency: number | null
+          success_rate: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          implementation_status?: string | null
+          improvement_suggestion?: string | null
+          improvement_suggestion_ar?: string | null
+          last_applied?: string | null
+          learning_category: string
+          pattern_detected: string
+          pattern_frequency?: number | null
+          success_rate?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          implementation_status?: string | null
+          improvement_suggestion?: string | null
+          improvement_suggestion_ar?: string | null
+          last_applied?: string | null
+          learning_category?: string
+          pattern_detected?: string
+          pattern_frequency?: number | null
+          success_rate?: number | null
+        }
+        Relationships: []
+      }
+      system_diagnostics: {
+        Row: {
+          ai_confidence_score: number | null
+          auto_fixable: boolean | null
+          company_id: string | null
+          created_at: string
+          diagnostic_type: string
+          fix_applied: boolean | null
+          id: string
+          issue_description: string
+          issue_description_ar: string | null
+          module_id: string | null
+          recommended_action: string | null
+          recommended_action_ar: string | null
+          resolved_at: string | null
+          severity_level: string
+        }
+        Insert: {
+          ai_confidence_score?: number | null
+          auto_fixable?: boolean | null
+          company_id?: string | null
+          created_at?: string
+          diagnostic_type: string
+          fix_applied?: boolean | null
+          id?: string
+          issue_description: string
+          issue_description_ar?: string | null
+          module_id?: string | null
+          recommended_action?: string | null
+          recommended_action_ar?: string | null
+          resolved_at?: string | null
+          severity_level?: string
+        }
+        Update: {
+          ai_confidence_score?: number | null
+          auto_fixable?: boolean | null
+          company_id?: string | null
+          created_at?: string
+          diagnostic_type?: string
+          fix_applied?: boolean | null
+          id?: string
+          issue_description?: string
+          issue_description_ar?: string | null
+          module_id?: string | null
+          recommended_action?: string | null
+          recommended_action_ar?: string | null
+          resolved_at?: string | null
+          severity_level?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_diagnostics_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "system_diagnostics_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "system_modules_registry"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      system_health_reports: {
+        Row: {
+          company_id: string | null
+          compliance_status: string | null
+          created_at: string
+          critical_issues_count: number | null
+          generated_by: string | null
+          id: string
+          module_scores: Json
+          next_scheduled_check: string | null
+          optimization_opportunities_count: number | null
+          overall_health_score: number
+          recommendations: Json
+          recommendations_ar: Json
+          report_type: string
+          security_alerts_count: number | null
+        }
+        Insert: {
+          company_id?: string | null
+          compliance_status?: string | null
+          created_at?: string
+          critical_issues_count?: number | null
+          generated_by?: string | null
+          id?: string
+          module_scores?: Json
+          next_scheduled_check?: string | null
+          optimization_opportunities_count?: number | null
+          overall_health_score?: number
+          recommendations?: Json
+          recommendations_ar?: Json
+          report_type?: string
+          security_alerts_count?: number | null
+        }
+        Update: {
+          company_id?: string | null
+          compliance_status?: string | null
+          created_at?: string
+          critical_issues_count?: number | null
+          generated_by?: string | null
+          id?: string
+          module_scores?: Json
+          next_scheduled_check?: string | null
+          optimization_opportunities_count?: number | null
+          overall_health_score?: number
+          recommendations?: Json
+          recommendations_ar?: Json
+          report_type?: string
+          security_alerts_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "system_health_reports_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      system_modules_registry: {
+        Row: {
+          auto_discovered: boolean | null
+          compliance_score: number | null
+          created_at: string
+          discovery_date: string
+          health_status: string | null
+          id: string
+          last_health_check: string | null
+          metadata: Json | null
+          module_category: string
+          module_name: string
+          module_path: string
+          performance_score: number | null
+          security_score: number | null
+          updated_at: string
+        }
+        Insert: {
+          auto_discovered?: boolean | null
+          compliance_score?: number | null
+          created_at?: string
+          discovery_date?: string
+          health_status?: string | null
+          id?: string
+          last_health_check?: string | null
+          metadata?: Json | null
+          module_category: string
+          module_name: string
+          module_path: string
+          performance_score?: number | null
+          security_score?: number | null
+          updated_at?: string
+        }
+        Update: {
+          auto_discovered?: boolean | null
+          compliance_score?: number | null
+          created_at?: string
+          discovery_date?: string
+          health_status?: string | null
+          id?: string
+          last_health_check?: string | null
+          metadata?: Json | null
+          module_category?: string
+          module_name?: string
+          module_path?: string
+          performance_score?: number | null
+          security_score?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tool_integrations: {
         Row: {
           api_credentials: Json | null
@@ -2294,6 +2509,15 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
         }
         Returns: boolean
+      }
+      register_discovered_module: {
+        Args: {
+          p_module_name: string
+          p_module_path: string
+          p_module_category: string
+          p_metadata?: Json
+        }
+        Returns: string
       }
       sync_tool_integration: {
         Args: { p_company_id: string; p_tool_name: string; p_action?: string }

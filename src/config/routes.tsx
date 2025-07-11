@@ -166,6 +166,7 @@ const APIGateway = lazy(() => import('../pages/platform-features/APIGateway'));
 const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
 const SanadHRConnect = lazy(() => import('../pages/additional/SanadHRConnect'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
+const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 
 // Tools & Integrations module
 const Tools = lazy(() => import('../pages/Tools'));
@@ -347,4 +348,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/analytics/visualization', element: DataVisualization, auth: true },
   { path: '/analytics/executive', element: ExecutiveReporting, auth: true },
   { path: '/analytics/employee-reports', element: EmployeeReports, auth: true, adminOnly: true },
+  
+  // System Engineering - admin only
+  { path: '/system-engineer', element: SystemEngineer, auth: true, adminOnly: true },
 ];
