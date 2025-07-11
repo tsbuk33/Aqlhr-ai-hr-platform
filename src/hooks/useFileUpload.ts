@@ -27,8 +27,25 @@ export interface UseFileUploadOptions {
 export const useFileUpload = ({
   moduleType = 'government',
   platform,
-  acceptedTypes = ['.xlsx', '.xls', '.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg'],
-  maxFileSize = 10 * 1024 * 1024, // 10MB
+  acceptedTypes = [
+    // Documents
+    '.pdf', '.doc', '.docx', '.txt', '.rtf', '.odt',
+    // Spreadsheets
+    '.xlsx', '.xls', '.csv', '.ods', '.tsv',
+    // Presentations
+    '.ppt', '.pptx', '.odp',
+    // Images
+    '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg', '.webp', '.tiff',
+    // Videos
+    '.mp4', '.avi', '.mov', '.wmv', '.webm', '.mkv',
+    // Audio
+    '.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a',
+    // Archives
+    '.zip', '.rar', '.7z', '.tar', '.gz',
+    // Design
+    '.psd', '.ai', '.sketch', '.fig', '.xd'
+  ],
+  maxFileSize = 50 * 1024 * 1024, // 50MB
   onFileProcessed
 }: UseFileUploadOptions) => {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
@@ -49,13 +66,15 @@ export const useFileUpload = ({
     }
   };
 
-  // Helper function to determine file type
+  // Enhanced file type detection
   const getFileType = (fileName: string): 'excel' | 'pdf' | 'doc' | 'image' => {
     const lower = fileName.toLowerCase();
     if (lower.includes('.pdf')) return 'pdf';
-    if (lower.includes('.xls') || lower.includes('.xlsx')) return 'excel';
-    if (lower.includes('.doc') || lower.includes('.docx')) return 'doc';
-    if (lower.includes('.png') || lower.includes('.jpg') || lower.includes('.jpeg')) return 'image';
+    if (lower.includes('.xls') || lower.includes('.xlsx') || lower.includes('.csv')) return 'excel';
+    if (lower.includes('.doc') || lower.includes('.docx') || lower.includes('.txt') || lower.includes('.rtf')) return 'doc';
+    if (lower.includes('.png') || lower.includes('.jpg') || lower.includes('.jpeg') || 
+        lower.includes('.gif') || lower.includes('.bmp') || lower.includes('.svg') || 
+        lower.includes('.webp') || lower.includes('.tiff')) return 'image';
     return 'pdf';
   };
 

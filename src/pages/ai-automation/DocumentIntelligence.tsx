@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 
 const DocumentIntelligence = () => {
   const { t } = useLanguage();
@@ -44,6 +45,28 @@ const DocumentIntelligence = () => {
             <div className="text-3xl font-bold text-brand-warning">15</div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Enhanced Document Upload */}
+      <div className="mt-8">
+        <EnhancedFileUpload
+          title="AI Document Processing"
+          description="Upload documents for AI-powered analysis, data extraction, and intelligent processing"
+          moduleType="documents"
+          platform="document_intelligence"
+          maxFileSize={200 * 1024 * 1024} // 200MB
+          maxFiles={20}
+          compressionEnabled={true}
+          multipleUploads={true}
+          showPresets={true}
+          showUploadMethods={true}
+          onFileProcessed={(file) => {
+            console.log('Document processed:', file);
+          }}
+          onBatchProcessed={(files) => {
+            console.log('Batch processed:', files);
+          }}
+        />
       </div>
     </div>
   );

@@ -178,8 +178,11 @@ const EducationMinistry = () => {
         <FileUploadSystem
           platform="education_ministry"
           moduleType="government"
-          acceptedTypes={[".pdf",".jpg",".jpeg",".png",".xlsx",".xls",".doc",".docx"]}
-          maxFileSize={10 * 1024 * 1024}
+          acceptedTypes={[
+            ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp",
+            ".xlsx", ".xls", ".doc", ".docx", ".ppt", ".pptx", ".txt", ".rtf"
+          ]}
+          maxFileSize={25 * 1024 * 1024}
           onFileProcessed={(files) => {
             setUploadedFiles(prev => [...prev, files]);
           }}

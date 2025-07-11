@@ -178,8 +178,11 @@ const NCEIEmployment = () => {
         <FileUploadSystem
           platform="ncei"
           moduleType="government"
-          acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx",".csv"]}
-          maxFileSize={20 * 1024 * 1024}
+          acceptedTypes={[
+            ".pdf", ".xlsx", ".xls", ".doc", ".docx", ".csv", ".tsv", 
+            ".txt", ".rtf", ".png", ".jpg", ".jpeg", ".zip", ".rar"
+          ]}
+          maxFileSize={50 * 1024 * 1024}
           onFileProcessed={(files) => {
             setUploadedFiles(prev => [...prev, files]);
           }}

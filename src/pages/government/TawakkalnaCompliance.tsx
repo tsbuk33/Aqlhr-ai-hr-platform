@@ -178,8 +178,12 @@ const TawakkalnaCompliance = () => {
         <FileUploadSystem
           platform="tawakkalna"
           moduleType="government"
-          acceptedTypes={[".pdf",".xlsx",".xls",".csv",".jpg",".jpeg",".png"]}
-          maxFileSize={10 * 1024 * 1024}
+          acceptedTypes={[
+            ".pdf", ".xlsx", ".xls", ".csv", ".tsv",
+            ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp", ".tiff",
+            ".mp4", ".avi", ".mov", ".wmv", ".webm"
+          ]}
+          maxFileSize={100 * 1024 * 1024}
           onFileProcessed={(files) => {
             setUploadedFiles(prev => [...prev, files]);
           }}

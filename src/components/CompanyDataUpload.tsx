@@ -12,8 +12,21 @@ export const CompanyDataUpload = () => {
   const { uploadFile, isUploading, uploadProgress } = useFileUpload({
     moduleType: 'hr',
     platform: 'company_integration',
-    acceptedTypes: ['.xlsx', '.xls', '.pdf', '.doc', '.docx'],
-    maxFileSize: 50 * 1024 * 1024, // 50MB
+    acceptedTypes: [
+      // Documents
+      '.pdf', '.doc', '.docx', '.txt', '.rtf',
+      // Spreadsheets  
+      '.xlsx', '.xls', '.csv', '.ods', '.tsv',
+      // Presentations
+      '.ppt', '.pptx', '.odp',
+      // Images
+      '.png', '.jpg', '.jpeg', '.gif', '.bmp', '.svg', '.webp',
+      // Archives
+      '.zip', '.rar', '.7z',
+      // Design
+      '.psd', '.ai', '.sketch', '.fig'
+    ],
+    maxFileSize: 100 * 1024 * 1024, // 100MB
     onFileProcessed: (file) => {
       toast({
         title: "Data Integration Complete",
@@ -96,13 +109,13 @@ export const CompanyDataUpload = () => {
                   Drag & drop your company files here
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Supports Excel (.xlsx, .xls), PDF, and Word documents
+                  Supports: Excel, PDF, Word, PowerPoint, Images, Archives, Design files and more
                 </p>
                 <input
                   type="file"
                   id="file-upload"
                   className="hidden"
-                  accept=".xlsx,.xls,.pdf,.doc,.docx"
+                  accept=".pdf,.doc,.docx,.txt,.rtf,.xlsx,.xls,.csv,.ods,.tsv,.ppt,.pptx,.odp,.png,.jpg,.jpeg,.gif,.bmp,.svg,.webp,.zip,.rar,.7z,.psd,.ai,.sketch,.fig"
                   onChange={(e) => handleFileSelect(e.target.files)}
                 />
                 <Button
@@ -123,7 +136,8 @@ export const CompanyDataUpload = () => {
             <div>
               <h4 className="font-medium text-sm">AI-Powered Integration</h4>
               <p className="text-xs text-muted-foreground mt-1">
-                Uploaded data automatically syncs with payroll, HR analytics, compliance modules, and predictive AI systems
+                Uploaded data automatically syncs with payroll, HR analytics, compliance modules, and predictive AI systems. 
+                Supports 50+ file formats with intelligent data extraction and processing.
               </p>
             </div>
           </div>
