@@ -4,10 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { Upload, FileSpreadsheet, FileText, Building2, Zap } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const CompanyDataUpload = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
   
   const { uploadFile, isUploading, uploadProgress } = useFileUpload({
     moduleType: 'hr',
@@ -29,8 +31,8 @@ export const CompanyDataUpload = () => {
     maxFileSize: 100 * 1024 * 1024, // 100MB
     onFileProcessed: (file) => {
       toast({
-        title: "Data Integration Complete",
-        description: `Company data from ${file.name} has been processed and integrated into SanadHR systems. All modules and AI tools are now updated.`
+        title: t('upload.integration_complete'),
+        description: t('upload.integration_complete_desc').replace('{filename}', file.name)
       });
     }
   });
@@ -62,10 +64,10 @@ export const CompanyDataUpload = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-brand-primary" />
-          Company Data Integration
+          {t('upload.company_data_integration')}
         </CardTitle>
         <CardDescription>
-          Upload company data files to automatically integrate with all SanadHR modules and AI systems
+          {t('upload.company_data_integration_desc')}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -83,9 +85,9 @@ export const CompanyDataUpload = () => {
             <div className="space-y-4">
               <Zap className="h-12 w-12 mx-auto text-brand-primary animate-pulse" />
               <div>
-                <p className="font-medium">Processing Company Data...</p>
+                <p className="font-medium">{t('upload.processing_data')}</p>
                 <p className="text-sm text-muted-foreground">
-                  Integrating with HR modules and AI systems
+                  {t('upload.integrating_systems')}
                 </p>
                 <div className="w-full bg-secondary rounded-full h-2 mt-3">
                   <div 
@@ -94,7 +96,7 @@ export const CompanyDataUpload = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {uploadProgress}% Complete
+                  {uploadProgress}% {t('upload.complete')}
                 </p>
               </div>
             </div>
@@ -106,10 +108,10 @@ export const CompanyDataUpload = () => {
               </div>
               <div>
                 <p className="font-medium text-lg mb-2">
-                  Drag & drop your company files here
+                  {t('upload.drag_drop_files')}
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Supports: Excel, PDF, Word, PowerPoint, Images, Archives, Design files and more
+                  {t('upload.supported_formats')}
                 </p>
                 <input
                   type="file"
@@ -123,7 +125,7 @@ export const CompanyDataUpload = () => {
                   className="gap-2"
                 >
                   <Upload className="h-4 w-4" />
-                  Browse Files
+                  {t('upload.browse_files')}
                 </Button>
               </div>
             </div>
@@ -134,10 +136,9 @@ export const CompanyDataUpload = () => {
           <div className="flex items-start gap-3">
             <Zap className="h-5 w-5 text-brand-primary mt-0.5" />
             <div>
-              <h4 className="font-medium text-sm">AI-Powered Integration</h4>
+              <h4 className="font-medium text-sm">{t('upload.ai_powered_integration')}</h4>
               <p className="text-xs text-muted-foreground mt-1">
-                Uploaded data automatically syncs with payroll, HR analytics, compliance modules, and predictive AI systems. 
-                Supports 50+ file formats with intelligent data extraction and processing.
+                {t('upload.ai_powered_integration_desc')}
               </p>
             </div>
           </div>
