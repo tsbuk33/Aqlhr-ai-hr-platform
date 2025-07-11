@@ -1,10 +1,12 @@
 import { useMemo, useCallback } from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useLocalization } from '@/hooks/useLocalization';
 
 // Performance-optimized version of localization hook
 export const usePerformantLocalization = () => {
-  const { language, isRTL } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
+  const language = isArabic ? 'ar' : 'en';
+  const isRTL = isArabic;
   const localization = useLocalization();
 
   // Memoize direction-based classes
