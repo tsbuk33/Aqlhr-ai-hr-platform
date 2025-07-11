@@ -1,7 +1,7 @@
 import { MetricCard } from "@/components/MetricCard";
 import { RecentActivity } from "@/components/RecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
-
+import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { AIAnalysisReport } from "@/components/AIAnalysisReport";
 import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -160,6 +160,11 @@ const Index = () => {
 
       {/* AI & Automation Analysis Report */}
       <AIAnalysisReport />
+
+      {/* Company Data Integration */}
+      <div className="flex justify-center">
+        <CompanyDataUpload />
+      </div>
     </div>
   );
 };
