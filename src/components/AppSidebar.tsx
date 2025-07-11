@@ -27,113 +27,82 @@ import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 
 // Platform modules based on SanadHR structure
-const getPlatformModules = (t: (key: string) => string) => [
+const getPlatformModules = (isArabic: boolean) => [
   { 
-    titleKey: "nav.dashboard",
-    title: t("nav.dashboard"), 
+    title: isArabic ? "لوحة التحكم" : "Dashboard", 
     url: "/", 
     icon: BookOpen,
     badge: "1"
   },
   { 
-    titleKey: "nav.core_hr",
-    title: t("nav.core_hr"), 
+    title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", 
     url: "/core-hr", 
     icon: Users,
     badge: "12",
     subItems: [
-      { titleKey: "nav.employee_master_data", title: t("nav.employee_master_data"), url: "/core-hr/master-data" },
-      { titleKey: "nav.payroll_processing", title: t("nav.payroll_processing"), url: "/payroll" },
-      { titleKey: "nav.benefits_administration", title: t("nav.benefits_administration"), url: "/core-hr/benefits" },
-      { titleKey: "nav.performance_management", title: t("nav.performance_management"), url: "/core-hr/performance" },
-      { titleKey: "nav.recruitment_hiring", title: t("nav.recruitment_hiring"), url: "/core-hr/recruitment" },
-      { titleKey: "nav.training_development", title: t("nav.training_development"), url: "/core-hr/training" },
-      { titleKey: "nav.time_attendance", title: t("nav.time_attendance"), url: "/core-hr/time-attendance" },
-      { titleKey: "nav.leave_management", title: t("nav.leave_management"), url: "/core-hr/leave" },
-      { titleKey: "nav.succession_planning", title: t("nav.succession_planning"), url: "/core-hr/succession-planning" },
-      { titleKey: "nav.compensation_management", title: t("nav.compensation_management"), url: "/core-hr/compensation-management" },
-      { titleKey: "nav.employee_self_service", title: t("nav.employee_self_service"), url: "/core-hr/self-service" },
-      { titleKey: "nav.manager_dashboard", title: t("nav.manager_dashboard"), url: "/core-hr/organization" },
+      { title: isArabic ? "بيانات الموظفين الرئيسية" : "Employee Master Data", url: "/core-hr/master-data" },
+      { title: isArabic ? "معالجة الرواتب" : "Payroll Processing", url: "/payroll" },
+      { title: isArabic ? "إدارة المزايا" : "Benefits Administration", url: "/core-hr/benefits" },
+      { title: isArabic ? "إدارة الأداء" : "Performance Management", url: "/core-hr/performance" },
+      { title: isArabic ? "التوظيف والتعيين" : "Recruitment & Hiring", url: "/core-hr/recruitment" },
+      { title: isArabic ? "التدريب والتطوير" : "Training & Development", url: "/core-hr/training" },
+      { title: isArabic ? "الوقت والحضور" : "Time & Attendance", url: "/core-hr/time-attendance" },
+      { title: isArabic ? "إدارة الإجازات" : "Leave Management", url: "/core-hr/leave" },
+      { title: isArabic ? "تخطيط التعاقب" : "Succession Planning", url: "/core-hr/succession-planning" },
+      { title: isArabic ? "إدارة التعويضات" : "Compensation Management", url: "/core-hr/compensation-management" },
+      { title: isArabic ? "الخدمة الذاتية للموظفين" : "Employee Self Service", url: "/core-hr/self-service" },
+      { title: isArabic ? "لوحة تحكم المدير" : "Manager Dashboard", url: "/core-hr/organization" },
     ]
   },
   { 
-    titleKey: "nav.ai_automation",
-    title: t("nav.ai_automation"), 
+    title: isArabic ? "الأتمتة بالذكاء الاصطناعي" : "AI Automation", 
     url: "/ai-automation", 
     icon: Check,
     badge: "6",
     subItems: [
-      { titleKey: "nav.ai_sync_engine", title: t("nav.ai_sync_engine"), url: "/ai-automation/sync-engine" },
-      { titleKey: "nav.smart_recommendations", title: t("nav.smart_recommendations"), url: "/ai-automation/smart-recommendations" },
-      { titleKey: "nav.predictive_analytics", title: t("nav.predictive_analytics"), url: "/ai-automation/predictive-analytics" },
-      { titleKey: "nav.document_intelligence", title: t("nav.document_intelligence"), url: "/ai-automation/document-intelligence" },
-      { titleKey: "nav.arabic_english_nlp", title: t("nav.arabic_english_nlp"), url: "/ai-automation/arabic-english-nlp" },
-      { titleKey: "nav.automated_workflows", title: t("nav.automated_workflows"), url: "/ai-automation/automated-workflow" },
+      { title: isArabic ? "محرك المزامنة الذكي" : "AI Sync Engine", url: "/ai-automation/sync-engine" },
+      { title: isArabic ? "التوصيات الذكية" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
+      { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
+      { title: isArabic ? "ذكاء المستندات" : "Document Intelligence", url: "/ai-automation/document-intelligence" },
+      { title: isArabic ? "معالجة اللغة العربية/الإنجليزية" : "Arabic/English NLP", url: "/ai-automation/arabic-english-nlp" },
+      { title: isArabic ? "سير العمل التلقائي" : "Automated Workflows", url: "/ai-automation/automated-workflow" },
     ]
   },
   { 
-    titleKey: "nav.government",
-    title: t("nav.government"), 
+    title: isArabic ? "التكاملات الحكومية" : "Government", 
     url: "/government", 
     icon: FileText,
     badge: "22",
     subItems: [
-      { titleKey: "nav.qiwa_integration", title: t("nav.qiwa_integration"), url: "/government/qiwa" },
-      { titleKey: "nav.gosi_integration", title: t("nav.gosi_integration"), url: "/government/gosi" },
-      { titleKey: "nav.mudad_platform", title: t("nav.mudad_platform"), url: "/government/mudad" },
-      { titleKey: "nav.elm_platform", title: t("nav.elm_platform"), url: "/government/elm" },
-      { titleKey: "nav.absher_platform", title: t("nav.absher_platform"), url: "/government/absher" },
-      { titleKey: "nav.muqeem_platform", title: t("nav.muqeem_platform"), url: "/government/muqeem" },
-      { titleKey: "nav.seha_platform", title: t("nav.seha_platform"), url: "/government/seha" },
-      { titleKey: "nav.chi_platform", title: t("nav.chi_platform"), url: "/government/chi" },
-      { titleKey: "nav.hrsd_integration", title: t("nav.hrsd_integration"), url: "/government/mol" },
-      { titleKey: "nav.tvtc_doroob", title: t("nav.tvtc_doroob"), url: "/government/tvtc" },
-      { titleKey: "nav.zatca_integration", title: t("nav.zatca_integration"), url: "/government/zatca" },
-      { titleKey: "nav.qiyas_assessment", title: t("nav.qiyas_assessment"), url: "/government/qiyas" },
-      { titleKey: "nav.ncaaa_accreditation", title: t("nav.ncaaa_accreditation"), url: "/government/ncaaa" },
-      { titleKey: "nav.education_ministry", title: t("nav.education_ministry"), url: "/government/education" },
-      { titleKey: "nav.taqat_hrdf", title: t("nav.taqat_hrdf"), url: "/government/taqat" },
-      { titleKey: "nav.ncei_employment", title: t("nav.ncei_employment"), url: "/government/ncei" },
-      { titleKey: "nav.interior_ministry", title: t("nav.interior_ministry"), url: "/government/interior" },
-      { titleKey: "nav.esnad_notarization", title: t("nav.esnad_notarization"), url: "/government/esnad" },
-      { titleKey: "nav.saudi_post", title: t("nav.saudi_post"), url: "/government/saudi-post" },
-      { titleKey: "nav.tawakkalna_compliance", title: t("nav.tawakkalna_compliance"), url: "/government/tawakkalna" },
-      { titleKey: "nav.umm_al_qura_calendar", title: t("nav.umm_al_qura_calendar"), url: "/government/umm-al-qura" },
-      { titleKey: "nav.saudi_engineering_body", title: t("nav.saudi_engineering_body"), url: "/government/saudi-engineering" },
+      { title: isArabic ? "تكامل قوى" : "Qiwa Integration", url: "/government/qiwa" },
+      { title: isArabic ? "تكامل التأمينات الاجتماعية" : "GOSI Integration", url: "/government/gosi" },
+      { title: isArabic ? "منصة مداد" : "Mudad Platform", url: "/government/mudad" },
+      { title: isArabic ? "منصة علم" : "ELM Platform", url: "/government/elm" },
+      { title: isArabic ? "منصة أبشر" : "Absher Platform", url: "/government/absher" },
+      { title: isArabic ? "منصة مقيم" : "Muqeem Platform", url: "/government/muqeem" },
+      { title: isArabic ? "منصة صحة" : "Seha Platform", url: "/government/seha" },
+      { title: isArabic ? "منصة شي" : "CHI Platform", url: "/government/chi" },
+      { title: isArabic ? "تكامل وزارة الموارد البشرية" : "HRSD Integration", url: "/government/mol" },
+      { title: isArabic ? "دروب التقني" : "TVTC Doroob", url: "/government/tvtc" },
+      { title: isArabic ? "تكامل زاتكا" : "ZATCA Integration", url: "/government/zatca" },
+      { title: isArabic ? "تقييم قياس" : "Qiyas Assessment", url: "/government/qiyas" },
+      { title: isArabic ? "اعتماد هيئة تقويم التعليم" : "NCAAA Accreditation", url: "/government/ncaaa" },
+      { title: isArabic ? "وزارة التعليم" : "Education Ministry", url: "/government/education" },
+      { title: isArabic ? "طاقات صندوق تنمية الموارد البشرية" : "Taqat HRDF", url: "/government/taqat" },
+      { title: isArabic ? "المركز الوطني للتوظيف" : "NCEI Employment", url: "/government/ncei" },
+      { title: isArabic ? "وزارة الداخلية" : "Interior Ministry", url: "/government/interior" },
+      { title: isArabic ? "توثيق إسناد" : "ESNAD Notarization", url: "/government/esnad" },
+      { title: isArabic ? "البريد السعودي" : "Saudi Post", url: "/government/saudi-post" },
+      { title: isArabic ? "امتثال توكلنا" : "Tawakkalna Compliance", url: "/government/tawakkalna" },
+      { title: isArabic ? "تقويم أم القرى" : "Umm Al-Qura Calendar", url: "/government/umm-al-qura" },
+      { title: isArabic ? "الهيئة السعودية للمهندسين" : "Saudi Engineering Body", url: "/government/saudi-engineering" },
     ]
   },
   { 
-    titleKey: "nav.tools",
-    title: t("nav.tools"), 
+    title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
     url: "/tools", 
     icon: Settings,
-    badge: "24",
-    subItems: [
-      { titleKey: "nav.communication_collaboration", title: t("nav.communication_collaboration"), url: "/tools/communication" },
-      { titleKey: "nav.microsoft_teams", title: t("nav.microsoft_teams"), url: "/tools/microsoft-teams" },
-      { titleKey: "nav.slack", title: t("nav.slack"), url: "/tools/slack" },
-      { titleKey: "nav.whatsapp_business", title: t("nav.whatsapp_business"), url: "/tools/whatsapp-business" },
-      { titleKey: "nav.outlook_integration", title: t("nav.outlook_integration"), url: "/tools/outlook" },
-      { titleKey: "nav.gmail_integration", title: t("nav.gmail_integration"), url: "/tools/gmail" },
-      { titleKey: "nav.document_management", title: t("nav.document_management"), url: "/tools/document-management" },
-      { titleKey: "nav.sharepoint", title: t("nav.sharepoint"), url: "/tools/sharepoint" },
-      { titleKey: "nav.google_drive", title: t("nav.google_drive"), url: "/tools/google-drive" },
-      { titleKey: "nav.onedrive", title: t("nav.onedrive"), url: "/tools/onedrive" },
-      { titleKey: "nav.dropbox", title: t("nav.dropbox"), url: "/tools/dropbox" },
-      { titleKey: "nav.docusign", title: t("nav.docusign"), url: "/tools/docusign" },
-      { titleKey: "nav.adobe_sign", title: t("nav.adobe_sign"), url: "/tools/adobe-sign" },
-      { titleKey: "nav.calendar_scheduling", title: t("nav.calendar_scheduling"), url: "/tools/calendar" },
-      { titleKey: "nav.google_calendar", title: t("nav.google_calendar"), url: "/tools/google-calendar" },
-      { titleKey: "nav.outlook_calendar", title: t("nav.outlook_calendar"), url: "/tools/outlook-calendar" },
-      { titleKey: "nav.calendly", title: t("nav.calendly"), url: "/tools/calendly" },
-      { titleKey: "nav.room_booking", title: t("nav.room_booking"), url: "/tools/room-booking" },
-      { titleKey: "nav.analytics_bi", title: t("nav.analytics_bi"), url: "/tools/analytics" },
-      { titleKey: "nav.power_bi", title: t("nav.power_bi"), url: "/tools/power-bi" },
-      { titleKey: "nav.tableau", title: t("nav.tableau"), url: "/tools/tableau" },
-      { titleKey: "nav.google_analytics", title: t("nav.google_analytics"), url: "/tools/google-analytics" },
-      { titleKey: "nav.custom_connectors", title: t("nav.custom_connectors"), url: "/tools/custom-connectors" },
-      { titleKey: "nav.learning_development", title: t("nav.learning_development"), url: "/tools/learning" }
-    ]
+    badge: "24"
   },
 ];
 
@@ -141,30 +110,11 @@ export function AppSidebar() {
   const { state } = useSidebar();
   const { isArabic } = useSimpleLanguage();
   
-  const t = (key: string) => {
-    // Simple translation mapping for sidebar
-    const translations = {
-      'dashboard.title': isArabic ? 'لوحة التحكم' : 'Dashboard',
-      'employees.master_data': isArabic ? 'بيانات الموظفين' : 'Employee Data',
-      'core_hr.title': isArabic ? 'الموارد البشرية الأساسية' : 'Core HR',
-      'payroll.title': isArabic ? 'الرواتب' : 'Payroll',
-      'analytics.title': isArabic ? 'التحليلات' : 'Analytics',
-      'government.title': isArabic ? 'الحكومية' : 'Government',
-      'ai_features.title': isArabic ? 'ميزات الذكاء الاصطناعي' : 'AI Features',
-      'consulting.title': isArabic ? 'الاستشارات' : 'Consulting',
-      'strategic.title': isArabic ? 'الاستراتيجية' : 'Strategic',
-      'self_service.title': isArabic ? 'الخدمة الذاتية' : 'Self Service',
-      'documents.title': isArabic ? 'المستندات' : 'Documents',
-      'tools.title': isArabic ? 'الأدوات' : 'Tools',
-      'organization.title': isArabic ? 'التنظيم' : 'Organization'
-    };
-    return translations[key] || key;
-  };
   const location = useLocation();
   const currentPath = location.pathname;
-  const [expandedGroups, setExpandedGroups] = useState<string[]>([t("nav.core_hr")]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
 
-  const platformModules = getPlatformModules(t);
+  const platformModules = getPlatformModules(isArabic);
 
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
@@ -199,14 +149,14 @@ export function AppSidebar() {
             {state !== "collapsed" && (
               <div>
                 <h1 className="text-lg font-bold text-sidebar-primary-foreground">SanadHR</h1>
-                <p className="text-xs text-sidebar-foreground/70">{t('sidebar.complete_hr_platform')}</p>
+                <p className="text-xs text-sidebar-foreground/70">{isArabic ? 'منصة الموارد البشرية الشاملة' : 'Complete HR Platform'}</p>
               </div>
             )}
           </div>
           {state !== "collapsed" && (
             <div className="mt-4 flex items-center gap-2 text-xs">
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span className="text-sidebar-foreground/70">{t('sidebar.all_systems_operational')}</span>
+              <span className="text-sidebar-foreground/70">{isArabic ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All systems operational'}</span>
             </div>
           )}
         </div>
@@ -214,7 +164,7 @@ export function AppSidebar() {
         {/* Platform Modules */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium">
-            {t('sidebar.platform_modules')}
+            {isArabic ? 'وحدات المنصة' : 'Platform Modules'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
