@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const LanguageToggle: React.FC = () => {
-  const { language, toggleLanguage, isRTL } = useLanguage();
+  const { isArabic, toggleLanguage } = useSimpleLanguage();
+  const language = isArabic ? 'ar' : 'en';
+  const isRTL = isArabic;
 
   return (
     <Button

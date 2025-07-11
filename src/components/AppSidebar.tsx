@@ -23,7 +23,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 
 // Platform modules based on SanadHR structure
@@ -139,7 +139,27 @@ const getPlatformModules = (t: (key: string) => string) => [
 
 export function AppSidebar() {
   const { state } = useSidebar();
-  const { t } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
+  
+  const t = (key: string) => {
+    // Simple translation mapping for sidebar
+    const translations = {
+      'dashboard.title': isArabic ? 'لوحة التحكم' : 'Dashboard',
+      'employees.master_data': isArabic ? 'بيانات الموظفين' : 'Employee Data',
+      'core_hr.title': isArabic ? 'الموارد البشرية الأساسية' : 'Core HR',
+      'payroll.title': isArabic ? 'الرواتب' : 'Payroll',
+      'analytics.title': isArabic ? 'التحليلات' : 'Analytics',
+      'government.title': isArabic ? 'الحكومية' : 'Government',
+      'ai_features.title': isArabic ? 'ميزات الذكاء الاصطناعي' : 'AI Features',
+      'consulting.title': isArabic ? 'الاستشارات' : 'Consulting',
+      'strategic.title': isArabic ? 'الاستراتيجية' : 'Strategic',
+      'self_service.title': isArabic ? 'الخدمة الذاتية' : 'Self Service',
+      'documents.title': isArabic ? 'المستندات' : 'Documents',
+      'tools.title': isArabic ? 'الأدوات' : 'Tools',
+      'organization.title': isArabic ? 'التنظيم' : 'Organization'
+    };
+    return translations[key] || key;
+  };
   const location = useLocation();
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([t("nav.core_hr")]);

@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useLocalization } from "@/hooks/useLocalization";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 
 interface MetricCardProps {
   title: string;
@@ -42,7 +42,8 @@ export function MetricCard({
 }: MetricCardProps) {
   const isColored = variant !== "default";
   const { currency: formatCurrency, number, percentage, days, hours } = useLocalization();
-  const { isRTL } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
+  const isRTL = isArabic;
   
   const formatValue = (val: string | number): string => {
     if (typeof val === 'string') return val;
