@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { toast } from "sonner";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { 
   Activity, 
   AlertTriangle, 
@@ -49,7 +49,8 @@ interface SystemReport {
 }
 
 const SystemEngineerDashboard = () => {
-  const { language, t } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
+  const language = isArabic ? 'ar' : 'en';
   const [isLoading, setIsLoading] = useState(false);
   const [healthData, setHealthData] = useState<HealthResult[]>([]);
   const [systemReport, setSystemReport] = useState<SystemReport | null>(null);

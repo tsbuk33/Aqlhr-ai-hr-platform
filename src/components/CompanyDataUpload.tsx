@@ -4,12 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { useFileUpload } from '@/hooks/useFileUpload';
 import { Upload, FileSpreadsheet, FileText, Building2, Zap } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 export const CompanyDataUpload = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
   
   const { uploadFile, isUploading, uploadProgress } = useFileUpload({
     moduleType: 'hr',
@@ -31,8 +31,8 @@ export const CompanyDataUpload = () => {
     maxFileSize: 100 * 1024 * 1024, // 100MB
     onFileProcessed: (file) => {
       toast({
-        title: t('upload.integration_complete'),
-        description: t('upload.integration_complete_desc').replace('{filename}', file.name)
+        title: isArabic ? 'اكتمل التكامل' : 'Integration Complete',
+        description: isArabic ? `تم دمج الملف ${file.name} بنجاح` : `File ${file.name} integrated successfully`
       });
     }
   });
@@ -64,10 +64,10 @@ export const CompanyDataUpload = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-brand-primary" />
-          {t('upload.company_data_integration')}
+          {isArabic ? 'تكامل بيانات الشركة' : 'Company Data Integration'}
         </CardTitle>
         <CardDescription>
-          {t('upload.company_data_integration_desc')}
+          {isArabic ? 'ارفع ملفات الشركة لتكامل تلقائي مع جميع أنظمة الموارد البشرية' : 'Upload company files for automatic integration with all HR systems'}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -85,9 +85,9 @@ export const CompanyDataUpload = () => {
             <div className="space-y-4">
               <Zap className="h-12 w-12 mx-auto text-brand-primary animate-pulse" />
               <div>
-                <p className="font-medium">{t('upload.processing_data')}</p>
+                <p className="font-medium">{isArabic ? 'معالجة البيانات...' : 'Processing Data...'}</p>
                 <p className="text-sm text-muted-foreground">
-                  {t('upload.integrating_systems')}
+                  {isArabic ? 'تكامل الأنظمة جاري...' : 'Integrating Systems...'}
                 </p>
                 <div className="w-full bg-secondary rounded-full h-2 mt-3">
                   <div 
@@ -96,7 +96,7 @@ export const CompanyDataUpload = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {uploadProgress}% {t('upload.complete')}
+                  {uploadProgress}% {isArabic ? 'مكتمل' : 'Complete'}
                 </p>
               </div>
             </div>
@@ -108,10 +108,10 @@ export const CompanyDataUpload = () => {
               </div>
               <div>
                 <p className="font-medium text-lg mb-2">
-                  {t('upload.drag_drop_files')}
+                  {isArabic ? 'اسحب وأفلت الملفات هنا' : 'Drag and drop files here'}
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {t('upload.supported_formats')}
+                  {isArabic ? 'يدعم جميع صيغ المستندات والملفات' : 'Supports all document and file formats'}
                 </p>
                 <input
                   type="file"
@@ -125,7 +125,7 @@ export const CompanyDataUpload = () => {
                   className="gap-2"
                 >
                   <Upload className="h-4 w-4" />
-                  {t('upload.browse_files')}
+                  {isArabic ? 'تصفح الملفات' : 'Browse Files'}
                 </Button>
               </div>
             </div>
@@ -136,9 +136,9 @@ export const CompanyDataUpload = () => {
           <div className="flex items-start gap-3">
             <Zap className="h-5 w-5 text-brand-primary mt-0.5" />
             <div>
-              <h4 className="font-medium text-sm">{t('upload.ai_powered_integration')}</h4>
+              <h4 className="font-medium text-sm">{isArabic ? 'تكامل مدعوم بالذكاء الاصطناعي' : 'AI-Powered Integration'}</h4>
               <p className="text-xs text-muted-foreground mt-1">
-                {t('upload.ai_powered_integration_desc')}
+                {isArabic ? 'يستخدم الذكاء الاصطناعي لتحليل وتكامل البيانات تلقائياً مع جميع وحدات النظام' : 'Uses AI to automatically analyze and integrate data with all system modules'}
               </p>
             </div>
           </div>

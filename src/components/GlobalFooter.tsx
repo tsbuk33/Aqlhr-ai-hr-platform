@@ -1,11 +1,9 @@
 import React from 'react';
 import { PartnerLogo } from './PartnerLogo';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 export const GlobalFooter: React.FC = () => {
-  const {
-    t
-  } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
   return <footer className="bg-surface border-t border-border">
       <div className="container mx-auto px-6 py-8">
         {/* Calendar Widget - Mobile Only */}
@@ -18,27 +16,27 @@ export const GlobalFooter: React.FC = () => {
           <div>
             
             <p className="text-sm text-muted-foreground mb-4">
-              {t('footer.sanadhr_desc')}
+              {isArabic ? 'منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية' : 'Advanced intelligent platform for Human Resources Management in Saudi Arabia'}
             </p>
             <p className="text-xs text-muted-foreground">
-              {t('footer.all_rights')}
+              {isArabic ? 'جميع الحقوق محفوظة © 2024' : 'All rights reserved © 2024'}
             </p>
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">{t('footer.quick_links')}</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-4">{isArabic ? 'روابط سريعة' : 'Quick Links'}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="/core-hr" className="hover:text-foreground transition-colors">{t('nav.core_hr')}</a></li>
-              <li><a href="/payroll" className="hover:text-foreground transition-colors">{t('nav.payroll')}</a></li>
-              <li><a href="/ai-automation" className="hover:text-foreground transition-colors">{t('nav.ai_automation')}</a></li>
-              <li><a href="/government" className="hover:text-foreground transition-colors">{t('nav.government')}</a></li>
+              <li><a href="/core-hr" className="hover:text-foreground transition-colors">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</a></li>
+              <li><a href="/payroll" className="hover:text-foreground transition-colors">{isArabic ? 'الرواتب' : 'Payroll'}</a></li>
+              <li><a href="/ai-automation" className="hover:text-foreground transition-colors">{isArabic ? 'الأتمتة بالذكاء الاصطناعي' : 'AI Automation'}</a></li>
+              <li><a href="/government" className="hover:text-foreground transition-colors">{isArabic ? 'التكاملات الحكومية' : 'Government'}</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">{t('footer.contact')}</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-4">{isArabic ? 'تواصل معنا' : 'Contact'}</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>{t('footer.riyadh')}</li>
+              <li>{isArabic ? 'الرياض، المملكة العربية السعودية' : 'Riyadh, Saudi Arabia'}</li>
               <li>info@sanadhr.com</li>
               <li>+966 11 XXX XXXX</li>
             </ul>
@@ -48,7 +46,7 @@ export const GlobalFooter: React.FC = () => {
         {/* National Initiatives Section */}
         <section className="mt-8 space-y-2">
           <h4 className="text-sm font-semibold text-muted-foreground">
-            {t('footer.national_initiatives')}
+            {isArabic ? 'المبادرات الوطنية' : 'National Initiatives'}
           </h4>
 
           <div className="flex flex-wrap gap-6 items-center">
@@ -57,7 +55,7 @@ export const GlobalFooter: React.FC = () => {
             <PartnerLogo src="/partners/vision2030.svg" alt="Saudi Vision 2030" href="https://vision2030.gov.sa/" />
           </div>
           <p className="text-xs text-muted-foreground">
-            {t('footer.vision_support')}
+            {isArabic ? 'دعم رؤية المملكة 2030 من خلال حلول الموارد البشرية المتقدمة' : 'Supporting Saudi Vision 2030 through advanced HR solutions'}
           </p>
         </section>
       </div>
