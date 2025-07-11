@@ -3,13 +3,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { useFileUpload } from '@/hooks/useFileUpload';
-import { useLanguage } from '@/contexts/LanguageContext';
 import { Upload, FileSpreadsheet, FileText, Building2, Zap } from 'lucide-react';
 
 export const CompanyDataUpload = () => {
   const [isDragOver, setIsDragOver] = useState(false);
   const { toast } = useToast();
-  const { t } = useLanguage();
   
   const { uploadFile, isUploading, uploadProgress } = useFileUpload({
     moduleType: 'hr',
@@ -51,10 +49,10 @@ export const CompanyDataUpload = () => {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Building2 className="h-5 w-5 text-brand-primary" />
-          {t('upload.company_data_integration')}
+          Company Data Integration
         </CardTitle>
         <CardDescription>
-          {t('upload.company_data_description')}
+          Upload company data files to automatically integrate with all SanadHR modules and AI systems
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -72,9 +70,9 @@ export const CompanyDataUpload = () => {
             <div className="space-y-4">
               <Zap className="h-12 w-12 mx-auto text-brand-primary animate-pulse" />
               <div>
-                <p className="font-medium">{t('upload.processing_data')}</p>
+                <p className="font-medium">Processing Company Data...</p>
                 <p className="text-sm text-muted-foreground">
-                  {t('upload.integrating_with_modules')}
+                  Integrating with HR modules and AI systems
                 </p>
                 <div className="w-full bg-secondary rounded-full h-2 mt-3">
                   <div 
@@ -83,7 +81,7 @@ export const CompanyDataUpload = () => {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {uploadProgress}% {t('upload.complete')}
+                  {uploadProgress}% Complete
                 </p>
               </div>
             </div>
@@ -95,10 +93,10 @@ export const CompanyDataUpload = () => {
               </div>
               <div>
                 <p className="font-medium text-lg mb-2">
-                  {t('upload.drag_drop_files')}
+                  Drag & drop your company files here
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  {t('upload.supported_formats')}
+                  Supports Excel (.xlsx, .xls), PDF, and Word documents
                 </p>
                 <input
                   type="file"
@@ -112,7 +110,7 @@ export const CompanyDataUpload = () => {
                   className="gap-2"
                 >
                   <Upload className="h-4 w-4" />
-                  {t('upload.browse_files')}
+                  Browse Files
                 </Button>
               </div>
             </div>
@@ -123,9 +121,9 @@ export const CompanyDataUpload = () => {
           <div className="flex items-start gap-3">
             <Zap className="h-5 w-5 text-brand-primary mt-0.5" />
             <div>
-              <h4 className="font-medium text-sm">{t('upload.ai_integration_title')}</h4>
+              <h4 className="font-medium text-sm">AI-Powered Integration</h4>
               <p className="text-xs text-muted-foreground mt-1">
-                {t('upload.ai_integration_description')}
+                Uploaded data automatically syncs with payroll, HR analytics, compliance modules, and predictive AI systems
               </p>
             </div>
           </div>
