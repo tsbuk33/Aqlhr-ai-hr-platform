@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Calendar, Clock, RefreshCw } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { usePerformantLocalization } from '@/hooks/usePerformantLocalization';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -30,7 +30,8 @@ export const HijriCalendarWidget = ({
   compact = false, 
   showRefresh = true 
 }: HijriCalendarWidgetProps) => {
-  const { t, isRTL } = useLanguage();
+  const { isArabic } = useSimpleLanguage();
+  const isRTL = isArabic;
   const { dateFormatters } = usePerformantLocalization();
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
