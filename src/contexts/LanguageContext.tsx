@@ -981,6 +981,49 @@ const translations = {
      'analytics.workforce_analytics_desc': 'مقاييس ورؤى شاملة للقوى العاملة',
      'consulting.executive_compensation_desc': 'تصميم ومقارنة تعويضات المستوى التنفيذي',
 
+    
+    // Policy Management System
+    'policy.ai_superintelligence': 'الذكاء الاصطناعي الفائق لسند',
+    'policy.highest_level_analysis': 'تحليل بأعلى مستوى',
+    'policy.revolutionary_ai': 'تحليل الامتثال المدعوم بالذكاء الاصطناعي الثوري بدقة تزيد عن 95%',
+    'policy.highest_expertise': 'خبرة بأعلى مستوى تجمع بين أفضل ممارسات الموارد البشرية العالمية وإتقان الأنظمة السعودية',
+    'policy.sat_level_scoring': 'تسجيل بمستوى SAT',
+    'policy.perfect_accuracy': 'معايير دقة مثالية',
+    'policy.core_modules_12': 'الوحدات الأساسية 12',
+    'policy.instant_integration': 'التكامل الفوري',
+    'policy.real_time_analysis': 'التحليل في الوقت الفعلي',
+    'policy.seconds_response': 'وقت استجابة بالثواني',
+    'policy.upload_title': 'رفع سياسات وإجراءات الموارد البشرية',
+    'policy.upload_description': 'ارفع سياسات شركتك للموارد البشرية للحصول على تحليل فوري للامتثال مدعوم بالذكاء الاصطناعي',
+    'policy.drop_files_here': 'اسقط ملفات سياسات الموارد البشرية هنا أو انقر للتصفح',
+    'policy.select_files': 'اختر ملفات السياسات',
+    'policy.supported_formats': 'يدعم: PDF، Word، Excel، PowerPoint، ملفات نصية (حد أقصى 100 ميجابايت لكل ملف)',
+    'policy.ai_analyzing': 'الذكاء الاصطناعي الفائق يحلل...',
+    'policy.uploading_files': 'رفع الملفات...',
+    'policy.analyzing_frameworks': 'التحليل مقابل {count} أطر عمل الامتثال الحكومي...',
+    'policy.compliance_analysis': 'تحليل الامتثال للذكاء الاصطناعي الفائق',
+    'policy.analysis_completed': 'اكتمل التحليل بأعلى مستوى في {seconds} ثانية',
+    'policy.compliance_issues': 'مشاكل الامتثال المكتشفة ({count})',
+    'policy.ai_suggestion': 'اقتراح الذكاء الاصطناعي:',
+    'policy.reference': 'المرجع:',
+    'policy.ai_recommendations': 'توصيات الذكاء الاصطناعي الفائق',
+    'policy.integrated_modules': 'وحدات الموارد البشرية المدمجة',
+    'policy.uploaded_policies': 'السياسات المرفوعة ({count})',
+    'policy.processed': 'تمت المعالجة',
+    'policy.uploaded_at': 'رُفع في',
+    'policy.compliant_percent': '% متوافق',
+
+    // Severity levels
+    'policy.severity.low': 'منخفض',
+    'policy.severity.medium': 'متوسط', 
+    'policy.severity.high': 'عالي',
+    'policy.severity.critical': 'حرج',
+
+    // Compliance levels
+    'policy.compliance.excellent': 'ممتاز',
+    'policy.compliance.good': 'جيد',
+    'policy.compliance.needs_improvement': 'يحتاج تحسين',
+    'policy.compliance.critical': 'حرج',
   },
   en: {
      // Navigation
@@ -1473,7 +1516,50 @@ const translations = {
 
     // Strategic
     'strategic.strategic_hr': 'Strategic HR',
-    'strategic.strategic_hr_desc': 'Strategic workforce planning and talent management'
+    'strategic.strategic_hr_desc': 'Strategic workforce planning and talent management',
+
+    // Policy Management System
+    'policy.ai_superintelligence': 'SanadHR AI SuperIntelligence',
+    'policy.highest_level_analysis': 'Highest-Level Analysis',
+    'policy.revolutionary_ai': 'Revolutionary AI-powered policy compliance analysis with 95%+ accuracy',
+    'policy.highest_expertise': 'Highest-level expertise combining global HR best practices with Saudi regulatory mastery',
+    'policy.sat_level_scoring': 'SAT-Level Scoring',
+    'policy.perfect_accuracy': 'Perfect accuracy standards',
+    'policy.core_modules_12': 'Core Modules 12',
+    'policy.instant_integration': 'Instant integration',
+    'policy.real_time_analysis': 'Real-time Analysis',
+    'policy.seconds_response': 'Seconds response time',
+    'policy.upload_title': 'HR Policy & Procedures Upload',
+    'policy.upload_description': 'Upload your company\'s HR policies for instant AI-powered compliance analysis',
+    'policy.drop_files_here': 'Drop your HR policies here or click to browse',
+    'policy.select_files': 'Select Policy Files',
+    'policy.supported_formats': 'Supports: PDF, Word, Excel, PowerPoint, Text files (Max 100MB each)',
+    'policy.ai_analyzing': 'AI SuperIntelligence Analyzing...',
+    'policy.uploading_files': 'Uploading files...',
+    'policy.analyzing_frameworks': 'Analyzing against {count} government compliance frameworks...',
+    'policy.compliance_analysis': 'AI SuperIntelligence Compliance Analysis',
+    'policy.analysis_completed': 'Highest-level analysis completed in {seconds} seconds',
+    'policy.compliance_issues': 'Compliance Issues Detected ({count})',
+    'policy.ai_suggestion': 'AI Suggestion:',
+    'policy.reference': 'Reference:',
+    'policy.ai_recommendations': 'AI SuperIntelligence Recommendations',
+    'policy.integrated_modules': 'Integrated HR Modules',
+    'policy.uploaded_policies': 'Uploaded Policies ({count})',
+    'policy.processed': 'Processed',
+    'policy.uploaded_at': 'Uploaded',
+    'policy.compliant_percent': '% Compliant',
+
+    // Severity levels
+    'policy.severity.low': 'Low',
+    'policy.severity.medium': 'Medium',
+    'policy.severity.high': 'High',
+    'policy.severity.critical': 'Critical',
+
+    // Compliance levels
+    'policy.compliance.excellent': 'Excellent',
+    'policy.compliance.good': 'Good',
+    'policy.compliance.needs_improvement': 'Needs Improvement',
+    'policy.compliance.critical': 'Critical',
   }
 };
 

@@ -7,6 +7,7 @@ import { FileText, Upload, Brain, CheckCircle, AlertTriangle, Zap, Shield, Targe
 import { useState, useCallback } from "react";
 import { useEnhancedFileUpload } from "@/hooks/useEnhancedFileUpload";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ComplianceAnalysis {
   overallScore: number;
@@ -23,6 +24,7 @@ interface ComplianceAnalysis {
 }
 
 const PolicyUploadSystem = () => {
+  const { t } = useLanguage();
   const [uploadedPolicies, setUploadedPolicies] = useState<any[]>([]);
   const [analysisResults, setAnalysisResults] = useState<ComplianceAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -125,12 +127,12 @@ const PolicyUploadSystem = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-2xl">
             <Brain className="h-8 w-8 text-brand-primary" />
-            SanadHR AI SuperIntelligence
-            <Badge className="bg-brand-primary text-white">Highest-Level Analysis</Badge>
+            {t('policy.ai_superintelligence')}
+            <Badge className="bg-brand-primary text-white">{t('policy.highest_level_analysis')}</Badge>
           </CardTitle>
           <CardDescription className="text-lg">
-            Revolutionary AI-powered policy compliance analysis with 95%+ accuracy. 
-            Highest-level expertise combining global HR best practices with Saudi regulatory mastery.
+            {t('policy.revolutionary_ai')}. 
+            {t('policy.highest_expertise')}.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -138,22 +140,22 @@ const PolicyUploadSystem = () => {
             <div className="flex items-center gap-3 p-3 rounded-lg bg-surface-secondary">
               <Target className="h-6 w-6 text-brand-primary" />
               <div>
-                <div className="font-semibold">SAT-Level Scoring</div>
-                <div className="text-sm text-muted-foreground">Perfect accuracy standards</div>
+                <div className="font-semibold">{t('policy.sat_level_scoring')}</div>
+                <div className="text-sm text-muted-foreground">{t('policy.perfect_accuracy')}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-surface-secondary">
               <Shield className="h-6 w-6 text-brand-success" />
               <div>
-                <div className="font-semibold">12 Core Modules</div>
-                <div className="text-sm text-muted-foreground">Instant integration</div>
+                <div className="font-semibold">{t('policy.core_modules_12')}</div>
+                <div className="text-sm text-muted-foreground">{t('policy.instant_integration')}</div>
               </div>
             </div>
             <div className="flex items-center gap-3 p-3 rounded-lg bg-surface-secondary">
               <Zap className="h-6 w-6 text-brand-accent" />
               <div>
-                <div className="font-semibold">Real-time Analysis</div>
-                <div className="text-sm text-muted-foreground">Seconds response time</div>
+                <div className="font-semibold">{t('policy.real_time_analysis')}</div>
+                <div className="text-sm text-muted-foreground">{t('policy.seconds_response')}</div>
               </div>
             </div>
           </div>
@@ -165,10 +167,10 @@ const PolicyUploadSystem = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Upload className="h-5 w-5 text-brand-primary" />
-            HR Policy & Procedures Upload
+            {t('policy.upload_title')}
           </CardTitle>
           <CardDescription>
-            Upload your company's HR policies for instant AI-powered compliance analysis
+            {t('policy.upload_description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -196,14 +198,14 @@ const PolicyUploadSystem = () => {
           >
             <FileText className="h-12 w-12 text-brand-primary mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">
-              Drop your HR policies here or click to browse
+              {t('policy.drop_files_here')}
             </h3>
             <p className="text-muted-foreground mb-4">
-              Supports: PDF, Word, Excel, PowerPoint, Text files (Max 100MB each)
+              {t('policy.supported_formats')}
             </p>
             <Button className="bg-brand-primary hover:bg-brand-primary/90">
               <Upload className="h-4 w-4 mr-2" />
-              Select Policy Files
+              {t('policy.select_files')}
             </Button>
           </div>
 
@@ -211,14 +213,14 @@ const PolicyUploadSystem = () => {
             <div className="mt-6 space-y-2">
               <div className="flex justify-between text-sm">
                 <span>
-                  {isAnalyzing ? 'AI SuperIntelligence Analyzing...' : 'Uploading files...'}
+                  {isAnalyzing ? t('policy.ai_analyzing') : t('policy.uploading_files')}
                 </span>
                 <span>{isAnalyzing ? analysisProgress : totalProgress}%</span>
               </div>
               <Progress value={isAnalyzing ? analysisProgress : totalProgress} className="w-full" />
               {isAnalyzing && (
                 <div className="text-sm text-muted-foreground">
-                  Analyzing against {9} government compliance frameworks...
+                  {t('policy.analyzing_frameworks').replace('{count}', '9')}
                 </div>
               )}
             </div>
@@ -232,13 +234,13 @@ const PolicyUploadSystem = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-brand-primary" />
-              AI SuperIntelligence Compliance Analysis
+              {t('policy.compliance_analysis')}
               <Badge className={`${getComplianceColor(analysisResults.complianceLevel)} text-white`}>
-                {analysisResults.overallScore}% Compliant
+                {analysisResults.overallScore}{t('policy.compliant_percent')}
               </Badge>
             </CardTitle>
             <CardDescription>
-              Highest-level analysis completed in {Math.random() * 3 + 1 | 0} seconds
+              {t('policy.analysis_completed').replace('{seconds}', (Math.random() * 3 + 1 | 0).toString())}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -247,7 +249,7 @@ const PolicyUploadSystem = () => {
               <div>
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5 text-brand-warning" />
-                  Compliance Issues Detected ({analysisResults.violations.length})
+                  {t('policy.compliance_issues').replace('{count}', analysisResults.violations.length.toString())}
                 </h3>
                 <div className="space-y-3">
                   {analysisResults.violations.map((violation, index) => (
@@ -257,15 +259,15 @@ const PolicyUploadSystem = () => {
                           <div className="flex justify-between items-start">
                             <div className="font-semibold">{violation.section}</div>
                             <Badge variant="outline" className={getSeverityColor(violation.severity)}>
-                              {violation.severity}
+                              {t(`policy.severity.${violation.severity}`)}
                             </Badge>
                           </div>
                           <div className="text-sm">{violation.issue}</div>
                           <div className="bg-surface-secondary p-3 rounded text-sm">
-                            <strong>AI Suggestion:</strong> {violation.suggestion}
+                            <strong>{t('policy.ai_suggestion')}</strong> {violation.suggestion}
                           </div>
                           <div className="text-xs text-muted-foreground">
-                            Reference: {violation.governmentRef}
+                            {t('policy.reference')} {violation.governmentRef}
                           </div>
                         </div>
                       </AlertDescription>
@@ -279,7 +281,7 @@ const PolicyUploadSystem = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-brand-success" />
-                AI SuperIntelligence Recommendations
+                {t('policy.ai_recommendations')}
               </h3>
               <div className="space-y-2">
                 {analysisResults.recommendations.map((recommendation, index) => (
@@ -293,7 +295,7 @@ const PolicyUploadSystem = () => {
 
             {/* Affected Modules */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Integrated HR Modules</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('policy.integrated_modules')}</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {analysisResults.affectedModules.map((module, index) => (
                   <Badge key={index} variant="secondary" className="p-2 text-center">
@@ -310,7 +312,7 @@ const PolicyUploadSystem = () => {
       {uploadedPolicies.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Uploaded Policies ({uploadedPolicies.length})</CardTitle>
+            <CardTitle>{t('policy.uploaded_policies').replace('{count}', uploadedPolicies.length.toString())}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -321,13 +323,13 @@ const PolicyUploadSystem = () => {
                     <div>
                       <div className="font-medium">{policy.name}</div>
                       <div className="text-sm text-muted-foreground">
-                        {(policy.size / 1024 / 1024).toFixed(2)} MB • Uploaded {new Date(policy.uploadedAt).toLocaleString()}
+                        {(policy.size / 1024 / 1024).toFixed(2)} MB • {t('policy.uploaded_at')} {new Date(policy.uploadedAt).toLocaleString()}
                       </div>
                     </div>
                   </div>
                   <Badge className="bg-brand-success text-white">
                     <CheckCircle className="h-3 w-3 mr-1" />
-                    Processed
+                    {t('policy.processed')}
                   </Badge>
                 </div>
               ))}
