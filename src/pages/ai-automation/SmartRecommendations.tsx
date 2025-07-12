@@ -51,10 +51,10 @@ const SmartRecommendations = () => {
       {/* Header Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          {t('ai.smart_recommendations')}
+          {t('smart_recommendations')}
         </h1>
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          {t('ai.smart_recommendations_desc')}
+          {t('smart_recommendations_desc')}
         </p>
       </div>
 
@@ -63,9 +63,9 @@ const SmartRecommendations = () => {
         <CardHeader className="text-center pb-6">
           <CardTitle className="text-2xl flex items-center justify-center gap-2">
             <Brain className="h-6 w-6 text-brand-primary" />
-            {t('ai.how_sanadhr_creates')}
+            {t('how_sanadhr_creates')}
           </CardTitle>
-          <CardDescription>{t('ai.advanced_ml_desc')}</CardDescription>
+          <CardDescription>{t('advanced_ml_desc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -74,12 +74,12 @@ const SmartRecommendations = () => {
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
                 <BarChart className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">{t('ai.data_collection')}</h3>
+              <h3 className="font-semibold text-lg">{t('data_collection')}</h3>
               <p className="text-sm text-muted-foreground">
-                {t('ai.data_collection_desc')}
+                {t('data_collection_desc')}
               </p>
               <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                50+ {t('ai.data_points')}
+                50+ {t('data_points')}
               </Badge>
             </div>
 
@@ -90,12 +90,12 @@ const SmartRecommendations = () => {
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
                 <Brain className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">{t('ai.ai_matching')}</h3>
+              <h3 className="font-semibold text-lg">{t('ai_matching')}</h3>
               <p className="text-sm text-muted-foreground">
-                {t('ai.ai_matching_desc')}
+                {t('ai_matching_desc')}
               </p>
               <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                {t('ai.neural_networks')}
+                {t('neural_networks')}
               </Badge>
             </div>
 
@@ -187,10 +187,10 @@ const SmartRecommendations = () => {
       {/* Detailed Analysis Tabs */}
       <Tabs defaultValue="recommendations" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="recommendations">{t('ai.current_recommendations')}</TabsTrigger>
-          <TabsTrigger value="analysis">{t('ai.ai_analysis')}</TabsTrigger>
-          <TabsTrigger value="factors">{t('ai.decision_factors')}</TabsTrigger>
-          <TabsTrigger value="outcomes">{t('ai.success_tracking')}</TabsTrigger>
+          <TabsTrigger value="recommendations">{t('current_recommendations')}</TabsTrigger>
+          <TabsTrigger value="analysis">{t('ai_analysis')}</TabsTrigger>
+          <TabsTrigger value="factors">{t('decision_factors')}</TabsTrigger>
+          <TabsTrigger value="outcomes">{t('success_tracking')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="recommendations" className="space-y-6">
