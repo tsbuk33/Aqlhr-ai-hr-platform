@@ -23,83 +23,83 @@ const Tools = () => {
 
   const toolCategories = [
     {
-      title: t('nav.communication_collaboration'),
+      title: 'Communication & Collaboration',
       description: 'Microsoft Teams, Slack, WhatsApp Business, Email Integration',
       icon: MessageSquare,
       count: 5,
       color: 'bg-blue-500',
       items: [
-        t('nav.microsoft_teams'),
-        t('nav.slack'), 
-        t('nav.whatsapp_business'),
-        t('nav.outlook_integration'),
-        t('nav.gmail_integration')
+        'Microsoft Teams',
+        'Slack', 
+        'WhatsApp Business',
+        'Outlook Integration',
+        'Email Integration'
       ]
     },
     {
-      title: t('nav.document_management'),
+      title: 'Document Management',
       description: 'SharePoint, Google Drive, OneDrive, Dropbox, Digital Signatures',
       icon: FileText,
       count: 6,
       color: 'bg-green-500',
       items: [
-        t('nav.sharepoint'),
-        t('nav.google_drive'),
-        t('nav.onedrive'),
-        t('nav.dropbox'),
-        t('nav.docusign'),
-        t('nav.adobe_sign')
+        'SharePoint',
+        'Google Drive',
+        'OneDrive',
+        'Dropbox',
+        'DocuSign',
+        'Adobe Sign'
       ]
     },
     {
-      title: t('nav.calendar_scheduling'),
+      title: 'Calendar & Scheduling',
       description: 'Google Calendar, Outlook Calendar, Calendly, Room Booking',
       icon: Calendar,
       count: 4,
       color: 'bg-purple-500',
       items: [
-        t('nav.google_calendar'),
-        t('nav.outlook_calendar'),
-        t('nav.calendly'),
-        t('nav.room_booking')
+        'Google Calendar',
+        'Outlook Calendar',
+        'Calendly',
+        'Room Booking'
       ]
     },
     {
-      title: t('nav.analytics_bi'),
+      title: 'Analytics & BI',
       description: 'Power BI, Tableau, Google Analytics, Custom Connectors',
       icon: BarChart3,
       count: 4,
       color: 'bg-orange-500',
       items: [
-        t('nav.power_bi'),
-        t('nav.tableau'),
-        t('nav.google_analytics'),
-        t('nav.custom_connectors')
+        'Power BI',
+        'Tableau',
+        'Google Analytics',
+        'Custom Connectors'
       ]
     },
     {
-      title: t('nav.learning_development'),
+      title: 'Learning & Development',
       description: 'LinkedIn Learning, Coursera Business, Udemy Business, Local Platforms',
       icon: GraduationCap,
       count: 4,
       color: 'bg-indigo-500',
       items: [
-        t('nav.linkedin_learning'),
-        t('nav.coursera_business'),
-        t('nav.udemy_business'),
-        t('nav.local_training')
+        'LinkedIn Learning',
+        'Coursera Business',
+        'Udemy Business',
+        'Local Training Platforms'
       ]
     },
     {
-      title: t('nav.automation_platforms'),
+      title: 'Automation Platforms',
       description: 'Zapier, Power Automate, Custom Workflows',
       icon: Zap,
       count: 3,
       color: 'bg-yellow-500',
       items: [
-        t('nav.zapier'),
-        t('nav.power_automate'),
-        t('nav.custom_workflows')
+        'Zapier',
+        'Power Automate',
+        'Custom Workflows'
       ]
     }
   ];
@@ -126,7 +126,7 @@ const Tools = () => {
                 <Settings className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-foreground">{t('nav.tools')}</h1>
+                <h1 className="text-3xl font-bold text-foreground">Tools</h1>
                 <p className="text-muted-foreground">
                   {isRTL 
                     ? `${totalTools} أداة وتكامل متاح عبر 6 فئات` 
