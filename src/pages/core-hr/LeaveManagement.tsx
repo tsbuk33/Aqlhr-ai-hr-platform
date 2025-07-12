@@ -2,19 +2,40 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const LeaveManagement = () => {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+
+  const translations = {
+    en: {
+      leave_management: "Leave Management",
+      leave_management_desc: "Manage employee leave requests and track leave balances",
+      pending_requests: "Pending Requests",
+      approved_this_month: "Approved This Month", 
+      annual_leave_balance: "Annual Leave Balance",
+      emergency_leaves: "Emergency Leaves"
+    },
+    ar: {
+      leave_management: "إدارة الإجازات",
+      leave_management_desc: "إدارة طلبات إجازات الموظفين وتتبع أرصدة الإجازات",
+      pending_requests: "الطلبات المعلقة",
+      approved_this_month: "المعتمدة هذا الشهر",
+      annual_leave_balance: "رصيد الإجازة السنوية", 
+      emergency_leaves: "الإجازات الطارئة"
+    }
+  };
+
+  const t = (key: string) => translations[language][key] || key;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('core_hr.leave_management')}</h1>
-        <p className="text-muted-foreground">{t('core_hr.leave_management_desc')}</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('leave_management')}</h1>
+        <p className="text-muted-foreground">{t('leave_management_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.pending_requests')}</CardTitle>
+            <CardTitle>{t('pending_requests')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">23</div>
@@ -22,7 +43,7 @@ const LeaveManagement = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.approved_this_month')}</CardTitle>
+            <CardTitle>{t('approved_this_month')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">145</div>
@@ -30,7 +51,7 @@ const LeaveManagement = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.annual_leave_balance')}</CardTitle>
+            <CardTitle>{t('annual_leave_balance')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">18.5</div>
@@ -38,7 +59,7 @@ const LeaveManagement = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.emergency_leaves')}</CardTitle>
+            <CardTitle>{t('emergency_leaves')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-danger">12</div>
