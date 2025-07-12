@@ -116,6 +116,12 @@
     "table_implemented": "جدول تفصيلي للموظفين مع البحث والتصفية - سيتم تنفيذه"
   },
   "core_hr": {
+    "training_development": "التدريب والتطوير",
+    "training_development_desc": "إدارة برامج التدريب والتطوير المهني مع التكامل مع المنصات السعودية",
+    "active_programs": "البرامج النشطة", 
+    "tvtc_certified": "شهادات التقنية والمهني",
+    "training_hours": "ساعات التدريب",
+    "completion_rate": "معدل الإكمال",
     "saudization_rate": "معدل السعودة"
   },
   "consulting": {

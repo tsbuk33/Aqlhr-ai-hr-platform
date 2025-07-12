@@ -2,19 +2,41 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const TrainingDevelopment = () => {
-  const { t } = useLanguage();
+  const { isRTL } = useLanguage();
+
+  // Arabic translations for this page
+  const translations = {
+    ar: {
+      title: "التدريب والتطوير",
+      description: "إدارة برامج التدريب والتطوير المهني مع التكامل مع المنصات السعودية",
+      active_programs: "البرامج النشطة",
+      tvtc_certified: "شهادات التقنية والمهني", 
+      training_hours: "ساعات التدريب",
+      completion_rate: "معدل الإكمال"
+    },
+    en: {
+      title: "Training & Development",
+      description: "Professional training and development programs management with Saudi platform integration",
+      active_programs: "Active Programs",
+      tvtc_certified: "TVTC Certified",
+      training_hours: "Training Hours", 
+      completion_rate: "Completion Rate"
+    }
+  };
+
+  const t = isRTL ? translations.ar : translations.en;
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('core_hr.training_development')}</h1>
-        <p className="text-muted-foreground">{t('core_hr.training_development_desc')}</p>
+        <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
+        <p className="text-muted-foreground">{t.description}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.active_programs')}</CardTitle>
+            <CardTitle>{t.active_programs}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">34</div>
@@ -22,7 +44,7 @@ const TrainingDevelopment = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.tvtc_certified')}</CardTitle>
+            <CardTitle>{t.tvtc_certified}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">1,234</div>
@@ -30,7 +52,7 @@ const TrainingDevelopment = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.training_hours')}</CardTitle>
+            <CardTitle>{t.training_hours}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">15,678</div>
@@ -38,7 +60,7 @@ const TrainingDevelopment = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('core_hr.completion_rate')}</CardTitle>
+            <CardTitle>{t.completion_rate}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">94%</div>
