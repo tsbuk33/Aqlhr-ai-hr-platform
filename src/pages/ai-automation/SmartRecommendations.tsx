@@ -7,7 +7,45 @@ import { ArrowRight, Brain, Target, TrendingUp, Users, Star, Award, Lightbulb, B
 import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const SmartRecommendations = () => {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  
+  // Embedded translations
+  const translations = {
+    ar: {
+      smart_recommendations: "التوصيات الذكية",
+      smart_recommendations_desc: "منصة ذكية مدعومة بالذكاء الاصطناعي لاكتشاف المواهب وتطويرها وإدارتها بفعالية",
+      how_sanadhr_creates: "كيف يخلق سند للموارد البشرية التوصيات",
+      advanced_ml_desc: "خوارزميات التعلم الآلي المتقدمة لديها تحليل شامل للبيانات وتوليد توصيات مخصصة",
+      data_collection: "جمع البيانات",
+      data_collection_desc: "تحليل البيانات الشاملة من مصادر متعددة",
+      data_points: "نقطة بيانات",
+      ai_matching: "المطابقة الذكية",
+      ai_matching_desc: "خوارزميات الذكاء الاصطناعي تطابق المؤهلات مع الأدوار",
+      neural_networks: "الشبكات العصبية",
+      current_recommendations: "التوصيات الحالية",
+      ai_analysis: "تحليل الذكاء الاصطناعي",
+      decision_factors: "عوامل القرار",
+      success_tracking: "تتبع النجاح"
+    },
+    en: {
+      smart_recommendations: "Smart Recommendations",
+      smart_recommendations_desc: "AI-powered intelligent platform for effective talent discovery, development and management",
+      how_sanadhr_creates: "How SanadHR Creates Recommendations",
+      advanced_ml_desc: "Advanced machine learning algorithms provide comprehensive data analysis and generate personalized recommendations",
+      data_collection: "Data Collection",
+      data_collection_desc: "Comprehensive data analysis from multiple sources",
+      data_points: "data points",
+      ai_matching: "AI Matching",
+      ai_matching_desc: "AI algorithms match qualifications with roles",
+      neural_networks: "Neural Networks",
+      current_recommendations: "Current Recommendations",
+      ai_analysis: "AI Analysis",
+      decision_factors: "Decision Factors",
+      success_tracking: "Success Tracking"
+    }
+  };
+
+  const t = (key: string) => translations[language as keyof typeof translations]?.[key as keyof typeof translations.ar] || key;
   return (
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
@@ -68,12 +106,12 @@ const SmartRecommendations = () => {
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
                 <Target className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">Smart Ranking</h3>
+              <h3 className="font-semibold text-lg">{language === 'ar' ? 'الترتيب الذكي' : 'Smart Ranking'}</h3>
               <p className="text-sm text-muted-foreground">
-                Recommendations are ranked by success probability and strategic alignment
+                {language === 'ar' ? 'يتم ترتيب التوصيات حسب احتمالية النجاح والمواءمة الاستراتيجية' : 'Recommendations are ranked by success probability and strategic alignment'}
               </p>
               <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                87.6% Accuracy
+                {language === 'ar' ? 'دقة 87.6%' : '87.6% Accuracy'}
               </Badge>
             </div>
           </div>
@@ -85,16 +123,16 @@ const SmartRecommendations = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-primary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Total Recommendations</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{language === 'ar' ? 'إجمالي التوصيات' : 'Total Recommendations'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-primary">342</div>
               <div className="flex items-center gap-2 text-sm">
                 <TrendingUp className="h-4 w-4 text-brand-success" />
-                <span className="text-brand-success">+47 this month</span>
+                <span className="text-brand-success">{language === 'ar' ? '+47 هذا الشهر' : '+47 this month'}</span>
               </div>
-              <p className="text-xs text-muted-foreground">Across 12 departments</p>
+              <p className="text-xs text-muted-foreground">{language === 'ar' ? 'عبر 12 قسماً' : 'Across 12 departments'}</p>
             </div>
           </CardContent>
         </Card>
@@ -102,13 +140,13 @@ const SmartRecommendations = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-secondary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Prediction Accuracy</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{language === 'ar' ? 'دقة التنبؤ' : 'Prediction Accuracy'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               <div className="text-4xl font-bold text-brand-success">87.6%</div>
               <Progress value={87.6} className="h-2" />
-              <p className="text-xs text-muted-foreground">Based on historical outcomes</p>
+              <p className="text-xs text-muted-foreground">{language === 'ar' ? 'بناءً على النتائج التاريخية' : 'Based on historical outcomes'}</p>
             </div>
           </CardContent>
         </Card>
@@ -116,14 +154,14 @@ const SmartRecommendations = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-accent opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Implemented Actions</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{language === 'ar' ? 'الإجراءات المنفذة' : 'Implemented Actions'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-accent">289</div>
               <div className="flex items-center gap-2 text-sm">
                 <Award className="h-4 w-4 text-brand-accent" />
-                <span className="text-muted-foreground">84% acceptance rate</span>
+                <span className="text-muted-foreground">{language === 'ar' ? 'معدل قبول 84%' : '84% acceptance rate'}</span>
               </div>
             </div>
           </CardContent>
@@ -132,14 +170,14 @@ const SmartRecommendations = () => {
         <Card className="relative overflow-hidden">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-hero opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Success Rate</CardTitle>
+            <CardTitle className="text-base font-medium text-muted-foreground">{language === 'ar' ? 'معدل النجاح' : 'Success Rate'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="text-4xl font-bold text-brand-warning">94.1%</div>
               <div className="flex items-center gap-2 text-sm">
                 <Star className="h-4 w-4 text-brand-warning" />
-                <span className="text-muted-foreground">Post-implementation performance</span>
+                <span className="text-muted-foreground">{language === 'ar' ? 'الأداء بعد التنفيذ' : 'Post-implementation performance'}</span>
               </div>
             </div>
           </CardContent>
@@ -158,8 +196,8 @@ const SmartRecommendations = () => {
         <TabsContent value="recommendations" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Active Talent Recommendations</CardTitle>
-              <CardDescription>AI-generated suggestions based on real-time analysis</CardDescription>
+              <CardTitle>{language === 'ar' ? 'توصيات المواهب النشطة' : 'Active Talent Recommendations'}</CardTitle>
+              <CardDescription>{language === 'ar' ? 'اقتراحات مولدة بالذكاء الاصطناعي بناءً على التحليل في الوقت الفعلي' : 'AI-generated suggestions based on real-time analysis'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -197,7 +235,7 @@ const SmartRecommendations = () => {
                       </div>
                       <div className="text-right">
                         <div className="text-2xl font-bold text-brand-success">{rec.score}%</div>
-                        <p className="text-xs text-muted-foreground">Match Score</p>
+                        <p className="text-xs text-muted-foreground">{language === 'ar' ? 'نقاط المطابقة' : 'Match Score'}</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -215,50 +253,50 @@ const SmartRecommendations = () => {
         <TabsContent value="analysis" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>AI Analysis Framework</CardTitle>
-              <CardDescription>How our machine learning models evaluate talent potential</CardDescription>
+              <CardTitle>{language === 'ar' ? 'إطار تحليل الذكاء الاصطناعي' : 'AI Analysis Framework'}</CardTitle>
+              <CardDescription>{language === 'ar' ? 'كيف تقيم نماذج التعلم الآلي إمكانات المواهب' : 'How our machine learning models evaluate talent potential'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium text-lg mb-4">Performance Metrics Analysis</h4>
+                  <h4 className="font-medium text-lg mb-4">{language === 'ar' ? 'تحليل مقاييس الأداء' : 'Performance Metrics Analysis'}</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Historical Performance</span>
-                      <span className="text-sm font-medium">25% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'الأداء التاريخي' : 'Historical Performance'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 25%' : '25% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Skill Assessments</span>
-                      <span className="text-sm font-medium">20% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'تقييمات المهارات' : 'Skill Assessments'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 20%' : '20% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Growth Trajectory</span>
-                      <span className="text-sm font-medium">15% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'مسار النمو' : 'Growth Trajectory'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 15%' : '15% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Peer Feedback</span>
-                      <span className="text-sm font-medium">15% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'تعليقات الزملاء' : 'Peer Feedback'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 15%' : '15% weight'}</span>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium text-lg mb-4">Behavioral Analysis</h4>
+                  <h4 className="font-medium text-lg mb-4">{language === 'ar' ? 'التحليل السلوكي' : 'Behavioral Analysis'}</h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Leadership Indicators</span>
-                      <span className="text-sm font-medium">10% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'مؤشرات القيادة' : 'Leadership Indicators'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 10%' : '10% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Adaptability Score</span>
-                      <span className="text-sm font-medium">8% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'نقاط التكيف' : 'Adaptability Score'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 8%' : '8% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Cultural Fit</span>
-                      <span className="text-sm font-medium">4% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'الملاءمة الثقافية' : 'Cultural Fit'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 4%' : '4% weight'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Career Aspirations</span>
-                      <span className="text-sm font-medium">3% weight</span>
+                      <span className="text-sm">{language === 'ar' ? 'التطلعات المهنية' : 'Career Aspirations'}</span>
+                      <span className="text-sm font-medium">{language === 'ar' ? 'وزن 3%' : '3% weight'}</span>
                     </div>
                   </div>
                 </div>
@@ -270,31 +308,31 @@ const SmartRecommendations = () => {
         <TabsContent value="factors" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Key Decision Factors</CardTitle>
-              <CardDescription>Critical elements that influence recommendation accuracy</CardDescription>
+              <CardTitle>{language === 'ar' ? 'عوامل القرار الرئيسية' : 'Key Decision Factors'}</CardTitle>
+              <CardDescription>{language === 'ar' ? 'العناصر الحيوية التي تؤثر على دقة التوصيات' : 'Critical elements that influence recommendation accuracy'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                   <h4 className="font-medium text-blue-900 mb-2 flex items-center gap-2">
                     <Target className="h-4 w-4" />
-                    Role Requirements Matching
+                    {language === 'ar' ? 'مطابقة متطلبات الوظيفة' : 'Role Requirements Matching'}
                   </h4>
-                  <p className="text-sm text-blue-700">AI compares candidate skills against detailed job requirements and success profiles</p>
+                  <p className="text-sm text-blue-700">{language === 'ar' ? 'يقارن الذكاء الاصطناعي مهارات المرشحين مع متطلبات الوظيفة التفصيلية وملفات النجاح' : 'AI compares candidate skills against detailed job requirements and success profiles'}</p>
                 </div>
                 <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
                   <h4 className="font-medium text-green-900 mb-2 flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" />
-                    Performance Trajectory Analysis  
+                    {language === 'ar' ? 'تحليل مسار الأداء' : 'Performance Trajectory Analysis'}
                   </h4>
-                  <p className="text-sm text-green-700">Historical performance trends predict future success probability in new roles</p>
+                  <p className="text-sm text-green-700">{language === 'ar' ? 'اتجاهات الأداء التاريخية تتنبأ باحتمالية النجاح المستقبلي في الأدوار الجديدة' : 'Historical performance trends predict future success probability in new roles'}</p>
                 </div>
                 <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
                   <h4 className="font-medium text-purple-900 mb-2 flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    Team Dynamics & Cultural Fit
+                    {language === 'ar' ? 'ديناميكيات الفريق والملاءمة الثقافية' : 'Team Dynamics & Cultural Fit'}
                   </h4>
-                  <p className="text-sm text-purple-700">Social network analysis ensures recommendations consider team chemistry and culture</p>
+                  <p className="text-sm text-purple-700">{language === 'ar' ? 'تحليل الشبكة الاجتماعية يضمن أن التوصيات تأخذ في الاعتبار كيمياء الفريق والثقافة' : 'Social network analysis ensures recommendations consider team chemistry and culture'}</p>
                 </div>
               </div>
             </CardContent>
@@ -304,32 +342,32 @@ const SmartRecommendations = () => {
         <TabsContent value="outcomes" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Success Tracking & Outcomes</CardTitle>
-              <CardDescription>How we measure and improve recommendation effectiveness</CardDescription>
+              <CardTitle>{language === 'ar' ? 'تتبع النجاح والنتائج' : 'Success Tracking & Outcomes'}</CardTitle>
+              <CardDescription>{language === 'ar' ? 'كيف نقيس ونحسن فعالية التوصيات' : 'How we measure and improve recommendation effectiveness'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-success">94.1%</div>
-                  <p className="text-sm text-muted-foreground">6-month success rate</p>
+                  <p className="text-sm text-muted-foreground">{language === 'ar' ? 'معدل النجاح لـ 6 أشهر' : '6-month success rate'}</p>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-primary">23%</div>
-                  <p className="text-sm text-muted-foreground">Performance improvement</p>
+                  <p className="text-sm text-muted-foreground">{language === 'ar' ? 'تحسن الأداء' : 'Performance improvement'}</p>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold text-brand-accent">156</div>
-                  <p className="text-sm text-muted-foreground">Successful placements</p>
+                  <p className="text-sm text-muted-foreground">{language === 'ar' ? 'التوظيف الناجح' : 'Successful placements'}</p>
                 </div>
               </div>
               <div className="mt-6 space-y-4">
-                <h4 className="font-medium">Recent Success Stories</h4>
+                <h4 className="font-medium">{language === 'ar' ? 'قصص النجاح الأخيرة' : 'Recent Success Stories'}</h4>
                 <div className="space-y-3">
                   <div className="p-3 bg-green-50 border-l-4 border-green-400">
-                    <p className="text-sm text-green-800">Promoted analyst achieved 34% better performance in new role within 3 months</p>
+                    <p className="text-sm text-green-800">{language === 'ar' ? 'حقق المحلل المرقى أداءً أفضل بنسبة 34% في الدور الجديد خلال 3 أشهر' : 'Promoted analyst achieved 34% better performance in new role within 3 months'}</p>
                   </div>
                   <div className="p-3 bg-blue-50 border-l-4 border-blue-400">
-                    <p className="text-sm text-blue-800">Cross-department transfer resulted in 28% productivity increase for receiving team</p>
+                    <p className="text-sm text-blue-800">{language === 'ar' ? 'أدى النقل بين الأقسام إلى زيادة الإنتاجية بنسبة 28% للفريق المستقبل' : 'Cross-department transfer resulted in 28% productivity increase for receiving team'}</p>
                   </div>
                 </div>
               </div>
@@ -341,22 +379,22 @@ const SmartRecommendations = () => {
       {/* Action Center */}
       <Card>
         <CardHeader>
-          <CardTitle>Recommendation Management</CardTitle>
-          <CardDescription>Review and act on AI-generated talent recommendations</CardDescription>
+          <CardTitle>{language === 'ar' ? 'إدارة التوصيات' : 'Recommendation Management'}</CardTitle>
+          <CardDescription>{language === 'ar' ? 'مراجعة والعمل على توصيات المواهب المولدة بالذكاء الاصطناعي' : 'Review and act on AI-generated talent recommendations'}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-4">
             <Button className="bg-gradient-primary hover:opacity-90">
               <Lightbulb className="h-4 w-4 mr-2" />
-              Review New Recommendations
+              {language === 'ar' ? 'مراجعة التوصيات الجديدة' : 'Review New Recommendations'}
             </Button>
             <Button variant="outline">
               <Target className="h-4 w-4 mr-2" />
-              Set Recommendation Criteria
+              {language === 'ar' ? 'تحديد معايير التوصية' : 'Set Recommendation Criteria'}
             </Button>
             <Button variant="outline">
               <BarChart className="h-4 w-4 mr-2" />
-              View Success Analytics
+              {language === 'ar' ? 'عرض تحليلات النجاح' : 'View Success Analytics'}
             </Button>
           </div>
         </CardContent>
