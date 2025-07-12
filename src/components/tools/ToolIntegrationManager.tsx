@@ -211,6 +211,56 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
     }
   };
 
+  // Helper function to get category display names
+  const getCategoryDisplayName = (category: string): string => {
+    const categoryNames: { [key: string]: string } = {
+      'communication_collaboration': 'Communication & Collaboration',
+      'document_management': 'Document Management', 
+      'calendar_scheduling': 'Calendar & Scheduling',
+      'analytics_bi': 'Analytics & BI',
+      'learning_development': 'Learning & Development',
+      'automation_platforms': 'Automation Platforms',
+      'government': 'Government Integrations',
+      'compliance': 'Compliance Tools',
+      'hr_systems': 'HR Systems',
+      'payroll': 'Payroll Systems'
+    };
+    return categoryNames[category] || category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
+  // Helper function to get tool icons
+  const getToolIcon = (toolName: string) => {
+    const iconMap: { [key: string]: any } = {
+      'Microsoft Teams': Settings,
+      'Slack': Settings,
+      'WhatsApp Business': Settings,
+      'Email Integration': Settings,
+      'Outlook Integration': Settings,
+      'SharePoint': Settings,
+      'Google Drive': Settings,
+      'OneDrive': Settings,
+      'Dropbox': Settings,
+      'DocuSign': Settings,
+      'Adobe Sign': Settings,
+      'Google Calendar': Settings,
+      'Outlook Calendar': Settings,
+      'Calendly': Settings,
+      'Room Booking': Settings,
+      'Power BI': BarChart3,
+      'Tableau': BarChart3,
+      'Google Analytics': BarChart3,
+      'Custom Connectors': Settings,
+      'LinkedIn Learning': Settings,
+      'Coursera Business': Settings,
+      'Udemy Business': Settings,
+      'Local Training Platforms': Settings,
+      'Zapier': Zap,
+      'Power Automate': Zap,
+      'Custom Workflows': Zap
+    };
+    return iconMap[toolName] || Settings;
+  };
+
   // Group integrations by category
   const groupedIntegrations = integrations.reduce((acc, integration) => {
     if (!acc[integration.tool_category]) {
@@ -321,36 +371,34 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
       </div>
 
       {/* Tool Categories */}
-      {Object.entries(groupedIntegrations).map(([category, categoryIntegrations]) => {
-        const categoryConfig = toolCategories[category];
-        if (!categoryConfig) return null;
-
-        return (
-          <Card key={category}>
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <div className={`w-10 h-10 ${categoryConfig.color} rounded-lg flex items-center justify-center`}>
-                  <categoryConfig.icon className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <CardTitle>{categoryConfig.title}</CardTitle>
-                  <CardDescription>
-                    {isRTL 
-                      ? `${categoryIntegrations.length} أدوات متاحة`
-                      : `${categoryIntegrations.length} tools available`}
-                  </CardDescription>
-                </div>
+      {Object.entries(groupedIntegrations).map(([category, categoryIntegrations]) => (
+        <Card key={category}>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Settings className="h-5 w-5 text-primary-foreground" />
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {categoryIntegrations.map((integration) => (
+              <div>
+                <CardTitle>{getCategoryDisplayName(category)}</CardTitle>
+                <CardDescription>
+                  {`${categoryIntegrations.length} tools available`}
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {categoryIntegrations.map((integration) => {
+                const ToolIcon = getToolIcon(integration.tool_name);
+                return (
                   <div
                     key={integration.id}
                     className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      {getStatusIcon(integration.sync_status)}
+                      <div className="w-8 h-8 bg-muted rounded-lg flex items-center justify-center">
+                        <ToolIcon className="h-4 w-4 text-muted-foreground" />
+                      </div>
                       <div>
                         <h4 className="font-medium">{integration.tool_name}</h4>
                         <div className="flex items-center gap-2 mt-1">
@@ -359,13 +407,29 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
                           </Badge>
                           {integration.last_sync && (
                             <span className="text-xs text-muted-foreground">
-                              {isRTL ? 'آخر مزامنة:' : 'Last sync:'} {new Date(integration.last_sync).toLocaleDateString()}
+                              Last sync: {new Date(integration.last_sync).toLocaleDateString()}
                             </span>
                           )}
                         </div>
+                        {/* Show tool features */}
+                        {integration.configuration?.features && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {integration.configuration.features.slice(0, 3).map((feature: string, index: number) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {feature.replace(/_/g, ' ')}
+                              </Badge>
+                            ))}
+                            {integration.configuration.features.length > 3 && (
+                              <Badge variant="outline" className="text-xs">
+                                +{integration.configuration.features.length - 3} more
+                              </Badge>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
+                      {getStatusIcon(integration.sync_status)}
                       <Switch
                         checked={integration.is_enabled}
                         onCheckedChange={() => 
@@ -378,12 +442,12 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
                       )}
                     </div>
                   </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        );
-      })}
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 };
