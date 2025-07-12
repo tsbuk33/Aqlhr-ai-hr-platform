@@ -1,7 +1,7 @@
 import React from 'react';
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { EnhancedFormSystem } from "@/components/enhanced/EnhancedFormSystem";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, UserPlus, FileCheck, AlertTriangle, Search, Filter, Calendar, MapPin } from "lucide-react";
