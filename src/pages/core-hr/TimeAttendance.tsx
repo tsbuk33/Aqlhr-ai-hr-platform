@@ -1,5 +1,5 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { 
   Clock, 
   Smartphone, 
