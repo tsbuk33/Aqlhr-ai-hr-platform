@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 
 const DocumentIntelligence = () => {

@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
 import { Badge } from "@/components/ui/badge";
 import { AlertCircle, CheckCircle, Upload, X } from "lucide-react";

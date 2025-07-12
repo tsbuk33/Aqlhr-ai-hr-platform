@@ -1,6 +1,6 @@
 import React from 'react';
 import { PartnerLogo } from '@/components/PartnerLogo';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const About = () => {
   const { t } = useLanguage();

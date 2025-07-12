@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useLocalization } from '@/hooks/useLocalization';
 import { ScreenReaderText } from './ScreenReaderText';
 

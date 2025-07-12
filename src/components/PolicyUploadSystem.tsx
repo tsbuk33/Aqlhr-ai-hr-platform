@@ -7,7 +7,7 @@ import { FileText, Upload, Brain, CheckCircle, AlertTriangle, Zap, Shield, Targe
 import { useState, useCallback } from "react";
 import { useEnhancedFileUpload } from "@/hooks/useEnhancedFileUpload";
 import { supabase } from "@/integrations/supabase/client";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 interface ComplianceAnalysis {
   overallScore: number;

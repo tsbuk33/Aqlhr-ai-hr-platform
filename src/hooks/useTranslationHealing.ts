@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 interface HealingConfig {
   autoHeal: boolean;

@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Target, BookOpen, TrendingUp, Users, Brain, AlertTriangle } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
 
 const SkillsGapAnalyzer = () => {

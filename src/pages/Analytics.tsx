@@ -1,6 +1,6 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { GovernmentAPIIntegration } from "@/components/integration/GovernmentAPIIntegration";
 import { ComprehensiveTestSuite } from "@/components/testing/ComprehensiveTestSuite";
 import { PerformanceMonitor } from "@/components/monitoring/PerformanceMonitor";
