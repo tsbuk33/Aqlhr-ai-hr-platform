@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   formatCurrency,
   formatNumber,
@@ -16,8 +16,7 @@ import {
 } from '@/utils/localization';
 
 export const useLocalization = () => {
-  const { isArabic, language } = useSimpleLanguage();
-  const isRTL = isArabic;
+  const { language, isRTL } = useLanguage();
   const locale = language as SupportedLocale;
 
   const localizationUtils = useMemo(() => ({
