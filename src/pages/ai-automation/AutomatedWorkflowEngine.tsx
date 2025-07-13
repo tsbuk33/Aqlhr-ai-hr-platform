@@ -97,15 +97,16 @@ const translations = {
 const AutomatedWorkflowEngine = () => {
   const { language } = useLanguage();
   const t = translations[language as keyof typeof translations] || translations.en;
+  const isRTL = language === 'ar';
   
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className={`container mx-auto p-6 space-y-8 ${isRTL ? 'rtl-container' : 'ltr-container'}`}>
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <h1 className={`text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
           {t.title}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+        <p className={`text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
           {t.subtitle}
         </p>
       </div>
@@ -113,21 +114,21 @@ const AutomatedWorkflowEngine = () => {
       {/* Process Flow Visualization */}
       <Card className="p-8 bg-gradient-to-br from-background via-background to-primary/5">
         <CardHeader className="text-center pb-6">
-          <CardTitle className="text-2xl flex items-center justify-center gap-2">
+          <CardTitle className={`text-2xl flex items-center justify-center gap-2 ${isRTL ? 'font-arabic' : ''}`}>
             <Workflow className="h-6 w-6 text-primary" />
             {t.howItWorks}
           </CardTitle>
-          <CardDescription>{t.processIntelligence}</CardDescription>
+          <CardDescription className={isRTL ? 'font-arabic' : ''}>{t.processIntelligence}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className={`flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 ${isRTL ? 'md:flex-row-reverse' : ''}`}>
             {/* Step 1 */}
-            <div className="text-center space-y-4">
+            <div className={`text-center space-y-4 flex-1 max-w-xs ${isRTL ? 'md:order-3' : 'md:order-1'}`}>
               <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto shadow-lg">
                 <FileText className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">{t.dataCapture}</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className={`font-semibold text-lg ${isRTL ? 'font-arabic' : ''}`}>{t.dataCapture}</h3>
+              <p className={`text-sm text-muted-foreground leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
                 {t.dataCaptureDesc}
               </p>
               <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
@@ -135,15 +136,18 @@ const AutomatedWorkflowEngine = () => {
               </Badge>
             </div>
 
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
+            {/* Arrow 1 */}
+            <div className={`hidden md:flex items-center justify-center ${isRTL ? 'md:order-2' : 'md:order-2'}`}>
+              <ArrowRight className={`h-8 w-8 text-primary/60 ${isRTL ? 'rotate-180' : ''}`} />
+            </div>
 
             {/* Step 2 */}
-            <div className="text-center space-y-4">
+            <div className={`text-center space-y-4 flex-1 max-w-xs ${isRTL ? 'md:order-1' : 'md:order-3'}`}>
               <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto shadow-lg">
                 <Brain className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">{t.aiAnalysis}</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className={`font-semibold text-lg ${isRTL ? 'font-arabic' : ''}`}>{t.aiAnalysis}</h3>
+              <p className={`text-sm text-muted-foreground leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
                 {t.aiAnalysisDesc}
               </p>
               <Badge variant="outline" className="bg-secondary/20 text-secondary border-secondary/30">
@@ -151,15 +155,18 @@ const AutomatedWorkflowEngine = () => {
               </Badge>
             </div>
 
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
+            {/* Arrow 2 */}
+            <div className={`hidden md:flex items-center justify-center ${isRTL ? 'md:order-4' : 'md:order-4'}`}>
+              <ArrowRight className={`h-8 w-8 text-primary/60 ${isRTL ? 'rotate-180' : ''}`} />
+            </div>
 
             {/* Step 3 */}
-            <div className="text-center space-y-4">
+            <div className={`text-center space-y-4 flex-1 max-w-xs ${isRTL ? 'md:order-5' : 'md:order-5'}`}>
               <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto shadow-lg">
                 <Zap className="h-8 w-8 text-white" />
               </div>
-              <h3 className="font-semibold text-lg">{t.autoExecute}</h3>
-              <p className="text-sm text-muted-foreground">
+              <h3 className={`font-semibold text-lg ${isRTL ? 'font-arabic' : ''}`}>{t.autoExecute}</h3>
+              <p className={`text-sm text-muted-foreground leading-relaxed ${isRTL ? 'font-arabic' : ''}`}>
                 {t.autoExecuteDesc}
               </p>
               <Badge variant="outline" className="bg-accent/20 text-accent border-accent/30">
