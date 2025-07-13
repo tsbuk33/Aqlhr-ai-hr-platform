@@ -93,13 +93,13 @@ const ArabicEnglishNLP = () => {
   };
   
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className={`container mx-auto p-6 space-y-8 ${language === 'ar' ? 'rtl-container' : 'ltr-container'}`}>
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <h1 className={`text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent leading-relaxed ${language === 'ar' ? 'font-arabic' : ''}`}>
           {t('title')}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+        <p className={`text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed ${language === 'ar' ? 'font-arabic' : ''}`}>
           {t('description')}
         </p>
       </div>
