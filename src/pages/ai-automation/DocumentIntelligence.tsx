@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const DocumentIntelligence = () => {
-  const { language } = useLanguage();
+  const { language, isRTL } = useLanguage();
 
   // Embedded translations
   const translations = {
@@ -145,27 +145,27 @@ const DocumentIntelligence = () => {
   const t = (key: string) => translations[language as keyof typeof translations][key as keyof typeof translations.en] || key;
   
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className={`container mx-auto p-6 space-y-8 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+        <h1 className={`text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent ${isRTL ? 'font-arabic' : ''}`}>
           {t('title')}
         </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+        <p className={`text-lg text-muted-foreground max-w-3xl mx-auto ${isRTL ? 'font-arabic leading-relaxed' : ''}`}>
           {t('description')}
         </p>
       </div>
 
       {/* Main Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-4 gap-6 ${isRTL ? 'rtl-grid' : ''}`}>
         <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('documents_processed')}</CardTitle>
+            <CardTitle className={`text-sm font-medium ${isRTL ? 'font-arabic' : ''}`}>{t('documents_processed')}</CardTitle>
             <FileText className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-primary">8,943</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-primary number-display">8,943</div>
+            <p className={`text-xs text-muted-foreground ${isRTL ? 'font-arabic' : ''}`}>
               +234 {t('this_month')}
             </p>
           </CardContent>
@@ -173,12 +173,12 @@ const DocumentIntelligence = () => {
 
         <Card className="border-success/20 bg-gradient-to-br from-success/5 to-success/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('accuracy_rate')}</CardTitle>
+            <CardTitle className={`text-sm font-medium ${isRTL ? 'font-arabic' : ''}`}>{t('accuracy_rate')}</CardTitle>
             <CheckCircle className="h-4 w-4 text-success" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-success">96.8%</div>
-            <p className="text-xs text-muted-foreground">
+            <div className="text-3xl font-bold text-success number-display">96.8%</div>
+            <p className={`text-xs text-muted-foreground ${isRTL ? 'font-arabic' : ''}`}>
               +0.3% {t('from_last_month')}
             </p>
           </CardContent>
@@ -186,11 +186,11 @@ const DocumentIntelligence = () => {
 
         <Card className="border-accent/20 bg-gradient-to-br from-accent/5 to-accent/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('processing_time')}</CardTitle>
+            <CardTitle className={`text-sm font-medium ${isRTL ? 'font-arabic' : ''}`}>{t('processing_time')}</CardTitle>
             <Clock className="h-4 w-4 text-accent" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-accent">1.2s</div>
+            <div className="text-3xl font-bold text-accent number-display">1.2s</div>
             <p className="text-xs text-muted-foreground">
               -0.3s {t('improvement')}
             </p>
@@ -199,11 +199,11 @@ const DocumentIntelligence = () => {
 
         <Card className="border-warning/20 bg-gradient-to-br from-warning/5 to-warning/10">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t('languages_supported')}</CardTitle>
+            <CardTitle className={`text-sm font-medium ${isRTL ? 'font-arabic' : ''}`}>{t('languages_supported')}</CardTitle>
             <Globe className="h-4 w-4 text-warning" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-warning">15</div>
+            <div className="text-3xl font-bold text-warning number-display">15</div>
             <p className="text-xs text-muted-foreground">
               {t('including_arabic_english')}
             </p>

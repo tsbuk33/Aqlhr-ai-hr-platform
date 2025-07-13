@@ -138,6 +138,13 @@
     line-height: 1.8;
   }
 
+  /* Arabic font class for specific elements */
+  .font-arabic {
+    font-family: 'Noto Sans Arabic', 'Cairo', 'Tajawal', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+
   /* Better text wrapping for Arabic */
   [dir="rtl"] .text-ellipsis {
     text-overflow: ellipsis;
