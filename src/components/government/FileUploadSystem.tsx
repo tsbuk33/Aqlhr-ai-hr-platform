@@ -171,6 +171,10 @@ export const FileUploadSystem = ({
         publicUrl = urlData.publicUrl;
       }
 
+      // Get current user
+      const { data: userData } = await supabase.auth.getUser();
+      const userId = userData.user?.id;
+      
       // Save file metadata to database
       const { data: dbData, error: dbError } = await supabase
         .from('uploaded_files')
@@ -180,6 +184,7 @@ export const FileUploadSystem = ({
           file_size: file.size,
           file_type: getFileType(file.name),
           bucket_name: bucket,
+          uploaded_by: userId,
           module_type: moduleType,
           integration_type: platform.toLowerCase(),
           status: 'uploaded',
