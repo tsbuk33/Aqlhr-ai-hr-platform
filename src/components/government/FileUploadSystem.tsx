@@ -148,6 +148,7 @@ export const FileUploadSystem = ({
       }, 100);
 
       // Upload to Supabase Storage
+      console.log('Starting upload to bucket:', bucket, 'path:', filePath);
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from(bucket)
         .upload(filePath, file, {
@@ -155,7 +156,10 @@ export const FileUploadSystem = ({
           upsert: false
         });
 
+      console.log('Upload result:', { uploadData, uploadError });
+
       if (uploadError) {
+        console.error('Storage upload error:', uploadError);
         throw uploadError;
       }
 
