@@ -4,12 +4,16 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
+import { FileUploadSystem } from "@/components/government/FileUploadSystem";
 import { Activity, CheckCircle, Clock, Shield, Building2, Users, FileText, TrendingUp } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const QiwaIntegration = () => {
   const { t, isRTL } = useLanguage();
   const { formatters } = usePerformantLocalization();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleTestConnection = async () => {
     toast({
@@ -53,7 +57,14 @@ const QiwaIntegration = () => {
         onTestConnection={handleTestConnection}
         onSyncNow={handleSyncNow}
       >
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+            <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard
             title={isRTL ? "الموظفين النشطين" : "Active Employees"}
             value="2,847"
@@ -144,6 +155,24 @@ const QiwaIntegration = () => {
             </ul>
           </div>
         </div>
+          </TabsContent>
+          
+          <TabsContent value="upload" className="space-y-6">
+            <FileUploadSystem
+              platform="qiwa"
+              moduleType="government"
+              onFileProcessed={(file) => {
+                setUploadedFiles(prev => [...prev, file]);
+                toast({
+                  title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                  description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
+                });
+              }}
+              acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
+              maxFileSize={10}
+            />
+          </TabsContent>
+        </Tabs>
       </UnifiedGovernmentInterface>
     </FocusManager>
   );

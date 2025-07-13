@@ -3,8 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { FileUploadSystem } from "@/components/government/FileUploadSystem";
+import { useLanguage } from "@/hooks/useLanguageCompat";
+import { toast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 const NitaqatCompliance = () => {
+  const { isRTL } = useLanguage();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -19,11 +25,12 @@ const NitaqatCompliance = () => {
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="targets">Targets</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="forecasting">Forecasting</TabsTrigger>
+          <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
@@ -152,6 +159,22 @@ const NitaqatCompliance = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+        
+        <TabsContent value="upload" className="space-y-6">
+          <FileUploadSystem
+            platform="nitaqat"
+            moduleType="government"
+            onFileProcessed={(file) => {
+              setUploadedFiles(prev => [...prev, file]);
+              toast({
+                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
+              });
+            }}
+            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
+            maxFileSize={10}
+          />
         </TabsContent>
       </Tabs>
     </div>
