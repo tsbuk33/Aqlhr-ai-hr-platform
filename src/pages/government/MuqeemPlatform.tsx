@@ -1,4 +1,4 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
 import { FileUploadSystem } from "@/components/government/FileUploadSystem";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck, MapPin, Plane } from "lucide-react";
