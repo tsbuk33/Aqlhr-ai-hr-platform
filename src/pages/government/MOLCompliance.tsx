@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { FileUploadSystem } from "@/components/government/FileUploadSystem";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -277,7 +277,7 @@ const MOLCompliance = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <FileUploadSystem
+          <SanadAIFileProcessor
             platform="mol"
             moduleType="government"
             onFileProcessed={(file) => {

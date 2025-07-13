@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { FileUploadSystem } from "@/components/government/FileUploadSystem";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Calculator, FileText, CreditCard, Building, CheckCircle, Activity } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -208,7 +208,7 @@ const ZATCAIntegration = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <FileUploadSystem
+          <SanadAIFileProcessor
             platform="zatca"
             moduleType="government"
             onFileProcessed={(file) => {

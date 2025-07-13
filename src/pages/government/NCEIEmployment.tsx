@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { FileUploadSystem } from "@/components/government/FileUploadSystem";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,7 +175,7 @@ const NCEIEmployment = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <FileUploadSystem
+        <SanadAIFileProcessor
           platform="ncei"
           moduleType="government"
           acceptedTypes={[
