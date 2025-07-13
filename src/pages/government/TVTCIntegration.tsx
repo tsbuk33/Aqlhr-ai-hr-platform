@@ -1,12 +1,16 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
+import { FileUploadSystem } from "@/components/government/FileUploadSystem";
 import { GraduationCap, Users, Award, BookOpen, Clock, TrendingUp } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const TVTCIntegration = () => {
   const { t, isRTL } = useLanguage();
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleTestConnection = async () => {
     toast({
@@ -39,7 +43,14 @@ const TVTCIntegration = () => {
       onTestConnection={handleTestConnection}
       onSyncNow={handleSyncNow}
     >
-      {/* Doroob Platform Statistics */}
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          {/* Doroob Platform Statistics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="p-6 border rounded-lg bg-card">
           <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
@@ -218,6 +229,24 @@ const TVTCIntegration = () => {
           </div>
         </CardContent>
       </Card>
+        </TabsContent>
+        
+        <TabsContent value="upload" className="space-y-6">
+          <FileUploadSystem
+            platform="tvtc"
+            moduleType="government"
+            onFileProcessed={(file) => {
+              setUploadedFiles(prev => [...prev, file]);
+              toast({
+                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
+              });
+            }}
+            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
+            maxFileSize={10}
+          />
+        </TabsContent>
+      </Tabs>
     </UnifiedGovernmentInterface>
   );
 };

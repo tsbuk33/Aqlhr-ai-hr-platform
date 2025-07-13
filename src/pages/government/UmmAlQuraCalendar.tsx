@@ -1,13 +1,15 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
 import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard";
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
+import { FileUploadSystem } from "@/components/government/FileUploadSystem";
 import { Calendar, Clock, Globe, RefreshCw, Moon, Sun, Activity, CheckCircle, TrendingUp, MapPin } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface HijriDate {
   day: number;
@@ -33,6 +35,7 @@ const UmmAlQuraCalendar = () => {
   const { formatters, dateFormatters } = usePerformantLocalization();
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   // Hijri months in Arabic and English
   const hijriMonths = {
@@ -169,7 +172,14 @@ const UmmAlQuraCalendar = () => {
         onTestConnection={handleTestConnection}
         onSyncNow={handleSyncNow}
       >
-        <ScreenReaderText>{isRTL ? "إحصائيات تكامل تقويم أم القرى" : "Umm Al-Qura calendar integration statistics"}</ScreenReaderText>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+            <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="overview" className="space-y-6">
+            <ScreenReaderText>{isRTL ? "إحصائيات تكامل تقويم أم القرى" : "Umm Al-Qura calendar integration statistics"}</ScreenReaderText>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard
@@ -373,6 +383,24 @@ const UmmAlQuraCalendar = () => {
             </div>
           </div>
         </div>
+          </TabsContent>
+          
+          <TabsContent value="upload" className="space-y-6">
+            <FileUploadSystem
+              platform="umm-al-qura"
+              moduleType="government"
+              onFileProcessed={(file) => {
+                setUploadedFiles(prev => [...prev, file]);
+                toast({
+                  title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                  description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
+                });
+              }}
+              acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
+              maxFileSize={10}
+            />
+          </TabsContent>
+        </Tabs>
       </UnifiedGovernmentInterface>
     </FocusManager>
   );
