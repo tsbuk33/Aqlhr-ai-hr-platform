@@ -76,7 +76,7 @@ const getPlatformModules = (isArabic: boolean) => [
     subItems: [
       { title: isArabic ? "تكامل قوى" : "Qiwa Integration", url: "/government/qiwa" },
       { title: isArabic ? "تكامل التأمينات الاجتماعية" : "GOSI Integration", url: "/government/gosi" },
-      { title: isArabic ? "منصة مداد" : "Mudad Platform", url: "/government/mudad" },
+      { title: isArabic ? "مدد" : "Mudad Platform", url: "/government/mudad" },
       { title: isArabic ? "منصة علم" : "ELM Platform", url: "/government/elm" },
       { title: isArabic ? "منصة أبشر" : "Absher Platform", url: "/government/absher" },
       { title: isArabic ? "منصة مقيم" : "Muqeem Platform", url: "/government/muqeem" },
