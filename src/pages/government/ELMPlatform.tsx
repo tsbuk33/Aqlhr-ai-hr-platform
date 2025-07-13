@@ -1,4 +1,4 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck, Database, Monitor } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
