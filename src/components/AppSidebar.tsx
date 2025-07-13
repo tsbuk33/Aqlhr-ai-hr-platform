@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/sidebar";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
+import sanadHRLogo from "@/assets/sanadhr-logo.png";
+import sanadHRLogoHorizontal from "@/assets/sanadhr-logo-horizontal.png";
 
 // Platform modules based on SanadHR structure
 const getPlatformModules = (isArabic: boolean) => [
@@ -142,21 +144,37 @@ export function AppSidebar() {
       <SidebarContent className="bg-sidebar">
         {/* Header */}
         <div className="p-6 border-b border-sidebar-border">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">S</span>
-            </div>
+          <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            {state !== "collapsed" ? (
+              <img 
+                src={sanadHRLogoHorizontal} 
+                alt="SanadHR Logo" 
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <img 
+                src={sanadHRLogo} 
+                alt="SanadHR Logo" 
+                className="w-8 h-8 object-contain"
+              />
+            )}
             {state !== "collapsed" && (
-              <div>
-                <h1 className="text-lg font-bold text-sidebar-primary-foreground">SanadHR</h1>
-                <p className="text-xs text-sidebar-foreground/70">{isArabic ? 'منصة الموارد البشرية الشاملة' : 'Complete HR Platform'}</p>
+              <div className={isArabic ? 'text-right' : 'text-left'}>
+                <h1 className="text-lg font-bold text-sidebar-primary-foreground">
+                  {isArabic ? 'سند الموارد البشرية' : 'SanadHR'}
+                </h1>
+                <p className="text-xs text-sidebar-foreground/70">
+                  {isArabic ? 'منصة الموارد البشرية الشاملة' : 'Complete HR Platform'}
+                </p>
               </div>
             )}
           </div>
           {state !== "collapsed" && (
-            <div className="mt-4 flex items-center gap-2 text-xs">
+            <div className={`mt-4 flex items-center gap-2 text-xs ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span className="text-sidebar-foreground/70">{isArabic ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All systems operational'}</span>
+              <span className="text-sidebar-foreground/70">
+                {isArabic ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All systems operational'}
+              </span>
             </div>
           )}
         </div>
