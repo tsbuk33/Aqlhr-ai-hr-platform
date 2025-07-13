@@ -171,9 +171,9 @@ export const FileUploadSystem = ({
         publicUrl = urlData.publicUrl;
       }
 
-      // Get current user
+      // Get current user (optional - system works without authentication)
       const { data: userData } = await supabase.auth.getUser();
-      const userId = userData.user?.id;
+      const userId = userData.user?.id || null;
       
       // Save file metadata to database
       const { data: dbData, error: dbError } = await supabase
