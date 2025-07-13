@@ -1,4 +1,4 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
 import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard";
 import { FocusManager } from "@/components/accessibility/FocusManager";
