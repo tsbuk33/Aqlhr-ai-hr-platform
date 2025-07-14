@@ -52,6 +52,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "إدارة الإجازات" : "Leave Management", url: "/core-hr/leave" },
       { title: isArabic ? "تخطيط التعاقب" : "Succession Planning", url: "/core-hr/succession-planning" },
       { title: isArabic ? "إدارة التعويضات" : "Compensation Management", url: "/core-hr/compensation-management" },
+      { title: isArabic ? "حاسبة السعودة والتأشيرات" : "Saudization & Visa Calculator", url: "/core-hr/saudization" },
       { title: isArabic ? "الخدمة الذاتية للموظفين" : "Employee Self Service", url: "/core-hr/self-service" },
       { title: isArabic ? "لوحة تحكم المدير" : "Manager Dashboard", url: "/core-hr/organization" },
     ]
