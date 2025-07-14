@@ -383,10 +383,209 @@ const EmployeeMasterData = () => {
       type: 'select' as const,
       required: true,
       options: [
+        // Executive & Leadership
+        { value: 'board_of_directors', label: language === 'ar' ? 'مجلس الإدارة' : 'Board of Directors' },
+        { value: 'executive_management', label: language === 'ar' ? 'الإدارة التنفيذية' : 'Executive Management' },
+        { value: 'ceo_office', label: language === 'ar' ? 'مكتب الرئيس التنفيذي' : 'CEO Office' },
+        { value: 'strategic_planning', label: language === 'ar' ? 'التخطيط الاستراتيجي' : 'Strategic Planning' },
+        
+        // Administrative & Support
         { value: 'hr', label: language === 'ar' ? 'الموارد البشرية' : 'Human Resources' },
-        { value: 'it', label: language === 'ar' ? 'تكنولوجيا المعلومات' : 'Information Technology' },
         { value: 'finance', label: language === 'ar' ? 'المالية' : 'Finance' },
-        { value: 'marketing', label: language === 'ar' ? 'التسويق' : 'Marketing' }
+        { value: 'accounting', label: language === 'ar' ? 'المحاسبة' : 'Accounting' },
+        { value: 'legal', label: language === 'ar' ? 'الشؤون القانونية' : 'Legal Affairs' },
+        { value: 'admin', label: language === 'ar' ? 'الشؤون الإدارية' : 'Administration' },
+        { value: 'procurement', label: language === 'ar' ? 'المشتريات' : 'Procurement' },
+        { value: 'supply_chain', label: language === 'ar' ? 'سلسلة التوريد' : 'Supply Chain' },
+        { value: 'internal_audit', label: language === 'ar' ? 'التدقيق الداخلي' : 'Internal Audit' },
+        { value: 'compliance', label: language === 'ar' ? 'الامتثال' : 'Compliance' },
+        { value: 'risk_management', label: language === 'ar' ? 'إدارة المخاطر' : 'Risk Management' },
+        
+        // Technology & IT
+        { value: 'it', label: language === 'ar' ? 'تكنولوجيا المعلومات' : 'Information Technology' },
+        { value: 'cybersecurity', label: language === 'ar' ? 'الأمن السيبراني' : 'Cybersecurity' },
+        { value: 'software_development', label: language === 'ar' ? 'تطوير البرمجيات' : 'Software Development' },
+        { value: 'data_analytics', label: language === 'ar' ? 'تحليل البيانات' : 'Data Analytics' },
+        { value: 'digital_transformation', label: language === 'ar' ? 'التحول الرقمي' : 'Digital Transformation' },
+        { value: 'tech_support', label: language === 'ar' ? 'الدعم التقني' : 'Technical Support' },
+        
+        // Construction & Contracting
+        { value: 'project_management', label: language === 'ar' ? 'إدارة المشاريع' : 'Project Management' },
+        { value: 'construction_management', label: language === 'ar' ? 'إدارة الإنشاءات' : 'Construction Management' },
+        { value: 'civil_engineering', label: language === 'ar' ? 'الهندسة المدنية' : 'Civil Engineering' },
+        { value: 'mechanical_engineering', label: language === 'ar' ? 'الهندسة الميكانيكية' : 'Mechanical Engineering' },
+        { value: 'electrical_engineering', label: language === 'ar' ? 'الهندسة الكهربائية' : 'Electrical Engineering' },
+        { value: 'architectural_design', label: language === 'ar' ? 'التصميم المعماري' : 'Architectural Design' },
+        { value: 'structural_engineering', label: language === 'ar' ? 'الهندسة الإنشائية' : 'Structural Engineering' },
+        { value: 'site_supervision', label: language === 'ar' ? 'الإشراف الميداني' : 'Site Supervision' },
+        { value: 'quantity_surveying', label: language === 'ar' ? 'المساحة الكمية' : 'Quantity Surveying' },
+        { value: 'safety_engineering', label: language === 'ar' ? 'هندسة السلامة' : 'Safety Engineering' },
+        { value: 'quality_control', label: language === 'ar' ? 'مراقبة الجودة' : 'Quality Control' },
+        { value: 'materials_testing', label: language === 'ar' ? 'اختبار المواد' : 'Materials Testing' },
+        { value: 'contract_administration', label: language === 'ar' ? 'إدارة العقود' : 'Contract Administration' },
+        { value: 'cost_estimation', label: language === 'ar' ? 'تقدير التكاليف' : 'Cost Estimation' },
+        
+        // Oil & Gas
+        { value: 'petroleum_engineering', label: language === 'ar' ? 'هندسة البترول' : 'Petroleum Engineering' },
+        { value: 'drilling_operations', label: language === 'ar' ? 'عمليات الحفر' : 'Drilling Operations' },
+        { value: 'production_engineering', label: language === 'ar' ? 'هندسة الإنتاج' : 'Production Engineering' },
+        { value: 'reservoir_engineering', label: language === 'ar' ? 'هندسة المكامن' : 'Reservoir Engineering' },
+        { value: 'process_engineering', label: language === 'ar' ? 'هندسة العمليات' : 'Process Engineering' },
+        { value: 'pipeline_engineering', label: language === 'ar' ? 'هندسة الأنابيب' : 'Pipeline Engineering' },
+        { value: 'refining_operations', label: language === 'ar' ? 'عمليات التكرير' : 'Refining Operations' },
+        { value: 'petrochemicals', label: language === 'ar' ? 'البتروكيماويات' : 'Petrochemicals' },
+        { value: 'hse_oil_gas', label: language === 'ar' ? 'الصحة والسلامة والبيئة' : 'HSE (Health, Safety & Environment)' },
+        
+        // Healthcare
+        { value: 'medical_services', label: language === 'ar' ? 'الخدمات الطبية' : 'Medical Services' },
+        { value: 'nursing', label: language === 'ar' ? 'التمريض' : 'Nursing' },
+        { value: 'pharmacy', label: language === 'ar' ? 'الصيدلة' : 'Pharmacy' },
+        { value: 'laboratory', label: language === 'ar' ? 'المختبر' : 'Laboratory' },
+        { value: 'radiology', label: language === 'ar' ? 'الأشعة' : 'Radiology' },
+        { value: 'emergency_medicine', label: language === 'ar' ? 'طب الطوارئ' : 'Emergency Medicine' },
+        { value: 'medical_records', label: language === 'ar' ? 'السجلات الطبية' : 'Medical Records' },
+        { value: 'biomedical_engineering', label: language === 'ar' ? 'الهندسة الطبية الحيوية' : 'Biomedical Engineering' },
+        
+        // Education
+        { value: 'academic_affairs', label: language === 'ar' ? 'الشؤون الأكاديمية' : 'Academic Affairs' },
+        { value: 'student_services', label: language === 'ar' ? 'خدمات الطلاب' : 'Student Services' },
+        { value: 'faculty_development', label: language === 'ar' ? 'تطوير أعضاء هيئة التدريس' : 'Faculty Development' },
+        { value: 'curriculum_development', label: language === 'ar' ? 'تطوير المناهج' : 'Curriculum Development' },
+        { value: 'research_development', label: language === 'ar' ? 'البحث والتطوير' : 'Research & Development' },
+        { value: 'library_services', label: language === 'ar' ? 'خدمات المكتبة' : 'Library Services' },
+        { value: 'educational_technology', label: language === 'ar' ? 'التكنولوجيا التعليمية' : 'Educational Technology' },
+        
+        // Manufacturing & Industrial
+        { value: 'production', label: language === 'ar' ? 'الإنتاج' : 'Production' },
+        { value: 'manufacturing', label: language === 'ar' ? 'التصنيع' : 'Manufacturing' },
+        { value: 'industrial_engineering', label: language === 'ar' ? 'الهندسة الصناعية' : 'Industrial Engineering' },
+        { value: 'maintenance', label: language === 'ar' ? 'الصيانة' : 'Maintenance' },
+        { value: 'quality_assurance', label: language === 'ar' ? 'ضمان الجودة' : 'Quality Assurance' },
+        { value: 'operations', label: language === 'ar' ? 'العمليات' : 'Operations' },
+        { value: 'logistics', label: language === 'ar' ? 'اللوجستيات' : 'Logistics' },
+        { value: 'warehouse', label: language === 'ar' ? 'المستودعات' : 'Warehouse' },
+        
+        // Banking & Finance
+        { value: 'corporate_banking', label: language === 'ar' ? 'الخدمات المصرفية للشركات' : 'Corporate Banking' },
+        { value: 'retail_banking', label: language === 'ar' ? 'الخدمات المصرفية للأفراد' : 'Retail Banking' },
+        { value: 'investment_banking', label: language === 'ar' ? 'الخدمات المصرفية الاستثمارية' : 'Investment Banking' },
+        { value: 'islamic_banking', label: language === 'ar' ? 'المصرفية الإسلامية' : 'Islamic Banking' },
+        { value: 'treasury', label: language === 'ar' ? 'الخزينة' : 'Treasury' },
+        { value: 'credit_risk', label: language === 'ar' ? 'مخاطر الائتمان' : 'Credit Risk' },
+        { value: 'financial_planning', label: language === 'ar' ? 'التخطيط المالي' : 'Financial Planning' },
+        { value: 'wealth_management', label: language === 'ar' ? 'إدارة الثروات' : 'Wealth Management' },
+        
+        // Sales & Marketing
+        { value: 'marketing', label: language === 'ar' ? 'التسويق' : 'Marketing' },
+        { value: 'sales', label: language === 'ar' ? 'المبيعات' : 'Sales' },
+        { value: 'digital_marketing', label: language === 'ar' ? 'التسويق الرقمي' : 'Digital Marketing' },
+        { value: 'business_development', label: language === 'ar' ? 'تطوير الأعمال' : 'Business Development' },
+        { value: 'customer_service', label: language === 'ar' ? 'خدمة العملاء' : 'Customer Service' },
+        { value: 'public_relations', label: language === 'ar' ? 'العلاقات العامة' : 'Public Relations' },
+        { value: 'brand_management', label: language === 'ar' ? 'إدارة العلامة التجارية' : 'Brand Management' },
+        
+        // Hospitality & Tourism
+        { value: 'hotel_management', label: language === 'ar' ? 'إدارة الفنادق' : 'Hotel Management' },
+        { value: 'front_office', label: language === 'ar' ? 'المكتب الأمامي' : 'Front Office' },
+        { value: 'housekeeping', label: language === 'ar' ? 'خدمة التنظيف' : 'Housekeeping' },
+        { value: 'food_beverage', label: language === 'ar' ? 'الطعام والشراب' : 'Food & Beverage' },
+        { value: 'event_management', label: language === 'ar' ? 'إدارة الفعاليات' : 'Event Management' },
+        { value: 'tourism_services', label: language === 'ar' ? 'خدمات السياحة' : 'Tourism Services' },
+        { value: 'travel_services', label: language === 'ar' ? 'خدمات السفر' : 'Travel Services' },
+        
+        // Transportation & Logistics
+        { value: 'fleet_management', label: language === 'ar' ? 'إدارة الأسطول' : 'Fleet Management' },
+        { value: 'transportation', label: language === 'ar' ? 'النقل' : 'Transportation' },
+        { value: 'aviation', label: language === 'ar' ? 'الطيران' : 'Aviation' },
+        { value: 'maritime', label: language === 'ar' ? 'النقل البحري' : 'Maritime' },
+        { value: 'rail_transport', label: language === 'ar' ? 'النقل بالسكك الحديدية' : 'Rail Transport' },
+        { value: 'freight_forwarding', label: language === 'ar' ? 'شحن البضائع' : 'Freight Forwarding' },
+        { value: 'customs_clearance', label: language === 'ar' ? 'التخليص الجمركي' : 'Customs Clearance' },
+        
+        // Agriculture & Food
+        { value: 'agriculture', label: language === 'ar' ? 'الزراعة' : 'Agriculture' },
+        { value: 'livestock', label: language === 'ar' ? 'الثروة الحيوانية' : 'Livestock' },
+        { value: 'food_processing', label: language === 'ar' ? 'تصنيع الأغذية' : 'Food Processing' },
+        { value: 'food_safety', label: language === 'ar' ? 'سلامة الغذاء' : 'Food Safety' },
+        { value: 'aquaculture', label: language === 'ar' ? 'الاستزراع المائي' : 'Aquaculture' },
+        { value: 'agricultural_research', label: language === 'ar' ? 'البحوث الزراعية' : 'Agricultural Research' },
+        
+        // Retail & Commerce
+        { value: 'retail_operations', label: language === 'ar' ? 'عمليات التجزئة' : 'Retail Operations' },
+        { value: 'merchandising', label: language === 'ar' ? 'عرض البضائع' : 'Merchandising' },
+        { value: 'inventory_management', label: language === 'ar' ? 'إدارة المخزون' : 'Inventory Management' },
+        { value: 'ecommerce', label: language === 'ar' ? 'التجارة الإلكترونية' : 'E-commerce' },
+        { value: 'category_management', label: language === 'ar' ? 'إدارة الفئات' : 'Category Management' },
+        { value: 'visual_merchandising', label: language === 'ar' ? 'عرض البضائع المرئي' : 'Visual Merchandising' },
+        
+        // Media & Communications
+        { value: 'content_creation', label: language === 'ar' ? 'إنشاء المحتوى' : 'Content Creation' },
+        { value: 'broadcasting', label: language === 'ar' ? 'البث' : 'Broadcasting' },
+        { value: 'journalism', label: language === 'ar' ? 'الصحافة' : 'Journalism' },
+        { value: 'graphic_design', label: language === 'ar' ? 'التصميم الجرافيكي' : 'Graphic Design' },
+        { value: 'video_production', label: language === 'ar' ? 'إنتاج الفيديو' : 'Video Production' },
+        { value: 'social_media', label: language === 'ar' ? 'وسائل التواصل الاجتماعي' : 'Social Media' },
+        
+        // Real Estate & Property
+        { value: 'real_estate_development', label: language === 'ar' ? 'تطوير العقارات' : 'Real Estate Development' },
+        { value: 'property_management', label: language === 'ar' ? 'إدارة الممتلكات' : 'Property Management' },
+        { value: 'real_estate_sales', label: language === 'ar' ? 'مبيعات العقارات' : 'Real Estate Sales' },
+        { value: 'facility_management', label: language === 'ar' ? 'إدارة المرافق' : 'Facility Management' },
+        { value: 'urban_planning', label: language === 'ar' ? 'التخطيط العمراني' : 'Urban Planning' },
+        
+        // Government & Public Sector
+        { value: 'public_administration', label: language === 'ar' ? 'الإدارة العامة' : 'Public Administration' },
+        { value: 'government_relations', label: language === 'ar' ? 'العلاقات الحكومية' : 'Government Relations' },
+        { value: 'regulatory_affairs', label: language === 'ar' ? 'الشؤون التنظيمية' : 'Regulatory Affairs' },
+        { value: 'policy_development', label: language === 'ar' ? 'تطوير السياسات' : 'Policy Development' },
+        { value: 'public_services', label: language === 'ar' ? 'الخدمات العامة' : 'Public Services' },
+        
+        // Security & Defense
+        { value: 'security_services', label: language === 'ar' ? 'الخدمات الأمنية' : 'Security Services' },
+        { value: 'physical_security', label: language === 'ar' ? 'الأمن المادي' : 'Physical Security' },
+        { value: 'investigations', label: language === 'ar' ? 'التحقيقات' : 'Investigations' },
+        { value: 'emergency_response', label: language === 'ar' ? 'الاستجابة للطوارئ' : 'Emergency Response' },
+        
+        // Environmental & Sustainability
+        { value: 'environmental_services', label: language === 'ar' ? 'الخدمات البيئية' : 'Environmental Services' },
+        { value: 'sustainability', label: language === 'ar' ? 'الاستدامة' : 'Sustainability' },
+        { value: 'waste_management', label: language === 'ar' ? 'إدارة النفايات' : 'Waste Management' },
+        { value: 'renewable_energy', label: language === 'ar' ? 'الطاقة المتجددة' : 'Renewable Energy' },
+        { value: 'water_management', label: language === 'ar' ? 'إدارة المياه' : 'Water Management' },
+        
+        // Sports & Recreation
+        { value: 'sports_management', label: language === 'ar' ? 'إدارة الرياضة' : 'Sports Management' },
+        { value: 'fitness_wellness', label: language === 'ar' ? 'اللياقة والعافية' : 'Fitness & Wellness' },
+        { value: 'recreation_services', label: language === 'ar' ? 'خدمات الترفيه' : 'Recreation Services' },
+        
+        // Arts & Culture
+        { value: 'cultural_affairs', label: language === 'ar' ? 'الشؤون الثقافية' : 'Cultural Affairs' },
+        { value: 'museum_management', label: language === 'ar' ? 'إدارة المتاحف' : 'Museum Management' },
+        { value: 'heritage_preservation', label: language === 'ar' ? 'الحفاظ على التراث' : 'Heritage Preservation' },
+        { value: 'performing_arts', label: language === 'ar' ? 'الفنون الأدائية' : 'Performing Arts' },
+        
+        // Vision 2030 Sectors
+        { value: 'neom_development', label: language === 'ar' ? 'تطوير نيوم' : 'NEOM Development' },
+        { value: 'smart_cities', label: language === 'ar' ? 'المدن الذكية' : 'Smart Cities' },
+        { value: 'entertainment', label: language === 'ar' ? 'الترفيه' : 'Entertainment' },
+        { value: 'gaming_esports', label: language === 'ar' ? 'الألعاب والرياضات الإلكترونية' : 'Gaming & Esports' },
+        { value: 'artificial_intelligence', label: language === 'ar' ? 'الذكاء الاصطناعي' : 'Artificial Intelligence' },
+        { value: 'robotics', label: language === 'ar' ? 'الروبوتات' : 'Robotics' },
+        { value: 'space_technology', label: language === 'ar' ? 'تكنولوجيا الفضاء' : 'Space Technology' },
+        { value: 'fintech', label: language === 'ar' ? 'التكنولوجيا المالية' : 'Financial Technology' },
+        { value: 'healthtech', label: language === 'ar' ? 'التكنولوجيا الطبية' : 'Health Technology' },
+        
+        // Specialized Services
+        { value: 'consulting', label: language === 'ar' ? 'الاستشارات' : 'Consulting' },
+        { value: 'training_development', label: language === 'ar' ? 'التدريب والتطوير' : 'Training & Development' },
+        { value: 'translation_services', label: language === 'ar' ? 'خدمات الترجمة' : 'Translation Services' },
+        { value: 'market_research', label: language === 'ar' ? 'أبحاث السوق' : 'Market Research' },
+        { value: 'innovation_lab', label: language === 'ar' ? 'مختبر الابتكار' : 'Innovation Lab' },
+        { value: 'venture_capital', label: language === 'ar' ? 'رأس المال المغامر' : 'Venture Capital' },
+        { value: 'private_equity', label: language === 'ar' ? 'الأسهم الخاصة' : 'Private Equity' },
+        
+        // Other/General
+        { value: 'other', label: language === 'ar' ? 'أخرى' : 'Other' }
       ]
     },
     {
