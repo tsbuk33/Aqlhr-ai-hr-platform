@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Users, 
   TrendingUp, 
@@ -17,13 +19,15 @@ import {
   FileBarChart,
   Settings,
   Brain,
-  Zap
+  Zap,
+  Upload
 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 
 const SaudizationCalculator = () => {
   const { language } = useLanguage();
   const isRTL = language === 'ar';
+  const { toast } = useToast();
 
   // Mock data - in real implementation, this would come from your database
   const [saudizationData, setSaudizationData] = useState({
@@ -195,7 +199,7 @@ const SaudizationCalculator = () => {
 
       {/* Main Dashboard Tabs */}
       <Tabs defaultValue="executive" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="executive">
             {isRTL ? 'المدير التنفيذي' : 'Executive View'}
           </TabsTrigger>
@@ -204,6 +208,9 @@ const SaudizationCalculator = () => {
           </TabsTrigger>
           <TabsTrigger value="operations">
             {isRTL ? 'العمليات' : 'Operations'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {isRTL ? 'المستندات' : 'Documents'}
           </TabsTrigger>
         </TabsList>
 
@@ -429,6 +436,65 @@ const SaudizationCalculator = () => {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        {/* Documents View */}
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {isRTL ? 'رفع مستندات السعودة' : 'Upload Saudization Documents'}
+              </CardTitle>
+              <CardDescription>
+                {isRTL ? 'ارفع ملفات الموظفين، تقارير النطاقات، وثائق التأشيرات لمعالجتها بالذكاء الاصطناعي' : 'Upload employee files, Nitaqat reports, visa documents for AI processing'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="saudization"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                    description: isRTL ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي` : `${file.name} uploaded and processed with AI`
+                  });
+                }}
+                acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/csv']}
+                maxFileSize={20}
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                {isRTL ? 'المستندات المرفوعة' : 'Uploaded Documents'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <FileBarChart className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">
+                      {isRTL ? 'تقرير نطاقات Q1 2024.xlsx' : 'Nitaqat Report Q1 2024.xlsx'}
+                    </span>
+                  </div>
+                  <Badge variant="secondary">{isRTL ? 'تم معالجته' : 'Processed'}</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <FileBarChart className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium">
+                      {isRTL ? 'قائمة الموظفين الحالية.pdf' : 'Current Employee List.pdf'}
+                    </span>
+                  </div>
+                  <Badge variant="secondary">{isRTL ? 'تم معالجته' : 'Processed'}</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

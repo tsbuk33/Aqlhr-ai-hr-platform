@@ -1,13 +1,16 @@
 import React from 'react';
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { EnhancedFormSystem } from "@/components/enhanced/EnhancedFormSystem";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, UserPlus, FileCheck, AlertTriangle, Search, Filter, Calendar, MapPin } from "lucide-react";
+import { Users, UserPlus, FileCheck, AlertTriangle, Search, Filter, Calendar, MapPin, Upload } from "lucide-react";
 
 const EmployeeMasterData = () => {
   const { language } = useLanguage();
+  const { toast } = useToast();
 
   const stats = [
     {

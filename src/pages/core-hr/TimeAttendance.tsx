@@ -1,5 +1,7 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Clock, 
   Smartphone, 
@@ -12,11 +14,13 @@ import {
   Activity,
   Shield,
   FileText,
-  Settings
+  Settings,
+  Upload
 } from "lucide-react";
 
 const TimeAttendance = () => {
   const { t, language } = useLanguage();
+  const { toast } = useToast();
 
   const stats = [
     {

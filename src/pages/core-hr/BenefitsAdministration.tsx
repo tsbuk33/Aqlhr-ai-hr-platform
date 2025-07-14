@@ -1,8 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Upload, Heart, Shield, DollarSign, Gift } from "lucide-react";
 
 const BenefitsAdministration = () => {
-  const { isRTL } = useLanguage();
+  const { isRTL, language } = useLanguage();
+  const { toast } = useToast();
 
   // Arabic translations for this page
   const translations = {
