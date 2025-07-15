@@ -9,7 +9,8 @@ import {
   Check, 
   ArrowUp, 
   ArrowDown,
-  Settings 
+  Settings,
+  Shield
 } from "lucide-react";
 import {
   Sidebar,
@@ -40,7 +41,7 @@ const getPlatformModules = (isArabic: boolean) => [
     title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", 
     url: "/core-hr", 
     icon: Users,
-    badge: "12",
+    badge: "13",
     subItems: [
       { title: isArabic ? "بيانات الموظفين الرئيسية" : "Employee Master Data", url: "/core-hr/master-data" },
       { title: isArabic ? "معالجة الرواتب" : "Payroll Processing", url: "/payroll" },
@@ -53,6 +54,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "تخطيط التعاقب" : "Succession Planning", url: "/core-hr/succession-planning" },
       { title: isArabic ? "إدارة التعويضات" : "Compensation Management", url: "/core-hr/compensation-management" },
       { title: isArabic ? "حاسبة السعودة والتأشيرات" : "Saudization & Visa Calculator", url: "/core-hr/saudization" },
+      { title: isArabic ? "الصحة والسلامة والبيئة" : "Health, Safety & Environment", url: "/health-safety" },
       { title: isArabic ? "الخدمة الذاتية للموظفين" : "Employee Self Service", url: "/core-hr/self-service" },
       { title: isArabic ? "لوحة تحكم المدير" : "Manager Dashboard", url: "/core-hr/organization" },
     ]

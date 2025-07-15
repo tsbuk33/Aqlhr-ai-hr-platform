@@ -1099,6 +1099,685 @@ export type Database = {
           },
         ]
       }
+      hse_compliance: {
+        Row: {
+          company_id: string | null
+          compliance_status: string
+          created_at: string
+          deadline: string | null
+          evidence_documents: Json | null
+          id: string
+          last_assessment_date: string | null
+          next_assessment_date: string | null
+          notes: string | null
+          regulation_name: string
+          regulation_name_ar: string | null
+          regulation_type: string
+          requirement_description: string
+          responsible_person_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          compliance_status?: string
+          created_at?: string
+          deadline?: string | null
+          evidence_documents?: Json | null
+          id?: string
+          last_assessment_date?: string | null
+          next_assessment_date?: string | null
+          notes?: string | null
+          regulation_name: string
+          regulation_name_ar?: string | null
+          regulation_type: string
+          requirement_description: string
+          responsible_person_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          compliance_status?: string
+          created_at?: string
+          deadline?: string | null
+          evidence_documents?: Json | null
+          id?: string
+          last_assessment_date?: string | null
+          next_assessment_date?: string | null
+          notes?: string | null
+          regulation_name?: string
+          regulation_name_ar?: string | null
+          regulation_type?: string
+          requirement_description?: string
+          responsible_person_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_compliance_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_compliance_responsible_person_id_fkey"
+            columns: ["responsible_person_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_emergency_team_members: {
+        Row: {
+          availability_status: string
+          certification_expiry: string | null
+          certification_status: string
+          created_at: string
+          employee_id: string | null
+          id: string
+          role: string
+          team_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          availability_status?: string
+          certification_expiry?: string | null
+          certification_status?: string
+          created_at?: string
+          employee_id?: string | null
+          id?: string
+          role: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          availability_status?: string
+          certification_expiry?: string | null
+          certification_status?: string
+          created_at?: string
+          employee_id?: string | null
+          id?: string
+          role?: string
+          team_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_emergency_team_members_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_emergency_team_members_team_id_fkey"
+            columns: ["team_id"]
+            isOneToOne: false
+            referencedRelation: "hse_emergency_teams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_emergency_teams: {
+        Row: {
+          activation_criteria: string | null
+          company_id: string | null
+          contact_number: string | null
+          created_at: string
+          equipment_checklist: Json | null
+          id: string
+          is_active: boolean | null
+          location: string
+          response_procedures: string | null
+          team_leader_id: string | null
+          team_name: string
+          team_name_ar: string | null
+          team_type: string
+          training_requirements: Json | null
+          updated_at: string
+        }
+        Insert: {
+          activation_criteria?: string | null
+          company_id?: string | null
+          contact_number?: string | null
+          created_at?: string
+          equipment_checklist?: Json | null
+          id?: string
+          is_active?: boolean | null
+          location: string
+          response_procedures?: string | null
+          team_leader_id?: string | null
+          team_name: string
+          team_name_ar?: string | null
+          team_type: string
+          training_requirements?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          activation_criteria?: string | null
+          company_id?: string | null
+          contact_number?: string | null
+          created_at?: string
+          equipment_checklist?: Json | null
+          id?: string
+          is_active?: boolean | null
+          location?: string
+          response_procedures?: string | null
+          team_leader_id?: string | null
+          team_name?: string
+          team_name_ar?: string | null
+          team_type?: string
+          training_requirements?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_emergency_teams_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_emergency_teams_team_leader_id_fkey"
+            columns: ["team_leader_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_incidents: {
+        Row: {
+          company_id: string | null
+          corrective_actions: string | null
+          created_at: string
+          description: string
+          employee_id: string | null
+          estimated_cost: number | null
+          id: string
+          immediate_cause: string | null
+          incident_date: string
+          incident_number: string
+          incident_type: string
+          investigation_status: string
+          investigator_id: string | null
+          location: string
+          lost_time_incident: boolean | null
+          medical_treatment_required: boolean | null
+          photos: Json | null
+          regulatory_reportable: boolean | null
+          reported_date: string
+          root_cause: string | null
+          severity_level: number
+          updated_at: string
+          witness_statements: Json | null
+        }
+        Insert: {
+          company_id?: string | null
+          corrective_actions?: string | null
+          created_at?: string
+          description: string
+          employee_id?: string | null
+          estimated_cost?: number | null
+          id?: string
+          immediate_cause?: string | null
+          incident_date: string
+          incident_number: string
+          incident_type: string
+          investigation_status?: string
+          investigator_id?: string | null
+          location: string
+          lost_time_incident?: boolean | null
+          medical_treatment_required?: boolean | null
+          photos?: Json | null
+          regulatory_reportable?: boolean | null
+          reported_date?: string
+          root_cause?: string | null
+          severity_level: number
+          updated_at?: string
+          witness_statements?: Json | null
+        }
+        Update: {
+          company_id?: string | null
+          corrective_actions?: string | null
+          created_at?: string
+          description?: string
+          employee_id?: string | null
+          estimated_cost?: number | null
+          id?: string
+          immediate_cause?: string | null
+          incident_date?: string
+          incident_number?: string
+          incident_type?: string
+          investigation_status?: string
+          investigator_id?: string | null
+          location?: string
+          lost_time_incident?: boolean | null
+          medical_treatment_required?: boolean | null
+          photos?: Json | null
+          regulatory_reportable?: boolean | null
+          reported_date?: string
+          root_cause?: string | null
+          severity_level?: number
+          updated_at?: string
+          witness_statements?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_incidents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_incidents_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_incidents_investigator_id_fkey"
+            columns: ["investigator_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_kpis: {
+        Row: {
+          actual_value: number | null
+          calculation_method: string | null
+          company_id: string | null
+          created_at: string
+          id: string
+          kpi_category: string
+          kpi_name: string
+          kpi_name_ar: string | null
+          last_measured_date: string | null
+          measurement_frequency: string
+          next_measurement_date: string | null
+          responsible_person_id: string | null
+          target_value: number
+          trend_direction: string | null
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          actual_value?: number | null
+          calculation_method?: string | null
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          kpi_category: string
+          kpi_name: string
+          kpi_name_ar?: string | null
+          last_measured_date?: string | null
+          measurement_frequency: string
+          next_measurement_date?: string | null
+          responsible_person_id?: string | null
+          target_value: number
+          trend_direction?: string | null
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          actual_value?: number | null
+          calculation_method?: string | null
+          company_id?: string | null
+          created_at?: string
+          id?: string
+          kpi_category?: string
+          kpi_name?: string
+          kpi_name_ar?: string | null
+          last_measured_date?: string | null
+          measurement_frequency?: string
+          next_measurement_date?: string | null
+          responsible_person_id?: string | null
+          target_value?: number
+          trend_direction?: string | null
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_kpis_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_kpis_responsible_person_id_fkey"
+            columns: ["responsible_person_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_medical_surveillance: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          employee_id: string | null
+          examination_date: string
+          examination_type: string
+          exposure_monitoring: Json | null
+          fitness_status: string
+          follow_up_required: boolean | null
+          health_surveillance_category: string | null
+          id: string
+          medical_certificate_number: string | null
+          medical_provider: string | null
+          next_examination_date: string | null
+          recommendations: string | null
+          restrictions: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          employee_id?: string | null
+          examination_date: string
+          examination_type: string
+          exposure_monitoring?: Json | null
+          fitness_status: string
+          follow_up_required?: boolean | null
+          health_surveillance_category?: string | null
+          id?: string
+          medical_certificate_number?: string | null
+          medical_provider?: string | null
+          next_examination_date?: string | null
+          recommendations?: string | null
+          restrictions?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          employee_id?: string | null
+          examination_date?: string
+          examination_type?: string
+          exposure_monitoring?: Json | null
+          fitness_status?: string
+          follow_up_required?: boolean | null
+          health_surveillance_category?: string | null
+          id?: string
+          medical_certificate_number?: string | null
+          medical_provider?: string | null
+          next_examination_date?: string | null
+          recommendations?: string | null
+          restrictions?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_medical_surveillance_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_medical_surveillance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_ppe: {
+        Row: {
+          company_id: string | null
+          condition_status: string
+          cost: number | null
+          created_at: string
+          employee_id: string | null
+          equipment_brand: string | null
+          equipment_model: string | null
+          equipment_type: string
+          expiry_date: string | null
+          id: string
+          inspection_frequency: number | null
+          issue_date: string
+          last_inspection_date: string | null
+          next_inspection_date: string | null
+          replacement_due_date: string | null
+          serial_number: string | null
+          supplier: string | null
+          updated_at: string
+        }
+        Insert: {
+          company_id?: string | null
+          condition_status?: string
+          cost?: number | null
+          created_at?: string
+          employee_id?: string | null
+          equipment_brand?: string | null
+          equipment_model?: string | null
+          equipment_type: string
+          expiry_date?: string | null
+          id?: string
+          inspection_frequency?: number | null
+          issue_date: string
+          last_inspection_date?: string | null
+          next_inspection_date?: string | null
+          replacement_due_date?: string | null
+          serial_number?: string | null
+          supplier?: string | null
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string | null
+          condition_status?: string
+          cost?: number | null
+          created_at?: string
+          employee_id?: string | null
+          equipment_brand?: string | null
+          equipment_model?: string | null
+          equipment_type?: string
+          expiry_date?: string | null
+          id?: string
+          inspection_frequency?: number | null
+          issue_date?: string
+          last_inspection_date?: string | null
+          next_inspection_date?: string | null
+          replacement_due_date?: string | null
+          serial_number?: string | null
+          supplier?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_ppe_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_ppe_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_risk_assessments: {
+        Row: {
+          additional_controls: string | null
+          assessment_number: string
+          assessor_id: string | null
+          company_id: string | null
+          created_at: string
+          department: string
+          existing_controls: string | null
+          hazard_identification: string
+          id: string
+          likelihood: number
+          next_review_date: string
+          residual_likelihood: number | null
+          residual_risk_score: number | null
+          residual_severity: number | null
+          review_date: string
+          risk_description: string
+          risk_level: string | null
+          risk_score: number | null
+          severity: number
+          status: string
+          updated_at: string
+          work_activity: string
+        }
+        Insert: {
+          additional_controls?: string | null
+          assessment_number: string
+          assessor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          department: string
+          existing_controls?: string | null
+          hazard_identification: string
+          id?: string
+          likelihood: number
+          next_review_date: string
+          residual_likelihood?: number | null
+          residual_risk_score?: number | null
+          residual_severity?: number | null
+          review_date: string
+          risk_description: string
+          risk_level?: string | null
+          risk_score?: number | null
+          severity: number
+          status?: string
+          updated_at?: string
+          work_activity: string
+        }
+        Update: {
+          additional_controls?: string | null
+          assessment_number?: string
+          assessor_id?: string | null
+          company_id?: string | null
+          created_at?: string
+          department?: string
+          existing_controls?: string | null
+          hazard_identification?: string
+          id?: string
+          likelihood?: number
+          next_review_date?: string
+          residual_likelihood?: number | null
+          residual_risk_score?: number | null
+          residual_severity?: number | null
+          review_date?: string
+          risk_description?: string
+          risk_level?: string | null
+          risk_score?: number | null
+          severity?: number
+          status?: string
+          updated_at?: string
+          work_activity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_risk_assessments_assessor_id_fkey"
+            columns: ["assessor_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_risk_assessments_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hse_training: {
+        Row: {
+          actual_score: number | null
+          certification_body: string | null
+          certification_number: string | null
+          company_id: string | null
+          completion_date: string
+          course_name: string
+          course_name_ar: string | null
+          course_type: string
+          created_at: string
+          employee_id: string | null
+          expiry_date: string | null
+          id: string
+          pass_score: number | null
+          renewal_alert_sent: boolean | null
+          status: string
+          training_hours: number | null
+          training_provider: string | null
+          updated_at: string
+        }
+        Insert: {
+          actual_score?: number | null
+          certification_body?: string | null
+          certification_number?: string | null
+          company_id?: string | null
+          completion_date: string
+          course_name: string
+          course_name_ar?: string | null
+          course_type: string
+          created_at?: string
+          employee_id?: string | null
+          expiry_date?: string | null
+          id?: string
+          pass_score?: number | null
+          renewal_alert_sent?: boolean | null
+          status?: string
+          training_hours?: number | null
+          training_provider?: string | null
+          updated_at?: string
+        }
+        Update: {
+          actual_score?: number | null
+          certification_body?: string | null
+          certification_number?: string | null
+          company_id?: string | null
+          completion_date?: string
+          course_name?: string
+          course_name_ar?: string | null
+          course_type?: string
+          created_at?: string
+          employee_id?: string | null
+          expiry_date?: string | null
+          id?: string
+          pass_score?: number | null
+          renewal_alert_sent?: boolean | null
+          status?: string
+          training_hours?: number | null
+          training_provider?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hse_training_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hse_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           company_id: string | null
