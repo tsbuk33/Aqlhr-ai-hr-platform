@@ -98,7 +98,7 @@ const Index = () => {
           </Dialog>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <div className="relative group">
             <SimpleMetricCard
               titleEn="Total Employees"
@@ -230,7 +230,7 @@ const Index = () => {
       </div>
 
       {/* Secondary Metrics with Explanations */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div className="relative group">
           <SimpleMetricCard
             titleEn="Saudization Rate"
