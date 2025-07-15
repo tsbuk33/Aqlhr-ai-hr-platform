@@ -998,6 +998,51 @@ const Index = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Additional Retention Card - Duplicate */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                  <div className="bg-gradient-to-br from-blue-900/10 to-blue-800/20 rounded-xl border border-blue-800/30 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-blue-900/10 rounded-lg">
+                        <Brain className="h-6 w-6 text-blue-800" />
+                      </div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-blue-800 hover:bg-blue-100">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{isArabic ? 'توقع الدوران للسعوديين' : 'Saudi Turnover Prediction'}</DialogTitle>
+                          </DialogHeader>
+                          <p className="text-sm text-gray-600">
+                            {isArabic 
+                              ? 'دقة خوارزمية الذكاء الاصطناعي في التنبؤ بالموظفين السعوديين المعرضين لخطر الاستقالة بناءً على البيانات التاريخية والسلوكية ومشاركة العمل.'
+                              : 'Accuracy of AI algorithm in predicting which Saudi employees are at risk of leaving based on historical data, behavioral patterns, and work engagement metrics.'
+                            }
+                          </p>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-blue-900 mb-1">
+                        {isArabic ? 'السعوديين قد يتركون الشركة' : 'Saudis might leave the company'}
+                      </h4>
+                      <p className="text-3xl font-bold text-blue-800 mb-2">
+                        {aiMetrics.loading ? '...' : `${Math.round((aiMetrics.retentionRisk * 0.7))}%`}
+                      </p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                          {isArabic ? 'تحليل تنبؤي' : 'predictive analysis'}
+                        </span>
+                        <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                          {isArabic ? 'مشاركة العمل' : 'work engagement'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Skills Intelligence */}
