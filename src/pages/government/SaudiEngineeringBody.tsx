@@ -18,8 +18,8 @@ const SaudiEngineeringBody = () => {
 
   const handleTestConnection = async () => {
     toast({
-      title: isRTL ? "اختبار اتصال هيئة المهندسين السعوديين" : "Testing Saudi Engineering Body Connection",
-      description: isRTL ? "جاري فحص الاتصال مع هيئة المهندسين السعوديين..." : "Testing connection with Saudi Engineering Body platform..."
+      title: isRTL ? "اختبار اتصال المجلس السعودي للمهندسين" : "Testing Saudi Council of Engineers Connection",
+      description: isRTL ? "جاري فحص الاتصال مع المجلس السعودي للمهندسين..." : "Testing connection with Saudi Council of Engineers platform..."
     });
     
     try {
@@ -30,19 +30,19 @@ const SaudiEngineeringBody = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful", 
-        description: isRTL ? "تم ربط هيئة المهندسين السعوديين مع سند الموارد البشرية بنجاح" : "Saudi Engineering Body successfully connected with SanadHR"
+        description: isRTL ? "تم ربط المجلس السعودي للمهندسين مع سند الموارد البشرية بنجاح" : "Saudi Council of Engineers successfully connected with SanadHR"
       });
     } catch (error) {
       toast({
         title: isRTL ? "فشل في الاتصال" : "Connection Failed",
-        description: isRTL ? "حدث خطأ أثناء الاتصال بهيئة المهندسين السعوديين" : "Error connecting to Saudi Engineering Body platform"
+        description: isRTL ? "حدث خطأ أثناء الاتصال بالمجلس السعودي للمهندسين" : "Error connecting to Saudi Council of Engineers platform"
       });
     }
   };
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة هيئة المهندسين مع سند" : "Saudi Engineering-SanadHR Sync",
+      title: isRTL ? "مزامنة المجلس السعودي للمهندسين مع سند" : "Saudi Council of Engineers-SanadHR Sync",
       description: isRTL ? "جاري مزامنة أرقام المهندسين وبيانات الاعتماد المهني..." : "Syncing engineer numbers and professional accreditation data..."
     });
     
@@ -73,8 +73,8 @@ const SaudiEngineeringBody = () => {
   return (
     <FocusManager autoFocus restoreFocus>
       <UnifiedGovernmentInterface
-        platformName="Saudi Engineering Body Integration"
-        platformNameAr="تكامل هيئة المهندسين السعوديين"
+        platformName="Saudi Council of Engineers Integration"
+        platformNameAr="تكامل المجلس السعودي للمهندسين"
         description="Engineer registration, professional accreditation, and certification management"
         descriptionAr="تسجيل المهندسين والاعتماد المهني وإدارة الشهادات"
         icon={Settings}
@@ -93,7 +93,7 @@ const SaudiEngineeringBody = () => {
           </TabsList>
           
           <TabsContent value="overview" className="space-y-6">
-            <ScreenReaderText>{isRTL ? "إحصائيات تكامل هيئة المهندسين السعوديين" : "Saudi Engineering Body platform integration statistics"}</ScreenReaderText>
+            <ScreenReaderText>{isRTL ? "إحصائيات تكامل المجلس السعودي للمهندسين" : "Saudi Council of Engineers platform integration statistics"}</ScreenReaderText>
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <MemoizedMetricCard

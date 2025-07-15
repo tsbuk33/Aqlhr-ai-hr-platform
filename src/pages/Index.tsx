@@ -1321,9 +1321,28 @@ const Index = () => {
                     </div>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
-                    <h4 className="text-sm font-medium text-yellow-900 mb-1">
-                      {isArabic ? 'عائد الامتثال' : 'Compliance ROI'}
-                    </h4>
+                    <div className={`flex items-center gap-2 mb-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <h4 className="text-sm font-medium text-yellow-900">
+                        {isArabic ? 'عائد الامتثال' : 'Compliance ROI'}
+                      </h4>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="sm" className="p-0 h-auto text-yellow-600 hover:text-yellow-700">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>{isArabic ? 'عائد الامتثال' : 'Compliance ROI'}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-2">
+                            <p className="text-sm text-muted-foreground">
+                              {isArabic ? 'عائد الاستثمار من تطبيق معايير الامتثال والحوكمة' : 'Return on investment from implementing compliance and governance standards'}
+                            </p>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
                     <p className="text-3xl font-bold text-yellow-700 mb-2">SAR 3.2</p>
                     <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                       <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">

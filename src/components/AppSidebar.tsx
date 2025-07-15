@@ -98,7 +98,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "البريد السعودي" : "Saudi Post", url: "/government/saudi-post" },
       { title: isArabic ? "امتثال توكلنا" : "Tawakkalna Compliance", url: "/government/tawakkalna" },
       { title: isArabic ? "تقويم أم القرى" : "Umm Al-Qura Calendar", url: "/government/umm-al-qura" },
-      { title: isArabic ? "الهيئة السعودية للمهندسين" : "Saudi Engineering Body", url: "/government/saudi-engineering" },
+      { title: isArabic ? "المجلس السعودي للمهندسين" : "Saudi Council of Engineers", url: "/government/saudi-engineering" },
     ]
   },
   { 
