@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { TrendingUp, TrendingDown, Scale, AlertTriangle, Users, Target, BarChart3, Shield, HelpCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SalarySearchEngine } from "@/components/salary/SalarySearchEngine";
 
 const CompensationManagementCore = () => {
   const { language } = useLanguage();
@@ -302,6 +303,9 @@ const CompensationManagementCore = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Salary Search Engine */}
+      <SalarySearchEngine />
 
       {/* Salary Benchmark Intelligence Section */}
       <div className="space-y-6">
