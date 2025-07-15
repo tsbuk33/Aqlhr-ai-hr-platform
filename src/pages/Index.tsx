@@ -3,7 +3,7 @@ import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
-import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus } from "lucide-react";
+import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus, Crown } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -387,14 +387,46 @@ const Index = () => {
                     <li>• {isArabic ? 'اتخاذ القرارات الاستراتيجية - مواءمة القرارات مع الأهداف التنظيمية' : 'Strategic Decision-Making - Align decisions with organizational goals'}</li>
                     <li>• {isArabic ? 'التواصل المحسن - تحسين الحوار مع القيادة والمساهمين' : 'Enhanced Communication - Improve dialogue with leadership & stakeholders'}</li>
                   </ul>
-                </div>
-              </div>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Women in Leadership"
+              titleAr="النساء في القيادة"
+              value="28.6%"
+              descriptionEn="Women in management positions"
+              descriptionAr="النساء في المناصب الإدارية"
+              icon={<Crown className="h-6 w-6" />}
+              variant="primary"
+              trend={{ valueEn: "+6.2%", valueAr: "+6.2%", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.womenInLeadership.titleAr : kpiExplanations.womenInLeadership.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.womenInLeadership} />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
             </DialogContent>
           </Dialog>
         </div>
         
         {/* First Row - Core HR Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="relative group">
           <div className="relative group">
             <SimpleMetricCard
               titleEn="Turnover Rate"
@@ -429,11 +461,11 @@ const Index = () => {
 
           <div className="relative group">
             <SimpleMetricCard
-              titleEn="Women Hiring Rate"
-              titleAr="معدل توظيف النساء"
+              titleEn="Women Hiring Rate by Dept"
+              titleAr="معدل توظيف النساء حسب القسم"
               value="34.2%"
-              descriptionEn="Female hires across departments"
-              descriptionAr="التعيينات النسائية عبر الأقسام"
+              descriptionEn="IT: 42% | HR: 68% | Finance: 29%"
+              descriptionAr="تقنية: 42% | موارد: 68% | مالية: 29%"
               icon={<UserPlus className="h-6 w-6" />}
               variant="accent"
               trend={{ valueEn: "+4.8%", valueAr: "+4.8%", isPositive: true }}

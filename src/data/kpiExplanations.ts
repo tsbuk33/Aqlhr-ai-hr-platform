@@ -255,14 +255,14 @@ export const kpiExplanations = {
   },
 
   womenHiringRate: {
-    titleEn: "Women Hiring Rate",
-    titleAr: "معدل توظيف النساء",
-    descriptionEn: "Percentage of women hired across all departments in the organization",
-    descriptionAr: "نسبة النساء المعينات في جميع الأقسام في المؤسسة",
-    formulaEn: "(Women Hired / Total New Hires) × 100",
-    formulaAr: "(النساء المعينات / إجمالي التعيينات الجديدة) × 100",
-    importanceEn: "Essential for promoting gender diversity, achieving Vision 2030 goals, and creating inclusive workplace culture. Helps track progress in women's workforce participation.",
-    importanceAr: "ضروري لتعزيز التنوع الجنسي وتحقيق أهداف رؤية 2030 وخلق ثقافة مكان عمل شاملة. يساعد في تتبع التقدم في مشاركة المرأة في القوى العاملة.",
+    titleEn: "Women Hiring Rate by Department",
+    titleAr: "معدل توظيف النساء حسب القسم",
+    descriptionEn: "Percentage of women hired in each department across the organization",
+    descriptionAr: "نسبة النساء المعينات في كل قسم عبر المؤسسة",
+    formulaEn: "(Women Hired in Department / Total New Hires in Department) × 100",
+    formulaAr: "(النساء المعينات في القسم / إجمالي التعيينات الجديدة في القسم) × 100",
+    importanceEn: "Essential for promoting gender diversity across all departments, achieving Vision 2030 goals, and creating inclusive workplace culture. Helps identify departments that need focused diversity efforts.",
+    importanceAr: "ضروري لتعزيز التنوع الجنسي عبر جميع الأقسام وتحقيق أهداف رؤية 2030 وخلق ثقافة مكان عمل شاملة. يساعد في تحديد الأقسام التي تحتاج جهود تنوع مركزة.",
     targetEn: "Align with Vision 2030: 30% women workforce participation by 2030",
     targetAr: "التماشي مع رؤية 2030: 30% مشاركة المرأة في القوى العاملة بحلول 2030",
     category: 'strategic' as const
@@ -279,6 +279,20 @@ export const kpiExplanations = {
     importanceAr: "يحدد الأقسام التي تواجه تحديات في الاحتفاظ بالنساء، ويساعد في تحسين بيئة العمل وفرص التطوير المهني وسياسات التوازن بين العمل والحياة.",
     targetEn: "Lower than overall turnover rate, ideally below 10% annually",
     targetAr: "أقل من معدل الدوران الإجمالي، ويفضل أقل من 10% سنوياً",
+    category: 'strategic' as const
+  },
+
+  womenInLeadership: {
+    titleEn: "Women in Leadership Positions",
+    titleAr: "النساء في المناصب القيادية",
+    descriptionEn: "Percentage of women holding leadership and managerial positions across the organization",
+    descriptionAr: "نسبة النساء اللاتي يشغلن المناصب القيادية والإدارية عبر المؤسسة",
+    formulaEn: "(Women in Leadership Roles / Total Leadership Positions) × 100",
+    formulaAr: "(النساء في الأدوار القيادية / إجمالي المناصب القيادية) × 100",
+    importanceEn: "Critical for gender equality, diverse decision-making, and achieving Vision 2030 leadership goals. Women in leadership bring different perspectives and drive organizational success.",
+    importanceAr: "أساسي للمساواة بين الجنسين واتخاذ القرارات المتنوعة وتحقيق أهداف القيادة في رؤية 2030. النساء في القيادة يجلبن وجهات نظر مختلفة ويقدن النجاح التنظيمي.",
+    targetEn: "Vision 2030 target: Increase women in leadership to 35% by 2030",
+    targetAr: "هدف رؤية 2030: زيادة النساء في القيادة إلى 35% بحلول 2030",
     category: 'strategic' as const
   }
 };
