@@ -65,8 +65,6 @@ export const useTestRunner = () => {
       
       const seedResult = await seedEmployees({
         amount: seedAmount,
-        locale: 'sa_AR',
-        salaryRange: [14000, 35000],
         saudizationMix
       });
 
