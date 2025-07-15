@@ -5,7 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { TrendingUp, TrendingDown, Scale, AlertTriangle, Users, Target, BarChart3, Shield } from "lucide-react";
+import { TrendingUp, TrendingDown, Scale, AlertTriangle, Users, Target, BarChart3, Shield, HelpCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const CompensationManagementCore = () => {
   const { language } = useLanguage();
@@ -54,7 +55,24 @@ const CompensationManagementCore = () => {
       merit_based: "merit-based",
       low: "Low",
       medium: "Medium",
-      high: "High"
+      high: "High",
+      // Tooltip explanations
+      compensation_bands_tooltip: "Number of salary ranges defined for different job levels and roles",
+      merit_increase_tooltip: "Average percentage salary increase based on performance evaluation",
+      market_alignment_tooltip: "How well your salaries match industry standards and benchmarks",
+      budget_variance_tooltip: "Difference between planned and actual compensation spending",
+      salary_competitiveness_tooltip: "How competitive your salaries are compared to market rates",
+      pay_equity_tooltip: "Score measuring fairness of pay across gender, nationality, and other factors",
+      market_position_tooltip: "Your organization's salary position relative to market percentiles",
+      role_benchmarks_tooltip: "Comparison of specific job roles against market salary data",
+      gender_gap_tooltip: "Difference in average pay between male and female employees",
+      nationality_equity_tooltip: "Fair pay distribution across different nationalities",
+      experience_adjusted_tooltip: "Pay fairness when adjusted for years of experience",
+      performance_adjusted_tooltip: "Pay fairness when adjusted for performance ratings",
+      high_risk_roles_tooltip: "Positions with salaries significantly below market rates",
+      flight_risk_tooltip: "Employees likely to leave due to below-market compensation",
+      market_movement_tooltip: "Annual trend in market salary increases",
+      retention_impact_tooltip: "Estimated employee turnover risk due to compensation gaps"
     },
     ar: {
       compensation_management: "إدارة التعويضات",
@@ -99,7 +117,24 @@ const CompensationManagementCore = () => {
       merit_based: "قائم على الجدارة",
       low: "منخفض",
       medium: "متوسط",
-      high: "عالي"
+      high: "عالي",
+      // Tooltip explanations in Arabic
+      compensation_bands_tooltip: "عدد نطاقات الرواتب المحددة لمستويات وظيفية وأدوار مختلفة",
+      merit_increase_tooltip: "متوسط النسبة المئوية لزيادة الراتب بناءً على تقييم الأداء",
+      market_alignment_tooltip: "مدى توافق رواتبك مع معايير ومقاييس الصناعة",
+      budget_variance_tooltip: "الفرق بين الإنفاق المخطط والفعلي للتعويضات",
+      salary_competitiveness_tooltip: "مدى تنافسية رواتبك مقارنة بأسعار السوق",
+      pay_equity_tooltip: "نقاط تقيس عدالة الأجور عبر الجنس والجنسية وعوامل أخرى",
+      market_position_tooltip: "موقف راتب منظمتك بالنسبة للمئينات السوقية",
+      role_benchmarks_tooltip: "مقارنة الأدوار الوظيفية المحددة مع بيانات راتب السوق",
+      gender_gap_tooltip: "الفرق في متوسط الأجور بين الموظفين الذكور والإناث",
+      nationality_equity_tooltip: "التوزيع العادل للأجور عبر الجنسيات المختلفة",
+      experience_adjusted_tooltip: "عدالة الأجور عند التعديل لسنوات الخبرة",
+      performance_adjusted_tooltip: "عدالة الأجور عند التعديل لتقييمات الأداء",
+      high_risk_roles_tooltip: "المناصب ذات الرواتب أقل بكثير من معدلات السوق",
+      flight_risk_tooltip: "الموظفون المرجح أن يتركوا بسبب التعويض أقل من السوق",
+      market_movement_tooltip: "الاتجاه السنوي في زيادات راتب السوق",
+      retention_impact_tooltip: "المخاطر المقدرة لدوران الموظفين بسبب فجوات التعويض"
     }
   };
 
@@ -132,7 +167,8 @@ const CompensationManagementCore = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <TooltipProvider>
+      <div className="container mx-auto p-6 space-y-8">
       {/* Header - MAINTAIN EXACTLY */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">{t('compensation_management')}</h1>
@@ -144,7 +180,17 @@ const CompensationManagementCore = () => {
         {/* Current 4 Cards - MAINTAIN EXACTLY */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('compensation_bands')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('compensation_bands')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('compensation_bands_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-primary">47</div>
@@ -152,7 +198,17 @@ const CompensationManagementCore = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('merit_increase')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('merit_increase')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('merit_increase_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-success">8.5%</div>
@@ -160,7 +216,17 @@ const CompensationManagementCore = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('market_alignment')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('market_alignment')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('market_alignment_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-accent">92%</div>
@@ -168,7 +234,17 @@ const CompensationManagementCore = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{t('budget_variance')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('budget_variance')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('budget_variance_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-brand-warning">-2.1%</div>
@@ -181,6 +257,14 @@ const CompensationManagementCore = () => {
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-teal-600" />
               {t('salary_competitiveness')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('salary_competitiveness_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -198,6 +282,14 @@ const CompensationManagementCore = () => {
             <CardTitle className="flex items-center gap-2">
               <Scale className="h-5 w-5 text-indigo-600" />
               {t('pay_equity_score')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('pay_equity_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -221,7 +313,17 @@ const CompensationManagementCore = () => {
         {/* Market Position Analysis */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('market_position_analysis')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('market_position_analysis')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('market_position_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="text-center">
@@ -261,7 +363,17 @@ const CompensationManagementCore = () => {
         {/* Role-Specific Benchmarks Table */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('role_specific_benchmarks')}</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              {t('role_specific_benchmarks')}
+              <Tooltip>
+                <TooltipTrigger>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">{t('role_benchmarks_tooltip')}</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
@@ -304,7 +416,17 @@ const CompensationManagementCore = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="border-green-200 bg-green-50 dark:bg-green-950">
             <CardHeader>
-              <CardTitle className="text-green-700">{t('gender_pay_gap')}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-green-700">
+                {t('gender_pay_gap')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('gender_gap_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-700">2.1%</div>
@@ -314,7 +436,17 @@ const CompensationManagementCore = () => {
 
           <Card className="border-blue-200 bg-blue-50 dark:bg-blue-950">
             <CardHeader>
-              <CardTitle className="text-blue-700">{t('nationality_equity')}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-blue-700">
+                {t('nationality_equity')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('nationality_equity_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-700">96.2%</div>
@@ -324,7 +456,17 @@ const CompensationManagementCore = () => {
 
           <Card className="border-purple-200 bg-purple-50 dark:bg-purple-950">
             <CardHeader>
-              <CardTitle className="text-purple-700">{t('experience_adjusted')}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-purple-700">
+                {t('experience_adjusted')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('experience_adjusted_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-purple-700">97.1%</div>
@@ -334,7 +476,17 @@ const CompensationManagementCore = () => {
 
           <Card className="border-teal-200 bg-teal-50 dark:bg-teal-950">
             <CardHeader>
-              <CardTitle className="text-teal-700">{t('performance_adjusted')}</CardTitle>
+              <CardTitle className="flex items-center gap-2 text-teal-700">
+                {t('performance_adjusted')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('performance_adjusted_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-teal-700">95.8%</div>
@@ -357,6 +509,14 @@ const CompensationManagementCore = () => {
               <CardTitle className="flex items-center gap-2 text-red-700">
                 <AlertTriangle className="h-5 w-5" />
                 {t('high_risk_roles')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('high_risk_roles_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -370,6 +530,14 @@ const CompensationManagementCore = () => {
               <CardTitle className="flex items-center gap-2 text-orange-700">
                 <Users className="h-5 w-5" />
                 {t('flight_risk_employees')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('flight_risk_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -383,6 +551,14 @@ const CompensationManagementCore = () => {
               <CardTitle className="flex items-center gap-2 text-blue-700">
                 <TrendingUp className="h-5 w-5" />
                 {t('market_movement')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('market_movement_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -396,6 +572,14 @@ const CompensationManagementCore = () => {
               <CardTitle className="flex items-center gap-2 text-purple-700">
                 <Target className="h-5 w-5" />
                 {t('retention_impact')}
+                <Tooltip>
+                  <TooltipTrigger>
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="max-w-xs">{t('retention_impact_tooltip')}</p>
+                  </TooltipContent>
+                </Tooltip>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -406,6 +590,7 @@ const CompensationManagementCore = () => {
         </div>
       </div>
     </div>
+    </TooltipProvider>
   );
 };
 
