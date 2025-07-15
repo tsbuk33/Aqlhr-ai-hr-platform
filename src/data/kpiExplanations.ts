@@ -131,5 +131,126 @@ export const kpiExplanations = {
     targetEn: "95% or higher is considered excellent",
     targetAr: "95% أو أعلى يُعتبر ممتازًا",
     category: 'operational' as const
+  },
+
+  // Additional HR Metrics from Dashboard Image
+  turnoverRate: {
+    titleEn: "Turnover Rate",
+    titleAr: "معدل دوران الموظفين",
+    descriptionEn: "Percentage of employees who leave the company within a specific period",
+    descriptionAr: "نسبة الموظفين الذين يتركون الشركة خلال فترة محددة",
+    formulaEn: "(Number of Departures / Average Number of Employees) × 100",
+    formulaAr: "(عدد الموظفين المغادرين / متوسط عدد الموظفين) × 100",
+    importanceEn: "High turnover indicates potential issues with job satisfaction, management, or company culture. It's costly due to recruitment and training expenses.",
+    importanceAr: "معدل الدوران العالي يشير إلى مشاكل محتملة في الرضا الوظيفي أو الإدارة أو ثقافة الشركة. إنه مكلف بسبب نفقات التوظيف والتدريب.",
+    targetEn: "Industry average is 10-15% annually, lower is better",
+    targetAr: "متوسط الصناعة 10-15% سنوياً، الأقل أفضل",
+    category: 'operational' as const
+  },
+
+  newHiresRate: {
+    titleEn: "New Hires Rate",
+    titleAr: "معدل التوظيف الجديد",
+    descriptionEn: "Number of new employees hired within a specific period",
+    descriptionAr: "عدد الموظفين الجدد المعينين خلال فترة محددة",
+    formulaEn: "Total New Hires / Total Employees × 100",
+    formulaAr: "إجمالي التعيينات الجديدة / إجمالي الموظفين × 100",
+    importanceEn: "Shows company growth, replacement needs, and recruitment effectiveness. Helps plan onboarding resources and training programs.",
+    importanceAr: "يُظهر نمو الشركة واحتياجات الاستبدال وفعالية التوظيف. يساعد في تخطيط موارد التأهيل وبرامج التدريب.",
+    targetEn: "Should align with business growth plans and turnover replacement",
+    targetAr: "يجب أن يتماشى مع خطط نمو الأعمال واستبدال المغادرين",
+    category: 'strategic' as const
+  },
+
+  absenteeismRate: {
+    titleEn: "Absenteeism Rate",
+    titleAr: "معدل الغياب",
+    descriptionEn: "Percentage of scheduled work time that employees are absent",
+    descriptionAr: "نسبة وقت العمل المجدول الذي يغيب فيه الموظفون",
+    formulaEn: "(Total Absent Days / Total Scheduled Work Days) × 100",
+    formulaAr: "(إجمالي أيام الغياب / إجمالي أيام العمل المجدولة) × 100",
+    importanceEn: "High absenteeism affects productivity, increases costs, and may indicate health issues, low morale, or poor management.",
+    importanceAr: "الغياب العالي يؤثر على الإنتاجية، ويزيد التكاليف، وقد يشير إلى مشاكل صحية أو معنويات منخفضة أو إدارة سيئة.",
+    targetEn: "2-3% is considered normal, above 5% needs attention",
+    targetAr: "2-3% يُعتبر طبيعياً، أعلى من 5% يحتاج انتباه",
+    category: 'operational' as const
+  },
+
+  timeToFill: {
+    titleEn: "Time to Fill",
+    titleAr: "وقت ملء المنصب",
+    descriptionEn: "Average number of days to fill a vacant position from posting to hiring",
+    descriptionAr: "متوسط عدد الأيام لملء منصب شاغر من النشر إلى التوظيف",
+    formulaEn: "Total Days to Fill All Positions / Number of Positions Filled",
+    formulaAr: "إجمالي أيام ملء جميع المناصب / عدد المناصب المملوءة",
+    importanceEn: "Longer times mean lost productivity, increased workload on existing staff, and potentially losing good candidates to competitors.",
+    importanceAr: "الأوقات الأطول تعني فقدان الإنتاجية، وزيادة عبء العمل على الموظفين الحاليين، وربما فقدان المرشحين الجيدين للمنافسين.",
+    targetEn: "30-40 days is average, 20-30 days is excellent",
+    targetAr: "30-40 يوماً متوسط، 20-30 يوماً ممتاز",
+    category: 'operational' as const
+  },
+
+  costOfAbsence: {
+    titleEn: "Cost of Absence",
+    titleAr: "تكلفة الغياب",
+    descriptionEn: "Total financial impact of employee absences including lost productivity and replacement costs",
+    descriptionAr: "التأثير المالي الإجمالي لغياب الموظفين بما في ذلك فقدان الإنتاجية وتكاليف الاستبدال",
+    importanceEn: "Helps quantify the real cost of absenteeism and justify investments in employee wellness and engagement programs.",
+    importanceAr: "يساعد في تحديد التكلفة الحقيقية للغياب وتبرير الاستثمارات في برامج العافية ومشاركة الموظفين.",
+    targetEn: "Minimize through wellness programs and flexible work arrangements",
+    targetAr: "التقليل من خلال برامج العافية وترتيبات العمل المرنة",
+    category: 'financial' as const
+  },
+
+  recruitmentCost: {
+    titleEn: "Recruitment Cost",
+    titleAr: "تكلفة التوظيف",
+    descriptionEn: "Total cost per hire including advertising, screening, interviewing, and onboarding",
+    descriptionAr: "إجمالي التكلفة لكل توظيف بما في ذلك الإعلان والفحص والمقابلات والتأهيل",
+    formulaEn: "Total Recruitment Expenses / Number of Hires",
+    formulaAr: "إجمالي نفقات التوظيف / عدد التعيينات",
+    importanceEn: "Understanding recruitment costs helps optimize hiring processes, budget planning, and ROI of different recruitment channels.",
+    importanceAr: "فهم تكاليف التوظيف يساعد في تحسين عمليات التوظيف وتخطيط الميزانية والعائد على الاستثمار لقنوات التوظيف المختلفة.",
+    targetEn: "Industry average varies, aim to reduce while maintaining quality",
+    targetAr: "متوسط الصناعة يختلف، يهدف للتقليل مع الحفاظ على الجودة",
+    category: 'financial' as const
+  },
+
+  employeesByAge: {
+    titleEn: "Employees by Age",
+    titleAr: "الموظفون حسب العمر",
+    descriptionEn: "Distribution of employees across different age groups",
+    descriptionAr: "توزيع الموظفين عبر الفئات العمرية المختلفة",
+    importanceEn: "Age diversity brings different perspectives, experiences, and skills. Helps with succession planning and knowledge transfer strategies.",
+    importanceAr: "التنوع العمري يجلب وجهات نظر وخبرات ومهارات مختلفة. يساعد في تخطيط التعاقب واستراتيجيات نقل المعرفة.",
+    targetEn: "Balanced distribution across age groups for optimal team dynamics",
+    targetAr: "توزيع متوازن عبر الفئات العمرية لديناميكيات فريق مثلى",
+    category: 'strategic' as const
+  },
+
+  employeesByGender: {
+    titleEn: "Employees by Gender",
+    titleAr: "الموظفون حسب الجنس",
+    descriptionEn: "Distribution of male and female employees across the organization",
+    descriptionAr: "توزيع الموظفين الذكور والإناث عبر المؤسسة",
+    importanceEn: "Gender diversity improves decision-making, innovation, and reflects societal demographics. Important for compliance and company image.",
+    importanceAr: "التنوع الجنسي يحسن اتخاذ القرارات والابتكار ويعكس التركيبة المجتمعية. مهم للامتثال وصورة الشركة.",
+    targetEn: "Balanced representation aligned with Vision 2030 goals",
+    targetAr: "تمثيل متوازن متماشي مع أهداف رؤية 2030",
+    category: 'compliance' as const
+  },
+
+  costOfLabor: {
+    titleEn: "Cost of Labor",
+    titleAr: "تكلفة العمالة",
+    descriptionEn: "Total cost of employing staff including salaries, benefits, and overhead",
+    descriptionAr: "التكلفة الإجمالية لتوظيف الموظفين بما في ذلك الرواتب والمزايا والمصاريف العامة",
+    formulaEn: "Total Compensation + Benefits + Payroll Taxes + Overhead",
+    formulaAr: "إجمالي التعويضات + المزايا + ضرائب الرواتب + المصاريف العامة",
+    importanceEn: "Critical for budgeting, profitability analysis, and strategic decision-making about workforce size and compensation levels.",
+    importanceAr: "أساسي لوضع الميزانية وتحليل الربحية واتخاذ القرارات الاستراتيجية حول حجم القوى العاملة ومستويات التعويض.",
+    targetEn: "Should be optimized for productivity and competitiveness",
+    targetAr: "يجب تحسينه للإنتاجية والقدرة التنافسية",
+    category: 'financial' as const
   }
 };

@@ -356,6 +356,306 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Enhanced HR Analytics Section - Based on Dashboard Image */}
+      <div className="space-y-6">
+        <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <h2 className={`text-xl font-semibold text-foreground ${isArabic ? 'text-right' : ''}`}>
+            {isArabic ? 'تحليلات الموارد البشرية المتقدمة' : 'Advanced HR Analytics'}
+          </h2>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <Brain className="h-4 w-4" />
+                {isArabic ? 'الذكاء الاصطناعي' : 'AI Insights'}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className={`text-lg font-semibold ${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? 'رؤى الذكاء الاصطناعي للموارد البشرية' : 'AI-Powered HR Insights'}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className={`p-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg ${isArabic ? 'text-right' : ''}`}>
+                  <h4 className="font-semibold mb-2">
+                    {isArabic ? 'وظائف لوحة الموارد البشرية الرئيسية:' : 'Key HR Dashboard Functions:'}
+                  </h4>
+                  <ul className="space-y-2 text-sm">
+                    <li>• {isArabic ? 'مراقبة الموارد البشرية - تتبع المقاييس الرئيسية وتحديد الاتجاهات' : 'HR Monitoring - Track key metrics and identify trends'}</li>
+                    <li>• {isArabic ? 'معلومات الإدارة - رؤى حول ديناميكيات الفريق والقسم' : 'Management Information - Insights into team & department dynamics'}</li>
+                    <li>• {isArabic ? 'تتبع المشاكل - تحديد معدلات الدوران وتحديات الاحتفاظ' : 'Problem Tracking - Identify turnover rates & retention challenges'}</li>
+                    <li>• {isArabic ? 'اتخاذ القرارات الاستراتيجية - مواءمة القرارات مع الأهداف التنظيمية' : 'Strategic Decision-Making - Align decisions with organizational goals'}</li>
+                    <li>• {isArabic ? 'التواصل المحسن - تحسين الحوار مع القيادة والمساهمين' : 'Enhanced Communication - Improve dialogue with leadership & stakeholders'}</li>
+                  </ul>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        
+        {/* First Row - Core HR Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Turnover Rate"
+              titleAr="معدل دوران الموظفين"
+              value="8.2%"
+              descriptionEn="Employee turnover this year"
+              descriptionAr="دوران الموظفين هذا العام"
+              icon={<ArrowUp className="h-6 w-6 transform rotate-180" />}
+              variant="warning"
+              trend={{ valueEn: "-1.3%", valueAr: "-1.3%", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.turnoverRate.titleAr : kpiExplanations.turnoverRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.turnoverRate} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="New Hires"
+              titleAr="التعيينات الجديدة"
+              value="234"
+              descriptionEn="New employees this quarter"
+              descriptionAr="موظفون جدد هذا الربع"
+              icon={<Users className="h-6 w-6" />}
+              variant="success"
+              trend={{ valueEn: "+45", valueAr: "+45", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.newHiresRate.titleAr : kpiExplanations.newHiresRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.newHiresRate} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Absenteeism Rate"
+              titleAr="معدل الغياب"
+              value="2.1%"
+              descriptionEn="Employee absence rate"
+              descriptionAr="معدل غياب الموظفين"
+              icon={<Calendar className="h-6 w-6" />}
+              variant="default"
+              trend={{ valueEn: "-0.3%", valueAr: "-0.3%", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.absenteeismRate.titleAr : kpiExplanations.absenteeismRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.absenteeismRate} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Time to Fill"
+              titleAr="وقت ملء المنصب"
+              value="28 days"
+              descriptionEn="Average hiring time"
+              descriptionAr="متوسط وقت التوظيف"
+              icon={<Clock className="h-6 w-6" />}
+              variant="accent"
+              trend={{ valueEn: "-5 days", valueAr: "-5 أيام", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.timeToFill.titleAr : kpiExplanations.timeToFill.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.timeToFill} />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+
+        {/* Second Row - Financial & Diversity Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Cost of Absence"
+              titleAr="تكلفة الغياب"
+              value="SAR 127K"
+              descriptionEn="Monthly absence cost"
+              descriptionAr="تكلفة الغياب الشهرية"
+              icon={<FileText className="h-6 w-6" />}
+              variant="warning"
+              trend={{ valueEn: "-SAR 23K", valueAr: "-23 ألف ريال", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.costOfAbsence.titleAr : kpiExplanations.costOfAbsence.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.costOfAbsence} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Recruitment Cost"
+              titleAr="تكلفة التوظيف"
+              value="SAR 8,450"
+              descriptionEn="Cost per hire"
+              descriptionAr="التكلفة لكل توظيف"
+              icon={<Users className="h-6 w-6" />}
+              variant="primary"
+              trend={{ valueEn: "-SAR 1,200", valueAr: "-1,200 ريال", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.recruitmentCost.titleAr : kpiExplanations.recruitmentCost.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.recruitmentCost} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Gender Distribution"
+              titleAr="التوزيع الجنسي"
+              value="62% M / 38% F"
+              descriptionEn="Male/Female ratio"
+              descriptionAr="نسبة الذكور/الإناث"
+              icon={<Users className="h-6 w-6" />}
+              variant="secondary"
+              trend={{ valueEn: "+3% F", valueAr: "+3% إ", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.employeesByGender.titleAr : kpiExplanations.employeesByGender.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.employeesByGender} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Labor Cost/Employee"
+              titleAr="تكلفة العمالة/موظف"
+              value="SAR 12,890"
+              descriptionEn="Monthly cost per employee"
+              descriptionAr="التكلفة الشهرية لكل موظف"
+              icon={<ArrowUp className="h-6 w-6" />}
+              variant="accent"
+              trend={{ valueEn: "+2.5%", valueAr: "+2.5%", isPositive: false }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.costOfLabor.titleAr : kpiExplanations.costOfLabor.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.costOfLabor} />
+              </DialogContent>
+            </Dialog>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Activities - Takes 2 columns */}
