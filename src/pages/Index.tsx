@@ -7,7 +7,7 @@ import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, Help
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
@@ -82,10 +82,12 @@ const Index = () => {
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-              <div className="space-y-4">
-                <h3 className={`text-lg font-semibold ${isArabic ? 'text-right' : ''}`}>
+              <DialogHeader>
+                <DialogTitle className={`text-lg font-semibold ${isArabic ? 'text-right' : ''}`}>
                   {isArabic ? 'شرح مؤشرات الأداء الرئيسية' : 'Key Performance Indicators Explained'}
-                </h3>
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
                 <div className="grid gap-4">
                   {Object.entries(kpiExplanations).map(([key, explanation]) => (
                     <KPIExplanationCard key={key} explanation={explanation} />
@@ -119,6 +121,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.totalEmployees.titleAr : kpiExplanations.totalEmployees.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.totalEmployees} />
               </DialogContent>
             </Dialog>
@@ -146,6 +153,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.aiProcesses.titleAr : kpiExplanations.aiProcesses.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.aiProcesses} />
               </DialogContent>
             </Dialog>
@@ -173,6 +185,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.govIntegrations.titleAr : kpiExplanations.govIntegrations.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.govIntegrations} />
               </DialogContent>
             </Dialog>
@@ -200,6 +217,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.complianceScore.titleAr : kpiExplanations.complianceScore.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.complianceScore} />
               </DialogContent>
             </Dialog>
@@ -230,6 +252,11 @@ const Index = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
+              <DialogHeader>
+                <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? kpiExplanations.saudizationRate.titleAr : kpiExplanations.saudizationRate.titleEn}
+                </DialogTitle>
+              </DialogHeader>
               <KPIExplanationCard explanation={kpiExplanations.saudizationRate} />
             </DialogContent>
           </Dialog>
@@ -256,6 +283,11 @@ const Index = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
+              <DialogHeader>
+                <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? kpiExplanations.activeUsers.titleAr : kpiExplanations.activeUsers.titleEn}
+                </DialogTitle>
+              </DialogHeader>
               <KPIExplanationCard explanation={kpiExplanations.activeUsers} />
             </DialogContent>
           </Dialog>
@@ -282,6 +314,11 @@ const Index = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
+              <DialogHeader>
+                <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? kpiExplanations.documentsProcessed.titleAr : kpiExplanations.documentsProcessed.titleEn}
+                </DialogTitle>
+              </DialogHeader>
               <KPIExplanationCard explanation={kpiExplanations.documentsProcessed} />
             </DialogContent>
           </Dialog>
@@ -308,6 +345,11 @@ const Index = () => {
               </Button>
             </DialogTrigger>
             <DialogContent>
+              <DialogHeader>
+                <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? kpiExplanations.trainingHours.titleAr : kpiExplanations.trainingHours.titleEn}
+                </DialogTitle>
+              </DialogHeader>
               <KPIExplanationCard explanation={kpiExplanations.trainingHours} />
             </DialogContent>
           </Dialog>
@@ -344,6 +386,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.monthlyPayroll.titleAr : kpiExplanations.monthlyPayroll.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.monthlyPayroll} />
               </DialogContent>
             </Dialog>
@@ -371,6 +418,11 @@ const Index = () => {
                 </Button>
               </DialogTrigger>
               <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.attendanceRate.titleAr : kpiExplanations.attendanceRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.attendanceRate} />
               </DialogContent>
             </Dialog>
