@@ -42,9 +42,11 @@ import { Link } from "react-router-dom";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
 import { useState } from "react";
+import { useAIDashboard } from "@/hooks/useAIDashboard";
 
 const Index = () => {
   const { isArabic } = useSimpleLanguage();
+  const aiMetrics = useAIDashboard();
   const [selectedKPI, setSelectedKPI] = useState<string | null>(null);
   const [isPredictiveOpen, setIsPredictiveOpen] = useState(false);
   const [isComplianceOpen, setIsComplianceOpen] = useState(false);
@@ -149,7 +151,9 @@ const Index = () => {
                 <h3 className="text-sm font-medium text-teal-800 mb-1">
                   {isArabic ? 'دقة التنبؤ بالقوى العاملة' : 'Workforce Forecast Accuracy'}
                 </h3>
-                <p className="text-3xl font-bold text-teal-700 mb-2">87.3%</p>
+                <p className="text-3xl font-bold text-teal-700 mb-2">
+                  {aiMetrics.loading ? '...' : `${aiMetrics.workforceForecasting}%`}
+                </p>
                 <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
                     +2.1%
@@ -190,7 +194,9 @@ const Index = () => {
                 <h3 className="text-sm font-medium text-blue-900 mb-1">
                   {isArabic ? 'قوة خط المواهب' : 'Talent Pipeline Strength'}
                 </h3>
-                <p className="text-3xl font-bold text-blue-800 mb-2">142</p>
+                <p className="text-3xl font-bold text-blue-800 mb-2">
+                  {aiMetrics.loading ? '...' : aiMetrics.talentPipelineStrength}
+                </p>
                 <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
                     {isArabic ? 'عالي الإمكانات' : 'high-potential'}
@@ -231,7 +237,9 @@ const Index = () => {
                 <h3 className="text-sm font-medium text-red-800 mb-1">
                   {isArabic ? 'نقاط تجربة الموظف' : 'Employee Experience Score'}
                 </h3>
-                <p className="text-3xl font-bold text-red-600 mb-2">8.2/10</p>
+                <p className="text-3xl font-bold text-red-600 mb-2">
+                  {aiMetrics.loading ? '...' : `${(aiMetrics.employeeExperience / 10).toFixed(1)}/10`}
+                </p>
                 <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
                     +0.3
@@ -272,7 +280,9 @@ const Index = () => {
                 <h3 className="text-sm font-medium text-red-900 mb-1">
                   {isArabic ? 'مؤشر المخاطر التنبؤي' : 'Predictive Risk Index'}
                 </h3>
-                <p className="text-3xl font-bold text-red-700 mb-2">23</p>
+                <p className="text-3xl font-bold text-red-700 mb-2">
+                  {aiMetrics.loading ? '...' : aiMetrics.retentionRisk}
+                </p>
                 <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <span className="text-xs px-2 py-1 bg-red-200 text-red-800 rounded-full">
                     {isArabic ? 'عالي المخاطر' : 'high-risk'}
@@ -324,7 +334,9 @@ const Index = () => {
                   <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     {isArabic ? 'إجمالي الموظفين' : 'Total Employees'}
                   </h3>
-                  <p className="text-3xl font-bold text-foreground mb-2">2,847</p>
+                  <p className="text-3xl font-bold text-foreground mb-2">
+                    {aiMetrics.loading ? '...' : aiMetrics.totalEmployees.toLocaleString()}
+                  </p>
                   <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                     <span className="text-xs px-2 py-1 bg-status-success/10 text-status-success rounded-full">
                       +12%
@@ -363,7 +375,9 @@ const Index = () => {
                   <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     {isArabic ? 'عمليات الذكاء الاصطناعي' : 'AI Processes'}
                   </h3>
-                  <p className="text-3xl font-bold text-foreground mb-2">34</p>
+                  <p className="text-3xl font-bold text-foreground mb-2">
+                    {aiMetrics.loading ? '...' : aiMetrics.aiRecommendations}
+                  </p>
                   <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                     <span className="text-xs px-2 py-1 bg-status-success/10 text-status-success rounded-full">
                       +24
@@ -402,7 +416,9 @@ const Index = () => {
                   <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     {isArabic ? 'التكاملات الحكومية' : 'Gov Integrations'}
                   </h3>
-                  <p className="text-3xl font-bold text-foreground mb-2">46</p>
+                  <p className="text-3xl font-bold text-foreground mb-2">
+                    {aiMetrics.loading ? '...' : aiMetrics.syncEventsToday}
+                  </p>
                   <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                     <span className="text-xs px-2 py-1 bg-status-success/10 text-status-success rounded-full">
                       {isArabic ? 'مكتمل' : 'Complete'}
@@ -441,7 +457,9 @@ const Index = () => {
                   <h3 className="text-sm font-medium text-muted-foreground mb-1">
                     {isArabic ? 'نقاط الامتثال' : 'Compliance Score'}
                   </h3>
-                  <p className="text-3xl font-bold text-foreground mb-2">96.8%</p>
+                  <p className="text-3xl font-bold text-foreground mb-2">
+                    {aiMetrics.loading ? '...' : `${aiMetrics.complianceScore}%`}
+                  </p>
                   <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                     <span className="text-xs px-2 py-1 bg-status-success/10 text-status-success rounded-full">
                       +2.1%
