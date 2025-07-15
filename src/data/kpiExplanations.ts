@@ -252,5 +252,33 @@ export const kpiExplanations = {
     targetEn: "Should be optimized for productivity and competitiveness",
     targetAr: "يجب تحسينه للإنتاجية والقدرة التنافسية",
     category: 'financial' as const
+  },
+
+  womenHiringRate: {
+    titleEn: "Women Hiring Rate",
+    titleAr: "معدل توظيف النساء",
+    descriptionEn: "Percentage of women hired across all departments in the organization",
+    descriptionAr: "نسبة النساء المعينات في جميع الأقسام في المؤسسة",
+    formulaEn: "(Women Hired / Total New Hires) × 100",
+    formulaAr: "(النساء المعينات / إجمالي التعيينات الجديدة) × 100",
+    importanceEn: "Essential for promoting gender diversity, achieving Vision 2030 goals, and creating inclusive workplace culture. Helps track progress in women's workforce participation.",
+    importanceAr: "ضروري لتعزيز التنوع الجنسي وتحقيق أهداف رؤية 2030 وخلق ثقافة مكان عمل شاملة. يساعد في تتبع التقدم في مشاركة المرأة في القوى العاملة.",
+    targetEn: "Align with Vision 2030: 30% women workforce participation by 2030",
+    targetAr: "التماشي مع رؤية 2030: 30% مشاركة المرأة في القوى العاملة بحلول 2030",
+    category: 'strategic' as const
+  },
+
+  womenTurnoverRate: {
+    titleEn: "Women Turnover Rate by Department",
+    titleAr: "معدل دوران النساء حسب القسم",
+    descriptionEn: "Percentage of women employees who leave each department within a specific period",
+    descriptionAr: "نسبة الموظفات اللاتي يتركن كل قسم خلال فترة محددة",
+    formulaEn: "(Women Who Left Department / Average Women in Department) × 100",
+    formulaAr: "(النساء اللاتي تركن القسم / متوسط النساء في القسم) × 100",
+    importanceEn: "Identifies departments with retention challenges for women, helps improve work environment, career development opportunities, and work-life balance policies.",
+    importanceAr: "يحدد الأقسام التي تواجه تحديات في الاحتفاظ بالنساء، ويساعد في تحسين بيئة العمل وفرص التطوير المهني وسياسات التوازن بين العمل والحياة.",
+    targetEn: "Lower than overall turnover rate, ideally below 10% annually",
+    targetAr: "أقل من معدل الدوران الإجمالي، ويفضل أقل من 10% سنوياً",
+    category: 'strategic' as const
   }
 };

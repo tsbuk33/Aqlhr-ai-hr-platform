@@ -3,7 +3,7 @@ import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
-import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle } from "lucide-react";
+import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -402,7 +402,7 @@ const Index = () => {
               value="8.2%"
               descriptionEn="Employee turnover this year"
               descriptionAr="دوران الموظفين هذا العام"
-              icon={<ArrowUp className="h-6 w-6 transform rotate-180" />}
+              icon={<ArrowDownUp className="h-6 w-6" />}
               variant="warning"
               trend={{ valueEn: "-1.3%", valueAr: "-1.3%", isPositive: true }}
             />
@@ -423,6 +423,70 @@ const Index = () => {
                   </DialogTitle>
                 </DialogHeader>
                 <KPIExplanationCard explanation={kpiExplanations.turnoverRate} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Women Hiring Rate"
+              titleAr="معدل توظيف النساء"
+              value="34.2%"
+              descriptionEn="Female hires across departments"
+              descriptionAr="التعيينات النسائية عبر الأقسام"
+              icon={<UserPlus className="h-6 w-6" />}
+              variant="accent"
+              trend={{ valueEn: "+4.8%", valueAr: "+4.8%", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.womenHiringRate.titleAr : kpiExplanations.womenHiringRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.womenHiringRate} />
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <div className="relative group">
+            <SimpleMetricCard
+              titleEn="Women Turnover by Dept"
+              titleAr="دوران النساء حسب القسم"
+              value="6.1%"
+              descriptionEn="Average across all departments"
+              descriptionAr="المتوسط عبر جميع الأقسام"
+              icon={<TrendingDown className="h-6 w-6" />}
+              variant="success"
+              trend={{ valueEn: "-2.3%", valueAr: "-2.3%", isPositive: true }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 opacity-80 hover:opacity-100 transition-opacity"
+                >
+                  <HelpCircle className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                    {isArabic ? kpiExplanations.womenTurnoverRate.titleAr : kpiExplanations.womenTurnoverRate.titleEn}
+                  </DialogTitle>
+                </DialogHeader>
+                <KPIExplanationCard explanation={kpiExplanations.womenTurnoverRate} />
               </DialogContent>
             </Dialog>
           </div>
