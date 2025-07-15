@@ -133,6 +133,8 @@ export const SalarySearchEngine = () => {
     
     // Senior Management
     { value: 'project_manager', label: language === 'ar' ? 'مدير مشروع' : 'Project Manager', department: 'project_management', level: 'Senior' },
+    { value: 'senior_project_manager', label: language === 'ar' ? 'مدير مشروع أول' : 'Senior Project Manager', department: 'project_management', level: 'Senior' },
+    { value: 'construction_manager', label: language === 'ar' ? 'مدير إنشاءات' : 'Construction Manager', department: 'construction_management', level: 'Senior' },
     { value: 'operations_manager', label: language === 'ar' ? 'مدير العمليات' : 'Operations Manager', department: 'operations', level: 'Senior' },
     { value: 'finance_manager', label: language === 'ar' ? 'مدير مالي' : 'Finance Manager', department: 'finance', level: 'Senior' },
     { value: 'hr_manager', label: language === 'ar' ? 'مدير موارد بشرية' : 'HR Manager', department: 'hr', level: 'Senior' },
@@ -140,12 +142,97 @@ export const SalarySearchEngine = () => {
     { value: 'sales_manager', label: language === 'ar' ? 'مدير مبيعات' : 'Sales Manager', department: 'sales', level: 'Senior' },
     { value: 'marketing_manager', label: language === 'ar' ? 'مدير تسويق' : 'Marketing Manager', department: 'marketing', level: 'Senior' },
     
-    // Engineering Positions
+    // Engineering Positions (All Types)
     { value: 'civil_engineer', label: language === 'ar' ? 'مهندس مدني' : 'Civil Engineer', department: 'civil_engineering', level: 'Mid' },
+    { value: 'senior_civil_engineer', label: language === 'ar' ? 'مهندس مدني أول' : 'Senior Civil Engineer', department: 'civil_engineering', level: 'Senior' },
+    { value: 'structural_engineer', label: language === 'ar' ? 'مهندس إنشائي' : 'Structural Engineer', department: 'structural_engineering', level: 'Mid' },
     { value: 'mechanical_engineer', label: language === 'ar' ? 'مهندس ميكانيكي' : 'Mechanical Engineer', department: 'mechanical_engineering', level: 'Mid' },
     { value: 'electrical_engineer', label: language === 'ar' ? 'مهندس كهربائي' : 'Electrical Engineer', department: 'electrical_engineering', level: 'Mid' },
+    { value: 'chemical_engineer', label: language === 'ar' ? 'مهندس كيميائي' : 'Chemical Engineer', department: 'chemical_engineering', level: 'Mid' },
+    { value: 'petroleum_engineer', label: language === 'ar' ? 'مهندس بترول' : 'Petroleum Engineer', department: 'petroleum_engineering', level: 'Mid' },
+    { value: 'industrial_engineer', label: language === 'ar' ? 'مهندس صناعي' : 'Industrial Engineer', department: 'industrial_engineering', level: 'Mid' },
+    { value: 'environmental_engineer', label: language === 'ar' ? 'مهندس بيئي' : 'Environmental Engineer', department: 'environmental_engineering', level: 'Mid' },
+    { value: 'geotechnical_engineer', label: language === 'ar' ? 'مهندس جيوتقني' : 'Geotechnical Engineer', department: 'geotechnical_engineering', level: 'Mid' },
+    { value: 'process_engineer', label: language === 'ar' ? 'مهندس عمليات' : 'Process Engineer', department: 'process_engineering', level: 'Mid' },
+    { value: 'project_engineer', label: language === 'ar' ? 'مهندس مشاريع' : 'Project Engineer', department: 'project_management', level: 'Mid' },
+    { value: 'design_engineer', label: language === 'ar' ? 'مهندس تصميم' : 'Design Engineer', department: 'design_engineering', level: 'Mid' },
+    { value: 'qa_engineer', label: language === 'ar' ? 'مهندس ضمان جودة' : 'QA Engineer', department: 'quality_assurance', level: 'Mid' },
+    { value: 'qc_engineer', label: language === 'ar' ? 'مهندس مراقبة جودة' : 'QC Engineer', department: 'quality_control', level: 'Mid' },
+    { value: 'hse_engineer', label: language === 'ar' ? 'مهندس سلامة وصحة مهنية وبيئة' : 'HSE Engineer', department: 'hse', level: 'Mid' },
+    { value: 'safety_engineer', label: language === 'ar' ? 'مهندس سلامة' : 'Safety Engineer', department: 'safety', level: 'Mid' },
     { value: 'software_engineer', label: language === 'ar' ? 'مهندس برمجيات' : 'Software Engineer', department: 'software_development', level: 'Mid' },
-    { value: 'senior_engineer', label: language === 'ar' ? 'مهندس أول' : 'Senior Engineer', department: 'civil_engineering', level: 'Senior' },
+    { value: 'network_engineer', label: language === 'ar' ? 'مهندس شبكات' : 'Network Engineer', department: 'networking', level: 'Mid' },
+    { value: 'systems_engineer', label: language === 'ar' ? 'مهندس أنظمة' : 'Systems Engineer', department: 'systems_engineering', level: 'Mid' },
+    
+    // Construction & Field Positions
+    { value: 'general_foreman', label: language === 'ar' ? 'وكيل عام' : 'General Foreman', department: 'construction_management', level: 'Senior' },
+    { value: 'foreman', label: language === 'ar' ? 'وكيل' : 'Foreman', department: 'construction_management', level: 'Mid' },
+    { value: 'site_supervisor', label: language === 'ar' ? 'مشرف موقع' : 'Site Supervisor', department: 'site_supervision', level: 'Mid' },
+    { value: 'construction_supervisor', label: language === 'ar' ? 'مشرف إنشاءات' : 'Construction Supervisor', department: 'construction_management', level: 'Mid' },
+    { value: 'site_engineer', label: language === 'ar' ? 'مهندس موقع' : 'Site Engineer', department: 'site_supervision', level: 'Mid' },
+    { value: 'resident_engineer', label: language === 'ar' ? 'مهندس مقيم' : 'Resident Engineer', department: 'site_supervision', level: 'Senior' },
+    
+    // Skilled Trades & Craftsmen
+    { value: 'mason', label: language === 'ar' ? 'بناء' : 'Mason', department: 'masonry', level: 'Junior' },
+    { value: 'senior_mason', label: language === 'ar' ? 'بناء أول' : 'Senior Mason', department: 'masonry', level: 'Mid' },
+    { value: 'steel_fixer', label: language === 'ar' ? 'حداد تسليح' : 'Steel Fixer', department: 'steel_fixing', level: 'Junior' },
+    { value: 'senior_steel_fixer', label: language === 'ar' ? 'حداد تسليح أول' : 'Senior Steel Fixer', department: 'steel_fixing', level: 'Mid' },
+    { value: 'carpenter', label: language === 'ar' ? 'نجار' : 'Carpenter', department: 'carpentry', level: 'Junior' },
+    { value: 'senior_carpenter', label: language === 'ar' ? 'نجار أول' : 'Senior Carpenter', department: 'carpentry', level: 'Mid' },
+    { value: 'plumber', label: language === 'ar' ? 'سباك' : 'Plumber', department: 'plumbing', level: 'Junior' },
+    { value: 'senior_plumber', label: language === 'ar' ? 'سباك أول' : 'Senior Plumber', department: 'plumbing', level: 'Mid' },
+    { value: 'electrician', label: language === 'ar' ? 'كهربائي' : 'Electrician', department: 'electrical_work', level: 'Junior' },
+    { value: 'senior_electrician', label: language === 'ar' ? 'كهربائي أول' : 'Senior Electrician', department: 'electrical_work', level: 'Mid' },
+    { value: 'welder', label: language === 'ar' ? 'لحام' : 'Welder', department: 'welding', level: 'Junior' },
+    { value: 'senior_welder', label: language === 'ar' ? 'لحام أول' : 'Senior Welder', department: 'welding', level: 'Mid' },
+    { value: 'painter', label: language === 'ar' ? 'دهان' : 'Painter', department: 'painting', level: 'Junior' },
+    { value: 'tiler', label: language === 'ar' ? 'بلاط' : 'Tiler', department: 'tiling', level: 'Junior' },
+    { value: 'plasterer', label: language === 'ar' ? 'قصار' : 'Plasterer', department: 'plastering', level: 'Junior' },
+    { value: 'insulation_worker', label: language === 'ar' ? 'عامل عزل' : 'Insulation Worker', department: 'insulation', level: 'Junior' },
+    { value: 'glass_installer', label: language === 'ar' ? 'مركب زجاج' : 'Glass Installer', department: 'glazing', level: 'Junior' },
+    { value: 'aluminum_worker', label: language === 'ar' ? 'عامل ألمنيوم' : 'Aluminum Worker', department: 'aluminum_work', level: 'Junior' },
+    
+    // Heavy Equipment & Operations
+    { value: 'crane_operator', label: language === 'ar' ? 'مشغل رافعة' : 'Crane Operator', department: 'heavy_equipment', level: 'Mid' },
+    { value: 'excavator_operator', label: language === 'ar' ? 'مشغل حفارة' : 'Excavator Operator', department: 'heavy_equipment', level: 'Mid' },
+    { value: 'bulldozer_operator', label: language === 'ar' ? 'مشغل جرافة' : 'Bulldozer Operator', department: 'heavy_equipment', level: 'Mid' },
+    { value: 'loader_operator', label: language === 'ar' ? 'مشغل محملة' : 'Loader Operator', department: 'heavy_equipment', level: 'Mid' },
+    { value: 'grader_operator', label: language === 'ar' ? 'مشغل سحالة' : 'Grader Operator', department: 'heavy_equipment', level: 'Mid' },
+    { value: 'truck_driver', label: language === 'ar' ? 'سائق شاحنة' : 'Truck Driver', department: 'transportation', level: 'Junior' },
+    { value: 'concrete_pump_operator', label: language === 'ar' ? 'مشغل مضخة خرسانة' : 'Concrete Pump Operator', department: 'concrete_operations', level: 'Mid' },
+    { value: 'concrete_mixer_driver', label: language === 'ar' ? 'سائق خلاطة خرسانة' : 'Concrete Mixer Driver', department: 'concrete_operations', level: 'Junior' },
+    
+    // Road Construction & Asphalt
+    { value: 'asphalt_operator', label: language === 'ar' ? 'مشغل أسفلت' : 'Asphalt Operator', department: 'asphalt_operations', level: 'Mid' },
+    { value: 'asphalt_labor', label: language === 'ar' ? 'عامل أسفلت' : 'Asphalt Labor', department: 'asphalt_operations', level: 'Junior' },
+    { value: 'road_construction_worker', label: language === 'ar' ? 'عامل إنشاء طرق' : 'Road Construction Worker', department: 'road_construction', level: 'Junior' },
+    { value: 'paver_operator', label: language === 'ar' ? 'مشغل فرادة' : 'Paver Operator', department: 'asphalt_operations', level: 'Mid' },
+    { value: 'roller_operator', label: language === 'ar' ? 'مشغل دحل' : 'Roller Operator', department: 'asphalt_operations', level: 'Mid' },
+    
+    // Quality Control & Testing
+    { value: 'qaqc_inspector', label: language === 'ar' ? 'مفتش ضمان وضبط الجودة' : 'QA/QC Inspector', department: 'qaqc', level: 'Mid' },
+    { value: 'quality_inspector', label: language === 'ar' ? 'مفتش جودة' : 'Quality Inspector', department: 'quality_control', level: 'Mid' },
+    { value: 'materials_tester', label: language === 'ar' ? 'فاحص مواد' : 'Materials Tester', department: 'materials_testing', level: 'Mid' },
+    { value: 'concrete_tester', label: language === 'ar' ? 'فاحص خرسانة' : 'Concrete Tester', department: 'materials_testing', level: 'Mid' },
+    { value: 'soil_tester', label: language === 'ar' ? 'فاحص تربة' : 'Soil Tester', department: 'materials_testing', level: 'Mid' },
+    { value: 'asphalt_tester', label: language === 'ar' ? 'فاحص أسفلت' : 'Asphalt Tester', department: 'materials_testing', level: 'Mid' },
+    { value: 'ndt_technician', label: language === 'ar' ? 'فني اختبارات غير مدمرة' : 'NDT Technician', department: 'materials_testing', level: 'Mid' },
+    
+    // Health, Safety & Environment (HSE)
+    { value: 'hse_manager', label: language === 'ar' ? 'مدير السلامة والصحة المهنية والبيئة' : 'HSE Manager', department: 'hse', level: 'Senior' },
+    { value: 'hse_supervisor', label: language === 'ar' ? 'مشرف السلامة والصحة المهنية والبيئة' : 'HSE Supervisor', department: 'hse', level: 'Mid' },
+    { value: 'safety_officer', label: language === 'ar' ? 'ضابط سلامة' : 'Safety Officer', department: 'safety', level: 'Mid' },
+    { value: 'safety_inspector', label: language === 'ar' ? 'مفتش سلامة' : 'Safety Inspector', department: 'safety', level: 'Mid' },
+    { value: 'environmental_specialist', label: language === 'ar' ? 'أخصائي بيئي' : 'Environmental Specialist', department: 'environmental', level: 'Mid' },
+    { value: 'industrial_hygienist', label: language === 'ar' ? 'أخصائي صحة مهنية' : 'Industrial Hygienist', department: 'occupational_health', level: 'Mid' },
+    { value: 'fire_safety_officer', label: language === 'ar' ? 'ضابط أمان حريق' : 'Fire Safety Officer', department: 'fire_safety', level: 'Mid' },
+    
+    // Surveying & Mapping
+    { value: 'land_surveyor', label: language === 'ar' ? 'مساح أراضي' : 'Land Surveyor', department: 'surveying', level: 'Mid' },
+    { value: 'quantity_surveyor', label: language === 'ar' ? 'مساح كميات' : 'Quantity Surveyor', department: 'quantity_surveying', level: 'Mid' },
+    { value: 'senior_quantity_surveyor', label: language === 'ar' ? 'مساح كميات أول' : 'Senior Quantity Surveyor', department: 'quantity_surveying', level: 'Senior' },
+    { value: 'survey_technician', label: language === 'ar' ? 'فني مساحة' : 'Survey Technician', department: 'surveying', level: 'Junior' },
+    { value: 'gis_specialist', label: language === 'ar' ? 'أخصائي نظم معلومات جغرافية' : 'GIS Specialist', department: 'gis_mapping', level: 'Mid' },
     
     // IT & Technology
     { value: 'software_developer', label: language === 'ar' ? 'مطور برمجيات' : 'Software Developer', department: 'software_development', level: 'Mid' },
@@ -153,33 +240,88 @@ export const SalarySearchEngine = () => {
     { value: 'data_scientist', label: language === 'ar' ? 'عالم بيانات' : 'Data Scientist', department: 'data_analytics', level: 'Senior' },
     { value: 'cybersecurity_specialist', label: language === 'ar' ? 'أخصائي أمن معلومات' : 'Cybersecurity Specialist', department: 'cybersecurity', level: 'Senior' },
     { value: 'business_analyst', label: language === 'ar' ? 'محلل أعمال' : 'Business Analyst', department: 'it', level: 'Mid' },
+    { value: 'database_administrator', label: language === 'ar' ? 'مدير قواعد بيانات' : 'Database Administrator', department: 'it', level: 'Mid' },
+    { value: 'it_support_specialist', label: language === 'ar' ? 'أخصائي دعم تقني' : 'IT Support Specialist', department: 'tech_support', level: 'Junior' },
     
     // Finance & Accounting
     { value: 'financial_analyst', label: language === 'ar' ? 'محلل مالي' : 'Financial Analyst', department: 'finance', level: 'Mid' },
     { value: 'accountant', label: language === 'ar' ? 'محاسب' : 'Accountant', department: 'accounting', level: 'Mid' },
-    { value: 'auditor', label: language === 'ar' ? 'مدقق' : 'Auditor', department: 'internal_audit', level: 'Mid' },
     { value: 'senior_accountant', label: language === 'ar' ? 'محاسب أول' : 'Senior Accountant', department: 'accounting', level: 'Senior' },
+    { value: 'cost_accountant', label: language === 'ar' ? 'محاسب تكاليف' : 'Cost Accountant', department: 'accounting', level: 'Mid' },
+    { value: 'auditor', label: language === 'ar' ? 'مدقق' : 'Auditor', department: 'internal_audit', level: 'Mid' },
+    { value: 'financial_controller', label: language === 'ar' ? 'مراقب مالي' : 'Financial Controller', department: 'finance', level: 'Senior' },
+    { value: 'treasury_specialist', label: language === 'ar' ? 'أخصائي خزينة' : 'Treasury Specialist', department: 'treasury', level: 'Mid' },
+    
+    // Procurement & Supply Chain
+    { value: 'procurement_manager', label: language === 'ar' ? 'مدير مشتريات' : 'Procurement Manager', department: 'procurement', level: 'Senior' },
+    { value: 'procurement_specialist', label: language === 'ar' ? 'أخصائي مشتريات' : 'Procurement Specialist', department: 'procurement', level: 'Mid' },
+    { value: 'buyer', label: language === 'ar' ? 'مشتري' : 'Buyer', department: 'procurement', level: 'Junior' },
+    { value: 'supply_chain_analyst', label: language === 'ar' ? 'محلل سلسلة توريد' : 'Supply Chain Analyst', department: 'supply_chain', level: 'Mid' },
+    { value: 'logistics_coordinator', label: language === 'ar' ? 'منسق لوجستيات' : 'Logistics Coordinator', department: 'logistics', level: 'Mid' },
+    { value: 'warehouse_supervisor', label: language === 'ar' ? 'مشرف مستودع' : 'Warehouse Supervisor', department: 'warehouse', level: 'Mid' },
+    { value: 'warehouse_manager', label: language === 'ar' ? 'مدير المستودع' : 'Warehouse Manager', department: 'warehouse', level: 'Senior' },
+    { value: 'inventory_controller', label: language === 'ar' ? 'مراقب مخزون' : 'Inventory Controller', department: 'warehouse', level: 'Mid' },
     
     // Sales & Marketing
     { value: 'sales_representative', label: language === 'ar' ? 'مندوب مبيعات' : 'Sales Representative', department: 'sales', level: 'Junior' },
     { value: 'account_manager', label: language === 'ar' ? 'مدير حسابات' : 'Account Manager', department: 'sales', level: 'Mid' },
+    { value: 'business_development_manager', label: language === 'ar' ? 'مدير تطوير أعمال' : 'Business Development Manager', department: 'business_development', level: 'Senior' },
     { value: 'marketing_specialist', label: language === 'ar' ? 'أخصائي تسويق' : 'Marketing Specialist', department: 'marketing', level: 'Mid' },
     { value: 'digital_marketing_specialist', label: language === 'ar' ? 'أخصائي تسويق رقمي' : 'Digital Marketing Specialist', department: 'digital_marketing', level: 'Mid' },
+    { value: 'proposals_manager', label: language === 'ar' ? 'مدير عطاءات' : 'Proposals Manager', department: 'proposals', level: 'Senior' },
+    { value: 'bid_manager', label: language === 'ar' ? 'مدير مناقصات' : 'Bid Manager', department: 'proposals', level: 'Senior' },
     
     // Human Resources
     { value: 'hr_specialist', label: language === 'ar' ? 'أخصائي موارد بشرية' : 'HR Specialist', department: 'hr', level: 'Mid' },
     { value: 'recruitment_specialist', label: language === 'ar' ? 'أخصائي توظيف' : 'Recruitment Specialist', department: 'hr', level: 'Mid' },
     { value: 'training_specialist', label: language === 'ar' ? 'أخصائي تدريب' : 'Training Specialist', department: 'training_development', level: 'Mid' },
+    { value: 'payroll_specialist', label: language === 'ar' ? 'أخصائي رواتب' : 'Payroll Specialist', department: 'hr', level: 'Mid' },
+    { value: 'hr_business_partner', label: language === 'ar' ? 'شريك أعمال موارد بشرية' : 'HR Business Partner', department: 'hr', level: 'Senior' },
     
-    // Healthcare
+    // Legal & Compliance
+    { value: 'legal_counsel', label: language === 'ar' ? 'مستشار قانوني' : 'Legal Counsel', department: 'legal', level: 'Senior' },
+    { value: 'contracts_manager', label: language === 'ar' ? 'مدير عقود' : 'Contracts Manager', department: 'contracts', level: 'Senior' },
+    { value: 'compliance_officer', label: language === 'ar' ? 'ضابط امتثال' : 'Compliance Officer', department: 'compliance', level: 'Mid' },
+    { value: 'legal_assistant', label: language === 'ar' ? 'مساعد قانوني' : 'Legal Assistant', department: 'legal', level: 'Junior' },
+    
+    // Healthcare (for companies with medical facilities)
     { value: 'doctor', label: language === 'ar' ? 'طبيب' : 'Doctor', department: 'medical_services', level: 'Senior' },
     { value: 'nurse', label: language === 'ar' ? 'ممرض/ممرضة' : 'Nurse', department: 'nursing', level: 'Mid' },
+    { value: 'paramedic', label: language === 'ar' ? 'مسعف' : 'Paramedic', department: 'emergency_medical', level: 'Mid' },
     { value: 'pharmacist', label: language === 'ar' ? 'صيدلاني' : 'Pharmacist', department: 'pharmacy', level: 'Mid' },
+    { value: 'medical_technician', label: language === 'ar' ? 'فني طبي' : 'Medical Technician', department: 'medical_services', level: 'Mid' },
     
-    // Operations & Logistics
-    { value: 'operations_specialist', label: language === 'ar' ? 'أخصائي عمليات' : 'Operations Specialist', department: 'operations', level: 'Mid' },
-    { value: 'logistics_specialist', label: language === 'ar' ? 'أخصائي لوجستيات' : 'Logistics Specialist', department: 'logistics', level: 'Mid' },
-    { value: 'warehouse_manager', label: language === 'ar' ? 'مدير المستودع' : 'Warehouse Manager', department: 'warehouse', level: 'Senior' }
+    // Security & Facilities
+    { value: 'security_manager', label: language === 'ar' ? 'مدير أمن' : 'Security Manager', department: 'security', level: 'Senior' },
+    { value: 'security_guard', label: language === 'ar' ? 'حارس أمن' : 'Security Guard', department: 'security', level: 'Junior' },
+    { value: 'facilities_manager', label: language === 'ar' ? 'مدير مرافق' : 'Facilities Manager', department: 'facilities', level: 'Senior' },
+    { value: 'maintenance_supervisor', label: language === 'ar' ? 'مشرف صيانة' : 'Maintenance Supervisor', department: 'maintenance', level: 'Mid' },
+    { value: 'maintenance_technician', label: language === 'ar' ? 'فني صيانة' : 'Maintenance Technician', department: 'maintenance', level: 'Junior' },
+    { value: 'hvac_technician', label: language === 'ar' ? 'فني تكييف' : 'HVAC Technician', department: 'hvac', level: 'Junior' },
+    { value: 'janitor', label: language === 'ar' ? 'عامل نظافة' : 'Janitor', department: 'cleaning', level: 'Junior' },
+    { value: 'landscaper', label: language === 'ar' ? 'عامل تنسيق حدائق' : 'Landscaper', department: 'landscaping', level: 'Junior' },
+    
+    // General Labor
+    { value: 'general_laborer', label: language === 'ar' ? 'عامل عام' : 'General Laborer', department: 'general_labor', level: 'Junior' },
+    { value: 'construction_laborer', label: language === 'ar' ? 'عامل إنشاءات' : 'Construction Laborer', department: 'construction_labor', level: 'Junior' },
+    { value: 'helper', label: language === 'ar' ? 'مساعد' : 'Helper', department: 'general_labor', level: 'Entry' },
+    { value: 'watchman', label: language === 'ar' ? 'حارس' : 'Watchman', department: 'security', level: 'Junior' },
+    
+    // Administrative Support
+    { value: 'administrative_assistant', label: language === 'ar' ? 'مساعد إداري' : 'Administrative Assistant', department: 'admin', level: 'Junior' },
+    { value: 'executive_assistant', label: language === 'ar' ? 'مساعد تنفيذي' : 'Executive Assistant', department: 'admin', level: 'Mid' },
+    { value: 'secretary', label: language === 'ar' ? 'سكرتير' : 'Secretary', department: 'admin', level: 'Junior' },
+    { value: 'receptionist', label: language === 'ar' ? 'موظف استقبال' : 'Receptionist', department: 'admin', level: 'Junior' },
+    { value: 'data_entry_clerk', label: language === 'ar' ? 'موظف إدخال بيانات' : 'Data Entry Clerk', department: 'admin', level: 'Junior' },
+    { value: 'filing_clerk', label: language === 'ar' ? 'موظف أرشيف' : 'Filing Clerk', department: 'admin', level: 'Junior' },
+    
+    // Specialized Trades
+    { value: 'scaffolder', label: language === 'ar' ? 'مركب سقالات' : 'Scaffolder', department: 'scaffolding', level: 'Junior' },
+    { value: 'rigger', label: language === 'ar' ? 'مجهز رفع' : 'Rigger', department: 'rigging', level: 'Mid' },
+    { value: 'blaster', label: language === 'ar' ? 'متفجرات' : 'Blaster', department: 'blasting', level: 'Mid' },
+    { value: 'demolition_worker', label: language === 'ar' ? 'عامل هدم' : 'Demolition Worker', department: 'demolition', level: 'Junior' },
+    { value: 'cable_technician', label: language === 'ar' ? 'فني كوابل' : 'Cable Technician', department: 'electrical_work', level: 'Mid' },
+    { value: 'fiber_optic_technician', label: language === 'ar' ? 'فني ألياف بصرية' : 'Fiber Optic Technician', department: 'telecommunications', level: 'Mid' }
   ];
 
   const departmentsData = [
@@ -193,10 +335,14 @@ export const SalarySearchEngine = () => {
     { value: 'hr', label: language === 'ar' ? 'الموارد البشرية' : 'Human Resources' },
     { value: 'finance', label: language === 'ar' ? 'المالية' : 'Finance' },
     { value: 'accounting', label: language === 'ar' ? 'المحاسبة' : 'Accounting' },
+    { value: 'treasury', label: language === 'ar' ? 'الخزينة' : 'Treasury' },
     { value: 'legal', label: language === 'ar' ? 'الشؤون القانونية' : 'Legal Affairs' },
+    { value: 'contracts', label: language === 'ar' ? 'العقود' : 'Contracts' },
     { value: 'admin', label: language === 'ar' ? 'الشؤون الإدارية' : 'Administration' },
     { value: 'procurement', label: language === 'ar' ? 'المشتريات' : 'Procurement' },
     { value: 'supply_chain', label: language === 'ar' ? 'سلسلة التوريد' : 'Supply Chain' },
+    { value: 'logistics', label: language === 'ar' ? 'اللوجستيات' : 'Logistics' },
+    { value: 'warehouse', label: language === 'ar' ? 'المستودعات' : 'Warehouse' },
     { value: 'internal_audit', label: language === 'ar' ? 'التدقيق الداخلي' : 'Internal Audit' },
     { value: 'compliance', label: language === 'ar' ? 'الامتثال' : 'Compliance' },
     { value: 'risk_management', label: language === 'ar' ? 'إدارة المخاطر' : 'Risk Management' },
@@ -208,80 +354,112 @@ export const SalarySearchEngine = () => {
     { value: 'data_analytics', label: language === 'ar' ? 'تحليل البيانات' : 'Data Analytics' },
     { value: 'digital_transformation', label: language === 'ar' ? 'التحول الرقمي' : 'Digital Transformation' },
     { value: 'tech_support', label: language === 'ar' ? 'الدعم التقني' : 'Technical Support' },
+    { value: 'networking', label: language === 'ar' ? 'الشبكات' : 'Networking' },
+    { value: 'systems_engineering', label: language === 'ar' ? 'هندسة الأنظمة' : 'Systems Engineering' },
+    { value: 'telecommunications', label: language === 'ar' ? 'الاتصالات' : 'Telecommunications' },
     
     // Construction & Contracting
     { value: 'project_management', label: language === 'ar' ? 'إدارة المشاريع' : 'Project Management' },
     { value: 'construction_management', label: language === 'ar' ? 'إدارة الإنشاءات' : 'Construction Management' },
+    { value: 'site_supervision', label: language === 'ar' ? 'الإشراف الميداني' : 'Site Supervision' },
+    { value: 'construction_labor', label: language === 'ar' ? 'عمال الإنشاءات' : 'Construction Labor' },
+    { value: 'general_labor', label: language === 'ar' ? 'العمال العامة' : 'General Labor' },
+    
+    // Engineering Departments
     { value: 'civil_engineering', label: language === 'ar' ? 'الهندسة المدنية' : 'Civil Engineering' },
+    { value: 'structural_engineering', label: language === 'ar' ? 'الهندسة الإنشائية' : 'Structural Engineering' },
     { value: 'mechanical_engineering', label: language === 'ar' ? 'الهندسة الميكانيكية' : 'Mechanical Engineering' },
     { value: 'electrical_engineering', label: language === 'ar' ? 'الهندسة الكهربائية' : 'Electrical Engineering' },
+    { value: 'chemical_engineering', label: language === 'ar' ? 'الهندسة الكيميائية' : 'Chemical Engineering' },
+    { value: 'petroleum_engineering', label: language === 'ar' ? 'هندسة البترول' : 'Petroleum Engineering' },
+    { value: 'industrial_engineering', label: language === 'ar' ? 'الهندسة الصناعية' : 'Industrial Engineering' },
+    { value: 'environmental_engineering', label: language === 'ar' ? 'الهندسة البيئية' : 'Environmental Engineering' },
+    { value: 'geotechnical_engineering', label: language === 'ar' ? 'الهندسة الجيوتقنية' : 'Geotechnical Engineering' },
+    { value: 'process_engineering', label: language === 'ar' ? 'هندسة العمليات' : 'Process Engineering' },
+    { value: 'design_engineering', label: language === 'ar' ? 'هندسة التصميم' : 'Design Engineering' },
     { value: 'architectural_design', label: language === 'ar' ? 'التصميم المعماري' : 'Architectural Design' },
-    { value: 'structural_engineering', label: language === 'ar' ? 'الهندسة الإنشائية' : 'Structural Engineering' },
-    { value: 'site_supervision', label: language === 'ar' ? 'الإشراف الميداني' : 'Site Supervision' },
-    { value: 'quantity_surveying', label: language === 'ar' ? 'المساحة الكمية' : 'Quantity Surveying' },
-    { value: 'safety_engineering', label: language === 'ar' ? 'هندسة السلامة' : 'Safety Engineering' },
+    
+    // Skilled Trades & Crafts
+    { value: 'masonry', label: language === 'ar' ? 'البناء' : 'Masonry' },
+    { value: 'steel_fixing', label: language === 'ar' ? 'حدادة التسليح' : 'Steel Fixing' },
+    { value: 'carpentry', label: language === 'ar' ? 'النجارة' : 'Carpentry' },
+    { value: 'plumbing', label: language === 'ar' ? 'السباكة' : 'Plumbing' },
+    { value: 'electrical_work', label: language === 'ar' ? 'الأعمال الكهربائية' : 'Electrical Work' },
+    { value: 'welding', label: language === 'ar' ? 'اللحام' : 'Welding' },
+    { value: 'painting', label: language === 'ar' ? 'الدهان' : 'Painting' },
+    { value: 'tiling', label: language === 'ar' ? 'البلاط' : 'Tiling' },
+    { value: 'plastering', label: language === 'ar' ? 'القصارة' : 'Plastering' },
+    { value: 'insulation', label: language === 'ar' ? 'العزل' : 'Insulation' },
+    { value: 'glazing', label: language === 'ar' ? 'الزجاج' : 'Glazing' },
+    { value: 'aluminum_work', label: language === 'ar' ? 'أعمال الألمنيوم' : 'Aluminum Work' },
+    { value: 'scaffolding', label: language === 'ar' ? 'السقالات' : 'Scaffolding' },
+    { value: 'rigging', label: language === 'ar' ? 'تجهيز الرفع' : 'Rigging' },
+    { value: 'blasting', label: language === 'ar' ? 'المتفجرات' : 'Blasting' },
+    { value: 'demolition', label: language === 'ar' ? 'الهدم' : 'Demolition' },
+    
+    // Heavy Equipment & Transportation
+    { value: 'heavy_equipment', label: language === 'ar' ? 'المعدات الثقيلة' : 'Heavy Equipment' },
+    { value: 'transportation', label: language === 'ar' ? 'النقل' : 'Transportation' },
+    { value: 'concrete_operations', label: language === 'ar' ? 'عمليات الخرسانة' : 'Concrete Operations' },
+    
+    // Road Construction & Asphalt
+    { value: 'road_construction', label: language === 'ar' ? 'إنشاء الطرق' : 'Road Construction' },
+    { value: 'asphalt_operations', label: language === 'ar' ? 'عمليات الأسفلت' : 'Asphalt Operations' },
+    
+    // Quality Control & Testing
+    { value: 'qaqc', label: language === 'ar' ? 'ضمان ومراقبة الجودة' : 'Quality Assurance & Quality Control (QA/QC)' },
     { value: 'quality_control', label: language === 'ar' ? 'مراقبة الجودة' : 'Quality Control' },
+    { value: 'quality_assurance', label: language === 'ar' ? 'ضمان الجودة' : 'Quality Assurance' },
     { value: 'materials_testing', label: language === 'ar' ? 'اختبار المواد' : 'Materials Testing' },
     
+    // Health, Safety & Environment
+    { value: 'hse', label: language === 'ar' ? 'السلامة والصحة المهنية والبيئة' : 'Health, Safety & Environment (HSE)' },
+    { value: 'safety', label: language === 'ar' ? 'السلامة' : 'Safety' },
+    { value: 'environmental', label: language === 'ar' ? 'البيئة' : 'Environmental' },
+    { value: 'occupational_health', label: language === 'ar' ? 'الصحة المهنية' : 'Occupational Health' },
+    { value: 'fire_safety', label: language === 'ar' ? 'أمان الحريق' : 'Fire Safety' },
+    
+    // Surveying & Mapping
+    { value: 'surveying', label: language === 'ar' ? 'المساحة' : 'Surveying' },
+    { value: 'quantity_surveying', label: language === 'ar' ? 'مساحة الكميات' : 'Quantity Surveying' },
+    { value: 'gis_mapping', label: language === 'ar' ? 'رسم الخرائط بنظم المعلومات الجغرافية' : 'GIS Mapping' },
+    
     // Oil & Gas
-    { value: 'petroleum_engineering', label: language === 'ar' ? 'هندسة البترول' : 'Petroleum Engineering' },
     { value: 'drilling_operations', label: language === 'ar' ? 'عمليات الحفر' : 'Drilling Operations' },
     { value: 'production_engineering', label: language === 'ar' ? 'هندسة الإنتاج' : 'Production Engineering' },
     { value: 'reservoir_engineering', label: language === 'ar' ? 'هندسة المكامن' : 'Reservoir Engineering' },
-    { value: 'process_engineering', label: language === 'ar' ? 'هندسة العمليات' : 'Process Engineering' },
     { value: 'pipeline_engineering', label: language === 'ar' ? 'هندسة الأنابيب' : 'Pipeline Engineering' },
     { value: 'refining_operations', label: language === 'ar' ? 'عمليات التكرير' : 'Refining Operations' },
     { value: 'petrochemicals', label: language === 'ar' ? 'البتروكيماويات' : 'Petrochemicals' },
     
-    // Healthcare
-    { value: 'medical_services', label: language === 'ar' ? 'الخدمات الطبية' : 'Medical Services' },
-    { value: 'nursing', label: language === 'ar' ? 'التمريض' : 'Nursing' },
-    { value: 'pharmacy', label: language === 'ar' ? 'الصيدلة' : 'Pharmacy' },
-    { value: 'laboratory', label: language === 'ar' ? 'المختبر' : 'Laboratory' },
-    { value: 'radiology', label: language === 'ar' ? 'الأشعة' : 'Radiology' },
-    { value: 'emergency_medicine', label: language === 'ar' ? 'طب الطوارئ' : 'Emergency Medicine' },
-    { value: 'medical_records', label: language === 'ar' ? 'السجلات الطبية' : 'Medical Records' },
-    
-    // Education
-    { value: 'academic_affairs', label: language === 'ar' ? 'الشؤون الأكاديمية' : 'Academic Affairs' },
-    { value: 'student_services', label: language === 'ar' ? 'خدمات الطلاب' : 'Student Services' },
-    { value: 'faculty_development', label: language === 'ar' ? 'تطوير أعضاء هيئة التدريس' : 'Faculty Development' },
-    { value: 'curriculum_development', label: language === 'ar' ? 'تطوير المناهج' : 'Curriculum Development' },
-    { value: 'research_development', label: language === 'ar' ? 'البحث والتطوير' : 'Research & Development' },
-    { value: 'library_services', label: language === 'ar' ? 'خدمات المكتبة' : 'Library Services' },
-    
-    // Manufacturing & Industrial
-    { value: 'production', label: language === 'ar' ? 'الإنتاج' : 'Production' },
-    { value: 'manufacturing', label: language === 'ar' ? 'التصنيع' : 'Manufacturing' },
-    { value: 'industrial_engineering', label: language === 'ar' ? 'الهندسة الصناعية' : 'Industrial Engineering' },
-    { value: 'maintenance', label: language === 'ar' ? 'الصيانة' : 'Maintenance' },
-    { value: 'quality_assurance', label: language === 'ar' ? 'ضمان الجودة' : 'Quality Assurance' },
-    { value: 'operations', label: language === 'ar' ? 'العمليات' : 'Operations' },
-    { value: 'logistics', label: language === 'ar' ? 'اللوجستيات' : 'Logistics' },
-    { value: 'warehouse', label: language === 'ar' ? 'المستودعات' : 'Warehouse' },
-    
-    // Banking & Finance
-    { value: 'corporate_banking', label: language === 'ar' ? 'الخدمات المصرفية للشركات' : 'Corporate Banking' },
-    { value: 'retail_banking', label: language === 'ar' ? 'الخدمات المصرفية للأفراد' : 'Retail Banking' },
-    { value: 'investment_banking', label: language === 'ar' ? 'الخدمات المصرفية الاستثمارية' : 'Investment Banking' },
-    { value: 'islamic_banking', label: language === 'ar' ? 'المصرفية الإسلامية' : 'Islamic Banking' },
-    { value: 'treasury', label: language === 'ar' ? 'الخزينة' : 'Treasury' },
-    { value: 'credit_risk', label: language === 'ar' ? 'مخاطر الائتمان' : 'Credit Risk' },
-    { value: 'financial_planning', label: language === 'ar' ? 'التخطيط المالي' : 'Financial Planning' },
-    
     // Sales & Marketing
-    { value: 'marketing', label: language === 'ar' ? 'التسويق' : 'Marketing' },
     { value: 'sales', label: language === 'ar' ? 'المبيعات' : 'Sales' },
+    { value: 'marketing', label: language === 'ar' ? 'التسويق' : 'Marketing' },
     { value: 'digital_marketing', label: language === 'ar' ? 'التسويق الرقمي' : 'Digital Marketing' },
     { value: 'business_development', label: language === 'ar' ? 'تطوير الأعمال' : 'Business Development' },
-    { value: 'customer_service', label: language === 'ar' ? 'خدمة العملاء' : 'Customer Service' },
-    { value: 'public_relations', label: language === 'ar' ? 'العلاقات العامة' : 'Public Relations' },
+    { value: 'proposals', label: language === 'ar' ? 'العطاءات' : 'Proposals' },
     
     // Training & Development
     { value: 'training_development', label: language === 'ar' ? 'التدريب والتطوير' : 'Training & Development' },
     
-    // Other
-    { value: 'other', label: language === 'ar' ? 'أخرى' : 'Other' }
+    // Healthcare
+    { value: 'medical_services', label: language === 'ar' ? 'الخدمات الطبية' : 'Medical Services' },
+    { value: 'nursing', label: language === 'ar' ? 'التمريض' : 'Nursing' },
+    { value: 'emergency_medical', label: language === 'ar' ? 'الطوارئ الطبية' : 'Emergency Medical' },
+    { value: 'pharmacy', label: language === 'ar' ? 'الصيدلة' : 'Pharmacy' },
+    { value: 'laboratory', label: language === 'ar' ? 'المختبر' : 'Laboratory' },
+    { value: 'radiology', label: language === 'ar' ? 'الأشعة' : 'Radiology' },
+    
+    // Security & Facilities
+    { value: 'security', label: language === 'ar' ? 'الأمن' : 'Security' },
+    { value: 'facilities', label: language === 'ar' ? 'المرافق' : 'Facilities' },
+    { value: 'maintenance', label: language === 'ar' ? 'الصيانة' : 'Maintenance' },
+    { value: 'hvac', label: language === 'ar' ? 'التكييف والتهوية' : 'HVAC' },
+    { value: 'cleaning', label: language === 'ar' ? 'النظافة' : 'Cleaning' },
+    { value: 'landscaping', label: language === 'ar' ? 'تنسيق الحدائق' : 'Landscaping' },
+    
+    // Operations
+    { value: 'operations', label: language === 'ar' ? 'العمليات' : 'Operations' }
   ];
 
   useEffect(() => {
