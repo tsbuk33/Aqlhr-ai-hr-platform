@@ -108,23 +108,192 @@ export const SalarySearchEngine = () => {
 
   const t = (key: string) => translations[language][key] || key;
 
-  // Sample positions data (would come from employee master data)
+  // Complete positions and departments from employee master data
+  const positionsData = [
+    // Executive Leadership (C-Level & Directors)
+    { value: 'ceo', label: language === 'ar' ? 'الرئيس التنفيذي' : 'Chief Executive Officer (CEO)', department: 'executive_management', level: 'Executive' },
+    { value: 'coo', label: language === 'ar' ? 'رئيس العمليات' : 'Chief Operating Officer (COO)', department: 'executive_management', level: 'Executive' },
+    { value: 'cfo', label: language === 'ar' ? 'المدير المالي التنفيذي' : 'Chief Financial Officer (CFO)', department: 'finance', level: 'Executive' },
+    { value: 'cto', label: language === 'ar' ? 'المدير التقني التنفيذي' : 'Chief Technology Officer (CTO)', department: 'it', level: 'Executive' },
+    { value: 'cio', label: language === 'ar' ? 'مدير المعلومات التنفيذي' : 'Chief Information Officer (CIO)', department: 'it', level: 'Executive' },
+    { value: 'chro', label: language === 'ar' ? 'مدير الموارد البشرية التنفيذي' : 'Chief Human Resources Officer (CHRO)', department: 'hr', level: 'Executive' },
+    { value: 'cmo', label: language === 'ar' ? 'مدير التسويق التنفيذي' : 'Chief Marketing Officer (CMO)', department: 'marketing', level: 'Executive' },
+    { value: 'board_member', label: language === 'ar' ? 'عضو مجلس إدارة' : 'Board Member', department: 'board_of_directors', level: 'Executive' },
+    { value: 'executive_director', label: language === 'ar' ? 'مدير تنفيذي' : 'Executive Director', department: 'executive_management', level: 'Executive' },
+    { value: 'regional_director', label: language === 'ar' ? 'مدير إقليمي' : 'Regional Director', department: 'executive_management', level: 'Director' },
+    
+    // Directors & VPs
+    { value: 'director_operations', label: language === 'ar' ? 'مدير العمليات' : 'Director of Operations', department: 'operations', level: 'Director' },
+    { value: 'director_finance', label: language === 'ar' ? 'مدير المالية' : 'Director of Finance', department: 'finance', level: 'Director' },
+    { value: 'director_hr', label: language === 'ar' ? 'مدير الموارد البشرية' : 'Director of Human Resources', department: 'hr', level: 'Director' },
+    { value: 'director_it', label: language === 'ar' ? 'مدير تقنية المعلومات' : 'Director of IT', department: 'it', level: 'Director' },
+    { value: 'director_engineering', label: language === 'ar' ? 'مدير الهندسة' : 'Director of Engineering', department: 'civil_engineering', level: 'Director' },
+    { value: 'director_sales', label: language === 'ar' ? 'مدير المبيعات' : 'Director of Sales', department: 'sales', level: 'Director' },
+    { value: 'director_marketing', label: language === 'ar' ? 'مدير التسويق' : 'Director of Marketing', department: 'marketing', level: 'Director' },
+    
+    // Senior Management
+    { value: 'project_manager', label: language === 'ar' ? 'مدير مشروع' : 'Project Manager', department: 'project_management', level: 'Senior' },
+    { value: 'operations_manager', label: language === 'ar' ? 'مدير العمليات' : 'Operations Manager', department: 'operations', level: 'Senior' },
+    { value: 'finance_manager', label: language === 'ar' ? 'مدير مالي' : 'Finance Manager', department: 'finance', level: 'Senior' },
+    { value: 'hr_manager', label: language === 'ar' ? 'مدير موارد بشرية' : 'HR Manager', department: 'hr', level: 'Senior' },
+    { value: 'it_manager', label: language === 'ar' ? 'مدير تقنية المعلومات' : 'IT Manager', department: 'it', level: 'Senior' },
+    { value: 'sales_manager', label: language === 'ar' ? 'مدير مبيعات' : 'Sales Manager', department: 'sales', level: 'Senior' },
+    { value: 'marketing_manager', label: language === 'ar' ? 'مدير تسويق' : 'Marketing Manager', department: 'marketing', level: 'Senior' },
+    
+    // Engineering Positions
+    { value: 'civil_engineer', label: language === 'ar' ? 'مهندس مدني' : 'Civil Engineer', department: 'civil_engineering', level: 'Mid' },
+    { value: 'mechanical_engineer', label: language === 'ar' ? 'مهندس ميكانيكي' : 'Mechanical Engineer', department: 'mechanical_engineering', level: 'Mid' },
+    { value: 'electrical_engineer', label: language === 'ar' ? 'مهندس كهربائي' : 'Electrical Engineer', department: 'electrical_engineering', level: 'Mid' },
+    { value: 'software_engineer', label: language === 'ar' ? 'مهندس برمجيات' : 'Software Engineer', department: 'software_development', level: 'Mid' },
+    { value: 'senior_engineer', label: language === 'ar' ? 'مهندس أول' : 'Senior Engineer', department: 'civil_engineering', level: 'Senior' },
+    
+    // IT & Technology
+    { value: 'software_developer', label: language === 'ar' ? 'مطور برمجيات' : 'Software Developer', department: 'software_development', level: 'Mid' },
+    { value: 'web_developer', label: language === 'ar' ? 'مطور مواقع' : 'Web Developer', department: 'software_development', level: 'Mid' },
+    { value: 'data_scientist', label: language === 'ar' ? 'عالم بيانات' : 'Data Scientist', department: 'data_analytics', level: 'Senior' },
+    { value: 'cybersecurity_specialist', label: language === 'ar' ? 'أخصائي أمن معلومات' : 'Cybersecurity Specialist', department: 'cybersecurity', level: 'Senior' },
+    { value: 'business_analyst', label: language === 'ar' ? 'محلل أعمال' : 'Business Analyst', department: 'it', level: 'Mid' },
+    
+    // Finance & Accounting
+    { value: 'financial_analyst', label: language === 'ar' ? 'محلل مالي' : 'Financial Analyst', department: 'finance', level: 'Mid' },
+    { value: 'accountant', label: language === 'ar' ? 'محاسب' : 'Accountant', department: 'accounting', level: 'Mid' },
+    { value: 'auditor', label: language === 'ar' ? 'مدقق' : 'Auditor', department: 'internal_audit', level: 'Mid' },
+    { value: 'senior_accountant', label: language === 'ar' ? 'محاسب أول' : 'Senior Accountant', department: 'accounting', level: 'Senior' },
+    
+    // Sales & Marketing
+    { value: 'sales_representative', label: language === 'ar' ? 'مندوب مبيعات' : 'Sales Representative', department: 'sales', level: 'Junior' },
+    { value: 'account_manager', label: language === 'ar' ? 'مدير حسابات' : 'Account Manager', department: 'sales', level: 'Mid' },
+    { value: 'marketing_specialist', label: language === 'ar' ? 'أخصائي تسويق' : 'Marketing Specialist', department: 'marketing', level: 'Mid' },
+    { value: 'digital_marketing_specialist', label: language === 'ar' ? 'أخصائي تسويق رقمي' : 'Digital Marketing Specialist', department: 'digital_marketing', level: 'Mid' },
+    
+    // Human Resources
+    { value: 'hr_specialist', label: language === 'ar' ? 'أخصائي موارد بشرية' : 'HR Specialist', department: 'hr', level: 'Mid' },
+    { value: 'recruitment_specialist', label: language === 'ar' ? 'أخصائي توظيف' : 'Recruitment Specialist', department: 'hr', level: 'Mid' },
+    { value: 'training_specialist', label: language === 'ar' ? 'أخصائي تدريب' : 'Training Specialist', department: 'training_development', level: 'Mid' },
+    
+    // Healthcare
+    { value: 'doctor', label: language === 'ar' ? 'طبيب' : 'Doctor', department: 'medical_services', level: 'Senior' },
+    { value: 'nurse', label: language === 'ar' ? 'ممرض/ممرضة' : 'Nurse', department: 'nursing', level: 'Mid' },
+    { value: 'pharmacist', label: language === 'ar' ? 'صيدلاني' : 'Pharmacist', department: 'pharmacy', level: 'Mid' },
+    
+    // Operations & Logistics
+    { value: 'operations_specialist', label: language === 'ar' ? 'أخصائي عمليات' : 'Operations Specialist', department: 'operations', level: 'Mid' },
+    { value: 'logistics_specialist', label: language === 'ar' ? 'أخصائي لوجستيات' : 'Logistics Specialist', department: 'logistics', level: 'Mid' },
+    { value: 'warehouse_manager', label: language === 'ar' ? 'مدير المستودع' : 'Warehouse Manager', department: 'warehouse', level: 'Senior' }
+  ];
+
+  const departmentsData = [
+    // Executive & Leadership
+    { value: 'board_of_directors', label: language === 'ar' ? 'مجلس الإدارة' : 'Board of Directors' },
+    { value: 'executive_management', label: language === 'ar' ? 'الإدارة التنفيذية' : 'Executive Management' },
+    { value: 'ceo_office', label: language === 'ar' ? 'مكتب الرئيس التنفيذي' : 'CEO Office' },
+    { value: 'strategic_planning', label: language === 'ar' ? 'التخطيط الاستراتيجي' : 'Strategic Planning' },
+    
+    // Administrative & Support
+    { value: 'hr', label: language === 'ar' ? 'الموارد البشرية' : 'Human Resources' },
+    { value: 'finance', label: language === 'ar' ? 'المالية' : 'Finance' },
+    { value: 'accounting', label: language === 'ar' ? 'المحاسبة' : 'Accounting' },
+    { value: 'legal', label: language === 'ar' ? 'الشؤون القانونية' : 'Legal Affairs' },
+    { value: 'admin', label: language === 'ar' ? 'الشؤون الإدارية' : 'Administration' },
+    { value: 'procurement', label: language === 'ar' ? 'المشتريات' : 'Procurement' },
+    { value: 'supply_chain', label: language === 'ar' ? 'سلسلة التوريد' : 'Supply Chain' },
+    { value: 'internal_audit', label: language === 'ar' ? 'التدقيق الداخلي' : 'Internal Audit' },
+    { value: 'compliance', label: language === 'ar' ? 'الامتثال' : 'Compliance' },
+    { value: 'risk_management', label: language === 'ar' ? 'إدارة المخاطر' : 'Risk Management' },
+    
+    // Technology & IT
+    { value: 'it', label: language === 'ar' ? 'تكنولوجيا المعلومات' : 'Information Technology' },
+    { value: 'cybersecurity', label: language === 'ar' ? 'الأمن السيبراني' : 'Cybersecurity' },
+    { value: 'software_development', label: language === 'ar' ? 'تطوير البرمجيات' : 'Software Development' },
+    { value: 'data_analytics', label: language === 'ar' ? 'تحليل البيانات' : 'Data Analytics' },
+    { value: 'digital_transformation', label: language === 'ar' ? 'التحول الرقمي' : 'Digital Transformation' },
+    { value: 'tech_support', label: language === 'ar' ? 'الدعم التقني' : 'Technical Support' },
+    
+    // Construction & Contracting
+    { value: 'project_management', label: language === 'ar' ? 'إدارة المشاريع' : 'Project Management' },
+    { value: 'construction_management', label: language === 'ar' ? 'إدارة الإنشاءات' : 'Construction Management' },
+    { value: 'civil_engineering', label: language === 'ar' ? 'الهندسة المدنية' : 'Civil Engineering' },
+    { value: 'mechanical_engineering', label: language === 'ar' ? 'الهندسة الميكانيكية' : 'Mechanical Engineering' },
+    { value: 'electrical_engineering', label: language === 'ar' ? 'الهندسة الكهربائية' : 'Electrical Engineering' },
+    { value: 'architectural_design', label: language === 'ar' ? 'التصميم المعماري' : 'Architectural Design' },
+    { value: 'structural_engineering', label: language === 'ar' ? 'الهندسة الإنشائية' : 'Structural Engineering' },
+    { value: 'site_supervision', label: language === 'ar' ? 'الإشراف الميداني' : 'Site Supervision' },
+    { value: 'quantity_surveying', label: language === 'ar' ? 'المساحة الكمية' : 'Quantity Surveying' },
+    { value: 'safety_engineering', label: language === 'ar' ? 'هندسة السلامة' : 'Safety Engineering' },
+    { value: 'quality_control', label: language === 'ar' ? 'مراقبة الجودة' : 'Quality Control' },
+    { value: 'materials_testing', label: language === 'ar' ? 'اختبار المواد' : 'Materials Testing' },
+    
+    // Oil & Gas
+    { value: 'petroleum_engineering', label: language === 'ar' ? 'هندسة البترول' : 'Petroleum Engineering' },
+    { value: 'drilling_operations', label: language === 'ar' ? 'عمليات الحفر' : 'Drilling Operations' },
+    { value: 'production_engineering', label: language === 'ar' ? 'هندسة الإنتاج' : 'Production Engineering' },
+    { value: 'reservoir_engineering', label: language === 'ar' ? 'هندسة المكامن' : 'Reservoir Engineering' },
+    { value: 'process_engineering', label: language === 'ar' ? 'هندسة العمليات' : 'Process Engineering' },
+    { value: 'pipeline_engineering', label: language === 'ar' ? 'هندسة الأنابيب' : 'Pipeline Engineering' },
+    { value: 'refining_operations', label: language === 'ar' ? 'عمليات التكرير' : 'Refining Operations' },
+    { value: 'petrochemicals', label: language === 'ar' ? 'البتروكيماويات' : 'Petrochemicals' },
+    
+    // Healthcare
+    { value: 'medical_services', label: language === 'ar' ? 'الخدمات الطبية' : 'Medical Services' },
+    { value: 'nursing', label: language === 'ar' ? 'التمريض' : 'Nursing' },
+    { value: 'pharmacy', label: language === 'ar' ? 'الصيدلة' : 'Pharmacy' },
+    { value: 'laboratory', label: language === 'ar' ? 'المختبر' : 'Laboratory' },
+    { value: 'radiology', label: language === 'ar' ? 'الأشعة' : 'Radiology' },
+    { value: 'emergency_medicine', label: language === 'ar' ? 'طب الطوارئ' : 'Emergency Medicine' },
+    { value: 'medical_records', label: language === 'ar' ? 'السجلات الطبية' : 'Medical Records' },
+    
+    // Education
+    { value: 'academic_affairs', label: language === 'ar' ? 'الشؤون الأكاديمية' : 'Academic Affairs' },
+    { value: 'student_services', label: language === 'ar' ? 'خدمات الطلاب' : 'Student Services' },
+    { value: 'faculty_development', label: language === 'ar' ? 'تطوير أعضاء هيئة التدريس' : 'Faculty Development' },
+    { value: 'curriculum_development', label: language === 'ar' ? 'تطوير المناهج' : 'Curriculum Development' },
+    { value: 'research_development', label: language === 'ar' ? 'البحث والتطوير' : 'Research & Development' },
+    { value: 'library_services', label: language === 'ar' ? 'خدمات المكتبة' : 'Library Services' },
+    
+    // Manufacturing & Industrial
+    { value: 'production', label: language === 'ar' ? 'الإنتاج' : 'Production' },
+    { value: 'manufacturing', label: language === 'ar' ? 'التصنيع' : 'Manufacturing' },
+    { value: 'industrial_engineering', label: language === 'ar' ? 'الهندسة الصناعية' : 'Industrial Engineering' },
+    { value: 'maintenance', label: language === 'ar' ? 'الصيانة' : 'Maintenance' },
+    { value: 'quality_assurance', label: language === 'ar' ? 'ضمان الجودة' : 'Quality Assurance' },
+    { value: 'operations', label: language === 'ar' ? 'العمليات' : 'Operations' },
+    { value: 'logistics', label: language === 'ar' ? 'اللوجستيات' : 'Logistics' },
+    { value: 'warehouse', label: language === 'ar' ? 'المستودعات' : 'Warehouse' },
+    
+    // Banking & Finance
+    { value: 'corporate_banking', label: language === 'ar' ? 'الخدمات المصرفية للشركات' : 'Corporate Banking' },
+    { value: 'retail_banking', label: language === 'ar' ? 'الخدمات المصرفية للأفراد' : 'Retail Banking' },
+    { value: 'investment_banking', label: language === 'ar' ? 'الخدمات المصرفية الاستثمارية' : 'Investment Banking' },
+    { value: 'islamic_banking', label: language === 'ar' ? 'المصرفية الإسلامية' : 'Islamic Banking' },
+    { value: 'treasury', label: language === 'ar' ? 'الخزينة' : 'Treasury' },
+    { value: 'credit_risk', label: language === 'ar' ? 'مخاطر الائتمان' : 'Credit Risk' },
+    { value: 'financial_planning', label: language === 'ar' ? 'التخطيط المالي' : 'Financial Planning' },
+    
+    // Sales & Marketing
+    { value: 'marketing', label: language === 'ar' ? 'التسويق' : 'Marketing' },
+    { value: 'sales', label: language === 'ar' ? 'المبيعات' : 'Sales' },
+    { value: 'digital_marketing', label: language === 'ar' ? 'التسويق الرقمي' : 'Digital Marketing' },
+    { value: 'business_development', label: language === 'ar' ? 'تطوير الأعمال' : 'Business Development' },
+    { value: 'customer_service', label: language === 'ar' ? 'خدمة العملاء' : 'Customer Service' },
+    { value: 'public_relations', label: language === 'ar' ? 'العلاقات العامة' : 'Public Relations' },
+    
+    // Training & Development
+    { value: 'training_development', label: language === 'ar' ? 'التدريب والتطوير' : 'Training & Development' },
+    
+    // Other
+    { value: 'other', label: language === 'ar' ? 'أخرى' : 'Other' }
+  ];
+
   useEffect(() => {
-    const samplePositions: Position[] = [
-      { id: "1", title: "Software Engineer", department: "IT", level: "Mid" },
-      { id: "2", title: "Senior Software Engineer", department: "IT", level: "Senior" },
-      { id: "3", title: "HR Manager", department: "HR", level: "Senior" },
-      { id: "4", title: "Sales Manager", department: "Sales", level: "Senior" },
-      { id: "5", title: "Marketing Specialist", department: "Marketing", level: "Junior" },
-      { id: "6", title: "Data Analyst", department: "IT", level: "Mid" },
-      { id: "7", title: "Project Manager", department: "Operations", level: "Senior" },
-      { id: "8", title: "Financial Analyst", department: "Finance", level: "Mid" },
-      { id: "9", title: "UX Designer", department: "Design", level: "Mid" },
-      { id: "10", title: "DevOps Engineer", department: "IT", level: "Senior" }
-    ];
-    setPositions(samplePositions);
-    setFilteredPositions(samplePositions);
-  }, []);
+    const formattedPositions: Position[] = positionsData.map((pos, index) => ({
+      id: (index + 1).toString(),
+      title: pos.label,
+      department: pos.department,
+      level: pos.level
+    }));
+    setPositions(formattedPositions);
+    setFilteredPositions(formattedPositions);
+  }, [language]);
 
   // Filter positions based on search and filters
   useEffect(() => {
@@ -268,8 +437,8 @@ export const SalarySearchEngine = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{t('all_departments')}</SelectItem>
-                    {departments.map((dept) => (
-                      <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                    {departmentsData.map((dept) => (
+                      <SelectItem key={dept.value} value={dept.value}>{dept.label}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
