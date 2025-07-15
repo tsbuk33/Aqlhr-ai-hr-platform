@@ -3,11 +3,12 @@ import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
-import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus, Crown } from "lucide-react";
+import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus, Crown, ChevronDown, ChevronUp, Target, AlertTriangle, Star, TrendingUp, DollarSign, UserCheck, Activity, Zap, Award, Eye, Heart, Shield, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
@@ -16,6 +17,10 @@ import { useState } from "react";
 const Index = () => {
   const { isArabic } = useSimpleLanguage();
   const [selectedKPI, setSelectedKPI] = useState<string | null>(null);
+  const [isPredictiveOpen, setIsPredictiveOpen] = useState(false);
+  const [isComplianceOpen, setIsComplianceOpen] = useState(false);
+  const [isExperienceOpen, setIsExperienceOpen] = useState(false);
+  const [isProcessOpen, setIsProcessOpen] = useState(false);
 
   return (
     <div className={`min-h-screen bg-background ${isArabic ? 'rtl-container' : 'ltr-container'}`}>
@@ -73,6 +78,112 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8 space-y-12">
+        
+        {/* Strategic Intelligence Panel - NEW TOP SECTION */}
+        <section>
+          <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              {isArabic ? 'لوحة الذكاء الاستراتيجي' : 'Strategic Intelligence Panel'}
+            </h2>
+            <p className="text-muted-foreground">
+              {isArabic ? 'ذكاء تنبؤي وتحليلات استراتيجية متقدمة' : 'Predictive intelligence and advanced strategic analytics'}
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Workforce Forecast Accuracy - Teal */}
+            <div className="bg-gradient-to-br from-teal-50 to-teal-100 rounded-xl border border-teal-200 p-6 hover:shadow-lg transition-all duration-300">
+              <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className="p-3 bg-teal-500/10 rounded-lg">
+                  <Target className="h-6 w-6 text-teal-600" />
+                </div>
+              </div>
+              <div className={`${isArabic ? 'text-right' : ''}`}>
+                <h3 className="text-sm font-medium text-teal-800 mb-1">
+                  {isArabic ? 'دقة التنبؤ بالقوى العاملة' : 'Workforce Forecast Accuracy'}
+                </h3>
+                <p className="text-3xl font-bold text-teal-700 mb-2">87.3%</p>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                    +2.1%
+                  </span>
+                  <span className="text-xs text-teal-600">
+                    {isArabic ? 'تحسن الشهر الماضي' : 'vs last month'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Talent Pipeline Strength - Navy */}
+            <div className="bg-gradient-to-br from-blue-900/10 to-blue-800/20 rounded-xl border border-blue-800/30 p-6 hover:shadow-lg transition-all duration-300">
+              <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className="p-3 bg-blue-900/10 rounded-lg">
+                  <Star className="h-6 w-6 text-blue-800" />
+                </div>
+              </div>
+              <div className={`${isArabic ? 'text-right' : ''}`}>
+                <h3 className="text-sm font-medium text-blue-900 mb-1">
+                  {isArabic ? 'قوة خط المواهب' : 'Talent Pipeline Strength'}
+                </h3>
+                <p className="text-3xl font-bold text-blue-800 mb-2">142</p>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                    {isArabic ? 'عالي الإمكانات' : 'high-potential'}
+                  </span>
+                  <span className="text-xs text-blue-800">
+                    {isArabic ? 'مرشحين' : 'candidates'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Employee Experience Score - Coral */}
+            <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl border border-red-200 p-6 hover:shadow-lg transition-all duration-300">
+              <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className="p-3 bg-red-500/10 rounded-lg">
+                  <Heart className="h-6 w-6 text-red-500" />
+                </div>
+              </div>
+              <div className={`${isArabic ? 'text-right' : ''}`}>
+                <h3 className="text-sm font-medium text-red-800 mb-1">
+                  {isArabic ? 'نقاط تجربة الموظف' : 'Employee Experience Score'}
+                </h3>
+                <p className="text-3xl font-bold text-red-600 mb-2">8.2/10</p>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                    +0.3
+                  </span>
+                  <span className="text-xs text-red-600">
+                    {isArabic ? 'تحسن الربع' : 'quarterly improvement'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Predictive Risk Index - Red */}
+            <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-xl border border-red-300 p-6 hover:shadow-lg transition-all duration-300">
+              <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className="p-3 bg-red-600/10 rounded-lg">
+                  <AlertTriangle className="h-6 w-6 text-red-600" />
+                </div>
+              </div>
+              <div className={`${isArabic ? 'text-right' : ''}`}>
+                <h3 className="text-sm font-medium text-red-900 mb-1">
+                  {isArabic ? 'مؤشر المخاطر التنبؤي' : 'Predictive Risk Index'}
+                </h3>
+                <p className="text-3xl font-bold text-red-700 mb-2">23</p>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <span className="text-xs px-2 py-1 bg-red-200 text-red-800 rounded-full">
+                    {isArabic ? 'عالي المخاطر' : 'high-risk'}
+                  </span>
+                  <span className="text-xs text-red-700">
+                    {isArabic ? 'موظفين' : 'employees'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         
         {/* Executive Summary - Key Metrics */}
         <section>
@@ -591,6 +702,493 @@ const Index = () => {
             </div>
           </div>
         </section>
+
+        {/* Predictive Analytics - NEW EXPANDABLE SECTION */}
+        <Collapsible open={isPredictiveOpen} onOpenChange={setIsPredictiveOpen}>
+          <section>
+            <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className={`flex items-center gap-2 text-2xl font-bold text-foreground mb-2 hover:bg-transparent p-0 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  {isArabic ? 'التحليلات التنبؤية' : 'Predictive Analytics'}
+                  {isPredictiveOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                </Button>
+              </CollapsibleTrigger>
+              <p className="text-muted-foreground">
+                {isArabic ? 'ذكاء تنبؤي متقدم لاتخاذ قرارات استراتيجية' : 'Advanced predictive intelligence for strategic decisions'}
+              </p>
+            </div>
+            
+            <CollapsibleContent className="space-y-8">
+              {/* Retention Intelligence */}
+              <div>
+                <h3 className={`text-lg font-semibold text-foreground mb-4 ${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? 'ذكاء الاحتفاظ بالموظفين' : 'Retention Intelligence'}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="bg-gradient-to-br from-blue-900/10 to-blue-800/20 rounded-xl border border-blue-800/30 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-blue-900/10 rounded-lg">
+                        <Brain className="h-6 w-6 text-blue-800" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-blue-900 mb-1">
+                        {isArabic ? 'توقع الدوران' : 'Turnover Prediction'}
+                      </h4>
+                      <p className="text-3xl font-bold text-blue-800 mb-2">89.2%</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                          {isArabic ? 'دقة' : 'accuracy'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-emerald-500/10 rounded-lg">
+                        <Activity className="h-6 w-6 text-emerald-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-emerald-900 mb-1">
+                        {isArabic ? 'نجاح التدخل' : 'Intervention Success'}
+                      </h4>
+                      <p className="text-3xl font-bold text-emerald-700 mb-2">73%</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          {isArabic ? 'احتفاظ' : 'retention'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-yellow-500/10 rounded-lg">
+                        <DollarSign className="h-6 w-6 text-yellow-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-yellow-900 mb-1">
+                        {isArabic ? 'تجنب التكاليف' : 'Cost Avoidance'}
+                      </h4>
+                      <p className="text-3xl font-bold text-yellow-700 mb-2">SAR 1.8M</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          {isArabic ? 'محفوظ' : 'saved'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-gray-500/10 rounded-lg">
+                        <AlertTriangle className="h-6 w-6 text-gray-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-gray-900 mb-1">
+                        {isArabic ? 'توزيع المخاطر' : 'Risk Distribution'}
+                      </h4>
+                      <p className="text-lg font-bold text-gray-700 mb-2">156 | 89 | 23</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          {isArabic ? 'منخفض' : 'low'}
+                        </span>
+                        <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">
+                          {isArabic ? 'متوسط' : 'med'}
+                        </span>
+                        <span className="text-xs px-2 py-1 bg-red-100 text-red-700 rounded-full">
+                          {isArabic ? 'عالي' : 'high'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Skills Intelligence */}
+              <div>
+                <h3 className={`text-lg font-semibold text-foreground mb-4 ${isArabic ? 'text-right' : ''}`}>
+                  {isArabic ? 'ذكاء المهارات' : 'Skills Intelligence'}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-purple-500/10 rounded-lg">
+                        <Target className="h-6 w-6 text-purple-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-purple-900 mb-1">
+                        {isArabic ? 'تغطية فجوة المهارات' : 'Skills Gap Coverage'}
+                      </h4>
+                      <p className="text-3xl font-bold text-purple-700 mb-2">78.4%</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          +5.2%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-blue-500/10 rounded-lg">
+                        <UserCheck className="h-6 w-6 text-blue-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-blue-900 mb-1">
+                        {isArabic ? 'التنقل الداخلي' : 'Internal Mobility'}
+                      </h4>
+                      <p className="text-3xl font-bold text-blue-700 mb-2">34.7%</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          +8.1%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-emerald-500/10 rounded-lg">
+                        <TrendingUp className="h-6 w-6 text-emerald-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-emerald-900 mb-1">
+                        {isArabic ? 'عائد التعلم' : 'Learning ROI'}
+                      </h4>
+                      <p className="text-3xl font-bold text-emerald-700 mb-2">280%</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                          {isArabic ? 'عائد' : 'return'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200 p-6">
+                    <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <div className="p-3 bg-orange-500/10 rounded-lg">
+                        <Zap className="h-6 w-6 text-orange-600" />
+                      </div>
+                    </div>
+                    <div className={`${isArabic ? 'text-right' : ''}`}>
+                      <h4 className="text-sm font-medium text-orange-900 mb-1">
+                        {isArabic ? 'معدل الابتكار' : 'Innovation Rate'}
+                      </h4>
+                      <p className="text-3xl font-bold text-orange-700 mb-2">2.7</p>
+                      <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                        <span className="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded-full">
+                          {isArabic ? 'أفكار/موظف' : 'ideas/employee'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </section>
+        </Collapsible>
+
+        {/* Advanced Compliance - NEW SECTION */}
+        <Collapsible open={isComplianceOpen} onOpenChange={setIsComplianceOpen}>
+          <section>
+            <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className={`flex items-center gap-2 text-2xl font-bold text-foreground mb-2 hover:bg-transparent p-0 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  {isArabic ? 'الامتثال المتقدم' : 'Advanced Compliance'}
+                  {isComplianceOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                </Button>
+              </CollapsibleTrigger>
+              <p className="text-muted-foreground">
+                {isArabic ? 'مراقبة وإدارة الامتثال التنظيمي المتقدم' : 'Advanced regulatory compliance monitoring and management'}
+              </p>
+            </div>
+            
+            <CollapsibleContent className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-xl border border-red-300 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-red-600/10 rounded-lg">
+                      <AlertTriangle className="h-6 w-6 text-red-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-red-900 mb-1">
+                      {isArabic ? 'مخاطر انتهاء التأشيرة' : 'Visa Expiration Risk'}
+                    </h4>
+                    <p className="text-3xl font-bold text-red-700 mb-2">12</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-red-200 text-red-800 rounded-full">
+                        {isArabic ? 'خلال 30 يوم' : 'within 30 days'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-emerald-500/10 rounded-lg">
+                      <Shield className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-emerald-900 mb-1">
+                      {isArabic ? 'توقع النطاقات' : 'Nitaqat Forecast'}
+                    </h4>
+                    <p className="text-3xl font-bold text-emerald-700 mb-2">Green</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        {isArabic ? '12 شهر' : '12-month'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl border border-orange-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-orange-500/10 rounded-lg">
+                      <DollarSign className="h-6 w-6 text-orange-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-orange-900 mb-1">
+                      {isArabic ? 'مخاطر الغرامات' : 'Penalty Risk'}
+                    </h4>
+                    <p className="text-3xl font-bold text-orange-700 mb-2">SAR 890K</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-orange-100 text-orange-700 rounded-full">
+                        {isArabic ? 'تعرض' : 'exposure'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-yellow-500/10 rounded-lg">
+                      <Award className="h-6 w-6 text-yellow-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-yellow-900 mb-1">
+                      {isArabic ? 'عائد الامتثال' : 'Compliance ROI'}
+                    </h4>
+                    <p className="text-3xl font-bold text-yellow-700 mb-2">SAR 3.2</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded-full">
+                        {isArabic ? 'محفوظ لكل 1 ريال' : 'saved per SAR 1'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </section>
+        </Collapsible>
+
+        {/* Employee Experience - NEW SECTION */}
+        <Collapsible open={isExperienceOpen} onOpenChange={setIsExperienceOpen}>
+          <section>
+            <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className={`flex items-center gap-2 text-2xl font-bold text-foreground mb-2 hover:bg-transparent p-0 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  {isArabic ? 'تجربة الموظف' : 'Employee Experience'}
+                  {isExperienceOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                </Button>
+              </CollapsibleTrigger>
+              <p className="text-muted-foreground">
+                {isArabic ? 'قياس ومراقبة تجربة الموظف والرضا الوظيفي' : 'Employee experience measurement and job satisfaction monitoring'}
+              </p>
+            </div>
+            
+            <CollapsibleContent className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-blue-500/10 rounded-lg">
+                      <Star className="h-6 w-6 text-blue-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-blue-900 mb-1">
+                      {isArabic ? 'مؤشر الموظف الصافي' : 'Employee NPS'}
+                    </h4>
+                    <p className="text-3xl font-bold text-blue-700 mb-2">+42</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                        {isArabic ? 'مقابل +31 في القطاع' : 'vs +31 industry'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-emerald-500/10 rounded-lg">
+                      <Heart className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-emerald-900 mb-1">
+                      {isArabic ? 'رضا المسار المهني' : 'Career Satisfaction'}
+                    </h4>
+                    <p className="text-3xl font-bold text-emerald-700 mb-2">76%</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        {isArabic ? 'راضون' : 'satisfied'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-purple-500/10 rounded-lg">
+                      <Eye className="h-6 w-6 text-purple-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-purple-900 mb-1">
+                      {isArabic ? 'فعالية المدير' : 'Manager Effectiveness'}
+                    </h4>
+                    <p className="text-3xl font-bold text-purple-700 mb-2">8.1/10</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                        {isArabic ? 'تقييم' : 'rating'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl border border-gray-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-gray-500/10 rounded-lg">
+                      <BarChart3 className="h-6 w-6 text-gray-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-gray-900 mb-1">
+                      {isArabic ? 'توزيع الأداء' : 'Performance Distribution'}
+                    </h4>
+                    <p className="text-lg font-bold text-gray-700 mb-2">14% | 78%</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        {isArabic ? 'يتجاوز' : 'exceeds'}
+                      </span>
+                      <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
+                        {isArabic ? 'يحقق' : 'meets'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </section>
+        </Collapsible>
+
+        {/* Process Excellence - NEW SECTION */}
+        <Collapsible open={isProcessOpen} onOpenChange={setIsProcessOpen}>
+          <section>
+            <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className={`flex items-center gap-2 text-2xl font-bold text-foreground mb-2 hover:bg-transparent p-0 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  {isArabic ? 'تميز العمليات' : 'Process Excellence'}
+                  {isProcessOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                </Button>
+              </CollapsibleTrigger>
+              <p className="text-muted-foreground">
+                {isArabic ? 'تحسين العمليات والأتمتة والكفاءة التشغيلية' : 'Process optimization, automation, and operational efficiency'}
+              </p>
+            </div>
+            
+            <CollapsibleContent className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl border border-emerald-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-emerald-500/10 rounded-lg">
+                      <Zap className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-emerald-900 mb-1">
+                      {isArabic ? 'عائد الأتمتة' : 'Automation ROI'}
+                    </h4>
+                    <p className="text-3xl font-bold text-emerald-700 mb-2">SAR 2.3M</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        {isArabic ? 'مدخرات' : 'savings'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl border border-blue-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-blue-500/10 rounded-lg">
+                      <TrendingUp className="h-6 w-6 text-blue-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-blue-900 mb-1">
+                      {isArabic ? 'مؤشر الإنتاجية' : 'Productivity Index'}
+                    </h4>
+                    <p className="text-3xl font-bold text-blue-700 mb-2">112</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        +8%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl border border-purple-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-purple-500/10 rounded-lg">
+                      <UserCheck className="h-6 w-6 text-purple-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-purple-900 mb-1">
+                      {isArabic ? 'اعتماد الخدمة الذاتية' : 'Self-Service Adoption'}
+                    </h4>
+                    <p className="text-3xl font-bold text-purple-700 mb-2">78%</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-700 rounded-full">
+                        {isArabic ? 'اعتماد' : 'adoption'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl border border-yellow-200 p-6">
+                  <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <div className="p-3 bg-yellow-500/10 rounded-lg">
+                      <DollarSign className="h-6 w-6 text-yellow-600" />
+                    </div>
+                  </div>
+                  <div className={`${isArabic ? 'text-right' : ''}`}>
+                    <h4 className="text-sm font-medium text-yellow-900 mb-1">
+                      {isArabic ? 'الإيرادات لكل موظف' : 'Revenue per Employee'}
+                    </h4>
+                    <p className="text-3xl font-bold text-yellow-700 mb-2">SAR 285K</p>
+                    <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                      <span className="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                        +12%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </section>
+        </Collapsible>
 
         {/* Company Data Upload */}
         <section className="mt-16">
