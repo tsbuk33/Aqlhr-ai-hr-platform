@@ -3,7 +3,36 @@ import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
-import { Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, Brain, HelpCircle, TrendingDown, ArrowDownUp, UserPlus, Crown, ChevronDown, ChevronUp, Target, AlertTriangle, Star, TrendingUp, DollarSign, UserCheck, Activity, Zap, Award, Eye, Heart, Shield, BarChart3 } from "lucide-react";
+import { 
+  Users, 
+  Calendar, 
+  FileText, 
+  Clock, 
+  BookOpen, 
+  Check, 
+  ArrowUp, 
+  Brain, 
+  HelpCircle, 
+  TrendingDown, 
+  ArrowDownUp, 
+  UserPlus, 
+  Crown, 
+  ChevronDown, 
+  ChevronUp, 
+  Target, 
+  AlertTriangle, 
+  Star, 
+  TrendingUp, 
+  DollarSign, 
+  UserCheck, 
+  Activity, 
+  Zap, 
+  Award, 
+  Eye, 
+  Heart, 
+  Shield, 
+  BarChart3 
+} from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
