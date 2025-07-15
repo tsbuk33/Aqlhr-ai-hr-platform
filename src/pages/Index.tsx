@@ -905,6 +905,24 @@ const Index = () => {
                       <div className="p-3 bg-yellow-500/10 rounded-lg">
                         <DollarSign className="h-6 w-6 text-yellow-600" />
                       </div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-yellow-600 hover:bg-yellow-100">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{isArabic ? 'تجنب التكاليف' : 'Cost Avoidance'}</DialogTitle>
+                          </DialogHeader>
+                          <p className="text-sm text-gray-600">
+                            {isArabic 
+                              ? 'المبلغ المالي الذي تم توفيره من خلال التدخلات الذكية للاحتفاظ بالموظفين بدلاً من تكلفة التوظيف الجديد.'
+                              : 'Financial amount saved through smart interventions to retain employees instead of new hiring costs.'
+                            }
+                          </p>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                     <div className={`${isArabic ? 'text-right' : ''}`}>
                       <h4 className="text-sm font-medium text-yellow-900 mb-1">
@@ -924,6 +942,24 @@ const Index = () => {
                       <div className="p-3 bg-gray-500/10 rounded-lg">
                         <AlertTriangle className="h-6 w-6 text-gray-600" />
                       </div>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-600 hover:bg-gray-100">
+                            <HelpCircle className="h-4 w-4" />
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>{isArabic ? 'توزيع المخاطر' : 'Risk Distribution'}</DialogTitle>
+                          </DialogHeader>
+                          <p className="text-sm text-gray-600">
+                            {isArabic 
+                              ? 'توزيع الموظفين حسب مستوى مخاطر الاستقالة: منخفض (156)، متوسط (89)، عالي (23). يساعد في تحديد أولويات التدخل.'
+                              : 'Distribution of employees by turnover risk level: low (156), medium (89), high (23). Helps prioritize intervention efforts.'
+                            }
+                          </p>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                     <div className={`${isArabic ? 'text-right' : ''}`}>
                       <h4 className="text-sm font-medium text-gray-900 mb-1">
@@ -1127,6 +1163,24 @@ const Index = () => {
                     <div className="p-3 bg-red-600/10 rounded-lg">
                       <AlertTriangle className="h-6 w-6 text-red-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-red-600 hover:bg-red-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'مخاطر انتهاء التأشيرة' : 'Visa Expiration Risk'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'عدد الموظفين الذين ستنتهي صلاحية تأشيراتهم خلال 30 يوماً. يتطلب متابعة عاجلة لتجديد التأشيرات.'
+                            : 'Number of employees whose visas will expire within 30 days. Requires urgent follow-up for visa renewals.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-red-900 mb-1">
@@ -1146,6 +1200,24 @@ const Index = () => {
                     <div className="p-3 bg-emerald-500/10 rounded-lg">
                       <Shield className="h-6 w-6 text-emerald-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-emerald-600 hover:bg-emerald-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'توقع النطاقات' : 'Nitaqat Forecast'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'التنبؤ بنطاق النطاقات (أخضر/فضي/أصفر/أحمر) للـ12 شهراً القادمة بناءً على معدل السعودة الحالي والتوقعات.'
+                            : 'Prediction of Nitaqat color band (Green/Silver/Yellow/Red) for the next 12 months based on current Saudization rate and projections.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-emerald-900 mb-1">
@@ -1224,6 +1296,24 @@ const Index = () => {
                     <div className="p-3 bg-blue-500/10 rounded-lg">
                       <Star className="h-6 w-6 text-blue-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-blue-600 hover:bg-blue-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'مؤشر الموظف الصافي' : 'Employee NPS'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'مقياس رضا وولاء الموظفين. يسأل: "ما مدى احتمالية أن توصي بشركتك كمكان عمل؟" من -100 إلى +100.'
+                            : 'Employee satisfaction and loyalty metric. Asks: "How likely are you to recommend your company as a workplace?" Range: -100 to +100.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-blue-900 mb-1">
@@ -1243,6 +1333,24 @@ const Index = () => {
                     <div className="p-3 bg-emerald-500/10 rounded-lg">
                       <Heart className="h-6 w-6 text-emerald-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-emerald-600 hover:bg-emerald-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'رضا المسار المهني' : 'Career Satisfaction'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'نسبة الموظفين الراضين عن مسارهم المهني وفرص التطوير والترقية المتاحة لهم في الشركة.'
+                            : 'Percentage of employees satisfied with their career path and development/promotion opportunities within the company.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-emerald-900 mb-1">
@@ -1262,6 +1370,24 @@ const Index = () => {
                     <div className="p-3 bg-purple-500/10 rounded-lg">
                       <Eye className="h-6 w-6 text-purple-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-purple-600 hover:bg-purple-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'فعالية المدير' : 'Manager Effectiveness'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'تقييم متوسط فعالية المديرين من قبل الموظفين في القيادة والتوجيه والدعم، من 1 إلى 10.'
+                            : 'Average rating of manager effectiveness by employees in leadership, guidance, and support, on a scale of 1 to 10.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-purple-900 mb-1">
@@ -1281,6 +1407,24 @@ const Index = () => {
                     <div className="p-3 bg-gray-500/10 rounded-lg">
                       <BarChart3 className="h-6 w-6 text-gray-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-gray-600 hover:bg-gray-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'توزيع الأداء' : 'Performance Distribution'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'توزيع الموظفين حسب مستوى الأداء: 14% يتجاوزون التوقعات، 78% يحققون المتطلبات، 8% تحت المستوى المطلوب.'
+                            : 'Distribution of employees by performance level: 14% exceed expectations, 78% meet requirements, 8% below expectations.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-gray-900 mb-1">
@@ -1381,6 +1525,24 @@ const Index = () => {
                     <div className="p-3 bg-yellow-500/10 rounded-lg">
                       <DollarSign className="h-6 w-6 text-yellow-600" />
                     </div>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0 text-yellow-600 hover:bg-yellow-100">
+                          <HelpCircle className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-md">
+                        <DialogHeader>
+                          <DialogTitle>{isArabic ? 'الإيرادات لكل موظف' : 'Revenue per Employee'}</DialogTitle>
+                        </DialogHeader>
+                        <p className="text-sm text-gray-600">
+                          {isArabic 
+                            ? 'متوسط الإيرادات المحققة لكل موظف سنوياً. مؤشر رئيسي لقياس إنتاجية العمالة وكفاءة استخدام الموارد البشرية.'
+                            : 'Average revenue generated per employee annually. Key indicator for measuring workforce productivity and HR resource efficiency.'
+                          }
+                        </p>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                   <div className={`${isArabic ? 'text-right' : ''}`}>
                     <h4 className="text-sm font-medium text-yellow-900 mb-1">
