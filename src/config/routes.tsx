@@ -31,6 +31,9 @@ const SuccessionPlanningCore = lazy(() => import('../pages/core-hr/SuccessionPla
 const CompensationManagementCore = lazy(() => import('../pages/core-hr/CompensationManagementCore'));
 const SaudizationCalculator = lazy(() => import('../pages/core-hr/SaudizationCalculator'));
 
+// HSE Module
+const HealthSafety = lazy(() => import('../pages/HealthSafety'));
+
 // Payroll sub-modules
 const WPSProcessing = lazy(() => import('../pages/payroll/WPSProcessing'));
 const GOSIIntegration = lazy(() => import('../pages/payroll/GOSIIntegration'));
@@ -225,6 +228,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/core-hr/workflow', element: WorkflowAutomation, auth: true },
   { path: '/core-hr/mobile', element: MobileHR, auth: true },
   { path: '/core-hr/saudization', element: SaudizationCalculator, auth: true },
+  { path: '/health-safety', element: HealthSafety, auth: true },
   
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
