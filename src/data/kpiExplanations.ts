@@ -245,13 +245,27 @@ export const kpiExplanations = {
     titleAr: "تكلفة العمالة",
     descriptionEn: "Total cost of employing staff including salaries, benefits, and overhead",
     descriptionAr: "التكلفة الإجمالية لتوظيف الموظفين بما في ذلك الرواتب والمزايا والمصاريف العامة",
-    formulaEn: "Total Compensation + Benefits + Payroll Taxes + Overhead",
-    formulaAr: "إجمالي التعويضات + المزايا + ضرائب الرواتب + المصاريف العامة",
-    importanceEn: "Critical for budgeting, profitability analysis, and strategic decision-making about workforce size and compensation levels.",
-    importanceAr: "أساسي لوضع الميزانية وتحليل الربحية واتخاذ القرارات الاستراتيجية حول حجم القوى العاملة ومستويات التعويض.",
-    targetEn: "Should be optimized for productivity and competitiveness",
-    targetAr: "يجب تحسينه للإنتاجية والقدرة التنافسية",
+    formulaEn: "Salaries + Benefits + Overhead Costs + Training Costs",
+    formulaAr: "الرواتب + المزايا + التكاليف العامة + تكاليف التدريب",
+    importanceEn: "Understanding total labor costs helps with budgeting, pricing decisions, and profitability analysis.",
+    importanceAr: "فهم إجمالي تكاليف العمالة يساعد في وضع الميزانية وقرارات التسعير وتحليل الربحية.",
+    targetEn: "Optimize efficiency while maintaining competitive compensation",
+    targetAr: "تحسين الكفاءة مع الحفاظ على تعويض تنافسي",
     category: 'financial' as const
+  },
+
+  hseSafetyScore: {
+    titleEn: "HSE Safety Score",
+    titleAr: "نقاط السلامة والصحة المهنية",
+    descriptionEn: "Comprehensive safety performance score based on incidents, training compliance, and risk assessments",
+    descriptionAr: "نقاط الأداء الشامل للسلامة بناءً على الحوادث والامتثال للتدريب وتقييمات المخاطر",
+    formulaEn: "(Training Compliance × 0.3) + (Days Without Incident × 0.4) + (Risk Assessment Score × 0.3)",
+    formulaAr: "(امتثال التدريب × 0.3) + (أيام بدون حوادث × 0.4) + (نقاط تقييم المخاطر × 0.3)",
+    importanceEn: "High HSE scores reduce workplace accidents, legal liability, insurance costs, and improve employee wellbeing and productivity.",
+    importanceAr: "نقاط السلامة العالية تقلل حوادث العمل والمسؤولية القانونية وتكاليف التأمين وتحسن رفاهية الموظفين والإنتاجية.",
+    targetEn: "85% or higher indicates excellent safety performance",
+    targetAr: "85% أو أعلى يشير إلى أداء سلامة ممتاز",
+    category: 'compliance' as const
   },
 
   womenHiringRate: {

@@ -525,6 +525,46 @@ const Index = () => {
               </div>
             </div>
 
+            {/* HSE Safety Score KPI */}
+            <div className="relative group">
+              <div className="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition-all duration-300">
+                <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className="p-3 bg-orange-500/10 rounded-lg">
+                    <Shield className="h-6 w-6 text-orange-600" />
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <HelpCircle className="h-4 w-4" />
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle className={`${isArabic ? 'text-right' : ''}`}>
+                          {isArabic ? kpiExplanations.hseSafetyScore.titleAr : kpiExplanations.hseSafetyScore.titleEn}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <KPIExplanationCard explanation={kpiExplanations.hseSafetyScore} />
+                    </DialogContent>
+                  </Dialog>
+                </div>
+                <div className={`${isArabic ? 'text-right' : ''}`}>
+                  <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                    {isArabic ? 'نقاط السلامة والصحة المهنية' : 'HSE Safety Score'}
+                  </h3>
+                  <p className="text-3xl font-bold text-foreground mb-2">92.1%</p>
+                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <span className="text-xs px-2 py-1 bg-status-success/10 text-status-success rounded-full">
+                      +3.2%
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {isArabic ? 'ممتاز' : 'Excellent'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="relative group">
               <div className="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition-all duration-300">
                 <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
