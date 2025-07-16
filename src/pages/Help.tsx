@@ -101,6 +101,78 @@ const Help = () => {
       tools: language === 'ar' ? ['نشر الوظائف', 'تتبع المرشحين', 'جدولة المقابلات', 'إدارة العروض'] : ['Job Posting', 'Candidate Tracking', 'Interview Scheduling', 'Offer Management'],
       usage: language === 'ar' ? 'إنشاء وظيفة ← نشر في القنوات ← فحص المرشحين ← جدولة المقابلات ← تقديم العروض' : 'Create job → Post channels → Screen candidates → Schedule interviews → Make offers',
       benefits: language === 'ar' ? ['أوصاف واضحة', 'مقابلات منظمة', 'تجربة المرشح', 'توظيفات عالية الجودة'] : ['Clear descriptions', 'Structured interviews', 'Candidate experience', 'Quality hires']
+    },
+    {
+      id: 'learning-development',
+      icon: BookOpen,
+      title: language === 'ar' ? 'التعلم والتطوير' : 'Learning & Development',
+      description: language === 'ar' ? 'إدارة التدريب والتطوير المهني ومسارات التعلم' : 'Training management, professional development, and learning pathways',
+      tools: language === 'ar' ? ['كتالوج التدريب', 'مسارات التعلم', 'تتبع التقدم', 'إدارة الشهادات'] : ['Training Catalog', 'Learning Paths', 'Progress Tracking', 'Certification Management'],
+      usage: language === 'ar' ? 'تحديد الاحتياجات ← إنشاء البرامج ← تسجيل المشاركين ← تتبع التقدم ← تقييم النتائج' : 'Identify needs → Create programs → Enroll participants → Track progress → Evaluate outcomes',
+      benefits: language === 'ar' ? ['تطوير المهارات', 'برامج مخصصة', 'تتبع شامل', 'تحسين الأداء'] : ['Skill development', 'Customized programs', 'Comprehensive tracking', 'Performance improvement']
+    },
+    {
+      id: 'benefits-administration',
+      icon: Shield,
+      title: language === 'ar' ? 'إدارة المزايا' : 'Benefits Administration',
+      description: language === 'ar' ? 'إدارة شاملة لمزايا الموظفين والتأمين والمساعدات' : 'Comprehensive employee benefits, insurance, and assistance management',
+      tools: language === 'ar' ? ['حزم المزايا', 'إدارة التأمين', 'المساعدات المالية', 'برامج الرفاهية'] : ['Benefits Packages', 'Insurance Management', 'Financial Assistance', 'Wellness Programs'],
+      usage: language === 'ar' ? 'تصميم الحزم ← تسجيل الموظفين ← معالجة المطالبات ← مراقبة الاستخدام ← تجديد السياسات' : 'Design packages → Enroll employees → Process claims → Monitor usage → Renew policies',
+      benefits: language === 'ar' ? ['حزم شاملة', 'إدارة آلية', 'تتبع دقيق', 'رضا الموظفين'] : ['Comprehensive packages', 'Automated management', 'Accurate tracking', 'Employee satisfaction']
+    },
+    {
+      id: 'succession-planning',
+      icon: Building,
+      title: language === 'ar' ? 'تخطيط التعاقب' : 'Succession Planning',
+      description: language === 'ar' ? 'تحديد وتطوير القادة المستقبليين وتخطيط التعاقب الوظيفي' : 'Identifying and developing future leaders and career succession planning',
+      tools: language === 'ar' ? ['خرائط المواهب', 'تحليل الفجوات', 'خطط التطوير', 'مسارات الترقية'] : ['Talent Maps', 'Gap Analysis', 'Development Plans', 'Promotion Pathways'],
+      usage: language === 'ar' ? 'تحديد المواهب ← تقييم الاستعداد ← إنشاء خطط ← تنفيذ التطوير ← مراقبة التقدم' : 'Identify talent → Assess readiness → Create plans → Implement development → Monitor progress',
+      benefits: language === 'ar' ? ['استمرارية القيادة', 'تطوير المواهب', 'تقليل المخاطر', 'نمو مهني'] : ['Leadership continuity', 'Talent development', 'Risk reduction', 'Career growth']
+    },
+    {
+      id: 'compensation-benefits',
+      icon: DollarSign,
+      title: language === 'ar' ? 'التعويضات والمزايا' : 'Compensation & Benefits',
+      description: language === 'ar' ? 'تصميم وإدارة هياكل الرواتب والمزايا والحوافز' : 'Design and management of salary structures, benefits, and incentives',
+      tools: language === 'ar' ? ['هياكل الرواتب', 'تحليل السوق', 'إدارة الحوافز', 'مقارنات التعويضات'] : ['Salary Structures', 'Market Analysis', 'Incentive Management', 'Compensation Benchmarking'],
+      usage: language === 'ar' ? 'تحليل السوق ← تصميم الهياكل ← تحديد المستويات ← تطبيق التغييرات ← مراجعة دورية' : 'Market analysis → Design structures → Set levels → Implement changes → Regular review',
+      benefits: language === 'ar' ? ['تنافسية في السوق', 'عدالة داخلية', 'إدارة التكاليف', 'جذب المواهب'] : ['Market competitiveness', 'Internal equity', 'Cost management', 'Talent attraction']
+    },
+    {
+      id: 'employee-relations',
+      icon: Users,
+      title: language === 'ar' ? 'علاقات الموظفين' : 'Employee Relations',
+      description: language === 'ar' ? 'إدارة علاقات العمل والشكاوى والنزاعات والسياسات' : 'Managing workplace relationships, grievances, disputes, and policies',
+      tools: language === 'ar' ? ['إدارة الشكاوى', 'حل النزاعات', 'سياسات العمل', 'برامج المشاركة'] : ['Grievance Management', 'Conflict Resolution', 'Workplace Policies', 'Engagement Programs'],
+      usage: language === 'ar' ? 'استقبال الشكاوى ← التحقيق ← الوساطة ← حل النزاعات ← متابعة النتائج' : 'Receive complaints → Investigate → Mediate → Resolve disputes → Follow up outcomes',
+      benefits: language === 'ar' ? ['بيئة عمل إيجابية', 'حل سريع للنزاعات', 'امتثال قانوني', 'رضا الموظفين'] : ['Positive workplace', 'Quick dispute resolution', 'Legal compliance', 'Employee satisfaction']
+    },
+    {
+      id: 'compliance-reporting',
+      icon: FileText,
+      title: language === 'ar' ? 'الامتثال والتقارير' : 'Compliance & Reporting',
+      description: language === 'ar' ? 'ضمان الامتثال للقوانين وإنتاج التقارير التنظيمية والإحصائية' : 'Ensuring legal compliance and producing regulatory and statistical reports',
+      tools: language === 'ar' ? ['تقارير تنظيمية', 'مراقبة الامتثال', 'تحليلات الموارد البشرية', 'لوحات المعلومات'] : ['Regulatory Reports', 'Compliance Monitoring', 'HR Analytics', 'Dashboards'],
+      usage: language === 'ar' ? 'جمع البيانات ← تحليل الامتثال ← إنتاج التقارير ← مراجعة النتائج ← اتخاذ الإجراءات' : 'Collect data → Analyze compliance → Generate reports → Review results → Take actions',
+      benefits: language === 'ar' ? ['امتثال كامل', 'تقارير دقيقة', 'اتخاذ قرارات مبنية على البيانات', 'شفافية'] : ['Full compliance', 'Accurate reporting', 'Data-driven decisions', 'Transparency']
+    },
+    {
+      id: 'workforce-planning',
+      icon: BarChart3,
+      title: language === 'ar' ? 'تخطيط القوى العاملة' : 'Workforce Planning',
+      description: language === 'ar' ? 'التخطيط الاستراتيجي للموارد البشرية وتحليل الاحتياجات المستقبلية' : 'Strategic HR planning and future workforce needs analysis',
+      tools: language === 'ar' ? ['تحليل الاحتياجات', 'نمذجة القوى العاملة', 'التنبؤ بالمهارات', 'تخطيط الميزانية'] : ['Needs Analysis', 'Workforce Modeling', 'Skills Forecasting', 'Budget Planning'],
+      usage: language === 'ar' ? 'تحليل الوضع الحالي ← توقع الاحتياجات ← تخطيط الاستراتيجيات ← تنفيذ الخطط ← مراقبة النتائج' : 'Analyze current state → Forecast needs → Plan strategies → Implement plans → Monitor results',
+      benefits: language === 'ar' ? ['تخطيط استراتيجي', 'تحسين الكفاءة', 'إدارة التكاليف', 'الاستعداد للمستقبل'] : ['Strategic planning', 'Efficiency optimization', 'Cost management', 'Future readiness']
+    },
+    {
+      id: 'hse-management',
+      icon: Shield,
+      title: language === 'ar' ? 'الصحة والسلامة والبيئة' : 'Health, Safety & Environment',
+      description: language === 'ar' ? 'إدارة شاملة للصحة المهنية والسلامة والمتطلبات البيئية' : 'Comprehensive occupational health, safety, and environmental requirements management',
+      tools: language === 'ar' ? ['إدارة الحوادث', 'تقييم المخاطر', 'التدريب الأمني', 'مراقبة الامتثال'] : ['Incident Management', 'Risk Assessment', 'Safety Training', 'Compliance Monitoring'],
+      usage: language === 'ar' ? 'تقييم المخاطر ← وضع الإجراءات ← تدريب الموظفين ← مراقبة الامتثال ← تحسين مستمر' : 'Assess risks → Set procedures → Train employees → Monitor compliance → Continuous improvement',
+      benefits: language === 'ar' ? ['بيئة عمل آمنة', 'امتثال تنظيمي', 'تقليل الحوادث', 'حماية الموظفين'] : ['Safe workplace', 'Regulatory compliance', 'Incident reduction', 'Employee protection']
     }
   ];
 
