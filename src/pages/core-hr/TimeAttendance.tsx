@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -60,7 +60,7 @@ interface LeaveBalance {
 }
 
 const TimeAttendance = () => {
-  const { language } = useSimpleLanguage();
+  const { language } = useLanguage();
   const { toast } = useToast();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([]);
