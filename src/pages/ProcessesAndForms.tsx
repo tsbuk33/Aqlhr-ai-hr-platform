@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   Workflow, 
   FileText, 
@@ -32,9 +34,13 @@ import {
   Target,
   BarChart3,
   Filter,
-  Shield
+  Shield,
+  File,
+  Loader2,
+  Sparkles
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 // Module discovery configuration for all 14 core modules
 const HR_MODULES = [
@@ -187,6 +193,12 @@ const ProcessesAndForms = () => {
     workflows: 0
   });
   const [isScanning, setIsScanning] = useState(false);
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [documentText, setDocumentText] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<any>(null);
+  const [implementedItems, setImplementedItems] = useState<any[]>([]);
 
   // Simulate AI discovery process
   const runModuleDiscovery = async () => {
@@ -208,6 +220,80 @@ const ProcessesAndForms = () => {
       title: isRTL ? "اكتمل الاكتشاف" : "Discovery Complete",
       description: isRTL ? "تم اكتشاف جميع الوحدات والعمليات بنجاح" : "All modules and processes discovered successfully"
     });
+  };
+
+  // Handle file upload and text extraction
+  const handleFileUpload = async (file: File) => {
+    setUploadedFile(file);
+    const text = await file.text();
+    setDocumentText(text);
+  };
+
+  // AI document processing
+  const processDocumentWithAI = async () => {
+    if (!documentText) return;
+    
+    setIsProcessing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('ai-document-processor', {
+        body: {
+          documentText,
+          documentType: uploadedFile?.type || 'unknown',
+          companyContext: 'AqlHR System - Saudi Arabia HR Management'
+        }
+      });
+
+      if (error) throw error;
+      
+      setAiAnalysis(data.analysis);
+      toast({
+        title: isRTL ? "تم التحليل بنجاح" : "Analysis Complete",
+        description: isRTL ? "تم تحليل المستند وجاهز للتطبيق" : "Document analyzed and ready for implementation"
+      });
+    } catch (error) {
+      console.error('AI processing error:', error);
+      toast({
+        title: isRTL ? "خطأ في التحليل" : "Analysis Error",
+        description: isRTL ? "حدث خطأ أثناء تحليل المستند" : "Error occurred while analyzing document",
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  // Implement AI analysis into system
+  const implementAnalysis = async () => {
+    if (!aiAnalysis) return;
+    
+    try {
+      // Simulate implementation process
+      const newItem = {
+        id: Date.now().toString(),
+        title: aiAnalysis.title,
+        type: aiAnalysis.documentType,
+        category: aiAnalysis.implementation?.category || 'general',
+        implementedAt: new Date().toISOString(),
+        status: 'active'
+      };
+      
+      setImplementedItems([...implementedItems, newItem]);
+      setAiAnalysis(null);
+      setUploadDialogOpen(false);
+      setDocumentText('');
+      setUploadedFile(null);
+      
+      toast({
+        title: isRTL ? "تم التطبيق بنجاح" : "Successfully Implemented",
+        description: isRTL ? "تم إضافة العملية/النموذج إلى النظام" : "Process/Form added to the system"
+      });
+    } catch (error) {
+      toast({
+        title: isRTL ? "خطأ في التطبيق" : "Implementation Error",
+        description: isRTL ? "حدث خطأ أثناء إضافة العنصر" : "Error occurred while adding item",
+        variant: "destructive"
+      });
+    }
   };
 
   const filteredModules = HR_MODULES.filter(module =>
@@ -232,13 +318,198 @@ const ProcessesAndForms = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              <Upload className="h-4 w-4 mr-2" />
-              {isRTL ? 'رفع مستند' : 'Upload Document'}
-            </Button>
-            <Button size="sm">
+            <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Upload className="h-4 w-4 mr-2" />
+                  {isRTL ? 'رفع مستند' : 'Upload Document'}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <Sparkles className="h-5 w-5 text-primary" />
+                    {isRTL ? 'معالج الذكاء الاصطناعي للمستندات' : 'AI Document Processor'}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {isRTL 
+                      ? 'ارفع أي عملية أو سير عمل أو نموذج وسيقوم الذكاء الاصطناعي بتحليله وتطبيقه في النظام فوراً'
+                      : 'Upload any process, workflow, or form and AI will analyze and implement it into the system instantly'
+                    }
+                  </DialogDescription>
+                </DialogHeader>
+                
+                <div className="space-y-6">
+                  {/* File Upload Section */}
+                  <div className="space-y-4">
+                    <Label>{isRTL ? 'اختر ملف أو أدخل النص' : 'Choose file or enter text'}</Label>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>{isRTL ? 'رفع ملف' : 'Upload File'}</Label>
+                        <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+                          <input
+                            type="file"
+                            accept=".txt,.doc,.docx,.pdf"
+                            onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
+                            className="hidden"
+                            id="file-upload"
+                          />
+                          <label htmlFor="file-upload" className="cursor-pointer">
+                            <File className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                            <p className="text-sm text-muted-foreground">
+                              {isRTL ? 'اضغط لاختيار ملف' : 'Click to select file'}
+                            </p>
+                            {uploadedFile && (
+                              <p className="text-xs text-primary mt-1">{uploadedFile.name}</p>
+                            )}
+                          </label>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label>{isRTL ? 'أو أدخل النص مباشرة' : 'Or enter text directly'}</Label>
+                        <Textarea
+                          placeholder={isRTL ? 'الصق أو اكتب نص العملية/النموذج هنا...' : 'Paste or type your process/form text here...'}
+                          value={documentText}
+                          onChange={(e) => setDocumentText(e.target.value)}
+                          className="min-h-[150px]"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI Processing */}
+                  {documentText && (
+                    <div className="space-y-4">
+                      <Button 
+                        onClick={processDocumentWithAI} 
+                        disabled={isProcessing}
+                        className="w-full"
+                      >
+                        {isProcessing ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            {isRTL ? 'جاري التحليل...' : 'Analyzing...'}
+                          </>
+                        ) : (
+                          <>
+                            <Brain className="h-4 w-4 mr-2" />
+                            {isRTL ? 'تحليل بالذكاء الاصطناعي' : 'Analyze with AI'}
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* AI Analysis Results */}
+                  {aiAnalysis && (
+                    <div className="space-y-4">
+                      <Alert>
+                        <CheckCircle className="h-4 w-4" />
+                        <AlertDescription>
+                          {isRTL ? 'تم تحليل المستند بنجاح! مراجع النتائج أدناه.' : 'Document analyzed successfully! Review the results below.'}
+                        </AlertDescription>
+                      </Alert>
+                      
+                      <Card>
+                        <CardHeader>
+                          <CardTitle className="text-lg">
+                            {isRTL ? aiAnalysis.title?.ar : aiAnalysis.title?.en}
+                          </CardTitle>
+                          <CardDescription>
+                            {isRTL ? aiAnalysis.description?.ar : aiAnalysis.description?.en}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                              <Label>{isRTL ? 'النوع' : 'Type'}</Label>
+                              <Badge variant="secondary" className="block w-fit mt-1">
+                                {aiAnalysis.documentType}
+                              </Badge>
+                            </div>
+                            <div>
+                              <Label>{isRTL ? 'الفئة' : 'Category'}</Label>
+                              <Badge variant="outline" className="block w-fit mt-1">
+                                {aiAnalysis.implementation?.category}
+                              </Badge>
+                            </div>
+                            <div>
+                              <Label>{isRTL ? 'الأولوية' : 'Priority'}</Label>
+                              <Badge 
+                                variant={aiAnalysis.implementation?.priority === 'high' ? 'destructive' : 'secondary'}
+                                className="block w-fit mt-1"
+                              >
+                                {aiAnalysis.implementation?.priority}
+                              </Badge>
+                            </div>
+                          </div>
+
+                          {/* Extracted Data Summary */}
+                          {aiAnalysis.extractedData && (
+                            <div className="space-y-3">
+                              <Label>{isRTL ? 'البيانات المستخرجة' : 'Extracted Data'}</Label>
+                              <div className="grid grid-cols-2 gap-4 text-sm">
+                                {aiAnalysis.extractedData.processSteps && (
+                                  <div>
+                                    <span className="font-medium">{isRTL ? 'خطوات العملية:' : 'Process Steps:'}</span>
+                                    <span className="ml-2">{aiAnalysis.extractedData.processSteps.length}</span>
+                                  </div>
+                                )}
+                                {aiAnalysis.extractedData.formFields && (
+                                  <div>
+                                    <span className="font-medium">{isRTL ? 'حقول النموذج:' : 'Form Fields:'}</span>
+                                    <span className="ml-2">{aiAnalysis.extractedData.formFields.length}</span>
+                                  </div>
+                                )}
+                                {aiAnalysis.extractedData.approvalChain && (
+                                  <div>
+                                    <span className="font-medium">{isRTL ? 'سلسلة الموافقات:' : 'Approval Chain:'}</span>
+                                    <span className="ml-2">{aiAnalysis.extractedData.approvalChain.length} {isRTL ? 'مستويات' : 'levels'}</span>
+                                  </div>
+                                )}
+                                {aiAnalysis.extractedData.integrationPoints && (
+                                  <div>
+                                    <span className="font-medium">{isRTL ? 'نقاط التكامل:' : 'Integration Points:'}</span>
+                                    <span className="ml-2">{aiAnalysis.extractedData.integrationPoints.length}</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Recommendations */}
+                          {aiAnalysis.recommendations && aiAnalysis.recommendations.length > 0 && (
+                            <div className="space-y-2">
+                              <Label>{isRTL ? 'التوصيات' : 'Recommendations'}</Label>
+                              <div className="space-y-2">
+                                {aiAnalysis.recommendations.slice(0, 3).map((rec: any, index: number) => (
+                                  <Alert key={index}>
+                                    <AlertDescription className="text-sm">
+                                      {isRTL ? rec.description?.ar : rec.description?.en}
+                                    </AlertDescription>
+                                  </Alert>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <Button onClick={implementAnalysis} className="w-full">
+                            <Zap className="h-4 w-4 mr-2" />
+                            {isRTL ? 'تطبيق في النظام' : 'Implement into System'}
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+            
+            <Button size="sm" onClick={() => setUploadDialogOpen(true)}>
               <Brain className="h-4 w-4 mr-2" />
-              {isRTL ? 'تحليل بالذكاء الاصطناعي' : 'AI Analysis'}
+              {isRTL ? 'معالج الذكاء الاصطناعي' : 'AI Processor'}
             </Button>
           </div>
         </div>
@@ -356,6 +627,56 @@ const ProcessesAndForms = () => {
                       className="max-w-md"
                     />
                   </div>
+
+                  {/* AI Implemented Items */}
+                  {implementedItems.length > 0 && (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-4 w-4 text-primary" />
+                        <h3 className="text-lg font-semibold">
+                          {isRTL ? 'العناصر المطبقة بالذكاء الاصطناعي' : 'AI-Implemented Items'}
+                        </h3>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {implementedItems.map((item) => (
+                          <Card key={item.id} className="border-primary/20">
+                            <CardContent className="p-4">
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <Badge variant="default" className="text-xs">
+                                    {item.type}
+                                  </Badge>
+                                  <Badge variant="outline" className="text-xs text-green-600">
+                                    {isRTL ? 'مطبق' : 'Implemented'}
+                                  </Badge>
+                                </div>
+                                <h4 className="font-semibold">
+                                  {isRTL ? item.title?.ar : item.title?.en}
+                                </h4>
+                                <p className="text-sm text-muted-foreground">
+                                  {isRTL ? `الفئة: ${item.category}` : `Category: ${item.category}`}
+                                </p>
+                                <p className="text-xs text-muted-foreground">
+                                  {isRTL ? 'تم التطبيق:' : 'Implemented:'} {new Date(item.implementedAt).toLocaleDateString()}
+                                </p>
+                                <div className="flex gap-2 mt-2">
+                                  <Button variant="outline" size="sm">
+                                    <Eye className="h-3 w-3 mr-1" />
+                                    {isRTL ? 'عرض' : 'View'}
+                                  </Button>
+                                  <Button variant="outline" size="sm">
+                                    <Edit className="h-3 w-3 mr-1" />
+                                    {isRTL ? 'تعديل' : 'Edit'}
+                                  </Button>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Module Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
