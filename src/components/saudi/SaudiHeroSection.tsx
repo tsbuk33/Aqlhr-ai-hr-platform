@@ -43,6 +43,18 @@ export const SaudiHeroSection: React.FC = () => {
                 <p>بهذا الاسم، نربط بين العراقة العربية في تقدير "العقل" وبين قوة الذكاء الاصطناعي لتمكين منظمتكم من تحقيق أفضل مستويات الحوكمة والامتثال.</p>
               </div>
             )}
+
+            {/* AqlHR Name Explanation - English Only */}
+            {!isArabic && (
+              <div className="mt-8 max-w-4xl mx-auto text-white/80 text-sm md:text-base leading-relaxed space-y-3">
+                <p>Why we chose AqlHR</p>
+                <p>We selected AqlHR because it marries a time-honored Arabic virtue with next-generation AI:</p>
+                <p>"Aql" (عقل) evokes the human intellect—the discerning, reasoned judgment that underpins wise governance.</p>
+                <p>By adding "HR," we signal that our platform doesn't merely automate tasks; it thinks, learns, and guides every compliance and people-management decision.</p>
+                <p>AqlHR stands for a digital mind—one that anticipates challenges, interprets data with nuance, and delivers clear, actionable insights.</p>
+                <p>In choosing AqlHR, we honor centuries of tradition while empowering your organization with the intelligent foresight needed to navigate today's complex HR and compliance landscape.</p>
+              </div>
+            )}
           </div>
 
           {/* Partner Logos */}
