@@ -58,7 +58,7 @@ export function DashboardHeader() {
             </div>
             <Avatar className="h-8 w-8">
               <AvatarImage src="/placeholder-avatar.jpg" alt="Ahmed Al-Rashid" />
-              <AvatarFallback className="bg-gradient-primary text-white text-sm font-medium">
+              <AvatarFallback className="bg-muted text-muted-foreground text-sm font-medium">
                 AR
               </AvatarFallback>
             </Avatar>

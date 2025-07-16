@@ -41,7 +41,7 @@ export const VirtualAssistant: React.FC = () => {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 shadow-lg"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary hover:bg-primary-hover shadow-lg"
         size="icon"
       >
         <MessageCircle className="h-6 w-6 text-white" />
@@ -52,7 +52,7 @@ export const VirtualAssistant: React.FC = () => {
   return (
     <Card className="fixed bottom-6 right-6 z-50 w-80 h-96 flex flex-col shadow-2xl border-0 bg-white dark:bg-gray-900">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-lg">
+      <div className="flex items-center justify-between p-4 bg-primary text-primary-foreground rounded-t-lg">
         <div className="flex items-center space-x-2 rtl:space-x-reverse">
           <Bot className="h-5 w-5" />
           <span className={`font-medium ${isArabic ? 'font-arabic' : ''}`}>

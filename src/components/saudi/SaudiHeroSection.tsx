@@ -8,7 +8,7 @@ export const SaudiHeroSection: React.FC = () => {
   const isArabic = language === 'ar';
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-[hsl(240_35%_15%)] via-[hsl(240_30%_20%)] to-[hsl(240_25%_25%)] min-h-[400px]">
+    <div className="relative overflow-hidden bg-card border-b border-border min-h-[400px]">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')]" />
