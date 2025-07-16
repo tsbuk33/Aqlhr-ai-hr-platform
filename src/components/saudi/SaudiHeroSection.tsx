@@ -26,7 +26,7 @@ export const SaudiHeroSection: React.FC = () => {
             <h1 className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white font-saudi-heading ${isArabic ? 'font-arabic text-center' : ''}`}>
               {isArabic ? 'نظام إيه كيو إل إتش ار للموارد البشرية' : 'AqlHR System'}
             </h1>
-            <p className={`text-xl md:text-2xl text-white/90 max-w-3xl mx-auto ${isArabic ? 'font-arabic' : ''}`}>
+            <p className={`text-base md:text-lg text-white/90 max-w-3xl mx-auto ${isArabic ? 'font-arabic' : ''}`}>
               {isArabic 
                 ? 'وجهة واحدة لإدارة وتطوير الموارد البشرية'
                 : 'One destination for HR management and development'
@@ -35,7 +35,7 @@ export const SaudiHeroSection: React.FC = () => {
             
             {/* AqlHR Name Explanation - Arabic Only */}
             {isArabic && (
-              <div className="mt-8 max-w-4xl mx-auto text-white/80 text-lg leading-relaxed font-arabic space-y-4">
+              <div className="mt-8 max-w-4xl mx-auto text-white/80 text-sm md:text-base leading-relaxed font-arabic space-y-3">
                 <p>لقد اخترنا اسم AqlHR (عقل HR) للأسباب التالية:</p>
                 <p>"عقل" يرمز إلى القوة الإدراكية وحكمة القرار، وهو الأساس الذي تقوم عليه نظم الحوكمة الفعّالة.</p>
                 <p>بإضافة "HR"، نُبرز أن منصتنا لا تكتفي بالأتمتة؛ بل تفكّر وتتعلم وتقود كل قرارٍ في إدارة الأفراد والالتزام التنظيمي.</p>
