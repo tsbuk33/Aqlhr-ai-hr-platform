@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { 
-  DollarSign, 
+  DollarSign,
   Users, 
   Shield, 
   Calculator,
@@ -73,7 +73,7 @@ const Payroll = () => {
   const stats = [
     {
       title: language === 'ar' ? 'إجمالي مساهمات GOSI' : 'Total GOSI Contributions',
-      value: `SAR ${loading ? '455,624' : (gosiSummary?.total_contributions || 455624).toLocaleString()}`,
+      value: `﷼ ${loading ? '455,624' : (gosiSummary?.total_contributions || 455624).toLocaleString()}`,
       icon: DollarSign,
       variant: "primary" as const,
       trend: { value: "Progressive rates applied", isPositive: true }
@@ -224,7 +224,7 @@ const Payroll = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-primary">
-                    SAR {loading ? '---' : (gosiSummary?.total_employee_contributions || 0).toLocaleString()}
+                    ﷼ {loading ? '---' : (gosiSummary?.total_employee_contributions || 0).toLocaleString()}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {language === 'ar' ? 'الاستقطاعات الشهرية' : 'Monthly deductions'}
@@ -240,7 +240,7 @@ const Payroll = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-success">
-                    SAR {loading ? '---' : (gosiSummary?.total_employer_contributions || 0).toLocaleString()}
+                    ﷼ {loading ? '---' : (gosiSummary?.total_employer_contributions || 0).toLocaleString()}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {language === 'ar' ? 'التزامات الشركة' : 'Company obligations'}
@@ -256,7 +256,7 @@ const Payroll = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-accent">
-                    SAR {loading ? '---' : (gosiSummary?.total_contributions || 0).toLocaleString()}
+                    ﷼ {loading ? '---' : (gosiSummary?.total_contributions || 0).toLocaleString()}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {language === 'ar' ? 'المجموع الشهري' : 'Combined monthly'}
@@ -296,7 +296,7 @@ const Payroll = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  {language === 'ar' ? 'إجمالي المسؤولية: ريال سعودي 2,340,000' : 'Total liability: SAR 2,340,000'}
+                  {language === 'ar' ? 'إجمالي المسؤولية: ﷼ 2,340,000' : 'Total liability: ﷼ 2,340,000'}
                 </p>
               </CardContent>
             </Card>
