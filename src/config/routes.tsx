@@ -175,6 +175,9 @@ const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 // Tools & Integrations module
 const Tools = lazy(() => import('../pages/Tools'));
 
+// Legal Consultant module
+const LegalConsultant = lazy(() => import('../pages/LegalConsultant'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
@@ -187,6 +190,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/', element: Index },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
+  { path: '/legal-consultant', element: LegalConsultant },
   
   // Main modules - auth required
   { path: '/core-hr', element: CoreHR, auth: true },

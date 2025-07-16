@@ -10,7 +10,8 @@ import {
   ArrowUp, 
   ArrowDown,
   Settings,
-  Shield
+  Shield,
+  Scale
 } from "lucide-react";
 import {
   Sidebar,
@@ -101,6 +102,12 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "تقويم أم القرى" : "Umm Al-Qura Calendar", url: "/government/umm-al-qura" },
       { title: isArabic ? "المجلس السعودي للمهندسين" : "Saudi Council of Engineers", url: "/government/saudi-engineering" },
     ]
+  },
+  { 
+    title: isArabic ? "المستشار القانوني الذكي" : "Legal Consultant AI", 
+    url: "/legal-consultant", 
+    icon: Scale,
+    badge: "NEW"
   },
   { 
     title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
