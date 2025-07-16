@@ -67,7 +67,7 @@ const Index = () => {
           <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className={`${isArabic ? 'text-right' : ''}`}>
               <h1 className="text-3xl font-bold text-foreground mb-2">
-                {isArabic ? 'نظام سند للموارد البشرية' : 'SanadHR Executive Dashboard'}
+                {isArabic ? 'نظام إيه كيو إل إتش ار للموارد البشرية' : 'AqlHR Executive Dashboard'}
               </h1>
               <p className="text-muted-foreground text-lg">
                 {isArabic ? 'منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية' : 'Advanced Intelligent Platform for Human Resources Management in Saudi Arabia'}

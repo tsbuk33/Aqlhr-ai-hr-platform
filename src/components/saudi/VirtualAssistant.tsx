@@ -20,12 +20,12 @@ export const VirtualAssistant: React.FC = () => {
     setTimeout(() => {
       const responses = isArabic 
         ? [
-            'مرحبا بك في منصة سند للموارد البشرية. كيف يمكنني مساعدتك؟',
+            'مرحبا بك في منصة إيه كيو إل إتش ار للموارد البشرية. كيف يمكنني مساعدتك؟',
             'يمكنني مساعدتك في استعلامات الموظفين والرواتب.',
             'هل تريد معرفة المزيد عن خدماتنا؟'
           ]
         : [
-            'Welcome to SanadHR platform. How can I help you?',
+            'Welcome to AqlHR platform. How can I help you?',
             'I can assist you with employee and payroll inquiries.',
             'Would you like to know more about our services?'
           ];

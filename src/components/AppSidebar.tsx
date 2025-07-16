@@ -164,7 +164,7 @@ export function AppSidebar() {
             {state !== "collapsed" && (
               <div className={isArabic ? 'text-right' : 'text-left'}>
                 <h1 className="text-lg font-bold text-sidebar-primary-foreground">
-                  {isArabic ? 'سند الموارد البشرية' : 'SanadHR'}
+                  {isArabic ? 'إيه كيو إل إتش ار الموارد البشرية' : 'AqlHR'}
                 </h1>
                 <p className="text-xs text-sidebar-foreground/70">
                   {isArabic ? 'منصة الموارد البشرية الشاملة' : 'Complete HR Platform'}

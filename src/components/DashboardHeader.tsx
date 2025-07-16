@@ -17,12 +17,12 @@ export function DashboardHeader() {
           <div className="hidden md:block">
             {isArabic ? (
               <>
-                <h1 className="text-xl font-semibold text-foreground text-right">نظام سند للموارد البشرية</h1>
+                <h1 className="text-xl font-semibold text-foreground text-right">نظام إيه كيو إل إتش ار للموارد البشرية</h1>
                 <p className="text-sm text-muted-foreground text-right">منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية</p>
               </>
             ) : (
               <>
-                <h1 className="text-xl font-semibold text-foreground">SanadHR System</h1>
+                <h1 className="text-xl font-semibold text-foreground">AqlHR System</h1>
                 <p className="text-sm text-muted-foreground">Advanced Intelligent Platform for Human Resources Management in Saudi Arabia</p>
               </>
             )}

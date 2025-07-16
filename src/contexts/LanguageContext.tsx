@@ -31,7 +31,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     document.documentElement.lang = language;
     
     // Save language preference
-    localStorage.setItem('sanadhr_language', language);
+    localStorage.setItem('aqlhr_language', language);
   }, [language]);
 
   useEffect(() => {

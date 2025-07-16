@@ -46,7 +46,7 @@ export const GlobalFooter: React.FC = () => {
             <h4 className="text-sm font-semibold text-white mb-4 font-saudi-heading">{isArabic ? 'تواصل معنا' : 'Contact'}</h4>
             <ul className="space-y-2 text-sm text-white/80">
               <li>{isArabic ? 'الرياض، المملكة العربية السعودية' : 'Riyadh, Saudi Arabia'}</li>
-              <li>info@sanadhr.com</li>
+              <li>info@aqlhr.com</li>
               <li>+966 11 XXX XXXX</li>
             </ul>
           </div>
