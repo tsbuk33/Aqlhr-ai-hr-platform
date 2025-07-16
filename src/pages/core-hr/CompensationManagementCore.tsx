@@ -8,9 +8,13 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { TrendingUp, TrendingDown, Scale, AlertTriangle, Users, Target, BarChart3, Shield, HelpCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SalarySearchEngine } from "@/components/salary/SalarySearchEngine";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { useToast } from "@/hooks/use-toast";
+import { Upload } from "lucide-react";
 
 const CompensationManagementCore = () => {
   const { language } = useLanguage();
+  const { toast } = useToast();
 
   const translations = {
     en: {
@@ -306,6 +310,33 @@ const CompensationManagementCore = () => {
 
       {/* Salary Search Engine */}
       <SalarySearchEngine />
+
+      {/* Document Upload Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Upload className="h-5 w-5" />
+            {t('upload_documents') || 'Upload Documents'}
+          </CardTitle>
+          <CardDescription>
+            {t('upload_compensation_docs') || 'Upload compensation and benefits files for AI processing'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <SanadAIFileProcessor
+            platform="compensation-management"
+            moduleType="core-hr"
+            onFileProcessed={(file) => {
+              toast({
+                title: t('file_processed') || "File processed successfully",
+                description: t('file_processed_desc') || `${file.name} has been processed and analyzed.`,
+              });
+            }}
+            acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
+            maxFileSize={10}
+          />
+        </CardContent>
+      </Card>
 
       {/* Salary Benchmark Intelligence Section */}
       <div className="space-y-6">

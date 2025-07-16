@@ -6,10 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Upload, User, Star, TrendingUp, AlertCircle, Calendar, Camera } from "lucide-react";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
 
 const SuccessionPlanningCore = () => {
   const { language } = useLanguage();
+  const { toast } = useToast();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
@@ -319,10 +322,11 @@ const SuccessionPlanningCore = () => {
       </div>
 
       <Tabs defaultValue="readiness" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="readiness">{t('successor_readiness')}</TabsTrigger>
           <TabsTrigger value="ninebox">{t('nine_box_grid')}</TabsTrigger>
           <TabsTrigger value="development">{t('development_plans')}</TabsTrigger>
+          <TabsTrigger value="documents">{t('upload_documents') || 'Documents'}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="readiness" className="space-y-6">
@@ -416,6 +420,39 @@ const SuccessionPlanningCore = () => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {t('upload_documents') || 'Upload Documents'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' ? 
+                  'ارفع ملفات التعاقب الوظيفي والتطوير للمعالجة بالذكاء الاصطناعي' : 
+                  'Upload succession planning and development files for AI processing'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="succession-planning"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
+                    description: language === 'ar' ? 
+                      `تم معالجة وتحليل ${file.name}.` : 
+                      `${file.name} has been processed and analyzed.`,
+                  });
+                }}
+                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
+                maxFileSize={10}
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

@@ -1,8 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
+import { Upload } from "lucide-react";
 
 const WorkflowAutomation = () => {
   const { t } = useLanguage();
+  const { toast } = useToast();
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -45,6 +50,57 @@ const WorkflowAutomation = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">{t('core_hr.overview') || 'Overview'}</TabsTrigger>
+          <TabsTrigger value="documents">{t('core_hr.documents') || 'Documents'}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('core_hr.workflow_automation')}</CardTitle>
+              <CardDescription>
+                {t('core_hr.workflow_automation_overview') || 'Comprehensive workflow automation and process management'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">
+                {t('core_hr.workflow_automation_content') || 'Automate HR processes, track workflow efficiency, and manage task automation.'}
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {t('core_hr.upload_documents') || 'Upload Documents'}
+              </CardTitle>
+              <CardDescription>
+                {t('core_hr.upload_workflow_docs') || 'Upload workflow automation files for AI processing'}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="workflow-automation"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: t('core_hr.file_processed') || "File processed successfully",
+                    description: t('core_hr.file_processed_desc') || `${file.name} has been processed and analyzed.`,
+                  });
+                }}
+                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
+                maxFileSize={10}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

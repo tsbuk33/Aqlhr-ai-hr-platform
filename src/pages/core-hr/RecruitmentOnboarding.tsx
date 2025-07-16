@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,11 +24,13 @@ import {
   AlertCircle,
   Briefcase,
   MapPin,
-  Building
+  Building,
+  Upload
 } from "lucide-react";
 
 const RecruitmentOnboarding = () => {
   const { language } = useLanguage();
+  const { toast } = useToast();
   
   // Form state for demonstration
   const [formData, setFormData] = useState({
@@ -230,6 +234,44 @@ const RecruitmentOnboarding = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+      )
+    },
+    {
+      id: 'documents',
+      label: language === 'ar' ? 'المستندات' : 'Documents',
+      content: (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {language === 'ar' ? 'رفع المستندات' : 'Upload Documents'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' ? 
+                  'ارفع ملفات التوظيف والإعداد للمعالجة بالذكاء الاصطناعي' : 
+                  'Upload recruitment and onboarding files for AI processing'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="recruitment-onboarding"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
+                    description: language === 'ar' ? 
+                      `تم معالجة وتحليل ${file.name}.` : 
+                      `${file.name} has been processed and analyzed.`,
+                  });
+                }}
+                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
+                maxFileSize={10}
+              />
+            </CardContent>
+          </Card>
         </div>
       )
     },
