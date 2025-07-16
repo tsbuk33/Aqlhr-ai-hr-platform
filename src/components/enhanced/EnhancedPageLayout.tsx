@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ interface EnhancedPageLayoutProps {
   documents?: DocumentItem[];
   children?: React.ReactNode;
   headerActions?: React.ReactNode;
+  onUpload?: (file: any) => void;
 }
 
 interface TabConfig {
@@ -56,11 +57,13 @@ interface StatCard {
 }
 
 interface DocumentItem {
+  id?: string;
   name: string;
   type: string;
   date: string;
   size: string;
   downloadUrl?: string;
+  url?: string;
 }
 
 export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
@@ -74,11 +77,29 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
   stats = [],
   documents = [],
   children,
-  headerActions
+  headerActions,
+  onUpload
 }) => {
   const { language, isRTL } = useLanguage();
   const { formatters, directionClasses } = usePerformantLocalization();
   const isMobile = useIsMobile();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && onUpload) {
+      onUpload({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        file: file
+      });
+    }
+  };
 
   // Mock user data - in real app, fetch from Supabase auth
   const user = {
@@ -203,7 +224,14 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
                 </CardDescription>
               </div>
               <div className="flex gap-2">
-                <Button size="sm">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.txt"
+                />
+                <Button size="sm" onClick={handleUploadClick}>
                   <Upload className="h-4 w-4" />
                   <span className="ml-2">{language === 'ar' ? 'رفع' : 'Upload'}</span>
                 </Button>
@@ -223,7 +251,15 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
                       </p>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => {
+                      if (doc.url || doc.downloadUrl) {
+                        window.open(doc.url || doc.downloadUrl, '_blank');
+                      }
+                    }}
+                  >
                     <Download className="h-4 w-4" />
                   </Button>
                 </div>

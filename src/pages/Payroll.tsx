@@ -131,26 +131,48 @@ const Payroll = () => {
     }
   ];
 
-  const documents = [
+  const [documents, setDocuments] = useState([
     {
+      id: 'doc-1',
       name: language === 'ar' ? 'كشف_رواتب_ديسمبر_2024.pdf' : 'payroll_summary_december_2024.pdf',
       type: language === 'ar' ? 'كشف الرواتب' : 'Payroll Summary',
       date: '2024-12-30',
-      size: '4.2 MB'
+      size: '4.2 MB',
+      url: '#'
     },
     {
+      id: 'doc-2', 
       name: language === 'ar' ? 'تقرير_التأمينات_الاجتماعية.xlsx' : 'gosi_contributions_report.xlsx',
       type: language === 'ar' ? 'تقرير التأمينات' : 'GOSI Report',
       date: '2024-12-30',
-      size: '2.8 MB'
+      size: '2.8 MB',
+      url: '#'
     },
     {
+      id: 'doc-3',
       name: language === 'ar' ? 'ملف_البنك_WPS.txt' : 'wps_bank_file.txt',
       type: language === 'ar' ? 'ملف البنك' : 'Bank File',
       date: '2024-12-30',
-      size: '125 KB'
+      size: '125 KB',
+      url: '#'
     }
-  ];
+  ]);
+
+  const handleFileProcessed = (file: any) => {
+    console.log('Payroll file processed:', file);
+    
+    // Add the processed file to documents list
+    const newDoc = {
+      id: `doc-${Date.now()}`,
+      name: file.fileName || file.name,
+      type: 'Uploaded Document',
+      date: new Date().toISOString().split('T')[0],
+      size: file.size || 'Unknown',
+      url: file.url || '#'
+    };
+    
+    setDocuments(prev => [newDoc, ...prev]);
+  };
 
   const tabs = [
     {
@@ -290,9 +312,7 @@ const Payroll = () => {
           <SanadAIFileProcessor
             platform="payroll"
             moduleType="wps"
-            onFileProcessed={(file) => {
-              console.log('Payroll file processed:', file);
-            }}
+            onFileProcessed={handleFileProcessed}
           />
           
           <Card>
@@ -368,6 +388,7 @@ const Payroll = () => {
       documents={documents}
       tabs={tabs}
       headerActions={headerActions}
+      onUpload={handleFileProcessed}
     />
   );
 };
