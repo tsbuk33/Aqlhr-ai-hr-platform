@@ -288,9 +288,9 @@ const TimeAttendance = () => {
             <div className="grid grid-cols-8 border-t bg-yellow-50">
               <div className="p-3 font-medium">{language === 'ar' ? 'الوقت الإضافي (150%)' : 'Overtime (150%)'}</div>
               {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">0.0</div>
+                <div key={day} className="p-3 text-center text-sm">﷼0.0</div>
               ))}
-              <div className="p-3 text-center text-sm font-bold">0.0</div>
+              <div className="p-3 text-center text-sm font-bold">﷼0.0</div>
               <div className="p-3 text-center">
                 <Button size="sm" variant="outline">
                   <Calculator className="h-4 w-4" />
@@ -302,9 +302,9 @@ const TimeAttendance = () => {
             <div className="grid grid-cols-8 border-t bg-red-50">
               <div className="p-3 font-medium">{language === 'ar' ? 'الخصومات' : 'Deductions'}</div>
               {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">0.0</div>
+                <div key={day} className="p-3 text-center text-sm">﷼0.0</div>
               ))}
-              <div className="p-3 text-center text-sm font-bold">0.0</div>
+              <div className="p-3 text-center text-sm font-bold">﷼0.0</div>
               <div className="p-3 text-center">
                 <Button size="sm" variant="outline">
                   <Eye className="h-4 w-4" />
