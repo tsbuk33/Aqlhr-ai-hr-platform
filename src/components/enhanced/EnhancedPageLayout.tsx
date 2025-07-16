@@ -167,20 +167,20 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {quickActions.map((action, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   onClick={action.onClick}
-                  className={`h-auto p-4 flex flex-col items-center gap-2 hover:bg-muted/50 ${directionClasses.text}`}
+                  className={`h-auto p-6 flex flex-col items-center gap-4 hover:bg-muted/50 transition-all duration-200 min-h-[140px] ${directionClasses.text}`}
                 >
-                  <div className={`p-2 rounded-lg ${action.color} text-white`}>
-                    <action.icon className="h-6 w-6" />
+                  <div className={`p-3 rounded-lg ${action.color} text-white shadow-sm`}>
+                    <action.icon className="h-8 w-8" />
                   </div>
-                  <div className="text-center">
-                    <p className="font-medium text-sm">{action.title}</p>
-                    <p className="text-xs text-muted-foreground">{action.description}</p>
+                  <div className="text-center space-y-1">
+                    <p className="font-semibold text-sm leading-tight">{action.title}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{action.description}</p>
                   </div>
                 </Button>
               ))}
