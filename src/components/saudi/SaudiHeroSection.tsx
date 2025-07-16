@@ -44,7 +44,7 @@ export const SaudiHeroSection: React.FC = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-            <button className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg font-medium hover:from-green-700 hover:to-green-800 transition-all">
+            <button className="px-8 py-3 bg-primary hover:bg-primary-hover text-primary-foreground rounded-lg font-medium transition-all">
               {isArabic ? 'حجز موعد' : 'Book Appointment'}
             </button>
             <button className="px-8 py-3 bg-white/10 text-white border border-white/30 rounded-lg font-medium hover:bg-white/20 transition-all backdrop-blur-sm">
