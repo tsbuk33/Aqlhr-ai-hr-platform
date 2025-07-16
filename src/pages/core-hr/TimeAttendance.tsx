@@ -284,6 +284,35 @@ const TimeAttendance = () => {
               </div>
             </div>
 
+            {/* Flex Hours Row */}
+            <div className="grid grid-cols-8 border-t bg-blue-50">
+              <div className="p-3 font-medium">{language === 'ar' ? 'الساعات المرنة' : 'Flex Hours'}</div>
+              {[0,1,2,3,4].map(day => (
+                <div key={day} className="p-3 text-center text-sm">
+                  <Select>
+                    <SelectTrigger className="w-20 h-8 text-xs">
+                      <SelectValue placeholder="--" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="none">--</SelectItem>
+                      <SelectItem value="early">06:00-14:00</SelectItem>
+                      <SelectItem value="standard">08:00-16:00</SelectItem>
+                      <SelectItem value="late">10:00-18:00</SelectItem>
+                      <SelectItem value="custom">{language === 'ar' ? 'مخصص' : 'Custom'}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              ))}
+              <div className="p-3 text-center text-sm font-medium text-blue-600">
+                {language === 'ar' ? 'مرن' : 'Flexible'}
+              </div>
+              <div className="p-3 text-center">
+                <Button size="sm" variant="outline">
+                  <Clock className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
             {/* Overtime Row */}
             <div className="grid grid-cols-8 border-t bg-yellow-50">
               <div className="p-3 font-medium">{language === 'ar' ? 'الوقت الإضافي (150%)' : 'Overtime (150%)'}</div>
