@@ -26,8 +26,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
-import sanadHRLogo from "@/assets/sanadhr-logo.png";
-import sanadHRLogoHorizontal from "@/assets/sanadhr-logo-horizontal.png";
+import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
 
 // Platform modules based on SanadHR structure
 const getPlatformModules = (isArabic: boolean) => [
@@ -148,19 +147,11 @@ export function AppSidebar() {
         {/* Header */}
         <div className="p-6 border-b border-sidebar-border">
           <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            {state !== "collapsed" ? (
-              <img 
-                src={sanadHRLogoHorizontal} 
-                alt="SanadHR Logo" 
-                className="h-10 w-auto object-contain"
-              />
-            ) : (
-              <img 
-                src={sanadHRLogo} 
-                alt="SanadHR Logo" 
-                className="w-8 h-8 object-contain"
-              />
-            )}
+            <img 
+              src={aqlHRLogo} 
+              alt="AqlHR Logo" 
+              className={state !== "collapsed" ? "h-10 w-auto object-contain" : "w-8 h-8 object-contain"}
+            />
             {state !== "collapsed" && (
               <div className={isArabic ? 'text-right' : 'text-left'}>
                 <h1 className="text-lg font-bold text-sidebar-primary-foreground">
