@@ -23,7 +23,7 @@ export const SaudiHeroSection: React.FC = () => {
 
           {/* Main Title */}
           <div className="space-y-4">
-            <h1 className={`text-4xl md:text-6xl font-bold text-white font-saudi-heading ${isArabic ? 'font-arabic' : ''}`}>
+            <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white font-saudi-heading ${isArabic ? 'font-arabic text-center' : ''}`}>
               {isArabic ? 'نظام إيه كيو إل إتش ار للموارد البشرية' : 'AqlHR System'}
             </h1>
             <p className={`text-xl md:text-2xl text-white/90 max-w-3xl mx-auto ${isArabic ? 'font-arabic' : ''}`}>
