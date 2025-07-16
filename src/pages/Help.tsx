@@ -319,7 +319,7 @@ const Help = () => {
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="hr-modules" className="gap-2">
             <Users className="h-4 w-4" />
-            {language === 'ar' ? 'وحدات الموارد البشرية (14)' : 'HR Modules (14)'}
+            {language === 'ar' ? 'وحدات الموارد البشرية (6)' : 'Core HR Modules (6)'}
           </TabsTrigger>
           <TabsTrigger value="integrations" className="gap-2">
             <Settings className="h-4 w-4" />
