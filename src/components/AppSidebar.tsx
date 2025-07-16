@@ -123,6 +123,12 @@ const getPlatformModules = (isArabic: boolean) => [
     badge: "NEW"
   },
   { 
+    title: isArabic ? "العمليات والنماذج" : "Processes & Forms", 
+    url: "/processes-forms", 
+    icon: FileText,
+    badge: "AI"
+  },
+  { 
     title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
     url: "/tools", 
     icon: Settings,

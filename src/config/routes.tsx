@@ -184,6 +184,9 @@ const NRCManagement = lazy(() => import('../pages/NRCManagement'));
 // ISO Management module
 const ISOManagement = lazy(() => import('../pages/ISOManagement'));
 
+// Processes & Forms module
+const ProcessesAndForms = lazy(() => import('../pages/ProcessesAndForms'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
@@ -199,6 +202,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/legal-consultant', element: LegalConsultant },
   { path: '/nrc-management', element: NRCManagement },
   { path: '/iso-management', element: ISOManagement },
+  { path: '/processes-forms', element: ProcessesAndForms },
   
   // Main modules - auth required
   { path: '/core-hr', element: CoreHR, auth: true },
