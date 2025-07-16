@@ -25,8 +25,10 @@ import {
   Briefcase,
   MapPin,
   Building,
-  Upload
+  Upload,
+  FileText
 } from "lucide-react";
+import { JobOfferManagement } from "@/components/job-offer/JobOfferManagement";
 
 const RecruitmentOnboarding = () => {
   const { language } = useLanguage();
@@ -96,6 +98,13 @@ const RecruitmentOnboarding = () => {
       icon: Users,
       color: "bg-purple-500",
       onClick: () => console.log('Onboard employee')
+    },
+    {
+      title: language === 'ar' ? 'إنشاء عرض عمل' : 'Create Job Offer',
+      description: language === 'ar' ? 'إنشاء عرض عمل شامل مع سير الموافقات' : 'Create comprehensive job offer with approval workflow',
+      icon: FileText,
+      color: "bg-emerald-500",
+      onClick: () => console.log('Create job offer')
     },
     {
       title: language === 'ar' ? 'تقارير التوظيف' : 'Recruitment Reports',
@@ -390,6 +399,11 @@ const RecruitmentOnboarding = () => {
           </Card>
         </div>
       )
+    },
+    {
+      id: 'job-offers',
+      label: language === 'ar' ? 'عروض العمل' : 'Job Offers',
+      content: <JobOfferManagement />
     }
   ];
 
