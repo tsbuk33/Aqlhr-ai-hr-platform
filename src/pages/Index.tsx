@@ -3,6 +3,9 @@ import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
+import { SaudiHeroSection } from "@/components/saudi/SaudiHeroSection";
+import { AnnouncementsSection } from "@/components/saudi/AnnouncementsSection";
+import { VirtualAssistant } from "@/components/saudi/VirtualAssistant";
 import { 
   Users, 
   Calendar, 
@@ -55,6 +58,9 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen bg-background ${isArabic ? 'rtl-container' : 'ltr-container'}`}>
+      {/* Saudi Government Hero Section */}
+      <SaudiHeroSection />
+      
       {/* Executive Header */}
       <div className="bg-white border-b border-border">
         <div className="max-w-7xl mx-auto px-6 py-8">
@@ -1698,36 +1704,60 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Recent Activity */}
-        <section>
-          <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
-            <h2 className="text-2xl font-bold text-foreground mb-2">
-              {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
-            </h2>
-            <p className="text-muted-foreground">
-              {isArabic ? 'آخر الأنشطة والتحديثات في النظام' : 'Latest system activities and updates'}
-            </p>
-          </div>
-          <div className="bg-white rounded-xl border border-border p-6">
-            <SimpleRecentActivity />
-          </div>
-        </section>
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content - Recent Activity */}
+          <div className="lg:col-span-2 space-y-8">
+            <section>
+              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
+                <h2 className="text-2xl font-bold text-foreground mb-2">
+                  {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
+                </h2>
+                <p className="text-muted-foreground">
+                  {isArabic ? 'آخر الأنشطة والتحديثات في النظام' : 'Latest system activities and updates'}
+                </p>
+              </div>
+              <div className="bg-white rounded-xl border border-border p-6">
+                <SimpleRecentActivity />
+              </div>
+            </section>
 
-        {/* Official Logos */}
-        <section>
-          <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>
-            <h2 className="text-2xl font-bold text-foreground mb-2">
-              {isArabic ? 'الشراكات الرسمية' : 'Official Partnerships'}
-            </h2>
-            <p className="text-muted-foreground">
-              {isArabic ? 'شراكاتنا مع الجهات الحكومية والمؤسسات الرسمية' : 'Our partnerships with government entities and official institutions'}
-            </p>
+            {/* Official Announcements */}
+            <section>
+              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
+                <h2 className="text-2xl font-bold text-foreground mb-2">
+                  {isArabic ? 'الإعلانات الرسمية' : 'Official Announcements'}
+                </h2>
+                <p className="text-muted-foreground">
+                  {isArabic ? 'آخر الإعلانات والتحديثات من الجهات الحكومية' : 'Latest announcements and updates from government entities'}
+                </p>
+              </div>
+              <AnnouncementsSection />
+            </section>
           </div>
-          <div className="bg-white rounded-xl border border-border p-8">
-            <OfficialLogos />
+
+          {/* Sidebar Content */}
+          <div className="space-y-8">
+            {/* Official Partnerships */}
+            <section>
+              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
+                <h2 className="text-xl font-bold text-foreground mb-2">
+                  {isArabic ? 'الشراكات الرسمية' : 'Official Partnerships'}
+                </h2>
+                <p className="text-muted-foreground text-sm">
+                  {isArabic ? 'شراكاتنا مع الجهات الحكومية' : 'Our government partnerships'}
+                </p>
+              </div>
+              <div className="bg-white rounded-xl border border-border p-6">
+                <OfficialLogos />
+              </div>
+            </section>
           </div>
-        </section>
+        </div>
       </div>
+      
+      {/* Virtual Assistant */}
+      <VirtualAssistant />
     </div>
   );
 };
