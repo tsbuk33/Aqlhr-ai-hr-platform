@@ -17,7 +17,9 @@ const BenefitsAdministration = () => {
       enrolled_employees: "الموظفون المسجلون",
       active_benefits: "المزايا النشطة",
       claims_processed: "المطالبات المعالجة",
-      satisfaction_rate: "معدل الرضا"
+      satisfaction_rate: "معدل الرضا",
+      overview: "نظرة عامة",
+      documents: "الوثائق"
     },
     en: {
       title: "Benefits Administration",
@@ -25,7 +27,9 @@ const BenefitsAdministration = () => {
       enrolled_employees: "Enrolled Employees",
       active_benefits: "Active Benefits",
       claims_processed: "Claims Processed",
-      satisfaction_rate: "Satisfaction Rate"
+      satisfaction_rate: "Satisfaction Rate",
+      overview: "Overview",
+      documents: "Documents"
     }
   };
 
@@ -72,6 +76,63 @@ const BenefitsAdministration = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">{t.overview}</TabsTrigger>
+          <TabsTrigger value="documents">{t.documents}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t.title}</CardTitle>
+              <CardDescription>{t.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                {isRTL 
+                  ? "نظام شامل لإدارة مزايا الموظفين يتضمن التأمين الصحي، والتأمين على الحياة، وخطط التقاعد، ومزايا أخرى متنوعة."
+                  : "Comprehensive employee benefits management system including health insurance, life insurance, retirement plans, and various other benefits."
+                }
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {isRTL ? "رفع الوثائق" : "Document Upload"}
+              </CardTitle>
+              <CardDescription>
+                {isRTL 
+                  ? "رفع ومعالجة وثائق إدارة المزايا والمطالبات" 
+                  : "Upload and process benefits administration and claims documents"
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="benefits-administration"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: isRTL ? "تم معالجة الملف بنجاح" : "File processed successfully",
+                    description: isRTL 
+                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
+                      : `${file.name} has been uploaded and processed with AI`,
+                  });
+                }}
+                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
+                maxFileSize={10 * 1024 * 1024}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

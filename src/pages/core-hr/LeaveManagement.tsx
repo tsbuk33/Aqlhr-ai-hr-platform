@@ -71,6 +71,63 @@ const LeaveManagement = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">{language === 'ar' ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="documents">{language === 'ar' ? 'الوثائق' : 'Documents'}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('leave_management')}</CardTitle>
+              <CardDescription>{t('leave_management_desc')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                {language === 'ar'
+                  ? "نظام شامل لإدارة طلبات الإجازات وتتبع أرصدة الإجازات للموظفين مع دعم كامل للقوانين السعودية."
+                  : "Comprehensive leave management system for tracking employee leave requests and balances with full Saudi labor law compliance."
+                }
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {language === 'ar' ? "رفع الوثائق" : "Document Upload"}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? "رفع ومعالجة وثائق إدارة الإجازات والطلبات" 
+                  : "Upload and process leave management documents and requests"
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="leave-management"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
+                    description: language === 'ar' 
+                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
+                      : `${file.name} has been uploaded and processed with AI`,
+                  });
+                }}
+                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
+                maxFileSize={10 * 1024 * 1024}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

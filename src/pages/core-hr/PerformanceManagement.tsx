@@ -72,6 +72,63 @@ const PerformanceManagement = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="documents">{isRTL ? 'الوثائق' : 'Documents'}</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>{t.title}</CardTitle>
+              <CardDescription>{t.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                {isRTL
+                  ? "نظام شامل لتقييم ومتابعة أداء الموظفين مع مؤشرات الأداء الرئيسية وتقييمات دورية."
+                  : "Comprehensive employee performance evaluation and monitoring system with KPIs and periodic assessments."
+                }
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="documents" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Upload className="h-5 w-5" />
+                {isRTL ? "رفع الوثائق" : "Document Upload"}
+              </CardTitle>
+              <CardDescription>
+                {isRTL 
+                  ? "رفع ومعالجة وثائق إدارة الأداء والتقييمات" 
+                  : "Upload and process performance management documents and evaluations"
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SanadAIFileProcessor
+                platform="performance-management"
+                moduleType="core-hr"
+                onFileProcessed={(file) => {
+                  toast({
+                    title: isRTL ? "تم معالجة الملف بنجاح" : "File processed successfully",
+                    description: isRTL 
+                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
+                      : `${file.name} has been uploaded and processed with AI`,
+                  });
+                }}
+                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
+                maxFileSize={10 * 1024 * 1024}
+              />
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
