@@ -5,7 +5,7 @@ import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 import { SaudiPartnerLogos } from '@/components/saudi/SaudiPartnerLogos';
 export const GlobalFooter: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
-  return <footer className="bg-card text-foreground border-t border-border">
+  return <footer className="bg-[hsl(240_30%_15%)] text-white border-t border-white/20">
       <div className="container mx-auto px-6 py-8">
         
         {/* Saudi Partnership Section */}
