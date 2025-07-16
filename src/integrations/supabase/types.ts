@@ -356,6 +356,69 @@ export type Database = {
           },
         ]
       }
+      attendance_analytics: {
+        Row: {
+          analysis_date: string
+          anomaly_flags: Json | null
+          attendance_score: number | null
+          company_id: string | null
+          created_at: string | null
+          employee_id: string | null
+          id: string
+          leave_pattern: string | null
+          overtime_trend: string | null
+          productivity_correlation: number | null
+          punctuality_score: number | null
+          recommendations: Json | null
+          risk_indicators: Json | null
+        }
+        Insert: {
+          analysis_date: string
+          anomaly_flags?: Json | null
+          attendance_score?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          leave_pattern?: string | null
+          overtime_trend?: string | null
+          productivity_correlation?: number | null
+          punctuality_score?: number | null
+          recommendations?: Json | null
+          risk_indicators?: Json | null
+        }
+        Update: {
+          analysis_date?: string
+          anomaly_flags?: Json | null
+          attendance_score?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          leave_pattern?: string | null
+          overtime_trend?: string | null
+          productivity_correlation?: number | null
+          punctuality_score?: number | null
+          recommendations?: Json | null
+          risk_indicators?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_analytics_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_analytics_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       attendance_breaks: {
         Row: {
           break_end: string | null
@@ -393,6 +456,80 @@ export type Database = {
             columns: ["session_id"]
             isOneToOne: false
             referencedRelation: "mobile_attendance_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attendance_deductions: {
+        Row: {
+          approved_by: string | null
+          company_id: string | null
+          created_at: string | null
+          date: string
+          deduction_amount: number | null
+          deduction_hours: number | null
+          deduction_type: string
+          employee_id: string | null
+          id: string
+          is_approved: boolean | null
+          reason: string | null
+          timesheet_id: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date: string
+          deduction_amount?: number | null
+          deduction_hours?: number | null
+          deduction_type: string
+          employee_id?: string | null
+          id?: string
+          is_approved?: boolean | null
+          reason?: string | null
+          timesheet_id?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date?: string
+          deduction_amount?: number | null
+          deduction_hours?: number | null
+          deduction_type?: string
+          employee_id?: string | null
+          id?: string
+          is_approved?: boolean | null
+          reason?: string | null
+          timesheet_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_deductions_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_deductions_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_deductions_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_deductions_timesheet_id_fkey"
+            columns: ["timesheet_id"]
+            isOneToOne: false
+            referencedRelation: "attendance_timesheet"
             referencedColumns: ["id"]
           },
         ]
@@ -440,6 +577,96 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attendance_timesheet: {
+        Row: {
+          actual_hours: number | null
+          break_duration: number | null
+          check_in_time: string | null
+          check_out_time: string | null
+          company_id: string | null
+          created_at: string | null
+          date: string
+          device_info: Json | null
+          early_departure_minutes: number | null
+          employee_id: string | null
+          id: string
+          ip_address_in: unknown | null
+          ip_address_out: unknown | null
+          is_ramadan_schedule: boolean | null
+          late_minutes: number | null
+          location_check_in: string | null
+          location_check_out: string | null
+          notes: string | null
+          overtime_hours: number | null
+          planned_hours: number | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          actual_hours?: number | null
+          break_duration?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date: string
+          device_info?: Json | null
+          early_departure_minutes?: number | null
+          employee_id?: string | null
+          id?: string
+          ip_address_in?: unknown | null
+          ip_address_out?: unknown | null
+          is_ramadan_schedule?: boolean | null
+          late_minutes?: number | null
+          location_check_in?: string | null
+          location_check_out?: string | null
+          notes?: string | null
+          overtime_hours?: number | null
+          planned_hours?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          actual_hours?: number | null
+          break_duration?: number | null
+          check_in_time?: string | null
+          check_out_time?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date?: string
+          device_info?: Json | null
+          early_departure_minutes?: number | null
+          employee_id?: string | null
+          id?: string
+          ip_address_in?: unknown | null
+          ip_address_out?: unknown | null
+          is_ramadan_schedule?: boolean | null
+          late_minutes?: number | null
+          location_check_in?: string | null
+          location_check_out?: string | null
+          notes?: string | null
+          overtime_hours?: number | null
+          planned_hours?: number | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_timesheet_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_timesheet_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
             referencedColumns: ["id"]
           },
         ]
@@ -1891,6 +2118,69 @@ export type Database = {
           },
         ]
       }
+      leave_balances: {
+        Row: {
+          accrual_rate: number | null
+          carried_forward: number | null
+          company_id: string | null
+          created_at: string | null
+          employee_id: string | null
+          id: string
+          last_accrual_date: string | null
+          leave_type: string
+          remaining_days: number | null
+          total_entitlement: number | null
+          updated_at: string | null
+          used_days: number | null
+          year: number
+        }
+        Insert: {
+          accrual_rate?: number | null
+          carried_forward?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          last_accrual_date?: string | null
+          leave_type: string
+          remaining_days?: number | null
+          total_entitlement?: number | null
+          updated_at?: string | null
+          used_days?: number | null
+          year: number
+        }
+        Update: {
+          accrual_rate?: number | null
+          carried_forward?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          id?: string
+          last_accrual_date?: string | null
+          leave_type?: string
+          remaining_days?: number | null
+          total_entitlement?: number | null
+          updated_at?: string | null
+          used_days?: number | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leave_balances_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "leave_balances_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leave_requests: {
         Row: {
           approved_at: string | null
@@ -2193,6 +2483,86 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      overtime_records: {
+        Row: {
+          approval_status: string | null
+          approved_at: string | null
+          approved_by: string | null
+          company_id: string | null
+          created_at: string | null
+          date: string
+          employee_id: string | null
+          holiday_overtime_hours: number | null
+          id: string
+          overtime_amount: number | null
+          overtime_rate: number | null
+          regular_overtime_hours: number | null
+          timesheet_id: string | null
+          year_to_date_overtime: number | null
+        }
+        Insert: {
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date: string
+          employee_id?: string | null
+          holiday_overtime_hours?: number | null
+          id?: string
+          overtime_amount?: number | null
+          overtime_rate?: number | null
+          regular_overtime_hours?: number | null
+          timesheet_id?: string | null
+          year_to_date_overtime?: number | null
+        }
+        Update: {
+          approval_status?: string | null
+          approved_at?: string | null
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          date?: string
+          employee_id?: string | null
+          holiday_overtime_hours?: number | null
+          id?: string
+          overtime_amount?: number | null
+          overtime_rate?: number | null
+          regular_overtime_hours?: number | null
+          timesheet_id?: string | null
+          year_to_date_overtime?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "overtime_records_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "overtime_records_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "overtime_records_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "overtime_records_timesheet_id_fkey"
+            columns: ["timesheet_id"]
+            isOneToOne: false
+            referencedRelation: "attendance_timesheet"
             referencedColumns: ["id"]
           },
         ]
@@ -3292,6 +3662,164 @@ export type Database = {
           },
         ]
       }
+      working_hours_config: {
+        Row: {
+          break_duration: number | null
+          company_id: string | null
+          created_at: string | null
+          grace_period_minutes: number | null
+          id: string
+          max_overtime_yearly: number | null
+          overtime_rate: number | null
+          overtime_threshold_daily: number | null
+          overtime_threshold_weekly: number | null
+          ramadan_daily_hours: number | null
+          ramadan_weekly_hours: number | null
+          standard_daily_hours: number | null
+          standard_weekly_hours: number | null
+          updated_at: string | null
+          work_week_end: string | null
+          work_week_start: string | null
+        }
+        Insert: {
+          break_duration?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          grace_period_minutes?: number | null
+          id?: string
+          max_overtime_yearly?: number | null
+          overtime_rate?: number | null
+          overtime_threshold_daily?: number | null
+          overtime_threshold_weekly?: number | null
+          ramadan_daily_hours?: number | null
+          ramadan_weekly_hours?: number | null
+          standard_daily_hours?: number | null
+          standard_weekly_hours?: number | null
+          updated_at?: string | null
+          work_week_end?: string | null
+          work_week_start?: string | null
+        }
+        Update: {
+          break_duration?: number | null
+          company_id?: string | null
+          created_at?: string | null
+          grace_period_minutes?: number | null
+          id?: string
+          max_overtime_yearly?: number | null
+          overtime_rate?: number | null
+          overtime_threshold_daily?: number | null
+          overtime_threshold_weekly?: number | null
+          ramadan_daily_hours?: number | null
+          ramadan_weekly_hours?: number | null
+          standard_daily_hours?: number | null
+          standard_weekly_hours?: number | null
+          updated_at?: string | null
+          work_week_end?: string | null
+          work_week_start?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "working_hours_config_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workplace_transfers: {
+        Row: {
+          approved_by: string | null
+          company_id: string | null
+          created_at: string | null
+          effective_date: string | null
+          employee_id: string | null
+          from_department: string | null
+          from_location: string
+          hr_approved_by: string | null
+          id: string
+          reason: string | null
+          requested_by: string | null
+          status: string | null
+          to_department: string | null
+          to_location: string
+          transfer_date: string
+          transfer_type: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          effective_date?: string | null
+          employee_id?: string | null
+          from_department?: string | null
+          from_location: string
+          hr_approved_by?: string | null
+          id?: string
+          reason?: string | null
+          requested_by?: string | null
+          status?: string | null
+          to_department?: string | null
+          to_location: string
+          transfer_date: string
+          transfer_type?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          company_id?: string | null
+          created_at?: string | null
+          effective_date?: string | null
+          employee_id?: string | null
+          from_department?: string | null
+          from_location?: string
+          hr_approved_by?: string | null
+          id?: string
+          reason?: string | null
+          requested_by?: string | null
+          status?: string | null
+          to_department?: string | null
+          to_location?: string
+          transfer_date?: string
+          transfer_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workplace_transfers_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workplace_transfers_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workplace_transfers_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workplace_transfers_hr_approved_by_fkey"
+            columns: ["hr_approved_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workplace_transfers_requested_by_fkey"
+            columns: ["requested_by"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -3310,6 +3838,10 @@ export type Database = {
         Args: { p_employee_id: string }
         Returns: undefined
       }
+      calculate_annual_leave_entitlement: {
+        Args: { p_hire_date: string; p_current_date?: string }
+        Returns: number
+      }
       calculate_gosi_rates: {
         Args: { p_employee_id: string; p_as_of_date?: string }
         Returns: {
@@ -3317,6 +3849,22 @@ export type Database = {
           employer_rate: number
           system_type: string
         }[]
+      }
+      calculate_overtime_amount: {
+        Args: {
+          p_basic_salary: number
+          p_overtime_hours: number
+          p_standard_hours?: number
+        }
+        Returns: number
+      }
+      calculate_working_hours: {
+        Args: {
+          p_check_in: string
+          p_check_out: string
+          p_break_duration?: number
+        }
+        Returns: number
       }
       generate_comprehensive_employee_report: {
         Args: { _company_id?: string; _filters?: Json; _report_name?: string }
