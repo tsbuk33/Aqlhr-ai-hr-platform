@@ -37,7 +37,7 @@ export function RecentActivity() {
       id: 2,
       type: "onboarding",
       titleEn: "Fatima Al-Zahra started onboarding process",
-      titleAr: "فاطمة الزهراء بدأت عملية التوجيه",
+      titleAr: "فاطمة الزهراني بدأت عملية التوجيه",
       descriptionEn: "New employee orientation and documentation setup",
       descriptionAr: "توجيه الموظف الجديد وإعداد الوثائق",
       timeEn: "4 hours ago",
@@ -45,7 +45,7 @@ export function RecentActivity() {
       icon: User,
       iconColor: "text-blue-500",
       userEn: "Fatima Al-Zahra",
-      userAr: "فاطمة الزهراء",
+      userAr: "فاطمة الزهراني",
       userAvatar: "FZ"
     },
     {

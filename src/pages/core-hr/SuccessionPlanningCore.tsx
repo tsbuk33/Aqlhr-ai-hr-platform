@@ -100,7 +100,7 @@ const SuccessionPlanningCore = () => {
     {
       id: 2,
       name: "Fatima Al-Zahra",
-      nameAr: "فاطمة الزهراء",
+      nameAr: "فاطمة الزهراني",
       position: "Team Lead",
       positionAr: "قائد فريق",
       department: "Finance",

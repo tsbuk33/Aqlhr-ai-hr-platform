@@ -82,7 +82,7 @@ export function SimpleRecentActivity() {
                 {isArabic ? (
                   <>
                     <p className="text-sm font-medium text-foreground line-clamp-1">
-                      موظفة جديدة فاطمة الزهراء تم إدخالها
+                      موظفة جديدة فاطمة الزهراني تم إدخالها
                     </p>
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                       تم إنشاء ملف الموظفة والتحقق من الوثائق
