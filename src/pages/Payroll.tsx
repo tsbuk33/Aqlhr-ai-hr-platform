@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { 
   DollarSign, 
   Users, 
@@ -286,6 +287,14 @@ const Payroll = () => {
       label: language === 'ar' ? 'المعالجة' : 'Processing',
       content: (
         <div className="space-y-6">
+          <SanadAIFileProcessor
+            platform="payroll"
+            moduleType="wps"
+            onFileProcessed={(file) => {
+              console.log('Payroll file processed:', file);
+            }}
+          />
+          
           <Card>
             <CardHeader>
               <CardTitle>{language === 'ar' ? 'حالة معالجة الرواتب' : 'Payroll Processing Status'}</CardTitle>
