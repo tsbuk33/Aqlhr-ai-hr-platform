@@ -6,6 +6,9 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Switch } from '@/components/ui/switch';
 import { 
   Search, 
   Users, 
@@ -27,7 +30,16 @@ import {
   CheckCircle,
   AlertTriangle,
   XCircle,
-  PlayCircle
+  PlayCircle,
+  Lock,
+  Key,
+  Grid,
+  Eye,
+  Edit,
+  Trash2,
+  Plus,
+  Check,
+  X
 } from 'lucide-react';
 
 const Help = () => {
@@ -304,7 +316,7 @@ const Help = () => {
 
       {/* Main Content */}
       <Tabs value={activeCategory} onValueChange={setActiveCategory} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="hr-modules" className="gap-2">
             <Users className="h-4 w-4" />
             {language === 'ar' ? 'وحدات الموارد البشرية (14)' : 'HR Modules (14)'}
@@ -312,6 +324,10 @@ const Help = () => {
           <TabsTrigger value="integrations" className="gap-2">
             <Settings className="h-4 w-4" />
             {language === 'ar' ? 'أدوات التكامل (26)' : 'Integration Tools (26)'}
+          </TabsTrigger>
+          <TabsTrigger value="user-management" className="gap-2">
+            <UserCheck className="h-4 w-4" />
+            {language === 'ar' ? 'إدارة المستخدمين والأدوار' : 'User Management & Roles'}
           </TabsTrigger>
         </TabsList>
 
@@ -449,6 +465,447 @@ const Help = () => {
                     {language === 'ar' ? 'منقطع' : 'Disconnected'}
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* User Management & Roles Tab */}
+        <TabsContent value="user-management" className="space-y-6">
+          {/* User Role Hierarchy */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                {language === 'ar' ? 'هيكل أدوار المستخدمين' : 'User Role Hierarchy'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'تعريف أدوار المستخدمين مع تكوينات الصلاحيات المرنة لجميع الوحدات والأدوات'
+                  : 'Define user roles with flexible permission configurations for all modules and tools'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  {
+                    role: 'super_admin',
+                    icon: Shield,
+                    title: language === 'ar' ? 'مدير النظام الرئيسي' : 'Super Admin',
+                    description: language === 'ar' ? 'مدير النظام مع الوصول الكامل لجميع الوحدات والأدوات وإدارة المستخدمين' : 'System administrator with full access to all modules, tools, and user management',
+                    access: language === 'ar' ? 'الوصول الكامل للوحدات والأدوات' : 'Full access to all modules and tools',
+                    color: 'bg-red-500'
+                  },
+                  {
+                    role: 'hrbp',
+                    icon: Users,
+                    title: language === 'ar' ? 'شريك الموارد البشرية' : 'HR Business Partner',
+                    description: language === 'ar' ? 'شريك الموارد البشرية مع الوصول الشامل لوحدات الموارد البشرية وإدارة الفرق' : 'HR Business Partner with comprehensive HR module access and team management',
+                    access: language === 'ar' ? 'الوصول الكامل لوحدات الموارد البشرية' : 'Full HR modules access',
+                    color: 'bg-blue-500'
+                  },
+                  {
+                    role: 'hr_manager',
+                    icon: Building,
+                    title: language === 'ar' ? 'مدير الموارد البشرية' : 'HR Manager',
+                    description: language === 'ar' ? 'مدير الموارد البشرية مع إشراف على الأقسام والمسؤوليات التشغيلية' : 'HR Manager with departmental oversight and operational responsibilities',
+                    access: language === 'ar' ? 'الوصول للقسم مع صلاحيات الموافقة' : 'Departmental access with approval authorities',
+                    color: 'bg-green-500'
+                  },
+                  {
+                    role: 'line_manager',
+                    icon: UserCheck,
+                    title: language === 'ar' ? 'المدير المباشر' : 'Line Manager',
+                    description: language === 'ar' ? 'المشرف المباشر مع إشراف على الفريق ومسؤوليات الموافقة' : 'Direct supervisor with team oversight and approval responsibilities',
+                    access: language === 'ar' ? 'الوصول للفريق مع قدرات الموافقة' : 'Team access with approval capabilities',
+                    color: 'bg-yellow-500'
+                  },
+                  {
+                    role: 'employee',
+                    icon: Users,
+                    title: language === 'ar' ? 'موظف' : 'Employee',
+                    description: language === 'ar' ? 'موظف عادي مع وصول الخدمة الذاتية وإدارة البيانات الشخصية' : 'Standard employee with self-service access and personal data management',
+                    access: language === 'ar' ? 'وحدات الخدمة الذاتية والبيانات الشخصية فقط' : 'Self-service modules and personal data only',
+                    color: 'bg-purple-500'
+                  },
+                  {
+                    role: 'it_admin',
+                    icon: Settings,
+                    title: language === 'ar' ? 'مدير تقنية المعلومات' : 'IT Administrator',
+                    description: language === 'ar' ? 'مدير تقنية المعلومات مع الوصول التقني للنظام وإدارة التكامل' : 'IT Administrator with technical system access and integration management',
+                    access: language === 'ar' ? 'الوصول للوحدات التقنية وأدوات التكامل' : 'Technical modules and integration tools access',
+                    color: 'bg-gray-500'
+                  }
+                ].map((userRole) => (
+                  <Card key={userRole.role} className="hover:shadow-md transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-lg ${userRole.color} text-white`}>
+                          <userRole.icon className="h-4 w-4" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-sm">{userRole.title}</CardTitle>
+                          <Badge variant="secondary" className="text-xs">
+                            {userRole.role}
+                          </Badge>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="pt-0 space-y-3">
+                      <p className="text-xs text-muted-foreground">
+                        {userRole.description}
+                      </p>
+                      <div className="space-y-2">
+                        <div className="text-xs font-medium">
+                          {language === 'ar' ? 'مستوى الوصول:' : 'Access Level:'}
+                        </div>
+                        <p className="text-xs text-muted-foreground">
+                          {userRole.access}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Authority Matrix */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Grid className="h-5 w-5" />
+                {language === 'ar' ? 'مصفوفة الصلاحيات التفاعلية' : 'Interactive Authority Matrix'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'إدارة الصلاحيات التفصيلية لجميع الأدوار عبر وحدات الموارد البشرية وأدوات التكامل'
+                  : 'Manage granular permissions for all roles across HR modules and integration tools'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* HR Modules Permissions Matrix */}
+                <div>
+                  <h4 className="font-medium mb-3 flex items-center gap-2">
+                    <Users className="h-4 w-4" />
+                    {language === 'ar' ? 'صلاحيات وحدات الموارد البشرية' : 'HR Modules Permissions'}
+                  </h4>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-40">
+                            {language === 'ar' ? 'الوحدة' : 'Module'}
+                          </TableHead>
+                          <TableHead className="text-center">
+                            {language === 'ar' ? 'مدير النظام' : 'Super Admin'}
+                          </TableHead>
+                          <TableHead className="text-center">
+                            {language === 'ar' ? 'شريك الموارد البشرية' : 'HRBP'}
+                          </TableHead>
+                          <TableHead className="text-center">
+                            {language === 'ar' ? 'مدير الموارد البشرية' : 'HR Manager'}
+                          </TableHead>
+                          <TableHead className="text-center">
+                            {language === 'ar' ? 'المدير المباشر' : 'Line Manager'}
+                          </TableHead>
+                          <TableHead className="text-center">
+                            {language === 'ar' ? 'موظف' : 'Employee'}
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {[
+                          {
+                            module: language === 'ar' ? 'البيانات الأساسية للموظفين' : 'Employee Master Data',
+                            permissions: [
+                              { role: 'super_admin', level: 'full' },
+                              { role: 'hrbp', level: 'full' },
+                              { role: 'hr_manager', level: 'partial' },
+                              { role: 'line_manager', level: 'read' },
+                              { role: 'employee', level: 'own' }
+                            ]
+                          },
+                          {
+                            module: language === 'ar' ? 'معالجة الرواتب' : 'Payroll Processing',
+                            permissions: [
+                              { role: 'super_admin', level: 'full' },
+                              { role: 'hrbp', level: 'full' },
+                              { role: 'hr_manager', level: 'read' },
+                              { role: 'line_manager', level: 'none' },
+                              { role: 'employee', level: 'own' }
+                            ]
+                          },
+                          {
+                            module: language === 'ar' ? 'إدارة الأداء' : 'Performance Management',
+                            permissions: [
+                              { role: 'super_admin', level: 'full' },
+                              { role: 'hrbp', level: 'full' },
+                              { role: 'hr_manager', level: 'full' },
+                              { role: 'line_manager', level: 'team' },
+                              { role: 'employee', level: 'own' }
+                            ]
+                          },
+                          {
+                            module: language === 'ar' ? 'الوقت والحضور' : 'Time & Attendance',
+                            permissions: [
+                              { role: 'super_admin', level: 'full' },
+                              { role: 'hrbp', level: 'partial' },
+                              { role: 'hr_manager', level: 'partial' },
+                              { role: 'line_manager', level: 'team' },
+                              { role: 'employee', level: 'own' }
+                            ]
+                          }
+                        ].map((row, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="font-medium">
+                              {row.module}
+                            </TableCell>
+                            {row.permissions.map((perm, permIndex) => (
+                              <TableCell key={permIndex} className="text-center">
+                                <Badge 
+                                  variant={
+                                    perm.level === 'full' ? 'default' :
+                                    perm.level === 'partial' ? 'secondary' :
+                                    perm.level === 'team' ? 'outline' :
+                                    perm.level === 'own' ? 'outline' :
+                                    'destructive'
+                                  }
+                                  className="text-xs"
+                                >
+                                  {perm.level === 'full' && (language === 'ar' ? 'كامل' : 'Full')}
+                                  {perm.level === 'partial' && (language === 'ar' ? 'جزئي' : 'Partial')}
+                                  {perm.level === 'team' && (language === 'ar' ? 'الفريق' : 'Team')}
+                                  {perm.level === 'own' && (language === 'ar' ? 'شخصي' : 'Own')}
+                                  {perm.level === 'read' && (language === 'ar' ? 'قراءة' : 'Read')}
+                                  {perm.level === 'none' && (language === 'ar' ? 'لا يوجد' : 'None')}
+                                </Badge>
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+
+                {/* Integration Tools Permissions */}
+                <div className="pt-4">
+                  <h4 className="font-medium mb-3 flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    {language === 'ar' ? 'صلاحيات أدوات التكامل' : 'Integration Tools Permissions'}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      {
+                        category: language === 'ar' ? 'أدوات التواصل' : 'Communication Tools',
+                        tools: ['Microsoft Teams', 'Slack', 'WhatsApp Business'],
+                        permissions: {
+                          super_admin: 'configure',
+                          hrbp: 'use',
+                          hr_manager: 'use',
+                          line_manager: 'use',
+                          employee: 'use',
+                          it_admin: 'configure'
+                        }
+                      },
+                      {
+                        category: language === 'ar' ? 'إدارة المستندات' : 'Document Management',
+                        tools: ['SharePoint', 'Google Drive', 'DocuSign'],
+                        permissions: {
+                          super_admin: 'configure',
+                          hrbp: 'manage',
+                          hr_manager: 'use',
+                          line_manager: 'use',
+                          employee: 'use',
+                          it_admin: 'configure'
+                        }
+                      },
+                      {
+                        category: language === 'ar' ? 'التحليلات وذكاء الأعمال' : 'Analytics & BI',
+                        tools: ['Power BI', 'Tableau', 'Google Analytics'],
+                        permissions: {
+                          super_admin: 'configure',
+                          hrbp: 'create',
+                          hr_manager: 'use',
+                          line_manager: 'use',
+                          employee: 'none',
+                          it_admin: 'configure'
+                        }
+                      }
+                    ].map((category, index) => (
+                      <Card key={index} className="border-dashed">
+                        <CardHeader className="pb-3">
+                          <CardTitle className="text-sm">{category.category}</CardTitle>
+                        </CardHeader>
+                        <CardContent className="pt-0">
+                          <div className="space-y-2">
+                            {category.tools.map((tool, toolIndex) => (
+                              <div key={toolIndex} className="text-xs text-muted-foreground">
+                                {tool}
+                              </div>
+                            ))}
+                            <div className="pt-2 space-y-1">
+                              {Object.entries(category.permissions).map(([role, permission]) => (
+                                <div key={role} className="flex justify-between items-center text-xs">
+                                  <span className="capitalize">{role.replace('_', ' ')}</span>
+                                  <Badge variant="outline" className="text-xs">
+                                    {permission}
+                                  </Badge>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Role-Based Help Content */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5" />
+                {language === 'ar' ? 'محتوى المساعدة حسب الدور' : 'Role-Based Help Content'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'محتوى مساعدة مخصص ومرشد حسب دور المستخدم وصلاحياته'
+                  : 'Personalized help content and guidance based on user role and permissions'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                  {
+                    role: 'super_admin',
+                    title: language === 'ar' ? 'مساعدة مدير النظام' : 'Super Admin Help',
+                    topics: language === 'ar' 
+                      ? ['إدارة المستخدمين', 'تكوين النظام', 'إعدادات الأمان', 'إعداد التكامل']
+                      : ['User Management', 'System Configuration', 'Security Settings', 'Integration Setup']
+                  },
+                  {
+                    role: 'hrbp',
+                    title: language === 'ar' ? 'مساعدة شريك الموارد البشرية' : 'HRBP Help',
+                    topics: language === 'ar' 
+                      ? ['إدارة الموظفين', 'عمليات الرواتب', 'تتبع الامتثال', 'تحليلات التقارير']
+                      : ['Employee Management', 'Payroll Operations', 'Compliance Tracking', 'Reporting Analytics']
+                  },
+                  {
+                    role: 'hr_manager',
+                    title: language === 'ar' ? 'مساعدة مدير الموارد البشرية' : 'HR Manager Help',
+                    topics: language === 'ar' 
+                      ? ['إدارة القسم', 'التوظيف والتعيين', 'تطوير التدريب', 'التقارير التشغيلية']
+                      : ['Department Management', 'Recruitment & Hiring', 'Training Development', 'Operational Reports']
+                  },
+                  {
+                    role: 'employee',
+                    title: language === 'ar' ? 'مساعدة الموظف' : 'Employee Help',
+                    topics: language === 'ar' 
+                      ? ['الخدمة الذاتية', 'تحديث البيانات الشخصية', 'تقديم الطلبات', 'الوصول للتعلم']
+                      : ['Self Service', 'Personal Data Updates', 'Request Submission', 'Learning Access']
+                  }
+                ].map((helpSection, index) => (
+                  <Card key={index} className="border-dashed">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-sm flex items-center gap-2">
+                        <Key className="h-4 w-4" />
+                        {helpSection.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="space-y-2">
+                        {helpSection.topics.map((topic, topicIndex) => (
+                          <div key={topicIndex} className="flex items-center gap-2 text-sm">
+                            <CheckCircle className="h-3 w-3 text-green-500" />
+                            {topic}
+                          </div>
+                        ))}
+                        <Button size="sm" variant="outline" className="w-full mt-3">
+                          {language === 'ar' ? 'عرض الدليل الكامل' : 'View Complete Guide'}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Security & Compliance */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Lock className="h-5 w-5" />
+                {language === 'ar' ? 'الأمان والامتثال' : 'Security & Compliance'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'ميزات الأمان وتتبع الامتثال مع التدقيق الآلي'
+                  : 'Security features and compliance tracking with automated auditing'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card className="border-dashed">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-green-500" />
+                      {language === 'ar' ? 'المصادقة المتعددة' : 'Multi-Factor Authentication'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' 
+                        ? 'أمان إضافي مع التحقق عبر الرسائل النصية والبريد الإلكتروني'
+                        : 'Enhanced security with SMS and email verification'
+                      }
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-dashed">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <Eye className="h-4 w-4 text-blue-500" />
+                      {language === 'ar' ? 'سجل التدقيق' : 'Audit Trail'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' 
+                        ? 'تتبع شامل لجميع الأنشطة وتغييرات الصلاحيات'
+                        : 'Comprehensive tracking of all activities and permission changes'
+                      }
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-dashed">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      {language === 'ar' ? 'مراقبة الامتثال' : 'Compliance Monitoring'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' 
+                        ? 'مراقبة آلية للامتثال مع التنبيهات والتقارير'
+                        : 'Automated compliance monitoring with alerts and reporting'
+                      }
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
             </CardContent>
           </Card>
