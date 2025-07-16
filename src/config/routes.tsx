@@ -187,6 +187,9 @@ const ISOManagement = lazy(() => import('../pages/ISOManagement'));
 // Processes & Forms module
 const ProcessesAndForms = lazy(() => import('../pages/ProcessesAndForms'));
 
+// Help module
+const Help = lazy(() => import('../pages/Help'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
@@ -199,6 +202,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/', element: Index },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
+  { path: '/help', element: Help },
   { path: '/legal-consultant', element: LegalConsultant },
   { path: '/nrc-management', element: NRCManagement },
   { path: '/iso-management', element: ISOManagement },
