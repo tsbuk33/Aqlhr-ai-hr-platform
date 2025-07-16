@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 
 const Documents = () => {
   const { t } = useLanguage();
@@ -48,6 +49,14 @@ const Documents = () => {
           </CardContent>
         </Card>
       </div>
+
+      <SanadAIFileProcessor
+        platform="documents"
+        moduleType="general"
+        onFileProcessed={(file) => {
+          console.log('File processed:', file);
+        }}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card>
