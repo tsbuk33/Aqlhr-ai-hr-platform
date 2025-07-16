@@ -11,7 +11,8 @@ import {
   ArrowDown,
   Settings,
   Shield,
-  Scale
+  Scale,
+  Award
 } from "lucide-react";
 import {
   Sidebar,
@@ -114,6 +115,12 @@ const getPlatformModules = (isArabic: boolean) => [
     url: "/nrc-management", 
     icon: Users,
     badge: "AI"
+  },
+  { 
+    title: isArabic ? "إدارة ISO بالذكاء الاصطناعي" : "ISO Management AI", 
+    url: "/iso-management", 
+    icon: Award,
+    badge: "NEW"
   },
   { 
     title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
