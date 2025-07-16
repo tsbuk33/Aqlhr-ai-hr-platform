@@ -110,6 +110,12 @@ const getPlatformModules = (isArabic: boolean) => [
     badge: "NEW"
   },
   { 
+    title: isArabic ? "إدارة لجنة الترشيحات والمكافآت" : "NRC Management", 
+    url: "/nrc-management", 
+    icon: Users,
+    badge: "AI"
+  },
+  { 
     title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
     url: "/tools", 
     icon: Settings,
