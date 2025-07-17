@@ -42,6 +42,8 @@ import {
   X
 } from 'lucide-react';
 
+import { PageLayout, PageSection, PageCard } from '@/components/layout/PageLayout';
+
 const Help = () => {
   const { language, isRTL } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');

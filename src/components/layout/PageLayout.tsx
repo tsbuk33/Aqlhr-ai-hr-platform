@@ -1,0 +1,166 @@
+import React from 'react';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+interface PageLayoutProps {
+  children: React.ReactNode;
+  title: string;
+  titleAr?: string;
+  description?: string;
+  descriptionAr?: string;
+  badge?: string;
+  badgeVariant?: "default" | "secondary" | "outline" | "destructive";
+  action?: React.ReactNode;
+  className?: string;
+}
+
+export const PageLayout: React.FC<PageLayoutProps> = ({
+  children,
+  title,
+  titleAr,
+  description,
+  descriptionAr,
+  badge,
+  badgeVariant = "default",
+  action,
+  className = ""
+}) => {
+  const { isArabic } = useSimpleLanguage();
+
+  return (
+    <div className={`min-h-screen bg-gradient-to-br from-background via-background-subtle to-surface-subtle ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
+      {/* Page Header */}
+      <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+          <div className={`flex items-start justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`space-y-3 ${isArabic ? 'text-right' : ''}`}>
+              <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text text-transparent">
+                  {isArabic && titleAr ? titleAr : title}
+                </h1>
+                {badge && (
+                  <Badge variant={badgeVariant} className="text-xs font-medium px-3 py-1 shadow-sm">
+                    {badge}
+                  </Badge>
+                )}
+              </div>
+              {(description || descriptionAr) && (
+                <p className="text-lg text-foreground-muted font-medium max-w-3xl leading-relaxed">
+                  {isArabic && descriptionAr ? descriptionAr : description}
+                </p>
+              )}
+            </div>
+            {action && (
+              <div className="flex-shrink-0">
+                {action}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Page Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export const PageSection: React.FC<{
+  children: React.ReactNode;
+  title?: string;
+  titleAr?: string;
+  description?: string;
+  descriptionAr?: string;
+  className?: string;
+}> = ({ children, title, titleAr, description, descriptionAr, className = "" }) => {
+  const { isArabic } = useSimpleLanguage();
+
+  return (
+    <section className={`space-y-6 ${className}`}>
+      {(title || titleAr) && (
+        <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
+          <h2 className="text-2xl font-bold text-foreground">
+            {isArabic && titleAr ? titleAr : title}
+          </h2>
+          {(description || descriptionAr) && (
+            <p className="text-foreground-muted font-medium">
+              {isArabic && descriptionAr ? descriptionAr : description}
+            </p>
+          )}
+        </div>
+      )}
+      {children}
+    </section>
+  );
+};
+
+export const PageCard: React.FC<{
+  children: React.ReactNode;
+  title?: string;
+  titleAr?: string;
+  description?: string;
+  descriptionAr?: string;
+  icon?: React.ReactNode;
+  badge?: string;
+  action?: React.ReactNode;
+  className?: string;
+  hover?: boolean;
+}> = ({ 
+  children, 
+  title, 
+  titleAr, 
+  description, 
+  descriptionAr, 
+  icon, 
+  badge, 
+  action, 
+  className = "", 
+  hover = true 
+}) => {
+  const { isArabic } = useSimpleLanguage();
+
+  return (
+    <Card className={`${hover ? 'hover:shadow-lg hover:shadow-border/20 hover:border-border/60' : ''} transition-all duration-300 bg-surface/50 backdrop-blur-sm border-border/40 ${className}`}>
+      {(title || titleAr || description || descriptionAr || icon || badge || action) && (
+        <CardHeader>
+          <div className={`flex items-start justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              {icon && (
+                <div className="p-2 bg-accent rounded-lg">
+                  {icon}
+                </div>
+              )}
+              <div className={`space-y-1 ${isArabic ? 'text-right' : ''}`}>
+                {(title || titleAr) && (
+                  <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <CardTitle className="text-xl font-semibold">
+                      {isArabic && titleAr ? titleAr : title}
+                    </CardTitle>
+                    {badge && (
+                      <Badge variant="secondary" className="text-xs">
+                        {badge}
+                      </Badge>
+                    )}
+                  </div>
+                )}
+                {(description || descriptionAr) && (
+                  <CardDescription className="text-foreground-muted">
+                    {isArabic && descriptionAr ? descriptionAr : description}
+                  </CardDescription>
+                )}
+              </div>
+            </div>
+            {action && action}
+          </div>
+        </CardHeader>
+      )}
+      <CardContent className="space-y-4">
+        {children}
+      </CardContent>
+    </Card>
+  );
+};

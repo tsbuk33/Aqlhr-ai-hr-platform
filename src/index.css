@@ -8,29 +8,35 @@
 
 @layer base {
   :root {
-    --background: 248 250% 98%;
+    /* Background System */
+    --background: 0 0% 100%;
+    --background-subtle: 210 20% 99%;
+    --surface: 0 0% 100%;
+    --surface-raised: 210 20% 98%;
+    --surface-subtle: 220 13% 97%;
+    
+    /* Text Colors */
     --foreground: 215 25% 15%;
-
-    /* Saudi Brand Colors - Inspired by business.sa - Darker Blues */
-    --brand-primary: 240 35% 15%;          /* Darker deep navy */
-    --brand-primary-light: 240 30% 25%;    /* Darker lighter navy */
+    --foreground-muted: 220 9% 46%;
+    --foreground-subtle: 220 8% 60%;
+    
+    /* Saudi Brand Colors - Enhanced */
+    --brand-primary: 240 35% 15%;          /* Deep navy */
+    --brand-primary-light: 240 30% 25%;    /* Lighter navy */
     --brand-secondary: 120 100% 25%;       /* Saudi green */
     --brand-accent: 45 100% 50%;           /* Saudi gold */
     --brand-warning: 25 95% 53%;
     --brand-success: 120 100% 25%;         /* Official Saudi green */
     --brand-danger: 0 84% 60%;
     
-    /* Saudi Government Gradients - Darker Blues */
+    /* Saudi Government Gradients */
     --gradient-saudi-primary: linear-gradient(135deg, hsl(240 35% 15%) 0%, hsl(240 30% 25%) 50%, hsl(240 25% 35%) 100%);
     --gradient-saudi-hero: linear-gradient(135deg, hsl(240 40% 10%) 0%, hsl(240 35% 20%) 100%);
     --gradient-vision2030: linear-gradient(135deg, hsl(120 100% 25%) 0%, hsl(45 100% 50%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-primary)), hsl(var(--brand-accent)));
+    --gradient-subtle: linear-gradient(135deg, hsl(var(--surface)), hsl(var(--surface-subtle)));
 
-    /* Surface Colors */
-    --surface: 0 0% 100%;
-    --surface-secondary: 220 13% 96%;
-    --surface-tertiary: 220 13% 91%;
-
-    /* Core Semantic Colors */
+    /* Card System */
     --card: 0 0% 100%;
     --card-foreground: 215 25% 15%;
     --card-hover: 220 13% 98%;
@@ -38,26 +44,33 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    --primary: 220 91% 55%;
+    /* Primary Colors */
+    --primary: 240 35% 15%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 220 91% 50%;
+    --primary-hover: 240 35% 12%;
 
+    /* Secondary Colors */
     --secondary: 220 13% 96%;
     --secondary-foreground: 215 25% 15%;
     --secondary-hover: 220 13% 91%;
 
+    /* Muted Colors */
     --muted: 220 13% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 271 91% 65%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent Colors */
+    --accent: 220 13% 96%;
+    --accent-foreground: 215 25% 15%;
 
+    /* Destructive Colors */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
+    /* Borders & Inputs */
     --border: 220 13% 91%;
+    --border-subtle: 220 13% 94%;
     --input: 220 13% 91%;
-    --ring: 220 91% 55%;
+    --ring: 240 35% 15%;
 
     /* Saudi Government Gradients */
     --gradient-primary: var(--gradient-saudi-primary);
