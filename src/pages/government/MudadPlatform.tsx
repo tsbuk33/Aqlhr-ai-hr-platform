@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck, Banknote, Calculator } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -277,7 +277,7 @@ const MudadPlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <SanadAIFileProcessor
+          <AqlAIFileProcessor
             platform="mudad"
             moduleType="government"
             onFileProcessed={(file) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { EnhancedFormSystem } from "@/components/enhanced/EnhancedFormSystem";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

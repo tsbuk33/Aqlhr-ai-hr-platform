@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
@@ -85,7 +85,7 @@ const WorkflowAutomation = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <SanadAIFileProcessor
+              <AqlAIFileProcessor
                 platform="workflow-automation"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

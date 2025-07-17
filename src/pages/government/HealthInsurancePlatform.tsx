@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -76,7 +76,7 @@ const HealthInsurancePlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <SanadAIFileProcessor
+          <AqlAIFileProcessor
             platform="health-insurance"
             moduleType="government"
             onFileProcessed={(file) => {

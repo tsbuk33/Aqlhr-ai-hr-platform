@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,7 +175,7 @@ const TawakkalnaCompliance = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <SanadAIFileProcessor
+        <AqlAIFileProcessor
           platform="tawakkalna"
           moduleType="government"
           acceptedTypes={[
