@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'app.lovable.1e2511c6d68f465bbce5a3f16026d868',
-  appName: 'sanad-ai-hr-platform',
+  appName: 'AqlHR Platform',
   webDir: 'dist',
   server: {
     url: 'https://1e2511c6-d68f-465b-bce5-a3f16026d868.lovableproject.com?forceHideBadge=true',

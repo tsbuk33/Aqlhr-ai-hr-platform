@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { 
   Activity, 
   CheckCircle, 
@@ -273,7 +273,7 @@ export const UnifiedGovernmentInterface = ({
         </TabsContent>
 
         <TabsContent value="file-upload" className="space-y-6">
-          <SanadAIFileProcessor 
+          <AqlAIFileProcessor 
             platform={displayName}
             moduleType="government"
             onFileProcessed={(file) => {

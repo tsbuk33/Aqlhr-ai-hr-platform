@@ -1,6 +1,6 @@
 {
   "dashboard": {
-    "title": "SanadHR System",
+    "title": "AqlHR System",
     "subtitle": "Advanced Intelligent Platform for Human Resources Management in Saudi Arabia",
     "all_systems_operational": "All systems operational",
     "modules_active": "modules active",
@@ -40,9 +40,9 @@
   },
   "upload": {
     "company_data_integration": "Company Data Integration",
-    "company_data_integration_desc": "Upload company data files to automatically integrate with all SanadHR modules and AI systems",
+    "company_data_integration_desc": "Upload company data files to automatically integrate with all AqlHR modules and AI systems",
     "integration_complete": "Data Integration Complete",
-    "integration_complete_desc": "Company data from {filename} has been processed and integrated into SanadHR systems. All modules and AI tools are now updated.",
+    "integration_complete_desc": "Company data from {filename} has been processed and integrated into AqlHR systems. All modules and AI tools are now updated.",
     "processing_data": "Processing Company Data...",
     "integrating_systems": "Integrating with HR modules and AI systems",
     "complete": "Complete",

@@ -168,7 +168,7 @@ const APIGateway = lazy(() => import('../pages/platform-features/APIGateway'));
 
 // Additional modules
 const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
-const SanadHRConnect = lazy(() => import('../pages/additional/SanadHRConnect'));
+const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 
@@ -297,7 +297,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Additional Modules Routes
   { path: '/tools/smart-kpi', element: SmartKPITool, auth: true },
-  { path: '/tools/sanadhr-connect', element: SanadHRConnect, auth: true },
+  { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
   { path: '/test-harness', element: TestHarness, auth: true, adminOnly: true },
   
   // Government Integration Sub-routes

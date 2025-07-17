@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { 
   DollarSign,
   Users, 
@@ -309,7 +309,7 @@ const Payroll = () => {
       label: language === 'ar' ? 'المعالجة' : 'Processing',
       content: (
         <div className="space-y-6">
-          <SanadAIFileProcessor
+          <AqlAIFileProcessor
             platform="payroll"
             moduleType="wps"
             onFileProcessed={handleFileProcessed}

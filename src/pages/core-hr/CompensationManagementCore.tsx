@@ -8,7 +8,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { TrendingUp, TrendingDown, Scale, AlertTriangle, Users, Target, BarChart3, Shield, HelpCircle } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SalarySearchEngine } from "@/components/salary/SalarySearchEngine";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
 
@@ -323,7 +323,7 @@ const CompensationManagementCore = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <SanadAIFileProcessor
+          <AqlAIFileProcessor
             platform="compensation-management"
             moduleType="core-hr"
             onFileProcessed={(file) => {

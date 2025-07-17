@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -115,7 +115,7 @@ const BenefitsAdministration = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <SanadAIFileProcessor
+              <AqlAIFileProcessor
                 platform="benefits-administration"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

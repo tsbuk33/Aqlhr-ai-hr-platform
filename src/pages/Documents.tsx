@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 
 const Documents = () => {
   const { t } = useLanguage();
@@ -50,7 +50,7 @@ const Documents = () => {
         </Card>
       </div>
 
-      <SanadAIFileProcessor
+      <AqlAIFileProcessor
         platform="documents"
         moduleType="general"
         onFileProcessed={(file) => {
