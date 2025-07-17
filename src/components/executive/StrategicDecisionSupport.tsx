@@ -483,7 +483,7 @@ const StrategicDecisionSupport: React.FC = () => {
                     {scenario?.name} Analysis
                   </span>
                   <Badge variant="secondary" className="text-xs">
-                    {scenario?.timeframe} months timeline
+                    {scenario?.predictions.timeframe} months timeline
                   </Badge>
                 </CardTitle>
               </CardHeader>
