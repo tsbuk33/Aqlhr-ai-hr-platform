@@ -274,7 +274,7 @@ export function AppSidebar() {
   };
 
   const getBadgeClasses = (badge: string, color?: string) => {
-    const baseClasses = "text-xs px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 whitespace-nowrap";
+    const baseClasses = "text-xs px-1 py-0.5 rounded font-medium flex-shrink-0 whitespace-nowrap";
     
     if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
     if (badge === "AI") return `${baseClasses} bg-purple-500/20 text-purple-400 border border-purple-500/30`;
@@ -293,7 +293,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r border-sidebar-border">
+    <Sidebar className="border-r border-sidebar-border w-72">
       <SidebarContent className="bg-sidebar">
         {/* Header */}
         <div className="p-6 border-b border-sidebar-border">
@@ -340,7 +340,7 @@ export function AppSidebar() {
                   >
                     {item.subItems ? (
                       <div className="w-full flex items-center group">
-                        <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
                           <div className="relative flex-shrink-0">
                             <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                             {item.badge && state !== "collapsed" && (
@@ -348,11 +348,11 @@ export function AppSidebar() {
                             )}
                           </div>
                           {state !== "collapsed" && (
-                            <span className="truncate font-medium text-sm">{item.title}</span>
+                            <span className="font-medium text-sm leading-tight break-words flex-1">{item.title}</span>
                           )}
                         </div>
                         {state !== "collapsed" && (
-                          <div className="flex items-center gap-2 flex-shrink-0">
+                          <div className="flex items-center gap-1 flex-shrink-0 ml-2">
                             <span className={getBadgeClasses(item.badge, item.color)}>
                               {item.badge}
                             </span>
@@ -364,7 +364,7 @@ export function AppSidebar() {
                       </div>
                     ) : (
                       <NavLink to={item.url} className="w-full flex items-center group">
-                        <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
                           <div className="relative flex-shrink-0">
                             <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                             {item.badge && state !== "collapsed" && (
@@ -372,11 +372,11 @@ export function AppSidebar() {
                             )}
                           </div>
                           {state !== "collapsed" && (
-                            <span className="font-medium text-sm truncate">{item.title}</span>
+                            <span className="font-medium text-sm leading-tight break-words flex-1">{item.title}</span>
                           )}
                         </div>
                         {state !== "collapsed" && (
-                          <span className={`${getBadgeClasses(item.badge, item.color)} flex-shrink-0`}>
+                          <span className={`${getBadgeClasses(item.badge, item.color)} flex-shrink-0 ml-2`}>
                             {item.badge}
                           </span>
                         )}
