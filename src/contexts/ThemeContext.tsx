@@ -13,6 +13,8 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const useTheme = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
+    // More detailed error message for debugging
+    console.error('useTheme hook must be used within a ThemeProvider. Make sure your component is wrapped in <ThemeProvider>');
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
@@ -24,21 +26,29 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
+    // Ensure we're in browser environment
+    if (typeof window === 'undefined') {
+      return 'light';
+    }
+    
     // Check localStorage first, then system preference
     const savedTheme = localStorage.getItem('aql-hr-theme') as Theme;
-    if (savedTheme) {
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
       return savedTheme;
     }
     
     // Check system preference
-    if (typeof window !== 'undefined') {
+    try {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch (error) {
+      console.warn('Could not detect system theme preference:', error);
+      return 'light';
     }
-    
-    return 'light';
   });
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const root = window.document.documentElement;
     
     // Remove previous theme class
@@ -48,11 +58,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     root.classList.add(theme);
     
     // Save to localStorage
-    localStorage.setItem('aql-hr-theme', theme);
+    try {
+      localStorage.setItem('aql-hr-theme', theme);
+    } catch (error) {
+      console.warn('Could not save theme preference:', error);
+    }
   }, [theme]);
 
   // Listen for system theme changes
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     
     const handleChange = (e: MediaQueryListEvent) => {
@@ -63,8 +79,12 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       }
     };
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    try {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    } catch (error) {
+      console.warn('Could not listen to system theme changes:', error);
+    }
   }, []);
 
   const toggleTheme = () => {

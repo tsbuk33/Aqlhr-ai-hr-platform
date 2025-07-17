@@ -11,8 +11,23 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 export const ThemeToggle: React.FC = () => {
-  const { theme, setTheme } = useTheme();
   const { isArabic } = useSimpleLanguage();
+  
+  // Add try-catch to provide better error handling
+  let themeHook;
+  try {
+    themeHook = useTheme();
+  } catch (error) {
+    console.error('ThemeToggle: ThemeProvider not found', error);
+    // Return a fallback component if theme provider is not available
+    return (
+      <Button variant="ghost" size="icon" className="opacity-50 cursor-not-allowed">
+        <Sun className="h-5 w-5" />
+      </Button>
+    );
+  }
+  
+  const { theme, setTheme } = themeHook;
 
   const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
     if (newTheme === 'system') {
