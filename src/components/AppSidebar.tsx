@@ -274,7 +274,7 @@ export function AppSidebar() {
   };
 
   const getBadgeClasses = (badge: string, color?: string) => {
-    const baseClasses = "text-xs px-2 py-0.5 rounded-full font-medium flex-shrink-0 animate-pulse";
+    const baseClasses = "text-xs px-1.5 py-0.5 rounded-full font-medium flex-shrink-0 whitespace-nowrap";
     
     if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
     if (badge === "AI") return `${baseClasses} bg-purple-500/20 text-purple-400 border border-purple-500/30`;
@@ -339,44 +339,46 @@ export function AppSidebar() {
                     onClick={item.subItems ? () => toggleGroup(item.title) : undefined}
                   >
                     {item.subItems ? (
-                      <div className="w-full flex items-center justify-between group">
-                        <div className="flex items-center gap-3 min-w-0 flex-1">
-                          <div className="relative">
-                            <item.icon className="h-4 w-4 flex-shrink-0 transition-transform group-hover:scale-110" />
+                      <div className="w-full flex items-center group">
+                        <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+                          <div className="relative flex-shrink-0">
+                            <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
                             {item.badge && state !== "collapsed" && (
                               <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                             )}
                           </div>
                           {state !== "collapsed" && (
-                            <>
-                              <span className="truncate flex-1 font-medium">{item.title}</span>
-                              <span className={getBadgeClasses(item.badge, item.color)}>
-                                {item.badge}
-                              </span>
-                            </>
+                            <span className="truncate font-medium text-sm">{item.title}</span>
                           )}
                         </div>
                         {state !== "collapsed" && (
-                          <div className={`transition-all duration-200 ${expandedGroups.includes(item.title) ? 'rotate-180' : ''}`}>
-                            <ArrowDown className="h-3 w-3" />
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <span className={getBadgeClasses(item.badge, item.color)}>
+                              {item.badge}
+                            </span>
+                            <div className={`transition-all duration-200 ${expandedGroups.includes(item.title) ? 'rotate-180' : ''}`}>
+                              <ArrowDown className="h-3 w-3" />
+                            </div>
                           </div>
                         )}
                       </div>
                     ) : (
-                      <NavLink to={item.url} className="w-full flex items-center gap-3 group">
-                        <div className="relative">
-                          <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
-                          {item.badge && state !== "collapsed" && (
-                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                      <NavLink to={item.url} className="w-full flex items-center group">
+                        <div className="flex items-center gap-2 min-w-0 flex-1 mr-2">
+                          <div className="relative flex-shrink-0">
+                            <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
+                            {item.badge && state !== "collapsed" && (
+                              <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                            )}
+                          </div>
+                          {state !== "collapsed" && (
+                            <span className="font-medium text-sm truncate">{item.title}</span>
                           )}
                         </div>
                         {state !== "collapsed" && (
-                          <>
-                            <span className="font-medium">{item.title}</span>
-                            <span className={getBadgeClasses(item.badge, item.color)}>
-                              {item.badge}
-                            </span>
-                          </>
+                          <span className={`${getBadgeClasses(item.badge, item.color)} flex-shrink-0`}>
+                            {item.badge}
+                          </span>
                         )}
                       </NavLink>
                     )}
