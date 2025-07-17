@@ -190,6 +190,9 @@ const ProcessesAndForms = lazy(() => import('../pages/ProcessesAndForms'));
 // Help module
 const Help = lazy(() => import('../pages/Help'));
 
+// Welfare Consultancy module
+const WelfareConsultancy = lazy(() => import('../pages/WelfareConsultancy'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<() => JSX.Element>;
@@ -203,6 +206,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
+  { path: '/welfare-consultancy', element: WelfareConsultancy },
   { path: '/legal-consultant', element: LegalConsultant },
   { path: '/nrc-management', element: NRCManagement },
   { path: '/iso-management', element: ISOManagement },

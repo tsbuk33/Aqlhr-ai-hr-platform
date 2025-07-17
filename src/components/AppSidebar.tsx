@@ -13,7 +13,8 @@ import {
   Shield,
   Scale,
   Award,
-  HelpCircle
+  HelpCircle,
+  Heart
 } from "lucide-react";
 import {
   Sidebar,
@@ -134,6 +135,12 @@ const getPlatformModules = (isArabic: boolean) => [
     url: "/tools", 
     icon: Settings,
     badge: "24"
+  },
+  { 
+    title: isArabic ? "الاستشارات المستقلة لرفاهية الموظفين" : "Independent Employee-Welfare Consultancy", 
+    url: "/welfare-consultancy", 
+    icon: Heart,
+    badge: "FLAGSHIP"
   },
   { 
     title: isArabic ? "المساعدة التفاعلية" : "Interactive Help", 
