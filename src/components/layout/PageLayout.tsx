@@ -30,10 +30,10 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-background via-background-subtle to-surface-subtle ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
+    <div className={`min-h-screen ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
       {/* Page Header */}
-      <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+      <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm -m-6 lg:-m-8 mb-8 lg:mb-12">
+        <div className="px-6 py-8 lg:px-8">
           <div className={`flex items-start justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className={`space-y-3 ${isArabic ? 'text-right' : ''}`}>
               <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
@@ -62,7 +62,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
       </div>
 
       {/* Page Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+      <div className="space-y-8">
         {children}
       </div>
     </div>
