@@ -1,0 +1,609 @@
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { 
+  FileText, 
+  Briefcase, 
+  TrendingUp, 
+  CheckCircle, 
+  AlertCircle, 
+  RefreshCw,
+  Plus,
+  Edit,
+  Eye,
+  Award,
+  Users,
+  Target
+} from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguageCompat';
+
+interface JobPosition {
+  id: string;
+  title: string;
+  titleAr: string;
+  department: string;
+  level: string;
+  status: 'active' | 'draft' | 'pending' | 'archived';
+  jobDescriptionStatus: 'complete' | 'partial' | 'missing';
+  jobSpecificationStatus: 'complete' | 'partial' | 'missing';
+  evaluationStatus: 'complete' | 'in_progress' | 'pending';
+  lastUpdated: string;
+  skillsRequired: number;
+  skillsMatched: number;
+}
+
+interface JobAnalysisMetrics {
+  totalPositions: number;
+  pendingAnalysis: number;
+  completedDescriptions: number;
+  definedSpecifications: number;
+  completedEvaluations: number;
+  complianceScore: number;
+}
+
+interface AIRecommendation {
+  id: string;
+  type: 'update' | 'review' | 'align' | 'create';
+  priority: 'high' | 'medium' | 'low';
+  title: string;
+  description: string;
+  positionId?: string;
+  actionRequired: string;
+}
+
+export const JobAnalysisWorkspace: React.FC = () => {
+  const { language, isRTL } = useLanguage();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
+  
+  // Mock data - replace with actual API calls
+  const [metrics, setMetrics] = useState<JobAnalysisMetrics>({
+    totalPositions: 156,
+    pendingAnalysis: 23,
+    completedDescriptions: 134,
+    definedSpecifications: 156,
+    completedEvaluations: 89,
+    complianceScore: 94
+  });
+
+  const [positions] = useState<JobPosition[]>([
+    {
+      id: '1',
+      title: 'Software Engineer',
+      titleAr: 'مهندس برمجيات',
+      department: 'Technology',
+      level: 'Senior',
+      status: 'active',
+      jobDescriptionStatus: 'complete',
+      jobSpecificationStatus: 'complete',
+      evaluationStatus: 'complete',
+      lastUpdated: '2024-01-15',
+      skillsRequired: 12,
+      skillsMatched: 10
+    },
+    {
+      id: '2',
+      title: 'HR Manager',
+      titleAr: 'مدير الموارد البشرية',
+      department: 'Human Resources',
+      level: 'Manager',
+      status: 'active',
+      jobDescriptionStatus: 'complete',
+      jobSpecificationStatus: 'complete',
+      evaluationStatus: 'in_progress',
+      lastUpdated: '2024-01-14',
+      skillsRequired: 8,
+      skillsMatched: 8
+    },
+    {
+      id: '3',
+      title: 'Data Analyst',
+      titleAr: 'محلل البيانات',
+      department: 'Analytics',
+      level: 'Mid',
+      status: 'draft',
+      jobDescriptionStatus: 'partial',
+      jobSpecificationStatus: 'missing',
+      evaluationStatus: 'pending',
+      lastUpdated: '2024-01-13',
+      skillsRequired: 10,
+      skillsMatched: 6
+    }
+  ]);
+
+  const [aiRecommendations] = useState<AIRecommendation[]>([
+    {
+      id: '1',
+      type: 'update',
+      priority: 'high',
+      title: 'Update Software Engineer JD',
+      description: 'Job description needs updating with new tech stack requirements including React 18 and TypeScript 5.0',
+      positionId: '1',
+      actionRequired: 'Add new technical requirements'
+    },
+    {
+      id: '2',
+      type: 'review',
+      priority: 'medium',
+      title: 'Review Manager Positions',
+      description: 'Leadership skills requirements need review for compliance with Saudi leadership development standards',
+      actionRequired: 'Update leadership competencies'
+    },
+    {
+      id: '3',
+      type: 'align',
+      priority: 'medium',
+      title: 'Align HR Specialist with HRSD',
+      description: 'HR Specialist job requirements should align with latest HRSD professional standards',
+      actionRequired: 'Update qualification requirements'
+    }
+  ]);
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'complete':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      case 'in_progress':
+      case 'partial':
+        return <RefreshCw className="h-4 w-4 text-yellow-500" />;
+      default:
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
+    }
+  };
+
+  const getStatusBadge = (status: string) => {
+    const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+      complete: 'default',
+      partial: 'secondary',
+      in_progress: 'secondary',
+      missing: 'destructive',
+      pending: 'outline'
+    };
+    return variants[status] || 'outline';
+  };
+
+  return (
+    <div className="space-y-6 p-6" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground">
+            {language === 'ar' ? 'مساحة عمل تحليل الوظائف' : 'Job Analysis Workspace'}
+          </h1>
+          <p className="text-muted-foreground mt-2">
+            {language === 'ar' 
+              ? 'إدارة أوصاف الوظائف ومواصفاتها وتقييمها بذكاء اصطناعي'
+              : 'AI-powered job description, specification, and evaluation management'
+            }
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" className="gap-2">
+            <Target className="h-4 w-4" />
+            {language === 'ar' ? 'تحليل شامل' : 'Bulk Analysis'}
+          </Button>
+          <Button className="gap-2">
+            <Plus className="h-4 w-4" />
+            {language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position'}
+          </Button>
+        </div>
+      </div>
+
+      {/* Key Metrics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Briefcase className="h-5 w-5" />
+            {language === 'ar' ? 'مركز ذكاء تحليل الوظائف' : 'Job Analysis Intelligence Center'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary">{metrics.totalPositions}</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'إجمالي المناصب' : 'Total Positions'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-yellow-600">{metrics.pendingAnalysis}</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'تحليل معلق' : 'Pending Analysis'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">{metrics.completedDescriptions}</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'أوصاف مكتملة' : 'Descriptions Complete'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">{metrics.definedSpecifications}</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'مواصفات محددة' : 'Specs Defined'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-purple-600">{metrics.completedEvaluations}</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'تقييمات مكتملة' : 'Evaluations Complete'}
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-emerald-600">{metrics.complianceScore}%</div>
+              <div className="text-xs text-muted-foreground">
+                {language === 'ar' ? 'نتيجة الامتثال' : 'Compliance Score'}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* AI Recommendations */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" />
+            {language === 'ar' ? 'توصيات الذكاء الاصطناعي' : 'AI Recommendations'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {aiRecommendations.map((recommendation) => (
+              <div key={recommendation.id} className="flex items-start justify-between p-3 border rounded-lg">
+                <div className="flex items-start gap-3">
+                  <Badge variant={
+                    recommendation.priority === 'high' ? 'destructive' : 
+                    recommendation.priority === 'medium' ? 'secondary' : 'outline'
+                  }>
+                    {recommendation.priority}
+                  </Badge>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">{recommendation.title}</p>
+                    <p className="text-xs text-muted-foreground">{recommendation.description}</p>
+                    <p className="text-xs text-primary">{recommendation.actionRequired}</p>
+                  </div>
+                </div>
+                <Button variant="outline" size="sm">
+                  {language === 'ar' ? 'تطبيق' : 'Apply'}
+                </Button>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Main Content Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="overview" className="gap-2">
+            <Briefcase className="h-4 w-4" />
+            {language === 'ar' ? 'نظرة عامة' : 'Overview'}
+          </TabsTrigger>
+          <TabsTrigger value="descriptions" className="gap-2">
+            <FileText className="h-4 w-4" />
+            {language === 'ar' ? 'أوصاف الوظائف' : 'Job Descriptions'}
+          </TabsTrigger>
+          <TabsTrigger value="specifications" className="gap-2">
+            <Target className="h-4 w-4" />
+            {language === 'ar' ? 'مواصفات الوظائف' : 'Job Specifications'}
+          </TabsTrigger>
+          <TabsTrigger value="evaluation" className="gap-2">
+            <Award className="h-4 w-4" />
+            {language === 'ar' ? 'تقييم الوظائف' : 'Job Evaluation'}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6">
+          {/* Position Status Grid */}
+          <div className="space-y-4">
+            {positions.map((position) => (
+              <Card key={position.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    {/* Position Info */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-2">
+                        <h3 className="font-semibold text-lg">
+                          {language === 'ar' ? position.titleAr : position.title}
+                        </h3>
+                        <Badge variant={position.status === 'active' ? 'default' : 'secondary'}>
+                          {position.status}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                        <span>{position.department}</span>
+                        <span>•</span>
+                        <span>{position.level} Level</span>
+                        <span>•</span>
+                        <span>{language === 'ar' ? 'آخر تحديث:' : 'Updated:'} {position.lastUpdated}</span>
+                      </div>
+                    </div>
+
+                    {/* Status Indicators */}
+                    <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+                      <div className="flex gap-4">
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(position.jobDescriptionStatus)}
+                          <span className="text-xs">
+                            {language === 'ar' ? 'الوصف' : 'Description'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(position.jobSpecificationStatus)}
+                          <span className="text-xs">
+                            {language === 'ar' ? 'المواصفات' : 'Specs'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(position.evaluationStatus)}
+                          <span className="text-xs">
+                            {language === 'ar' ? 'التقييم' : 'Evaluation'}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Button variant="outline" size="sm" className="gap-1">
+                          <Eye className="h-3 w-3" />
+                          {language === 'ar' ? 'عرض' : 'View'}
+                        </Button>
+                        <Button variant="outline" size="sm" className="gap-1">
+                          <Edit className="h-3 w-3" />
+                          {language === 'ar' ? 'تحرير' : 'Edit'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Skills Match Progress */}
+                  <div className="mt-4 pt-4 border-t">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-sm font-medium">
+                        {language === 'ar' ? 'تطابق المهارات' : 'Skills Match'}
+                      </span>
+                      <span className="text-sm">
+                        {position.skillsMatched}/{position.skillsRequired} {language === 'ar' ? 'مهارات' : 'skills'}
+                      </span>
+                    </div>
+                    <div className="w-full bg-muted rounded-full h-2">
+                      <div 
+                        className="bg-primary h-2 rounded-full transition-all duration-300"
+                        style={{ width: `${(position.skillsMatched / position.skillsRequired) * 100}%` }}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="descriptions" className="space-y-6">
+          {/* Job Description Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                {language === 'ar' ? 'مولد أوصاف الوظائف بالذكاء الاصطناعي' : 'AI-Powered Job Description Generator'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'إنشاء أوصاف وظائف شاملة بالعربية والإنجليزية مع الامتثال للقوانين السعودية'
+                  : 'Generate comprehensive job descriptions in Arabic and English with Saudi compliance'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    {language === 'ar' ? 'اختر المنصب' : 'Select Position'}
+                  </label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر منصب...' : 'Select position...'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {positions.map((position) => (
+                        <SelectItem key={position.id} value={position.id}>
+                          {language === 'ar' ? position.titleAr : position.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    {language === 'ar' ? 'القسم' : 'Department'}
+                  </label>
+                  <Input placeholder={language === 'ar' ? 'أدخل القسم...' : 'Enter department...'} />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-2 block">
+                  {language === 'ar' ? 'ملخص الوظيفة' : 'Job Summary'}
+                </label>
+                <Textarea 
+                  placeholder={language === 'ar' 
+                    ? 'أدخل ملخص مختصر للوظيفة...'
+                    : 'Enter a brief job summary...'
+                  }
+                  rows={3}
+                />
+              </div>
+
+              <div className="flex gap-3">
+                <Button className="gap-2">
+                  <TrendingUp className="h-4 w-4" />
+                  {language === 'ar' ? 'إنشاء بالذكاء الاصطناعي' : 'Generate with AI'}
+                </Button>
+                <Button variant="outline" className="gap-2">
+                  <FileText className="h-4 w-4" />
+                  {language === 'ar' ? 'استخدام نموذج' : 'Use Template'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="specifications" className="space-y-6">
+          {/* Job Specification Builder */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                {language === 'ar' ? 'محرك مواصفات الوظائف' : 'Job Specification Engine'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {/* Education Requirements */}
+                <div>
+                  <h4 className="font-semibold mb-3">
+                    {language === 'ar' ? 'متطلبات التعليم' : 'Education Requirements'}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder={language === 'ar' ? 'الحد الأدنى للتعليم' : 'Minimum Education'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="high_school">{language === 'ar' ? 'الثانوية العامة' : 'High School'}</SelectItem>
+                        <SelectItem value="bachelor">{language === 'ar' ? 'بكالوريوس' : 'Bachelor\'s Degree'}</SelectItem>
+                        <SelectItem value="master">{language === 'ar' ? 'ماجستير' : 'Master\'s Degree'}</SelectItem>
+                        <SelectItem value="phd">{language === 'ar' ? 'دكتوراه' : 'PhD'}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    
+                    <Input placeholder={language === 'ar' ? 'التخصص المطلوب' : 'Required Field of Study'} />
+                  </div>
+                </div>
+
+                {/* Experience Requirements */}
+                <div>
+                  <h4 className="font-semibold mb-3">
+                    {language === 'ar' ? 'متطلبات الخبرة' : 'Experience Requirements'}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Input placeholder={language === 'ar' ? 'سنوات الخبرة الدنيا' : 'Min Years Experience'} type="number" />
+                    <Input placeholder={language === 'ar' ? 'سنوات الخبرة المفضلة' : 'Preferred Years'} type="number" />
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder={language === 'ar' ? 'نوع الخبرة' : 'Experience Type'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="relevant">{language === 'ar' ? 'خبرة ذات صلة' : 'Relevant Experience'}</SelectItem>
+                        <SelectItem value="leadership">{language === 'ar' ? 'خبرة قيادية' : 'Leadership Experience'}</SelectItem>
+                        <SelectItem value="technical">{language === 'ar' ? 'خبرة تقنية' : 'Technical Experience'}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Skills Requirements */}
+                <div>
+                  <h4 className="font-semibold mb-3">
+                    {language === 'ar' ? 'متطلبات المهارات' : 'Skills Requirements'}
+                  </h4>
+                  <Button variant="outline" className="gap-2">
+                    <Plus className="h-4 w-4" />
+                    {language === 'ar' ? 'ربط بمصفوفة المهارات' : 'Link to Skill Matrix'}
+                  </Button>
+                </div>
+
+                <div className="flex gap-3">
+                  <Button>
+                    {language === 'ar' ? 'حفظ المواصفات' : 'Save Specifications'}
+                  </Button>
+                  <Button variant="outline">
+                    {language === 'ar' ? 'معاينة' : 'Preview'}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="evaluation" className="space-y-6">
+          {/* Job Evaluation Framework */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Award className="h-5 w-5" />
+                {language === 'ar' ? 'إطار تقييم الوظائف' : 'Job Evaluation Framework'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                {/* Grading System */}
+                <div>
+                  <h4 className="font-semibold mb-3">
+                    {language === 'ar' ? 'نظام التدرج' : 'Position Grading System'}
+                  </h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 border rounded-lg text-center">
+                      <div className="text-2xl font-bold text-green-600">Grade 12</div>
+                      <div className="text-sm text-muted-foreground">Current Assessment</div>
+                    </div>
+                    <div className="p-4 border rounded-lg text-center">
+                      <div className="text-2xl font-bold text-blue-600">85%</div>
+                      <div className="text-sm text-muted-foreground">Market Alignment</div>
+                    </div>
+                    <div className="p-4 border rounded-lg text-center">
+                      <div className="text-2xl font-bold text-purple-600">12,500 SAR</div>
+                      <div className="text-sm text-muted-foreground">Salary Range</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Evaluation Criteria */}
+                <div>
+                  <h4 className="font-semibold mb-3">
+                    {language === 'ar' ? 'معايير التقييم' : 'Evaluation Criteria'}
+                  </h4>
+                  <div className="space-y-3">
+                    {[
+                      { criteria: 'Complexity', value: 4.2, weight: 30 },
+                      { criteria: 'Responsibility', value: 3.8, weight: 25 },
+                      { criteria: 'Skills Required', value: 4.0, weight: 20 },
+                      { criteria: 'Impact', value: 3.5, weight: 15 },
+                      { criteria: 'Working Conditions', value: 4.5, weight: 10 }
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 border rounded">
+                        <div className="flex items-center gap-3">
+                          <span className="font-medium">{item.criteria}</span>
+                          <Badge variant="outline">{item.weight}% weight</Badge>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-24 bg-muted rounded-full h-2">
+                            <div 
+                              className="bg-primary h-2 rounded-full"
+                              style={{ width: `${(item.value / 5) * 100}%` }}
+                            />
+                          </div>
+                          <span className="text-sm font-medium">{item.value}/5.0</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <Button className="w-full">
+                  {language === 'ar' ? 'إكمال التقييم' : 'Complete Evaluation'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
