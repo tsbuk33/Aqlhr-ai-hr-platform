@@ -5,6 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
+import { ThemeProvider } from '@/contexts/ThemeContext';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -23,16 +24,18 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SimpleLanguageProvider>
-        <TooltipProvider>
-          <BrowserRouter>
-            <SidebarProvider>
-              <Toaster />
-              {children}
-            </SidebarProvider>
-          </BrowserRouter>
-        </TooltipProvider>
-      </SimpleLanguageProvider>
+      <ThemeProvider>
+        <SimpleLanguageProvider>
+          <TooltipProvider>
+            <BrowserRouter>
+              <SidebarProvider>
+                <Toaster />
+                {children}
+              </SidebarProvider>
+            </BrowserRouter>
+          </TooltipProvider>
+        </SimpleLanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

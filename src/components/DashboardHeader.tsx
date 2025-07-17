@@ -5,6 +5,7 @@ import { Bell, Search, Settings } from "lucide-react";
 import SimpleLanguageToggle from "@/components/SimpleLanguageToggle";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function DashboardHeader() {
   const { isArabic } = useSimpleLanguage();
@@ -39,6 +40,7 @@ export function DashboardHeader() {
 
         <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
           <HijriCalendarWidget compact className="hidden lg:flex" />
+          <ThemeToggle />
           <SimpleLanguageToggle />
           
           <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
