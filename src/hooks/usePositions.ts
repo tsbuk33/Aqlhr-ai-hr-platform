@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { generateDummyPositions, type DummyPosition } from '@/utils/dummyData';
 
 export interface Position {
   position: string;
@@ -31,6 +32,7 @@ export const usePositions = () => {
       setLoading(true);
       setError(null);
 
+      // First try to get real data from database
       const { data, error } = await supabase
         .from('employees')
         .select(`
@@ -47,41 +49,64 @@ export const usePositions = () => {
 
       if (error) throw error;
 
-      // Process and consolidate positions
-      const positionMap = new Map<string, UniquePosition>();
+      let processedPositions: UniquePosition[] = [];
 
-      data?.forEach(emp => {
-        const mainTitle = emp.position || emp.actual_job_title || emp.company_job_title;
-        const mainTitleAr = emp.position_ar || emp.actual_job_title_ar || emp.company_job_title_ar;
-        
-        if (mainTitle && mainTitle.trim() !== '') {
-          const key = mainTitle.toLowerCase().trim();
+      if (data && data.length > 0) {
+        // Process real data if available
+        const positionMap = new Map<string, UniquePosition>();
+
+        data.forEach(emp => {
+          const mainTitle = emp.position || emp.actual_job_title || emp.company_job_title;
+          const mainTitleAr = emp.position_ar || emp.actual_job_title_ar || emp.company_job_title_ar;
           
-          if (positionMap.has(key)) {
-            const existing = positionMap.get(key)!;
-            existing.count += 1;
-          } else {
-            positionMap.set(key, {
-              title: mainTitle.trim(),
-              titleAr: mainTitleAr?.trim(),
-              department: emp.department,
-              count: 1
-            });
+          if (mainTitle && mainTitle.trim() !== '') {
+            const key = mainTitle.toLowerCase().trim();
+            
+            if (positionMap.has(key)) {
+              const existing = positionMap.get(key)!;
+              existing.count += 1;
+            } else {
+              positionMap.set(key, {
+                title: mainTitle.trim(),
+                titleAr: mainTitleAr?.trim(),
+                department: emp.department,
+                count: 1
+              });
+            }
           }
-        }
-      });
-
-      // Convert to array and sort by count (most common first), then alphabetically
-      const uniquePositions = Array.from(positionMap.values())
-        .sort((a, b) => {
-          if (b.count !== a.count) return b.count - a.count;
-          return a.title.localeCompare(b.title);
         });
 
-      setPositions(uniquePositions);
+        processedPositions = Array.from(positionMap.values())
+          .sort((a, b) => {
+            if (b.count !== a.count) return b.count - a.count;
+            return a.title.localeCompare(b.title);
+          });
+      }
+
+      // If no real data, use dummy data
+      if (processedPositions.length === 0) {
+        const dummyPositions = generateDummyPositions();
+        processedPositions = dummyPositions.map(pos => ({
+          title: pos.title,
+          titleAr: pos.titleAr,
+          department: pos.department,
+          count: pos.count
+        }));
+      }
+
+      setPositions(processedPositions);
     } catch (err) {
       console.error('Error fetching positions:', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch positions');
+      
+      // Fallback to dummy data on error
+      const dummyPositions = generateDummyPositions();
+      setPositions(dummyPositions.map(pos => ({
+        title: pos.title,
+        titleAr: pos.titleAr,
+        department: pos.department,
+        count: pos.count
+      })));
     } finally {
       setLoading(false);
     }
