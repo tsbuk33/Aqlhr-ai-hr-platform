@@ -9,6 +9,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Plus, Target, TrendingUp, Users, Award, Search, Filter, BarChart3, Zap } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 interface TechnicalSkill {
   id: string;
@@ -46,6 +49,17 @@ export const SkillMatrixDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [isAddSkillOpen, setIsAddSkillOpen] = useState(false);
+  const [newSkill, setNewSkill] = useState({
+    name: '',
+    nameAr: '',
+    category: '',
+    skillType: 'technical',
+    description: '',
+    proficiencyLevels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
+    industryRelevance: '',
+    requiredFor: [] as string[]
+  });
   
   // Mock data - replace with actual API calls
   const [skillStats, setSkillStats] = useState({
@@ -110,19 +124,138 @@ export const SkillMatrixDashboard: React.FC = () => {
             <BarChart3 className="h-4 w-4" />
             {language === 'ar' ? 'تحليل الفجوات' : 'Gap Analysis'}
           </Button>
-          <Button 
-            className="gap-2"
-            onClick={() => {
-              toast({
-                title: language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill',
-                description: language === 'ar' ? 'فتح نموذج إضافة مهارة جديدة...' : 'Opening new skill form...',
-              });
-              // In a real app, this would open a modal or navigate to a form
-            }}
-          >
-            <Plus className="h-4 w-4" />
-            {language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill'}
-          </Button>
+          <Dialog open={isAddSkillOpen} onOpenChange={setIsAddSkillOpen}>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                {language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill'}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>
+                  {language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill'}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-name">
+                      {language === 'ar' ? 'اسم المهارة (الإنجليزية)' : 'Skill Name (English)'}
+                    </Label>
+                    <Input
+                      id="skill-name"
+                      value={newSkill.name}
+                      onChange={(e) => setNewSkill({...newSkill, name: e.target.value})}
+                      placeholder={language === 'ar' ? 'أدخل اسم المهارة' : 'Enter skill name'}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-name-ar">
+                      {language === 'ar' ? 'اسم المهارة (العربية)' : 'Skill Name (Arabic)'}
+                    </Label>
+                    <Input
+                      id="skill-name-ar"
+                      value={newSkill.nameAr}
+                      onChange={(e) => setNewSkill({...newSkill, nameAr: e.target.value})}
+                      placeholder={language === 'ar' ? 'أدخل اسم المهارة بالعربية' : 'Enter skill name in Arabic'}
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-type">
+                      {language === 'ar' ? 'نوع المهارة' : 'Skill Type'}
+                    </Label>
+                    <Select value={newSkill.skillType} onValueChange={(value) => setNewSkill({...newSkill, skillType: value})}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="technical">
+                          {language === 'ar' ? 'تقنية' : 'Technical'}
+                        </SelectItem>
+                        <SelectItem value="behavioral">
+                          {language === 'ar' ? 'سلوكية' : 'Behavioral'}
+                        </SelectItem>
+                        <SelectItem value="certification">
+                          {language === 'ar' ? 'شهادة' : 'Certification'}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-category">
+                      {language === 'ar' ? 'الفئة' : 'Category'}
+                    </Label>
+                    <Select value={newSkill.category} onValueChange={(value) => setNewSkill({...newSkill, category: value})}>
+                      <SelectTrigger>
+                        <SelectValue placeholder={language === 'ar' ? 'اختر الفئة' : 'Select category'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {skillCategories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id}>
+                            {language === 'ar' ? cat.nameAr : cat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="skill-description">
+                    {language === 'ar' ? 'الوصف' : 'Description'}
+                  </Label>
+                  <Textarea
+                    id="skill-description"
+                    value={newSkill.description}
+                    onChange={(e) => setNewSkill({...newSkill, description: e.target.value})}
+                    placeholder={language === 'ar' ? 'وصف تفصيلي للمهارة ومتطلباتها' : 'Detailed description of the skill and its requirements'}
+                    rows={3}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="industry-relevance">
+                    {language === 'ar' ? 'صلة بالصناعة' : 'Industry Relevance'}
+                  </Label>
+                  <Input
+                    id="industry-relevance"
+                    value={newSkill.industryRelevance}
+                    onChange={(e) => setNewSkill({...newSkill, industryRelevance: e.target.value})}
+                    placeholder={language === 'ar' ? 'أهمية المهارة في القطاع' : 'Importance of skill in the industry'}
+                  />
+                </div>
+
+                <div className="flex justify-end gap-3 pt-4">
+                  <Button variant="outline" onClick={() => setIsAddSkillOpen(false)}>
+                    {language === 'ar' ? 'إلغاء' : 'Cancel'}
+                  </Button>
+                  <Button onClick={() => {
+                    toast({
+                      title: language === 'ar' ? 'تم إضافة المهارة' : 'Skill Added',
+                      description: language === 'ar' ? `تم إضافة مهارة "${newSkill.name}" بنجاح` : `Skill "${newSkill.name}" has been added successfully`,
+                    });
+                    setIsAddSkillOpen(false);
+                    setNewSkill({
+                      name: '',
+                      nameAr: '',
+                      category: '',
+                      skillType: 'technical',
+                      description: '',
+                      proficiencyLevels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
+                      industryRelevance: '',
+                      requiredFor: []
+                    });
+                  }}>
+                    {language === 'ar' ? 'إضافة المهارة' : 'Add Skill'}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 

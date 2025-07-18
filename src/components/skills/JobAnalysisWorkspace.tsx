@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
 import { 
   FileText, 
   Briefcase, 
@@ -62,6 +64,40 @@ export const JobAnalysisWorkspace: React.FC = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
+  const [isCreatePositionOpen, setIsCreatePositionOpen] = useState(false);
+  const [newPosition, setNewPosition] = useState({
+    title: '',
+    titleAr: '',
+    department: '',
+    level: '',
+    employmentType: 'full_time',
+    location: '',
+    directReports: 0,
+    reportsTo: '',
+    salaryGrade: '',
+    minSalary: '',
+    maxSalary: '',
+    currency: 'SAR',
+    jobFamily: '',
+    careerLevel: '',
+    educationRequired: '',
+    experienceYears: '',
+    description: '',
+    responsibilities: '',
+    qualifications: '',
+    skills: [] as string[],
+    certifications: [] as string[],
+    languages: [] as string[],
+    travelRequired: false,
+    workSchedule: 'standard',
+    effectiveDate: '',
+    recruitmentPriority: 'medium',
+    targetHireDate: '',
+    hiringManager: '',
+    recruiter: '',
+    budgetApproved: false,
+    complianceChecked: false
+  });
   
   // Mock data - replace with actual API calls
   const [metrics, setMetrics] = useState<JobAnalysisMetrics>({
@@ -199,19 +235,336 @@ export const JobAnalysisWorkspace: React.FC = () => {
             <Target className="h-4 w-4" />
             {language === 'ar' ? 'تحليل شامل' : 'Bulk Analysis'}
           </Button>
-          <Button 
-            className="gap-2"
-            onClick={() => {
-              toast({
-                title: language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position',
-                description: language === 'ar' ? 'فتح معالج إنشاء الوظائف...' : 'Opening position creation wizard...',
-              });
-              setActiveTab('descriptions');
-            }}
-          >
-            <Plus className="h-4 w-4" />
-            {language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position'}
-          </Button>
+          <Dialog open={isCreatePositionOpen} onOpenChange={setIsCreatePositionOpen}>
+            <DialogTrigger asChild>
+              <Button className="gap-2">
+                <Plus className="h-4 w-4" />
+                {language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position'}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  {language === 'ar' ? 'إنشاء وظيفة جديدة - متصل بالتوظيف والبيانات الرئيسية' : 'Create New Position - Connected to Recruitment & Master Data'}
+                </DialogTitle>
+              </DialogHeader>
+              <div className="space-y-6 py-4">
+                {/* Basic Information */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg border-b pb-2">
+                    {language === 'ar' ? 'المعلومات الأساسية' : 'Basic Information'}
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="position-title">
+                        {language === 'ar' ? 'المسمى الوظيفي (الإنجليزية)' : 'Position Title (English)'}
+                      </Label>
+                      <Input
+                        id="position-title"
+                        value={newPosition.title}
+                        onChange={(e) => setNewPosition({...newPosition, title: e.target.value})}
+                        placeholder={language === 'ar' ? 'أدخل المسمى الوظيفي' : 'Enter position title'}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="position-title-ar">
+                        {language === 'ar' ? 'المسمى الوظيفي (العربية)' : 'Position Title (Arabic)'}
+                      </Label>
+                      <Input
+                        id="position-title-ar"
+                        value={newPosition.titleAr}
+                        onChange={(e) => setNewPosition({...newPosition, titleAr: e.target.value})}
+                        placeholder={language === 'ar' ? 'أدخل المسمى الوظيفي بالعربية' : 'Enter position title in Arabic'}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="department">
+                        {language === 'ar' ? 'القسم' : 'Department'}
+                      </Label>
+                      <Select value={newPosition.department} onValueChange={(value) => setNewPosition({...newPosition, department: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر القسم' : 'Select department'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="hr">{language === 'ar' ? 'الموارد البشرية' : 'Human Resources'}</SelectItem>
+                          <SelectItem value="finance">{language === 'ar' ? 'المالية' : 'Finance'}</SelectItem>
+                          <SelectItem value="technology">{language === 'ar' ? 'التقنية' : 'Technology'}</SelectItem>
+                          <SelectItem value="operations">{language === 'ar' ? 'العمليات' : 'Operations'}</SelectItem>
+                          <SelectItem value="marketing">{language === 'ar' ? 'التسويق' : 'Marketing'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="level">
+                        {language === 'ar' ? 'المستوى' : 'Level'}
+                      </Label>
+                      <Select value={newPosition.level} onValueChange={(value) => setNewPosition({...newPosition, level: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر المستوى' : 'Select level'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="entry">{language === 'ar' ? 'مبتدئ' : 'Entry Level'}</SelectItem>
+                          <SelectItem value="junior">{language === 'ar' ? 'مبتدئ متقدم' : 'Junior'}</SelectItem>
+                          <SelectItem value="mid">{language === 'ar' ? 'متوسط' : 'Mid Level'}</SelectItem>
+                          <SelectItem value="senior">{language === 'ar' ? 'أول' : 'Senior'}</SelectItem>
+                          <SelectItem value="lead">{language === 'ar' ? 'قائد' : 'Lead'}</SelectItem>
+                          <SelectItem value="manager">{language === 'ar' ? 'مدير' : 'Manager'}</SelectItem>
+                          <SelectItem value="director">{language === 'ar' ? 'مدير عام' : 'Director'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="employment-type">
+                        {language === 'ar' ? 'نوع التوظيف' : 'Employment Type'}
+                      </Label>
+                      <Select value={newPosition.employmentType} onValueChange={(value) => setNewPosition({...newPosition, employmentType: value})}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="full_time">{language === 'ar' ? 'دوام كامل' : 'Full Time'}</SelectItem>
+                          <SelectItem value="part_time">{language === 'ar' ? 'دوام جزئي' : 'Part Time'}</SelectItem>
+                          <SelectItem value="contract">{language === 'ar' ? 'عقد مؤقت' : 'Contract'}</SelectItem>
+                          <SelectItem value="consultant">{language === 'ar' ? 'استشاري' : 'Consultant'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Recruitment Connection */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg border-b pb-2 text-primary">
+                    {language === 'ar' ? 'ربط بنظام التوظيف' : 'Recruitment System Connection'}
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="recruitment-priority">
+                        {language === 'ar' ? 'أولوية التوظيف' : 'Recruitment Priority'}
+                      </Label>
+                      <Select value={newPosition.recruitmentPriority} onValueChange={(value) => setNewPosition({...newPosition, recruitmentPriority: value})}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="urgent">{language === 'ar' ? 'عاجل' : 'Urgent'}</SelectItem>
+                          <SelectItem value="high">{language === 'ar' ? 'عالي' : 'High'}</SelectItem>
+                          <SelectItem value="medium">{language === 'ar' ? 'متوسط' : 'Medium'}</SelectItem>
+                          <SelectItem value="low">{language === 'ar' ? 'منخفض' : 'Low'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="target-hire-date">
+                        {language === 'ar' ? 'تاريخ التوظيف المستهدف' : 'Target Hire Date'}
+                      </Label>
+                      <Input
+                        id="target-hire-date"
+                        type="date"
+                        value={newPosition.targetHireDate}
+                        onChange={(e) => setNewPosition({...newPosition, targetHireDate: e.target.value})}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="hiring-manager">
+                        {language === 'ar' ? 'مدير التوظيف' : 'Hiring Manager'}
+                      </Label>
+                      <Select value={newPosition.hiringManager} onValueChange={(value) => setNewPosition({...newPosition, hiringManager: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر مدير التوظيف' : 'Select hiring manager'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="manager1">{language === 'ar' ? 'أحمد محمد - مدير الموارد البشرية' : 'Ahmed Mohammed - HR Manager'}</SelectItem>
+                          <SelectItem value="manager2">{language === 'ar' ? 'سارة علي - مديرة التقنية' : 'Sarah Ali - Technology Manager'}</SelectItem>
+                          <SelectItem value="manager3">{language === 'ar' ? 'خالد أحمد - مدير العمليات' : 'Khalid Ahmed - Operations Manager'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="recruiter">
+                        {language === 'ar' ? 'المُوظِف' : 'Recruiter'}
+                      </Label>
+                      <Select value={newPosition.recruiter} onValueChange={(value) => setNewPosition({...newPosition, recruiter: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر المُوظِف' : 'Select recruiter'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="recruiter1">{language === 'ar' ? 'منى السالم - مُوظِفة أولى' : 'Mona Al-Salem - Senior Recruiter'}</SelectItem>
+                          <SelectItem value="recruiter2">{language === 'ar' ? 'عبدالله العتيبي - مُوظِف' : 'Abdullah Al-Otaibi - Recruiter'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Compensation */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg border-b pb-2">
+                    {language === 'ar' ? 'التعويضات' : 'Compensation'}
+                  </h4>
+                  <div className="grid grid-cols-4 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="salary-grade">
+                        {language === 'ar' ? 'درجة الراتب' : 'Salary Grade'}
+                      </Label>
+                      <Select value={newPosition.salaryGrade} onValueChange={(value) => setNewPosition({...newPosition, salaryGrade: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر الدرجة' : 'Select grade'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="grade-8">Grade 8</SelectItem>
+                          <SelectItem value="grade-9">Grade 9</SelectItem>
+                          <SelectItem value="grade-10">Grade 10</SelectItem>
+                          <SelectItem value="grade-11">Grade 11</SelectItem>
+                          <SelectItem value="grade-12">Grade 12</SelectItem>
+                          <SelectItem value="grade-13">Grade 13</SelectItem>
+                          <SelectItem value="grade-14">Grade 14</SelectItem>
+                          <SelectItem value="grade-15">Grade 15</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="min-salary">
+                        {language === 'ar' ? 'الحد الأدنى للراتب' : 'Minimum Salary'}
+                      </Label>
+                      <Input
+                        id="min-salary"
+                        type="number"
+                        value={newPosition.minSalary}
+                        onChange={(e) => setNewPosition({...newPosition, minSalary: e.target.value})}
+                        placeholder="5000"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="max-salary">
+                        {language === 'ar' ? 'الحد الأقصى للراتب' : 'Maximum Salary'}
+                      </Label>
+                      <Input
+                        id="max-salary"
+                        type="number"
+                        value={newPosition.maxSalary}
+                        onChange={(e) => setNewPosition({...newPosition, maxSalary: e.target.value})}
+                        placeholder="15000"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="currency">
+                        {language === 'ar' ? 'العملة' : 'Currency'}
+                      </Label>
+                      <Select value={newPosition.currency} onValueChange={(value) => setNewPosition({...newPosition, currency: value})}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="SAR">SAR - ريال سعودي</SelectItem>
+                          <SelectItem value="USD">USD - دولار أمريكي</SelectItem>
+                          <SelectItem value="EUR">EUR - يورو</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Job Requirements */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg border-b pb-2">
+                    {language === 'ar' ? 'متطلبات الوظيفة' : 'Job Requirements'}
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="education-required">
+                        {language === 'ar' ? 'التعليم المطلوب' : 'Education Required'}
+                      </Label>
+                      <Select value={newPosition.educationRequired} onValueChange={(value) => setNewPosition({...newPosition, educationRequired: value})}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={language === 'ar' ? 'اختر المؤهل' : 'Select education'} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="high_school">{language === 'ar' ? 'الثانوية العامة' : 'High School'}</SelectItem>
+                          <SelectItem value="diploma">{language === 'ar' ? 'دبلوم' : 'Diploma'}</SelectItem>
+                          <SelectItem value="bachelor">{language === 'ar' ? 'بكالوريوس' : 'Bachelor\'s Degree'}</SelectItem>
+                          <SelectItem value="master">{language === 'ar' ? 'ماجستير' : 'Master\'s Degree'}</SelectItem>
+                          <SelectItem value="phd">{language === 'ar' ? 'دكتوراه' : 'PhD'}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="experience-years">
+                        {language === 'ar' ? 'سنوات الخبرة المطلوبة' : 'Years of Experience Required'}
+                      </Label>
+                      <Input
+                        id="experience-years"
+                        type="number"
+                        value={newPosition.experienceYears}
+                        onChange={(e) => setNewPosition({...newPosition, experienceYears: e.target.value})}
+                        placeholder="3"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Approval Workflow */}
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-lg border-b pb-2 text-green-600">
+                    {language === 'ar' ? 'سير عمل الموافقة' : 'Approval Workflow'}
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="budget-approved"
+                        checked={newPosition.budgetApproved}
+                        onChange={(e) => setNewPosition({...newPosition, budgetApproved: e.target.checked})}
+                        className="rounded"
+                      />
+                      <Label htmlFor="budget-approved" className="text-sm">
+                        {language === 'ar' ? 'موافقة الميزانية' : 'Budget Approved'}
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id="compliance-checked"
+                        checked={newPosition.complianceChecked}
+                        onChange={(e) => setNewPosition({...newPosition, complianceChecked: e.target.checked})}
+                        className="rounded"
+                      />
+                      <Label htmlFor="compliance-checked" className="text-sm">
+                        {language === 'ar' ? 'فحص الامتثال' : 'Compliance Checked'}
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-6 border-t">
+                  <Button variant="outline" onClick={() => setIsCreatePositionOpen(false)}>
+                    {language === 'ar' ? 'إلغاء' : 'Cancel'}
+                  </Button>
+                  <Button variant="outline">
+                    {language === 'ar' ? 'حفظ كمسودة' : 'Save as Draft'}
+                  </Button>
+                  <Button onClick={() => {
+                    toast({
+                      title: language === 'ar' ? 'تم إنشاء الوظيفة' : 'Position Created',
+                      description: language === 'ar' 
+                        ? `تم إنشاء منصب "${newPosition.title}" وربطه بنظام التوظيف بنجاح`
+                        : `Position "${newPosition.title}" has been created and linked to recruitment system successfully`,
+                    });
+                    setIsCreatePositionOpen(false);
+                    // In a real app, this would save to database and trigger recruitment workflow
+                  }}>
+                    {language === 'ar' ? 'إنشاء الوظيفة' : 'Create Position'}
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
 
