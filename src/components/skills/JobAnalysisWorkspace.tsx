@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
+import { useDepartments } from '@/hooks/useDepartments';
 
 interface JobPosition {
   id: string;
@@ -62,6 +63,7 @@ interface AIRecommendation {
 export const JobAnalysisWorkspace: React.FC = () => {
   const { language, isRTL } = useLanguage();
   const { toast } = useToast();
+  const { departments, loading: departmentsLoading } = useDepartments();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   const [isCreatePositionOpen, setIsCreatePositionOpen] = useState(false);
@@ -284,16 +286,30 @@ export const JobAnalysisWorkspace: React.FC = () => {
                       <Label htmlFor="department">
                         {language === 'ar' ? 'القسم' : 'Department'}
                       </Label>
-                      <Select value={newPosition.department} onValueChange={(value) => setNewPosition({...newPosition, department: value})}>
-                        <SelectTrigger>
-                          <SelectValue placeholder={language === 'ar' ? 'اختر القسم' : 'Select department'} />
+                      <Select value={newPosition.department} onValueChange={(value) => setNewPosition({...newPosition, department: value})} disabled={departmentsLoading}>
+                        <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground z-50">
+                          <SelectValue placeholder={
+                            departmentsLoading 
+                              ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                              : (language === 'ar' ? 'اختر القسم' : 'Select department')
+                          } />
                         </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="hr">{language === 'ar' ? 'الموارد البشرية' : 'Human Resources'}</SelectItem>
-                          <SelectItem value="finance">{language === 'ar' ? 'المالية' : 'Finance'}</SelectItem>
-                          <SelectItem value="technology">{language === 'ar' ? 'التقنية' : 'Technology'}</SelectItem>
-                          <SelectItem value="operations">{language === 'ar' ? 'العمليات' : 'Operations'}</SelectItem>
-                          <SelectItem value="marketing">{language === 'ar' ? 'التسويق' : 'Marketing'}</SelectItem>
+                        <SelectContent className="bg-popover border border-border shadow-md z-50 max-h-[200px] overflow-y-auto">
+                          {departmentsLoading ? (
+                            <SelectItem value="loading" disabled>
+                              {language === 'ar' ? 'جاري تحميل الأقسام...' : 'Loading departments...'}
+                            </SelectItem>
+                          ) : departments.length > 0 ? (
+                            departments.map((dept) => (
+                              <SelectItem key={dept} value={dept} className="cursor-pointer hover:bg-accent">
+                                {dept}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="no-departments" disabled>
+                              {language === 'ar' ? 'لا توجد أقسام متاحة' : 'No departments available'}
+                            </SelectItem>
+                          )}
                         </SelectContent>
                       </Select>
                     </div>
