@@ -286,18 +286,24 @@ const AIStrategicAssessment = () => {
   };
 
   const handleAnswerChange = (questionId: string, answer: any) => {
+    console.log('✅ Answer recorded:', questionId, '=', answer);
     setAnswers(prev => ({ ...prev, [questionId]: answer }));
   };
 
   const nextQuestion = () => {
     const currentSectionQuestions = assessmentSections[currentSection].questions;
+    console.log('➡️ Navigation - Current:', currentSection, currentQuestion, 'Total sections:', assessmentSections.length, 'Questions in section:', currentSectionQuestions.length);
+    
     if (currentQuestion < currentSectionQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
+      console.log('📋 Moving to next question:', currentQuestion + 1);
     } else if (currentSection < assessmentSections.length - 1) {
       setCurrentSection(currentSection + 1);
       setCurrentQuestion(0);
+      console.log('📂 Moving to next section:', currentSection + 1);
     } else {
       // Assessment complete
+      console.log('🎉 Assessment completed! Generating results...');
       setCurrentStep('results');
       generateResults();
     }
@@ -305,15 +311,20 @@ const AIStrategicAssessment = () => {
 
   const generateResults = () => {
     // Simulate AI analysis
+    console.log('🤖 AI Analysis started with answers:', Object.keys(answers).length, 'total answers');
+    console.log('📊 Assessment data:', answers);
     toast({
       title: isArabic ? "تحليل الذكاء الاصطناعي مكتمل" : "AI Analysis Complete",
       description: isArabic ? "تم إنشاء توصياتكم الاستراتيجية" : "Your strategic recommendations have been generated"
     });
     setShowResults(true);
+    console.log('✨ Results generated and displayed');
   };
 
   const startAssessment = () => {
+    console.log('🧠 AI Assessment Started - Testing functionality');
     setCurrentStep('assessment');
+    console.log('📊 Current step changed to assessment, section:', currentSection, 'question:', currentQuestion);
     toast({
       title: isArabic ? "بدء التقييم" : "Assessment Started",
       description: isArabic ? "التقييم الاستراتيجي للذكاء التنظيمي" : "Strategic Organizational Intelligence Assessment"
