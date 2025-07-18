@@ -175,14 +175,16 @@ const NCAAAccreditation = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <AqlAIFileProcessor
+        <UniversalDocumentManager
+          moduleName="NCAAA Accreditation"
+          moduleNameAr="اعتماد المركز الوطني للتقويم والاعتماد الأكاديمي"
+          description="Upload accreditation documents and certification files"
+          descriptionAr="رفع وثائق الاعتماد وملفات الشهادات"
           platform="ncaaa"
           moduleType="government"
           acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx"]}
-          maxFileSize={15 * 1024 * 1024}
-          onFileProcessed={(files) => {
-            setUploadedFiles(prev => [...prev, files]);
-          }}
+          maxFileSize={30 * 1024 * 1024}
+          maxFiles={60}
         />
       )
     }

@@ -277,18 +277,16 @@ const MOLCompliance = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <UniversalDocumentManager
+            moduleName="MOL Compliance Platform"
+            moduleNameAr="منصة امتثال وزارة العمل"
+            description="Upload labor compliance documents and reports"
+            descriptionAr="رفع وثائق ومستندات امتثال العمل"
             platform="mol"
             moduleType="government"
-            onFileProcessed={(file) => {
-              setUploadedFiles(prev => [...prev, file]);
-              toast({
-                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
-              });
-            }}
-            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-            maxFileSize={10}
+            acceptedTypes={[".pdf",".xlsx",".xls",".doc",".docx"]}
+            maxFileSize={25 * 1024 * 1024}
+            maxFiles={75}
           />
         </TabsContent>
       </Tabs>

@@ -175,14 +175,16 @@ const InteriorMinistry = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <AqlAIFileProcessor
+        <UniversalDocumentManager
+          moduleName="Ministry of Interior - Security Clearances"
+          moduleNameAr="وزارة الداخلية - التصاريح الأمنية"
+          description="Upload security clearance requests and verification documents"
+          descriptionAr="رفع طلبات التصاريح الأمنية ووثائق التحقق"
           platform="interior_ministry"
           moduleType="government"
           acceptedTypes={[".pdf",".jpg",".jpeg",".png",".xlsx",".xls",".doc",".docx"]}
-          maxFileSize={10 * 1024 * 1024}
-          onFileProcessed={(files) => {
-            setUploadedFiles(prev => [...prev, files]);
-          }}
+          maxFileSize={20 * 1024 * 1024}
+          maxFiles={50}
         />
       )
     }
