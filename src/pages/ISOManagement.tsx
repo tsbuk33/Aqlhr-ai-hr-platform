@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLocalization } from '@/hooks/useLocalization';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -715,6 +716,19 @@ const ISOManagement = () => {
 
         {/* AI Insights Tab */}
         <TabsContent value="ai-insights" className="space-y-6">
+        </TabsContent>
+
+        {/* Enhanced Documents Tab */}
+        <TabsContent value="documents" className="space-y-6">
+          <UniversalDocumentManager
+            moduleName={isRTL ? "إدارة معايير ISO" : "ISO Standards Management"}
+            description={isRTL ? "إدارة شاملة لوثائق معايير ISO والامتثال" : "Comprehensive management of ISO standards and compliance documents"}
+            platform="iso_management"
+            moduleType="compliance"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.jpg', '.png']}
+            maxFileSize={10}
+            maxFiles={50}
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* AI Recommendations */}
             <Card>

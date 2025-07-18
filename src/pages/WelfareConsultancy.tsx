@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -124,12 +125,13 @@ const WelfareConsultancy = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview">{isArabic ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
             <TabsTrigger value="ai-engine">{isArabic ? 'محرك الذكاء الاصطناعي' : 'AI Engine'}</TabsTrigger>
             <TabsTrigger value="compliance">{isArabic ? 'الامتثال' : 'Compliance'}</TabsTrigger>
             <TabsTrigger value="services">{isArabic ? 'الخدمات' : 'Services'}</TabsTrigger>
             <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
+            <TabsTrigger value="documents">{isArabic ? 'الوثائق' : 'Documents'}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-6">
@@ -364,6 +366,19 @@ const WelfareConsultancy = () => {
               </CardContent>
             </Card>
           </TabsContent>
+          {/* Documents Tab */}
+          <TabsContent value="documents" className="space-y-6">
+            <UniversalDocumentManager
+              moduleName={isArabic ? "استشارات رفاهية الموظفين" : "Employee Welfare Consultancy"}
+              description={isArabic ? "إدارة شاملة لوثائق الرفاهية والسياسات والتقارير" : "Comprehensive management of welfare documents, policies and reports"}
+              platform="welfare_consultancy"
+              moduleType="hr"
+              acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.jpg', '.png']}
+              maxFileSize={25}
+              maxFiles={150}
+            />
+          </TabsContent>
+
         </Tabs>
       </div>
     </div>

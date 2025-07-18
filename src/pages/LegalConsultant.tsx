@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

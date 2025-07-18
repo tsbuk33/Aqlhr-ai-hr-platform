@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -301,49 +302,15 @@ const SelfService = () => {
         </TabsContent>
 
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className={directionClasses.text}>
-                {language === 'ar' ? 'مستنداتي' : 'My Documents'}
-              </CardTitle>
-              <CardDescription className={directionClasses.text}>
-                {language === 'ar' ? 'تصفح وتحميل مستنداتك' : 'Browse and download your documents'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className={`flex gap-4 ${directionClasses.flex}`}>
-                  <Button>
-                    <Upload className="h-4 w-4" />
-                    <span className="ml-2">{language === 'ar' ? 'رفع مستند' : 'Upload Document'}</span>
-                  </Button>
-                  <Button variant="outline">
-                    <FileText className="h-4 w-4" />
-                    <span className="ml-2">{language === 'ar' ? 'طلب مستند' : 'Request Document'}</span>
-                  </Button>
-                </div>
-
-                <div className="space-y-3">
-                  {recentDocuments.map((doc, index) => (
-                    <div key={index} className={`flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 ${directionClasses.flex}`}>
-                      <div className={`flex items-center gap-3 ${directionClasses.flex}`}>
-                        <FileText className="h-8 w-8 text-primary" />
-                        <div className={directionClasses.text}>
-                          <p className="font-medium">{doc.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {doc.type} • {doc.size} • {doc.date}
-                          </p>
-                        </div>
-                      </div>
-                      <Button variant="ghost" size="sm">
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName={language === 'ar' ? "الخدمة الذاتية للموظفين" : "Employee Self Service"}
+            description={language === 'ar' ? "إدارة مستنداتك الشخصية والطلبات" : "Manage your personal documents and requests"}
+            platform="self_service"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.jpg', '.png']}
+            maxFileSize={10}
+            maxFiles={20}
+          />
         </TabsContent>
 
         <TabsContent value="requests" className="space-y-6">

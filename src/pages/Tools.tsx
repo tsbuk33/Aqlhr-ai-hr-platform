@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { 
   MessageSquare, 
   FileText, 
@@ -109,12 +110,15 @@ const Tools = () => {
   return (
     <div className={`container mx-auto p-6 space-y-8 ${isRTL ? 'rtl' : 'ltr'}`}>
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">
             {isRTL ? 'نظرة عامة' : 'Overview'}
           </TabsTrigger>
           <TabsTrigger value="management">
             {isRTL ? 'إدارة التكاملات' : 'Integration Management'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {isRTL ? 'إدارة الوثائق' : 'Document Management'}
           </TabsTrigger>
         </TabsList>
         
@@ -291,6 +295,18 @@ const Tools = () => {
         
         <TabsContent value="management">
           <ToolIntegrationManager companyId="default-company-id" />
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <UniversalDocumentManager
+            moduleName={isRTL ? "أدوات التكامل" : "Integration Tools"}
+            description={isRTL ? "إدارة وثائق التكاملات والأدوات" : "Manage integration and tool documentation"}
+            platform="tools"
+            moduleType="documents"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.txt', '.json', '.xml']}
+            maxFileSize={15}
+            maxFiles={50}
+          />
         </TabsContent>
       </Tabs>
     </div>

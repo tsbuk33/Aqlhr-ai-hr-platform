@@ -1,8 +1,12 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Consulting = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const isArabic = language === 'ar';
+  
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
@@ -79,6 +83,33 @@ const Consulting = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="overview">
+            {isArabic ? 'نظرة عامة' : 'Overview'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {isArabic ? 'إدارة الوثائق' : 'Document Management'}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview">
+          {/* Keep existing content */}
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <UniversalDocumentManager
+            moduleName={isArabic ? "الاستشارات التنفيذية" : "Executive Consulting"}
+            description={isArabic ? "إدارة شاملة لوثائق الاستشارات والتقارير" : "Comprehensive management of consulting documents and reports"}
+            platform="consulting"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.ppt', '.pptx']}
+            maxFileSize={30}
+            maxFiles={100}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
