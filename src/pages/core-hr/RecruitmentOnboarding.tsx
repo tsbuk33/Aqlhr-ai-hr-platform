@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -265,7 +265,7 @@ const RecruitmentOnboarding = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <SanadAIFileProcessor
+              <AqlAIFileProcessor
                 platform="recruitment-onboarding"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

@@ -4,7 +4,7 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
+import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Activity, CheckCircle, Clock, Shield, FileText, Users, TrendingUp, Building, UserCheck, ClipboardCheck } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -311,7 +311,7 @@ const CHIPlatform = () => {
           </TabsContent>
           
           <TabsContent value="upload" className="space-y-6">
-            <SanadAIFileProcessor
+            <AqlAIFileProcessor
               platform="chi"
               moduleType="government"
               onFileProcessed={(file) => {
