@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Target, TrendingUp, Users, Award, Search, Filter, BarChart3, Zap } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useToast } from '@/hooks/use-toast';
 
 interface TechnicalSkill {
   id: string;
@@ -41,6 +42,7 @@ interface SkillGap {
 
 export const SkillMatrixDashboard: React.FC = () => {
   const { language, isRTL } = useLanguage();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -98,8 +100,11 @@ export const SkillMatrixDashboard: React.FC = () => {
             variant="outline" 
             className="gap-2"
             onClick={() => {
-              console.log('Gap Analysis clicked');
-              // Add gap analysis functionality here
+              toast({
+                title: language === 'ar' ? 'تحليل الفجوات' : 'Gap Analysis',
+                description: language === 'ar' ? 'بدء تحليل فجوات المهارات...' : 'Starting skill gap analysis...',
+              });
+              setActiveTab('gaps');
             }}
           >
             <BarChart3 className="h-4 w-4" />
@@ -108,8 +113,11 @@ export const SkillMatrixDashboard: React.FC = () => {
           <Button 
             className="gap-2"
             onClick={() => {
-              console.log('Add New Skill clicked');
-              // Add new skill functionality here
+              toast({
+                title: language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill',
+                description: language === 'ar' ? 'فتح نموذج إضافة مهارة جديدة...' : 'Opening new skill form...',
+              });
+              // In a real app, this would open a modal or navigate to a form
             }}
           >
             <Plus className="h-4 w-4" />

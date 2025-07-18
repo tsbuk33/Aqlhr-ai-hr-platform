@@ -21,6 +21,7 @@ import {
   Target
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useToast } from '@/hooks/use-toast';
 
 interface JobPosition {
   id: string;
@@ -58,6 +59,7 @@ interface AIRecommendation {
 
 export const JobAnalysisWorkspace: React.FC = () => {
   const { language, isRTL } = useLanguage();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   
@@ -187,8 +189,11 @@ export const JobAnalysisWorkspace: React.FC = () => {
             variant="outline" 
             className="gap-2"
             onClick={() => {
-              console.log('Bulk Analysis clicked');
-              // Add bulk analysis functionality here
+              toast({
+                title: language === 'ar' ? 'تحليل شامل' : 'Bulk Analysis',
+                description: language === 'ar' ? 'بدء التحليل الشامل لجميع المناصب...' : 'Starting bulk analysis for all positions...',
+              });
+              // In a real app, this would start the bulk analysis process
             }}
           >
             <Target className="h-4 w-4" />
@@ -197,8 +202,11 @@ export const JobAnalysisWorkspace: React.FC = () => {
           <Button 
             className="gap-2"
             onClick={() => {
-              console.log('Create New Position clicked');
-              // Add create new position functionality here
+              toast({
+                title: language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position',
+                description: language === 'ar' ? 'فتح معالج إنشاء الوظائف...' : 'Opening position creation wizard...',
+              });
+              setActiveTab('descriptions');
             }}
           >
             <Plus className="h-4 w-4" />
