@@ -409,7 +409,7 @@ export const ROUTES: RouteConfig[] = [
   // Executive Intelligence Center - admin only
   { path: '/executive-center', element: ExecutiveCenter, auth: true, adminOnly: true },
   { path: '/executive/strategic-presentations', element: StrategicPresentationCenter, auth: true, adminOnly: true },
-  { path: '/founder/super-admin', element: SuperAdminDashboard, auth: true, adminOnly: true },
+  { path: '/founder/super-admin', element: SuperAdminDashboard },
   
   // System Engineering - admin only
   { path: '/system-engineer', element: SystemEngineer, auth: true, adminOnly: true },
