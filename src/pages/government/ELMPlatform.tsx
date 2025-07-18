@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck, Database, Monitor } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -277,18 +277,16 @@ const ELMPlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <UniversalDocumentManager
+            moduleName="ELM Digital Learning Platform"
+            moduleNameAr="منصة عِلم للتعلم الرقمي"
+            description="Upload training certificates, course materials, learning assessments, and professional development documents"
+            descriptionAr="رفع شهادات التدريب ومواد الدورات وتقييمات التعلم ووثائق التطوير المهني"
             platform="elm"
             moduleType="government"
-            onFileProcessed={(file) => {
-              setUploadedFiles(prev => [...prev, file]);
-              toast({
-                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
-              });
-            }}
-            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-            maxFileSize={10}
+            acceptedTypes={['.pdf', '.xlsx', '.xls', '.doc', '.docx', '.pptx', '.mp4', '.zip']}
+            maxFileSize={30 * 1024 * 1024}
+            maxFiles={40}
           />
         </TabsContent>
       </Tabs>

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Folder, FileText, Upload, Search } from "lucide-react";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 
 const Documents = () => {
   const { t } = useLanguage();
@@ -50,12 +51,17 @@ const Documents = () => {
         </Card>
       </div>
 
-      <AqlAIFileProcessor
+      <UniversalDocumentManager
+        moduleName="Document Management"
+        moduleNameAr="إدارة الوثائق"
+        description="Upload and manage all types of business documents, policies, procedures, and files"
+        descriptionAr="رفع وإدارة جميع أنواع الوثائق التجارية والسياسات والإجراءات والملفات"
         platform="documents"
-        moduleType="general"
-        onFileProcessed={(file) => {
-          console.log('File processed:', file);
-        }}
+        moduleType="documents"
+        acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.pptx', '.txt', '.csv', '.zip', '.jpg', '.jpeg', '.png']}
+        maxFileSize={50 * 1024 * 1024}
+        maxFiles={100}
+        showAsCard={true}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

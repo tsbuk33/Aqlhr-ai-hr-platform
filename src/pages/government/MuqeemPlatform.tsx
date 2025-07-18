@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck, MapPin, Plane } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -277,18 +277,16 @@ const MuqeemPlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <UniversalDocumentManager
+            moduleName="Muqeem Residence Platform"
+            moduleNameAr="منصة مقيم للإقامة"
+            description="Upload residence permit documents, renewal applications, and residence status verification files"
+            descriptionAr="رفع وثائق تصاريح الإقامة وطلبات التجديد وملفات التحقق من حالة الإقامة"
             platform="muqeem"
             moduleType="government"
-            onFileProcessed={(file) => {
-              setUploadedFiles(prev => [...prev, file]);
-              toast({
-                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
-              });
-            }}
-            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-            maxFileSize={10}
+            acceptedTypes={['.pdf', '.xlsx', '.xls', '.doc', '.docx', '.jpg', '.jpeg', '.png']}
+            maxFileSize={25 * 1024 * 1024}
+            maxFiles={30}
           />
         </TabsContent>
       </Tabs>

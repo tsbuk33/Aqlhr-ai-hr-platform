@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,14 +175,17 @@ const ESNADNotarization = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <AqlAIFileProcessor
+        <UniversalDocumentManager
+          moduleName="ESNAD Electronic Notarization"
+          moduleNameAr="إسناد - التوثيق الإلكتروني"
+          description="Upload documents for electronic notarization, contracts, and official stamp verification"
+          descriptionAr="رفع الوثائق للتوثيق الإلكتروني والعقود والتحقق من الأختام الرسمية"
           platform="esnad"
           moduleType="government"
-          acceptedTypes={[".pdf",".jpg",".jpeg",".png",".doc",".docx"]}
+          acceptedTypes={['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png']}
           maxFileSize={15 * 1024 * 1024}
-          onFileProcessed={(files) => {
-            setUploadedFiles(prev => [...prev, files]);
-          }}
+          maxFiles={25}
+          showAsCard={false}
         />
       )
     }

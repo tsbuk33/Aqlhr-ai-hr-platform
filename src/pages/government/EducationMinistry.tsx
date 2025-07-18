@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,17 +175,17 @@ const EducationMinistry = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <AqlAIFileProcessor
+        <UniversalDocumentManager
+          moduleName="Ministry of Education"
+          moduleNameAr="وزارة التعليم"
+          description="Upload degree verification documents, certificates, academic transcripts, and educational records"
+          descriptionAr="رفع وثائق التحقق من الدرجات والشهادات والسجلات الأكاديمية والوثائق التعليمية"
           platform="education_ministry"
           moduleType="government"
-          acceptedTypes={[
-            ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp",
-            ".xlsx", ".xls", ".doc", ".docx", ".ppt", ".pptx", ".txt", ".rtf"
-          ]}
+          acceptedTypes={['.pdf', '.jpg', '.jpeg', '.png', '.xlsx', '.xls', '.doc', '.docx', '.ppt', '.pptx']}
           maxFileSize={25 * 1024 * 1024}
-          onFileProcessed={(files) => {
-            setUploadedFiles(prev => [...prev, files]);
-          }}
+          maxFiles={30}
+          showAsCard={false}
         />
       )
     }

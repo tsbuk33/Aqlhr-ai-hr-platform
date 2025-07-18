@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -139,18 +139,16 @@ const MedicalInsurancePlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <UniversalDocumentManager
+            moduleName="Medical Insurance Platform"
+            moduleNameAr="منصة التأمين الطبي"
+            description="Upload medical insurance documents, coverage plans, provider networks, and claim forms"
+            descriptionAr="رفع وثائق التأمين الطبي وخطط التغطية وشبكات مقدمي الخدمة ونماذج المطالبات"
             platform="medical-insurance"
             moduleType="government"
-            onFileProcessed={(file) => {
-              setUploadedFiles(prev => [...prev, file]);
-              toast({
-                title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
-              });
-            }}
-            acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-            maxFileSize={10}
+            acceptedTypes={['.pdf', '.xlsx', '.xls', '.doc', '.docx', '.jpg', '.jpeg', '.png']}
+            maxFileSize={30 * 1024 * 1024}
+            maxFiles={40}
           />
         </TabsContent>
       </Tabs>

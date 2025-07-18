@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { 
   DollarSign,
   Users, 
@@ -309,10 +309,17 @@ const Payroll = () => {
       label: language === 'ar' ? 'المعالجة' : 'Processing',
       content: (
         <div className="space-y-6">
-          <AqlAIFileProcessor
+          <UniversalDocumentManager
+            moduleName="Payroll Processing"
+            moduleNameAr="معالجة الرواتب"
+            description="Upload payroll files, WPS data, salary calculations, and tax documents for processing"
+            descriptionAr="رفع ملفات الرواتب وبيانات نظام حماية الأجور وحسابات الأجور والوثائق الضريبية للمعالجة"
             platform="payroll"
-            moduleType="wps"
-            onFileProcessed={handleFileProcessed}
+            moduleType="payroll"
+            acceptedTypes={['.xlsx', '.xls', '.csv', '.pdf', '.txt', '.xml', '.zip']}
+            maxFileSize={35 * 1024 * 1024}
+            maxFiles={50}
+            showAsCard={false}
           />
           
           <Card>
