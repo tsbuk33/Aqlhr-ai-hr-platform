@@ -492,10 +492,73 @@ export const SkillMatrixDashboard: React.FC = () => {
                 </DialogTitle>
               </DialogHeader>
               <div className="space-y-4 py-4">
+                {/* Move Category and Skill Type to the TOP - these determine available skills */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="skill-name">
-                      {language === 'ar' ? 'اسم المهارة (الإنجليزية)' : 'Skill Name (English)'}
+                    <Label htmlFor="skill-category" className="text-sm font-medium text-foreground">
+                      {language === 'ar' ? 'الفئة' : 'Category'} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select value={newSkill.category} onValueChange={(value) => {
+                      // Reset skill names when category changes
+                      setNewSkill({
+                        ...newSkill, 
+                        category: value,
+                        name: '',
+                        nameAr: ''
+                      });
+                    }}>
+                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                        <SelectValue placeholder={language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover border border-border shadow-md">
+                        {skillCategories.map((cat) => (
+                          <SelectItem key={cat.id} value={cat.id} className="cursor-pointer hover:bg-accent">
+                            {language === 'ar' ? cat.nameAr : cat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-type" className="text-sm font-medium text-foreground">
+                      {language === 'ar' ? 'نوع المهارة' : 'Skill Type'} <span className="text-destructive">*</span>
+                    </Label>
+                    <Select value={newSkill.skillType} onValueChange={(value) => setNewSkill({...newSkill, skillType: value})}>
+                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover border border-border shadow-md">
+                        <SelectItem value="technical" className="cursor-pointer hover:bg-accent">
+                          {language === 'ar' ? 'تقنية' : 'Technical'}
+                        </SelectItem>
+                        <SelectItem value="behavioral" className="cursor-pointer hover:bg-accent">
+                          {language === 'ar' ? 'سلوكية' : 'Behavioral'}
+                        </SelectItem>
+                        <SelectItem value="certification" className="cursor-pointer hover:bg-accent">
+                          {language === 'ar' ? 'شهادة' : 'Certification'}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                
+                {/* Show category selection notice if no category selected */}
+                {!newSkill.category && (
+                  <div className="p-3 bg-muted rounded-lg border border-border">
+                    <p className="text-sm text-muted-foreground text-center">
+                      {language === 'ar' 
+                        ? '⚠️ يرجى اختيار الفئة أولاً لعرض المهارات المتاحة' 
+                        : '⚠️ Please select a category first to see available skills'
+                      }
+                    </p>
+                  </div>
+                )}
+
+                {/* Skill Names - Now depend on category selection */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="skill-name" className="text-sm font-medium text-foreground">
+                      {language === 'ar' ? 'اسم المهارة (الإنجليزية)' : 'Skill Name (English)'} <span className="text-destructive">*</span>
                     </Label>
                     <Select 
                       value={newSkill.name} 
@@ -508,28 +571,33 @@ export const SkillMatrixDashboard: React.FC = () => {
                           nameAr: selectedSkill?.ar || ''
                         });
                       }}
+                      disabled={!newSkill.category}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
+                      <SelectTrigger className={`bg-background border border-input hover:bg-accent hover:text-accent-foreground ${!newSkill.category ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder={
+                          !newSkill.category 
+                            ? (language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first')
+                            : (language === 'ar' ? 'اختر المهارة' : 'Select skill')
+                        } />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-popover border border-border shadow-md">
                         {newSkill.category ? (
                           getSkillsForCategory(newSkill.category).map((skill, index) => (
-                            <SelectItem key={index} value={skill.en}>
+                            <SelectItem key={index} value={skill.en} className="cursor-pointer hover:bg-accent">
                               {skill.en}
                             </SelectItem>
                           ))
                         ) : (
-                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                          <SelectItem value="disabled" disabled>
                             {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
-                          </div>
+                          </SelectItem>
                         )}
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="skill-name-ar">
-                      {language === 'ar' ? 'اسم المهارة (العربية)' : 'Skill Name (Arabic)'}
+                    <Label htmlFor="skill-name-ar" className="text-sm font-medium text-foreground">
+                      {language === 'ar' ? 'اسم المهارة (العربية)' : 'Skill Name (Arabic)'} <span className="text-destructive">*</span>
                     </Label>
                     <Select 
                       value={newSkill.nameAr} 
@@ -542,63 +610,27 @@ export const SkillMatrixDashboard: React.FC = () => {
                           name: selectedSkill?.en || ''
                         });
                       }}
+                      disabled={!newSkill.category}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
+                      <SelectTrigger className={`bg-background border border-input hover:bg-accent hover:text-accent-foreground ${!newSkill.category ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                        <SelectValue placeholder={
+                          !newSkill.category 
+                            ? (language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first')
+                            : (language === 'ar' ? 'اختر المهارة' : 'Select skill')
+                        } />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-popover border border-border shadow-md">
                         {newSkill.category ? (
                           getSkillsForCategory(newSkill.category).map((skill, index) => (
-                            <SelectItem key={index} value={skill.ar}>
+                            <SelectItem key={index} value={skill.ar} className="cursor-pointer hover:bg-accent">
                               {skill.ar}
                             </SelectItem>
                           ))
                         ) : (
-                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                          <SelectItem value="disabled" disabled>
                             {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
-                          </div>
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="skill-type">
-                      {language === 'ar' ? 'نوع المهارة' : 'Skill Type'}
-                    </Label>
-                    <Select value={newSkill.skillType} onValueChange={(value) => setNewSkill({...newSkill, skillType: value})}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="technical">
-                          {language === 'ar' ? 'تقنية' : 'Technical'}
-                        </SelectItem>
-                        <SelectItem value="behavioral">
-                          {language === 'ar' ? 'سلوكية' : 'Behavioral'}
-                        </SelectItem>
-                        <SelectItem value="certification">
-                          {language === 'ar' ? 'شهادة' : 'Certification'}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="skill-category">
-                      {language === 'ar' ? 'الفئة' : 'Category'}
-                    </Label>
-                    <Select value={newSkill.category} onValueChange={(value) => setNewSkill({...newSkill, category: value})}>
-                      <SelectTrigger>
-                        <SelectValue placeholder={language === 'ar' ? 'اختر الفئة' : 'Select category'} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {skillCategories.map((cat) => (
-                          <SelectItem key={cat.id} value={cat.id}>
-                            {language === 'ar' ? cat.nameAr : cat.name}
                           </SelectItem>
-                        ))}
+                        )}
                       </SelectContent>
                     </Select>
                   </div>

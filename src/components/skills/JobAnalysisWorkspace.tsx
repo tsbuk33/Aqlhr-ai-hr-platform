@@ -232,6 +232,7 @@ export const JobAnalysisWorkspace: React.FC = () => {
               {language === 'ar' ? 'اختر من المناصب الموجودة' : 'Select from Existing Positions'}
             </label>
             <Select disabled={positionsLoading} onValueChange={(value) => {
+              console.log('Position selected:', value); // Debug log
               const selectedPos = existingPositions.find(pos => pos.title === value);
               if (selectedPos) {
                 toast({
@@ -243,37 +244,62 @@ export const JobAnalysisWorkspace: React.FC = () => {
                 setSelectedPosition(value);
               }
             }}>
-              <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground z-50">
+              <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground min-w-[250px] relative z-10">
                 <SelectValue placeholder={
                   positionsLoading 
                     ? (language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...') 
                     : (language === 'ar' ? 'اختر منصب موجود...' : 'Select existing position...')
                 } />
               </SelectTrigger>
-              <SelectContent className="bg-popover border border-border shadow-md z-50 max-h-[300px] overflow-y-auto">
+              <SelectContent 
+                className="bg-popover border border-border shadow-lg z-[100] max-h-[300px] overflow-y-auto w-full min-w-[400px]" 
+                position="popper"
+                sideOffset={4}
+              >
                 {positionsLoading ? (
-                  <SelectItem value="loading" disabled>
+                  <SelectItem value="loading" disabled className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent"></div>
                     {language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...'}
                   </SelectItem>
                 ) : existingPositions.length > 0 ? (
-                  existingPositions.map((position) => (
-                    <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
-                      <div className="flex justify-between items-center w-full">
-                        <span>{language === 'ar' && position.titleAr ? position.titleAr : position.title}</span>
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  existingPositions.map((position, index) => (
+                    <SelectItem 
+                      key={`${position.title}-${index}`} 
+                      value={position.title} 
+                      className="cursor-pointer hover:bg-accent focus:bg-accent py-3 px-4"
+                    >
+                      <div className="flex justify-between items-center w-full min-w-0">
+                        <div className="flex flex-col items-start min-w-0 flex-1">
+                          <span className="font-medium text-foreground truncate max-w-full">
+                            {language === 'ar' && position.titleAr ? position.titleAr : position.title}
+                          </span>
+                          {position.title !== (position.titleAr || position.title) && (
+                            <span className="text-xs text-muted-foreground truncate max-w-full">
+                              {position.title}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground flex-shrink-0 ml-2">
                           {position.department && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="outline" className="text-xs px-1 py-0">
                               {position.department}
                             </Badge>
                           )}
-                          <span>({position.count} employees)</span>
+                          <span className="whitespace-nowrap">({position.count})</span>
                         </div>
                       </div>
                     </SelectItem>
                   ))
                 ) : (
-                  <SelectItem value="no-positions" disabled>
-                    {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                  <SelectItem value="no-positions" disabled className="text-center py-6">
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="text-muted-foreground text-sm">
+                        {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {language === 'ar' ? 'تأكد من وجود بيانات موظفين في النظام' : 'Make sure employee data exists in the system'}
+                      </div>
+                    </div>
                   </SelectItem>
                 )}
               </SelectContent>
@@ -340,8 +366,8 @@ export const JobAnalysisWorkspace: React.FC = () => {
                         <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
                           <SelectValue placeholder={language === 'ar' ? 'اختر أو أدخل المسمى الوظيفي' : 'Select or enter position title'} />
                         </SelectTrigger>
-                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
-                          {existingPositions.map((position) => (
+                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto z-[100]">
+                          {existingPositions.length > 0 ? existingPositions.map((position) => (
                             <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
                               <div className="flex justify-between items-center w-full">
                                 <span>{position.title}</span>
@@ -352,7 +378,11 @@ export const JobAnalysisWorkspace: React.FC = () => {
                                 )}
                               </div>
                             </SelectItem>
-                          ))}
+                          )) : (
+                            <SelectItem value="no-data" disabled className="text-center text-muted-foreground">
+                              {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                            </SelectItem>
+                          )}
                         </SelectContent>
                       </Select>
                       <Input
@@ -381,8 +411,8 @@ export const JobAnalysisWorkspace: React.FC = () => {
                         <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
                           <SelectValue placeholder={language === 'ar' ? 'اختر أو أدخل المسمى الوظيفي بالعربية' : 'Select or enter position title in Arabic'} />
                         </SelectTrigger>
-                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
-                          {existingPositions.filter(pos => pos.titleAr).map((position) => (
+                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto z-[100]">
+                          {existingPositions.filter(pos => pos.titleAr).length > 0 ? existingPositions.filter(pos => pos.titleAr).map((position) => (
                             <SelectItem key={position.titleAr} value={position.titleAr!} className="cursor-pointer hover:bg-accent">
                               <div className="flex justify-between items-center w-full">
                                 <span>{position.titleAr}</span>
@@ -393,7 +423,11 @@ export const JobAnalysisWorkspace: React.FC = () => {
                                 )}
                               </div>
                             </SelectItem>
-                          ))}
+                          )) : (
+                            <SelectItem value="no-data" disabled className="text-center text-muted-foreground">
+                              {language === 'ar' ? 'لا توجد أسماء مناصب عربية متاحة' : 'No Arabic position titles available'}
+                            </SelectItem>
+                          )}
                         </SelectContent>
                       </Select>
                       <Input
