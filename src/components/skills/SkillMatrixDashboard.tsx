@@ -61,6 +61,135 @@ export const SkillMatrixDashboard: React.FC = () => {
     requiredFor: [] as string[]
   });
 
+  // Comprehensive skills library organized by job position categories
+  const positionBasedSkillsLibrary: Record<string, { en: string; ar: string }[]> = {
+    // Engineering & IT Skills
+    engineering: [
+      { en: "Software Development", ar: "تطوير البرمجيات" },
+      { en: "Systems Engineering", ar: "هندسة الأنظمة" },
+      { en: "Network Administration", ar: "إدارة الشبكات" },
+      { en: "Database Management", ar: "إدارة قواعد البيانات" },
+      { en: "Cybersecurity", ar: "الأمن السيبراني" },
+      { en: "DevOps", ar: "عمليات التطوير" },
+      { en: "Cloud Computing", ar: "الحوسبة السحابية" },
+      { en: "API Development", ar: "تطوير واجهات البرمجة" },
+      { en: "Mobile Development", ar: "تطوير التطبيقات المحمولة" },
+      { en: "Web Development", ar: "تطوير المواقع" }
+    ],
+    // Management & Leadership Skills
+    management: [
+      { en: "Team Leadership", ar: "قيادة الفريق" },
+      { en: "Project Management", ar: "إدارة المشاريع" },
+      { en: "Strategic Planning", ar: "التخطيط الاستراتيجي" },
+      { en: "Budget Management", ar: "إدارة الميزانية" },
+      { en: "Performance Management", ar: "إدارة الأداء" },
+      { en: "Risk Management", ar: "إدارة المخاطر" },
+      { en: "Change Management", ar: "إدارة التغيير" },
+      { en: "Stakeholder Management", ar: "إدارة أصحاب المصلحة" },
+      { en: "Decision Making", ar: "اتخاذ القرارات" },
+      { en: "Conflict Resolution", ar: "حل النزاعات" }
+    ],
+    // HR & Administrative Skills
+    hr: [
+      { en: "Recruitment & Selection", ar: "التوظيف والاختيار" },
+      { en: "Employee Relations", ar: "علاقات الموظفين" },
+      { en: "Training & Development", ar: "التدريب والتطوير" },
+      { en: "Performance Appraisal", ar: "تقييم الأداء" },
+      { en: "Compensation & Benefits", ar: "الأجور والمزايا" },
+      { en: "HR Analytics", ar: "تحليلات الموارد البشرية" },
+      { en: "HRIS Management", ar: "إدارة أنظمة الموارد البشرية" },
+      { en: "Labor Law Compliance", ar: "الامتثال لقانون العمل" },
+      { en: "Organizational Development", ar: "التطوير التنظيمي" },
+      { en: "Employee Engagement", ar: "إشراك الموظفين" }
+    ],
+    // Finance & Accounting Skills
+    finance: [
+      { en: "Financial Analysis", ar: "التحليل المالي" },
+      { en: "Budgeting & Forecasting", ar: "إعداد الميزانية والتنبؤ" },
+      { en: "Auditing", ar: "التدقيق" },
+      { en: "Tax Compliance", ar: "الامتثال الضريبي" },
+      { en: "Financial Reporting", ar: "التقارير المالية" },
+      { en: "Cost Accounting", ar: "محاسبة التكاليف" },
+      { en: "Treasury Management", ar: "إدارة الخزينة" },
+      { en: "Investment Analysis", ar: "تحليل الاستثمارات" },
+      { en: "Risk Assessment", ar: "تقييم المخاطر" },
+      { en: "ERP Systems", ar: "أنظمة تخطيط الموارد" }
+    ],
+    // Operations & Supply Chain Skills
+    operations: [
+      { en: "Process Optimization", ar: "تحسين العمليات" },
+      { en: "Quality Control", ar: "مراقبة الجودة" },
+      { en: "Supply Chain Management", ar: "إدارة سلسلة التوريد" },
+      { en: "Inventory Management", ar: "إدارة المخزون" },
+      { en: "Logistics Coordination", ar: "تنسيق اللوجستيات" },
+      { en: "Vendor Management", ar: "إدارة الموردين" },
+      { en: "Production Planning", ar: "تخطيط الإنتاج" },
+      { en: "Lean Manufacturing", ar: "التصنيع الرشيق" },
+      { en: "Safety Management", ar: "إدارة السلامة" },
+      { en: "Facility Management", ar: "إدارة المرافق" }
+    ],
+    // Sales & Marketing Skills
+    sales: [
+      { en: "Customer Relationship Management", ar: "إدارة علاقات العملاء" },
+      { en: "Sales Strategy", ar: "استراتيجية المبيعات" },
+      { en: "Market Research", ar: "أبحاث السوق" },
+      { en: "Digital Marketing", ar: "التسويق الرقمي" },
+      { en: "Brand Management", ar: "إدارة العلامة التجارية" },
+      { en: "Lead Generation", ar: "توليد العملاء المحتملين" },
+      { en: "Negotiation Skills", ar: "مهارات التفاوض" },
+      { en: "Product Marketing", ar: "تسويق المنتجات" },
+      { en: "Social Media Marketing", ar: "تسويق وسائل التواصل الاجتماعي" },
+      { en: "Business Development", ar: "تطوير الأعمال" }
+    ],
+    // Customer Service Skills
+    customer_service: [
+      { en: "Customer Support", ar: "دعم العملاء" },
+      { en: "Problem Solving", ar: "حل المشكلات" },
+      { en: "Technical Support", ar: "الدعم التقني" },
+      { en: "Call Center Operations", ar: "عمليات مركز الاتصال" },
+      { en: "Customer Satisfaction", ar: "رضا العملاء" },
+      { en: "Complaint Handling", ar: "التعامل مع الشكاوى" },
+      { en: "Product Knowledge", ar: "معرفة المنتج" },
+      { en: "Service Excellence", ar: "التميز في الخدمة" },
+      { en: "Multi-channel Support", ar: "الدعم متعدد القنوات" },
+      { en: "Customer Retention", ar: "الاحتفاظ بالعملاء" }
+    ],
+    // Administrative Skills
+    administrative: [
+      { en: "Office Management", ar: "إدارة المكتب" },
+      { en: "Document Management", ar: "إدارة الوثائق" },
+      { en: "Data Entry", ar: "إدخال البيانات" },
+      { en: "Scheduling & Coordination", ar: "الجدولة والتنسيق" },
+      { en: "Administrative Support", ar: "الدعم الإداري" },
+      { en: "Records Management", ar: "إدارة السجلات" },
+      { en: "Meeting Management", ar: "إدارة الاجتماعات" },
+      { en: "Communication Management", ar: "إدارة التواصل" },
+      { en: "Workflow Management", ar: "إدارة سير العمل" },
+      { en: "Policy Implementation", ar: "تنفيذ السياسات" }
+    ]
+  };
+
+  // Get skills based on selected category
+  const getSkillsForCategory = (category: string): { en: string; ar: string }[] => {
+    const categoryMap: Record<string, string> = {
+      'programming': 'engineering',
+      'cloud': 'engineering',
+      'data': 'engineering',
+      'leadership': 'management',
+      'communication': 'customer_service',
+      'cultural': 'hr',
+      'management': 'management',
+      'finance': 'finance',
+      'operations': 'operations',
+      'sales': 'sales',
+      'hr': 'hr',
+      'administrative': 'administrative'
+    };
+
+    const mappedCategory = categoryMap[category] || 'engineering';
+    return positionBasedSkillsLibrary[mappedCategory] || [];
+  };
+
   // Generic descriptions for skill type and category combinations
   const getGenericDescription = (skillType: string, category: string) => {
     const descriptions: Record<string, Record<string, { en: string; ar: string }>> = {
@@ -76,6 +205,30 @@ export const SkillMatrixDashboard: React.FC = () => {
         data: {
           en: "Proficiency in data analysis, visualization, and statistical methods. Includes database management, data mining, machine learning, and business intelligence tools.",
           ar: "الكفاءة في تحليل البيانات والتصور والطرق الإحصائية. تشمل إدارة قواعد البيانات واستخراج البيانات والتعلم الآلي وأدوات ذكاء الأعمال."
+        },
+        management: {
+          en: "Leadership and management capabilities including team coordination, strategic planning, and organizational effectiveness.",
+          ar: "قدرات القيادة والإدارة بما في ذلك تنسيق الفريق والتخطيط الاستراتيجي والفعالية التنظيمية."
+        },
+        finance: {
+          en: "Financial analysis, accounting principles, budget management, and fiscal responsibility skills.",
+          ar: "التحليل المالي ومبادئ المحاسبة وإدارة الميزانية ومهارات المسؤولية المالية."
+        },
+        operations: {
+          en: "Operational efficiency, process improvement, quality management, and supply chain optimization skills.",
+          ar: "الكفاءة التشغيلية وتحسين العمليات وإدارة الجودة ومهارات تحسين سلسلة التوريد."
+        },
+        sales: {
+          en: "Sales techniques, customer relationship management, market analysis, and revenue generation skills.",
+          ar: "تقنيات البيع وإدارة علاقات العملاء وتحليل السوق ومهارات توليد الإيرادات."
+        },
+        hr: {
+          en: "Human resources management including recruitment, employee development, performance management, and organizational culture.",
+          ar: "إدارة الموارد البشرية بما في ذلك التوظيف وتطوير الموظفين وإدارة الأداء والثقافة التنظيمية."
+        },
+        administrative: {
+          en: "Administrative coordination, documentation management, office procedures, and organizational support skills.",
+          ar: "التنسيق الإداري وإدارة الوثائق وإجراءات المكتب ومهارات الدعم التنظيمي."
         }
       },
       behavioral: {
@@ -150,11 +303,15 @@ export const SkillMatrixDashboard: React.FC = () => {
   ]);
 
   const skillCategories = [
-    { id: 'programming', name: 'Programming', nameAr: 'البرمجة', count: 156 },
-    { id: 'cloud', name: 'Cloud Technologies', nameAr: 'تقنيات السحابة', count: 89 },
-    { id: 'data', name: 'Data & Analytics', nameAr: 'البيانات والتحليلات', count: 134 },
-    { id: 'leadership', name: 'Leadership', nameAr: 'القيادة', count: 78 },
+    { id: 'programming', name: 'Programming & IT', nameAr: 'البرمجة وتقنية المعلومات', count: 156 },
+    { id: 'management', name: 'Management & Leadership', nameAr: 'الإدارة والقيادة', count: 98 },
+    { id: 'finance', name: 'Finance & Accounting', nameAr: 'المالية والمحاسبة', count: 67 },
+    { id: 'operations', name: 'Operations & Quality', nameAr: 'العمليات والجودة', count: 89 },
+    { id: 'sales', name: 'Sales & Marketing', nameAr: 'المبيعات والتسويق', count: 74 },
+    { id: 'hr', name: 'Human Resources', nameAr: 'الموارد البشرية', count: 82 },
+    { id: 'administrative', name: 'Administrative', nameAr: 'الأعمال الإدارية', count: 65 },
     { id: 'communication', name: 'Communication', nameAr: 'التواصل', count: 92 },
+    { id: 'leadership', name: 'Leadership', nameAr: 'القيادة', count: 78 },
     { id: 'cultural', name: 'Cultural Competency', nameAr: 'الكفاءة الثقافية', count: 45 }
   ];
 
@@ -207,23 +364,67 @@ export const SkillMatrixDashboard: React.FC = () => {
                     <Label htmlFor="skill-name">
                       {language === 'ar' ? 'اسم المهارة (الإنجليزية)' : 'Skill Name (English)'}
                     </Label>
-                    <Input
-                      id="skill-name"
-                      value={newSkill.name}
-                      onChange={(e) => setNewSkill({...newSkill, name: e.target.value})}
-                      placeholder={language === 'ar' ? 'أدخل اسم المهارة' : 'Enter skill name'}
-                    />
+                    <Select 
+                      value={newSkill.name} 
+                      onValueChange={(value) => {
+                        const availableSkills = getSkillsForCategory(newSkill.category);
+                        const selectedSkill = availableSkills.find(skill => skill.en === value);
+                        setNewSkill({
+                          ...newSkill, 
+                          name: value,
+                          nameAr: selectedSkill?.ar || ''
+                        });
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {newSkill.category && getSkillsForCategory(newSkill.category).map((skill, index) => (
+                          <SelectItem key={index} value={skill.en}>
+                            {skill.en}
+                          </SelectItem>
+                        ))}
+                        {!newSkill.category && (
+                          <SelectItem value="" disabled>
+                            {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="skill-name-ar">
                       {language === 'ar' ? 'اسم المهارة (العربية)' : 'Skill Name (Arabic)'}
                     </Label>
-                    <Input
-                      id="skill-name-ar"
-                      value={newSkill.nameAr}
-                      onChange={(e) => setNewSkill({...newSkill, nameAr: e.target.value})}
-                      placeholder={language === 'ar' ? 'أدخل اسم المهارة بالعربية' : 'Enter skill name in Arabic'}
-                    />
+                    <Select 
+                      value={newSkill.nameAr} 
+                      onValueChange={(value) => {
+                        const availableSkills = getSkillsForCategory(newSkill.category);
+                        const selectedSkill = availableSkills.find(skill => skill.ar === value);
+                        setNewSkill({
+                          ...newSkill, 
+                          nameAr: value,
+                          name: selectedSkill?.en || ''
+                        });
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {newSkill.category && getSkillsForCategory(newSkill.category).map((skill, index) => (
+                          <SelectItem key={index} value={skill.ar}>
+                            {skill.ar}
+                          </SelectItem>
+                        ))}
+                        {!newSkill.category && (
+                          <SelectItem value="" disabled>
+                            {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 
