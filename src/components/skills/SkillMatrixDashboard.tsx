@@ -190,7 +190,7 @@ export const SkillMatrixDashboard: React.FC = () => {
     return positionBasedSkillsLibrary[mappedCategory] || [];
   };
 
-  // Generic descriptions for skill type and category combinations
+  // Generic descriptions and industry relevance for skill type and category combinations
   const getGenericDescription = (skillType: string, category: string) => {
     const descriptions: Record<string, Record<string, { en: string; ar: string }>> = {
       technical: {
@@ -257,6 +257,30 @@ export const SkillMatrixDashboard: React.FC = () => {
         data: {
           en: "Professional certifications in data analytics, database management, or data science tools and methodologies.",
           ar: "الشهادات المهنية في تحليلات البيانات أو إدارة قواعد البيانات أو أدوات ومنهجيات علوم البيانات."
+        },
+        management: {
+          en: "Professional management and leadership certifications demonstrating expertise in organizational leadership and strategic management.",
+          ar: "شهادات الإدارة والقيادة المهنية التي تظهر الخبرة في القيادة التنظيمية والإدارة الاستراتيجية."
+        },
+        finance: {
+          en: "Professional financial certifications validating expertise in accounting, financial analysis, and fiscal management.",
+          ar: "الشهادات المالية المهنية التي تؤكد الخبرة في المحاسبة والتحليل المالي والإدارة المالية."
+        },
+        operations: {
+          en: "Professional certifications in operations management, quality control, and process optimization methodologies.",
+          ar: "الشهادات المهنية في إدارة العمليات ومراقبة الجودة ومنهجيات تحسين العمليات."
+        },
+        sales: {
+          en: "Professional sales and marketing certifications demonstrating expertise in customer relationship management and revenue generation.",
+          ar: "شهادات المبيعات والتسويق المهنية التي تظهر الخبرة في إدارة علاقات العملاء وتوليد الإيرادات."
+        },
+        hr: {
+          en: "Professional human resources certifications validating expertise in talent management and organizational development.",
+          ar: "شهادات الموارد البشرية المهنية التي تؤكد الخبرة في إدارة المواهب والتطوير التنظيمي."
+        },
+        administrative: {
+          en: "Professional administrative certifications demonstrating competency in office management and organizational support.",
+          ar: "الشهادات الإدارية المهنية التي تظهر الكفاءة في إدارة المكتب والدعم التنظيمي."
         }
       }
     };
@@ -267,13 +291,116 @@ export const SkillMatrixDashboard: React.FC = () => {
     };
   };
 
-  // Update description when skill type or category changes
+  // Industry relevance for different skill categories
+  const getIndustryRelevance = (skillType: string, category: string) => {
+    const relevance: Record<string, Record<string, { en: string; ar: string }>> = {
+      technical: {
+        programming: {
+          en: "Critical for digital transformation and software development initiatives in all industries",
+          ar: "حيوية للتحول الرقمي ومبادرات تطوير البرمجيات في جميع الصناعات"
+        },
+        cloud: {
+          en: "Essential for scalable infrastructure and modern business operations",
+          ar: "ضرورية للبنية التحتية القابلة للتوسع والعمليات التجارية الحديثة"
+        },
+        data: {
+          en: "Fundamental for data-driven decision making and business intelligence",
+          ar: "أساسية لاتخاذ القرارات المبنية على البيانات وذكاء الأعمال"
+        },
+        management: {
+          en: "Essential for organizational leadership and strategic business growth",
+          ar: "ضرورية للقيادة التنظيمية والنمو التجاري الاستراتيجي"
+        },
+        finance: {
+          en: "Critical for financial planning, compliance, and business sustainability",
+          ar: "حيوية للتخطيط المالي والامتثال واستدامة الأعمال"
+        },
+        operations: {
+          en: "Essential for operational efficiency and quality management",
+          ar: "ضرورية للكفاءة التشغيلية وإدارة الجودة"
+        },
+        sales: {
+          en: "Critical for revenue generation and market expansion",
+          ar: "حيوية لتوليد الإيرادات وتوسيع السوق"
+        },
+        hr: {
+          en: "Essential for talent management and organizational development",
+          ar: "ضرورية لإدارة المواهب والتطوير التنظيمي"
+        },
+        administrative: {
+          en: "Important for organizational support and operational coordination",
+          ar: "مهمة للدعم التنظيمي والتنسيق التشغيلي"
+        }
+      },
+      behavioral: {
+        leadership: {
+          en: "Critical for organizational culture and team performance across all industries",
+          ar: "حيوية للثقافة التنظيمية وأداء الفريق في جميع الصناعات"
+        },
+        communication: {
+          en: "Essential for stakeholder engagement and organizational effectiveness",
+          ar: "ضرورية لإشراك أصحاب المصلحة والفعالية التنظيمية"
+        },
+        cultural: {
+          en: "Important for diverse workplace integration and global business operations",
+          ar: "مهمة لتكامل مكان العمل المتنوع والعمليات التجارية العالمية"
+        }
+      },
+      certification: {
+        programming: {
+          en: "Highly valued for validating technical expertise in competitive IT markets",
+          ar: "مقدرة بشدة لتأكيد الخبرة التقنية في أسواق تقنية المعلومات التنافسية"
+        },
+        cloud: {
+          en: "Essential for cloud adoption and digital infrastructure modernization",
+          ar: "ضرورية لاعتماد السحابة وتحديث البنية التحتية الرقمية"
+        },
+        data: {
+          en: "Critical for data governance and analytics-driven business strategies",
+          ar: "حيوية لحوكمة البيانات والاستراتيجيات التجارية المدفوعة بالتحليلات"
+        },
+        management: {
+          en: "Valuable for executive leadership and strategic management positions",
+          ar: "قيمة للقيادة التنفيذية ومناصب الإدارة الاستراتيجية"
+        },
+        finance: {
+          en: "Required for financial compliance and professional accounting practices",
+          ar: "مطلوبة للامتثال المالي وممارسات المحاسبة المهنية"
+        },
+        operations: {
+          en: "Important for quality standards and operational excellence",
+          ar: "مهمة لمعايير الجودة والتميز التشغيلي"
+        },
+        sales: {
+          en: "Beneficial for customer relationship management and sales performance",
+          ar: "مفيدة لإدارة علاقات العملاء وأداء المبيعات"
+        },
+        hr: {
+          en: "Valuable for HR best practices and talent development programs",
+          ar: "قيمة لأفضل ممارسات الموارد البشرية وبرامج تطوير المواهب"
+        },
+        administrative: {
+          en: "Useful for administrative efficiency and organizational support",
+          ar: "مفيدة للكفاءة الإدارية والدعم التنظيمي"
+        }
+      }
+    };
+
+    return relevance[skillType]?.[category] || {
+      en: "Relevant for industry standards and professional development",
+      ar: "ذات صلة بمعايير الصناعة والتطوير المهني"
+    };
+  };
+
+  // Update description and industry relevance when skill type or category changes
   useEffect(() => {
     if (newSkill.skillType && newSkill.category) {
       const genericDesc = getGenericDescription(newSkill.skillType, newSkill.category);
+      const industryRel = getIndustryRelevance(newSkill.skillType, newSkill.category);
       setNewSkill(prev => ({
         ...prev,
-        description: language === 'ar' ? genericDesc.ar : genericDesc.en
+        description: language === 'ar' ? genericDesc.ar : genericDesc.en,
+        industryRelevance: language === 'ar' ? industryRel.ar : industryRel.en
       }));
     }
   }, [newSkill.skillType, newSkill.category, language]);
