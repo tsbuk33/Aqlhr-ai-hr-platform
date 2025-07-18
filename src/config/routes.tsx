@@ -166,6 +166,13 @@ const MobileAppFeature = lazy(() => import('../pages/platform-features/MobileApp
 const SecurityFramework = lazy(() => import('../pages/platform-features/SecurityFramework'));
 const APIGateway = lazy(() => import('../pages/platform-features/APIGateway'));
 
+// AI Ecosystem pages
+const AICommandCenterPage = lazy(() => import('../pages/ai-ecosystem/AICommandCenterPage'));
+const AqlMindCorePage = lazy(() => import('../pages/ai-ecosystem/AqlMindCorePage'));
+const AIDecisionEnginePage = lazy(() => import('../pages/ai-ecosystem/AIDecisionEnginePage'));
+const LearningEnginePage = lazy(() => import('../pages/ai-ecosystem/LearningEnginePage'));
+const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/IntelligenceGathererPage'));
+
 // Additional modules
 const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
@@ -260,6 +267,13 @@ export const ROUTES: RouteConfig[] = [
   { path: '/core-hr/saudization', element: SaudizationCalculator, auth: true },
   { path: '/health-safety', element: HealthSafety, auth: true },
   
+  // AI Ecosystem Routes - admin only
+  { path: '/ai-ecosystem/command-center', element: AICommandCenterPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/aql-mind-core', element: AqlMindCorePage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/decision-engine', element: AIDecisionEnginePage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/learning-engine', element: LearningEnginePage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/intelligence-gatherer', element: IntelligenceGathererPage, auth: true, adminOnly: true },
+
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
   { path: '/ai-automation/smart-recommendations', element: SmartRecommendations, auth: true, adminOnly: true },
