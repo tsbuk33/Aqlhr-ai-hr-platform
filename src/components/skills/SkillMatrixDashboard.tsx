@@ -60,6 +60,70 @@ export const SkillMatrixDashboard: React.FC = () => {
     industryRelevance: '',
     requiredFor: [] as string[]
   });
+
+  // Generic descriptions for skill type and category combinations
+  const getGenericDescription = (skillType: string, category: string) => {
+    const descriptions: Record<string, Record<string, { en: string; ar: string }>> = {
+      technical: {
+        programming: {
+          en: "Technical proficiency in programming languages, frameworks, and development methodologies. Includes coding standards, debugging, testing, and software architecture principles.",
+          ar: "الكفاءة التقنية في لغات البرمجة والأطر والمنهجيات التطويرية. تشمل معايير الترميز والتصحيح والاختبار ومبادئ هندسة البرمجيات."
+        },
+        cloud: {
+          en: "Expertise in cloud computing platforms, services, and deployment strategies. Covers infrastructure management, scalability, security, and cost optimization in cloud environments.",
+          ar: "الخبرة في منصات الحوسبة السحابية والخدمات واستراتيجيات النشر. تغطي إدارة البنية التحتية وقابلية التوسع والأمان وتحسين التكلفة في البيئات السحابية."
+        },
+        data: {
+          en: "Proficiency in data analysis, visualization, and statistical methods. Includes database management, data mining, machine learning, and business intelligence tools.",
+          ar: "الكفاءة في تحليل البيانات والتصور والطرق الإحصائية. تشمل إدارة قواعد البيانات واستخراج البيانات والتعلم الآلي وأدوات ذكاء الأعمال."
+        }
+      },
+      behavioral: {
+        leadership: {
+          en: "Ability to guide, motivate, and develop teams effectively. Encompasses strategic thinking, decision-making, conflict resolution, and organizational influence.",
+          ar: "القدرة على توجيه وتحفيز وتطوير الفرق بفعالية. تشمل التفكير الاستراتيجي واتخاذ القرارات وحل النزاعات والتأثير التنظيمي."
+        },
+        communication: {
+          en: "Effective verbal and written communication skills across various contexts. Includes presentation abilities, active listening, cross-cultural communication, and stakeholder engagement.",
+          ar: "مهارات التواصل الشفهي والكتابي الفعال في مختلف السياقات. تشمل قدرات العرض والاستماع النشط والتواصل عبر الثقافات وإشراك أصحاب المصلحة."
+        },
+        cultural: {
+          en: "Understanding and adapting to diverse cultural contexts and practices. Includes cultural sensitivity, inclusive leadership, and global business acumen.",
+          ar: "فهم والتكيف مع السياقات والممارسات الثقافية المتنوعة. تشمل الحساسية الثقافية والقيادة الشاملة والفطنة التجارية العالمية."
+        }
+      },
+      certification: {
+        programming: {
+          en: "Professional certifications in programming languages, frameworks, or development methodologies. Validates technical competency and industry standards compliance.",
+          ar: "الشهادات المهنية في لغات البرمجة أو الأطر أو منهجيات التطوير. تؤكد الكفاءة التقنية والامتثال لمعايير الصناعة."
+        },
+        cloud: {
+          en: "Industry-recognized cloud platform certifications demonstrating expertise in cloud architecture, services, and best practices.",
+          ar: "شهادات منصات السحابة المعترف بها في الصناعة التي تظهر الخبرة في هندسة السحابة والخدمات وأفضل الممارسات."
+        },
+        data: {
+          en: "Professional certifications in data analytics, database management, or data science tools and methodologies.",
+          ar: "الشهادات المهنية في تحليلات البيانات أو إدارة قواعد البيانات أو أدوات ومنهجيات علوم البيانات."
+        }
+      }
+    };
+
+    return descriptions[skillType]?.[category] || {
+      en: "Professional competency in the selected skill area. Encompasses relevant knowledge, practical application, and industry best practices.",
+      ar: "الكفاءة المهنية في مجال المهارة المحدد. تشمل المعرفة ذات الصلة والتطبيق العملي وأفضل ممارسات الصناعة."
+    };
+  };
+
+  // Update description when skill type or category changes
+  useEffect(() => {
+    if (newSkill.skillType && newSkill.category) {
+      const genericDesc = getGenericDescription(newSkill.skillType, newSkill.category);
+      setNewSkill(prev => ({
+        ...prev,
+        description: language === 'ar' ? genericDesc.ar : genericDesc.en
+      }));
+    }
+  }, [newSkill.skillType, newSkill.category, language]);
   
   // Mock data - replace with actual API calls
   const [skillStats, setSkillStats] = useState({
