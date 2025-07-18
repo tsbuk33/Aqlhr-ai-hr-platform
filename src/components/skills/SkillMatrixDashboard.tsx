@@ -380,15 +380,16 @@ export const SkillMatrixDashboard: React.FC = () => {
                         <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
                       </SelectTrigger>
                       <SelectContent>
-                        {newSkill.category && getSkillsForCategory(newSkill.category).map((skill, index) => (
-                          <SelectItem key={index} value={skill.en}>
-                            {skill.en}
-                          </SelectItem>
-                        ))}
-                        {!newSkill.category && (
-                          <SelectItem value="" disabled>
+                        {newSkill.category ? (
+                          getSkillsForCategory(newSkill.category).map((skill, index) => (
+                            <SelectItem key={index} value={skill.en}>
+                              {skill.en}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
                             {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
-                          </SelectItem>
+                          </div>
                         )}
                       </SelectContent>
                     </Select>
@@ -413,15 +414,16 @@ export const SkillMatrixDashboard: React.FC = () => {
                         <SelectValue placeholder={language === 'ar' ? 'اختر المهارة' : 'Select skill'} />
                       </SelectTrigger>
                       <SelectContent>
-                        {newSkill.category && getSkillsForCategory(newSkill.category).map((skill, index) => (
-                          <SelectItem key={index} value={skill.ar}>
-                            {skill.ar}
-                          </SelectItem>
-                        ))}
-                        {!newSkill.category && (
-                          <SelectItem value="" disabled>
+                        {newSkill.category ? (
+                          getSkillsForCategory(newSkill.category).map((skill, index) => (
+                            <SelectItem key={index} value={skill.ar}>
+                              {skill.ar}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
                             {language === 'ar' ? 'اختر الفئة أولاً' : 'Select category first'}
-                          </SelectItem>
+                          </div>
                         )}
                       </SelectContent>
                     </Select>
