@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppSidebar } from '@/components/AppSidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
+import { ExecutiveFloatingButton } from '@/components/executive/ExecutiveFloatingButton';
 import { GlobalFooter } from '@/components/GlobalFooter';
 
 interface LayoutShellProps {
@@ -20,6 +21,9 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
           </div>
         </main>
         <GlobalFooter />
+        
+        {/* Executive Intelligence Center - Available everywhere */}
+        <ExecutiveFloatingButton />
       </div>
     </div>
   );

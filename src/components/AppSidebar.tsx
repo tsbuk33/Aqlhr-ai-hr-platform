@@ -27,7 +27,8 @@ import {
   TrendingUp,
   Star,
   Sparkles,
-  Activity
+  Activity,
+  Crown
 } from "lucide-react";
 import {
   Sidebar,
@@ -54,6 +55,15 @@ const getPlatformModules = (isArabic: boolean) => [
     icon: BarChart3,
     badge: "1",
     color: "blue"
+  },
+
+  // Executive Intelligence Center - Premium Feature
+  { 
+    title: isArabic ? "مركز الذكاء التنفيذي" : "Executive Intelligence Center", 
+    url: "/executive-center", 
+    icon: Crown,
+    badge: "PREMIUM",
+    color: "gold"
   },
   
   // Core HR Management - Primary Module
@@ -288,6 +298,7 @@ export function AppSidebar() {
     if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
     if (badge === "AI") return `${baseClasses} bg-purple-500/20 text-purple-400 border border-purple-500/30`;
     if (badge === "FLAGSHIP") return `${baseClasses} bg-gradient-to-r from-rose-500/20 to-pink-500/20 text-rose-400 border border-rose-500/30`;
+    if (badge === "PREMIUM") return `${baseClasses} bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border border-yellow-500/30`;
     if (badge === "HSE") return `${baseClasses} bg-red-500/20 text-red-400 border border-red-500/30`;
     
     return `${baseClasses} bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border`;

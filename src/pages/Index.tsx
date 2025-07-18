@@ -480,6 +480,82 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Executive Intelligence Center Integration */}
+        <section className="mt-16">
+          <Card className="bg-gradient-to-br from-primary/5 via-primary/10 to-accent/5 border-primary/20 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"></div>
+            <CardHeader className="relative z-10">
+              <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <div className="p-3 bg-gradient-to-br from-primary to-primary/80 rounded-xl shadow-lg">
+                    <Crown className="h-6 w-6 text-primary-foreground" />
+                  </div>
+                  <div className={isArabic ? 'text-right' : ''}>
+                    <CardTitle className="text-xl font-bold text-foreground">
+                      {isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}
+                    </CardTitle>
+                    <CardDescription className="text-sm">
+                      {isArabic ? 'رؤى استراتيجية متقدمة عبر جميع وحدات الموارد البشرية' : 'Advanced strategic insights across all HR modules'}
+                    </CardDescription>
+                  </div>
+                </div>
+                <Badge className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-600 border-yellow-500/30">
+                  {isArabic ? 'متميز' : 'PREMIUM'}
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="relative z-10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                  <div className={`flex items-center gap-2 mb-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <BarChart3 className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      {isArabic ? 'تحليلات تنفيذية' : 'Executive Analytics'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {isArabic ? 'رؤى متقدمة للقيادة العليا' : 'Advanced insights for senior leadership'}
+                  </p>
+                </div>
+                <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                  <div className={`flex items-center gap-2 mb-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <Brain className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      {isArabic ? 'ذكاء اصطناعي متقدم' : 'Advanced AI'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {isArabic ? 'تحليلات ذكية وتوصيات فورية' : 'Smart analytics and real-time recommendations'}
+                  </p>
+                </div>
+                <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-primary/10">
+                  <div className={`flex items-center gap-2 mb-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                    <Target className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      {isArabic ? 'دعم القرارات' : 'Decision Support'}
+                    </span>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {isArabic ? 'دعم اتخاذ القرارات الاستراتيجية' : 'Strategic decision-making support'}
+                  </p>
+                </div>
+              </div>
+              <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <Link to="/executive-center">
+                  <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg">
+                    <Crown className="h-4 w-4 mr-2" />
+                    {isArabic ? 'فتح المركز التنفيذي' : 'Open Executive Center'}
+                  </Button>
+                </Link>
+                <div className={`flex items-center gap-2 text-xs text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Zap className="h-3 w-3 text-primary" />
+                  <span>{isArabic ? 'متاح في جميع الوحدات' : 'Available across all modules'}</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Operational Metrics */}
         <section>
           <div className={`mb-8 ${isArabic ? 'text-right' : ''}`}>

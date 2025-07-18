@@ -61,6 +61,13 @@ const Analytics = () => {
 
   const quickActions = [
     {
+      title: language === 'ar' ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center',
+      description: language === 'ar' ? 'رؤى استراتيجية متقدمة وتحليلات للقيادة' : 'Advanced strategic insights and analytics for leadership',
+      icon: Target,
+      color: "bg-gradient-to-r from-yellow-500 to-amber-500",
+      onClick: () => window.location.href = '/executive-center'
+    },
+    {
       title: language === 'ar' ? 'تحليل السعودة' : 'Saudization Analytics',
       description: language === 'ar' ? 'تتبع ومراقبة معدلات السعودة' : 'Track and monitor Saudization rates',
       icon: Users,
