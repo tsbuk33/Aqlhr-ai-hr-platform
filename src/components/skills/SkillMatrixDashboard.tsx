@@ -94,11 +94,24 @@ export const SkillMatrixDashboard: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="gap-2">
+          <Button 
+            variant="outline" 
+            className="gap-2"
+            onClick={() => {
+              console.log('Gap Analysis clicked');
+              // Add gap analysis functionality here
+            }}
+          >
             <BarChart3 className="h-4 w-4" />
             {language === 'ar' ? 'تحليل الفجوات' : 'Gap Analysis'}
           </Button>
-          <Button className="gap-2">
+          <Button 
+            className="gap-2"
+            onClick={() => {
+              console.log('Add New Skill clicked');
+              // Add new skill functionality here
+            }}
+          >
             <Plus className="h-4 w-4" />
             {language === 'ar' ? 'إضافة مهارة جديدة' : 'Add New Skill'}
           </Button>

@@ -183,11 +183,24 @@ export const JobAnalysisWorkspace: React.FC = () => {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="outline" className="gap-2">
+          <Button 
+            variant="outline" 
+            className="gap-2"
+            onClick={() => {
+              console.log('Bulk Analysis clicked');
+              // Add bulk analysis functionality here
+            }}
+          >
             <Target className="h-4 w-4" />
             {language === 'ar' ? 'تحليل شامل' : 'Bulk Analysis'}
           </Button>
-          <Button className="gap-2">
+          <Button 
+            className="gap-2"
+            onClick={() => {
+              console.log('Create New Position clicked');
+              // Add create new position functionality here
+            }}
+          >
             <Plus className="h-4 w-4" />
             {language === 'ar' ? 'إنشاء وظيفة جديدة' : 'Create New Position'}
           </Button>
