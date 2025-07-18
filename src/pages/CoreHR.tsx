@@ -1,6 +1,7 @@
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { 
   Users, 
   FileText, 
@@ -237,17 +238,32 @@ const CoreHR = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'وحدات الموارد البشرية الأساسية' : 'Core HR Modules'}
-      description={language === 'ar' ? 'الإدارة الشاملة لجميع عمليات الموارد البشرية' : 'Comprehensive management of all HR processes'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <div className="space-y-6">
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'وحدات الموارد البشرية الأساسية' : 'Core HR Modules'}
+        description={language === 'ar' ? 'الإدارة الشاملة لجميع عمليات الموارد البشرية' : 'Comprehensive management of all HR processes'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+      
+      {/* Core HR Document Management */}
+      <UniversalDocumentManager
+        moduleName="Core HR Operations"
+        moduleNameAr="عمليات الموارد البشرية الأساسية"
+        description="Upload HR policies, procedures, forms, and operational documents"
+        descriptionAr="رفع سياسات الموارد البشرية والإجراءات والنماذج والمستندات التشغيلية"
+        platform="core-hr"
+        moduleType="hr"
+        acceptedTypes={['.pdf', '.docx', '.xlsx', '.pptx', '.jpg', '.png']}
+        maxFileSize={50 * 1024 * 1024}
+        maxFiles={25}
+      />
+    </div>
   );
 };
 

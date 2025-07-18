@@ -15,11 +15,14 @@ import {
   Users,
   BarChart3,
   Settings,
-  AlertTriangle
+  AlertTriangle,
+  Database,
+  FileText
 } from 'lucide-react';
 import MasterIntelligenceDashboard from '@/components/executive/MasterIntelligenceDashboard';
 import CrossModuleIntelligence from '@/components/executive/CrossModuleIntelligence';
 import StrategicDecisionSupport from '@/components/executive/StrategicDecisionSupport';
+import { EnhancedFileUpload } from '@/components/enhanced/EnhancedFileUpload';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const ExecutiveCenter: React.FC = () => {
@@ -93,7 +96,7 @@ const ExecutiveCenter: React.FC = () => {
       {/* Executive Navigation */}
       <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <Button
               variant={activeModule === 'intelligence' ? 'default' : 'outline'}
               onClick={() => setActiveModule('intelligence')}
@@ -139,6 +142,18 @@ const ExecutiveCenter: React.FC = () => {
               <div className="text-center">
                 <div className="font-medium">Predictive Insights</div>
                 <div className="text-xs text-muted-foreground">AI Forecasting</div>
+              </div>
+            </Button>
+
+            <Button
+              variant={activeModule === 'documents' ? 'default' : 'outline'}
+              onClick={() => setActiveModule('documents')}
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+            >
+              <Database className="h-6 w-6" />
+              <div className="text-center">
+                <div className="font-medium">Executive Documents</div>
+                <div className="text-xs text-muted-foreground">Data Repository</div>
               </div>
             </Button>
           </div>
@@ -195,6 +210,67 @@ const ExecutiveCenter: React.FC = () => {
                   <Zap className="h-4 w-4 mr-2" />
                   Coming Soon - Advanced Analytics
                 </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {activeModule === 'documents' && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Database className="h-5 w-5 mr-2" />
+                Executive Document Management Center
+              </CardTitle>
+              <CardDescription>
+                Strategic document repository for executive intelligence and data-driven decisions
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <EnhancedFileUpload
+                title="Executive Intelligence Documents"
+                description="Upload strategic reports, board presentations, compliance documents, and intelligence data"
+                moduleType="hr"
+                platform="executive-center"
+                acceptedTypes={['.pdf', '.pptx', '.docx', '.xlsx', '.csv', '.json']}
+                maxFileSize={100 * 1024 * 1024}
+                maxFiles={50}
+                compressionEnabled={true}
+                multipleUploads={true}
+                showPresets={true}
+                showUploadMethods={true}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <Card className="p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <FileText className="h-5 w-5 text-primary" />
+                    <h4 className="font-medium">Strategic Reports</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Executive summaries, quarterly reports, and strategic analysis documents
+                  </p>
+                </Card>
+
+                <Card className="p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <BarChart3 className="h-5 w-5 text-primary" />
+                    <h4 className="font-medium">Data Analytics</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Performance metrics, KPI dashboards, and intelligence data files
+                  </p>
+                </Card>
+
+                <Card className="p-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <Shield className="h-5 w-5 text-primary" />
+                    <h4 className="font-medium">Compliance & Governance</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Regulatory documents, audit reports, and governance frameworks
+                  </p>
+                </Card>
               </div>
             </CardContent>
           </Card>

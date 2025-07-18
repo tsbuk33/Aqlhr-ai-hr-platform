@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Plus, Search, Filter } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 
 const Employees = () => {
   const { t } = useLanguage();
@@ -77,6 +78,19 @@ const Employees = () => {
           <p className="text-center text-muted-foreground py-8">{t('employees.table_implemented')}</p>
         </CardContent>
       </Card>
+
+      {/* Employee Document Management */}
+      <UniversalDocumentManager
+        moduleName="Employee Master Data"
+        moduleNameAr="البيانات الرئيسية للموظفين"
+        description="Upload employee resumes, contracts, certifications, and personal documents"
+        descriptionAr="رفع السير الذاتية للموظفين والعقود والشهادات والمستندات الشخصية"
+        platform="employees"
+        moduleType="hr"
+        acceptedTypes={['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.xlsx']}
+        maxFileSize={25 * 1024 * 1024}
+        maxFiles={15}
+      />
     </div>
   );
 };

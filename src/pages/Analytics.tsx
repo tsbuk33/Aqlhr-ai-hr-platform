@@ -5,6 +5,7 @@ import { GovernmentAPIIntegration } from "@/components/integration/GovernmentAPI
 import { ComprehensiveTestSuite } from "@/components/testing/ComprehensiveTestSuite";
 import { PerformanceMonitor } from "@/components/monitoring/PerformanceMonitor";
 import { SecurityEnhancements } from "@/components/security/SecurityEnhancements";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { 
   BarChart, 
   Activity, 
@@ -348,17 +349,32 @@ const Analytics = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'التحليلات المتقدمة' : 'Advanced Analytics'}
-      description={language === 'ar' ? 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية' : 'Data-driven insights for strategic decision making'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <div className="space-y-6">
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'التحليلات المتقدمة' : 'Advanced Analytics'}
+        description={language === 'ar' ? 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية' : 'Data-driven insights for strategic decision making'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+      
+      {/* Analytics Document Management */}
+      <UniversalDocumentManager
+        moduleName="Analytics & Reporting"
+        moduleNameAr="التحليلات والتقارير"
+        description="Upload data files, reports, and analytics documents for comprehensive analysis"
+        descriptionAr="رفع ملفات البيانات والتقارير ومستندات التحليلات للتحليل الشامل"
+        platform="analytics"
+        moduleType="hr"
+        acceptedTypes={['.xlsx', '.xls', '.csv', '.pdf', '.json', '.pptx']}
+        maxFileSize={100 * 1024 * 1024}
+        maxFiles={30}
+      />
+    </div>
   );
 };
 

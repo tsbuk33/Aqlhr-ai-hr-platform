@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SkillMatrixDashboard } from '@/components/skills/SkillMatrixDashboard';
 import { JobAnalysisWorkspace } from '@/components/skills/JobAnalysisWorkspace';
+import { EnhancedFileUpload } from '@/components/enhanced/EnhancedFileUpload';
 import { 
   Target, 
   Briefcase, 
@@ -14,7 +15,9 @@ import {
   Brain,
   BarChart3,
   FileText,
-  Settings
+  Settings,
+  Upload,
+  Database
 } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 
@@ -173,7 +176,7 @@ export default function SkillIntelligence() {
       {/* Main Application */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <div className="flex justify-center">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-2xl grid-cols-3">
             <TabsTrigger value="matrix" className="gap-2">
               <Target className="h-4 w-4" />
               {language === 'ar' ? 'مصفوفة المهارات' : 'Skill Matrix'}
@@ -181,6 +184,10 @@ export default function SkillIntelligence() {
             <TabsTrigger value="analysis" className="gap-2">
               <Briefcase className="h-4 w-4" />
               {language === 'ar' ? 'تحليل الوظائف' : 'Job Analysis'}
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="gap-2">
+              <Database className="h-4 w-4" />
+              {language === 'ar' ? 'إدارة المستندات' : 'Document Management'}
             </TabsTrigger>
           </TabsList>
         </div>
@@ -191,6 +198,41 @@ export default function SkillIntelligence() {
 
         <TabsContent value="analysis">
           <JobAnalysisWorkspace />
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Database className="h-5 w-5" />
+                {language === 'ar' ? 'مركز إدارة مستندات المهارات' : 'Skills Document Management Center'}
+              </CardTitle>
+              <CardDescription>
+                {language === 'ar' 
+                  ? 'رفع وإدارة المستندات المتعلقة بالمهارات، شهادات التدريب، وسيرة الموظفين الذاتية'
+                  : 'Upload and manage skills-related documents, training certificates, and employee resumes'
+                }
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EnhancedFileUpload
+                title={language === 'ar' ? 'رفع مستندات المهارات' : 'Skills Document Upload'}
+                description={language === 'ar' 
+                  ? 'رفع السير الذاتية، شهادات التدريب، تقييمات المهارات، وتقارير الأداء'
+                  : 'Upload resumes, training certificates, skill assessments, and performance reports'
+                }
+                moduleType="hr"
+                platform="skills-intelligence"
+                acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.jpg', '.jpeg', '.png']}
+                maxFileSize={50 * 1024 * 1024}
+                maxFiles={20}
+                compressionEnabled={true}
+                multipleUploads={true}
+                showPresets={true}
+                showUploadMethods={true}
+              />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
 

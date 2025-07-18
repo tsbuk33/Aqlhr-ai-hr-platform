@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { 
   useRegions, 
   useCities, 
@@ -361,17 +362,32 @@ const Government = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'التكاملات الحكومية' : 'Government Integrations'}
-      description={language === 'ar' ? 'تكامل سلس مع الأنظمة الحكومية السعودية' : 'Seamless integration with Saudi government systems'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <div className="space-y-6">
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'التكاملات الحكومية' : 'Government Integrations'}
+        description={language === 'ar' ? 'تكامل سلس مع الأنظمة الحكومية السعودية' : 'Seamless integration with Saudi government systems'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+      
+      {/* Government Document Management */}
+      <UniversalDocumentManager
+        moduleName="Government Integration Hub"
+        moduleNameAr="مركز التكامل الحكومي"
+        description="Upload government compliance documents, certificates, and official correspondence"
+        descriptionAr="رفع مستندات الامتثال الحكومي والشهادات والمراسلات الرسمية"
+        platform="government"
+        moduleType="government"
+        acceptedTypes={['.pdf', '.docx', '.xlsx', '.jpg', '.png', '.xml']}
+        maxFileSize={100 * 1024 * 1024}
+        maxFiles={40}
+      />
+    </div>
   );
 };
 
