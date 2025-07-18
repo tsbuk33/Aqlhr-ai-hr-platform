@@ -17,13 +17,20 @@ import {
   Settings,
   AlertTriangle,
   Database,
-  FileText
+  FileText,
+  Cpu,
+  Lightbulb
 } from 'lucide-react';
 import MasterIntelligenceDashboard from '@/components/executive/MasterIntelligenceDashboard';
 import CrossModuleIntelligence from '@/components/executive/CrossModuleIntelligence';
 import StrategicDecisionSupport from '@/components/executive/StrategicDecisionSupport';
 import { EnhancedFileUpload } from '@/components/enhanced/EnhancedFileUpload';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { AICommandCenter } from '@/components/ai-ecosystem/AICommandCenter';
+import { AqlMindCore } from '@/components/ai-ecosystem/AqlMindCore';
+import { AIDecisionEngine } from '@/components/ai-ecosystem/AIDecisionEngine';
+import { LearningEngine } from '@/components/ai-ecosystem/LearningEngine';
+import { IntelligenceGatherer } from '@/components/ai-ecosystem/IntelligenceGatherer';
 
 const ExecutiveCenter: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -96,7 +103,7 @@ const ExecutiveCenter: React.FC = () => {
       {/* Executive Navigation */}
       <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
         <CardContent className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
             <Button
               variant={activeModule === 'intelligence' ? 'default' : 'outline'}
               onClick={() => setActiveModule('intelligence')}
@@ -106,6 +113,18 @@ const ExecutiveCenter: React.FC = () => {
               <div className="text-center">
                 <div className="font-medium">Master Intelligence</div>
                 <div className="text-xs text-muted-foreground">Strategic Overview</div>
+              </div>
+            </Button>
+
+            <Button
+              variant={activeModule === 'ai-ecosystem' ? 'default' : 'outline'}
+              onClick={() => setActiveModule('ai-ecosystem')}
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+            >
+              <Cpu className="h-6 w-6" />
+              <div className="text-center">
+                <div className="font-medium">AI Ecosystem</div>
+                <div className="text-xs text-muted-foreground">AqlMind Brain</div>
               </div>
             </Button>
 
@@ -183,6 +202,88 @@ const ExecutiveCenter: React.FC = () => {
       {/* Main Executive Interface */}
       <div className="space-y-6">
         {activeModule === 'intelligence' && <MasterIntelligenceDashboard />}
+        
+        {activeModule === 'ai-ecosystem' && (
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Cpu className="h-5 w-5 mr-2" />
+                  AqlHR AI Ecosystem Command Center
+                </CardTitle>
+                <CardDescription>
+                  Central intelligence system that thinks, learns, and makes autonomous decisions
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <AICommandCenter />
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Brain className="h-5 w-5 mr-2" />
+                    AqlMind Core Intelligence
+                  </CardTitle>
+                  <CardDescription>
+                    Central AI brain processing and understanding
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AqlMindCore />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Target className="h-5 w-5 mr-2" />
+                    AI Decision Engine
+                  </CardTitle>
+                  <CardDescription>
+                    Autonomous decision-making with 98%+ accuracy
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AIDecisionEngine />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Lightbulb className="h-5 w-5 mr-2" />
+                    Learning Engine
+                  </CardTitle>
+                  <CardDescription>
+                    Continuous learning and pattern recognition
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <LearningEngine />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Network className="h-5 w-5 mr-2" />
+                    Intelligence Gatherer
+                  </CardTitle>
+                  <CardDescription>
+                    Multi-source data intelligence synthesis
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <IntelligenceGatherer />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        )}
+        
         {activeModule === 'correlation' && <CrossModuleIntelligence />}
         {activeModule === 'decisions' && <StrategicDecisionSupport />}
         {activeModule === 'insights' && (
