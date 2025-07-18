@@ -642,23 +642,37 @@ export const SkillMatrixDashboard: React.FC = () => {
                   </Label>
                   <Textarea
                     id="skill-description"
-                    value={newSkill.description}
+                    value={newSkill.description || (newSkill.category && newSkill.skillType ? 
+                      getGenericDescription(newSkill.skillType, newSkill.category)[language === 'ar' ? 'ar' : 'en'] : '')}
                     onChange={(e) => setNewSkill({...newSkill, description: e.target.value})}
-                    placeholder={language === 'ar' ? 'وصف تفصيلي للمهارة ومتطلباتها' : 'Detailed description of the skill and its requirements'}
+                    placeholder={language === 'ar' ? 'وصف تفصيلي للمهارة (سيتم ملؤه تلقائياً حسب الفئة)' : 'Detailed skill description (auto-filled based on category)'}
                     rows={3}
                   />
+                  {newSkill.category && newSkill.skillType && !newSkill.description && (
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? '💡 تم ملء الوصف تلقائياً حسب نوع المهارة والفئة' : '💡 Auto-filled based on skill type and category'}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="industry-relevance">
                     {language === 'ar' ? 'صلة بالصناعة' : 'Industry Relevance'}
                   </Label>
-                  <Input
+                  <Textarea
                     id="industry-relevance"
-                    value={newSkill.industryRelevance}
+                    value={newSkill.industryRelevance || (newSkill.category && newSkill.skillType ? 
+                      getIndustryRelevance(newSkill.skillType, newSkill.category)[language === 'ar' ? 'ar' : 'en'] : '')}
                     onChange={(e) => setNewSkill({...newSkill, industryRelevance: e.target.value})}
-                    placeholder={language === 'ar' ? 'أهمية المهارة في القطاع' : 'Importance of skill in the industry'}
+                    placeholder={language === 'ar' ? 'أهمية المهارة في القطاع (سيتم ملؤها تلقائياً حسب الفئة)' : 'Industry relevance (auto-filled based on category)'}
+                    rows={2}
+                    className="text-sm"
                   />
+                  {newSkill.category && newSkill.skillType && !newSkill.industryRelevance && (
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? '💡 تم ملء المحتوى تلقائياً حسب الفئة المختارة' : '💡 Auto-filled based on selected category'}
+                    </p>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -667,7 +681,7 @@ export const SkillMatrixDashboard: React.FC = () => {
                       {language === 'ar' ? 'مطلوبة للمناصب' : 'Required for Positions'}
                     </Label>
                     <Select 
-                      disabled={positionsLoading}
+                      disabled={positionsLoading || !newSkill.category || !newSkill.name}
                       onValueChange={(value) => {
                         if (!newSkill.requiredForPositions.includes(value)) {
                           setNewSkill({
@@ -677,11 +691,13 @@ export const SkillMatrixDashboard: React.FC = () => {
                         }
                       }}
                     >
-                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                      <SelectTrigger className={`bg-background border border-input hover:bg-accent hover:text-accent-foreground ${(!newSkill.category || !newSkill.name) ? 'opacity-50 cursor-not-allowed' : ''}`}>
                         <SelectValue placeholder={
-                          positionsLoading 
-                            ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
-                            : (language === 'ar' ? 'اختر المناصب...' : 'Select positions...')
+                          !newSkill.category || !newSkill.name
+                            ? (language === 'ar' ? 'اختر الفئة والمهارة أولاً' : 'Select category & skill first')
+                            : positionsLoading 
+                              ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                              : (language === 'ar' ? 'اختر المناصب...' : 'Select positions...')
                         } />
                       </SelectTrigger>
                       <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
@@ -689,24 +705,104 @@ export const SkillMatrixDashboard: React.FC = () => {
                           <SelectItem value="loading" disabled>
                             {language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...'}
                           </SelectItem>
-                        ) : existingPositions.length > 0 ? (
-                          existingPositions.map((position) => (
-                            <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
-                              <div className="flex justify-between items-center w-full">
-                                <span>{language === 'ar' && position.titleAr ? position.titleAr : position.title}</span>
-                                {position.department && (
-                                  <Badge variant="outline" className="text-xs ml-2">
-                                    {position.department}
-                                  </Badge>
-                                )}
-                              </div>
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="no-positions" disabled>
-                            {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                        ) : !newSkill.category || !newSkill.name ? (
+                          <SelectItem value="no-skill-selected" disabled>
+                            {language === 'ar' ? 'اختر الفئة والمهارة أولاً' : 'Select category & skill first'}
                           </SelectItem>
-                        )}
+                        ) : (() => {
+                          // Filter positions based on skill category and type
+                          const filteredPositions = existingPositions.filter(position => {
+                            const positionTitle = position.title.toLowerCase();
+                            const category = newSkill.category.toLowerCase();
+                            const skillType = newSkill.skillType.toLowerCase();
+                            const skillName = newSkill.name.toLowerCase();
+                            
+                            // Technical skills mapping
+                            if (skillType === 'technical') {
+                              if (category === 'programming' && (
+                                positionTitle.includes('developer') || 
+                                positionTitle.includes('programmer') || 
+                                positionTitle.includes('software') ||
+                                positionTitle.includes('engineer')
+                              )) return true;
+                              
+                              if (category === 'data' && (
+                                positionTitle.includes('data') || 
+                                positionTitle.includes('analyst') || 
+                                positionTitle.includes('scientist')
+                              )) return true;
+                              
+                              if (category === 'cloud' && (
+                                positionTitle.includes('cloud') || 
+                                positionTitle.includes('devops') || 
+                                positionTitle.includes('infrastructure')
+                              )) return true;
+                              
+                              if (category === 'management' && (
+                                positionTitle.includes('manager') || 
+                                positionTitle.includes('director') || 
+                                positionTitle.includes('lead')
+                              )) return true;
+                              
+                              if (category === 'finance' && (
+                                positionTitle.includes('finance') || 
+                                positionTitle.includes('accountant') || 
+                                positionTitle.includes('financial')
+                              )) return true;
+                              
+                              if (category === 'hr' && (
+                                positionTitle.includes('hr') || 
+                                positionTitle.includes('human') || 
+                                positionTitle.includes('recruiter')
+                              )) return true;
+                              
+                              if (category === 'sales' && (
+                                positionTitle.includes('sales') || 
+                                positionTitle.includes('marketing') || 
+                                positionTitle.includes('business')
+                              )) return true;
+                            }
+                            
+                            // Behavioral skills - more broadly applicable
+                            if (skillType === 'behavioral') {
+                              if (category === 'leadership' && (
+                                positionTitle.includes('manager') || 
+                                positionTitle.includes('director') || 
+                                positionTitle.includes('lead') ||
+                                positionTitle.includes('supervisor')
+                              )) return true;
+                              
+                              if (category === 'communication' && (
+                                positionTitle.includes('sales') || 
+                                positionTitle.includes('support') || 
+                                positionTitle.includes('consultant') ||
+                                positionTitle.includes('representative')
+                              )) return true;
+                            }
+                            
+                            // Default: show all if no specific mapping
+                            return true;
+                          });
+                          
+                          return filteredPositions.length > 0 ? (
+                            filteredPositions.map((position) => (
+                              <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
+                                <div className="flex justify-between items-center w-full">
+                                  <span>{language === 'ar' && position.titleAr ? position.titleAr : position.title}</span>
+                                  {position.department && (
+                                    <Badge variant="outline" className="text-xs ml-2">
+                                      {position.department}
+                                    </Badge>
+                                  )}
+                                </div>
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="no-relevant-positions" disabled>
+                              {language === 'ar' ? 'لا توجد مناصب مناسبة لهذه المهارة' : 'No relevant positions for this skill'}
+                            </SelectItem>
+                          );
+                        })()}
                       </SelectContent>
                     </Select>
                     {newSkill.requiredForPositions.length > 0 && (
@@ -730,7 +826,7 @@ export const SkillMatrixDashboard: React.FC = () => {
                       {language === 'ar' ? 'مطلوبة للأقسام' : 'Required for Departments'}
                     </Label>
                     <Select 
-                      disabled={departmentsLoading}
+                      disabled={departmentsLoading || !newSkill.category || !newSkill.name}
                       onValueChange={(value) => {
                         if (!newSkill.requiredForDepartments.includes(value)) {
                           setNewSkill({
@@ -740,11 +836,13 @@ export const SkillMatrixDashboard: React.FC = () => {
                         }
                       }}
                     >
-                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                      <SelectTrigger className={`bg-background border border-input hover:bg-accent hover:text-accent-foreground ${(!newSkill.category || !newSkill.name) ? 'opacity-50 cursor-not-allowed' : ''}`}>
                         <SelectValue placeholder={
-                          departmentsLoading 
-                            ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
-                            : (language === 'ar' ? 'اختر الأقسام...' : 'Select departments...')
+                          !newSkill.category || !newSkill.name
+                            ? (language === 'ar' ? 'اختر الفئة والمهارة أولاً' : 'Select category & skill first')
+                            : departmentsLoading 
+                              ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                              : (language === 'ar' ? 'اختر الأقسام...' : 'Select departments...')
                         } />
                       </SelectTrigger>
                       <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
@@ -752,17 +850,112 @@ export const SkillMatrixDashboard: React.FC = () => {
                           <SelectItem value="loading" disabled>
                             {language === 'ar' ? 'جاري تحميل الأقسام...' : 'Loading departments...'}
                           </SelectItem>
-                        ) : departments.length > 0 ? (
-                          departments.map((dept) => (
-                            <SelectItem key={dept} value={dept} className="cursor-pointer hover:bg-accent">
-                              {dept}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="no-departments" disabled>
-                            {language === 'ar' ? 'لا توجد أقسام متاحة' : 'No departments available'}
+                        ) : !newSkill.category || !newSkill.name ? (
+                          <SelectItem value="no-skill-selected" disabled>
+                            {language === 'ar' ? 'اختر الفئة والمهارة أولاً' : 'Select category & skill first'}
                           </SelectItem>
-                        )}
+                        ) : (() => {
+                          // Filter departments based on skill category and type
+                          const filteredDepartments = departments.filter(dept => {
+                            const deptName = dept.toLowerCase();
+                            const category = newSkill.category.toLowerCase();
+                            const skillType = newSkill.skillType.toLowerCase();
+                            
+                            // Technical skills mapping to departments
+                            if (skillType === 'technical') {
+                              if (category === 'programming' && (
+                                deptName.includes('it') || 
+                                deptName.includes('technology') || 
+                                deptName.includes('development') ||
+                                deptName.includes('engineering') ||
+                                deptName.includes('software')
+                              )) return true;
+                              
+                              if (category === 'data' && (
+                                deptName.includes('data') || 
+                                deptName.includes('analytics') || 
+                                deptName.includes('business intelligence') ||
+                                deptName.includes('research')
+                              )) return true;
+                              
+                              if (category === 'cloud' && (
+                                deptName.includes('it') || 
+                                deptName.includes('infrastructure') || 
+                                deptName.includes('operations') ||
+                                deptName.includes('technology')
+                              )) return true;
+                              
+                              if (category === 'management' && (
+                                deptName.includes('management') || 
+                                deptName.includes('executive') || 
+                                deptName.includes('administration') ||
+                                deptName.includes('operations')
+                              )) return true;
+                              
+                              if (category === 'finance' && (
+                                deptName.includes('finance') || 
+                                deptName.includes('accounting') || 
+                                deptName.includes('treasury') ||
+                                deptName.includes('audit')
+                              )) return true;
+                              
+                              if (category === 'hr' && (
+                                deptName.includes('hr') || 
+                                deptName.includes('human resources') || 
+                                deptName.includes('talent') ||
+                                deptName.includes('people')
+                              )) return true;
+                              
+                              if (category === 'sales' && (
+                                deptName.includes('sales') || 
+                                deptName.includes('marketing') || 
+                                deptName.includes('business development') ||
+                                deptName.includes('commercial')
+                              )) return true;
+                              
+                              if (category === 'operations' && (
+                                deptName.includes('operations') || 
+                                deptName.includes('production') || 
+                                deptName.includes('logistics') ||
+                                deptName.includes('supply')
+                              )) return true;
+                            }
+                            
+                            // Behavioral skills - more broadly applicable
+                            if (skillType === 'behavioral') {
+                              if (category === 'leadership') {
+                                // Leadership skills relevant to management departments
+                                return deptName.includes('management') || 
+                                       deptName.includes('executive') || 
+                                       deptName.includes('operations') ||
+                                       deptName.includes('hr');
+                              }
+                              
+                              if (category === 'communication') {
+                                // Communication skills relevant to customer-facing departments
+                                return deptName.includes('sales') || 
+                                       deptName.includes('marketing') || 
+                                       deptName.includes('support') ||
+                                       deptName.includes('customer');
+                              }
+                            }
+                            
+                            // Default: show all if no specific mapping or for general skills
+                            return true;
+                          });
+                          
+                          return filteredDepartments.length > 0 ? (
+                            filteredDepartments.map((dept) => (
+                              <SelectItem key={dept} value={dept} className="cursor-pointer hover:bg-accent">
+                                {dept}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="no-relevant-departments" disabled>
+                              {language === 'ar' ? 'لا توجد أقسام مناسبة لهذه المهارة' : 'No relevant departments for this skill'}
+                            </SelectItem>
+                          );
+                        })()}
                       </SelectContent>
                     </Select>
                     {newSkill.requiredForDepartments.length > 0 && (
