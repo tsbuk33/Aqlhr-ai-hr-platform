@@ -212,15 +212,22 @@ const getPlatformModules = (isArabic: boolean) => [
     title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", 
     url: "/consulting", 
     icon: GraduationCap,
-    badge: "12",
+    badge: "NEW",
     color: "teal",
     subItems: [
+      { title: isArabic ? "التقييم الاستراتيجي الذكي" : "AI Strategic Assessment", url: "/consulting/ai-assessment", badge: "NEW" },
       { title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/consulting/strategic-planning" },
       { title: isArabic ? "التحول الرقمي" : "Digital Transformation", url: "/consulting/digital-transformation" },
       { title: isArabic ? "إدارة التغيير" : "Change Management", url: "/consulting/change-management" },
       { title: isArabic ? "تحليل المعايير المرجعية" : "Benchmarking Analysis", url: "/consulting/benchmarking" },
       { title: isArabic ? "تحويل الثقافة" : "Culture Transformation", url: "/consulting/culture-transformation" },
       { title: isArabic ? "تطوير القيادة" : "Leadership Development", url: "/consulting/leadership" },
+      { title: isArabic ? "تحسين الموارد البشرية" : "HR Optimization", url: "/consulting/hr-optimization" },
+      { title: isArabic ? "إعادة الهيكلة التنظيمية" : "Organizational Restructuring", url: "/consulting/restructuring" },
+      { title: isArabic ? "دمج عمليات الاندماج" : "Merger Integration", url: "/consulting/merger-integration" },
+      { title: isArabic ? "استراتيجية المواهب" : "Talent Strategy", url: "/consulting/talent-strategy" },
+      { title: isArabic ? "التعويضات التنفيذية" : "Executive Compensation", url: "/consulting/executive-compensation" },
+      { title: isArabic ? "تقييم المخاطر" : "Risk Assessment", url: "/consulting/risk-assessment" }
     ]
   },
 
