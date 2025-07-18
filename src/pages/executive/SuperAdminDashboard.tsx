@@ -14,7 +14,7 @@ import {
   UserCheck, Star, Award, Briefcase, BarChart3, 
   PieChart, LineChart, Map, Calendar, Bell
 } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface PlatformMetrics {
   totalRevenue: number;
@@ -36,8 +36,7 @@ interface RecentActivity {
 }
 
 const SuperAdminDashboard: React.FC = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { language, isArabic } = useSimpleLanguage();
   
   const [selectedTab, setSelectedTab] = useState('overview');
   const [metrics, setMetrics] = useState<PlatformMetrics>({
