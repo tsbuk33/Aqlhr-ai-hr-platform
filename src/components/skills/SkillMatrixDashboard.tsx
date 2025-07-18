@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Plus, Target, TrendingUp, Users, Award, Search, Filter, BarChart3, Zap } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
+import { useDepartments } from '@/hooks/useDepartments';
+import { usePositions } from '@/hooks/usePositions';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -46,6 +48,8 @@ interface SkillGap {
 export const SkillMatrixDashboard: React.FC = () => {
   const { language, isRTL } = useLanguage();
   const { toast } = useToast();
+  const { departments, loading: departmentsLoading } = useDepartments();
+  const { positions: existingPositions, loading: positionsLoading } = usePositions();
   const [activeTab, setActiveTab] = useState('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -58,7 +62,9 @@ export const SkillMatrixDashboard: React.FC = () => {
     description: '',
     proficiencyLevels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
     industryRelevance: '',
-    requiredFor: [] as string[]
+    requiredFor: [] as string[],
+    requiredForPositions: [] as string[],
+    requiredForDepartments: [] as string[]
   });
 
   // Comprehensive skills library organized by job position categories
@@ -623,6 +629,127 @@ export const SkillMatrixDashboard: React.FC = () => {
                   />
                 </div>
 
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="required-positions">
+                      {language === 'ar' ? 'مطلوبة للمناصب' : 'Required for Positions'}
+                    </Label>
+                    <Select 
+                      disabled={positionsLoading}
+                      onValueChange={(value) => {
+                        if (!newSkill.requiredForPositions.includes(value)) {
+                          setNewSkill({
+                            ...newSkill, 
+                            requiredForPositions: [...newSkill.requiredForPositions, value]
+                          });
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                        <SelectValue placeholder={
+                          positionsLoading 
+                            ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                            : (language === 'ar' ? 'اختر المناصب...' : 'Select positions...')
+                        } />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
+                        {positionsLoading ? (
+                          <SelectItem value="loading" disabled>
+                            {language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...'}
+                          </SelectItem>
+                        ) : existingPositions.length > 0 ? (
+                          existingPositions.map((position) => (
+                            <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
+                              <div className="flex justify-between items-center w-full">
+                                <span>{language === 'ar' && position.titleAr ? position.titleAr : position.title}</span>
+                                {position.department && (
+                                  <Badge variant="outline" className="text-xs ml-2">
+                                    {position.department}
+                                  </Badge>
+                                )}
+                              </div>
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="no-positions" disabled>
+                            {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                    {newSkill.requiredForPositions.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {newSkill.requiredForPositions.map((position, index) => (
+                          <Badge key={index} variant="secondary" className="cursor-pointer" onClick={() => {
+                            setNewSkill({
+                              ...newSkill,
+                              requiredForPositions: newSkill.requiredForPositions.filter(p => p !== position)
+                            });
+                          }}>
+                            {position} ×
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="required-departments">
+                      {language === 'ar' ? 'مطلوبة للأقسام' : 'Required for Departments'}
+                    </Label>
+                    <Select 
+                      disabled={departmentsLoading}
+                      onValueChange={(value) => {
+                        if (!newSkill.requiredForDepartments.includes(value)) {
+                          setNewSkill({
+                            ...newSkill, 
+                            requiredForDepartments: [...newSkill.requiredForDepartments, value]
+                          });
+                        }
+                      }}
+                    >
+                      <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                        <SelectValue placeholder={
+                          departmentsLoading 
+                            ? (language === 'ar' ? 'جاري التحميل...' : 'Loading...') 
+                            : (language === 'ar' ? 'اختر الأقسام...' : 'Select departments...')
+                        } />
+                      </SelectTrigger>
+                      <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
+                        {departmentsLoading ? (
+                          <SelectItem value="loading" disabled>
+                            {language === 'ar' ? 'جاري تحميل الأقسام...' : 'Loading departments...'}
+                          </SelectItem>
+                        ) : departments.length > 0 ? (
+                          departments.map((dept) => (
+                            <SelectItem key={dept} value={dept} className="cursor-pointer hover:bg-accent">
+                              {dept}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="no-departments" disabled>
+                            {language === 'ar' ? 'لا توجد أقسام متاحة' : 'No departments available'}
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                    {newSkill.requiredForDepartments.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {newSkill.requiredForDepartments.map((dept, index) => (
+                          <Badge key={index} variant="secondary" className="cursor-pointer" onClick={() => {
+                            setNewSkill({
+                              ...newSkill,
+                              requiredForDepartments: newSkill.requiredForDepartments.filter(d => d !== dept)
+                            });
+                          }}>
+                            {dept} ×
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="flex justify-end gap-3 pt-4">
                   <Button variant="outline" onClick={() => setIsAddSkillOpen(false)}>
                     {language === 'ar' ? 'إلغاء' : 'Cancel'}
@@ -641,7 +768,9 @@ export const SkillMatrixDashboard: React.FC = () => {
                       description: '',
                       proficiencyLevels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'],
                       industryRelevance: '',
-                      requiredFor: []
+                      requiredFor: [],
+                      requiredForPositions: [],
+                      requiredForDepartments: []
                     });
                   }}>
                     {language === 'ar' ? 'إضافة المهارة' : 'Add Skill'}

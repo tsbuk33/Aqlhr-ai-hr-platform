@@ -325,22 +325,82 @@ export const JobAnalysisWorkspace: React.FC = () => {
                       <Label htmlFor="position-title">
                         {language === 'ar' ? 'المسمى الوظيفي (الإنجليزية)' : 'Position Title (English)'}
                       </Label>
+                      <Select
+                        value={newPosition.title}
+                        onValueChange={(value) => {
+                          const selectedPos = existingPositions.find(pos => pos.title === value);
+                          setNewPosition({
+                            ...newPosition, 
+                            title: value,
+                            titleAr: selectedPos?.titleAr || '',
+                            department: selectedPos?.department || newPosition.department
+                          });
+                        }}
+                      >
+                        <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                          <SelectValue placeholder={language === 'ar' ? 'اختر أو أدخل المسمى الوظيفي' : 'Select or enter position title'} />
+                        </SelectTrigger>
+                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
+                          {existingPositions.map((position) => (
+                            <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
+                              <div className="flex justify-between items-center w-full">
+                                <span>{position.title}</span>
+                                {position.department && (
+                                  <Badge variant="outline" className="text-xs ml-2">
+                                    {position.department}
+                                  </Badge>
+                                )}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <Input
-                        id="position-title"
+                        className="mt-2"
                         value={newPosition.title}
                         onChange={(e) => setNewPosition({...newPosition, title: e.target.value})}
-                        placeholder={language === 'ar' ? 'أدخل المسمى الوظيفي' : 'Enter position title'}
+                        placeholder={language === 'ar' ? 'أو أدخل مسمى جديد' : 'Or enter new title'}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="position-title-ar">
                         {language === 'ar' ? 'المسمى الوظيفي (العربية)' : 'Position Title (Arabic)'}
                       </Label>
+                      <Select
+                        value={newPosition.titleAr}
+                        onValueChange={(value) => {
+                          const selectedPos = existingPositions.find(pos => pos.titleAr === value);
+                          setNewPosition({
+                            ...newPosition, 
+                            titleAr: value,
+                            title: selectedPos?.title || newPosition.title,
+                            department: selectedPos?.department || newPosition.department
+                          });
+                        }}
+                      >
+                        <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground">
+                          <SelectValue placeholder={language === 'ar' ? 'اختر أو أدخل المسمى الوظيفي بالعربية' : 'Select or enter position title in Arabic'} />
+                        </SelectTrigger>
+                        <SelectContent className="bg-popover border border-border shadow-md max-h-[200px] overflow-y-auto">
+                          {existingPositions.filter(pos => pos.titleAr).map((position) => (
+                            <SelectItem key={position.titleAr} value={position.titleAr!} className="cursor-pointer hover:bg-accent">
+                              <div className="flex justify-between items-center w-full">
+                                <span>{position.titleAr}</span>
+                                {position.department && (
+                                  <Badge variant="outline" className="text-xs ml-2">
+                                    {position.department}
+                                  </Badge>
+                                )}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <Input
-                        id="position-title-ar"
+                        className="mt-2"
                         value={newPosition.titleAr}
                         onChange={(e) => setNewPosition({...newPosition, titleAr: e.target.value})}
-                        placeholder={language === 'ar' ? 'أدخل المسمى الوظيفي بالعربية' : 'Enter position title in Arabic'}
+                        placeholder={language === 'ar' ? 'أو أدخل مسمى جديد بالعربية' : 'Or enter new title in Arabic'}
                       />
                     </div>
                   </div>
@@ -493,19 +553,43 @@ export const JobAnalysisWorkspace: React.FC = () => {
                       <Label htmlFor="salary-grade">
                         {language === 'ar' ? 'درجة الراتب' : 'Salary Grade'}
                       </Label>
-                      <Select value={newPosition.salaryGrade} onValueChange={(value) => setNewPosition({...newPosition, salaryGrade: value})}>
+                      <Select value={newPosition.salaryGrade} onValueChange={(value) => {
+                        // Auto-populate salary band based on grade
+                        const gradeBands: Record<string, { min: string; max: string }> = {
+                          'grade-1': { min: '3000', max: '4500' },
+                          'grade-2': { min: '4000', max: '6000' },
+                          'grade-3': { min: '5500', max: '8000' },
+                          'grade-4': { min: '7000', max: '10500' },
+                          'grade-5': { min: '9000', max: '13500' },
+                          'grade-6': { min: '11500', max: '17000' },
+                          'grade-7': { min: '14500', max: '21500' },
+                          'grade-8': { min: '18000', max: '27000' },
+                          'grade-9': { min: '22500', max: '33500' },
+                          'grade-10': { min: '28000', max: '42000' },
+                          'grade-11': { min: '35000', max: '52500' },
+                          'grade-12': { min: '43500', max: '65000' },
+                          'grade-13': { min: '54000', max: '81000' },
+                          'grade-14': { min: '67500', max: '101000' },
+                          'grade-15': { min: '84000', max: '126000' }
+                        };
+                        
+                        const band = gradeBands[value];
+                        setNewPosition({
+                          ...newPosition, 
+                          salaryGrade: value,
+                          minSalary: band?.min || '',
+                          maxSalary: band?.max || ''
+                        });
+                      }}>
                         <SelectTrigger>
                           <SelectValue placeholder={language === 'ar' ? 'اختر الدرجة' : 'Select grade'} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="grade-8">Grade 8</SelectItem>
-                          <SelectItem value="grade-9">Grade 9</SelectItem>
-                          <SelectItem value="grade-10">Grade 10</SelectItem>
-                          <SelectItem value="grade-11">Grade 11</SelectItem>
-                          <SelectItem value="grade-12">Grade 12</SelectItem>
-                          <SelectItem value="grade-13">Grade 13</SelectItem>
-                          <SelectItem value="grade-14">Grade 14</SelectItem>
-                          <SelectItem value="grade-15">Grade 15</SelectItem>
+                          {Array.from({ length: 15 }, (_, i) => i + 1).map(grade => (
+                            <SelectItem key={grade} value={`grade-${grade}`}>
+                              {language === 'ar' ? `الدرجة ${grade}` : `Grade ${grade}`}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
