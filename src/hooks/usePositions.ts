@@ -43,7 +43,7 @@ export const usePositions = () => {
           department
         `)
         .not('position', 'is', null)
-        .neq('position', '');
+        .not('position', 'eq', '');
 
       if (error) throw error;
 
