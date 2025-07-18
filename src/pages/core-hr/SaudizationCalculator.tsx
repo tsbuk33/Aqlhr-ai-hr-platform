@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Users, 
@@ -1150,17 +1150,17 @@ const SaudizationCalculator = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <UniversalDocumentManager
+                moduleName="Saudization Calculator"
+                moduleNameAr="حاسبة السعودة"
+                description="Upload Nitaqat reports, employee nationality reports, GOSI data, and Saudization compliance documents"
+                descriptionAr="رفع تقارير نطاقات وتقارير جنسيات الموظفين وبيانات التأمينات ووثائق امتثال السعودة"
                 platform="saudization"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                    description: isRTL ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي` : `${file.name} uploaded and processed with AI`
-                  });
-                }}
-                acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/csv']}
-                maxFileSize={20}
+                moduleType="hr"
+                acceptedTypes={['.pdf', '.xlsx', '.xls', '.csv', '.doc', '.docx']}
+                maxFileSize={25 * 1024 * 1024}
+                maxFiles={35}
+                showAsCard={false}
               />
             </CardContent>
           </Card>

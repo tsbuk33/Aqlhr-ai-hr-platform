@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -97,36 +97,17 @@ const PerformanceManagement = () => {
         </TabsContent>
         
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {isRTL ? "رفع الوثائق" : "Document Upload"}
-              </CardTitle>
-              <CardDescription>
-                {isRTL 
-                  ? "رفع ومعالجة وثائق إدارة الأداء والتقييمات" 
-                  : "Upload and process performance management documents and evaluations"
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="performance-management"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: isRTL ? "تم معالجة الملف بنجاح" : "File processed successfully",
-                    description: isRTL 
-                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
-                      : `${file.name} has been uploaded and processed with AI`,
-                  });
-                }}
-                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
-                maxFileSize={10 * 1024 * 1024}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Performance Management"
+            moduleNameAr="إدارة الأداء"
+            description="Upload performance reviews, KPI reports, evaluation forms, and goal-setting documents"
+            descriptionAr="رفع مراجعات الأداء وتقارير مؤشرات الأداء ونماذج التقييم ووثائق وضع الأهداف"
+            platform="performance-management"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.pptx']}
+            maxFileSize={15 * 1024 * 1024}
+            maxFiles={25}
+          />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
@@ -74,31 +74,17 @@ const CompensationBenefits = () => {
         </TabsContent>
 
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {t('core_hr.upload_documents') || 'Upload Documents'}
-              </CardTitle>
-              <CardDescription>
-                {t('core_hr.upload_compensation_docs') || 'Upload compensation and benefits files for AI processing'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="compensation-benefits"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: t('core_hr.file_processed') || "File processed successfully",
-                    description: t('core_hr.file_processed_desc') || `${file.name} has been processed and analyzed.`,
-                  });
-                }}
-                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
-                maxFileSize={10}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Compensation & Benefits"
+            moduleNameAr="التعويضات والمزايا"
+            description="Upload salary structures, compensation policies, benefit plans, and wage surveys"
+            descriptionAr="رفع هياكل الرواتب وسياسات التعويض وخطط المزايا ومسوحات الأجور"
+            platform="compensation-benefits"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv', '.xls']}
+            maxFileSize={20 * 1024 * 1024}
+            maxFiles={25}
+          />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -101,36 +101,17 @@ const BenefitsAdministration = () => {
         </TabsContent>
         
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {isRTL ? "رفع الوثائق" : "Document Upload"}
-              </CardTitle>
-              <CardDescription>
-                {isRTL 
-                  ? "رفع ومعالجة وثائق إدارة المزايا والمطالبات" 
-                  : "Upload and process benefits administration and claims documents"
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="benefits-administration"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: isRTL ? "تم معالجة الملف بنجاح" : "File processed successfully",
-                    description: isRTL 
-                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
-                      : `${file.name} has been uploaded and processed with AI`,
-                  });
-                }}
-                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
-                maxFileSize={10 * 1024 * 1024}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Benefits Administration"
+            moduleNameAr="إدارة المزايا"
+            description="Upload benefits policies, claims, insurance documents, and employee benefit records"
+            descriptionAr="رفع سياسات المزايا والمطالبات ووثائق التأمين وسجلات مزايا الموظفين"
+            platform="benefits-administration"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.jpg', '.jpeg', '.png']}
+            maxFileSize={15 * 1024 * 1024}
+            maxFiles={20}
+          />
         </TabsContent>
       </Tabs>
     </div>

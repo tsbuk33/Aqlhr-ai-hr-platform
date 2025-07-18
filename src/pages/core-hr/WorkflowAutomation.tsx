@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
@@ -74,31 +74,17 @@ const WorkflowAutomation = () => {
         </TabsContent>
 
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {t('core_hr.upload_documents') || 'Upload Documents'}
-              </CardTitle>
-              <CardDescription>
-                {t('core_hr.upload_workflow_docs') || 'Upload workflow automation files for AI processing'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="workflow-automation"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: t('core_hr.file_processed') || "File processed successfully",
-                    description: t('core_hr.file_processed_desc') || `${file.name} has been processed and analyzed.`,
-                  });
-                }}
-                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
-                maxFileSize={10}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Workflow Automation"
+            moduleNameAr="أتمتة سير العمل"
+            description="Upload workflow diagrams, process documentation, automation scripts, and system configurations"
+            descriptionAr="رفع مخططات سير العمل ووثائق العمليات ونصوص الأتمتة وتكوينات النظام"
+            platform="workflow-automation"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv', '.bpmn', '.json', '.xml']}
+            maxFileSize={25 * 1024 * 1024}
+            maxFiles={35}
+          />
         </TabsContent>
       </Tabs>
     </div>

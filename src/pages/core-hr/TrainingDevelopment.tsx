@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -106,31 +106,17 @@ const TrainingDevelopment = () => {
         </TabsContent>
         
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {language === 'ar' ? 'رفع ملفات التدريب' : 'Upload Training Files'}
-              </CardTitle>
-              <CardDescription>
-                {language === 'ar' ? 'ارفع ملفات برامج التدريب والشهادات للمعالجة بالذكاء الاصطناعي' : 'Upload training program files and certificates for AI processing'}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="training-development"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: language === 'ar' ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                    description: language === 'ar' ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي` : `${file.name} uploaded and processed with AI`
-                  });
-                }}
-                acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-                maxFileSize={15}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Training & Development"
+            moduleNameAr="التدريب والتطوير"
+            description="Upload training materials, course certificates, TVTC documents, and professional development plans"
+            descriptionAr="رفع مواد التدريب وشهادات الدورات ووثائق التقنية والمهني وخطط التطوير المهني"
+            platform="training-development"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.pptx', '.mp4', '.zip']}
+            maxFileSize={30 * 1024 * 1024}
+            maxFiles={40}
+          />
         </TabsContent>
       </Tabs>
     </div>

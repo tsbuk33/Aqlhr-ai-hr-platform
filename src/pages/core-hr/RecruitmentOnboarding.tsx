@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -265,19 +265,17 @@ const RecruitmentOnboarding = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <UniversalDocumentManager
+                moduleName="Recruitment & Onboarding"
+                moduleNameAr="التوظيف والإعداد"
+                description="Upload CVs, job descriptions, interview notes, offer letters, and onboarding documents"
+                descriptionAr="رفع السير الذاتية ووصف الوظائف وملاحظات المقابلات وخطابات العروض ووثائق الإعداد"
                 platform="recruitment-onboarding"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
-                    description: language === 'ar' ? 
-                      `تم معالجة وتحليل ${file.name}.` : 
-                      `${file.name} has been processed and analyzed.`,
-                  });
-                }}
-                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
-                maxFileSize={10}
+                moduleType="hr"
+                acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.csv', '.jpg', '.jpeg', '.png']}
+                maxFileSize={20 * 1024 * 1024}
+                maxFiles={40}
+                showAsCard={false}
               />
             </CardContent>
           </Card>

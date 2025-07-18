@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Upload, User, Star, TrendingUp, AlertCircle, Calendar, Camera } from "lucide-react";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 
@@ -437,19 +437,17 @@ const SuccessionPlanningCore = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <UniversalDocumentManager
+                moduleName="Succession Planning"
+                moduleNameAr="تخطيط التعاقب الوظيفي"
+                description="Upload succession plans, talent assessments, development plans, and leadership evaluation documents"
+                descriptionAr="رفع خطط التعاقب وتقييمات المواهب وخطط التطوير ووثائق تقييم القيادة"
                 platform="succession-planning"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
-                    description: language === 'ar' ? 
-                      `تم معالجة وتحليل ${file.name}.` : 
-                      `${file.name} has been processed and analyzed.`,
-                  });
-                }}
-                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv']}
-                maxFileSize={10}
+                moduleType="hr"
+                acceptedTypes={['.pdf', '.docx', '.xlsx', '.csv', '.pptx']}
+                maxFileSize={20 * 1024 * 1024}
+                maxFiles={30}
+                showAsCard={false}
               />
             </CardContent>
           </Card>

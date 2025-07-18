@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -96,36 +96,17 @@ const LeaveManagement = () => {
         </TabsContent>
         
         <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {language === 'ar' ? "رفع الوثائق" : "Document Upload"}
-              </CardTitle>
-              <CardDescription>
-                {language === 'ar' 
-                  ? "رفع ومعالجة وثائق إدارة الإجازات والطلبات" 
-                  : "Upload and process leave management documents and requests"
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <AqlAIFileProcessor
-                platform="leave-management"
-                moduleType="core-hr"
-                onFileProcessed={(file) => {
-                  toast({
-                    title: language === 'ar' ? "تم معالجة الملف بنجاح" : "File processed successfully",
-                    description: language === 'ar' 
-                      ? `تم رفع ${file.name} ومعالجته بالذكاء الاصطناعي`
-                      : `${file.name} has been uploaded and processed with AI`,
-                  });
-                }}
-                acceptedTypes={['.xlsx', '.xls', '.pdf', '.doc', '.docx']}
-                maxFileSize={10 * 1024 * 1024}
-              />
-            </CardContent>
-          </Card>
+          <UniversalDocumentManager
+            moduleName="Leave Management"
+            moduleNameAr="إدارة الإجازات"
+            description="Upload leave policies, vacation requests, medical certificates, and leave balance reports"
+            descriptionAr="رفع سياسات الإجازات وطلبات الإجازات والشهادات الطبية وتقارير أرصدة الإجازات"
+            platform="leave-management"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.jpg', '.jpeg', '.png']}
+            maxFileSize={15 * 1024 * 1024}
+            maxFiles={25}
+          />
         </TabsContent>
       </Tabs>
     </div>
