@@ -62,7 +62,7 @@ const McKinseyPresentationGenerator: React.FC = () => {
   const [assessments, setAssessments] = useState<AssessmentData[]>([]);
   const [presentations, setPresentations] = useState<any[]>([]);
   const [generationProgress, setGenerationProgress] = useState<Record<string, number>>({});
-  const [selectedAssessment, setSelectedAssessment] = useState<AssessmentData | null>(null);
+  console.log('🎯 McKinsey Presentation Generator - Component Loaded Successfully');
 
   // McKinsey-style presentation templates
   const presentationTemplates: Record<string, PresentationTemplate> = {
@@ -273,18 +273,32 @@ const McKinseyPresentationGenerator: React.FC = () => {
   };
 
   const generatePresentation = async (assessment: AssessmentData, templateType: string) => {
+    console.log('🚀 Starting presentation generation for:', { 
+      company: assessment.companyName, 
+      template: templateType,
+      assessment 
+    });
+    
     const template = presentationTemplates[templateType];
-    if (!template) return null;
+    if (!template) {
+      console.error('❌ Template not found:', templateType);
+      return null;
+    }
 
+    console.log('📋 Using template:', template.name);
     setGenerationProgress(prev => ({ ...prev, [assessment.companyName]: 0 }));
 
     // Simulate presentation generation with progress updates
     const steps = template.slides.length;
+    console.log('📊 Generating', steps, 'slides');
+    
     for (let i = 0; i < steps; i++) {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      const progress = Math.round(((i + 1) / steps) * 100);
+      console.log(`⏳ Progress: ${progress}% - Slide ${i + 1}/${steps}: ${template.slides[i].title}`);
       setGenerationProgress(prev => ({ 
         ...prev, 
-        [assessment.companyName]: Math.round(((i + 1) / steps) * 100) 
+        [assessment.companyName]: progress
       }));
     }
 

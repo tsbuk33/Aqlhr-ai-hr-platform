@@ -58,7 +58,7 @@ const AutomatedDeliveryEngine: React.FC = () => {
   const [deliveryQueue, setDeliveryQueue] = useState<DeliverySchedule[]>([]);
   const [emailTemplates, setEmailTemplates] = useState<DeliveryTemplate[]>([]);
   const [autoDeliveryEnabled, setAutoDeliveryEnabled] = useState(true);
-  const [selectedTemplate, setSelectedTemplate] = useState<string>('');
+  console.log('📧 Automated Delivery Engine - Component Loaded Successfully');
 
   // Professional email templates
   const defaultEmailTemplates: DeliveryTemplate[] = [
