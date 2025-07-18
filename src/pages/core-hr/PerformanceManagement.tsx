@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -111,7 +111,7 @@ const PerformanceManagement = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <SanadAIFileProcessor
                 platform="performance-management"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

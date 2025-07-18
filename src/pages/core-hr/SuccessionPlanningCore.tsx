@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Upload, User, Star, TrendingUp, AlertCircle, Calendar, Camera } from "lucide-react";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 
@@ -437,7 +437,7 @@ const SuccessionPlanningCore = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <SanadAIFileProcessor
                 platform="succession-planning"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

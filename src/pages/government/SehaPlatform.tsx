@@ -4,7 +4,7 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Activity, CheckCircle, Clock, Shield, Heart, Users, FileText, TrendingUp, Stethoscope, Pill } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -227,7 +227,7 @@ const SehaPlatform = () => {
           </TabsContent>
           
           <TabsContent value="upload" className="space-y-6">
-            <AqlAIFileProcessor
+            <SanadAIFileProcessor
               platform="seha"
               moduleType="government"
               onFileProcessed={(file) => {

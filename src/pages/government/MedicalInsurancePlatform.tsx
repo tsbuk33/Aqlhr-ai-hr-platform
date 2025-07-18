@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -139,7 +139,7 @@ const MedicalInsurancePlatform = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <SanadAIFileProcessor
             platform="medical-insurance"
             moduleType="government"
             onFileProcessed={(file) => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -175,7 +175,7 @@ const SaudiPostVerification = () => {
       id: 'upload',
       label: isRTL ? 'رفع الملفات' : 'File Upload',
       content: (
-        <AqlAIFileProcessor
+        <SanadAIFileProcessor
           platform="saudi_post"
           moduleType="government"
           acceptedTypes={[".pdf",".xlsx",".xls",".csv",".doc",".docx"]}

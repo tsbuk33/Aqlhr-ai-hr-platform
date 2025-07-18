@@ -4,7 +4,7 @@ import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard"
 import { FocusManager } from "@/components/accessibility/FocusManager";
 import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { Activity, CheckCircle, Clock, Shield, Building2, Users, FileText, TrendingUp } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -158,7 +158,7 @@ const QiwaIntegration = () => {
           </TabsContent>
           
           <TabsContent value="upload" className="space-y-6">
-            <AqlAIFileProcessor
+            <SanadAIFileProcessor
               platform="qiwa"
               moduleType="government"
               onFileProcessed={(file) => {

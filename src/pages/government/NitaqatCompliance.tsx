@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -162,7 +162,7 @@ const NitaqatCompliance = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <SanadAIFileProcessor
             platform="nitaqat"
             moduleType="government"
             onFileProcessed={(file) => {

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
@@ -85,7 +85,7 @@ const MobileHR = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <AqlAIFileProcessor
+              <SanadAIFileProcessor
                 platform="mobile-hr"
                 moduleType="core-hr"
                 onFileProcessed={(file) => {

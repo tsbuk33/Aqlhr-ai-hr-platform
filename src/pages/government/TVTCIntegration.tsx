@@ -1,6 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
+import { SanadAIFileProcessor } from "@/components/sanad/SanadAIFileProcessor";
 import { GraduationCap, Users, Award, BookOpen, Clock, TrendingUp } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -232,7 +232,7 @@ const TVTCIntegration = () => {
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">
-          <AqlAIFileProcessor
+          <SanadAIFileProcessor
             platform="tvtc"
             moduleType="government"
             onFileProcessed={(file) => {
