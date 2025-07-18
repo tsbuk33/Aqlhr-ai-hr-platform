@@ -80,6 +80,15 @@ const getPlatformModules = (isArabic: boolean) => [
     ]
   },
 
+  // Skills Intelligence
+  { 
+    title: isArabic ? "ذكاء المهارات وتحليل الوظائف" : "Skills Intelligence", 
+    url: "/skills-intelligence", 
+    icon: Star,
+    badge: "NEW",
+    color: "amber"
+  },
+
   // AI & Analytics
   { 
     title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", 

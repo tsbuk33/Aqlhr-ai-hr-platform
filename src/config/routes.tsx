@@ -187,6 +187,9 @@ const ISOManagement = lazy(() => import('../pages/ISOManagement'));
 // Processes & Forms module
 const ProcessesAndForms = lazy(() => import('../pages/ProcessesAndForms'));
 
+// Skills Intelligence module
+const SkillIntelligence = lazy(() => import('../pages/skills/SkillIntelligence'));
+
 // Help module
 const Help = lazy(() => import('../pages/Help'));
 
@@ -206,6 +209,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
+  { path: '/skills-intelligence', element: SkillIntelligence, auth: true },
   { path: '/welfare-consultancy', element: WelfareConsultancy },
   { path: '/legal-consultant', element: LegalConsultant },
   { path: '/nrc-management', element: NRCManagement },
