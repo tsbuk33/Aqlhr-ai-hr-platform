@@ -68,7 +68,7 @@ const McKinseyPresentationGenerator: React.FC = () => {
   const presentationTemplates: Record<string, PresentationTemplate> = {
     ceo: {
       id: 'ceo',
-      name: isArabic ? 'عرض تنفيذي للرئيس التنفيذي' : 'CEO Executive Presentation',
+      name: isArabic ? 'عرض للرئيس التنفيذي' : 'CEO Executive Presentation',
       audience: 'ceo',
       slides: [
         {
