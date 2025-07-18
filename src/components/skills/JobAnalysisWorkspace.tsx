@@ -25,6 +25,7 @@ import {
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
 import { useDepartments } from '@/hooks/useDepartments';
+import { usePositions } from '@/hooks/usePositions';
 
 interface JobPosition {
   id: string;
@@ -64,6 +65,7 @@ export const JobAnalysisWorkspace: React.FC = () => {
   const { language, isRTL } = useLanguage();
   const { toast } = useToast();
   const { departments, loading: departmentsLoading } = useDepartments();
+  const { positions: existingPositions, loading: positionsLoading } = usePositions();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedPosition, setSelectedPosition] = useState<string | null>(null);
   const [isCreatePositionOpen, setIsCreatePositionOpen] = useState(false);
@@ -222,6 +224,68 @@ export const JobAnalysisWorkspace: React.FC = () => {
             }
           </p>
         </div>
+        
+        {/* Existing Positions Section */}
+        <div className="flex flex-col lg:flex-row gap-4 lg:items-center">
+          <div className="flex-1">
+            <label className="text-sm font-medium mb-2 block">
+              {language === 'ar' ? 'اختر من المناصب الموجودة' : 'Select from Existing Positions'}
+            </label>
+            <Select disabled={positionsLoading} onValueChange={(value) => {
+              const selectedPos = existingPositions.find(pos => pos.title === value);
+              if (selectedPos) {
+                toast({
+                  title: language === 'ar' ? 'تم اختيار المنصب' : 'Position Selected',
+                  description: language === 'ar' 
+                    ? `تم اختيار منصب "${selectedPos.title}" للتحليل`
+                    : `Position "${selectedPos.title}" selected for analysis`,
+                });
+                setSelectedPosition(value);
+              }
+            }}>
+              <SelectTrigger className="bg-background border border-input hover:bg-accent hover:text-accent-foreground z-50">
+                <SelectValue placeholder={
+                  positionsLoading 
+                    ? (language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...') 
+                    : (language === 'ar' ? 'اختر منصب موجود...' : 'Select existing position...')
+                } />
+              </SelectTrigger>
+              <SelectContent className="bg-popover border border-border shadow-md z-50 max-h-[300px] overflow-y-auto">
+                {positionsLoading ? (
+                  <SelectItem value="loading" disabled>
+                    {language === 'ar' ? 'جاري تحميل المناصب...' : 'Loading positions...'}
+                  </SelectItem>
+                ) : existingPositions.length > 0 ? (
+                  existingPositions.map((position) => (
+                    <SelectItem key={position.title} value={position.title} className="cursor-pointer hover:bg-accent">
+                      <div className="flex justify-between items-center w-full">
+                        <span>{language === 'ar' && position.titleAr ? position.titleAr : position.title}</span>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          {position.department && (
+                            <Badge variant="outline" className="text-xs">
+                              {position.department}
+                            </Badge>
+                          )}
+                          <span>({position.count} employees)</span>
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value="no-positions" disabled>
+                    {language === 'ar' ? 'لا توجد مناصب متاحة' : 'No positions available'}
+                  </SelectItem>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="text-center lg:text-left">
+            <div className="text-sm text-muted-foreground mb-2">
+              {language === 'ar' ? 'أو' : 'OR'}
+            </div>
+          </div>
+        </div>
+        
         <div className="flex gap-3">
           <Button 
             variant="outline" 
