@@ -128,12 +128,12 @@
     --primary-hover: 210 40% 95%;
 
     /* Brand Colors - Dark Mode Adjusted */
-    --brand-primary: 240 30% 85%;          /* Lighter for dark mode */
-    --brand-secondary: 120 60% 45%;        /* Adjusted green */
-    --brand-accent: 45 85% 60%;            /* Softer gold */
-    --brand-success: 120 60% 45%;
-    --brand-warning: 25 85% 60%;
-    --brand-danger: 0 75% 65%;
+    --brand-primary: 240 40% 90%;          /* Higher contrast for dark mode */
+    --brand-secondary: 120 70% 55%;        /* Brighter green for visibility */
+    --brand-accent: 45 90% 70%;            /* Brighter gold for contrast */
+    --brand-success: 120 70% 55%;          /* Better contrast */
+    --brand-warning: 25 90% 70%;           /* Improved visibility */
+    --brand-danger: 0 80% 70%;             /* Better readability */
 
     /* Secondary Colors - Dark */
     --secondary: 217.2 32.6% 17.5%;
