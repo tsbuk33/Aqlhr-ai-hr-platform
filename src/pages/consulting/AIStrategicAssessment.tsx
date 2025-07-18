@@ -606,7 +606,7 @@ const AIStrategicAssessment = () => {
           priority: isArabic ? "أولوية عالية" : "HIGH PRIORITY",
           solution: isArabic ? "مركز الذكاء التنفيذي (بريميوم)" : "Executive Intelligence Center (PREMIUM)",
           description: isArabic ? "حقق ذكاء القوى العاملة الاستراتيجي المستخدم من قبل شركات الطاقة الكبرى" : "Achieve strategic workforce intelligence used by major energy corporations",
-          investment: "$200,000-300,000",
+          investment: isArabic ? "750,000-1,125,000 ريال سعودي" : "SAR 750,000-1,125,000",
           roi: "320%"
         },
         {
@@ -614,7 +614,7 @@ const AIStrategicAssessment = () => {
           priority: isArabic ? "أولوية متوسطة" : "MEDIUM PRIORITY",
           solution: isArabic ? "التكامل الحكومي (21 منصة) + محرك الأتمتة بالذكاء الاصطناعي" : "Government Integrations (21 platforms) + AI Automation Engine",
           description: isArabic ? "اطابق التميز التشغيلي للشركات السعودية الرائدة" : "Match operational excellence of leading Saudi corporations",
-          investment: "$150,000-250,000",
+          investment: isArabic ? "562,500-937,500 ريال سعودي" : "SAR 562,500-937,500",
           roi: "280%"
         }
       ]
@@ -731,9 +731,9 @@ const AIStrategicAssessment = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { name: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", investment: "$150K-300K" },
-                { name: isArabic ? "التحول الرقمي" : "Digital Transformation", investment: "$200K-400K" },
-                { name: isArabic ? "إدارة التغيير" : "Change Management", investment: "$100K-200K" }
+                { name: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", investment: isArabic ? "562,500-1,125,000 ريال" : "SAR 562,500-1,125,000" },
+                { name: isArabic ? "التحول الرقمي" : "Digital Transformation", investment: isArabic ? "750,000-1,500,000 ريال" : "SAR 750,000-1,500,000" },
+                { name: isArabic ? "إدارة التغيير" : "Change Management", investment: isArabic ? "375,000-750,000 ريال" : "SAR 375,000-750,000" }
               ].map((service, index) => (
                 <Card key={index} className="text-center">
                   <CardContent className="pt-6">

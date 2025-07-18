@@ -184,8 +184,8 @@ export const UserPreferences = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="SAR">ريال سعودي (SAR)</SelectItem>
-                    <SelectItem value="USD">US Dollar (USD)</SelectItem>
-                    <SelectItem value="EUR">Euro (EUR)</SelectItem>
+                    <SelectItem value="USD">دولار أمريكي (USD)</SelectItem>
+                    <SelectItem value="EUR">يورو (EUR)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
