@@ -171,6 +171,7 @@ const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
+const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
 
 // Tools & Integrations module
 const Tools = lazy(() => import('../pages/Tools'));
@@ -198,7 +199,7 @@ const WelfareConsultancy = lazy(() => import('../pages/WelfareConsultancy'));
 
 export interface RouteConfig {
   path: string;
-  element: React.LazyExoticComponent<() => JSX.Element>;
+  element: React.LazyExoticComponent<React.ComponentType<any>>;
   auth?: boolean;
   adminOnly?: boolean;
 }
@@ -382,6 +383,9 @@ export const ROUTES: RouteConfig[] = [
   { path: '/analytics/visualization', element: DataVisualization, auth: true },
   { path: '/analytics/executive', element: ExecutiveReporting, auth: true },
   { path: '/analytics/employee-reports', element: EmployeeReports, auth: true, adminOnly: true },
+  
+  // Executive Intelligence Center - admin only
+  { path: '/executive-center', element: ExecutiveCenter, auth: true, adminOnly: true },
   
   // System Engineering - admin only
   { path: '/system-engineer', element: SystemEngineer, auth: true, adminOnly: true },
