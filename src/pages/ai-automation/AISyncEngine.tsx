@@ -92,7 +92,7 @@ const AISyncEngine = () => {
       gosi_integration: "GOSI Integration",
       qiwa_platform: "Qiwa Platform",
       mudad_integration: "Mudad Integration",
-      zatca_compliance: "ZATCA Compliance",
+      
       synced: "Synced",
       events_day: "events/day"
     },
@@ -108,7 +108,7 @@ const AISyncEngine = () => {
       gosi_integration: "تكامل التأمينات الاجتماعية",
       qiwa_platform: "منصة قوى",
       mudad_integration: "تكامل مداد",
-      zatca_compliance: "امتثال زاتكا",
+      
       synced: "متزامن",
       events_day: "حدث/يوم"
     }
@@ -460,7 +460,7 @@ const AISyncEngine = () => {
                     { nameKey: "gosi_integration", status: "synced", latency: "0.31s", events: "234" },
                     { nameKey: "qiwa_platform", status: "synced", latency: "0.28s", events: "156" },
                     { nameKey: "mudad_integration", status: "synced", latency: "0.25s", events: "89" },
-                    { nameKey: "zatca_compliance", status: "synced", latency: "0.33s", events: "67" }
+                    
                   ].map((module, index) => (
                     <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">

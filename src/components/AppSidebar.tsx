@@ -151,7 +151,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "مدد" : "Mudad Platform", url: "/government/mudad" },
       { title: isArabic ? "تكامل وزارة الموارد البشرية" : "HRSD Integration", url: "/government/mol" },
       { title: isArabic ? "دروب التقني" : "TVTC Doroob", url: "/government/tvtc" },
-      { title: isArabic ? "تكامل زاتكا" : "ZATCA Integration", url: "/government/zatca" },
+      
       { title: isArabic ? "تقييم قياس" : "Qiyas Assessment", url: "/government/qiyas" },
       { title: isArabic ? "اعتماد هيئة تقويم التعليم" : "NCAAA Accreditation", url: "/government/ncaaa" },
       { title: isArabic ? "وزارة التعليم" : "Education Ministry", url: "/government/education" },

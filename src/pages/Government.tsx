@@ -36,7 +36,7 @@ const Government = () => {
       value: 8,
       icon: Activity,
       variant: "primary" as const,
-      trend: { value: "ZATCA, Qiwa, GOSI, Absher", isPositive: true }
+      trend: { value: "21 Government Platforms", isPositive: true }
     },
     {
       title: language === 'ar' ? 'امتثال وزارة العمل' : 'MOL Compliance',

@@ -52,7 +52,7 @@ const MudadPlatform = lazy(() => import('../pages/government/MudadPlatform'));
 const NitaqatCompliance = lazy(() => import('../pages/government/NitaqatCompliance'));
 const TVTCIntegration = lazy(() => import('../pages/government/TVTCIntegration'));
 const MOLCompliance = lazy(() => import('../pages/government/MOLCompliance'));
-const ZATCAIntegration = lazy(() => import('../pages/government/ZATCAIntegration'));
+const AIStrategicAssessment = lazy(() => import('../pages/consulting/AIStrategicAssessment'));
 const ELMPlatform = lazy(() => import('../pages/government/ELMPlatform'));
 const SehaPlatform = lazy(() => import('../pages/government/SehaPlatform'));
 const CHIPlatform = lazy(() => import('../pages/government/CHIPlatform'));
@@ -328,7 +328,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/nitaqat', element: NitaqatCompliance, auth: true },
   { path: '/government/tvtc', element: TVTCIntegration, auth: true },
   { path: '/government/mol', element: MOLCompliance, auth: true },
-  { path: '/government/zatca', element: ZATCAIntegration, auth: true },
+  
   { path: '/government/elm', element: ELMPlatform, auth: true },
   { path: '/government/seha', element: SehaPlatform, auth: true },
   { path: '/government/chi', element: CHIPlatform, auth: true },
@@ -371,7 +371,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/strategic/experience', element: EmployeeExperience, auth: true },
   { path: '/strategic/transformation', element: HRTransformation, auth: true },
   
-  // Consulting Sub-routes
+// Consulting Sub-routes - AI Assessment Tool as #1 priority
+  { path: '/consulting/ai-assessment', element: AIStrategicAssessment, auth: true },
   { path: '/consulting/executive-compensation', element: ExecutiveCompensation, auth: true },
   { path: '/consulting/restructuring', element: OrganizationalRestructuring, auth: true },
   { path: '/consulting/culture', element: CultureTransformation, auth: true },

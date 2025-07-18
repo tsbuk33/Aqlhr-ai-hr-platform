@@ -145,7 +145,7 @@ const RealtimeDashboards = () => {
               { name: "CHI Platform", category: "Health Insurance", status: "connected", lastSync: "3 min ago", syncCount: "45" },
               { name: "HRSD Services", category: "Social Development", status: "connected", lastSync: "7 min ago", syncCount: "34" },
               { name: "TVTC/Doroob", category: "Training", status: "connected", lastSync: "4 min ago", syncCount: "56" },
-              { name: "ZATCA Integration", category: "Tax Authority", status: "connected", lastSync: "8 min ago", syncCount: "23" },
+              
               { name: "Qiyas Assessment", category: "Assessment", status: "connected", lastSync: "5 min ago", syncCount: "19" },
               { name: "NCAAA Platform", category: "Accreditation", status: "connected", lastSync: "9 min ago", syncCount: "12" },
               { name: "Ministry of Education", category: "Education", status: "connected", lastSync: "6 min ago", syncCount: "15" },

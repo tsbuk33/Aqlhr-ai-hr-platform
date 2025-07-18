@@ -59,11 +59,6 @@ export const GovernmentAPIIntegration = ({ onStatusChange }: GovernmentAPIIntegr
       status: 'connected',
       lastSync: '2024-01-15T08:30:00Z'
     },
-    zatca: {
-      endpoint: 'https://zatca.gov.sa/api/tax/v1',
-      status: 'testing',
-      lastSync: undefined
-    },
     elm: {
       endpoint: 'https://elm.sa/api/permits/v1',
       status: 'connected',
@@ -154,7 +149,7 @@ export const GovernmentAPIIntegration = ({ onStatusChange }: GovernmentAPIIntegr
       gosi: isRTL ? 'التأمينات الاجتماعية' : 'GOSI',
       absher: isRTL ? 'أبشر' : 'Absher',
       mudad: isRTL ? 'مداد' : 'Mudad',
-      zatca: isRTL ? 'الزكاة والضريبة' : 'ZATCA',
+      
       elm: isRTL ? 'علم' : 'ELM',
       tvtc: isRTL ? 'التدريب التقني' : 'TVTC'
     };
@@ -236,7 +231,7 @@ export const GovernmentAPIIntegration = ({ onStatusChange }: GovernmentAPIIntegr
                       {apiName === 'gosi' && <Shield className="h-5 w-5 text-success" />}
                       {apiName === 'absher' && <CheckCircle className="h-5 w-5 text-accent" />}
                       {apiName === 'mudad' && <CreditCard className="h-5 w-5 text-warning" />}
-                      {apiName === 'zatca' && <Activity className="h-5 w-5 text-destructive" />}
+                      
                       {apiName === 'elm' && <Globe className="h-5 w-5 text-primary" />}
                       {apiName === 'tvtc' && <Activity className="h-5 w-5 text-accent" />}
                       <CardTitle className="text-lg">{getAPIDisplayName(apiName)}</CardTitle>

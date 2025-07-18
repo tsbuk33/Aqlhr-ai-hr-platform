@@ -90,15 +90,6 @@ const ComplianceAutomationEngine = () => {
         realTimeMonitoring: true
       },
       {
-        platform: "ZATCA (Tax Authority)",
-        status: 'connected',
-        lastSync: new Date(Date.now() - 200000).toISOString(),
-        compliance: 94.7,
-        issues: 3,
-        autoResolved: 4,
-        realTimeMonitoring: true
-      },
-      {
         platform: "NCA Cybersecurity Framework",
         status: 'connected',
         lastSync: new Date(Date.now() - 100000).toISOString(),
@@ -134,14 +125,6 @@ const ComplianceAutomationEngine = () => {
         severity: 'low',
         autoFixable: true,
         estimatedTime: '5 minutes'
-      },
-      {
-        type: 'warning',
-        platform: 'ZATCA',
-        message: 'VAT calculation update required',
-        severity: 'medium',
-        autoFixable: true,
-        estimatedTime: '1 minute'
       }
     ];
 

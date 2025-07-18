@@ -92,7 +92,7 @@ const Payroll = () => {
       trend: { value: "SARIE connected", isPositive: true }
     },
     {
-      title: language === 'ar' ? 'امتثال الزكاة والضريبة' : 'ZATCA Compliance',
+      title: language === 'ar' ? 'الامتثال الحكومي' : 'Government Compliance',
       value: '98.5%',
       icon: FileText,
       variant: "warning" as const,

@@ -70,7 +70,7 @@ const PolicyUploadSystem = () => {
           analysisType: 'comprehensive_compliance',
           governmentIntegrations: [
             'mol_compliance', 'qiwa_integration', 'gosi_integration', 
-            'zatca_integration', 'seha_platform', 'tawakkalna_compliance',
+            'seha_platform', 'tawakkalna_compliance',
             'nitaqat_compliance', 'saudi_labor_law', 'pdpl_privacy'
           ]
         }
