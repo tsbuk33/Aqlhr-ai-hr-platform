@@ -29,7 +29,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 // Mock user role - in real app this would come from auth context
 const useAuth = () => {
   // For demo purposes - you can change this to test different roles
-  const userRole = 'super_admin'; // or 'client_ceo'
+  const userRole = 'client_ceo'; // or 'super_admin'
   const companyData = {
     name: 'Saudi Aramco',
     totalEmployees: '75,000',
