@@ -31,6 +31,7 @@ import { AqlMindCore } from '@/components/ai-ecosystem/AqlMindCore';
 import { AIDecisionEngine } from '@/components/ai-ecosystem/AIDecisionEngine';
 import { LearningEngine } from '@/components/ai-ecosystem/LearningEngine';
 import { IntelligenceGatherer } from '@/components/ai-ecosystem/IntelligenceGatherer';
+import { AdvancedPredictiveAnalytics } from '@/components/executive/AdvancedPredictiveAnalytics';
 
 const ExecutiveCenter: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -298,20 +299,7 @@ const ExecutiveCenter: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12">
-                <Brain className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-medium text-muted-foreground mb-2">
-                  Advanced Predictive Analytics Module
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                  This module will provide deep AI-powered insights including workforce trend predictions, 
-                  market analysis, competitive intelligence, and strategic recommendations.
-                </p>
-                <Button className="mt-4" variant="outline">
-                  <Zap className="h-4 w-4 mr-2" />
-                  Coming Soon - Advanced Analytics
-                </Button>
-              </div>
+              <AdvancedPredictiveAnalytics />
             </CardContent>
           </Card>
         )}
