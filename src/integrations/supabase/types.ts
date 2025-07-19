@@ -862,6 +862,48 @@ export type Database = {
         }
         Relationships: []
       }
+      cross_system_recommendations: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          employee_id: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          priority_score: number | null
+          recommendation_data: Json
+          recommendation_type: string
+          source_system: string
+          target_system: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          priority_score?: number | null
+          recommendation_data?: Json
+          recommendation_type: string
+          source_system: string
+          target_system: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          priority_score?: number | null
+          recommendation_data?: Json
+          recommendation_type?: string
+          source_system?: string
+          target_system?: string
+        }
+        Relationships: []
+      }
       employee_gosi_config: {
         Row: {
           created_at: string | null
@@ -1248,6 +1290,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      engagement_metrics_tracking: {
+        Row: {
+          collaboration_score: number | null
+          company_id: string | null
+          connections_made: number | null
+          created_at: string | null
+          employee_id: string | null
+          engagement_score: number | null
+          id: string
+          learning_correlation: number | null
+          measurement_date: string | null
+          pulse_response_rate: number | null
+          recognition_given: number | null
+          recognition_received: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          collaboration_score?: number | null
+          company_id?: string | null
+          connections_made?: number | null
+          created_at?: string | null
+          employee_id?: string | null
+          engagement_score?: number | null
+          id?: string
+          learning_correlation?: number | null
+          measurement_date?: string | null
+          pulse_response_rate?: number | null
+          recognition_given?: number | null
+          recognition_received?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          collaboration_score?: number | null
+          company_id?: string | null
+          connections_made?: number | null
+          created_at?: string | null
+          employee_id?: string | null
+          engagement_score?: number | null
+          id?: string
+          learning_correlation?: number | null
+          measurement_date?: string | null
+          pulse_response_rate?: number | null
+          recognition_given?: number | null
+          recognition_received?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       gosi_rate_history: {
         Row: {
@@ -2117,6 +2207,96 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      learning_engagement_insights: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          employee_id: string
+          engagement_impact_on_learning: number | null
+          id: string
+          learning_engagement_score: number | null
+          learning_impact_on_engagement: number | null
+          recommended_engagement_actions: Json | null
+          recommended_learning_actions: Json | null
+          skills_completion_rate: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id: string
+          engagement_impact_on_learning?: number | null
+          id?: string
+          learning_engagement_score?: number | null
+          learning_impact_on_engagement?: number | null
+          recommended_engagement_actions?: Json | null
+          recommended_learning_actions?: Json | null
+          skills_completion_rate?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          employee_id?: string
+          engagement_impact_on_learning?: number | null
+          id?: string
+          learning_engagement_score?: number | null
+          learning_impact_on_engagement?: number | null
+          recommended_engagement_actions?: Json | null
+          recommended_learning_actions?: Json | null
+          skills_completion_rate?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      learning_progress_tracking: {
+        Row: {
+          company_id: string | null
+          completion_percentage: number | null
+          created_at: string | null
+          current_level: number | null
+          employee_id: string | null
+          engagement_correlation: number | null
+          id: string
+          last_activity_date: string | null
+          learning_streak_days: number | null
+          skill_category: string | null
+          skill_name: string
+          target_level: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          completion_percentage?: number | null
+          created_at?: string | null
+          current_level?: number | null
+          employee_id?: string | null
+          engagement_correlation?: number | null
+          id?: string
+          last_activity_date?: string | null
+          learning_streak_days?: number | null
+          skill_category?: string | null
+          skill_name: string
+          target_level?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          completion_percentage?: number | null
+          created_at?: string | null
+          current_level?: number | null
+          employee_id?: string | null
+          engagement_correlation?: number | null
+          id?: string
+          last_activity_date?: string | null
+          learning_streak_days?: number | null
+          skill_category?: string | null
+          skill_name?: string
+          target_level?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       leave_balances: {
         Row: {

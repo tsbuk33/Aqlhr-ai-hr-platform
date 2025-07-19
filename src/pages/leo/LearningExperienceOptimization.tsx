@@ -4,11 +4,19 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter } from 'lucide-react';
+import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link } from 'lucide-react';
+import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
 
 const LearningExperienceOptimization: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  
+  // LEO-GEO Integration
+  const { 
+    getEngagementInsightsForLeo, 
+    getAggregatedInsights, 
+    loading: integrationLoading 
+  } = useLeoGeoIntegration();
 
   // Mock data for demonstration
   const learningStats = {
@@ -204,6 +212,10 @@ const LearningExperienceOptimization: React.FC = () => {
     ? skillsProgress 
     : skillsProgress.filter(skill => skill.category === selectedCategory);
 
+  // Get integrated insights
+  const engagementInsights = getEngagementInsightsForLeo();
+  const aggregatedInsights = getAggregatedInsights();
+
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-background to-muted/20 min-h-screen">
       {/* Header */}
@@ -278,6 +290,40 @@ const LearningExperienceOptimization: React.FC = () => {
         </TabsList>
 
         <TabsContent value="dashboard" className="space-y-6">
+          {/* LEO-GEO Integration Insights */}
+          {!integrationLoading && engagementInsights.length > 0 && (
+            <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Link className="h-5 w-5 text-primary" />
+                  GEO Engagement Insights
+                  <Badge variant="secondary" className="ml-2">
+                    <Heart className="h-3 w-3 mr-1" />
+                    Connected
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {engagementInsights.slice(0, 3).map((insight, index) => (
+                    <div key={index} className="p-3 bg-background/60 rounded-lg border">
+                      <h4 className="font-medium text-sm mb-1">{insight.title}</h4>
+                      <p className="text-xs text-muted-foreground mb-2">{insight.description}</p>
+                      <div className="flex justify-between items-center">
+                        <Badge variant="outline" className="text-xs">
+                          Priority: {Math.round(insight.priority)}
+                        </Badge>
+                        <Button size="sm" variant="ghost" className="text-xs">
+                          Apply Insight
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Continue Learning */}
             <Card className="lg:col-span-2">
