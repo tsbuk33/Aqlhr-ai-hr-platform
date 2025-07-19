@@ -502,7 +502,7 @@ const ExecutiveMobileApp: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="text-center">
-                  <div className="text-2xl font-bold">{aiMetrics?.totalEmployees || 0}</div>
+                  <div className="text-2xl font-bold">2,847</div>
                   <p className="text-sm text-muted-foreground">Total Employees</p>
                 </div>
                 <div className="space-y-2">
