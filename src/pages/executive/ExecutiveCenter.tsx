@@ -58,51 +58,61 @@ const ExecutiveCenter: React.FC = () => {
             <div className="text-right space-y-2">
               <div className="flex gap-2 justify-end mb-2">
                 <Button 
-                  variant="outline" 
-                  size="sm"
+                  variant="default" 
+                  size="lg"
                   onClick={() => navigate('/executive/mobile')}
-                  className="border-primary/20 text-primary hover:bg-primary/10"
+                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white font-semibold shadow-lg border-0 px-6 py-3"
                 >
-                  <Smartphone className="h-4 w-4 mr-2" />
-                  📱 Mobile Access
+                  <Smartphone className="h-5 w-5 mr-2" />
+                  📱 {isArabic ? 'الوصول المحمول' : 'Mobile Executive Access'}
                 </Button>
               </div>
-              <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
-                <Globe className="h-3 w-3 mr-1" />
-                Global Enterprise Ready
-              </Badge>
-              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                <Brain className="h-3 w-3 mr-1" />
-                26 AI Capabilities Active
-              </Badge>
-              <Badge variant="secondary" className="bg-warning/10 text-warning border-warning/20">
-                <Shield className="h-3 w-3 mr-1" />
-                22 Gov Integrations Live
-              </Badge>
+              <div className="flex flex-wrap gap-2 justify-end">
+                <Badge variant="secondary" className="bg-success/10 text-success border-success/20 text-sm px-3 py-1">
+                  <Globe className="h-4 w-4 mr-1" />
+                  {isArabic ? 'جاهز للمؤسسات العالمية' : 'Global Enterprise Ready'}
+                </Badge>
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-sm px-3 py-1">
+                  <Brain className="h-4 w-4 mr-1" />
+                  {isArabic ? '26 قدرة ذكاء اصطناعي نشطة' : '26 AI Capabilities Active'}
+                </Badge>
+                <Badge variant="secondary" className="bg-warning/10 text-warning border-warning/20 text-sm px-3 py-1">
+                  <Shield className="h-4 w-4 mr-1" />
+                  {isArabic ? '22 تكامل حكومي مباشر' : '22 Gov Integrations Live'}
+                </Badge>
+              </div>
             </div>
           </div>
           
           {/* Strategic Capabilities Overview */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mt-8">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-8">
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
               <div className="text-2xl font-bold text-primary">105+</div>
-              <div className="text-sm text-muted-foreground">Integrated Modules</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? 'الوحدات المتكاملة' : 'Integrated Modules'}</div>
             </div>
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
               <div className="text-2xl font-bold text-success">99.9%</div>
-              <div className="text-sm text-muted-foreground">System Uptime</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? 'وقت تشغيل النظام' : 'System Uptime'}</div>
             </div>
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-warning">Real-Time</div>
-              <div className="text-sm text-muted-foreground">Data Processing</div>
+              <div className="text-2xl font-bold text-warning">{isArabic ? 'فوري' : 'Real-Time'}</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? 'معالجة البيانات' : 'Data Processing'}</div>
             </div>
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-accent">Enterprise</div>
-              <div className="text-sm text-muted-foreground">Scale Ready</div>
+              <div className="text-2xl font-bold text-accent">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? 'جاهز للتوسع' : 'Scale Ready'}</div>
             </div>
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-primary">Saudi</div>
-              <div className="text-sm text-muted-foreground">Market Leader</div>
+              <div className="text-2xl font-bold text-primary">{isArabic ? 'سعودي' : 'Saudi'}</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? 'رائد السوق' : 'Market Leader'}</div>
+            </div>
+            {/* Mobile Access Quick Card */}
+            <div className="text-center p-4 bg-gradient-to-br from-primary/20 to-primary/10 backdrop-blur-sm rounded-lg border border-primary/30 hover:border-primary/50 transition-all cursor-pointer"
+                 onClick={() => navigate('/executive/mobile')}>
+              <div className="text-2xl font-bold text-primary flex items-center justify-center">
+                📱 <Smartphone className="h-6 w-6 ml-1" />
+              </div>
+              <div className="text-sm text-primary font-medium">{isArabic ? 'الوصول المحمول' : 'Mobile Access'}</div>
             </div>
           </div>
         </div>
