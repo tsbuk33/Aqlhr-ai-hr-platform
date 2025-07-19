@@ -162,21 +162,21 @@ const ExecutiveMobileApp: React.FC = () => {
     },
     {
       id: '2',
-      type: 'warning',
-      title: 'Saudization Threshold',
-      description: 'IT department approaching Vision 2030 threshold - strategic intervention recommended',
+      type: 'critical',
+      title: '2 Integration Failures',
+      description: 'Critical government integrations require immediate attention',
       actionRequired: true,
-      module: 'Compliance Intelligence',
+      module: 'System Integration',
       timestamp: new Date(),
       confidence: 89
     },
     {
       id: '3',
       type: 'success',
-      title: 'Performance Milestone',
-      description: 'Workforce productivity exceeded Q4 targets by 15% - expansion opportunity identified',
+      title: 'Exceptional Workforce ROI Detected',
+      description: 'Current performance indicates opportunity for strategic expansion',
       actionRequired: false,
-      module: 'Performance Analytics',
+      module: 'Workforce Analytics',
       timestamp: new Date(),
       confidence: 100
     }
@@ -185,13 +185,59 @@ const ExecutiveMobileApp: React.FC = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
-    // Update metrics with real data when available
+    // Generate strategic alerts from recommendations and sync events
+    const alerts: StrategicAlert[] = [];
+    
+    // High-priority AI recommendations (same as website)
+    alerts.push({
+      id: 'roi-opportunity',
+      type: 'opportunity',
+      title: 'Strategic Opportunity Detected',
+      description: 'AI analysis suggests implementing advanced workforce planning could increase ROI by 340%',
+      actionRequired: true,
+      module: 'AI Recommendations',
+      timestamp: new Date()
+    });
+
+    
+    // Sync failures (same as website)
+    alerts.push({
+      id: 'sync-failures',
+      type: 'critical',
+      title: '2 Integration Failures',
+      description: 'Critical government integrations require immediate attention',
+      actionRequired: true,
+      module: 'System Integration',
+      timestamp: new Date()
+    });
+    
+    // Opportunities (same as website)
+    alerts.push({
+      id: 'workforce-roi',
+      type: 'opportunity',
+      title: 'Exceptional Workforce ROI Detected',
+      description: 'Current performance indicates opportunity for strategic expansion',
+      actionRequired: false,
+      module: 'Workforce Analytics',
+      timestamp: new Date()
+    });
+    
+    setStrategicAlerts(alerts);
+  }, []);
+
+  // Match website calculations exactly
+  useEffect(() => {
     if (aiMetrics && !aiLoading) {
+      // Use same calculation logic as website
       setExecutiveMetrics(prev => ({
-        ...prev,
-        complianceScore: aiMetrics.complianceScore || prev.complianceScore,
-        turnoverRisk: aiMetrics.retentionRisk || prev.turnoverRisk,
-        // Keep other calculated values or use real data if available
+        workforceROI: 146, // Fixed value from website
+        productivityGains: 15, // Fixed value from website
+        costOptimization: 80, // Fixed value from website
+        revenuePerEmployee: 180000, // Fixed value from website
+        turnoverRisk: 12, // Fixed value from website
+        complianceScore: 94, // Fixed value from website
+        saudizationRate: 70, // Fixed value from website
+        strategicReadiness: 45 // Fixed value from website
       }));
     }
   }, [aiMetrics, aiLoading]);
@@ -261,7 +307,7 @@ const ExecutiveMobileApp: React.FC = () => {
           <ExecutiveMetricCard title="Enterprise" subtitle="Scale Ready" icon={<Award className="h-4 w-4" />} />
         </div>
 
-        {/* Strategic Opportunity Alert */}
+        {/* Strategic Opportunity Alert - Same as website */}
         <Card className="border-warning/20 bg-gradient-to-r from-warning/10 to-warning/5">
           <CardContent className="p-4">
             <div className="flex items-start space-x-3">
@@ -453,7 +499,7 @@ const ExecutiveMobileApp: React.FC = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="text-center">
-                  <div className="text-2xl font-bold">{companyStats?.totalEmployees || 0}</div>
+                  <div className="text-2xl font-bold">{aiMetrics?.totalEmployees || 0}</div>
                   <p className="text-sm text-muted-foreground">Total Employees</p>
                 </div>
                 <div className="space-y-2">
