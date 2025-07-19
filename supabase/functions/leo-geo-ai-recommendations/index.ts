@@ -157,12 +157,21 @@ Return as valid JSON array.
   });
 
   const aiResponse = await response.json();
+  
+  // Better error handling for AI response
+  if (!aiResponse || !aiResponse.choices || !aiResponse.choices[0] || !aiResponse.choices[0].message) {
+    console.error('Invalid AI response structure:', aiResponse);
+    return generateFallbackRecommendations(employeeData);
+  }
+  
   const recommendationsText = aiResponse.choices[0].message.content;
   
   try {
-    return JSON.parse(recommendationsText);
+    const parsed = JSON.parse(recommendationsText);
+    return Array.isArray(parsed) ? parsed : generateFallbackRecommendations(employeeData);
   } catch (parseError) {
     console.error('Failed to parse AI recommendations:', parseError);
+    console.error('Raw response:', recommendationsText);
     return generateFallbackRecommendations(employeeData);
   }
 }
