@@ -30,30 +30,30 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <div className={`min-h-screen ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
+    <div className={`w-full max-w-full ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
       {/* Page Header */}
-      <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm -m-6 lg:-m-8 mb-8 lg:mb-12">
-        <div className="px-6 py-8 lg:px-8">
-          <div className={`flex items-start justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <div className={`space-y-3 ${isArabic ? 'text-right' : ''}`}>
+      <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm -m-4 sm:-m-6 lg:-m-8 mb-6 sm:mb-8 lg:mb-12 w-full">
+        <div className="px-4 py-6 sm:px-6 lg:px-8 sm:py-8 w-full max-w-full">
+          <div className={`flex items-start justify-between w-full ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <div className={`space-y-3 flex-1 min-w-0 ${isArabic ? 'text-right' : ''}`}>
               <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <h1 className="text-3xl font-bold bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text text-transparent">
                   {isArabic && titleAr ? titleAr : title}
                 </h1>
                 {badge && (
-                  <Badge variant={badgeVariant} className="text-xs font-medium px-3 py-1 shadow-sm">
+                  <Badge variant={badgeVariant} className="text-xs font-medium px-3 py-1 shadow-sm flex-shrink-0">
                     {badge}
                   </Badge>
                 )}
               </div>
               {(description || descriptionAr) && (
-                <p className="text-lg text-foreground-muted font-medium max-w-3xl leading-relaxed">
+                <p className="text-base sm:text-lg text-foreground-muted font-medium max-w-3xl leading-relaxed">
                   {isArabic && descriptionAr ? descriptionAr : description}
                 </p>
               )}
             </div>
             {action && (
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 ml-4">
                 {action}
               </div>
             )}
@@ -62,7 +62,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
       </div>
 
       {/* Page Content */}
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8 w-full max-w-full">
         {children}
       </div>
     </div>
