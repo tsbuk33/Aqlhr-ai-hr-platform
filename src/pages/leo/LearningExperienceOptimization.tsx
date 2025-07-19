@@ -132,6 +132,10 @@ const LearningExperienceOptimization: React.FC = () => {
     { skill: 'Arabic Language Skills', current: 65, target: 85, growth: '+18%', category: 'Cultural' },
     { skill: 'Cross-Cultural Communication', current: 76, target: 90, growth: '+13%', category: 'Cultural' },
     { skill: 'Saudi Business Protocol', current: 91, target: 95, growth: '+3%', category: 'Cultural' },
+    { skill: 'Saudi History & Heritage', current: 73, target: 88, growth: '+15%', category: 'Cultural' },
+    { skill: 'Foundation Day Traditions', current: 68, target: 85, growth: '+17%', category: 'Cultural' },
+    { skill: 'National Day Celebrations', current: 80, target: 92, growth: '+12%', category: 'Cultural' },
+    { skill: 'Saudi Traditions & Customs', current: 75, target: 90, growth: '+15%', category: 'Cultural' },
     { skill: 'International Relations', current: 58, target: 75, growth: '+22%', category: 'Cultural' },
     
     // HR Specialization
