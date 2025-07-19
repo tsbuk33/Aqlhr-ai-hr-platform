@@ -8,10 +8,10 @@ export function SimpleRecentActivity() {
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <Card className="h-full">
+    <Card className="h-full bg-surface dark:bg-surface border-border dark:border-border">
       <CardHeader className="pb-4">
-        <CardTitle className={`text-lg font-semibold text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-right' : ''}`}>
-          <Clock className="h-5 w-5 text-muted-foreground" />
+        <CardTitle className={`text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-right' : ''}`}>
+          <Clock className="h-5 w-5 text-foreground-muted dark:text-foreground-muted" />
           {isArabic ? 'الأنشطة الأخيرة' : 'Recent Activities'}
         </CardTitle>
       </CardHeader>
@@ -29,19 +29,19 @@ export function SimpleRecentActivity() {
               <div className={`flex-1 ${isArabic ? 'text-right' : ''}`}>
                 {isArabic ? (
                   <>
-                    <p className="text-sm font-medium text-foreground line-clamp-1">
+                    <p className="text-sm font-medium text-foreground dark:text-foreground line-clamp-1">
                       أحمد الراشد أكمل تقييم الأداء
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 line-clamp-2">
                       تم تقديم تقييم الأداء للربع الرابع 2024
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="text-sm font-medium text-foreground line-clamp-1">
+                    <p className="text-sm font-medium text-foreground dark:text-foreground line-clamp-1">
                       Ahmed Al-Rashid completed performance review
                     </p>
-                    <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                    <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 line-clamp-2">
                       Performance evaluation submitted for Q4 2024
                     </p>
                   </>

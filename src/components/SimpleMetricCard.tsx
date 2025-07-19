@@ -31,7 +31,7 @@ const getVariantClasses = (variant?: string) => {
     case "warning":
       return "bg-gradient-to-br from-brand-warning to-orange-400 text-white";
     default:
-      return "bg-surface border border-border";
+      return "bg-surface dark:bg-surface border border-border dark:border-border";
   }
 };
 
@@ -54,29 +54,29 @@ export function SimpleMetricCard({
       <CardContent className="p-6">
         <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
           <div className={`flex-1 ${isArabic ? 'text-right' : ''}`}>
-            <h3 className={`text-sm font-medium mb-2 ${isColored ? 'text-white/90' : 'text-muted-foreground'}`}>
+            <h3 className={`text-sm font-medium mb-2 ${isColored ? 'text-white/90' : 'text-foreground-muted dark:text-foreground-muted'}`}>
               {isArabic ? titleAr : titleEn}
             </h3>
-            <div className={`text-3xl font-bold mb-1 number-display ${isColored ? 'text-white' : 'text-foreground'}`}>
+            <div className={`text-3xl font-bold mb-1 number-display ${isColored ? 'text-white' : 'text-foreground dark:text-foreground'}`}>
               {value}
             </div>
-            <p className={`text-sm mb-2 ${isColored ? 'text-white/75' : 'text-muted-foreground'}`}>
+            <p className={`text-sm mb-2 ${isColored ? 'text-white/75' : 'text-foreground-muted dark:text-foreground-muted'}`}>
               {isArabic ? descriptionAr : descriptionEn}
             </p>
             {trend && (
               <div className={`flex items-center gap-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <span className={`text-sm ${isColored ? 'text-white/90' : 'text-muted-foreground'}`}>
+                <span className={`text-sm ${isColored ? 'text-white/90' : 'text-foreground-muted dark:text-foreground-muted'}`}>
                   {isArabic ? trend.valueAr : trend.valueEn}
                 </span>
                 {trend.isPositive && (
-                  <span className={`text-sm ${isColored ? 'text-white' : 'text-foreground'}`}>
+                  <span className={`text-sm ${isColored ? 'text-white' : 'text-foreground dark:text-foreground'}`}>
                     {isArabic ? '↙' : '↗'}
                   </span>
                 )}
               </div>
             )}
           </div>
-          <div className={`text-2xl ${isColored ? 'text-white/80' : 'text-muted-foreground'}`}>
+          <div className={`text-2xl ${isColored ? 'text-white/80' : 'text-foreground-muted dark:text-foreground-muted'}`}>
             {icon}
           </div>
         </div>

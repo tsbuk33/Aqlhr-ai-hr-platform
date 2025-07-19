@@ -37,7 +37,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
           <div className={`flex items-start justify-between w-full ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className={`space-y-3 flex-1 min-w-0 ${isArabic ? 'text-right' : ''}`}>
               <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground dark:text-foreground bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text">
                   {isArabic && titleAr ? titleAr : title}
                 </h1>
                 {badge && (
@@ -47,7 +47,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
                 )}
               </div>
               {(description || descriptionAr) && (
-                <p className="text-base sm:text-lg text-foreground-muted font-medium max-w-3xl leading-relaxed">
+                <p className="text-base sm:text-lg text-foreground-muted dark:text-foreground-muted font-medium max-w-3xl leading-relaxed">
                   {isArabic && descriptionAr ? descriptionAr : description}
                 </p>
               )}
@@ -83,11 +83,11 @@ export const PageSection: React.FC<{
     <section className={`space-y-6 ${className}`}>
       {(title || titleAr) && (
         <div className={`space-y-2 ${isArabic ? 'text-right' : ''}`}>
-          <h2 className="text-2xl font-bold text-foreground">
+          <h2 className="text-2xl font-bold text-foreground dark:text-foreground">
             {isArabic && titleAr ? titleAr : title}
           </h2>
           {(description || descriptionAr) && (
-            <p className="text-foreground-muted font-medium">
+            <p className="text-foreground-muted dark:text-foreground-muted font-medium">
               {isArabic && descriptionAr ? descriptionAr : description}
             </p>
           )}
@@ -124,20 +124,20 @@ export const PageCard: React.FC<{
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <Card className={`${hover ? 'hover:shadow-lg hover:shadow-border/20 hover:border-border/60' : ''} transition-all duration-300 bg-surface/50 backdrop-blur-sm border-border/40 ${className}`}>
+    <Card className={`${hover ? 'hover:shadow-lg hover:shadow-border/20 hover:border-border/60' : ''} transition-all duration-300 bg-surface dark:bg-surface backdrop-blur-sm border-border dark:border-border ${className}`}>
       {(title || titleAr || description || descriptionAr || icon || badge || action) && (
         <CardHeader>
           <div className={`flex items-start justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className={`flex items-start gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
               {icon && (
-                <div className="p-2 bg-accent rounded-lg">
+                <div className="p-2 bg-accent dark:bg-accent rounded-lg">
                   {icon}
                 </div>
               )}
               <div className={`space-y-1 ${isArabic ? 'text-right' : ''}`}>
                 {(title || titleAr) && (
                   <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <CardTitle className="text-xl font-semibold">
+                    <CardTitle className="text-xl font-semibold text-foreground dark:text-foreground">
                       {isArabic && titleAr ? titleAr : title}
                     </CardTitle>
                     {badge && (
@@ -148,7 +148,7 @@ export const PageCard: React.FC<{
                   </div>
                 )}
                 {(description || descriptionAr) && (
-                  <CardDescription className="text-foreground-muted">
+                  <CardDescription className="text-foreground-muted dark:text-foreground-muted">
                     {isArabic && descriptionAr ? descriptionAr : description}
                   </CardDescription>
                 )}

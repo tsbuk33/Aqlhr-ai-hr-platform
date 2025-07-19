@@ -11,17 +11,17 @@ export function DashboardHeader() {
   const { isArabic } = useSimpleLanguage();
   
   return (
-    <header className="h-20 border-b border-border/40 bg-gradient-to-r from-surface via-surface-subtle to-surface backdrop-blur-xl supports-[backdrop-filter]:bg-surface/90 shadow-sm">
+    <header className="h-20 border-b border-border/40 dark:border-border bg-gradient-to-r from-surface via-surface-subtle to-surface dark:from-surface dark:via-surface-subtle dark:to-surface backdrop-blur-xl supports-[backdrop-filter]:bg-surface/90 dark:supports-[backdrop-filter]:bg-surface/90 shadow-sm">
       <div className={`flex h-full items-center justify-between px-8 ${isArabic ? 'flex-row-reverse' : ''}`}>
         <div className={`flex items-center gap-6 ${isArabic ? 'flex-row-reverse' : ''}`}>
-          <SidebarTrigger className="text-foreground hover:bg-accent hover:text-accent-foreground rounded-lg p-2 transition-all duration-200" />
+          <SidebarTrigger className="text-foreground dark:text-foreground hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground dark:hover:text-accent-foreground rounded-lg p-2 transition-all duration-200" />
           <div className="hidden md:block">
             {isArabic ? (
               <div className="text-right">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
                   نظام إيه كيو إل إتش ار للموارد البشرية
                 </h1>
-                <p className="text-sm text-foreground-muted mt-1 font-medium">
+                <p className="text-sm text-foreground-muted dark:text-foreground-muted mt-1 font-medium">
                   منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية
                 </p>
               </div>
@@ -30,7 +30,7 @@ export function DashboardHeader() {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
                   AqlHR System
                 </h1>
-                <p className="text-sm text-foreground-muted mt-1 font-medium">
+                <p className="text-sm text-foreground-muted dark:text-foreground-muted mt-1 font-medium">
                   Advanced Intelligent Platform for Human Resources Management in Saudi Arabia
                 </p>
               </div>
@@ -44,10 +44,10 @@ export function DashboardHeader() {
           <SimpleLanguageToggle />
           
           <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <Button variant="ghost" size="icon" className="text-foreground-muted hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200">
+            <Button variant="ghost" size="icon" className="text-foreground-muted dark:text-foreground-muted hover:text-foreground dark:hover:text-foreground hover:bg-accent dark:hover:bg-accent rounded-lg transition-all duration-200">
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="text-foreground-muted hover:text-foreground hover:bg-accent rounded-lg transition-all duration-200 relative">
+            <Button variant="ghost" size="icon" className="text-foreground-muted dark:text-foreground-muted hover:text-foreground dark:hover:text-foreground hover:bg-accent dark:hover:bg-accent rounded-lg transition-all duration-200 relative">
               <Bell className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 h-3 w-3 bg-brand-danger rounded-full animate-pulse shadow-sm">
                 <span className="absolute inset-0 rounded-full bg-brand-danger animate-ping"></span>

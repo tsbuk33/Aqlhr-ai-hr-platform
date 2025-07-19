@@ -15,10 +15,10 @@
     --surface-raised: 210 20% 98%;
     --surface-subtle: 220 13% 97%;
     
-    /* Text Colors - Enhanced contrast */
-    --foreground: 215 25% 20%;
-    --foreground-muted: 220 14% 40%;
-    --foreground-subtle: 220 13% 50%;
+    /* Text Colors - Enhanced contrast for better readability */
+    --foreground: 215 25% 15%;
+    --foreground-muted: 220 16% 35%;
+    --foreground-subtle: 220 14% 45%;
     
     /* Saudi Brand Colors - Enhanced */
     --brand-primary: 240 35% 15%;          /* Deep navy */
@@ -38,11 +38,11 @@
 
     /* Card System */
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 20%;
+    --card-foreground: 215 25% 15%;
     --card-hover: 220 13% 98%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 20%;
+    --popover-foreground: 215 25% 15%;
 
     /* Primary Colors */
     --primary: 240 35% 15%;
@@ -50,26 +50,26 @@
     --primary-hover: 240 35% 12%;
 
     /* Secondary Colors */
-    --secondary: 220 13% 94%;
-    --secondary-foreground: 215 25% 20%;
-    --secondary-hover: 220 13% 89%;
+    --secondary: 220 13% 93%;
+    --secondary-foreground: 215 25% 15%;
+    --secondary-hover: 220 13% 88%;
 
     /* Muted Colors */
-    --muted: 220 13% 94%;
-    --muted-foreground: 220 14% 40%;
+    --muted: 220 13% 93%;
+    --muted-foreground: 220 16% 35%;
 
     /* Accent Colors */
-    --accent: 220 13% 94%;
-    --accent-foreground: 215 25% 20%;
+    --accent: 220 13% 93%;
+    --accent-foreground: 215 25% 15%;
 
     /* Destructive Colors */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 220 13% 87%;
-    --border-subtle: 220 13% 91%;
-    --input: 220 13% 87%;
+    --border: 220 13% 85%;
+    --border-subtle: 220 13% 90%;
+    --input: 220 13% 85%;
     --ring: 240 35% 15%;
 
     /* Status Colors */
@@ -79,13 +79,13 @@
     --status-info: 220 91% 55%;
 
     /* Sidebar - Enhanced contrast */
-    --sidebar-background: 215 25% 12%;
+    --sidebar-background: 215 25% 10%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 220 91% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 25% 16%;
+    --sidebar-accent: 215 25% 14%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 215 25% 20%;
+    --sidebar-border: 215 25% 18%;
     --sidebar-ring: 220 91% 55%;
 
     /* Animation */
@@ -98,20 +98,20 @@
   .dark {
     /* Background System - Dark */
     --background: 224 71% 4%;
-    --background-subtle: 220 13% 8%;
+    --background-subtle: 220 13% 6%;
     --surface: 224 71% 4%;
-    --surface-raised: 220 13% 10%;
-    --surface-subtle: 220 13% 12%;
+    --surface-raised: 220 13% 8%;
+    --surface-subtle: 220 13% 10%;
     
-    /* Text Colors - Dark - Enhanced contrast */
+    /* Text Colors - Dark - Enhanced contrast for better readability */
     --foreground: 210 40% 98%;
-    --foreground-muted: 215 20% 70%;
-    --foreground-subtle: 215 16% 60%;
+    --foreground-muted: 215 20% 75%;
+    --foreground-subtle: 215 16% 65%;
 
     /* Card System - Dark */
     --card: 224 71% 4%;
     --card-foreground: 210 40% 98%;
-    --card-hover: 220 13% 10%;
+    --card-hover: 220 13% 8%;
 
     --popover: 224 71% 4%;
     --popover-foreground: 210 40% 98%;
@@ -130,16 +130,16 @@
     --brand-danger: 0 80% 70%;             /* Better readability */
 
     /* Secondary Colors - Dark */
-    --secondary: 217 33% 17%;
+    --secondary: 217 33% 15%;
     --secondary-foreground: 210 40% 98%;
-    --secondary-hover: 217 33% 22%;
+    --secondary-hover: 217 33% 20%;
 
     /* Muted Colors - Dark */
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 70%;
+    --muted: 217 33% 15%;
+    --muted-foreground: 215 20% 75%;
 
     /* Accent Colors - Dark */
-    --accent: 217 33% 17%;
+    --accent: 217 33% 15%;
     --accent-foreground: 210 40% 98%;
 
     /* Destructive Colors - Dark */
@@ -147,19 +147,19 @@
     --destructive-foreground: 210 40% 98%;
 
     /* Borders & Inputs - Dark */
-    --border: 217 33% 17%;
-    --border-subtle: 217 33% 20%;
-    --input: 217 33% 17%;
+    --border: 217 33% 15%;
+    --border-subtle: 217 33% 18%;
+    --input: 217 33% 15%;
     --ring: 213 27% 84%;
 
     /* Sidebar - Dark - Enhanced contrast */
-    --sidebar-background: 240 6% 8%;
+    --sidebar-background: 240 6% 6%;
     --sidebar-foreground: 240 5% 96%;
     --sidebar-primary: 224 76% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 16%;
+    --sidebar-accent: 240 4% 14%;
     --sidebar-accent-foreground: 240 5% 96%;
-    --sidebar-border: 240 4% 16%;
+    --sidebar-border: 240 4% 14%;
     --sidebar-ring: 217 91% 60%;
   }
 }
