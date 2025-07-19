@@ -190,8 +190,9 @@ const SuperAdminDashboard: React.FC = () => {
 
       <div className="p-6 space-y-6">
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 lg:w-auto lg:grid-cols-none lg:flex">
+          <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:grid-cols-none lg:flex">
             <TabsTrigger value="overview">{isArabic ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+            <TabsTrigger value="assessment">{isArabic ? 'ذكاء التقييم' : 'Assessment Intelligence'}</TabsTrigger>
             <TabsTrigger value="companies">{isArabic ? 'الشركات' : 'Companies'}</TabsTrigger>
             <TabsTrigger value="mckinsey">{isArabic ? 'مكنزي' : 'McKinsey'}</TabsTrigger>
             <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
@@ -274,6 +275,272 @@ const SuperAdminDashboard: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Assessment Intelligence Tab */}
+          <TabsContent value="assessment" className="space-y-6">
+            {/* Real-Time Assessment Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+              <Card className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border-blue-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-blue-700">{isArabic ? 'التقييمات النشطة' : 'Active Assessments'}</p>
+                      <p className="text-2xl font-bold text-blue-900 mt-1">42</p>
+                      <p className="text-xs text-blue-600">+7 today</p>
+                    </div>
+                    <Activity className="h-6 w-6 text-blue-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border-emerald-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-emerald-700">{isArabic ? 'مكتملة اليوم' : 'Completed Today'}</p>
+                      <p className="text-2xl font-bold text-emerald-900 mt-1">18</p>
+                      <p className="text-xs text-emerald-600">Awaiting presentations</p>
+                    </div>
+                    <FileText className="h-6 w-6 text-emerald-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border-purple-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-purple-700">{isArabic ? 'معدل التحويل' : 'Conversion Rate'}</p>
+                      <p className="text-2xl font-bold text-purple-900 mt-1">73.5%</p>
+                      <p className="text-xs text-purple-600">Assessment → Consultation</p>
+                    </div>
+                    <Target className="h-6 w-6 text-purple-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 border-orange-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-orange-700">{isArabic ? 'متوسط النتائج' : 'Average Score'}</p>
+                      <p className="text-2xl font-bold text-orange-900 mt-1">6.8/10</p>
+                      <p className="text-xs text-orange-600">Across all industries</p>
+                    </div>
+                    <BarChart3 className="h-6 w-6 text-orange-600" />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-200">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-red-700">{isArabic ? 'أهم الثغرات' : 'Top Gaps'}</p>
+                      <p className="text-xl font-bold text-red-900 mt-1">Digital HR</p>
+                      <p className="text-xs text-red-600">67% of companies</p>
+                    </div>
+                    <AlertTriangle className="h-6 w-6 text-red-600" />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Assessment Pipeline */}
+              <Card className="bg-surface border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Clock className="w-5 h-5 mr-2 text-primary" />
+                    {isArabic ? 'خط إنتاج التقييم' : 'Assessment Pipeline'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-blue-50 border border-blue-200">
+                    <div>
+                      <p className="font-medium text-blue-900">{isArabic ? 'عروض معلقة' : 'Pending Presentations'}</p>
+                      <p className="text-sm text-blue-700">Ready for generation</p>
+                    </div>
+                    <Badge className="bg-blue-100 text-blue-800">15</Badge>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-yellow-50 border border-yellow-200">
+                    <div>
+                      <p className="font-medium text-yellow-900">{isArabic ? 'قائمة التخصيص' : 'Customization Queue'}</p>
+                      <p className="text-sm text-yellow-700">Awaiting your review</p>
+                    </div>
+                    <Badge className="bg-yellow-100 text-yellow-800">8</Badge>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 border border-green-200">
+                    <div>
+                      <p className="font-medium text-green-900">{isArabic ? 'حالة التسليم' : 'Delivery Status'}</p>
+                      <p className="text-sm text-green-700">Delivered & tracking</p>
+                    </div>
+                    <Badge className="bg-green-100 text-green-800">23</Badge>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 border border-red-200">
+                    <div>
+                      <p className="font-medium text-red-900">{isArabic ? 'متابعة مطلوبة' : 'Follow-up Required'}</p>
+                      <p className="text-sm text-red-700">Action needed</p>
+                    </div>
+                    <Badge className="bg-red-100 text-red-800">5</Badge>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Market Intelligence */}
+              <Card className="bg-surface border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Brain className="w-5 h-5 mr-2 text-primary" />
+                    {isArabic ? 'ذكاء السوق' : 'Market Intelligence'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">{isArabic ? 'اتجاهات الصناعة' : 'Industry Trends'}</span>
+                      <Badge variant="outline">Oil & Gas Leading</Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">{isArabic ? 'رؤى المنافسين' : 'Competitor Insights'}</span>
+                      <Badge variant="outline">vs Oracle/SAP</Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">{isArabic ? 'ذكاء التسعير' : 'Pricing Intelligence'}</span>
+                      <Badge variant="outline">High Investment</Badge>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">{isArabic ? 'نقاط الفرص' : 'Opportunity Scoring'}</span>
+                      <Badge variant="outline">AI-Powered</Badge>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-border">
+                    <h4 className="font-medium text-foreground mb-2">{isArabic ? 'أهم الثغرات المحددة' : 'Top Identified Gaps'}</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Digital HR Transformation</span>
+                        <span className="text-red-600">67%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Performance Management</span>
+                        <span className="text-orange-600">54%</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span>Succession Planning</span>
+                        <span className="text-yellow-600">43%</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Opportunity Scoring */}
+              <Card className="bg-surface border-border/50">
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Star className="w-5 h-5 mr-2 text-primary" />
+                    {isArabic ? 'نقاط الفرص' : 'Opportunity Scoring'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-3">
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-green-900">شركة أرامكو السعودية</span>
+                        <Badge className="bg-green-100 text-green-800">98%</Badge>
+                      </div>
+                      <p className="text-xs text-green-700">High investment capacity • Digital gaps • Decision maker engaged</p>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-blue-900">شركة الراجحي المصرفية</span>
+                        <Badge className="bg-blue-100 text-blue-800">85%</Badge>
+                      </div>
+                      <p className="text-xs text-blue-700">Banking sector leader • Compliance needs • Quick decision cycle</p>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-purple-900">شركة الاتصالات السعودية</span>
+                        <Badge className="bg-purple-100 text-purple-800">78%</Badge>
+                      </div>
+                      <p className="text-xs text-purple-700">Tech-forward • Succession planning gaps • Medium timeline</p>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="font-medium text-orange-900">شركة معادن</span>
+                        <Badge className="bg-orange-100 text-orange-800">72%</Badge>
+                      </div>
+                      <p className="text-xs text-orange-700">Growth phase • Multiple HR gaps • Budget constraints</p>
+                    </div>
+                  </div>
+
+                  <Button className="w-full" size="sm">
+                    <Award className="w-4 h-4 mr-2" />
+                    {isArabic ? 'عرض التقرير الكامل' : 'View Full Report'}
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Assessment Performance Analytics */}
+            <Card className="bg-surface border-border/50">
+              <CardHeader>
+                <CardTitle className="flex items-center justify-between">
+                  <span className="flex items-center">
+                    <PieChart className="w-5 h-5 mr-2 text-primary" />
+                    {isArabic ? 'تحليل أداء التقييم' : 'Assessment Performance Analytics'}
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    <Button size="sm" variant="outline">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      {isArabic ? 'هذا الشهر' : 'This Month'}
+                    </Button>
+                    <Button size="sm" variant="outline">
+                      <Download className="w-4 h-4 mr-2" />
+                      {isArabic ? 'تصدير' : 'Export'}
+                    </Button>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <div className="text-center p-4 rounded-lg bg-background/50">
+                    <LineChart className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-foreground">16 min</p>
+                    <p className="text-sm text-muted-foreground">{isArabic ? 'متوسط وقت التقييم' : 'Average Assessment Time'}</p>
+                  </div>
+
+                  <div className="text-center p-4 rounded-lg bg-background/50">
+                    <Users className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-foreground">247</p>
+                    <p className="text-sm text-muted-foreground">{isArabic ? 'شركات مقيّمة' : 'Companies Assessed'}</p>
+                  </div>
+
+                  <div className="text-center p-4 rounded-lg bg-background/50">
+                    <Globe className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-foreground">89%</p>
+                    <p className="text-sm text-muted-foreground">{isArabic ? 'معدل إتمام التقييم' : 'Assessment Completion Rate'}</p>
+                  </div>
+
+                  <div className="text-center p-4 rounded-lg bg-background/50">
+                    <MessageSquare className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-foreground">4.8/5</p>
+                    <p className="text-sm text-muted-foreground">{isArabic ? 'تقييم رضا العملاء' : 'Client Satisfaction'}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Companies Tab */}
