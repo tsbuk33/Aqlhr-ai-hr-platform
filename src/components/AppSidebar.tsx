@@ -99,6 +99,24 @@ const getPlatformModules = (isArabic: boolean) => [
     color: "amber"
   },
 
+  // Learning Experience Optimization (LEO)
+  { 
+    title: isArabic ? "تحسين تجربة التعلم" : "Learning Experience Optimization", 
+    url: "/leo", 
+    icon: GraduationCap,
+    badge: "LEO",
+    color: "blue"
+  },
+
+  // Generative Engagement Optimization (GEO)
+  { 
+    title: isArabic ? "تحسين المشاركة التوليدية" : "Generative Engagement Optimization", 
+    url: "/geo", 
+    icon: Sparkles,
+    badge: "GEO",
+    color: "pink"
+  },
+
   // AI & Analytics
   { 
     title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", 
