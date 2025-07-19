@@ -55,29 +55,30 @@ const ExecutiveCenter: React.FC = () => {
                 The Ultimate HR Operating System - Orchestrating 105+ Modules with AI Excellence
               </p>
             </div>
-            <div className="text-right space-y-2">
-              <div className="flex gap-2 justify-end mb-2">
+            <div className="text-right space-y-3">
+              {/* Enhanced Mobile Access Button - Super Prominent */}
+              <div className="flex gap-2 justify-end mb-4">
                 <Button 
                   variant="default" 
                   size="lg"
                   onClick={() => navigate('/executive/mobile')}
-                  className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white font-semibold shadow-lg border-0 px-6 py-3"
+                  className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold shadow-xl border-0 px-8 py-4 text-lg rounded-xl transform hover:scale-105 transition-all duration-200"
                 >
-                  <Smartphone className="h-5 w-5 mr-2" />
-                  📱 {isArabic ? 'الوصول المحمول' : 'Mobile Executive Access'}
+                  <Smartphone className="h-6 w-6 mr-3" />
+                  📱 {isArabic ? 'الوصول التنفيذي المحمول' : 'MOBILE EXECUTIVE ACCESS'}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2 justify-end">
-                <Badge variant="secondary" className="bg-success/10 text-success border-success/20 text-sm px-3 py-1">
-                  <Globe className="h-4 w-4 mr-1" />
+                <Badge variant="secondary" className="bg-emerald-100 text-emerald-800 border-emerald-200 text-sm px-4 py-2 font-semibold shadow-sm">
+                  <Globe className="h-4 w-4 mr-2" />
                   {isArabic ? 'جاهز للمؤسسات العالمية' : 'Global Enterprise Ready'}
                 </Badge>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 text-sm px-3 py-1">
-                  <Brain className="h-4 w-4 mr-1" />
+                <Badge variant="secondary" className="bg-blue-100 text-blue-800 border-blue-200 text-sm px-4 py-2 font-semibold shadow-sm">
+                  <Brain className="h-4 w-4 mr-2" />
                   {isArabic ? '26 قدرة ذكاء اصطناعي نشطة' : '26 AI Capabilities Active'}
                 </Badge>
-                <Badge variant="secondary" className="bg-warning/10 text-warning border-warning/20 text-sm px-3 py-1">
-                  <Shield className="h-4 w-4 mr-1" />
+                <Badge variant="secondary" className="bg-amber-100 text-amber-800 border-amber-200 text-sm px-4 py-2 font-semibold shadow-sm">
+                  <Shield className="h-4 w-4 mr-2" />
                   {isArabic ? '22 تكامل حكومي مباشر' : '22 Gov Integrations Live'}
                 </Badge>
               </div>
@@ -86,33 +87,38 @@ const ExecutiveCenter: React.FC = () => {
           
           {/* Strategic Capabilities Overview */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-8">
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-primary">105+</div>
-              <div className="text-sm text-muted-foreground">{isArabic ? 'الوحدات المتكاملة' : 'Integrated Modules'}</div>
+            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
+              <div className="text-2xl font-bold text-gray-900 dark:text-white">105+</div>
+              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'الوحدات المتكاملة' : 'Integrated Modules'}</div>
             </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-success">99.9%</div>
-              <div className="text-sm text-muted-foreground">{isArabic ? 'وقت تشغيل النظام' : 'System Uptime'}</div>
+            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
+              <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">99.9%</div>
+              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'وقت تشغيل النظام' : 'System Uptime'}</div>
             </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-warning">{isArabic ? 'فوري' : 'Real-Time'}</div>
-              <div className="text-sm text-muted-foreground">{isArabic ? 'معالجة البيانات' : 'Data Processing'}</div>
+            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
+              <div className="text-2xl font-bold text-amber-700 dark:text-amber-400">{isArabic ? 'فوري' : 'Real-Time'}</div>
+              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'معالجة البيانات' : 'Data Processing'}</div>
             </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-accent">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
-              <div className="text-sm text-muted-foreground">{isArabic ? 'جاهز للتوسع' : 'Scale Ready'}</div>
+            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
+              <div className="text-2xl font-bold text-blue-700 dark:text-blue-400">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
+              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'جاهز للتوسع' : 'Scale Ready'}</div>
             </div>
-            <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
-              <div className="text-2xl font-bold text-primary">{isArabic ? 'سعودي' : 'Saudi'}</div>
-              <div className="text-sm text-muted-foreground">{isArabic ? 'رائد السوق' : 'Market Leader'}</div>
+            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
+              <div className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">{isArabic ? 'سعودي' : 'Saudi'}</div>
+              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'رائد السوق' : 'Market Leader'}</div>
             </div>
-            {/* Mobile Access Quick Card */}
-            <div className="text-center p-4 bg-gradient-to-br from-primary/20 to-primary/10 backdrop-blur-sm rounded-lg border border-primary/30 hover:border-primary/50 transition-all cursor-pointer"
+            {/* SUPER PROMINENT Mobile Access Card */}
+            <div className="text-center p-6 bg-gradient-to-br from-emerald-200 to-emerald-100 dark:from-emerald-800 dark:to-emerald-700 backdrop-blur-sm rounded-xl border-2 border-emerald-300 dark:border-emerald-500 hover:border-emerald-400 dark:hover:border-emerald-400 transition-all cursor-pointer shadow-xl hover:shadow-2xl transform hover:scale-105"
                  onClick={() => navigate('/executive/mobile')}>
-              <div className="text-2xl font-bold text-primary flex items-center justify-center">
-                📱 <Smartphone className="h-6 w-6 ml-1" />
+              <div className="text-3xl font-bold text-emerald-800 dark:text-emerald-100 flex items-center justify-center mb-2">
+                📱 <Smartphone className="h-8 w-8 ml-2" />
               </div>
-              <div className="text-sm text-primary font-medium">{isArabic ? 'الوصول المحمول' : 'Mobile Access'}</div>
+              <div className="text-sm text-emerald-900 dark:text-emerald-200 font-bold">
+                {isArabic ? 'الوصول المحمول' : 'MOBILE ACCESS'}
+              </div>
+              <div className="text-xs text-emerald-700 dark:text-emerald-300 font-medium mt-1">
+                {isArabic ? 'تطبيق تنفيذي' : 'Executive App'}
+              </div>
             </div>
           </div>
         </div>
