@@ -34,7 +34,8 @@ import {
   Eye, 
   Heart, 
   Shield, 
-  BarChart3 
+  BarChart3,
+  Smartphone 
 } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -545,6 +546,12 @@ const Index = () => {
                   <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg">
                     <Crown className="h-4 w-4 mr-2" />
                     {isArabic ? 'فتح المركز التنفيذي' : 'Open Executive Center'}
+                  </Button>
+                </Link>
+                <Link to="/executive/mobile">
+                  <Button className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg">
+                    <Smartphone className="h-4 w-4 mr-2" />
+                    {isArabic ? 'التطبيق التنفيذي المحمول' : 'Mobile Executive App'}
                   </Button>
                 </Link>
                 <div className={`flex items-center gap-2 text-xs text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
