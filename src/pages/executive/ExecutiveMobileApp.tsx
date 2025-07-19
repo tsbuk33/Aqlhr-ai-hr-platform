@@ -182,7 +182,19 @@ const ExecutiveMobileApp: React.FC = () => {
     }
   ]);
   
+  
   const [activeTab, setActiveTab] = useState('overview');
+
+  // Helper function for alert icons
+  const getAlertIcon = (type: string) => {
+    switch (type) {
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case 'warning': return <Clock className="h-4 w-4 text-warning" />;
+      case 'opportunity': return <TrendingUp className="h-4 w-4 text-success" />;
+      case 'success': return <CheckCircle className="h-4 w-4 text-success" />;
+      default: return <AlertTriangle className="h-4 w-4" />;
+    }
+  };
 
   useEffect(() => {
     // Generate strategic alerts from recommendations and sync events
@@ -242,15 +254,6 @@ const ExecutiveMobileApp: React.FC = () => {
     }
   }, [aiMetrics, aiLoading]);
 
-  const getAlertIcon = (type: string) => {
-    switch (type) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
-      case 'warning': return <Clock className="h-4 w-4 text-warning" />;
-      case 'opportunity': return <TrendingUp className="h-4 w-4 text-success" />;
-      case 'success': return <CheckCircle className="h-4 w-4 text-success" />;
-      default: return <AlertTriangle className="h-4 w-4" />;
-    }
-  };
 
   if (aiLoading) {
     return (
