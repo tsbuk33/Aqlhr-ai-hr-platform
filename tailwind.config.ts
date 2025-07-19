@@ -36,12 +36,18 @@ export default {
 					danger: 'hsl(var(--brand-danger))',
 				},
 				
-				// Surface Colors
+				// Surface Colors - Missing definitions added
 				surface: {
 					DEFAULT: 'hsl(var(--surface))',
-					secondary: 'hsl(var(--surface-secondary))',
-					tertiary: 'hsl(var(--surface-tertiary))',
+					raised: 'hsl(var(--surface-raised))',
+					subtle: 'hsl(var(--surface-subtle))',
 				},
+
+				// Background colors - Added for completeness
+				'background-subtle': 'hsl(var(--background-subtle))',
+				'foreground-muted': 'hsl(var(--foreground-muted))',
+				'foreground-subtle': 'hsl(var(--foreground-subtle))',
+				'border-subtle': 'hsl(var(--border-subtle))',
 				
 				// Status Colors
 				status: {
