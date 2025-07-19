@@ -5,6 +5,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Security: Authorized email recipients
+const AUTHORIZED_EMAILS = ['tsbuk33@gmail.com', 'admin@aqlhr.com', 'support@aqlhr.com'];
+
+// Rate limiting storage (in production, use Redis or similar)
+const rateLimitStore = new Map<string, number>();
+
 interface HealingReportRequest {
   reportType: string;
   systemHealth: number;
@@ -14,6 +20,47 @@ interface HealingReportRequest {
   recipientEmail: string;
 }
 
+// Structured logging
+const logger = {
+  info: (message: string, data?: any) => 
+    console.log(JSON.stringify({
+      level: 'info', 
+      message, 
+      data, 
+      timestamp: new Date().toISOString()
+    })),
+  error: (message: string, error?: any) => 
+    console.error(JSON.stringify({
+      level: 'error', 
+      message, 
+      error: error?.message || error, 
+      timestamp: new Date().toISOString()
+    }))
+};
+
+// Environment validation
+const validateEnvironment = () => {
+  const requiredVars = ['SUPABASE_URL', 'SUPABASE_ANON_KEY'];
+  for (const envVar of requiredVars) {
+    if (!Deno.env.get(envVar)) {
+      throw new Error(`Missing required environment variable: ${envVar}`);
+    }
+  }
+};
+
+// Rate limiting function
+const checkRateLimit = (clientId: string): boolean => {
+  const rateLimitKey = `healing_report_${clientId}_${new Date().toDateString()}`;
+  const currentCount = rateLimitStore.get(rateLimitKey) || 0;
+  
+  if (currentCount >= 10) { // Max 10 reports per day per client
+    return false;
+  }
+  
+  rateLimitStore.set(rateLimitKey, currentCount + 1);
+  return true;
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -21,6 +68,9 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Environment validation
+    validateEnvironment();
+    
     const { 
       reportType, 
       systemHealth, 
@@ -29,6 +79,52 @@ const handler = async (req: Request): Promise<Response> => {
       alerts, 
       recipientEmail 
     }: HealingReportRequest = await req.json();
+
+    // Security: Email recipient validation
+    if (!AUTHORIZED_EMAILS.includes(recipientEmail)) {
+      logger.error('Unauthorized email recipient attempted', { recipientEmail });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Unauthorized email recipient',
+          success: false 
+        }),
+        {
+          status: 403,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    // Rate limiting check
+    const clientId = req.headers.get('x-forwarded-for') || 'unknown';
+    if (!checkRateLimit(clientId)) {
+      logger.error('Rate limit exceeded', { clientId });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Rate limit exceeded. Maximum 10 reports per day.',
+          success: false 
+        }),
+        {
+          status: 429,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    logger.info('Processing healing report request', {
+      reportType,
+      systemHealth,
+      metricsCount: metrics.length,
+      healingActionsCount: healingActions.length,
+      alertsCount: alerts.length,
+      recipientEmail
+    });
 
     // Generate comprehensive report content
     const reportDate = new Date().toLocaleDateString('en-US', {
@@ -171,7 +267,7 @@ ${criticalAlerts > 0 ? `- 🚨 **CRITICAL:** Review ${criticalAlerts} critical a
 **Talal - Your AqlHR platform is operating at peak performance! 🚀**
     `;
 
-    console.log('Healing report generated successfully:', {
+    logger.info('Healing report generated successfully', {
       reportType,
       systemHealth,
       metricsCount: metrics.length,
@@ -182,7 +278,7 @@ ${criticalAlerts > 0 ? `- 🚨 **CRITICAL:** Review ${criticalAlerts} critical a
 
     // In a real implementation, you would send this via email service
     // For now, we'll just log it and return success
-    console.log('Report content:', emailContent);
+    logger.info('Report content generated', { contentLength: emailContent.length });
 
     return new Response(
       JSON.stringify({ 
@@ -206,7 +302,7 @@ ${criticalAlerts > 0 ? `- 🚨 **CRITICAL:** Review ${criticalAlerts} critical a
     );
 
   } catch (error: any) {
-    console.error("Error in send-healing-report function:", error);
+    logger.error("Error in send-healing-report function", error);
     return new Response(
       JSON.stringify({ 
         error: error.message,
