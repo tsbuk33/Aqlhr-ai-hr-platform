@@ -48,17 +48,23 @@ const validateEnvironment = () => {
   }
 };
 
+// Health score validation
+const validateHealthScore = (score: number): boolean => {
+  return score >= 0 && score <= 100 && !isNaN(score);
+};
+
 // Rate limiting function
-const checkRateLimit = (clientId: string): boolean => {
+const checkRateLimit = (clientId: string, req: Request): { allowed: boolean; currentCount: number } => {
   const rateLimitKey = `healing_report_${clientId}_${new Date().toDateString()}`;
   const currentCount = rateLimitStore.get(rateLimitKey) || 0;
+  const maxAllowed = 10;
   
-  if (currentCount >= 10) { // Max 10 reports per day per client
-    return false;
+  if (currentCount >= maxAllowed) {
+    return { allowed: false, currentCount };
   }
   
   rateLimitStore.set(rateLimitKey, currentCount + 1);
-  return true;
+  return { allowed: true, currentCount: currentCount + 1 };
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -98,10 +104,40 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Health score validation
+    if (!validateHealthScore(systemHealth)) {
+      logger.error('Invalid health score provided', { 
+        systemHealth, 
+        recipientEmail,
+        clientId: req.headers.get('x-forwarded-for') || 'unknown'
+      });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid health score. Must be between 0 and 100.',
+          success: false 
+        }),
+        {
+          status: 400,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
     // Rate limiting check
     const clientId = req.headers.get('x-forwarded-for') || 'unknown';
-    if (!checkRateLimit(clientId)) {
-      logger.error('Rate limit exceeded', { clientId });
+    const rateLimitResult = checkRateLimit(clientId, req);
+    if (!rateLimitResult.allowed) {
+      logger.error('Rate limit exceeded', { 
+        clientId, 
+        currentCount: rateLimitResult.currentCount,
+        maxAllowed: 10,
+        resetTime: new Date().toDateString(),
+        userAgent: req.headers.get('user-agent'),
+        recipientEmail
+      });
       return new Response(
         JSON.stringify({ 
           error: 'Rate limit exceeded. Maximum 10 reports per day.',
