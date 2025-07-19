@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap } from 'lucide-react';
+import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter } from 'lucide-react';
 
 const LearningExperienceOptimization: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   // Mock data for demonstration
   const learningStats = {
@@ -112,11 +113,55 @@ const LearningExperienceOptimization: React.FC = () => {
   ];
 
   const skillsProgress = [
-    { skill: 'AI & Machine Learning', current: 75, target: 90, growth: '+15%' },
-    { skill: 'Cultural Intelligence', current: 82, target: 95, growth: '+8%' },
-    { skill: 'Digital Leadership', current: 68, target: 85, growth: '+12%' },
-    { skill: 'Data Analytics', current: 79, target: 90, growth: '+6%' },
-    { skill: 'Strategic Planning', current: 71, target: 88, growth: '+10%' }
+    // Technical Skills
+    { skill: 'AI & Machine Learning', current: 75, target: 90, growth: '+15%', category: 'Technical' },
+    { skill: 'Data Analytics', current: 79, target: 90, growth: '+6%', category: 'Technical' },
+    { skill: 'HR Technology Systems', current: 85, target: 95, growth: '+11%', category: 'Technical' },
+    { skill: 'Cybersecurity Awareness', current: 72, target: 85, growth: '+9%', category: 'Technical' },
+    { skill: 'Digital Transformation', current: 68, target: 88, growth: '+14%', category: 'Technical' },
+    
+    // Leadership & Management
+    { skill: 'Digital Leadership', current: 68, target: 85, growth: '+12%', category: 'Leadership' },
+    { skill: 'Strategic Planning', current: 71, target: 88, growth: '+10%', category: 'Leadership' },
+    { skill: 'Change Management', current: 74, target: 85, growth: '+8%', category: 'Leadership' },
+    { skill: 'Team Building', current: 88, target: 95, growth: '+5%', category: 'Leadership' },
+    { skill: 'Performance Coaching', current: 82, target: 90, growth: '+7%', category: 'Leadership' },
+    
+    // Cultural & Communication
+    { skill: 'Cultural Intelligence', current: 82, target: 95, growth: '+8%', category: 'Cultural' },
+    { skill: 'Arabic Language Skills', current: 65, target: 85, growth: '+18%', category: 'Cultural' },
+    { skill: 'Cross-Cultural Communication', current: 76, target: 90, growth: '+13%', category: 'Cultural' },
+    { skill: 'Saudi Business Protocol', current: 91, target: 95, growth: '+3%', category: 'Cultural' },
+    { skill: 'International Relations', current: 58, target: 75, growth: '+22%', category: 'Cultural' },
+    
+    // HR Specialization
+    { skill: 'Talent Acquisition', current: 84, target: 92, growth: '+6%', category: 'HR' },
+    { skill: 'Employee Relations', current: 89, target: 95, growth: '+4%', category: 'HR' },
+    { skill: 'Compensation & Benefits', current: 77, target: 88, growth: '+9%', category: 'HR' },
+    { skill: 'Learning & Development', current: 86, target: 93, growth: '+5%', category: 'HR' },
+    { skill: 'HR Analytics', current: 71, target: 85, growth: '+12%', category: 'HR' },
+    { skill: 'Organizational Design', current: 63, target: 80, growth: '+16%', category: 'HR' },
+    
+    // Compliance & Legal
+    { skill: 'Saudi Labor Law', current: 92, target: 98, growth: '+4%', category: 'Compliance' },
+    { skill: 'GDPR & Data Privacy', current: 69, target: 85, growth: '+14%', category: 'Compliance' },
+    { skill: 'Employment Contracts', current: 87, target: 95, growth: '+6%', category: 'Compliance' },
+    { skill: 'Health & Safety Regulations', current: 81, target: 90, growth: '+8%', category: 'Compliance' },
+    { skill: 'Ethics & Governance', current: 78, target: 88, growth: '+9%', category: 'Compliance' },
+    
+    // Business & Finance
+    { skill: 'Financial Literacy', current: 66, target: 80, growth: '+15%', category: 'Business' },
+    { skill: 'Budget Management', current: 73, target: 85, growth: '+11%', category: 'Business' },
+    { skill: 'Business Process Improvement', current: 70, target: 85, growth: '+13%', category: 'Business' },
+    { skill: 'Project Management', current: 79, target: 88, growth: '+8%', category: 'Business' },
+    { skill: 'Vendor Management', current: 64, target: 78, growth: '+17%', category: 'Business' },
+    
+    // Vision 2030 & Innovation
+    { skill: 'Vision 2030 Implementation', current: 75, target: 92, growth: '+16%', category: 'Innovation' },
+    { skill: 'Innovation Management', current: 61, target: 80, growth: '+21%', category: 'Innovation' },
+    { skill: 'Sustainability Practices', current: 68, target: 85, growth: '+18%', category: 'Innovation' },
+    { skill: 'Digital Innovation', current: 72, target: 88, growth: '+14%', category: 'Innovation' },
+    { skill: 'Entrepreneurship', current: 55, target: 75, growth: '+25%', category: 'Innovation' }
   ];
 
   const microLearningModules = [
@@ -148,6 +193,12 @@ const LearningExperienceOptimization: React.FC = () => {
       rating: 4.5
     }
   ];
+
+  const categories = ['All', 'Technical', 'Leadership', 'Cultural', 'HR', 'Compliance', 'Business', 'Innovation'];
+  
+  const filteredSkills = selectedCategory === 'All' 
+    ? skillsProgress 
+    : skillsProgress.filter(skill => skill.category === selectedCategory);
 
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-background to-muted/20 min-h-screen">
@@ -326,24 +377,56 @@ const LearningExperienceOptimization: React.FC = () => {
         <TabsContent value="skills" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Zap className="h-5 w-5 text-primary" />
-                Skills Development Progress
-              </CardTitle>
+              <div className="flex justify-between items-center">
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  Skills Development Progress ({filteredSkills.length} skills)
+                </CardTitle>
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    className="px-3 py-1 border border-border rounded-md text-sm bg-background"
+                  >
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {skillsProgress.map((skill, index) => (
-                  <div key={index} className="space-y-2">
+                {filteredSkills.map((skill, index) => (
+                  <div key={index} className="space-y-2 p-4 rounded-lg border hover:bg-muted/50 transition-colors">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium">{skill.skill}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="font-medium">{skill.skill}</span>
+                        <Badge variant="outline" className="text-xs">
+                          {skill.category}
+                        </Badge>
+                      </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-green-600">{skill.growth}</span>
-                        <Badge variant="outline">{skill.current}%</Badge>
+                        <span className="text-sm text-green-600 font-medium">{skill.growth}</span>
+                        <Badge variant="secondary">{skill.current}%</Badge>
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <Progress value={skill.current} className="flex-1" />
+                      <Progress 
+                        value={skill.current} 
+                        className="flex-1"
+                        style={{
+                          // @ts-ignore
+                          '--progress-background': skill.current >= skill.target * 0.9 
+                            ? 'hsl(var(--status-success))' 
+                            : skill.current >= skill.target * 0.7 
+                            ? 'hsl(var(--status-warning))' 
+                            : 'hsl(var(--primary))'
+                        }}
+                      />
                       <span className="text-sm text-muted-foreground">Target: {skill.target}%</span>
                     </div>
                   </div>
