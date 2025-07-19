@@ -23,6 +23,65 @@ export interface DummyEmployee {
   certifications?: string[];
 }
 
+export interface DummyAttendanceRecord {
+  id: string;
+  employee_id: string;
+  date: string;
+  check_in: string;
+  check_out: string;
+  break_duration: number;
+  overtime_hours: number;
+  status: 'present' | 'absent' | 'late' | 'early_departure';
+  location: string;
+}
+
+export interface DummyTrainingModule {
+  id: string;
+  title: string;
+  title_ar: string;
+  description: string;
+  duration_hours: number;
+  completion_rate: number;
+  status: 'active' | 'draft' | 'archived';
+  category: string;
+  mandatory: boolean;
+  deadline: string;
+}
+
+export interface DummyEngagementMetric {
+  id: string;
+  employee_id: string;
+  date: string;
+  engagement_score: number;
+  satisfaction_score: number;
+  productivity_score: number;
+  stress_level: number;
+  feedback: string;
+}
+
+export interface DummyLearningProgress {
+  id: string;
+  employee_id: string;
+  module_id: string;
+  completion_percentage: number;
+  time_spent_hours: number;
+  last_accessed: string;
+  quiz_scores: number[];
+  certificates_earned: string[];
+}
+
+export interface DummyRecommendation {
+  id: string;
+  type: 'learning_to_engagement' | 'engagement_to_learning' | 'combined_insight';
+  priority: 'high' | 'medium' | 'low';
+  title: string;
+  description: string;
+  actions: string[];
+  confidence: number;
+  created_at: string;
+  expires_at: string;
+}
+
 export interface DummyPosition {
   id: string;
   title: string;
@@ -664,6 +723,79 @@ export const generateDummyProjects = (): DummyProject[] => [
   }
 ];
 
+// Generate dummy attendance records
+export const generateDummyAttendanceRecords = (): DummyAttendanceRecord[] => [
+  { id: '1', employee_id: '1', date: '2024-01-15', check_in: '08:00', check_out: '17:00', break_duration: 1, overtime_hours: 0, status: 'present', location: 'Main Office' },
+  { id: '2', employee_id: '2', date: '2024-01-15', check_in: '08:15', check_out: '17:15', break_duration: 1, overtime_hours: 0.25, status: 'late', location: 'Main Office' },
+  { id: '3', employee_id: '3', date: '2024-01-15', check_in: '08:00', check_out: '19:00', break_duration: 1, overtime_hours: 2, status: 'present', location: 'Remote' },
+  { id: '4', employee_id: '4', date: '2024-01-15', check_in: '08:30', check_out: '16:30', break_duration: 0.5, overtime_hours: 0, status: 'early_departure', location: 'Branch Office' },
+  { id: '5', employee_id: '5', date: '2024-01-15', check_in: '08:00', check_out: '17:30', break_duration: 1, overtime_hours: 0.5, status: 'present', location: 'Main Office' },
+];
+
+// Generate dummy training modules
+export const generateDummyTrainingModules = (): DummyTrainingModule[] => [
+  { id: '1', title: 'Leadership Excellence', title_ar: 'التميز في القيادة', description: 'Advanced leadership skills for managers', duration_hours: 20, completion_rate: 85, status: 'active', category: 'Leadership', mandatory: true, deadline: '2024-03-31' },
+  { id: '2', title: 'Digital Transformation', title_ar: 'التحول الرقمي', description: 'Understanding digital tools and processes', duration_hours: 15, completion_rate: 72, status: 'active', category: 'Technology', mandatory: false, deadline: '2024-04-30' },
+  { id: '3', title: 'Safety Protocols', title_ar: 'بروتوكولات السلامة', description: 'Workplace safety and emergency procedures', duration_hours: 8, completion_rate: 95, status: 'active', category: 'Safety', mandatory: true, deadline: '2024-02-28' },
+  { id: '4', title: 'Customer Service Excellence', title_ar: 'التميز في خدمة العملاء', description: 'Enhancing customer interaction skills', duration_hours: 12, completion_rate: 68, status: 'active', category: 'Customer Service', mandatory: false, deadline: '2024-05-31' },
+  { id: '5', title: 'Cultural Awareness', title_ar: 'الوعي الثقافي', description: 'Understanding Saudi culture and values', duration_hours: 6, completion_rate: 90, status: 'active', category: 'Culture', mandatory: true, deadline: '2024-03-15' },
+];
+
+// Generate dummy engagement metrics
+export const generateDummyEngagementMetrics = (): DummyEngagementMetric[] => [
+  { id: '1', employee_id: '1', date: '2024-01-15', engagement_score: 87, satisfaction_score: 85, productivity_score: 90, stress_level: 25, feedback: 'Highly motivated and productive' },
+  { id: '2', employee_id: '2', date: '2024-01-15', engagement_score: 75, satisfaction_score: 78, productivity_score: 82, stress_level: 35, feedback: 'Good performance with room for improvement' },
+  { id: '3', employee_id: '3', date: '2024-01-15', engagement_score: 92, satisfaction_score: 88, productivity_score: 95, stress_level: 20, feedback: 'Exceptional performance and team leadership' },
+  { id: '4', employee_id: '4', date: '2024-01-15', engagement_score: 68, satisfaction_score: 70, productivity_score: 75, stress_level: 45, feedback: 'Needs motivation and support' },
+  { id: '5', employee_id: '5', date: '2024-01-15', engagement_score: 85, satisfaction_score: 83, productivity_score: 88, stress_level: 30, feedback: 'Strong performance with good work-life balance' },
+];
+
+// Generate dummy learning progress
+export const generateDummyLearningProgress = (): DummyLearningProgress[] => [
+  { id: '1', employee_id: '1', module_id: '1', completion_percentage: 85, time_spent_hours: 17, last_accessed: '2024-01-15', quiz_scores: [88, 92, 85], certificates_earned: ['Leadership Fundamentals'] },
+  { id: '2', employee_id: '2', module_id: '2', completion_percentage: 60, time_spent_hours: 9, last_accessed: '2024-01-14', quiz_scores: [75, 80], certificates_earned: [] },
+  { id: '3', employee_id: '3', module_id: '1', completion_percentage: 100, time_spent_hours: 20, last_accessed: '2024-01-13', quiz_scores: [95, 98, 92], certificates_earned: ['Leadership Excellence'] },
+  { id: '4', employee_id: '4', module_id: '3', completion_percentage: 100, time_spent_hours: 8, last_accessed: '2024-01-12', quiz_scores: [90, 88], certificates_earned: ['Safety Certification'] },
+  { id: '5', employee_id: '5', module_id: '1', completion_percentage: 75, time_spent_hours: 15, last_accessed: '2024-01-15', quiz_scores: [85, 90], certificates_earned: [] },
+];
+
+// Generate dummy AI recommendations
+export const generateDummyRecommendations = (): DummyRecommendation[] => [
+  {
+    id: '1',
+    type: 'learning_to_engagement',
+    priority: 'high',
+    title: 'Recognize Ahmed\'s Learning Achievements',
+    description: 'Ahmed has completed 85% of leadership training with excellent scores but shows moderate engagement. Recognition could boost motivation.',
+    actions: ['Send achievement recognition email', 'Assign mentorship role', 'Nominate for advanced training'],
+    confidence: 0.92,
+    created_at: '2024-01-15T10:00:00Z',
+    expires_at: '2024-02-15T10:00:00Z'
+  },
+  {
+    id: '2',
+    type: 'engagement_to_learning',
+    priority: 'medium',
+    title: 'Accelerate Mohammed\'s Learning Path',
+    description: 'Mohammed shows exceptional engagement (92%) and could benefit from advanced learning opportunities.',
+    actions: ['Enroll in leadership track', 'Provide challenging projects', 'Connect with expert mentors'],
+    confidence: 0.87,
+    created_at: '2024-01-15T09:30:00Z',
+    expires_at: '2024-02-15T09:30:00Z'
+  },
+  {
+    id: '3',
+    type: 'combined_insight',
+    priority: 'high',
+    title: 'Sarah Needs Support and Motivation',
+    description: 'Sarah shows declining engagement (68%) and slow learning progress. Intervention needed.',
+    actions: ['Schedule one-on-one meeting', 'Provide additional training support', 'Review workload and stress factors'],
+    confidence: 0.89,
+    created_at: '2024-01-15T11:15:00Z',
+    expires_at: '2024-02-15T11:15:00Z'
+  }
+];
+
 // Analytics data generators
 export const generateAnalyticsData = () => ({
   employeeGrowth: [
@@ -694,7 +826,15 @@ export const generateAnalyticsData = () => ({
     { day: 'Wed', present: 170, absent: 2, late: 1 },
     { day: 'Thu', present: 167, absent: 4, late: 2 },
     { day: 'Fri', present: 172, absent: 1, late: 0 }
-  ]
+  ],
+  realTimeMetrics: {
+    currentlyWorking: 145,
+    onBreak: 12,
+    absent: 8,
+    remote: 25,
+    averageHours: 8.2,
+    overtimeToday: 15
+  }
 });
 
 // Government integration status

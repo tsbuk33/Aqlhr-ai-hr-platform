@@ -4,13 +4,25 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link } from 'lucide-react';
+import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle } from 'lucide-react';
 import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
 import SmartRecommendationEngine from '@/components/SmartRecommendationEngine';
+import {
+  generateDummyTrainingModules,
+  generateDummyLearningProgress,
+  generateDummyEmployees,
+  generateAnalyticsData
+} from '@/utils/dummyData';
 
 const LearningExperienceOptimization: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  
+  // Load comprehensive dummy data
+  const trainingModules = generateDummyTrainingModules();
+  const learningProgress = generateDummyLearningProgress();
+  const employees = generateDummyEmployees();
+  const analytics = generateAnalyticsData();
   
   // LEO-GEO Integration
   const { 
@@ -295,6 +307,142 @@ const LearningExperienceOptimization: React.FC = () => {
         </TabsList>
 
         <TabsContent value="dashboard" className="space-y-6">
+          {/* Demo Data Banner */}
+          <Card className="border-2 border-primary bg-gradient-to-r from-primary/10 to-primary/5">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Activity className="h-6 w-6 text-primary" />
+                  <div>
+                    <h3 className="font-semibold text-primary">Live Demo Data Active</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Viewing {trainingModules.length} training modules, {learningProgress.length} learning records, 
+                      and {employees.length} employee profiles with real-time progress tracking
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Badge variant="default" className="bg-green-600">
+                    <CheckCircle className="h-3 w-3 mr-1" />
+                    Data Loaded
+                  </Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Real Training Modules from Dummy Data */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" />
+                Active Training Modules ({trainingModules.length} total)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {trainingModules.map((module) => (
+                  <div key={module.id} className="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="font-semibold">{module.title}</h4>
+                        <p className="text-sm text-muted-foreground">{module.title_ar}</p>
+                      </div>
+                      <div className="flex gap-1">
+                        {module.mandatory && <Badge variant="destructive" className="text-xs">Required</Badge>}
+                        <Badge variant={module.status === 'active' ? 'default' : 'secondary'} className="text-xs">
+                          {module.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <p className="text-sm text-muted-foreground mb-3">{module.description}</p>
+                    
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span>Duration: {module.duration_hours}h</span>
+                        <span>Category: {module.category}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Progress value={module.completion_rate} className="flex-1" />
+                        <span className="text-sm font-medium">{module.completion_rate}%</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        Deadline: {new Date(module.deadline).toLocaleDateString()}
+                      </div>
+                    </div>
+                    
+                    <Button size="sm" className="w-full mt-3">
+                      {module.completion_rate === 100 ? 'Review' : 'Continue'}
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Learning Progress by Employee */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Individual Learning Progress
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {learningProgress.map((progress) => {
+                  const employee = employees.find(e => e.id === progress.employee_id);
+                  const module = trainingModules.find(m => m.id === progress.module_id);
+                  return (
+                    <div key={progress.id} className="p-4 border rounded-lg">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <h4 className="font-medium">{employee?.first_name} {employee?.last_name}</h4>
+                          <p className="text-sm text-muted-foreground">{employee?.first_name_ar} {employee?.last_name_ar}</p>
+                          <p className="text-sm font-medium text-primary">{module?.title}</p>
+                        </div>
+                        <div className="text-right">
+                          <Badge variant={progress.completion_percentage === 100 ? 'default' : 'secondary'}>
+                            {progress.completion_percentage}% Complete
+                          </Badge>
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {progress.time_spent_hours}h spent
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <Progress value={progress.completion_percentage} className="mb-3" />
+                      
+                      <div className="flex justify-between items-center text-sm">
+                        <div className="flex gap-4">
+                          <span className="text-muted-foreground">
+                            Last accessed: {new Date(progress.last_accessed).toLocaleDateString()}
+                          </span>
+                          {progress.quiz_scores.length > 0 && (
+                            <span className="text-muted-foreground">
+                              Avg Quiz Score: {Math.round(progress.quiz_scores.reduce((a, b) => a + b, 0) / progress.quiz_scores.length)}%
+                            </span>
+                          )}
+                        </div>
+                        {progress.certificates_earned.length > 0 && (
+                          <div className="flex gap-1">
+                            {progress.certificates_earned.map((cert, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                <Award className="h-3 w-3 mr-1" />
+                                {cert}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
           {/* LEO-GEO Integration Insights */}
           {!integrationLoading && engagementInsights.length > 0 && (
             <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5">
