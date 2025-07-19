@@ -1,4 +1,8 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { Resend } from "npm:resend@4.0.0";
+import { renderAsync } from "npm:@react-email/components@0.0.22";
+import React from "npm:react@18.3.1";
+import { HealingReportEmail } from "./_templates/healing-report.tsx";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*", 
@@ -183,6 +187,26 @@ const handler = async (req: Request): Promise<Response> => {
       ? (healingActions.reduce((sum, action) => sum + action.executionTime, 0) / healingActions.length / 1000).toFixed(1)
       : '0';
 
+    // Initialize Resend
+    const resend = new Resend(Deno.env.get('RESEND_API_KEY'));
+    
+    if (!Deno.env.get('RESEND_API_KEY')) {
+      logger.error('RESEND_API_KEY not configured');
+      return new Response(
+        JSON.stringify({ 
+          error: 'Email service not configured',
+          success: false 
+        }),
+        {
+          status: 500,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
     // Build email content
     const emailContent = `
 # 🔧 AqlHR Self-Healing System - ${reportType.charAt(0).toUpperCase() + reportType.slice(1)} Report
@@ -312,9 +336,59 @@ ${criticalAlerts > 0 ? `- 🚨 **CRITICAL:** Review ${criticalAlerts} critical a
       recipientEmail
     });
 
-    // In a real implementation, you would send this via email service
-    // For now, we'll just log it and return success
-    logger.info('Report content generated', { contentLength: emailContent.length });
+    // Render the professional email template
+    const emailHtml = await renderAsync(
+      React.createElement(HealingReportEmail, {
+        reportType,
+        systemHealth,
+        reportDate,
+        saudiTime,
+        successfulActions,
+        criticalAlerts,
+        totalIssuesPrevented,
+        avgResponseTime,
+        metrics,
+        healingActions,
+        alerts
+      })
+    );
+
+    // Send the actual email
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: 'AqlHR Self-Healing System <system@aqlhr.com>',
+      to: [recipientEmail],
+      subject: `🔧 AqlHR Self-Healing Report - ${systemHealth.toFixed(1)}% System Health - ${reportDate}`,
+      html: emailHtml,
+    });
+
+    if (emailError) {
+      logger.error('Failed to send email', { 
+        error: emailError, 
+        recipientEmail,
+        reportType 
+      });
+      return new Response(
+        JSON.stringify({ 
+          error: 'Failed to send email report',
+          success: false,
+          details: emailError.message
+        }),
+        {
+          status: 500,
+          headers: { 
+            "Content-Type": "application/json", 
+            ...corsHeaders 
+          },
+        }
+      );
+    }
+
+    logger.info('Email sent successfully', { 
+      emailId: emailData?.id,
+      recipientEmail,
+      reportType,
+      systemHealth
+    });
 
     return new Response(
       JSON.stringify({ 
