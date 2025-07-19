@@ -62,21 +62,21 @@ const Index = () => {
       <SaudiHeroSection />
       
       {/* Executive Header */}
-      <div className="bg-white border-b border-border">
+      <div className="bg-surface border-b border-border dark:bg-surface dark:border-border">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
             <div className={`${isArabic ? 'text-right' : ''}`}>
-              <h1 className="text-3xl font-bold text-foreground mb-2">
+              <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-2">
                 {isArabic ? 'نظام إيه كيو إل إتش ار للموارد البشرية' : 'AqlHR Executive Dashboard'}
               </h1>
-              <p className="text-muted-foreground text-lg">
+              <p className="text-foreground-muted dark:text-foreground-muted text-lg">
                 {isArabic ? 'منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية' : 'Advanced Intelligent Platform for Human Resources Management in Saudi Arabia'}
               </p>
             </div>
             <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-status-success rounded-full"></div>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-foreground-muted dark:text-foreground-muted">
                   {isArabic ? 'جميع الأنظمة تعمل' : 'All Systems Operational'}
                 </span>
               </div>
@@ -315,10 +315,10 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="relative group">
-              <div className="bg-white rounded-xl border border-border p-6 hover:shadow-lg transition-all duration-300">
+              <div className="bg-surface dark:bg-surface rounded-xl border border-border dark:border-border p-6 hover:shadow-lg transition-all duration-300">
                 <div className={`flex items-center justify-between mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <Users className="h-6 w-6 text-primary" />
+                  <div className="p-3 bg-primary/10 dark:bg-primary/20 rounded-lg">
+                    <Users className="h-6 w-6 text-primary dark:text-primary" />
                   </div>
                   <Dialog>
                     <DialogTrigger asChild>
