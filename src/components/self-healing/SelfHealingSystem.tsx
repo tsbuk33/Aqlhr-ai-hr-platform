@@ -202,6 +202,11 @@ const SelfHealingSystem: React.FC = () => {
 
   const generateDailyReport = async () => {
     try {
+      toast({
+        title: "Generating Report",
+        description: "Creating executive healing report...",
+      });
+
       // Call edge function to send daily report email
       const { data, error } = await supabase.functions.invoke('send-healing-report', {
         body: {
@@ -218,13 +223,14 @@ const SelfHealingSystem: React.FC = () => {
         console.error('Error sending report:', error);
         toast({
           title: "Report Error",
-          description: "Failed to send daily report email",
+          description: `Failed to send daily report: ${error.message}`,
           variant: "destructive"
         });
       } else {
+        console.log('Report sent successfully:', data);
         toast({
-          title: "Report Sent",
-          description: "Daily self-healing report sent successfully",
+          title: "✅ Report Sent Successfully!",
+          description: `Professional email report sent to tsbuk33@gmail.com with ${systemHealth.toFixed(1)}% system health status`,
         });
       }
     } catch (error) {
