@@ -15,6 +15,7 @@ import {
   PieChart, LineChart, Map, Calendar, Bell
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import SelfHealingSystem from '@/components/self-healing/SelfHealingSystem';
 
 interface PlatformMetrics {
   totalRevenue: number;
@@ -190,12 +191,13 @@ const SuperAdminDashboard: React.FC = () => {
 
       <div className="p-6 space-y-6">
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:grid-cols-none lg:flex">
+          <TabsList className="grid w-full grid-cols-8 lg:w-auto lg:grid-cols-none lg:flex">
             <TabsTrigger value="overview">{isArabic ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
             <TabsTrigger value="assessment">{isArabic ? 'ذكاء التقييم' : 'Assessment Intelligence'}</TabsTrigger>
             <TabsTrigger value="companies">{isArabic ? 'الشركات' : 'Companies'}</TabsTrigger>
             <TabsTrigger value="mckinsey">{isArabic ? 'مكنزي' : 'McKinsey'}</TabsTrigger>
             <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
+            <TabsTrigger value="healing">{isArabic ? 'الشفاء الذاتي' : 'Self-Healing'}</TabsTrigger>
             <TabsTrigger value="system">{isArabic ? 'النظام' : 'System'}</TabsTrigger>
             <TabsTrigger value="settings">{isArabic ? 'الإعدادات' : 'Settings'}</TabsTrigger>
           </TabsList>
@@ -759,6 +761,11 @@ const SuperAdminDashboard: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          {/* Self-Healing System Tab */}
+          <TabsContent value="healing" className="space-y-6">
+            <SelfHealingSystem />
           </TabsContent>
 
           {/* System Tab */}
