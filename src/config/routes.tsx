@@ -181,6 +181,7 @@ const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
 const StrategicPresentationCenter = lazy(() => import('../pages/executive/StrategicPresentationCenter'));
 const SuperAdminDashboard = lazy(() => import('../pages/executive/SuperAdminDashboard'));
+const MobileExecutiveDashboard = lazy(() => import('../pages/executive/MobileExecutiveDashboard'));
 
 // LEO & GEO modules
 const LearningExperienceOptimization = lazy(() => import('../pages/leo/LearningExperienceOptimization'));
@@ -416,6 +417,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Executive Intelligence Center - admin only
   { path: '/executive-center', element: ExecutiveCenter, auth: true, adminOnly: true },
+  { path: '/executive/mobile', element: MobileExecutiveDashboard, auth: true, adminOnly: true },
   { path: '/executive/strategic-presentations', element: StrategicPresentationCenter, auth: true, adminOnly: true },
   { path: '/founder/super-admin', element: SuperAdminDashboard, auth: true, adminOnly: true },
   

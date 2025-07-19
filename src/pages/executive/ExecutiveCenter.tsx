@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useNavigate } from 'react-router-dom';
 import { 
   Crown,
   Brain,
@@ -19,7 +20,8 @@ import {
   Database,
   FileText,
   Cpu,
-  Lightbulb
+  Lightbulb,
+  Smartphone
 } from 'lucide-react';
 import MasterIntelligenceDashboard from '@/components/executive/MasterIntelligenceDashboard';
 import CrossModuleIntelligence from '@/components/executive/CrossModuleIntelligence';
@@ -36,6 +38,7 @@ import { AdvancedPredictiveAnalytics } from '@/components/executive/AdvancedPred
 const ExecutiveCenter: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
   const [activeModule, setActiveModule] = useState('intelligence');
+  const navigate = useNavigate();
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -53,6 +56,17 @@ const ExecutiveCenter: React.FC = () => {
               </p>
             </div>
             <div className="text-right space-y-2">
+              <div className="flex gap-2 justify-end mb-2">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate('/executive/mobile')}
+                  className="border-primary/20 text-primary hover:bg-primary/10"
+                >
+                  <Smartphone className="h-4 w-4 mr-2" />
+                  📱 Mobile Access
+                </Button>
+              </div>
               <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
                 <Globe className="h-3 w-3 mr-1" />
                 Global Enterprise Ready
