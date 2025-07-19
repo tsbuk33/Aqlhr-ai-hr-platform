@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link } from 'lucide-react';
 import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
+import SmartRecommendationEngine from '@/components/SmartRecommendationEngine';
 
 const LearningExperienceOptimization: React.FC = () => {
   const [selectedModule, setSelectedModule] = useState<string | null>(null);
@@ -266,7 +267,7 @@ const LearningExperienceOptimization: React.FC = () => {
       </div>
 
       <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="dashboard" className="flex items-center gap-2">
             <Target className="h-4 w-4" />
             Dashboard
@@ -283,8 +284,12 @@ const LearningExperienceOptimization: React.FC = () => {
             <TrendingUp className="h-4 w-4" />
             Learning Paths
           </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2">
+          <TabsTrigger value="smart-recommendations" className="flex items-center gap-2">
             <Brain className="h-4 w-4" />
+            Smart AI
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <Award className="h-4 w-4" />
             Analytics
           </TabsTrigger>
         </TabsList>
@@ -515,6 +520,13 @@ const LearningExperienceOptimization: React.FC = () => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="smart-recommendations" className="space-y-6">
+          <SmartRecommendationEngine 
+            employeeId="22222222-2222-2222-2222-222222222222"
+            companyId="11111111-1111-1111-1111-111111111111"
+          />
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-6">

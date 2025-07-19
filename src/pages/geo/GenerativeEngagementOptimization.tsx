@@ -25,6 +25,7 @@ import {
   Link
 } from 'lucide-react';
 import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
+import SmartRecommendationEngine from '@/components/SmartRecommendationEngine';
 
 const GenerativeEngagementOptimization: React.FC = () => {
   const [selectedPulseOption, setSelectedPulseOption] = useState<string | null>(null);
@@ -268,7 +269,7 @@ const GenerativeEngagementOptimization: React.FC = () => {
       </div>
 
       <Tabs defaultValue="pulse" className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="pulse" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             Pulse Check
@@ -284,6 +285,10 @@ const GenerativeEngagementOptimization: React.FC = () => {
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
             Analytics
+          </TabsTrigger>
+          <TabsTrigger value="smart-ai" className="flex items-center gap-2">
+            <Brain className="h-4 w-4" />
+            Smart AI
           </TabsTrigger>
           <TabsTrigger value="insights" className="flex items-center gap-2">
             <Zap className="h-4 w-4" />
@@ -533,6 +538,13 @@ const GenerativeEngagementOptimization: React.FC = () => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        <TabsContent value="smart-ai" className="space-y-6">
+          <SmartRecommendationEngine 
+            employeeId="22222222-2222-2222-2222-222222222222"
+            companyId="11111111-1111-1111-1111-111111111111"
+          />
         </TabsContent>
 
         <TabsContent value="insights" className="space-y-6">
