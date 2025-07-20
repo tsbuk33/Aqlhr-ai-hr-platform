@@ -63,8 +63,8 @@ const Help = () => {
       id: 'payroll',
       icon: DollarSign,
       title: language === 'ar' ? 'معالجة الرواتب' : 'Payroll Processing',
-      description: language === 'ar' ? 'حساب شامل للرواتب ومعالجة الضرائب وإدارة المدفوعات' : 'Comprehensive salary calculation, tax processing, and payment management',
-      tools: language === 'ar' ? ['حاسبة الراتب', 'معالجة الضرائب', 'إنتاج قسائم الراتب', 'تكامل التأمينات'] : ['Salary Calculator', 'Tax Processing', 'Payslip Generation', 'GOSI Integration'],
+      description: language === 'ar' ? 'حساب شامل للرواتب وإدارة المدفوعات' : 'Comprehensive salary calculation and payment management',
+      tools: language === 'ar' ? ['حاسبة الراتب', 'إنتاج قسائم الراتب', 'تكامل التأمينات'] : ['Salary Calculator', 'Payslip Generation', 'GOSI Integration'],
       usage: language === 'ar' ? 'إعداد الهياكل ← تكوين المعدلات ← استيراد البيانات ← الحساب ← المراجعة ← المعالجة' : 'Setup structures → Configure rates → Import data → Calculate → Review → Process',
       benefits: language === 'ar' ? ['حسابات آلية', 'مسارات الموافقة', 'التسوية', 'ضمان الامتثال'] : ['Automated calculations', 'Approval workflows', 'Reconciliation', 'Compliance assurance']
     },

@@ -113,7 +113,7 @@ export const SkillMatrixDashboard: React.FC = () => {
       { en: "Financial Analysis", ar: "التحليل المالي" },
       { en: "Budgeting & Forecasting", ar: "إعداد الميزانية والتنبؤ" },
       { en: "Auditing", ar: "التدقيق" },
-      { en: "Tax Compliance", ar: "الامتثال الضريبي" },
+      
       { en: "Financial Reporting", ar: "التقارير المالية" },
       { en: "Cost Accounting", ar: "محاسبة التكاليف" },
       { en: "Treasury Management", ar: "إدارة الخزينة" },

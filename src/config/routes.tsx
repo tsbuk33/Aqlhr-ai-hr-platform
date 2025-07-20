@@ -38,7 +38,7 @@ const HealthSafety = lazy(() => import('../pages/HealthSafety'));
 const WPSProcessing = lazy(() => import('../pages/payroll/WPSProcessing'));
 const GOSIIntegration = lazy(() => import('../pages/payroll/GOSIIntegration'));
 const EOSBCalculations = lazy(() => import('../pages/payroll/EOSBCalculations'));
-const TaxCompliance = lazy(() => import('../pages/payroll/TaxCompliance'));
+
 const ExpenseManagement = lazy(() => import('../pages/payroll/ExpenseManagement'));
 const PayrollAnalytics = lazy(() => import('../pages/payroll/PayrollAnalytics'));
 const BankIntegration = lazy(() => import('../pages/payroll/BankIntegration'));
@@ -374,7 +374,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/payroll/wps', element: WPSProcessing, auth: true },
   { path: '/payroll/gosi', element: GOSIIntegration, auth: true },
   { path: '/payroll/eosb', element: EOSBCalculations, auth: true },
-  { path: '/payroll/tax', element: TaxCompliance, auth: true },
+  
   { path: '/payroll/expenses', element: ExpenseManagement, auth: true },
   { path: '/payroll/analytics', element: PayrollAnalytics, auth: true },
   { path: '/payroll/banking', element: BankIntegration, auth: true },

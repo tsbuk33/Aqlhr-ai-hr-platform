@@ -122,13 +122,6 @@ const Payroll = () => {
       color: "bg-purple-500",
       onClick: () => console.log('Navigate to bank integration')
     },
-    {
-      title: language === 'ar' ? 'الامتثال الضريبي' : 'Tax Compliance',
-      description: language === 'ar' ? 'إدارة الضرائب والامتثال' : 'Tax management and compliance',
-      icon: FileText,
-      color: "bg-orange-500",
-      onClick: () => console.log('Navigate to tax compliance')
-    }
   ];
 
   const [documents, setDocuments] = useState([
