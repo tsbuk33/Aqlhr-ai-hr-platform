@@ -46,9 +46,9 @@ export const ExecutiveSummary = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'bg-success text-white';
+      case 'excellent': return 'bg-brand-success text-white';
       case 'good': return 'bg-primary text-white';
-      case 'warning': return 'bg-warning text-white';
+      case 'warning': return 'bg-brand-warning text-white';
       case 'critical': return 'bg-destructive text-white';
       default: return 'bg-muted';
     }
@@ -69,7 +69,7 @@ export const ExecutiveSummary = ({
 
   const getTrendIcon = (direction: string) => {
     switch (direction) {
-      case 'up': return <TrendingUp className="h-4 w-4 text-success" />;
+      case 'up': return <TrendingUp className="h-4 w-4 text-brand-success" />;
       case 'down': return <TrendingDown className="h-4 w-4 text-destructive" />;
       default: return <div className="h-4 w-4 bg-muted rounded-full" />;
     }
@@ -160,8 +160,8 @@ export const ExecutiveSummary = ({
               <div 
                 key={index} 
                 className={`p-3 rounded-lg border-l-4 ${
-                  highlight.type === 'achievement' ? 'border-success bg-success/5' :
-                  highlight.type === 'concern' ? 'border-warning bg-warning/5' :
+                  highlight.type === 'achievement' ? 'border-brand-success bg-brand-success/5' :
+                  highlight.type === 'concern' ? 'border-brand-warning bg-brand-warning/5' :
                   'border-primary bg-primary/5'
                 }`}
               >

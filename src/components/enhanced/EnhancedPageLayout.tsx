@@ -167,7 +167,7 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
                     <p className="text-sm text-muted-foreground">{stat.title}</p>
                     <p className="text-xl font-bold">{stat.value}</p>
                     {stat.trend && (
-                      <p className={`text-xs ${stat.trend.isPositive ? 'text-success' : 'text-destructive'}`}>
+                      <p className={`text-xs ${stat.trend.isPositive ? 'text-brand-success' : 'text-destructive'}`}>
                         {stat.trend.isPositive ? '↗' : '↘'} {stat.trend.value}
                       </p>
                     )}

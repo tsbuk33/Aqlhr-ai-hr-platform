@@ -405,27 +405,27 @@ const ExecutiveCenter: React.FC = () => {
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
               <div className="text-center">
-                <div className="font-bold text-primary">105+</div>
+                <div className="font-bold text-foreground">105+</div>
                 <div className="text-muted-foreground">{isArabic ? 'الوحدات' : 'Modules'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-success">26</div>
+                <div className="font-bold text-brand-success">26</div>
                 <div className="text-muted-foreground">{isArabic ? 'قدرات الذكاء الاصطناعي' : 'AI Capabilities'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-warning">22</div>
+                <div className="font-bold text-brand-warning">22</div>
                 <div className="text-muted-foreground">{isArabic ? 'التكاملات الحكومية' : 'Gov Integrations'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-accent">15+</div>
+                <div className="font-bold text-brand-accent">15+</div>
                 <div className="text-muted-foreground">{isArabic ? 'المزايا الفورية' : 'Real-Time Features'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-primary">45+</div>
+                <div className="font-bold text-foreground">45+</div>
                 <div className="text-muted-foreground">{isArabic ? 'جداول قاعدة البيانات' : 'Database Tables'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-success">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
+                <div className="font-bold text-brand-success">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
                 <div className="text-muted-foreground">{isArabic ? 'مستوى المؤسسات' : 'Scale'}</div>
               </div>
             </div>

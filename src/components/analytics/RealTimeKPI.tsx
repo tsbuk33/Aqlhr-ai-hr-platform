@@ -136,9 +136,9 @@ export const RealTimeKPI = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'excellent': return 'text-success';
+      case 'excellent': return 'text-brand-success';
       case 'good': return 'text-primary';
-      case 'warning': return 'text-warning';
+      case 'warning': return 'text-brand-warning';
       case 'critical': return 'text-destructive';
       default: return 'text-muted-foreground';
     }
@@ -147,7 +147,7 @@ export const RealTimeKPI = ({
   const getAlertIcon = (severity: string) => {
     switch (severity) {
       case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-warning" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-brand-warning" />;
       default: return <CheckCircle className="h-4 w-4 text-primary" />;
     }
   };
@@ -169,7 +169,7 @@ export const RealTimeKPI = ({
             </div>
             <div className="flex items-center gap-2">
               <Badge variant={isUpdating ? "secondary" : "default"} className="gap-1">
-                <div className={`w-2 h-2 rounded-full ${isUpdating ? 'bg-warning animate-pulse' : 'bg-success'}`} />
+                <div className={`w-2 h-2 rounded-full ${isUpdating ? 'bg-brand-warning animate-pulse' : 'bg-brand-success'}`} />
                 {isRTL ? (isUpdating ? 'جاري التحديث' : 'مباشر') : (isUpdating ? 'Updating' : 'Live')}
               </Badge>
               <Button 
@@ -192,7 +192,7 @@ export const RealTimeKPI = ({
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-warning" />
+              <Bell className="h-5 w-5 text-brand-warning" />
               {isRTL ? 'التنبيهات الحية' : 'Live Alerts'}
             </CardTitle>
           </CardHeader>
@@ -203,7 +203,7 @@ export const RealTimeKPI = ({
                   key={alert.id} 
                   className={`p-3 rounded-lg border-l-4 ${
                     alert.severity === 'critical' ? 'border-destructive bg-destructive/5' :
-                    alert.severity === 'warning' ? 'border-warning bg-warning/5' :
+                    alert.severity === 'warning' ? 'border-brand-warning bg-brand-warning/5' :
                     'border-primary bg-primary/5'
                   }`}
                 >
@@ -273,9 +273,9 @@ export const RealTimeKPI = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     {React.createElement(trendIcon, { 
-                      className: `h-4 w-4 ${kpi.trend > 0 ? 'text-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}` 
+                      className: `h-4 w-4 ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}` 
                     })}
-                    <span className={`text-sm ${kpi.trend > 0 ? 'text-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    <span className={`text-sm ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
                       {Math.abs(kpi.trend).toFixed(1)}%
                     </span>
                   </div>
@@ -297,7 +297,7 @@ export const RealTimeKPI = ({
               </CardContent>
               
               {/* Live indicator */}
-              <div className="absolute top-2 right-2 w-2 h-2 bg-success rounded-full animate-pulse" />
+              <div className="absolute top-2 right-2 w-2 h-2 bg-brand-success rounded-full animate-pulse" />
             </Card>
           );
         })}
