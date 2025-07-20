@@ -166,7 +166,7 @@ const AIQueryInterface: React.FC<AIQueryInterfaceProps> = ({
           </div>
 
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">
+            <div className="text-sm text-status-danger bg-status-danger/10 p-3 rounded-md">
               {error}
             </div>
           )}

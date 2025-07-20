@@ -139,14 +139,14 @@ export const RealTimeKPI = ({
       case 'excellent': return 'text-brand-success';
       case 'good': return 'text-primary';
       case 'warning': return 'text-brand-warning';
-      case 'critical': return 'text-destructive';
+      case 'critical': return 'text-status-danger';
       default: return 'text-muted-foreground';
     }
   };
 
   const getAlertIcon = (severity: string) => {
     switch (severity) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-status-danger" />;
       case 'warning': return <AlertTriangle className="h-4 w-4 text-brand-warning" />;
       default: return <CheckCircle className="h-4 w-4 text-primary" />;
     }
@@ -273,9 +273,9 @@ export const RealTimeKPI = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1">
                     {React.createElement(trendIcon, { 
-                      className: `h-4 w-4 ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}` 
+                      className: `h-4 w-4 ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-status-danger' : 'text-muted-foreground'}` 
                     })}
-                    <span className={`text-sm ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-destructive' : 'text-muted-foreground'}`}>
+                    <span className={`text-sm ${kpi.trend > 0 ? 'text-brand-success' : kpi.trend < 0 ? 'text-status-danger' : 'text-muted-foreground'}`}>
                       {Math.abs(kpi.trend).toFixed(1)}%
                     </span>
                   </div>

@@ -70,7 +70,7 @@ export const ExecutiveSummary = ({
   const getTrendIcon = (direction: string) => {
     switch (direction) {
       case 'up': return <TrendingUp className="h-4 w-4 text-brand-success" />;
-      case 'down': return <TrendingDown className="h-4 w-4 text-destructive" />;
+      case 'down': return <TrendingDown className="h-4 w-4 text-status-danger" />;
       default: return <div className="h-4 w-4 bg-muted rounded-full" />;
     }
   };

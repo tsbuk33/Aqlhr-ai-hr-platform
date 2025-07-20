@@ -127,7 +127,7 @@ export const AICommandCenter: React.FC = () => {
 
   const getAlertIcon = (type: string) => {
     switch (type) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-status-danger" />;
       case 'warning': return <AlertTriangle className="h-4 w-4 text-brand-warning" />;
       case 'info': return <Clock className="h-4 w-4 text-primary" />;
       case 'success': return <CheckCircle className="h-4 w-4 text-brand-success" />;

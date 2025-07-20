@@ -88,7 +88,7 @@ export const KPIExplanationCard = ({ explanation }: KPIExplanationCardProps) => 
           <h4 className="font-semibold text-sm mb-2">
             {isArabic ? 'الهدف المثالي:' : 'Ideal target:'}
           </h4>
-          <p className="text-sm text-success">
+          <p className="text-sm text-brand-success">
             {isArabic ? explanation.targetAr : explanation.targetEn}
           </p>
         </div>

@@ -150,7 +150,7 @@ export const EnhancedFormSystem: React.FC<EnhancedFormProps> = ({
 
     return (
       <div key={field.name} className="space-y-2">
-        <Label htmlFor={field.name} className={cn(directionClasses.text, field.required && "after:content-['*'] after:text-destructive after:ml-1")}>
+        <Label htmlFor={field.name} className={cn(directionClasses.text, field.required && "after:content-['*'] after:text-status-danger after:ml-1")}>
           {label}
         </Label>
         
@@ -223,7 +223,7 @@ export const EnhancedFormSystem: React.FC<EnhancedFormProps> = ({
         ) : null}
 
         {error && (
-          <div className="flex items-center gap-2 text-destructive text-sm">
+          <div className="flex items-center gap-2 text-status-danger text-sm">
             <AlertCircle className="h-4 w-4" />
             <span>{error}</span>
           </div>

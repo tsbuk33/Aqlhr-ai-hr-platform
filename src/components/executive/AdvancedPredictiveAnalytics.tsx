@@ -141,8 +141,8 @@ const InsightCard: React.FC<InsightCardProps> = ({
 }) => {
   const getTrendIcon = () => {
     switch (trend) {
-      case 'up': return <TrendingUp className="h-4 w-4 text-success" />;
-      case 'down': return <TrendingDown className="h-4 w-4 text-destructive" />;
+      case 'up': return <TrendingUp className="h-4 w-4 text-brand-success" />;
+      case 'down': return <TrendingDown className="h-4 w-4 text-status-danger" />;
       default: return null;
     }
   };
@@ -245,7 +245,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
-            <div className="text-lg font-bold text-success">{recommendation.expectedROI}</div>
+            <div className="text-lg font-bold text-brand-success">{recommendation.expectedROI}</div>
             <div className="text-xs text-muted-foreground">Expected ROI</div>
           </div>
           <div className="text-center">
@@ -253,11 +253,11 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             <div className="text-xs text-muted-foreground">Confidence</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-warning">{recommendation.timeline}</div>
+            <div className="text-lg font-bold text-brand-warning">{recommendation.timeline}</div>
             <div className="text-xs text-muted-foreground">Timeline</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-accent">High</div>
+            <div className="text-lg font-bold text-brand-accent">High</div>
             <div className="text-xs text-muted-foreground">Impact</div>
           </div>
         </div>
@@ -273,7 +273,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
             <ul className="space-y-2">
               {recommendation.implementation.map((step, index) => (
                 <li key={index} className="flex items-start space-x-2 text-sm">
-                  <CheckCircle className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 mt-0.5 text-brand-success flex-shrink-0" />
                   <span>{step}</span>
                 </li>
               ))}
@@ -353,11 +353,11 @@ const CompetitorCard: React.FC<CompetitorCardProps> = ({
       <CardContent className="space-y-4">
         <div className="space-y-3">
           <div>
-            <h4 className="font-medium text-success mb-2">Strengths:</h4>
+            <h4 className="font-medium text-brand-success mb-2">Strengths:</h4>
             <ul className="space-y-1">
               {strengths.map((strength, index) => (
                 <li key={index} className="text-sm text-muted-foreground flex items-center">
-                  <CheckCircle className="h-3 w-3 mr-2 text-success" />
+                  <CheckCircle className="h-3 w-3 mr-2 text-brand-success" />
                   {strength}
                 </li>
               ))}
@@ -365,11 +365,11 @@ const CompetitorCard: React.FC<CompetitorCardProps> = ({
           </div>
           
           <div>
-            <h4 className="font-medium text-warning mb-2">Weaknesses:</h4>
+            <h4 className="font-medium text-brand-warning mb-2">Weaknesses:</h4>
             <ul className="space-y-1">
               {weaknesses.map((weakness, index) => (
                 <li key={index} className="text-sm text-muted-foreground flex items-center">
-                  <AlertTriangle className="h-3 w-3 mr-2 text-warning" />
+                  <AlertTriangle className="h-3 w-3 mr-2 text-brand-warning" />
                   {weakness}
                 </li>
               ))}
@@ -446,7 +446,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
           AI-powered strategic forecasting across all operational dimensions with 94%+ accuracy
         </p>
         <div className="flex justify-center space-x-2">
-          <Badge className="bg-success/10 text-success border-success/20">
+          <Badge className="bg-brand-success/10 text-brand-success border-brand-success/20">
             <CheckCircle className="h-3 w-3 mr-1" />
             Real-time Analysis
           </Badge>
@@ -454,7 +454,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
             <Brain className="h-3 w-3 mr-1" />
             AI-Powered
           </Badge>
-          <Badge className="bg-warning/10 text-warning border-warning/20">
+          <Badge className="bg-brand-warning/10 text-brand-warning border-brand-warning/20">
             <Globe className="h-3 w-3 mr-1" />
             Enterprise Ready
           </Badge>
@@ -475,7 +475,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
             confidence="92%"
             impact="high"
             recommendation="Implement retention strategy for IT department"
-            icon={<AlertTriangle className="h-5 w-5 text-warning" />}
+            icon={<AlertTriangle className="h-5 w-5 text-brand-warning" />}
           />
           <PredictionCard 
             title="Hiring Demand Forecast"
@@ -484,7 +484,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
             confidence="89%"
             impact="critical"
             recommendation="Accelerate recruitment for software engineers"
-            icon={<TrendingUp className="h-5 w-5 text-success" />}
+            icon={<TrendingUp className="h-5 w-5 text-brand-success" />}
           />
           <PredictionCard 
             title="Skills Gap Analysis"
@@ -511,7 +511,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
             description="Saudi HR tech market expected growth 2025-2027"
             confidence="91%"
             source="SAMA Economic Report 2024"
-            icon={<TrendingUp className="h-5 w-5 text-success" />}
+            icon={<TrendingUp className="h-5 w-5 text-brand-success" />}
             trend="up"
           />
           <InsightCard 
@@ -529,7 +529,7 @@ export const AdvancedPredictiveAnalytics: React.FC = () => {
             description="Total addressable market in Saudi Arabia"
             confidence="95%"
             source="McKinsey Digital Transformation Study"
-            icon={<Globe className="h-5 w-5 text-warning" />}
+            icon={<Globe className="h-5 w-5 text-brand-warning" />}
             trend="stable"
           />
         </div>

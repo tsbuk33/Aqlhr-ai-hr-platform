@@ -267,42 +267,42 @@ const CrossModuleIntelligence: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-success/10 to-success/5 border-success/20">
+        <Card className="bg-gradient-to-br from-brand-success/10 to-brand-success/5 border-brand-success/20">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-success">High Impact Insights</p>
-                <p className="text-2xl font-bold text-success">
+                <p className="text-sm font-medium text-brand-success">High Impact Insights</p>
+                <p className="text-2xl font-bold text-brand-success">
                   {correlations.filter(c => c.businessImpact === 'high').length}
                 </p>
               </div>
-              <TrendingUp className="h-8 w-8 text-success/50" />
+              <TrendingUp className="h-8 w-8 text-brand-success/50" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-warning/10 to-warning/5 border-warning/20">
+        <Card className="bg-gradient-to-br from-brand-warning/10 to-brand-warning/5 border-brand-warning/20">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-warning">AI Recommendations</p>
-                <p className="text-2xl font-bold text-warning">{recommendations.length}</p>
+                <p className="text-sm font-medium text-brand-warning">AI Recommendations</p>
+                <p className="text-2xl font-bold text-brand-warning">{recommendations.length}</p>
               </div>
-              <Brain className="h-8 w-8 text-warning/50" />
+              <Brain className="h-8 w-8 text-brand-warning/50" />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20">
+        <Card className="bg-gradient-to-br from-brand-accent/10 to-brand-accent/5 border-brand-accent/20">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-accent">Avg Confidence</p>
-                <p className="text-2xl font-bold text-accent">
+                <p className="text-sm font-medium text-brand-accent">Avg Confidence</p>
+                <p className="text-2xl font-bold text-brand-accent">
                   {Math.round(correlations.reduce((sum, c) => sum + c.confidence, 0) / correlations.length)}%
                 </p>
               </div>
-              <Target className="h-8 w-8 text-accent/50" />
+              <Target className="h-8 w-8 text-brand-accent/50" />
             </div>
           </CardContent>
         </Card>
@@ -339,7 +339,7 @@ const CrossModuleIntelligence: React.FC = () => {
                   >
                     {correlation.businessImpact.toUpperCase()} IMPACT
                   </Badge>
-                  <span className="text-sm font-medium text-accent">
+                  <span className="text-sm font-medium text-brand-accent">
                     {correlation.confidence}% confidence
                   </span>
                 </div>
@@ -362,8 +362,8 @@ const CrossModuleIntelligence: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="bg-accent/10 p-3 rounded-lg">
-                <p className="text-sm font-medium text-accent">Predicted Outcome:</p>
+              <div className="bg-brand-accent/10 p-3 rounded-lg">
+                <p className="text-sm font-medium text-brand-accent">Predicted Outcome:</p>
                 <p className="text-sm text-foreground mt-1">{correlation.predictedOutcome}</p>
               </div>
             </div>
@@ -404,7 +404,7 @@ const CrossModuleIntelligence: React.FC = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Business Value:</span>
-                  <p className="font-medium text-success">
+                  <p className="font-medium text-brand-success">
                     {(rec.businessValue / 1000000).toFixed(1)}M SAR
                   </p>
                 </div>
@@ -464,24 +464,24 @@ const CrossModuleIntelligence: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-              <div className="text-2xl font-bold text-success">98%</div>
-              <div className="text-xs text-success/80">Core HR Modules</div>
+            <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+              <div className="text-2xl font-bold text-brand-success">98%</div>
+              <div className="text-xs text-brand-success/80">Core HR Modules</div>
               <div className="text-xs text-muted-foreground mt-1">13/13 Online</div>
             </div>
-            <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-              <div className="text-2xl font-bold text-success">100%</div>
-              <div className="text-xs text-success/80">Gov Integrations</div>
+            <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+              <div className="text-2xl font-bold text-brand-success">100%</div>
+              <div className="text-xs text-brand-success/80">Gov Integrations</div>
               <div className="text-xs text-muted-foreground mt-1">22/22 Active</div>
             </div>
-            <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-              <div className="text-2xl font-bold text-success">96%</div>
-              <div className="text-xs text-success/80">AI Capabilities</div>
+            <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+              <div className="text-2xl font-bold text-brand-success">96%</div>
+              <div className="text-xs text-brand-success/80">AI Capabilities</div>
               <div className="text-xs text-muted-foreground mt-1">25/26 Operational</div>
             </div>
-            <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-              <div className="text-2xl font-bold text-success">99%</div>
-              <div className="text-xs text-success/80">Data Sync</div>
+            <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+              <div className="text-2xl font-bold text-brand-success">99%</div>
+              <div className="text-xs text-brand-success/80">Data Sync</div>
               <div className="text-xs text-muted-foreground mt-1">Real-Time</div>
             </div>
           </div>
