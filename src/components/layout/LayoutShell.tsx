@@ -3,14 +3,17 @@ import { AppSidebar } from '@/components/AppSidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { ExecutiveFloatingButton } from '@/components/executive/ExecutiveFloatingButton';
 import { GlobalFooter } from '@/components/GlobalFooter';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface LayoutShellProps {
   children: React.ReactNode;
 }
 
 export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
+  const { isArabic } = useSimpleLanguage();
+  
   return (
-    <div className="flex min-h-screen w-full max-w-full bg-gradient-to-br from-background via-background-subtle to-surface-subtle">
+    <div className={`flex min-h-screen w-full max-w-full bg-gradient-to-br from-background via-background-subtle to-surface-subtle ${isArabic ? 'flex-row-reverse' : ''}`} dir={isArabic ? 'rtl' : 'ltr'}>
       <AppSidebar />
       <div className="flex-1 flex flex-col min-w-0 max-w-full overflow-hidden">
         <DashboardHeader />

@@ -29,8 +29,13 @@
 }
 
 [dir="rtl"] main {
-  margin-right: 1rem;
-  margin-left: 0;
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+/* RTL-aware sidebar positioning */
+[dir="rtl"] .sidebar {
+  order: 2;
 }
 
 [dir="rtl"] .pr-4 {
