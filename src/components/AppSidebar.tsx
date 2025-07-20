@@ -59,7 +59,7 @@ const getPlatformModules = (isArabic: boolean) => [
 
   // Executive Intelligence Center - Premium Feature
   { 
-    title: isArabic ? "مركز الذكاء التنفيذي" : "Executive Intelligence Center", 
+    title: isArabic ? "مركز الذكاء التنفيذي عقل HR" : "AqlHR Executive Intelligence Center", 
     url: "/executive-center", 
     icon: Crown,
     badge: "PREMIUM",

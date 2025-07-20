@@ -34,14 +34,19 @@ import { AIDecisionEngine } from '@/components/ai-ecosystem/AIDecisionEngine';
 import { LearningEngine } from '@/components/ai-ecosystem/LearningEngine';
 import { IntelligenceGatherer } from '@/components/ai-ecosystem/IntelligenceGatherer';
 import { AdvancedPredictiveAnalytics } from '@/components/executive/AdvancedPredictiveAnalytics';
+import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
+import useAqlHRLocalization from '@/hooks/useAqlHRLocalization';
 
 const ExecutiveCenter: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
+  const { platformBranding, executiveBranding, dashboardMetrics, dir } = useAqlHRLocalization();
   const [activeModule, setActiveModule] = useState('intelligence');
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6" dir={dir}>
+      {/* AqlHR AI Assistant - Executive Context */}
+      <AqlHRAIAssistant moduleContext="executive" position="fixed" />
       {/* Executive Header */}
       <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/20 via-primary/10 to-accent/20 p-8">
         <div className="relative z-10">
@@ -49,10 +54,10 @@ const ExecutiveCenter: React.FC = () => {
             <div>
               <h1 className="text-4xl font-bold text-foreground flex items-center">
                 <Crown className="h-10 w-10 mr-4 text-primary" />
-                {isArabic ? 'مركز عقل للذكاء التنفيذي' : 'AqlHR Executive Intelligence Center'}
+                {isArabic ? 'مركز الذكاء التنفيذي عقل HR' : 'AqlHR Executive Intelligence Center'}
               </h1>
               <p className="text-xl text-muted-foreground mt-2">
-                {isArabic ? 'نظام الموارد البشرية النهائي - إدارة أكثر من 105 وحدة بامتياز الذكاء الاصطناعي' : 'The Ultimate HR Operating System - Orchestrating 105+ Modules with AI Excellence'}
+                {isArabic ? 'نظام تشغيل الموارد البشرية المتقدم - تنسيق أكثر من 105 وحدة بتميز الذكاء الاصطناعي' : 'The Ultimate HR Operating System - Orchestrating 105+ Modules with AI Excellence'}
               </p>
             </div>
             <div className="text-right space-y-3">
@@ -65,7 +70,7 @@ const ExecutiveCenter: React.FC = () => {
                   className="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold shadow-xl border-0 px-8 py-4 text-lg rounded-xl transform hover:scale-105 transition-all duration-200"
                 >
                   <Smartphone className="h-6 w-6 mr-3" />
-                  📱 {isArabic ? 'الوصول التنفيذي المحمول' : 'MOBILE EXECUTIVE ACCESS'}
+                  📱 {isArabic ? 'تطبيق عقل HR التنفيذي المحمول' : 'AqlHR MOBILE EXECUTIVE ACCESS'}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2 justify-end">
@@ -114,10 +119,10 @@ const ExecutiveCenter: React.FC = () => {
                 📱 <Smartphone className="h-8 w-8 ml-2" />
               </div>
               <div className="text-sm text-emerald-900 dark:text-emerald-200 font-bold">
-                {isArabic ? 'الوصول المحمول' : 'MOBILE ACCESS'}
+                {isArabic ? 'الوصول المحمول عقل HR' : 'AqlHR MOBILE ACCESS'}
               </div>
               <div className="text-xs text-emerald-700 dark:text-emerald-300 font-medium mt-1">
-                {isArabic ? 'تطبيق تنفيذي' : 'Executive App'}
+                {isArabic ? 'تطبيق عقل HR التنفيذي' : 'AqlHR Executive App'}
               </div>
             </div>
           </div>
@@ -155,7 +160,7 @@ const ExecutiveCenter: React.FC = () => {
               <Cpu className="h-6 w-6" />
               <div className="text-center">
                 <div className="font-medium">{isArabic ? 'النظام البيئي للذكاء الاصطناعي' : 'AI Ecosystem'}</div>
-                <div className="text-xs text-muted-foreground">{isArabic ? 'عقل عقل للذكاء' : 'AqlMind Brain'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'ذكاء عقل HR' : 'AqlHR Brain'}</div>
               </div>
             </Button>
 
@@ -240,7 +245,7 @@ const ExecutiveCenter: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Cpu className="h-5 w-5 mr-2" />
-                  {isArabic ? 'مركز قيادة النظام البيئي للذكاء الاصطناعي عقل' : 'AqlHR AI Ecosystem Command Center'}
+                  {isArabic ? 'مركز قيادة النظام البيئي للذكاء الاصطناعي عقل HR' : 'AqlHR AI Ecosystem Command Center'}
                 </CardTitle>
                 <CardDescription>
                   {isArabic ? 'نظام ذكاء مركزي يفكر ويتعلم ويتخذ قرارات مستقلة' : 'Central intelligence system that thinks, learns, and makes autonomous decisions'}
@@ -256,7 +261,7 @@ const ExecutiveCenter: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Brain className="h-5 w-5 mr-2" />
-                    {isArabic ? 'ذكاء عقل الأساسي' : 'AqlMind Core Intelligence'}
+                    {isArabic ? 'ذكاء عقل HR الأساسي' : 'AqlHR Core Intelligence'}
                   </CardTitle>
                   <CardDescription>
                     {isArabic ? 'معالجة وفهم الدماغ المركزي للذكاء الاصطناعي' : 'Central AI brain processing and understanding'}
@@ -401,7 +406,7 @@ const ExecutiveCenter: React.FC = () => {
         <CardContent className="p-6">
           <div className="text-center space-y-4">
             <h3 className="text-lg font-bold text-foreground">
-              {isArabic ? 'عقل: نظام الموارد البشرية الأكثر تقدماً في العالم' : 'AqlHR: The World\'s Most Advanced HR Operating System'}
+              {isArabic ? 'عقل HR: نظام الموارد البشرية الأكثر تقدماً في العالم' : 'AqlHR: The World\'s Most Advanced HR Operating System'}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
               <div className="text-center">
@@ -430,7 +435,7 @@ const ExecutiveCenter: React.FC = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              {isArabic ? 'تحويل القوى العاملة في المملكة العربية السعودية بذكاء مدعوم بالذكاء الاصطناعي يتفوق على القادة العالميين. متكامل مع أوراكل وSAP وتأسيس الهيمنة في السوق.' : 'Transforming Saudi Arabia\'s workforce with AI-powered intelligence that surpasses global leaders. Compatible with Oracle and SAP, establishing market dominance.'}
+              {isArabic ? 'تحويل القوى العاملة في المملكة العربية السعودية بذكاء عقل HR المدعوم بالذكاء الاصطناعي يتفوق على القادة العالميين. متكامل مع أوراكل وSAP وتأسيس الهيمنة في السوق.' : 'Transforming Saudi Arabia\'s workforce with AqlHR AI-powered intelligence that surpasses global leaders. Compatible with Oracle and SAP, establishing market dominance.'}
             </p>
           </div>
         </CardContent>
