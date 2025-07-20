@@ -142,8 +142,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <Brain className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">Master Intelligence</div>
-                <div className="text-xs text-muted-foreground">Strategic Overview</div>
+                <div className="font-medium">{isArabic ? 'الذكاء الرئيسي' : 'Master Intelligence'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'نظرة عامة استراتيجية' : 'Strategic Overview'}</div>
               </div>
             </Button>
 
@@ -154,8 +154,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <Cpu className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">AI Ecosystem</div>
-                <div className="text-xs text-muted-foreground">AqlMind Brain</div>
+                <div className="font-medium">{isArabic ? 'النظام البيئي للذكاء الاصطناعي' : 'AI Ecosystem'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'عقل عقل للذكاء' : 'AqlMind Brain'}</div>
               </div>
             </Button>
 
@@ -166,8 +166,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <Network className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">Cross-Module Intelligence</div>
-                <div className="text-xs text-muted-foreground">AI Correlations</div>
+                <div className="font-medium">{isArabic ? 'الذكاء متعدد الوحدات' : 'Cross-Module Intelligence'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'الارتباطات الذكية' : 'AI Correlations'}</div>
               </div>
             </Button>
 
@@ -178,8 +178,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <Target className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">Strategic Decisions</div>
-                <div className="text-xs text-muted-foreground">Scenario Planning</div>
+                <div className="font-medium">{isArabic ? 'القرارات الاستراتيجية' : 'Strategic Decisions'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'تخطيط السيناريوهات' : 'Scenario Planning'}</div>
               </div>
             </Button>
 
@@ -190,8 +190,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <TrendingUp className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">Predictive Insights</div>
-                <div className="text-xs text-muted-foreground">AI Forecasting</div>
+                <div className="font-medium">{isArabic ? 'الرؤى التنبؤية' : 'Predictive Insights'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'التنبؤ بالذكاء الاصطناعي' : 'AI Forecasting'}</div>
               </div>
             </Button>
 
@@ -202,8 +202,8 @@ const ExecutiveCenter: React.FC = () => {
             >
               <Database className="h-6 w-6" />
               <div className="text-center">
-                <div className="font-medium">Executive Documents</div>
-                <div className="text-xs text-muted-foreground">Data Repository</div>
+                <div className="font-medium">{isArabic ? 'المستندات التنفيذية' : 'Executive Documents'}</div>
+                <div className="text-xs text-muted-foreground">{isArabic ? 'مستودع البيانات' : 'Data Repository'}</div>
               </div>
             </Button>
           </div>
@@ -217,14 +217,14 @@ const ExecutiveCenter: React.FC = () => {
             <div className="flex items-center space-x-3">
               <AlertTriangle className="h-5 w-5 text-warning" />
               <div>
-                <div className="font-medium text-warning">Strategic Opportunity Detected</div>
+                <div className="font-medium text-warning">{isArabic ? 'تم اكتشاف فرصة استراتيجية' : 'Strategic Opportunity Detected'}</div>
                 <div className="text-sm text-muted-foreground">
-                  AI analysis suggests implementing advanced workforce planning could increase ROI by 340%
+                  {isArabic ? 'يقترح تحليل الذكاء الاصطناعي أن تنفيذ تخطيط القوى العاملة المتقدم يمكن أن يزيد العائد على الاستثمار بنسبة 340%' : 'AI analysis suggests implementing advanced workforce planning could increase ROI by 340%'}
                 </div>
               </div>
             </div>
             <Button size="sm" variant="outline" className="border-warning/20 text-warning hover:bg-warning/10">
-              View Recommendation
+              {isArabic ? 'عرض التوصية' : 'View Recommendation'}
             </Button>
           </div>
         </CardContent>
