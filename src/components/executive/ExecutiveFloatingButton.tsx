@@ -99,7 +99,7 @@ export const ExecutiveFloatingButton: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-1">
                       <span className="text-sm font-medium">{stat.value}</span>
-                      <Badge variant="secondary" className="text-xs bg-success/10 text-success">
+                      <Badge variant="secondary" className="text-xs bg-brand-success/10 text-brand-success">
                         {stat.trend}
                       </Badge>
                     </div>

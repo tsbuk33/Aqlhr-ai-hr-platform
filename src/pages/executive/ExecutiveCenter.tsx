@@ -87,25 +87,25 @@ const ExecutiveCenter: React.FC = () => {
           
           {/* Strategic Capabilities Overview */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mt-8">
-            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
-              <div className="text-2xl font-bold text-gray-900 dark:text-white">105+</div>
-              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'الوحدات المتكاملة' : 'Integrated Modules'}</div>
+            <div className="text-center p-4 bg-surface/20 backdrop-blur-sm rounded-lg border border-border shadow-lg">
+              <div className="text-2xl font-bold text-foreground">105+</div>
+              <div className="text-sm text-muted-foreground font-medium">{isArabic ? 'الوحدات المتكاملة' : 'Integrated Modules'}</div>
             </div>
-            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
-              <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">99.9%</div>
-              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'وقت تشغيل النظام' : 'System Uptime'}</div>
+            <div className="text-center p-4 bg-surface/20 backdrop-blur-sm rounded-lg border border-border shadow-lg">
+              <div className="text-2xl font-bold text-brand-success">99.9%</div>
+              <div className="text-sm text-muted-foreground font-medium">{isArabic ? 'وقت تشغيل النظام' : 'System Uptime'}</div>
             </div>
-            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
-              <div className="text-2xl font-bold text-amber-700 dark:text-amber-400">{isArabic ? 'فوري' : 'Real-Time'}</div>
-              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'معالجة البيانات' : 'Data Processing'}</div>
+            <div className="text-center p-4 bg-surface/20 backdrop-blur-sm rounded-lg border border-border shadow-lg">
+              <div className="text-2xl font-bold text-brand-warning">{isArabic ? 'فوري' : 'Real-Time'}</div>
+              <div className="text-sm text-muted-foreground font-medium">{isArabic ? 'معالجة البيانات' : 'Data Processing'}</div>
             </div>
-            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
-              <div className="text-2xl font-bold text-blue-700 dark:text-blue-400">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
-              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'جاهز للتوسع' : 'Scale Ready'}</div>
+            <div className="text-center p-4 bg-surface/20 backdrop-blur-sm rounded-lg border border-border shadow-lg">
+              <div className="text-2xl font-bold text-brand-primary">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
+              <div className="text-sm text-muted-foreground font-medium">{isArabic ? 'جاهز للتوسع' : 'Scale Ready'}</div>
             </div>
-            <div className="text-center p-4 bg-white/20 backdrop-blur-sm rounded-lg border border-white/30 shadow-lg">
-              <div className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">{isArabic ? 'سعودي' : 'Saudi'}</div>
-              <div className="text-sm text-gray-700 dark:text-gray-200 font-medium">{isArabic ? 'رائد السوق' : 'Market Leader'}</div>
+            <div className="text-center p-4 bg-surface/20 backdrop-blur-sm rounded-lg border border-border shadow-lg">
+              <div className="text-2xl font-bold text-brand-accent">{isArabic ? 'سعودي' : 'Saudi'}</div>
+              <div className="text-sm text-muted-foreground font-medium">{isArabic ? 'رائد السوق' : 'Market Leader'}</div>
             </div>
             {/* SUPER PROMINENT Mobile Access Card */}
             <div className="text-center p-6 bg-gradient-to-br from-emerald-200 to-emerald-100 dark:from-emerald-800 dark:to-emerald-700 backdrop-blur-sm rounded-xl border-2 border-emerald-300 dark:border-emerald-500 hover:border-emerald-400 dark:hover:border-emerald-400 transition-all cursor-pointer shadow-xl hover:shadow-2xl transform hover:scale-105"

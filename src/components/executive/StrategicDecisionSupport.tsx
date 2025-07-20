@@ -498,23 +498,23 @@ const StrategicDecisionSupport: React.FC = () => {
                         </div>
                         <div className="text-xs text-primary/80">Expected ROI</div>
                       </div>
-                      <div className="text-center p-3 bg-success/10 rounded-lg border border-success/20">
-                        <div className="text-xl font-bold text-success">
+                      <div className="text-center p-3 bg-brand-success/10 rounded-lg border border-brand-success/20">
+                        <div className="text-xl font-bold text-brand-success">
                           +{scenario.predictions.productivityChange}%
                         </div>
-                        <div className="text-xs text-success/80">Productivity</div>
+                        <div className="text-xs text-brand-success/80">Productivity</div>
                       </div>
-                      <div className="text-center p-3 bg-warning/10 rounded-lg border border-warning/20">
-                        <div className="text-xl font-bold text-warning">
+                      <div className="text-center p-3 bg-brand-warning/10 rounded-lg border border-brand-warning/20">
+                        <div className="text-xl font-bold text-brand-warning">
                           {(scenario.predictions.costImpact / 1000000).toFixed(1)}M
                         </div>
-                        <div className="text-xs text-warning/80">Cost Impact (SAR)</div>
+                        <div className="text-xs text-brand-warning/80">Cost Impact (SAR)</div>
                       </div>
-                      <div className="text-center p-3 bg-accent/10 rounded-lg border border-accent/20">
-                        <div className="text-xl font-bold text-accent">
+                      <div className="text-center p-3 bg-brand-accent/10 rounded-lg border border-brand-accent/20">
+                        <div className="text-xl font-bold text-brand-accent">
                           {scenario.predictions.complianceScore}%
                         </div>
-                        <div className="text-xs text-accent/80">Compliance</div>
+                        <div className="text-xs text-brand-accent/80">Compliance</div>
                       </div>
                     </div>
 
@@ -561,28 +561,28 @@ const StrategicDecisionSupport: React.FC = () => {
                     {/* Risks and Opportunities */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <h4 className="font-medium text-destructive flex items-center">
+                        <h4 className="font-medium text-status-danger flex items-center">
                           <AlertTriangle className="h-4 w-4 mr-2" />
                           Key Risks
                         </h4>
                         <ul className="space-y-1">
                           {scenario.risks.map((risk, index) => (
                             <li key={index} className="text-sm text-muted-foreground flex items-start">
-                              <span className="text-destructive mr-2">•</span>
+                              <span className="text-status-danger mr-2">•</span>
                               {risk}
                             </li>
                           ))}
                         </ul>
                       </div>
                       <div className="space-y-2">
-                        <h4 className="font-medium text-success flex items-center">
+                        <h4 className="font-medium text-brand-success flex items-center">
                           <Lightbulb className="h-4 w-4 mr-2" />
                           Opportunities
                         </h4>
                         <ul className="space-y-1">
                           {scenario.opportunities.map((opportunity, index) => (
                             <li key={index} className="text-sm text-muted-foreground flex items-start">
-                              <span className="text-success mr-2">•</span>
+                              <span className="text-brand-success mr-2">•</span>
                               {opportunity}
                             </li>
                           ))}
@@ -619,13 +619,13 @@ const StrategicDecisionSupport: React.FC = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <span className="text-sm text-muted-foreground">Investment</span>
-                      <p className="text-lg font-bold text-destructive">
+                      <p className="text-lg font-bold text-status-danger">
                         {(option.estimatedCost / 1000000).toFixed(1)}M SAR
                       </p>
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">Expected Benefit</span>
-                      <p className="text-lg font-bold text-success">
+                      <p className="text-lg font-bold text-brand-success">
                         {(option.estimatedBenefit / 1000000).toFixed(1)}M SAR
                       </p>
                     </div>
@@ -635,7 +635,7 @@ const StrategicDecisionSupport: React.FC = () => {
                     </div>
                     <div>
                       <span className="text-sm text-muted-foreground">ROI</span>
-                      <p className="text-lg font-bold text-accent">
+                      <p className="text-lg font-bold text-brand-accent">
                         {Math.round((option.estimatedBenefit / option.estimatedCost) * 100)}%
                       </p>
                     </div>
@@ -661,7 +661,7 @@ const StrategicDecisionSupport: React.FC = () => {
                     <ul className="space-y-1">
                       {option.prerequisites.slice(0, 3).map((prereq, index) => (
                         <li key={index} className="text-xs text-muted-foreground flex items-center">
-                          <CheckCircle className="h-3 w-3 mr-2 text-success" />
+                          <CheckCircle className="h-3 w-3 mr-2 text-brand-success" />
                           {prereq}
                         </li>
                       ))}
@@ -697,15 +697,15 @@ const StrategicDecisionSupport: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="bg-success/10 border-success/20">
+                <Card className="bg-brand-success/10 border-brand-success/20">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-success">Cost Savings Potential</p>
-                        <p className="text-2xl font-bold text-success">15.2M SAR</p>
-                        <p className="text-xs text-success/80">Through automation optimization</p>
+                        <p className="text-sm font-medium text-brand-success">Cost Savings Potential</p>
+                        <p className="text-2xl font-bold text-brand-success">15.2M SAR</p>
+                        <p className="text-xs text-brand-success/80">Through automation optimization</p>
                       </div>
-                      <DollarSign className="h-8 w-8 text-success/50" />
+                      <DollarSign className="h-8 w-8 text-brand-success/50" />
                     </div>
                   </CardContent>
                 </Card>
@@ -723,15 +723,15 @@ const StrategicDecisionSupport: React.FC = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="bg-warning/10 border-warning/20">
+                <Card className="bg-brand-warning/10 border-brand-warning/20">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-warning">Time Reduction</p>
-                        <p className="text-2xl font-bold text-warning">67%</p>
-                        <p className="text-xs text-warning/80">In administrative tasks</p>
+                        <p className="text-sm font-medium text-brand-warning">Time Reduction</p>
+                        <p className="text-2xl font-bold text-brand-warning">67%</p>
+                        <p className="text-xs text-brand-warning/80">In administrative tasks</p>
                       </div>
-                      <Clock className="h-8 w-8 text-warning/50" />
+                      <Clock className="h-8 w-8 text-brand-warning/50" />
                     </div>
                   </CardContent>
                 </Card>

@@ -174,10 +174,10 @@ const MasterIntelligenceDashboard: React.FC = () => {
 
   const getAlertIcon = (type: string) => {
     switch (type) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
-      case 'warning': return <Clock className="h-4 w-4 text-warning" />;
-      case 'opportunity': return <TrendingUp className="h-4 w-4 text-success" />;
-      case 'success': return <CheckCircle className="h-4 w-4 text-success" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-status-danger" />;
+      case 'warning': return <Clock className="h-4 w-4 text-brand-warning" />;
+      case 'opportunity': return <TrendingUp className="h-4 w-4 text-brand-success" />;
+      case 'success': return <CheckCircle className="h-4 w-4 text-brand-success" />;
       default: return <AlertTriangle className="h-4 w-4" />;
     }
   };
@@ -212,7 +212,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
           <p className="text-muted-foreground">Strategic insights across all 105+ HR modules</p>
         </div>
         <div className="flex items-center space-x-2">
-          <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
+          <Badge variant="secondary" className="bg-brand-success/10 text-brand-success border-brand-success/20">
             <Brain className="h-3 w-3 mr-1" />
             AI-Powered
           </Badge>
@@ -225,13 +225,13 @@ const MasterIntelligenceDashboard: React.FC = () => {
 
       {/* Strategic KPI Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="bg-gradient-to-br from-success/10 to-success/5 border-success/20">
+        <Card className="bg-gradient-to-br from-brand-success/10 to-brand-success/5 border-brand-success/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-success">Workforce ROI</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-success">Workforce ROI</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-success">{executiveMetrics.workforceROI}%</div>
-            <div className="flex items-center text-xs text-success/80 mt-1">
+            <div className="text-2xl font-bold text-brand-success">{executiveMetrics.workforceROI}%</div>
+            <div className="flex items-center text-xs text-brand-success/80 mt-1">
               <TrendingUp className="h-3 w-3 mr-1" />
               +{executiveMetrics.productivityGains}% productivity
             </div>
@@ -253,13 +253,13 @@ const MasterIntelligenceDashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-warning/10 to-warning/5 border-warning/20">
+        <Card className="bg-gradient-to-br from-brand-warning/10 to-brand-warning/5 border-brand-warning/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-warning">Saudization Rate</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-warning">Saudization Rate</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-warning">{executiveMetrics.saudizationRate}%</div>
-            <div className="flex items-center text-xs text-warning/80 mt-1">
+            <div className="text-2xl font-bold text-brand-warning">{executiveMetrics.saudizationRate}%</div>
+            <div className="flex items-center text-xs text-brand-warning/80 mt-1">
               <Target className="h-3 w-3 mr-1" />
               Vision 2030 aligned
             </div>
@@ -282,9 +282,9 @@ const MasterIntelligenceDashboard: React.FC = () => {
 
       {/* Strategic Alerts */}
       {strategicAlerts.length > 0 && (
-        <Card className="border-warning/20 bg-warning/5">
+        <Card className="border-brand-warning/20 bg-brand-warning/5">
           <CardHeader>
-            <CardTitle className="flex items-center text-warning">
+            <CardTitle className="flex items-center text-brand-warning">
               <AlertTriangle className="h-5 w-5 mr-2" />
               Strategic Alerts ({strategicAlerts.length})
             </CardTitle>
@@ -341,7 +341,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium">Operational Efficiency</span>
-                  <span className="text-sm font-bold text-success">
+                  <span className="text-sm font-bold text-brand-success">
                     {executiveMetrics.productivityGains}% improvement
                   </span>
                 </div>
@@ -353,7 +353,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium">Risk Mitigation</span>
-                  <span className="text-sm font-bold text-warning">
+                  <span className="text-sm font-bold text-brand-warning">
                     {(100 - executiveMetrics.turnoverRisk).toFixed(0)}% secure
                   </span>
                 </div>
@@ -374,7 +374,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Government Integrations</span>
-                  <Badge variant="secondary" className="bg-success/10 text-success">
+                  <Badge variant="secondary" className="bg-brand-success/10 text-brand-success">
                     22/22 Active
                   </Badge>
                 </div>
@@ -434,7 +434,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-success">
+                <div className="text-2xl font-bold text-brand-success">
                   {executiveMetrics.productivityGains}%
                 </div>
                 <p className="text-sm text-muted-foreground">Productivity Growth</p>
@@ -486,21 +486,21 @@ const MasterIntelligenceDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-                  <div className="text-2xl font-bold text-success">100%</div>
-                  <div className="text-xs text-success/80">HRSD Compliance</div>
+                <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+                  <div className="text-2xl font-bold text-brand-success">100%</div>
+                  <div className="text-xs text-brand-success/80">HRSD Compliance</div>
                 </div>
-                <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-                  <div className="text-2xl font-bold text-success">98%</div>
-                  <div className="text-xs text-success/80">Qiwa Integration</div>
+                <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+                  <div className="text-2xl font-bold text-brand-success">98%</div>
+                  <div className="text-xs text-brand-success/80">Qiwa Integration</div>
                 </div>
-                <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-                  <div className="text-2xl font-bold text-success">100%</div>
-                  <div className="text-xs text-success/80">GOSI Sync</div>
+                <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+                  <div className="text-2xl font-bold text-brand-success">100%</div>
+                  <div className="text-xs text-brand-success/80">GOSI Sync</div>
                 </div>
-                <div className="text-center p-4 bg-success/10 rounded-lg border border-success/20">
-                  <div className="text-2xl font-bold text-success">{executiveMetrics.complianceScore}%</div>
-                  <div className="text-xs text-success/80">Overall Score</div>
+                <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
+                  <div className="text-2xl font-bold text-brand-success">{executiveMetrics.complianceScore}%</div>
+                  <div className="text-xs text-brand-success/80">Overall Score</div>
                 </div>
               </div>
             </CardContent>
@@ -571,7 +571,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <span className="text-sm">Process Efficiency</span>
-                      <span className="text-sm font-medium text-success">+{executiveMetrics.productivityGains}%</span>
+                      <span className="text-sm font-medium text-brand-success">+{executiveMetrics.productivityGains}%</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">Cost Reduction</span>
@@ -579,7 +579,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm">ROI Achievement</span>
-                      <span className="text-sm font-medium text-accent">{executiveMetrics.workforceROI}%</span>
+                      <span className="text-sm font-medium text-brand-accent">{executiveMetrics.workforceROI}%</span>
                     </div>
                   </div>
                 </div>
