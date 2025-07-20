@@ -430,7 +430,7 @@ const ExecutiveCenter: React.FC = () => {
               </div>
             </div>
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              {isArabic ? 'تحويل القوى العاملة في المملكة العربية السعودية بذكاء مدعوم بالذكاء الاصطناعي يتفوق على القادة العالميين. قابل للتكامل مع أوراكل وSAP وتأسيس الهيمنة في السوق.' : 'Transforming Saudi Arabia\'s workforce with AI-powered intelligence that surpasses global leaders. Integrable with Oracle, SAP, and establish market dominance.'}
+              {isArabic ? 'تحويل القوى العاملة في المملكة العربية السعودية بذكاء مدعوم بالذكاء الاصطناعي يتفوق على القادة العالميين. متكامل مع أوراكل وSAP وتأسيس الهيمنة في السوق.' : 'Transforming Saudi Arabia\'s workforce with AI-powered intelligence that surpasses global leaders. Compatible with Oracle and SAP, establishing market dominance.'}
             </p>
           </div>
         </CardContent>
