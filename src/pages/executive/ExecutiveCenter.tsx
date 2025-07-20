@@ -240,10 +240,10 @@ const ExecutiveCenter: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Cpu className="h-5 w-5 mr-2" />
-                  AqlHR AI Ecosystem Command Center
+                  {isArabic ? 'مركز قيادة النظام البيئي للذكاء الاصطناعي عقل' : 'AqlHR AI Ecosystem Command Center'}
                 </CardTitle>
                 <CardDescription>
-                  Central intelligence system that thinks, learns, and makes autonomous decisions
+                  {isArabic ? 'نظام ذكاء مركزي يفكر ويتعلم ويتخذ قرارات مستقلة' : 'Central intelligence system that thinks, learns, and makes autonomous decisions'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -256,10 +256,10 @@ const ExecutiveCenter: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Brain className="h-5 w-5 mr-2" />
-                    AqlMind Core Intelligence
+                    {isArabic ? 'ذكاء عقل الأساسي' : 'AqlMind Core Intelligence'}
                   </CardTitle>
                   <CardDescription>
-                    Central AI brain processing and understanding
+                    {isArabic ? 'معالجة وفهم الدماغ المركزي للذكاء الاصطناعي' : 'Central AI brain processing and understanding'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -271,10 +271,10 @@ const ExecutiveCenter: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Target className="h-5 w-5 mr-2" />
-                    AI Decision Engine
+                    {isArabic ? 'محرك القرارات الذكي' : 'AI Decision Engine'}
                   </CardTitle>
                   <CardDescription>
-                    Autonomous decision-making with 98%+ accuracy
+                    {isArabic ? 'اتخاذ القرارات المستقل بدقة 98%+' : 'Autonomous decision-making with 98%+ accuracy'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -286,10 +286,10 @@ const ExecutiveCenter: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Lightbulb className="h-5 w-5 mr-2" />
-                    Learning Engine
+                    {isArabic ? 'محرك التعلم' : 'Learning Engine'}
                   </CardTitle>
                   <CardDescription>
-                    Continuous learning and pattern recognition
+                    {isArabic ? 'التعلم المستمر والتعرف على الأنماط' : 'Continuous learning and pattern recognition'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -301,10 +301,10 @@ const ExecutiveCenter: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Network className="h-5 w-5 mr-2" />
-                    Intelligence Gatherer
+                    {isArabic ? 'جامع الذكاء' : 'Intelligence Gatherer'}
                   </CardTitle>
                   <CardDescription>
-                    Multi-source data intelligence synthesis
+                    {isArabic ? 'تجميع ذكاء البيانات متعدد المصادر' : 'Multi-source data intelligence synthesis'}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -322,10 +322,10 @@ const ExecutiveCenter: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <TrendingUp className="h-5 w-5 mr-2" />
-                Advanced Predictive Insights
+                {isArabic ? 'الرؤى التنبؤية المتقدمة' : 'Advanced Predictive Insights'}
               </CardTitle>
               <CardDescription>
-                AI-powered strategic forecasting across all operational dimensions
+                {isArabic ? 'التنبؤ الاستراتيجي المدعوم بالذكاء الاصطناعي عبر جميع الأبعاد التشغيلية' : 'AI-powered strategic forecasting across all operational dimensions'}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -339,16 +339,16 @@ const ExecutiveCenter: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Database className="h-5 w-5 mr-2" />
-                Executive Document Management Center
+                {isArabic ? 'مركز إدارة المستندات التنفيذية' : 'Executive Document Management Center'}
               </CardTitle>
               <CardDescription>
-                Strategic document repository for executive intelligence and data-driven decisions
+                {isArabic ? 'مستودع مستندات استراتيجي للذكاء التنفيذي والقرارات المبنية على البيانات' : 'Strategic document repository for executive intelligence and data-driven decisions'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <EnhancedFileUpload
-                title="Executive Intelligence Documents"
-                description="Upload strategic reports, board presentations, compliance documents, and intelligence data"
+                title={isArabic ? "مستندات الذكاء التنفيذي" : "Executive Intelligence Documents"}
+                description={isArabic ? "رفع التقارير الاستراتيجية وعروض مجلس الإدارة ومستندات الامتثال وبيانات الذكاء" : "Upload strategic reports, board presentations, compliance documents, and intelligence data"}
                 moduleType="hr"
                 platform="executive-center"
                 acceptedTypes={['.pdf', '.pptx', '.docx', '.xlsx', '.csv', '.json']}
@@ -364,30 +364,30 @@ const ExecutiveCenter: React.FC = () => {
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-2">
                     <FileText className="h-5 w-5 text-primary" />
-                    <h4 className="font-medium">Strategic Reports</h4>
+                    <h4 className="font-medium">{isArabic ? 'التقارير الاستراتيجية' : 'Strategic Reports'}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Executive summaries, quarterly reports, and strategic analysis documents
+                    {isArabic ? 'الملخصات التنفيذية والتقارير الفصلية ومستندات التحليل الاستراتيجي' : 'Executive summaries, quarterly reports, and strategic analysis documents'}
                   </p>
                 </Card>
 
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-2">
                     <BarChart3 className="h-5 w-5 text-primary" />
-                    <h4 className="font-medium">Data Analytics</h4>
+                    <h4 className="font-medium">{isArabic ? 'تحليل البيانات' : 'Data Analytics'}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Performance metrics, KPI dashboards, and intelligence data files
+                    {isArabic ? 'مقاييس الأداء ولوحات مؤشرات الأداء الرئيسية وملفات بيانات الذكاء' : 'Performance metrics, KPI dashboards, and intelligence data files'}
                   </p>
                 </Card>
 
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-2">
                     <Shield className="h-5 w-5 text-primary" />
-                    <h4 className="font-medium">Compliance & Governance</h4>
+                    <h4 className="font-medium">{isArabic ? 'الامتثال والحوكمة' : 'Compliance & Governance'}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Regulatory documents, audit reports, and governance frameworks
+                    {isArabic ? 'المستندات التنظيمية وتقارير المراجعة وأطر الحوكمة' : 'Regulatory documents, audit reports, and governance frameworks'}
                   </p>
                 </Card>
               </div>
@@ -401,37 +401,36 @@ const ExecutiveCenter: React.FC = () => {
         <CardContent className="p-6">
           <div className="text-center space-y-4">
             <h3 className="text-lg font-bold text-foreground">
-              AqlHR: The World's Most Advanced HR Operating System
+              {isArabic ? 'عقل: نظام الموارد البشرية الأكثر تقدماً في العالم' : 'AqlHR: The World\'s Most Advanced HR Operating System'}
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-sm">
               <div className="text-center">
                 <div className="font-bold text-primary">105+</div>
-                <div className="text-muted-foreground">Modules</div>
+                <div className="text-muted-foreground">{isArabic ? 'الوحدات' : 'Modules'}</div>
               </div>
               <div className="text-center">
                 <div className="font-bold text-success">26</div>
-                <div className="text-muted-foreground">AI Capabilities</div>
+                <div className="text-muted-foreground">{isArabic ? 'قدرات الذكاء الاصطناعي' : 'AI Capabilities'}</div>
               </div>
               <div className="text-center">
                 <div className="font-bold text-warning">22</div>
-                <div className="text-muted-foreground">Gov Integrations</div>
+                <div className="text-muted-foreground">{isArabic ? 'التكاملات الحكومية' : 'Gov Integrations'}</div>
               </div>
               <div className="text-center">
                 <div className="font-bold text-accent">15+</div>
-                <div className="text-muted-foreground">Real-Time Features</div>
+                <div className="text-muted-foreground">{isArabic ? 'المزايا الفورية' : 'Real-Time Features'}</div>
               </div>
               <div className="text-center">
                 <div className="font-bold text-primary">45+</div>
-                <div className="text-muted-foreground">Database Tables</div>
+                <div className="text-muted-foreground">{isArabic ? 'جداول قاعدة البيانات' : 'Database Tables'}</div>
               </div>
               <div className="text-center">
-                <div className="font-bold text-success">Enterprise</div>
-                <div className="text-muted-foreground">Scale</div>
+                <div className="font-bold text-success">{isArabic ? 'مؤسسي' : 'Enterprise'}</div>
+                <div className="text-muted-foreground">{isArabic ? 'مستوى المؤسسات' : 'Scale'}</div>
               </div>
             </div>
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              Transforming Saudi Arabia's workforce with AI-powered intelligence that surpasses global leaders. 
-              Ready to impress Oracle, SAP, and establish market dominance.
+              {isArabic ? 'تحويل القوى العاملة في المملكة العربية السعودية بذكاء مدعوم بالذكاء الاصطناعي يتفوق على القادة العالميين. جاهز لإبهار أوراكل وSAP وتأسيس الهيمنة في السوق.' : 'Transforming Saudi Arabia\'s workforce with AI-powered intelligence that surpasses global leaders. Ready to impress Oracle, SAP, and establish market dominance.'}
             </p>
           </div>
         </CardContent>
