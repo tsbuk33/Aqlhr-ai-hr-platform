@@ -183,6 +183,10 @@ const StrategicPresentationCenter = lazy(() => import('../pages/executive/Strate
 const SuperAdminDashboard = lazy(() => import('../pages/executive/SuperAdminDashboard'));
 const ExecutiveMobileApp = lazy(() => import('../pages/executive/ExecutiveMobileApp'));
 const AIEnhancedExecutiveIntelligence = lazy(() => import('../pages/ai/AIEnhancedExecutiveIntelligence'));
+const AutomationWorkflowEngine = lazy(() => import('../components/ai/AutomationWorkflowEngine'));
+const CrossModuleIntelligence = lazy(() => import('../components/ai/CrossModuleIntelligence'));
+const MobileAIAssistant = lazy(() => import('../components/ai/MobileAIAssistant'));
+const GovernmentAIIntegration = lazy(() => import('../components/ai/GovernmentAIIntegration'));
 
 // LEO & GEO modules
 const LearningExperienceOptimization = lazy(() => import('../pages/leo/LearningExperienceOptimization'));
@@ -227,6 +231,12 @@ export const ROUTES: RouteConfig[] = [
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
+  
+  // AI Advanced Components Routes - auth required
+  { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
+  { path: '/cross-module-intelligence', element: CrossModuleIntelligence, auth: true },
+  { path: '/mobile-ai-assistant', element: MobileAIAssistant, auth: true },
+  { path: '/government-ai-integration', element: GovernmentAIIntegration, auth: true },
   { path: '/skills-intelligence', element: SkillIntelligence, auth: true },
   { path: '/welfare-consultancy', element: WelfareConsultancy },
   { path: '/legal-consultant', element: LegalConsultant },

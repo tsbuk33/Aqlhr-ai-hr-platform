@@ -2,6 +2,8 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, 
   FileText, 
@@ -251,18 +253,35 @@ const CoreHR = () => {
         tabs={tabs}
       />
       
-      {/* Core HR Document Management */}
-      <UniversalDocumentManager
-        moduleName="Core HR Operations"
-        moduleNameAr="عمليات الموارد البشرية الأساسية"
-        description="Upload HR policies, procedures, forms, and operational documents"
-        descriptionAr="رفع سياسات الموارد البشرية والإجراءات والنماذج والمستندات التشغيلية"
-        platform="core-hr"
-        moduleType="hr"
-        acceptedTypes={['.pdf', '.docx', '.xlsx', '.pptx', '.jpg', '.png']}
-        maxFileSize={50 * 1024 * 1024}
-        maxFiles={25}
-      />
+      {/* AI-Enhanced Core HR Management */}
+      <Tabs defaultValue="automation" className="w-full mt-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="automation">
+            {language === 'ar' ? 'الأتمتة الذكية' : 'AI Automation'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {language === 'ar' ? 'إدارة الوثائق' : 'Document Management'}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="automation">
+          <AutomationWorkflowEngine />
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <UniversalDocumentManager
+            moduleName="Core HR Operations"
+            moduleNameAr="عمليات الموارد البشرية الأساسية"
+            description="Upload HR policies, procedures, forms, and operational documents"
+            descriptionAr="رفع سياسات الموارد البشرية والإجراءات والنماذج والمستندات التشغيلية"
+            platform="core-hr"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.docx', '.xlsx', '.pptx', '.jpg', '.png']}
+            maxFileSize={50 * 1024 * 1024}
+            maxFiles={25}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

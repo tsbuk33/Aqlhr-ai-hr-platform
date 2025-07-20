@@ -2,6 +2,8 @@ import { HSEDashboard } from "@/components/hse/HSEDashboard";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AIRecommendationCenter from "@/components/ai/AIRecommendationCenter";
+import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
+import CrossModuleIntelligence from "@/components/ai/CrossModuleIntelligence";
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -12,7 +14,7 @@ const HealthSafety = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="dashboard">
             {isArabic ? 'لوحة القيادة' : 'Dashboard'}
           </TabsTrigger>
@@ -21,6 +23,12 @@ const HealthSafety = () => {
           </TabsTrigger>
           <TabsTrigger value="recommendations">
             {isArabic ? 'التوصيات الذكية' : 'Smart Recommendations'}
+          </TabsTrigger>
+          <TabsTrigger value="ai-automation">
+            {isArabic ? 'الأتمتة الذكية' : 'AI Automation'}
+          </TabsTrigger>
+          <TabsTrigger value="cross-intelligence">
+            {isArabic ? 'الذكاء المتقاطع' : 'Cross-Module Intelligence'}
           </TabsTrigger>
           <TabsTrigger value="documents">
             {isArabic ? 'إدارة الوثائق' : 'Document Management'}
@@ -43,6 +51,14 @@ const HealthSafety = () => {
           <AIRecommendationCenter 
             companyId="demo-company"
           />
+        </TabsContent>
+
+        <TabsContent value="ai-automation">
+          <AutomationWorkflowEngine />
+        </TabsContent>
+
+        <TabsContent value="cross-intelligence">
+          <CrossModuleIntelligence />
         </TabsContent>
 
         <TabsContent value="documents">
