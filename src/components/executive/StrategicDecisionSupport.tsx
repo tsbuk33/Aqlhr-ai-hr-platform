@@ -324,19 +324,19 @@ const StrategicDecisionSupport: React.FC = () => {
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'high': return 'text-destructive';
-      case 'medium': return 'text-warning';
-      case 'low': return 'text-success';
-      default: return 'text-muted-foreground';
+      case 'high': return 'text-status-danger';
+      case 'medium': return 'text-status-warning';
+      case 'low': return 'text-status-success';
+      default: return 'text-foreground-muted';
     }
   };
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'high': return 'bg-destructive/10 text-destructive border-destructive/20';
-      case 'medium': return 'bg-warning/10 text-warning border-warning/20';
-      case 'low': return 'bg-success/10 text-success border-success/20';
-      default: return 'bg-muted/10 text-muted-foreground border-muted/20';
+      case 'high': return 'bg-status-danger/10 text-status-danger border-status-danger/20';
+      case 'medium': return 'bg-status-warning/10 text-status-warning border-status-warning/20';
+      case 'low': return 'bg-status-success/10 text-status-success border-status-success/20';
+      default: return 'bg-surface/10 text-foreground-muted border-border/20';
     }
   };
 

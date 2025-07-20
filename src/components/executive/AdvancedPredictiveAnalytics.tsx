@@ -39,21 +39,21 @@ const PredictionCard: React.FC<PredictionCardProps> = ({
 }) => {
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'critical': return 'text-destructive';
-      case 'high': return 'text-warning';
+      case 'critical': return 'text-status-danger';
+      case 'high': return 'text-status-warning';
       case 'medium': return 'text-primary';
-      case 'low': return 'text-success';
-      default: return 'text-muted-foreground';
+      case 'low': return 'text-status-success';
+      default: return 'text-foreground-muted';
     }
   };
 
   const getImpactBg = (impact: string) => {
     switch (impact) {
-      case 'critical': return 'bg-destructive/10 border-destructive/20';
-      case 'high': return 'bg-warning/10 border-warning/20';
+      case 'critical': return 'bg-status-danger/10 border-status-danger/20';
+      case 'high': return 'bg-status-warning/10 border-status-warning/20';
       case 'medium': return 'bg-primary/10 border-primary/20';
-      case 'low': return 'bg-success/10 border-success/20';
-      default: return 'bg-muted/10 border-muted/20';
+      case 'low': return 'bg-status-success/10 border-status-success/20';
+      default: return 'bg-surface/10 border-border/20';
     }
   };
 
@@ -209,21 +209,21 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'critical': return 'text-destructive';
-      case 'high': return 'text-warning';
+      case 'critical': return 'text-status-danger';
+      case 'high': return 'text-status-warning';
       case 'medium': return 'text-primary';
-      case 'low': return 'text-success';
-      default: return 'text-muted-foreground';
+      case 'low': return 'text-status-success';
+      default: return 'text-foreground-muted';
     }
   };
 
   const getPriorityBg = (priority: string) => {
     switch (priority) {
-      case 'critical': return 'bg-destructive/10 border-destructive/20';
-      case 'high': return 'bg-warning/10 border-warning/20';
+      case 'critical': return 'bg-status-danger/10 border-status-danger/20';
+      case 'high': return 'bg-status-warning/10 border-status-warning/20';
       case 'medium': return 'bg-primary/10 border-primary/20';
-      case 'low': return 'bg-success/10 border-success/20';
-      default: return 'bg-muted/10 border-muted/20';
+      case 'low': return 'bg-status-success/10 border-status-success/20';
+      default: return 'bg-surface/10 border-border/20';
     }
   };
 
@@ -322,19 +322,19 @@ const CompetitorCard: React.FC<CompetitorCardProps> = ({
 }) => {
   const getThreatColor = (level: string) => {
     switch (level) {
-      case 'high': return 'text-destructive';
-      case 'medium': return 'text-warning';
-      case 'low': return 'text-success';
-      default: return 'text-muted-foreground';
+      case 'high': return 'text-status-danger';
+      case 'medium': return 'text-status-warning';
+      case 'low': return 'text-status-success';
+      default: return 'text-foreground-muted';
     }
   };
 
   const getThreatBg = (level: string) => {
     switch (level) {
-      case 'high': return 'bg-destructive/10 border-destructive/20';
-      case 'medium': return 'bg-warning/10 border-warning/20';
-      case 'low': return 'bg-success/10 border-success/20';
-      default: return 'bg-muted/10 border-muted/20';
+      case 'high': return 'bg-status-danger/10 border-status-danger/20';
+      case 'medium': return 'bg-status-warning/10 border-status-warning/20';
+      case 'low': return 'bg-status-success/10 border-status-success/20';
+      default: return 'bg-surface/10 border-border/20';
     }
   };
 

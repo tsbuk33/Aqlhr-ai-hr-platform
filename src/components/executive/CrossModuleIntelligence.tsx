@@ -200,20 +200,20 @@ const CrossModuleIntelligence: React.FC = () => {
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'high': return 'text-destructive';
-      case 'medium': return 'text-warning';
-      case 'low': return 'text-muted-foreground';
-      default: return 'text-muted-foreground';
+      case 'high': return 'text-status-danger';
+      case 'medium': return 'text-status-warning';
+      case 'low': return 'text-foreground-muted';
+      default: return 'text-foreground-muted';
     }
   };
 
   const getPriorityIcon = (priority: string) => {
     switch (priority) {
-      case 'critical': return <AlertCircle className="h-4 w-4 text-destructive" />;
-      case 'high': return <TrendingUp className="h-4 w-4 text-warning" />;
+      case 'critical': return <AlertCircle className="h-4 w-4 text-status-danger" />;
+      case 'high': return <TrendingUp className="h-4 w-4 text-status-warning" />;
       case 'medium': return <Clock className="h-4 w-4 text-primary" />;
-      case 'low': return <CheckCircle2 className="h-4 w-4 text-muted-foreground" />;
-      default: return <Clock className="h-4 w-4" />;
+      case 'low': return <CheckCircle2 className="h-4 w-4 text-foreground-muted" />;
+      default: return <Clock className="h-4 w-4 text-foreground" />;
     }
   };
 
