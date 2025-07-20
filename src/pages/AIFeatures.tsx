@@ -7,8 +7,11 @@ import AISyncDashboard from "@/components/AISyncDashboard";
 import AIRecommendationCard from "@/components/AIRecommendationCard";
 import { useAIRecommendations } from "@/hooks/useAIRecommendations";
 import EduBox from "@/components/EduBox";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const AIFeatures = () => {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
   const { recommendations, loading, generateRecommendation, updateRecommendationStatus } = useAIRecommendations();
 
   const handleStatusUpdate = async (id: string, status: any) => {
@@ -25,32 +28,34 @@ const AIFeatures = () => {
         <div>
           <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
             <Brain className="h-8 w-8 text-brand-primary" />
-            AI Features & Automation
+            {isArabic ? 'ميزات الذكاء الاصطناعي والأتمتة' : 'AI Features & Automation'}
             <EduBox
-              title="SanadHR AI Suite"
-              description="Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations"
-              howToUse="Navigate through different AI features using the tabs below"
-              linkedFeatures={['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
+              title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'SanadHR AI Suite'}
+              description={isArabic ? 'وحدات ذكية متقدمة تؤتمت عمليات الموارد البشرية وتوفر التحليلات التنبؤية والتوصيات الذكية' : 'Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations'}
+              howToUse={isArabic ? 'تنقل عبر ميزات الذكاء الاصطناعي المختلفة باستخدام التبويبات أدناه' : 'Navigate through different AI features using the tabs below'}
+              linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
               userLevel="hr_admin"
             >
               <></>
             </EduBox>
           </h1>
-          <p className="text-muted-foreground">Intelligent HR automation powered by advanced AI</p>
+          <p className="text-muted-foreground">
+            {isArabic ? 'أتمتة الموارد البشرية الذكية بواسطة الذكاء الاصطناعي المتقدم' : 'Intelligent HR automation powered by advanced AI'}
+          </p>
         </div>
         <Badge className="bg-brand-primary text-white px-3 py-1">
           <Zap className="h-3 w-3 mr-1" />
-          5 AI Engines Active
+          {isArabic ? '5 محركات ذكية نشطة' : '5 AI Engines Active'}
         </Badge>
       </div>
 
       <Tabs defaultValue="sync-engine" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="sync-engine">Sync Engine</TabsTrigger>
-          <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="nlp">NLP</TabsTrigger>
+          <TabsTrigger value="sync-engine">{isArabic ? 'محرك المزامنة' : 'Sync Engine'}</TabsTrigger>
+          <TabsTrigger value="recommendations">{isArabic ? 'التوصيات' : 'Recommendations'}</TabsTrigger>
+          <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
+          <TabsTrigger value="documents">{isArabic ? 'المستندات' : 'Documents'}</TabsTrigger>
+          <TabsTrigger value="nlp">{isArabic ? 'معالجة اللغة' : 'NLP'}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="sync-engine">
@@ -61,8 +66,12 @@ const AIFeatures = () => {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-2xl font-semibold text-foreground">Smart Recommendations</h2>
-                <p className="text-muted-foreground">AI-powered employee development recommendations</p>
+                <h2 className="text-2xl font-semibold text-foreground">
+                  {isArabic ? 'التوصيات الذكية' : 'Smart Recommendations'}
+                </h2>
+                <p className="text-muted-foreground">
+                  {isArabic ? 'توصيات تطوير الموظفين بواسطة الذكاء الاصطناعي' : 'AI-powered employee development recommendations'}
+                </p>
               </div>
             </div>
 
@@ -74,8 +83,12 @@ const AIFeatures = () => {
               <Card>
                 <CardContent className="flex flex-col items-center justify-center py-12">
                   <Brain className="h-12 w-12 text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium text-foreground mb-2">No recommendations yet</h3>
-                  <p className="text-muted-foreground text-center">AI recommendations will appear as data is analyzed</p>
+                  <h3 className="text-lg font-medium text-foreground mb-2">
+                    {isArabic ? 'لا توجد توصيات بعد' : 'No recommendations yet'}
+                  </h3>
+                  <p className="text-muted-foreground text-center">
+                    {isArabic ? 'ستظهر توصيات الذكاء الاصطناعي عند تحليل البيانات' : 'AI recommendations will appear as data is analyzed'}
+                  </p>
                 </CardContent>
               </Card>
             ) : (
@@ -96,12 +109,14 @@ const AIFeatures = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Predictive Models</CardTitle>
-                <CardDescription>12 active models</CardDescription>
+                <CardTitle>{isArabic ? 'النماذج التنبؤية' : 'Predictive Models'}</CardTitle>
+                <CardDescription>{isArabic ? '12 نموذج نشط' : '12 active models'}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-brand-primary">87.3%</div>
-                <p className="text-sm text-muted-foreground">Average accuracy</p>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? 'متوسط الدقة' : 'Average accuracy'}
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -110,12 +125,14 @@ const AIFeatures = () => {
         <TabsContent value="documents">
           <Card>
             <CardHeader>
-              <CardTitle>Document Intelligence</CardTitle>
-              <CardDescription>AI-powered document processing</CardDescription>
+              <CardTitle>{isArabic ? 'ذكاء المستندات' : 'Document Intelligence'}</CardTitle>
+              <CardDescription>{isArabic ? 'معالجة المستندات بالذكاء الاصطناعي' : 'AI-powered document processing'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-brand-success">2,456</div>
-              <p className="text-sm text-muted-foreground">Documents processed</p>
+              <p className="text-sm text-muted-foreground">
+                {isArabic ? 'مستند معالج' : 'Documents processed'}
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -123,12 +140,14 @@ const AIFeatures = () => {
         <TabsContent value="nlp">
           <Card>
             <CardHeader>
-              <CardTitle>Arabic-English NLP</CardTitle>
-              <CardDescription>Bilingual processing engine</CardDescription>
+              <CardTitle>{isArabic ? 'معالجة اللغة العربية-الإنجليزية' : 'Arabic-English NLP'}</CardTitle>
+              <CardDescription>{isArabic ? 'محرك المعالجة ثنائي اللغة' : 'Bilingual processing engine'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-bold text-brand-accent">98.2%</div>
-              <p className="text-sm text-muted-foreground">Processing accuracy</p>
+              <p className="text-sm text-muted-foreground">
+                {isArabic ? 'دقة المعالجة' : 'Processing accuracy'}
+              </p>
             </CardContent>
           </Card>
         </TabsContent>
