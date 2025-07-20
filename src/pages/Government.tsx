@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
+import AIInsightCard from '@/components/ai/AIInsightCard';
 import { 
   useRegions, 
   useCities, 
@@ -363,6 +365,12 @@ const Government = () => {
 
   return (
     <div className="space-y-6">
+      <AIInsightCard 
+        moduleContext="government"
+        companyId="demo-company"
+        className="mb-6"
+      />
+      
       <EnhancedPageLayout
         title={language === 'ar' ? 'التكاملات الحكومية' : 'Government Integrations'}
         description={language === 'ar' ? 'تكامل سلس مع الأنظمة الحكومية السعودية' : 'Seamless integration with Saudi government systems'}
@@ -386,6 +394,12 @@ const Government = () => {
         acceptedTypes={['.pdf', '.docx', '.xlsx', '.jpg', '.png', '.xml']}
         maxFileSize={100 * 1024 * 1024}
         maxFiles={40}
+      />
+
+      <AIFloatingAssistant 
+        moduleContext="government"
+        companyId="demo-company"
+        currentPageData={{ connectedPlatforms: 8, complianceScore: 98.9 }}
       />
     </div>
   );

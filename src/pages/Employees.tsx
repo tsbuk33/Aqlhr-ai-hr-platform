@@ -4,6 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Plus, Search, Filter } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
+import AIInsightCard from '@/components/ai/AIInsightCard';
 
 const Employees = () => {
   const { language } = useLanguage();
@@ -40,6 +42,12 @@ const Employees = () => {
           {isArabic ? 'تصفية' : 'Filter'}
         </Button>
       </div>
+
+      <AIInsightCard 
+        moduleContext="employees"
+        companyId="demo-company"
+        className="mb-6"
+      />
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -126,6 +134,12 @@ const Employees = () => {
         acceptedTypes={['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.xlsx']}
         maxFileSize={25 * 1024 * 1024}
         maxFiles={15}
+      />
+
+      <AIFloatingAssistant 
+        moduleContext="employees"
+        companyId="demo-company"
+        currentPageData={{ totalEmployees: 2847, saudizationRate: 67.2 }}
       />
     </div>
   );

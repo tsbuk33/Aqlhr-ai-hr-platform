@@ -1,12 +1,28 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
+import AIInsightCard from '@/components/ai/AIInsightCard';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 
 const PayrollAnalytics = () => {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Payroll Analytics</h1>
-        <p className="text-muted-foreground">Payroll insights and cost analysis</p>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isArabic ? 'تحليلات الرواتب' : 'Payroll Analytics'}
+        </h1>
+        <p className="text-muted-foreground">
+          {isArabic ? 'رؤى الرواتب وتحليل التكاليف' : 'Payroll insights and cost analysis'}
+        </p>
       </div>
+
+      <AIInsightCard 
+        moduleContext="payroll"
+        companyId="demo-company"
+        className="mb-6"
+      />
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -42,6 +58,12 @@ const PayrollAnalytics = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AIFloatingAssistant 
+        moduleContext="payroll"
+        companyId="demo-company"
+        currentPageData={{ costPerEmployee: 21300, yoyGrowth: 12.3, overtimeRatio: 8.9 }}
+      />
     </div>
   );
 };
