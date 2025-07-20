@@ -21,6 +21,7 @@ import {
 
 const CoreHR = () => {
   const { t, language } = useLanguage();
+  const isArabic = language === 'ar';
 
   const stats = [
     {
@@ -116,12 +117,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5 text-primary" />
-                  {t('core_hr.employee_master_data')}
+                  {isArabic ? 'البيانات الأساسية للموظفين' : 'Employee Master Data'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.employee_master_data_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'إدارة شاملة لملفات الموظفين وبياناتهم' : 'Comprehensive employee profile and data management'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">2,847 {t('core_hr.employees_managed')}</p>
+                <p className="text-sm text-muted-foreground">
+                  2,847 {isArabic ? 'موظف مُدار' : 'employees managed'}
+                </p>
               </CardContent>
             </Card>
 
@@ -129,12 +134,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building className="h-5 w-5 text-success" />
-                  {t('core_hr.organizational_structure')}
+                  {isArabic ? 'الهيكل التنظيمي' : 'Organizational Structure'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.organizational_structure_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'إدارة الأقسام والمستويات الإدارية' : 'Manage departments and management levels'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">67% {t('core_hr.saudization_rate')}</p>
+                <p className="text-sm text-muted-foreground">
+                  67% {isArabic ? 'معدل السعودة' : 'Saudization rate'}
+                </p>
               </CardContent>
             </Card>
 
@@ -142,12 +151,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <UserCheck className="h-5 w-5 text-accent" />
-                  {t('core_hr.employee_self_service')}
+                  {isArabic ? 'الخدمة الذاتية للموظفين' : 'Employee Self Service'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.employee_self_service_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'بوابة ذاتية للموظفين لإدارة بياناتهم' : 'Self-service portal for employees to manage their data'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">1,847 {t('core_hr.active_users')}</p>
+                <p className="text-sm text-muted-foreground">
+                  1,847 {isArabic ? 'مستخدم نشط' : 'active users'}
+                </p>
               </CardContent>
             </Card>
 
@@ -155,12 +168,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-warning" />
-                  {t('core_hr.document_management')}
+                  {isArabic ? 'إدارة الوثائق' : 'Document Management'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.document_management_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'إدارة وتنظيم الوثائق الرقمية' : 'Digital document management and organization'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">15,678 {t('core_hr.documents_processed')}</p>
+                <p className="text-sm text-muted-foreground">
+                  15,678 {isArabic ? 'وثيقة معالجة' : 'documents processed'}
+                </p>
               </CardContent>
             </Card>
 
@@ -168,12 +185,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5 text-secondary" />
-                  {t('core_hr.time_attendance')}
+                  {isArabic ? 'الوقت والحضور' : 'Time & Attendance'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.time_attendance_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'تتبع الحضور وساعات العمل' : 'Track attendance and work hours'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">98.2% {t('core_hr.attendance_rate')}</p>
+                <p className="text-sm text-muted-foreground">
+                  98.2% {isArabic ? 'معدل الحضور' : 'attendance rate'}
+                </p>
               </CardContent>
             </Card>
 
@@ -181,12 +202,16 @@ const CoreHR = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Star className="h-5 w-5 text-primary" />
-                  {t('core_hr.performance_management')}
+                  {isArabic ? 'إدارة الأداء' : 'Performance Management'}
                 </CardTitle>
-                <CardDescription>{t('core_hr.performance_management_desc')}</CardDescription>
+                <CardDescription>
+                  {isArabic ? 'تقييمات ومراجعات الأداء الدورية' : 'Performance reviews and evaluations'}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-muted-foreground">2,456 {t('core_hr.reviews_completed')}</p>
+                <p className="text-sm text-muted-foreground">
+                  2,456 {isArabic ? 'مراجعة مكتملة' : 'reviews completed'}
+                </p>
               </CardContent>
             </Card>
           </div>
