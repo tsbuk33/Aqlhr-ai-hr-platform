@@ -127,7 +127,7 @@ const Payroll = () => {
   const [documents, setDocuments] = useState([
     {
       id: 'doc-1',
-      name: language === 'ar' ? 'كشف_رواتب_ديسمبر_2024.pdf' : 'payroll_summary_december_2024.pdf',
+      name: language === 'ar' ? 'كشف رواتب ديسمبر 2024.pdf' : 'payroll_summary_december_2024.pdf',
       type: language === 'ar' ? 'كشف الرواتب' : 'Payroll Summary',
       date: '2024-12-30',
       size: '4.2 MB',
@@ -135,7 +135,7 @@ const Payroll = () => {
     },
     {
       id: 'doc-2', 
-      name: language === 'ar' ? 'تقرير_التأمينات_الاجتماعية.xlsx' : 'gosi_contributions_report.xlsx',
+      name: language === 'ar' ? 'تقرير التأمينات الاجتماعية.xlsx' : 'gosi_contributions_report.xlsx',
       type: language === 'ar' ? 'تقرير التأمينات' : 'GOSI Report',
       date: '2024-12-30',
       size: '2.8 MB',
@@ -143,7 +143,7 @@ const Payroll = () => {
     },
     {
       id: 'doc-3',
-      name: language === 'ar' ? 'ملف_البنك_WPS.txt' : 'wps_bank_file.txt',
+      name: language === 'ar' ? 'ملف البنك WPS.txt' : 'wps_bank_file.txt',
       type: language === 'ar' ? 'ملف البنك' : 'Bank File',
       date: '2024-12-30',
       size: '125 KB',
