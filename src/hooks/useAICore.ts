@@ -115,7 +115,7 @@ export const useAICore = () => {
       // Use existing ai_recommendations table or create mock data for demonstration
       const mockRecommendations: AIRecommendation[] = [
         {
-          id: '1',
+          id: '550e8400-e29b-41d4-a716-446655440001',
           title: 'Optimize Saudization Strategy',
           title_ar: 'تحسين استراتيجية السعودة',
           description: 'Implement targeted hiring to improve Saudization rate by 15%',
@@ -137,7 +137,7 @@ export const useAICore = () => {
           created_at: new Date().toISOString()
         },
         {
-          id: '2',
+          id: '550e8400-e29b-41d4-a716-446655440002',
           title: 'Performance Enhancement Program',
           title_ar: 'برنامج تحسين الأداء',
           description: 'Deploy AI-powered performance tracking to boost productivity by 25%',
