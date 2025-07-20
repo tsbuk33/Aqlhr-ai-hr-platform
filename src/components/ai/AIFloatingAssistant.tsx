@@ -34,7 +34,7 @@ const AIFloatingAssistant: React.FC<AIFloatingAssistantProps> = ({
   companyId = 'demo-company',
   currentPageData
 }) => {
-  const { language } = useLanguage();
+  const { language, isRTL } = useLanguage();
   const { toast } = useToast();
   const { queryAI, loading } = useAICore();
   const [isOpen, setIsOpen] = useState(false);
@@ -46,6 +46,23 @@ const AIFloatingAssistant: React.FC<AIFloatingAssistantProps> = ({
   const recognitionRef = useRef<any>(null);
 
   const isArabic = language === 'ar';
+
+  // Module name translations
+  const getModuleNameArabic = (context: string) => {
+    const moduleNames: Record<string, string> = {
+      'executive': 'تنفيذي',
+      'workforce_planning': 'تخطيط القوى العاملة',
+      'recruitment': 'التوظيف',
+      'performance': 'الأداء',
+      'health_safety': 'الصحة والسلامة',
+      'payroll': 'الرواتب',
+      'employees': 'الموظفين',
+      'government': 'حكومي',
+      'strategic': 'استراتيجي',
+      'general': 'عام'
+    };
+    return moduleNames[context] || context;
+  };
 
   // Smart suggestions based on module context
   const getContextualSuggestions = () => {
@@ -192,7 +209,7 @@ const AIFloatingAssistant: React.FC<AIFloatingAssistantProps> = ({
 
   const exportConversation = () => {
     const conversationText = conversation.map(msg => 
-      `${msg.type === 'user' ? 'User' : 'AI'}: ${msg.content}`
+      `${msg.type === 'user' ? (isArabic ? 'المستخدم' : 'User') : (isArabic ? 'مانوس' : 'AI')}: ${msg.content}`
     ).join('\n\n');
     
     const blob = new Blob([conversationText], { type: 'text/plain' });
@@ -219,15 +236,15 @@ const AIFloatingAssistant: React.FC<AIFloatingAssistantProps> = ({
   }
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 ${isExpanded ? 'w-96 h-[600px]' : 'w-80 h-96'} transition-all duration-300`}>
-      <Card className="h-full flex flex-col shadow-2xl border-primary/20">
+    <div className={`fixed ${isRTL ? 'bottom-6 left-6' : 'bottom-6 right-6'} z-50 ${isExpanded ? 'w-96 h-[600px]' : 'w-80 h-96'} transition-all duration-300`}>
+      <Card className="h-full flex flex-col shadow-2xl border-primary/20" dir={isRTL ? 'rtl' : 'ltr'}>
         <CardHeader className="pb-3 border-b">
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-sm">
+          <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <CardTitle className={`flex items-center gap-2 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
               <Brain className="h-4 w-4 text-primary" />
               {isArabic ? 'مساعد مانوس الذكي' : 'Manus AI Assistant'}
               <Badge variant="secondary" className="text-xs">
-                {moduleContext}
+                {isArabic ? getModuleNameArabic(moduleContext) : moduleContext}
               </Badge>
             </CardTitle>
             <div className="flex items-center gap-1">

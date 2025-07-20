@@ -30,7 +30,7 @@ const AIInsightCard: React.FC<AIInsightCardProps> = ({
   companyId = 'demo-company',
   className = ''
 }) => {
-  const { language } = useLanguage();
+  const { language, isRTL } = useLanguage();
   const { getWorkforceAnalytics, loading } = useAICore();
   const [insights, setInsights] = useState<any[]>([]);
 
@@ -243,6 +243,15 @@ const AIInsightCard: React.FC<AIInsightCardProps> = ({
     }
   };
 
+  const getPriorityNameArabic = (priority: string) => {
+    const priorities: Record<string, string> = {
+      'high': 'عالي',
+      'medium': 'متوسط',
+      'low': 'منخفض'
+    };
+    return priorities[priority] || priority;
+  };
+
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'prediction':
@@ -261,16 +270,16 @@ const AIInsightCard: React.FC<AIInsightCardProps> = ({
   };
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-4 ${className}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {insights.map((insight) => (
-        <Card key={insight.id} className="border-l-4 border-l-primary">
+        <Card key={insight.id} className={`border-l-4 border-l-primary ${isRTL ? 'border-r-4 border-r-primary border-l-0' : ''}`}>
           <CardHeader className="pb-3">
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-2">
+            <div className={`flex items-start justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 {getTypeIcon(insight.type)}
                 <CardTitle className="text-base">{insight.title}</CardTitle>
                 <Badge variant="outline" className={getPriorityColor(insight.priority)}>
-                  {insight.priority}
+                  {isArabic ? getPriorityNameArabic(insight.priority) : insight.priority}
                 </Badge>
               </div>
               {getTrendIcon(insight.trend)}
@@ -278,7 +287,7 @@ const AIInsightCard: React.FC<AIInsightCardProps> = ({
           </CardHeader>
           <CardContent className="space-y-4">
             {/* Main Value */}
-            <div className="flex items-center justify-between">
+            <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
               <div className="text-2xl font-bold text-primary">
                 {insight.value}
               </div>
