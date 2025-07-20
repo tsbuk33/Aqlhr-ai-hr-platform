@@ -127,11 +127,11 @@ export const AICommandCenter: React.FC = () => {
 
   const getAlertIcon = (type: string) => {
     switch (type) {
-      case 'critical': return <AlertTriangle className="h-4 w-4 text-red-600" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-600" />;
-      case 'info': return <Clock className="h-4 w-4 text-blue-600" />;
-      case 'success': return <CheckCircle className="h-4 w-4 text-green-600" />;
-      default: return <Clock className="h-4 w-4 text-gray-600" />;
+      case 'critical': return <AlertTriangle className="h-4 w-4 text-destructive" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-brand-warning" />;
+      case 'info': return <Clock className="h-4 w-4 text-primary" />;
+      case 'success': return <CheckCircle className="h-4 w-4 text-brand-success" />;
+      default: return <Clock className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -173,7 +173,7 @@ export const AICommandCenter: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <Brain className="h-10 w-10 text-primary" />
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-brand-success rounded-full animate-pulse flex items-center justify-center">
                   <div className="w-2 h-2 bg-white rounded-full" />
                 </div>
               </div>
@@ -198,7 +198,7 @@ export const AICommandCenter: React.FC = () => {
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">{systemStatus.overallHealth}%</div>
+              <div className="text-3xl font-bold text-brand-success">{systemStatus.overallHealth}%</div>
               <div className="text-sm text-muted-foreground">System Health</div>
             </div>
             <div className="text-center">
@@ -208,19 +208,19 @@ export const AICommandCenter: React.FC = () => {
               <div className="text-sm text-muted-foreground">Modules Synced</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">{systemStatus.decisionsToday}</div>
+              <div className="text-3xl font-bold text-brand-primary">{systemStatus.decisionsToday}</div>
               <div className="text-sm text-muted-foreground">Decisions Today</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">{systemStatus.learningProgress.toFixed(1)}%</div>
+              <div className="text-3xl font-bold text-brand-accent">{systemStatus.learningProgress.toFixed(1)}%</div>
               <div className="text-sm text-muted-foreground">Learning Progress</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600">{systemStatus.complianceScore}%</div>
+              <div className="text-3xl font-bold text-brand-warning">{systemStatus.complianceScore}%</div>
               <div className="text-sm text-muted-foreground">Compliance Score</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-pink-600">{realTimeStats.processingRate.toFixed(1)}/min</div>
+              <div className="text-3xl font-bold text-brand-secondary">{realTimeStats.processingRate.toFixed(1)}/min</div>
               <div className="text-sm text-muted-foreground">Processing Rate</div>
             </div>
           </div>
@@ -247,23 +247,23 @@ export const AICommandCenter: React.FC = () => {
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
-                  <Globe className="h-6 w-6 text-green-600" />
+                  <Globe className="h-6 w-6 text-brand-success" />
                 </div>
-                <div className="text-2xl font-bold text-green-600">{realTimeStats.dataStreams}</div>
+                <div className="text-2xl font-bold text-brand-success">{realTimeStats.dataStreams}</div>
                 <div className="text-sm text-muted-foreground">Data Streams</div>
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
-                  <Target className="h-6 w-6 text-blue-600" />
+                  <Target className="h-6 w-6 text-brand-primary" />
                 </div>
-                <div className="text-2xl font-bold text-blue-600">{realTimeStats.activeDecisions}</div>
+                <div className="text-2xl font-bold text-brand-primary">{realTimeStats.activeDecisions}</div>
                 <div className="text-sm text-muted-foreground">Active Decisions</div>
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
-                  <Network className="h-6 w-6 text-purple-600" />
+                  <Network className="h-6 w-6 text-brand-accent" />
                 </div>
-                <div className="text-2xl font-bold text-purple-600">100%</div>
+                <div className="text-2xl font-bold text-brand-accent">100%</div>
                 <div className="text-sm text-muted-foreground">Module Sync</div>
               </div>
             </div>
