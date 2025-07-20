@@ -22,6 +22,17 @@
   margin-right: auto;
 }
 
+/* RTL-aware layout adjustments for sidebar */
+[dir="rtl"] .flex-1 {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+[dir="rtl"] main {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
 [dir="rtl"] .pr-4 {
   padding-right: 0;
   padding-left: 1rem;
