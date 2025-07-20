@@ -17,21 +17,21 @@ export function DashboardHeader() {
           <SidebarTrigger className="text-foreground dark:text-foreground hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground dark:hover:text-accent-foreground rounded-lg p-2 transition-all duration-200" />
           <div className="hidden md:block">
             {isArabic ? (
-              <div className="text-right">
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-                  نظام إيه كيو إل إتش ار للموارد البشرية
+              <div className="text-right min-w-0 flex-1">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent truncate">
+                  منصة عقل HR
                 </h1>
-                <p className="text-sm text-foreground-muted dark:text-foreground-muted mt-1 font-medium">
-                  منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية
+                <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 font-medium truncate">
+                  منصة ذكية ومتطورة لإدارة الموارد البشرية
                 </p>
               </div>
             ) : (
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent truncate">
                   AqlHR System
                 </h1>
-                <p className="text-sm text-foreground-muted dark:text-foreground-muted mt-1 font-medium">
-                  Advanced Intelligent Platform for Human Resources Management in Saudi Arabia
+                <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 font-medium truncate">
+                  Advanced Intelligent Platform for Human Resources Management
                 </p>
               </div>
             )}
