@@ -356,24 +356,24 @@ export function AppSidebar() {
             <img 
               src={aqlHRLogo} 
               alt="AqlHR Logo" 
-              className={state !== "collapsed" ? "h-10 w-auto object-contain" : "w-8 h-8 object-contain"}
+              className={state !== "collapsed" ? "h-10 w-auto object-contain flex-shrink-0" : "w-8 h-8 object-contain flex-shrink-0"}
             />
             {state !== "collapsed" && (
-              <div className={isArabic ? 'text-right' : 'text-left'}>
-                <h1 className="text-lg font-bold text-sidebar-primary-foreground">
-                  {isArabic ? 'إيه كيو إل إتش ار الموارد البشرية' : 'AqlHR'}
+              <div className={`min-w-0 flex-1 ${isArabic ? 'text-right' : 'text-left'}`}>
+                <h1 className="text-sm font-bold text-sidebar-primary-foreground leading-tight">
+                  {isArabic ? 'عقل HR' : 'AqlHR'}
                 </h1>
-                <p className="text-xs text-sidebar-foreground/70">
-                  {isArabic ? 'منصة الموارد البشرية الشاملة' : 'Complete HR Platform'}
+                <p className="text-xs text-sidebar-foreground/70 leading-tight mt-1 truncate">
+                  {isArabic ? 'منصة الموارد البشرية الذكية' : 'Smart HR Platform'}
                 </p>
               </div>
             )}
           </div>
           {state !== "collapsed" && (
-            <div className={`mt-4 flex items-center gap-2 text-xs ${isArabic ? 'flex-row-reverse' : ''}`}>
-              <div className="w-2 h-2 bg-status-success rounded-full"></div>
-              <span className="text-sidebar-foreground/70">
-                {isArabic ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All systems operational'}
+            <div className={`mt-3 flex items-center gap-2 text-xs ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <div className="w-2 h-2 bg-status-success rounded-full flex-shrink-0"></div>
+              <span className="text-sidebar-foreground/70 truncate">
+                {isArabic ? 'جميع الأنظمة تعمل' : 'All systems operational'}
               </span>
             </div>
           )}
