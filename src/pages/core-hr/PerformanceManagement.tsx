@@ -33,9 +33,9 @@ const PerformanceManagement = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className={isRTL ? "text-right" : "text-left"}>
-        <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
-        <p className="text-muted-foreground">{t.description}</p>
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-4">{t.title}</h1>
+        <p className="text-muted-foreground max-w-3xl mx-auto">{t.description}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
