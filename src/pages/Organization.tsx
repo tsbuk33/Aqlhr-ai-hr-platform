@@ -11,6 +11,7 @@ import { useState } from "react";
 
 const Organization = () => {
   const { language } = useLanguage();
+  const isArabic = language === 'ar';
   const [selectedStructure, setSelectedStructure] = useState<string | null>(null);
   const [aiRecommendation, setAiRecommendation] = useState<any>(null);
   const [isLoadingRecommendation, setIsLoadingRecommendation] = useState(false);
@@ -218,14 +219,18 @@ const Organization = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('structure')}</h1>
-        <p className="text-muted-foreground">{t('dynamic_chart')}</p>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isArabic ? 'الهيكل التنظيمي' : 'Organizational Structure'}
+        </h1>
+        <p className="text-muted-foreground">
+          {isArabic ? 'مخطط تنظيمي ديناميكي وتفاعلي' : 'Dynamic and interactive organizational chart'}
+        </p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t('total_departments')}</CardTitle>
+            <CardTitle>{isArabic ? 'إجمالي الأقسام' : 'Total Departments'}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold text-brand-primary">28</p>

@@ -76,8 +76,12 @@ const Consulting = () => {
     <div className="container mx-auto p-6 space-y-8">
       {/* Header Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-foreground">{t('consulting.premium_consulting')}</h1>
-        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">{t('consulting.executive_hr_consulting')}</p>
+        <h1 className="text-4xl font-bold text-foreground">
+          {isArabic ? 'الاستشارات المتميزة' : 'Premium Consulting'}
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          {isArabic ? 'استشارات الموارد البشرية التنفيذية من الخبراء' : 'Executive HR consulting from industry experts'}
+        </p>
         <Badge className="bg-brand-primary text-background">
           {isArabic ? 'خدمات استشارية متميزة' : 'Premium Consulting Services'}
         </Badge>
