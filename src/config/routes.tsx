@@ -182,6 +182,7 @@ const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'))
 const StrategicPresentationCenter = lazy(() => import('../pages/executive/StrategicPresentationCenter'));
 const SuperAdminDashboard = lazy(() => import('../pages/executive/SuperAdminDashboard'));
 const ExecutiveMobileApp = lazy(() => import('../pages/executive/ExecutiveMobileApp'));
+const AIEnhancedExecutiveIntelligence = lazy(() => import('../pages/ai/AIEnhancedExecutiveIntelligence'));
 
 // LEO & GEO modules
 const LearningExperienceOptimization = lazy(() => import('../pages/leo/LearningExperienceOptimization'));
@@ -221,6 +222,7 @@ export interface RouteConfig {
 
 export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
+  { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
   { path: '/', element: Index },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
