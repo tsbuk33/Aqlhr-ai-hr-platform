@@ -269,6 +269,10 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "التنوع والشمول" : "Diversity & Inclusion", url: "/strategic/diversity" },
       { title: isArabic ? "استراتيجية الأداء" : "Performance Strategy", url: "/strategic/performance" },
       { title: isArabic ? "تجربة الموظف" : "Employee Experience", url: "/strategic/employee-experience" },
+      { title: isArabic ? "تطوير القيادة" : "Leadership Development", url: "/strategic/leadership" },
+      { title: isArabic ? "التحول الرقمي للموارد البشرية" : "HR Transformation", url: "/strategic/hr-transformation" },
+      { title: isArabic ? "إدارة التغيير" : "Change Management", url: "/strategic/change-management" },
+      { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
     ]
   },
 

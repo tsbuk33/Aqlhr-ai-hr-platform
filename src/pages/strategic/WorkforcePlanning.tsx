@@ -1,11 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Download, Users, TrendingUp } from "lucide-react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 
 const WorkforcePlanning = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { isArabic } = useSimpleLanguage();
   
   return (
     <div className="container mx-auto p-6 space-y-6">

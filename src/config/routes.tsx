@@ -83,6 +83,8 @@ const DiversityInclusion = lazy(() => import('../pages/strategic/DiversityInclus
 const LeadershipDevelopment = lazy(() => import('../pages/strategic/LeadershipDevelopment'));
 const EmployeeExperience = lazy(() => import('../pages/strategic/EmployeeExperience'));
 const HRTransformation = lazy(() => import('../pages/strategic/HRTransformation'));
+const ChangeManagement = lazy(() => import('../pages/strategic/ChangeManagement'));
+const CultureStrategy = lazy(() => import('../pages/strategic/CultureStrategy'));
 
 // Consulting modules
 const ExecutiveCompensation = lazy(() => import('../pages/consulting/ExecutiveCompensation'));
@@ -92,7 +94,7 @@ const MergerIntegration = lazy(() => import('../pages/consulting/MergerIntegrati
 const DigitalTransformation = lazy(() => import('../pages/consulting/DigitalTransformation'));
 const TalentStrategy = lazy(() => import('../pages/consulting/TalentStrategy'));
 const LeadershipConsulting = lazy(() => import('../pages/consulting/LeadershipConsulting'));
-const ChangeManagement = lazy(() => import('../pages/consulting/ChangeManagement'));
+const ChangeManagementConsulting = lazy(() => import('../pages/consulting/ChangeManagement'));
 const HROptimization = lazy(() => import('../pages/consulting/HROptimization'));
 const RiskAssessment = lazy(() => import('../pages/consulting/RiskAssessment'));
 const BenchmarkingAnalysis = lazy(() => import('../pages/consulting/BenchmarkingAnalysis'));
@@ -389,6 +391,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/strategic/leadership', element: LeadershipDevelopment, auth: true },
   { path: '/strategic/experience', element: EmployeeExperience, auth: true },
   { path: '/strategic/transformation', element: HRTransformation, auth: true },
+  { path: '/strategic/change-management', element: ChangeManagement, auth: true },
+  { path: '/strategic/culture', element: CultureStrategy, auth: true },
   
 // Consulting Sub-routes - AI Assessment Tool as #1 priority
   { path: '/consulting/ai-assessment', element: AIStrategicAssessment, auth: true },
@@ -401,8 +405,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/consulting/digital-transformation', element: DigitalTransformation, auth: true },
   { path: '/consulting/talent', element: TalentStrategy, auth: true },
   { path: '/consulting/leadership', element: LeadershipConsulting, auth: true },
-  { path: '/consulting/change', element: ChangeManagement, auth: true },
-  { path: '/consulting/change-management', element: ChangeManagement, auth: true },
+  { path: '/consulting/change', element: ChangeManagementConsulting, auth: true },
+  { path: '/consulting/change-management', element: ChangeManagementConsulting, auth: true },
   { path: '/consulting/optimization', element: HROptimization, auth: true },
   { path: '/consulting/risk', element: RiskAssessment, auth: true },
   { path: '/consulting/benchmarking', element: BenchmarkingAnalysis, auth: true },
