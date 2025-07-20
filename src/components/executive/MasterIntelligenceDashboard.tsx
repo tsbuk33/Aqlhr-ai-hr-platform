@@ -268,11 +268,11 @@ const MasterIntelligenceDashboard: React.FC = () => {
 
         <Card className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-accent">Strategic Readiness</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-accent">Strategic Readiness</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-accent">{executiveMetrics.strategicReadiness}%</div>
-            <div className="flex items-center text-xs text-accent/80 mt-1">
+            <div className="text-2xl font-bold text-brand-accent">{executiveMetrics.strategicReadiness}%</div>
+            <div className="flex items-center text-xs text-brand-accent/80 mt-1">
               <Shield className="h-3 w-3 mr-1" />
               {executiveMetrics.complianceScore}% compliant
             </div>
@@ -359,7 +359,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium">Strategic Alignment</span>
-                  <span className="text-sm font-bold text-accent">
+                  <span className="text-sm font-bold text-brand-accent">
                     {executiveMetrics.strategicReadiness}% ready
                   </span>
                 </div>
@@ -386,13 +386,13 @@ const MasterIntelligenceDashboard: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Real-Time Features</span>
-                  <Badge variant="secondary" className="bg-accent/10 text-accent">
+                  <Badge variant="secondary" className="bg-brand-accent/10 text-brand-accent">
                     15/15 Live
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Core Modules</span>
-                  <Badge variant="secondary" className="bg-warning/10 text-warning">
+                  <Badge variant="secondary" className="bg-brand-warning/10 text-brand-warning">
                     105+ Integrated
                   </Badge>
                 </div>
