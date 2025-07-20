@@ -1,7 +1,7 @@
-import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, Settings } from "lucide-react";
+import { Bell, Search, Settings, PanelLeft } from "lucide-react";
 import SimpleLanguageToggle from "@/components/SimpleLanguageToggle";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
@@ -9,12 +9,23 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function DashboardHeader() {
   const { isArabic } = useSimpleLanguage();
+  const { toggleSidebar } = useSidebar();
   
   return (
     <header className="h-20 border-b border-border/40 dark:border-border bg-gradient-to-r from-surface via-surface-subtle to-surface dark:from-surface dark:via-surface-subtle dark:to-surface backdrop-blur-xl supports-[backdrop-filter]:bg-surface/90 dark:supports-[backdrop-filter]:bg-surface/90 shadow-sm">
       <div className={`flex h-full items-center justify-between px-4 sm:px-6 lg:px-8 ${isArabic ? 'flex-row-reverse' : ''}`}>
         <div className={`flex items-center gap-3 min-w-0 flex-shrink ${isArabic ? 'flex-row-reverse' : ''}`}>
-          <SidebarTrigger className="text-foreground dark:text-foreground hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground dark:hover:text-accent-foreground rounded-lg p-2 transition-all duration-200 flex-shrink-0" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className="text-foreground dark:text-foreground hover:bg-accent dark:hover:bg-accent hover:text-accent-foreground dark:hover:text-accent-foreground rounded-lg p-2 transition-all duration-200 flex-shrink-0"
+          >
+            <PanelLeft />
+            <span className="sr-only">
+              {isArabic ? 'تبديل الشريط الجانبي' : 'Toggle Sidebar'}
+            </span>
+          </Button>
           <div className="hidden lg:block min-w-0 max-w-xs">
             {isArabic ? (
               <div className="text-right min-w-0">
