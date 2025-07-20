@@ -122,15 +122,21 @@ const getPlatformModules = (isArabic: boolean) => [
     title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", 
     url: "/analytics", 
     icon: TrendingUp,
-    badge: "12",
+    badge: "18",
     color: "purple",
     subItems: [
       { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
       { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
+      { title: isArabic ? "الصحة والسلامة والبيئة (HSE)" : "Health & Safety (HSE)", url: "/health-safety" },
       { title: isArabic ? "ميزات الذكاء الاصطناعي" : "AI Features", url: "/ai-features" },
       { title: isArabic ? "التوصيات الذكية" : "Smart KPI Tool", url: "/additional/smart-kpi" },
       { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
       { title: isArabic ? "ذكاء المستندات" : "Document Intelligence", url: "/ai-automation/document-intelligence" },
+      { title: isArabic ? "سير العمل الآلي" : "Automation Workflows", url: "/automation-workflows" },
+      { title: isArabic ? "الذكاء متعدد الوحدات" : "Cross-Module Intelligence", url: "/cross-module-intelligence" },
+      { title: isArabic ? "مساعد الذكاء الاصطناعي المحمول" : "Mobile AI Assistant", url: "/mobile-ai-assistant" },
+      { title: isArabic ? "التكامل الحكومي الذكي" : "Government AI Integration", url: "/government-ai-integration" },
+      { title: isArabic ? "الذكاء التنفيذي" : "AI Executive Intelligence", url: "/ai-executive-intelligence" },
     ]
   },
 
