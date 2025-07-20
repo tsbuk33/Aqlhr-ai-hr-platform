@@ -49,7 +49,7 @@ const ExecutiveCenter: React.FC = () => {
             <div>
               <h1 className="text-4xl font-bold text-foreground flex items-center">
                 <Crown className="h-10 w-10 mr-4 text-primary" />
-                {isArabic ? 'مركز أقل للذكاء التنفيذي' : 'AqlHR Executive Intelligence Center'}
+                {isArabic ? 'مركز عقل للذكاء التنفيذي' : 'AqlHR Executive Intelligence Center'}
               </h1>
               <p className="text-xl text-muted-foreground mt-2">
                 {isArabic ? 'نظام الموارد البشرية النهائي - إدارة أكثر من 105 وحدة بامتياز الذكاء الاصطناعي' : 'The Ultimate HR Operating System - Orchestrating 105+ Modules with AI Excellence'}
