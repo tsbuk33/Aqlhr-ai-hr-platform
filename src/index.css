@@ -264,6 +264,56 @@
       grid-template-columns: 1fr;
       gap: 1rem;
     }
+  
+  /* Legacy container override for consistent centering across ALL pages */
+  .container.mx-auto {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .container.mx-auto > div:first-child {
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin-bottom: 3rem !important;
+  }
+
+  .container.mx-auto > div:first-child h1 {
+    text-align: center !important;
+    margin: 0 auto !important;
+  }
+
+  .container.mx-auto > div:first-child p {
+    text-align: center !important;
+    margin: 0 auto !important;
+    max-width: 800px !important;
+  }
+
+  /* Grid layouts in containers */
+  .container.mx-auto .grid {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Tabs in containers */
+  .container.mx-auto .w-full {
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Responsive container adjustments */
+  @media (max-width: 768px) {
+    .container.mx-auto {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
   }
 
   #root {

@@ -1,8 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { PageLayout } from "@/components/layout/PageLayout";
+
 const SmartKPITool = () => {
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <PageLayout
+      title="Smart KPI Tool"
+      description="Advanced KPI management and analytics tool"
+    >
       <div>
         <h1 className="text-3xl font-bold text-foreground">Smart KPI & Performance Agreement Tool</h1>
         <p className="text-muted-foreground">Mutual employee-manager goal setting and tracking</p>
@@ -42,7 +47,7 @@ const SmartKPITool = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
