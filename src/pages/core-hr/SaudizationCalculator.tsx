@@ -300,10 +300,10 @@ const SaudizationCalculator = () => {
   const [selectedLevel, setSelectedLevel] = useState('');
   const [salaryRange, setSalaryRange] = useState({ min: 0, max: 0 });
   const [calculatorFilters, setCalculatorFilters] = useState({
-    department: '',
-    nationality: '',
-    jobTitle: '',
-    level: ''
+    department: 'all',
+    nationality: 'all',
+    jobTitle: 'all',
+    level: 'all'
   });
 
   // Smart calculations based on selections
@@ -955,7 +955,7 @@ const SaudizationCalculator = () => {
                           <SelectValue placeholder={isRTL ? 'جميع الصناعات' : 'All Industries'} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">{isRTL ? 'جميع الصناعات' : 'All Industries'}</SelectItem>
+                          <SelectItem value="all">{isRTL ? 'جميع الصناعات' : 'All Industries'}</SelectItem>
                           <SelectItem value="healthcare">{isRTL ? 'الرعاية الصحية (269 مهنة)' : 'Healthcare (269 professions)'}</SelectItem>
                           <SelectItem value="engineering">{isRTL ? 'الهندسة (جميع التخصصات)' : 'Engineering (All Specializations)'}</SelectItem>
                           <SelectItem value="information_technology">{isRTL ? 'تقنية المعلومات' : 'Information Technology'}</SelectItem>
@@ -972,7 +972,7 @@ const SaudizationCalculator = () => {
                           <SelectValue placeholder={isRTL ? 'جميع المستويات' : 'All Levels'} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">{isRTL ? 'جميع المستويات' : 'All Levels'}</SelectItem>
+                          <SelectItem value="all">{isRTL ? 'جميع المستويات' : 'All Levels'}</SelectItem>
                           <SelectItem value="Professional">{isRTL ? 'مهني' : 'Professional'}</SelectItem>
                           <SelectItem value="Technician">{isRTL ? 'فني' : 'Technician'}</SelectItem>
                           <SelectItem value="Specialist">{isRTL ? 'أخصائي' : 'Specialist'}</SelectItem>
@@ -986,8 +986,8 @@ const SaudizationCalculator = () => {
                   <div className="max-h-96 overflow-y-auto border rounded-lg">
                     <div className="space-y-2 p-4">
                       {Object.entries(HRSD_JOB_TITLES).map(([industry, jobs]) => (
-                        (!calculatorFilters.department || calculatorFilters.department === industry) && 
-                        jobs.filter(job => !calculatorFilters.level || job.level === calculatorFilters.level).map((job) => (
+                        (calculatorFilters.department === 'all' || calculatorFilters.department === industry) && 
+                        jobs.filter(job => calculatorFilters.level === 'all' || job.level === calculatorFilters.level).map((job) => (
                           <div key={job.code} className="border rounded-lg p-3 hover:bg-muted/50 transition-colors">
                             <div className="flex justify-between items-start">
                               <div className="flex-1">
