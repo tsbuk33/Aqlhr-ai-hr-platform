@@ -265,7 +265,7 @@ const CoreHR = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="w-full max-w-7xl mx-auto space-y-6 p-4 sm:p-6">
       <EnhancedPageLayout
         title={language === 'ar' ? 'وحدات الموارد البشرية الأساسية' : 'Core HR Modules'}
         description={language === 'ar' ? 'الإدارة الشاملة لجميع عمليات الموارد البشرية' : 'Comprehensive management of all HR processes'}
