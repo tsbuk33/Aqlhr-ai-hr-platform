@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Brain, Zap, TrendingUp, Shield, Target, Activity } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface AqlMindStatus {
   iqLevel: number;
@@ -26,6 +27,7 @@ interface AICapability {
 
 export const AqlMindCore: React.FC = () => {
   const { toast } = useToast();
+  const { isArabic } = useSimpleLanguage();
   const [mindStatus, setMindStatus] = useState<AqlMindStatus>({
     iqLevel: 167,
     learningRate: 87,
@@ -90,18 +92,22 @@ export const AqlMindCore: React.FC = () => {
 
   const initiateDeepLearning = () => {
     toast({
-      title: "🧠 Deep Learning Initiated",
-      description: "AqlMind is analyzing new patterns and updating decision models...",
+      title: isArabic ? "🧠 تم بدء التعلم العميق" : "🧠 Deep Learning Initiated",
+      description: isArabic 
+        ? "عقل HR يحلل أنماط جديدة ويحديث نماذج القرارات..."
+        : "AqlMind is analyzing new patterns and updating decision models...",
     });
   };
 
   const toggleAutonomousMode = () => {
     setMindStatus(prev => ({ ...prev, autonomousMode: !prev.autonomousMode }));
     toast({
-      title: mindStatus.autonomousMode ? "🤖 Manual Mode Activated" : "🧠 Autonomous Mode Enabled",
+      title: mindStatus.autonomousMode 
+        ? (isArabic ? "🤖 تم تفعيل الوضع اليدوي" : "🤖 Manual Mode Activated") 
+        : (isArabic ? "🧠 تم تفعيل الوضع المستقل" : "🧠 Autonomous Mode Enabled"),
       description: mindStatus.autonomousMode 
-        ? "AI decisions require manual approval" 
-        : "AI is making autonomous decisions",
+        ? (isArabic ? "قرارات الذكاء الاصطناعي تتطلب موافقة يدوية" : "AI decisions require manual approval")
+        : (isArabic ? "الذكاء الاصطناعي يتخذ قرارات مستقلة" : "AI is making autonomous decisions"),
     });
   };
 
@@ -117,16 +123,21 @@ export const AqlMindCore: React.FC = () => {
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse" />
               </div>
               <div>
-                <CardTitle className="text-2xl font-bold">AqlMind Intelligence Core</CardTitle>
-                <p className="text-muted-foreground">Self-Learning AI Ecosystem • Active Since Startup</p>
+                <CardTitle className="text-2xl font-bold">
+                  {isArabic ? "نواة ذكاء عقل HR" : "AqlMind Intelligence Core"}
+                </CardTitle>
+                <p className="text-muted-foreground">{isArabic ? "نظام ذكاء اصطناعي للتعلم الذاتي • نشط منذ البداية" : "Self-Learning AI Ecosystem • Active Since Startup"}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Badge variant={mindStatus.autonomousMode ? "default" : "secondary"} className="px-3 py-1">
-                {mindStatus.autonomousMode ? "🤖 AUTONOMOUS" : "👤 MANUAL"}
+                {mindStatus.autonomousMode 
+                  ? (isArabic ? "🤖 مستقل" : "🤖 AUTONOMOUS")
+                  : (isArabic ? "👤 يدوي" : "👤 MANUAL")
+                }
               </Badge>
               <Badge variant="outline" className="px-3 py-1">
-                IQ: {mindStatus.iqLevel.toFixed(1)}
+                {isArabic ? "الذكاء" : "IQ"}: {mindStatus.iqLevel.toFixed(1)}
               </Badge>
             </div>
           </div>
@@ -135,19 +146,19 @@ export const AqlMindCore: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary">{mindStatus.activeProcesses}</div>
-              <div className="text-sm text-muted-foreground">Active Processes</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "العمليات النشطة" : "Active Processes"}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">{mindStatus.decisionsPerMinute}</div>
-              <div className="text-sm text-muted-foreground">Decisions/Min</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "القرارات/دقيقة" : "Decisions/Min"}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-blue-600">{mindStatus.patternsLearned.toLocaleString()}</div>
-              <div className="text-sm text-muted-foreground">Patterns Learned</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "الأنماط المتعلمة" : "Patterns Learned"}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">{mindStatus.decisionAccuracy}%</div>
-              <div className="text-sm text-muted-foreground">Accuracy Rate</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "معدل الدقة" : "Accuracy Rate"}</div>
             </div>
           </div>
         </CardContent>
@@ -159,7 +170,7 @@ export const AqlMindCore: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Zap className="h-5 w-5" />
-              AI Capabilities Status
+              {isArabic ? "حالة قدرات الذكاء الاصطناعي" : "AI Capabilities Status"}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -186,13 +197,13 @@ export const AqlMindCore: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Learning & Performance
+              {isArabic ? "التعلم والأداء" : "Learning & Performance"}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">Learning Rate</span>
+                <span className="text-sm font-medium">{isArabic ? "معدل التعلم" : "Learning Rate"}</span>
                 <span className="text-sm text-muted-foreground">{mindStatus.learningRate}%</span>
               </div>
               <Progress value={mindStatus.learningRate} className="h-3" />
@@ -200,7 +211,7 @@ export const AqlMindCore: React.FC = () => {
             
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">System Health</span>
+                <span className="text-sm font-medium">{isArabic ? "صحة النظام" : "System Health"}</span>
                 <span className="text-sm text-muted-foreground">{mindStatus.systemHealth}%</span>
               </div>
               <Progress value={mindStatus.systemHealth} className="h-3" />
@@ -209,11 +220,14 @@ export const AqlMindCore: React.FC = () => {
             <div className="flex gap-2">
               <Button onClick={initiateDeepLearning} variant="outline" className="flex-1">
                 <TrendingUp className="h-4 w-4 mr-2" />
-                Deep Learning
+                {isArabic ? "التعلم العميق" : "Deep Learning"}
               </Button>
               <Button onClick={toggleAutonomousMode} variant="outline" className="flex-1">
                 <Target className="h-4 w-4 mr-2" />
-                {mindStatus.autonomousMode ? "Manual" : "Auto"}
+                {mindStatus.autonomousMode 
+                  ? (isArabic ? "يدوي" : "Manual") 
+                  : (isArabic ? "تلقائي" : "Auto")
+                }
               </Button>
             </div>
           </CardContent>
@@ -225,7 +239,7 @@ export const AqlMindCore: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
-            Recent AI Decisions
+            {isArabic ? "قرارات الذكاء الاصطناعي الأخيرة" : "Recent AI Decisions"}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -236,7 +250,9 @@ export const AqlMindCore: React.FC = () => {
                   <div className="w-2 h-2 bg-primary rounded-full" />
                   <div>
                     <div className="font-medium">{decision.type}</div>
-                    <div className="text-sm text-muted-foreground">Confidence: {decision.confidence}%</div>
+                    <div className="text-sm text-muted-foreground">
+                      {isArabic ? "الثقة" : "Confidence"}: {decision.confidence}%
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

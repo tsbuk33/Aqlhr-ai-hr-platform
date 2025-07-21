@@ -24,6 +24,7 @@ import { AIDecisionEngine } from './AIDecisionEngine';
 import { LearningEngine } from './LearningEngine';
 import { IntelligenceGatherer } from './IntelligenceGatherer';
 import { useToast } from '@/components/ui/use-toast';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface SystemAlert {
   id: string;
@@ -47,6 +48,7 @@ interface AISystemStatus {
 
 export const AICommandCenter: React.FC = () => {
   const { toast } = useToast();
+  const { isArabic } = useSimpleLanguage();
   
   const [systemStatus, setSystemStatus] = useState<AISystemStatus>({
     overallHealth: 98,
@@ -148,10 +150,12 @@ export const AICommandCenter: React.FC = () => {
   const toggleAutonomousMode = () => {
     setSystemStatus(prev => ({ ...prev, autonomousMode: !prev.autonomousMode }));
     toast({
-      title: systemStatus.autonomousMode ? "🤖 Manual Mode Activated" : "🧠 Autonomous Mode Enabled",
+      title: systemStatus.autonomousMode 
+        ? (isArabic ? "🤖 تم تفعيل الوضع اليدوي" : "🤖 Manual Mode Activated")
+        : (isArabic ? "🧠 تم تفعيل الوضع المستقل" : "🧠 Autonomous Mode Enabled"),
       description: systemStatus.autonomousMode 
-        ? "AI decisions now require manual approval" 
-        : "AI is operating in full autonomous mode",
+        ? (isArabic ? "قرارات الذكاء الاصطناعي تتطلب الآن موافقة يدوية" : "AI decisions now require manual approval")
+        : (isArabic ? "الذكاء الاصطناعي يعمل في وضع مستقل كامل" : "AI is operating in full autonomous mode"),
     });
   };
 
@@ -178,19 +182,27 @@ export const AICommandCenter: React.FC = () => {
                 </div>
               </div>
               <div>
-                <CardTitle className="text-3xl font-bold">AqlHR AI Command Center</CardTitle>
+                <CardTitle className="text-3xl font-bold">
+                  {isArabic ? "مركز قيادة النظام البيئي للذكاء الاصطناعي عقل HR" : "AqlHR AI Command Center"}
+                </CardTitle>
                 <p className="text-muted-foreground">
-                  Self-Learning Decision-Making AI Ecosystem • Active Since Startup
+                  {isArabic 
+                    ? "نظام ذكاء مركزي يفكر ويتعلم ويتخذ قرارات مستنيرة • نشط منذ البداية"
+                    : "Self-Learning Decision-Making AI Ecosystem • Active Since Startup"
+                  }
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <Badge variant={systemStatus.autonomousMode ? "default" : "secondary"} className="px-4 py-2 text-sm">
-                {systemStatus.autonomousMode ? "🤖 AUTONOMOUS" : "👤 MANUAL"} MODE
+                {systemStatus.autonomousMode 
+                  ? (isArabic ? "🤖 مستقل" : "🤖 AUTONOMOUS")
+                  : (isArabic ? "👤 يدوي" : "👤 MANUAL")
+                } {isArabic ? "الوضع" : "MODE"}
               </Badge>
               <Button onClick={toggleAutonomousMode} variant="outline">
                 <Target className="h-4 w-4 mr-2" />
-                Toggle Mode
+                {isArabic ? "تبديل الوضع" : "Toggle Mode"}
               </Button>
             </div>
           </div>
@@ -199,29 +211,29 @@ export const AICommandCenter: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <div className="text-center">
               <div className="text-3xl font-bold text-brand-success">{systemStatus.overallHealth}%</div>
-              <div className="text-sm text-muted-foreground">System Health</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "صحة النظام" : "System Health"}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">
                 {systemStatus.modulesSynchronized}/{systemStatus.totalModules}
               </div>
-              <div className="text-sm text-muted-foreground">Modules Synced</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "الوحدات المتزامنة" : "Modules Synced"}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-brand-primary">{systemStatus.decisionsToday}</div>
-              <div className="text-sm text-muted-foreground">Decisions Today</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "القرارات اليوم" : "Decisions Today"}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-brand-accent">{systemStatus.learningProgress.toFixed(1)}%</div>
-              <div className="text-sm text-muted-foreground">Learning Progress</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "تقدم التعلم" : "Learning Progress"}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-brand-warning">{systemStatus.complianceScore}%</div>
-              <div className="text-sm text-muted-foreground">Compliance Score</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "نقاط الامتثال" : "Compliance Score"}</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-brand-secondary">{realTimeStats.processingRate.toFixed(1)}/min</div>
-              <div className="text-sm text-muted-foreground">Processing Rate</div>
+              <div className="text-3xl font-bold text-brand-secondary">{realTimeStats.processingRate.toFixed(1)}/{isArabic ? "د" : "min"}</div>
+              <div className="text-sm text-muted-foreground">{isArabic ? "معدل المعالجة" : "Processing Rate"}</div>
             </div>
           </div>
         </CardContent>
@@ -233,7 +245,7 @@ export const AICommandCenter: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Real-time AI Activity
+              {isArabic ? "نشاط الذكاء الاصطناعي المباشر" : "Real-time AI Activity"}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -243,28 +255,28 @@ export const AICommandCenter: React.FC = () => {
                   <Cpu className="h-6 w-6 text-primary" />
                 </div>
                 <div className="text-2xl font-bold text-primary">{realTimeStats.aiModels}</div>
-                <div className="text-sm text-muted-foreground">AI Models Active</div>
+                <div className="text-sm text-muted-foreground">{isArabic ? "نماذج الذكاء الاصطناعي النشطة" : "AI Models Active"}</div>
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
                   <Globe className="h-6 w-6 text-brand-success" />
                 </div>
                 <div className="text-2xl font-bold text-brand-success">{realTimeStats.dataStreams}</div>
-                <div className="text-sm text-muted-foreground">Data Streams</div>
+                <div className="text-sm text-muted-foreground">{isArabic ? "تدفقات البيانات" : "Data Streams"}</div>
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
                   <Target className="h-6 w-6 text-brand-primary" />
                 </div>
                 <div className="text-2xl font-bold text-brand-primary">{realTimeStats.activeDecisions}</div>
-                <div className="text-sm text-muted-foreground">Active Decisions</div>
+                <div className="text-sm text-muted-foreground">{isArabic ? "القرارات النشطة" : "Active Decisions"}</div>
               </div>
               <div className="text-center p-4 rounded-lg border">
                 <div className="flex items-center justify-center mb-2">
                   <Network className="h-6 w-6 text-brand-accent" />
                 </div>
                 <div className="text-2xl font-bold text-brand-accent">100%</div>
-                <div className="text-sm text-muted-foreground">Module Sync</div>
+                <div className="text-sm text-muted-foreground">{isArabic ? "مزامنة الوحدة" : "Module Sync"}</div>
               </div>
             </div>
           </CardContent>
@@ -274,7 +286,7 @@ export const AICommandCenter: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              System Alerts ({systemAlerts.length})
+              {isArabic ? "تنبيهات النظام" : "System Alerts"} ({systemAlerts.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -317,16 +329,16 @@ export const AICommandCenter: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Brain className="h-5 w-5" />
-            AI Ecosystem Management
+            {isArabic ? "إدارة النظام البيئي للذكاء الاصطناعي" : "AI Ecosystem Management"}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="overview">AqlMind Core</TabsTrigger>
-              <TabsTrigger value="decisions">Decision Engine</TabsTrigger>
-              <TabsTrigger value="learning">Learning System</TabsTrigger>
-              <TabsTrigger value="intelligence">Intelligence Hub</TabsTrigger>
+              <TabsTrigger value="overview">{isArabic ? "ذكاء عقل HR الأساسي" : "AqlMind Core"}</TabsTrigger>
+              <TabsTrigger value="decisions">{isArabic ? "محرك القرارات" : "Decision Engine"}</TabsTrigger>
+              <TabsTrigger value="learning">{isArabic ? "نظام التعلم" : "Learning System"}</TabsTrigger>
+              <TabsTrigger value="intelligence">{isArabic ? "مركز الذكاء" : "Intelligence Hub"}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview" className="mt-6">
@@ -353,26 +365,26 @@ export const AICommandCenter: React.FC = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Zap className="h-5 w-5" />
-            AI Quick Actions
+            {isArabic ? "إجراءات الذكاء الاصطناعي السريعة" : "AI Quick Actions"}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Button variant="outline" className="h-16 flex flex-col gap-2">
               <Brain className="h-5 w-5" />
-              <span className="text-sm">Deep Learning</span>
+              <span className="text-sm">{isArabic ? "التعلم العميق" : "Deep Learning"}</span>
             </Button>
             <Button variant="outline" className="h-16 flex flex-col gap-2">
               <TrendingUp className="h-5 w-5" />
-              <span className="text-sm">Optimize Performance</span>
+              <span className="text-sm">{isArabic ? "تحسين الأداء" : "Optimize Performance"}</span>
             </Button>
             <Button variant="outline" className="h-16 flex flex-col gap-2">
               <Shield className="h-5 w-5" />
-              <span className="text-sm">Compliance Check</span>
+              <span className="text-sm">{isArabic ? "فحص الامتثال" : "Compliance Check"}</span>
             </Button>
             <Button variant="outline" className="h-16 flex flex-col gap-2">
               <BarChart3 className="h-5 w-5" />
-              <span className="text-sm">Generate Insights</span>
+              <span className="text-sm">{isArabic ? "إنشاء الرؤى" : "Generate Insights"}</span>
             </Button>
           </div>
         </CardContent>
