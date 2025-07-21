@@ -62,11 +62,11 @@ export const UniversalDocumentManager: React.FC<UniversalDocumentManagerProps> =
     <div className="space-y-4" dir={isRTL ? 'rtl' : 'ltr'}>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
             <Database className="h-5 w-5 text-primary" />
             {language === 'ar' ? `مركز إدارة مستندات ${displayName}` : `${displayName} Document Management`}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className={isRTL ? 'text-right' : 'text-left'}>
             {displayDescription || defaultDescription}
           </CardDescription>
         </CardHeader>
