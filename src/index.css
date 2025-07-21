@@ -450,4 +450,361 @@
     direction: ltr;
     display: inline-block;
   }
+
+  /* Enhanced AqlHR Styles - Perfect Centering and Arabic Support */
+  /* Root Variables for AqlHR Theme */
+  :root {
+    /* AqlHR Brand Colors (HSL format) */
+    --aqlhr-primary: 217 91% 60%;
+    --aqlhr-primary-dark: 217 91% 50%;
+    --aqlhr-primary-light: 217 91% 70%;
+    
+    /* Secondary Colors (HSL format) */
+    --aqlhr-secondary: 215 16% 47%;
+    --aqlhr-accent: 261 83% 58%;
+    --aqlhr-success: 158 64% 52%;
+    --aqlhr-warning: 25 95% 53%;
+    --aqlhr-danger: 0 84% 60%;
+    
+    /* Neutral Colors (HSL format) */
+    --aqlhr-gray-50: 210 40% 98%;
+    --aqlhr-gray-100: 210 40% 96%;
+    --aqlhr-gray-200: 214 32% 91%;
+    --aqlhr-gray-300: 213 27% 84%;
+    --aqlhr-gray-400: 215 20% 65%;
+    --aqlhr-gray-500: 215 16% 47%;
+    --aqlhr-gray-600: 215 19% 35%;
+    --aqlhr-gray-700: 215 25% 27%;
+    --aqlhr-gray-800: 217 33% 17%;
+    --aqlhr-gray-900: 222 84% 5%;
+    
+    /* Spacing */
+    --aqlhr-spacing-xs: 0.25rem;
+    --aqlhr-spacing-sm: 0.5rem;
+    --aqlhr-spacing-md: 1rem;
+    --aqlhr-spacing-lg: 1.5rem;
+    --aqlhr-spacing-xl: 2rem;
+    --aqlhr-spacing-2xl: 3rem;
+    --aqlhr-spacing-3xl: 4rem;
+    
+    /* Typography */
+    --aqlhr-font-family-arabic: 'Noto Sans Arabic', 'Cairo', 'Tajawal', sans-serif;
+    --aqlhr-font-family-english: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+    
+    /* Border Radius */
+    --aqlhr-radius-sm: 0.375rem;
+    --aqlhr-radius-md: 0.5rem;
+    --aqlhr-radius-lg: 0.75rem;
+    --aqlhr-radius-xl: 1rem;
+    
+    /* Shadows */
+    --aqlhr-shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --aqlhr-shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --aqlhr-shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -4px hsl(0 0% 0% / 0.1);
+    --aqlhr-shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.1), 0 8px 10px -6px hsl(0 0% 0% / 0.1);
+  }
+
+  /* Perfect Centering Classes */
+  .aqlhr-center-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .aqlhr-center-content {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .aqlhr-center-text {
+    text-align: center !important;
+  }
+
+  .aqlhr-center-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Enhanced Page Layout Styles */
+  .aqlhr-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, hsl(var(--aqlhr-gray-50)) 0%, hsl(197 85% 94%) 100%);
+    padding: var(--aqlhr-spacing-lg) 0;
+  }
+
+  .aqlhr-page-header {
+    text-align: center;
+    margin-bottom: var(--aqlhr-spacing-3xl);
+    padding: var(--aqlhr-spacing-xl) 0;
+  }
+
+  .aqlhr-page-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--aqlhr-spacing-lg);
+    background: linear-gradient(135deg, hsl(var(--aqlhr-primary)) 0%, hsl(var(--aqlhr-accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-align: center !important;
+  }
+
+  .aqlhr-page-description {
+    font-size: 1.25rem;
+    color: hsl(var(--aqlhr-gray-600));
+    max-width: 64rem;
+    margin: 0 auto;
+    line-height: 1.7;
+    text-align: center !important;
+  }
+
+  /* Card Styles */
+  .aqlhr-card {
+    background: white;
+    border-radius: var(--aqlhr-radius-xl);
+    box-shadow: var(--aqlhr-shadow-lg);
+    border: 1px solid hsl(var(--aqlhr-gray-200));
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .aqlhr-card:hover {
+    box-shadow: var(--aqlhr-shadow-xl);
+    transform: translateY(-2px);
+  }
+
+  .aqlhr-card-header {
+    padding: var(--aqlhr-spacing-xl);
+    border-bottom: 1px solid hsl(var(--aqlhr-gray-100));
+    text-align: center;
+  }
+
+  .aqlhr-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: hsl(var(--aqlhr-gray-800));
+    margin-bottom: var(--aqlhr-spacing-sm);
+    text-align: center !important;
+  }
+
+  .aqlhr-card-description {
+    color: hsl(var(--aqlhr-gray-600));
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center !important;
+  }
+
+  .aqlhr-card-content {
+    padding: var(--aqlhr-spacing-xl);
+  }
+
+  /* Stats Cards */
+  .aqlhr-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--aqlhr-spacing-xl);
+    margin-bottom: var(--aqlhr-spacing-3xl);
+  }
+
+  .aqlhr-stat-card {
+    background: linear-gradient(135deg, white 0%, hsl(var(--aqlhr-gray-50)) 100%);
+    border-radius: var(--aqlhr-radius-xl);
+    padding: var(--aqlhr-spacing-xl);
+    box-shadow: var(--aqlhr-shadow-md);
+    border: 1px solid hsl(var(--aqlhr-gray-200));
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .aqlhr-stat-card:hover {
+    box-shadow: var(--aqlhr-shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .aqlhr-stat-icon {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto var(--aqlhr-spacing-md);
+    border-radius: var(--aqlhr-radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: var(--aqlhr-shadow-md);
+  }
+
+  .aqlhr-stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: hsl(var(--aqlhr-gray-800));
+    margin-bottom: var(--aqlhr-spacing-xs);
+    text-align: center !important;
+  }
+
+  .aqlhr-stat-label {
+    font-size: 0.9rem;
+    color: hsl(var(--aqlhr-gray-600));
+    font-weight: 500;
+    text-align: center !important;
+  }
+
+  .aqlhr-stat-trend {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: var(--aqlhr-spacing-xs);
+    text-align: center !important;
+  }
+
+  /* Quick Actions Grid */
+  .aqlhr-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--aqlhr-spacing-xl);
+    margin-bottom: var(--aqlhr-spacing-3xl);
+  }
+
+  .aqlhr-action-card {
+    background: white;
+    border-radius: var(--aqlhr-radius-xl);
+    padding: var(--aqlhr-spacing-xl);
+    box-shadow: var(--aqlhr-shadow-md);
+    border: 1px solid hsl(var(--aqlhr-gray-200));
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-align: center;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .aqlhr-action-card:hover {
+    box-shadow: var(--aqlhr-shadow-xl);
+    transform: translateY(-4px);
+    background: linear-gradient(135deg, white 0%, hsl(var(--aqlhr-gray-50)) 100%);
+  }
+
+  .aqlhr-action-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto var(--aqlhr-spacing-lg);
+    border-radius: var(--aqlhr-radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: var(--aqlhr-shadow-lg);
+    transition: transform 0.3s ease;
+  }
+
+  .aqlhr-action-card:hover .aqlhr-action-icon {
+    transform: scale(1.1);
+  }
+
+  .aqlhr-action-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: hsl(var(--aqlhr-gray-800));
+    margin-bottom: var(--aqlhr-spacing-sm);
+    text-align: center !important;
+  }
+
+  .aqlhr-action-description {
+    font-size: 0.9rem;
+    color: hsl(var(--aqlhr-gray-600));
+    line-height: 1.5;
+    text-align: center !important;
+  }
+
+  /* Animation Classes */
+  .aqlhr-fade-in {
+    animation: aqlhrFadeIn 0.6s ease-out;
+  }
+
+  .aqlhr-slide-up {
+    animation: aqlhrSlideUp 0.6s ease-out;
+  }
+
+  .aqlhr-scale-in {
+    animation: aqlhrScaleIn 0.4s ease-out;
+  }
+
+  @keyframes aqlhrFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes aqlhrSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes aqlhrScaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Utility Classes */
+  .aqlhr-text-center {
+    text-align: center !important;
+  }
+
+  .aqlhr-w-full {
+    width: 100% !important;
+  }
+
+  .aqlhr-mx-auto {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* RTL Specific Adjustments for AqlHR */
+  [dir="rtl"] .aqlhr-button {
+    flex-direction: row-reverse;
+  }
+
+  /* Responsive Design for AqlHR Components */
+  @media (max-width: 768px) {
+    .aqlhr-center-container {
+      padding: 0 0.75rem;
+    }
+    
+    .aqlhr-page-title {
+      font-size: 2rem;
+    }
+    
+    .aqlhr-page-description {
+      font-size: 1.1rem;
+    }
+    
+    .aqlhr-stats-grid {
+      grid-template-columns: 1fr;
+      gap: var(--aqlhr-spacing-lg);
+    }
+    
+    .aqlhr-actions-grid {
+      grid-template-columns: 1fr;
+      gap: var(--aqlhr-spacing-lg);
+    }
+  }
 }
