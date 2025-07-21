@@ -264,6 +264,7 @@
       grid-template-columns: 1fr;
       gap: 1rem;
     }
+  }
   
   /* Legacy container override for consistent centering across ALL pages */
   .container.mx-auto {
