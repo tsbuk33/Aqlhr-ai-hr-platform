@@ -198,7 +198,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-brand-primary ${language === 'ar' ? 'text-right' : 'text-left'}`}>47</div>
+            <div className="text-3xl font-bold text-brand-primary text-center">47</div>
           </CardContent>
         </Card>
         <Card>
@@ -216,7 +216,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-brand-success ${language === 'ar' ? 'text-right' : 'text-left'}`}>8.5%</div>
+            <div className="text-3xl font-bold text-brand-success text-center">8.5%</div>
           </CardContent>
         </Card>
         <Card>
@@ -234,7 +234,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-brand-accent ${language === 'ar' ? 'text-right' : 'text-left'}`}>92%</div>
+            <div className="text-3xl font-bold text-brand-accent text-center">92%</div>
           </CardContent>
         </Card>
         <Card>
@@ -252,7 +252,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-3xl font-bold text-brand-warning ${language === 'ar' ? 'text-right' : 'text-left'}`}>-2.1%</div>
+            <div className="text-3xl font-bold text-brand-warning text-center">-2.1%</div>
           </CardContent>
         </Card>
 
@@ -273,7 +273,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse justify-end' : 'justify-start'}`}>
+            <div className="flex items-center gap-2 justify-center">
               <div className="text-3xl font-bold text-teal-600">87.3%</div>
               <Badge variant="secondary" className="text-xs bg-teal-100 text-teal-700">
                 +2.4%
@@ -298,7 +298,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse justify-end' : 'justify-start'}`}>
+            <div className="flex items-center gap-2 justify-center">
               <div className="text-3xl font-bold text-indigo-600">94.8%</div>
               <Badge variant="secondary" className="text-xs bg-indigo-100 text-indigo-700">
                 +1.2%
