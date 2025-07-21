@@ -401,17 +401,17 @@ const SaudizationCalculator = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-            <Calculator className="h-8 w-8 text-primary" />
+      <div className="text-center space-y-2" dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className="flex items-center justify-center gap-3">
+          <Calculator className="h-8 w-8 text-primary" />
+          <h1 className="text-3xl font-bold text-foreground">
             {isRTL ? 'حاسبة السعودة والتأشيرات' : 'Saudization & Visa Calculator'}
           </h1>
-          <p className="text-muted-foreground mt-2">
-            {isRTL ? 'حاسبة ذكية مدعومة بالذكاء الاصطناعي لإدارة السعودة وامتثال النطاقات' : 'AI-powered calculator for Saudization management and Nitaqat compliance'}
-          </p>
         </div>
-        <div className="flex items-center gap-2">
+        <p className="text-muted-foreground text-lg">
+          {isRTL ? 'حاسبة ذكية مدعومة بالذكاء الاصطناعي لإدارة السعودة وامتثال النطاقات' : 'AI-powered calculator for Saudization management and Nitaqat compliance'}
+        </p>
+        <div className="flex items-center justify-center gap-2 mt-4">
           <Badge variant="outline" className="flex items-center gap-1">
             <Brain className="h-3 w-3" />
             {isRTL ? 'مدعوم بالذكاء الاصطناعي' : 'AI-Powered'}
@@ -427,17 +427,17 @@ const SaudizationCalculator = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className={`text-sm font-medium flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <Users className="h-4 w-4 text-primary" />
               {isRTL ? 'نسبة السعودة الحالية' : 'Current Saudization'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-primary">
+            <div className="text-3xl font-bold text-primary text-center">
               {saudizationData.currentPercentage}%
             </div>
             <Progress value={saudizationData.currentPercentage} className="mt-2" />
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-xs text-muted-foreground mt-2 text-center">
               {isRTL ? `الهدف: ${saudizationData.targetPercentage}%` : `Target: ${saudizationData.targetPercentage}%`}
             </p>
           </CardContent>
@@ -445,16 +445,18 @@ const SaudizationCalculator = () => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className={`text-sm font-medium flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <Target className="h-4 w-4 text-green-600" />
               {isRTL ? 'الحالة الامتثالية' : 'Compliance Status'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <Badge className={getComplianceColor(saudizationData.complianceStatus)} variant="secondary">
-              {getComplianceText(saudizationData.complianceStatus)}
-            </Badge>
-            <p className="text-xs text-muted-foreground mt-2">
+            <div className="text-center">
+              <Badge className={getComplianceColor(saudizationData.complianceStatus)} variant="secondary">
+                {getComplianceText(saudizationData.complianceStatus)}
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2 text-center">
               {isRTL ? `فجوة: ${saudizationData.gap} موظف` : `Gap: ${saudizationData.gap} employees`}
             </p>
           </CardContent>
@@ -462,16 +464,16 @@ const SaudizationCalculator = () => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className={`text-sm font-medium flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <FileBarChart className="h-4 w-4 text-blue-600" />
               {isRTL ? 'التأشيرات المتاحة' : 'Available Visas'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-600">
+            <div className="text-3xl font-bold text-blue-600 text-center">
               {saudizationData.visaData.available}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground text-center">
               {isRTL ? `من أصل ${saudizationData.visaData.totalAllocated}` : `out of ${saudizationData.visaData.totalAllocated}`}
             </p>
             <Progress 
@@ -483,22 +485,24 @@ const SaudizationCalculator = () => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className={`text-sm font-medium flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <Clock className="h-4 w-4 text-orange-600" />
               {isRTL ? 'تأشيرات تنتهي قريباً' : 'Expiring Soon'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-orange-600">
+            <div className="text-3xl font-bold text-orange-600 text-center">
               {saudizationData.visaData.expiringSoon}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground text-center">
               {isRTL ? 'خلال 90 يوم' : 'within 90 days'}
             </p>
             {saudizationData.visaData.expiringSoon > 20 && (
-              <Badge variant="destructive" className="mt-2 text-xs">
-                {isRTL ? 'يتطلب اهتمام' : 'Requires Attention'}
-              </Badge>
+              <div className="text-center mt-2">
+                <Badge variant="destructive" className="text-xs">
+                  {isRTL ? 'يتطلب اهتمام' : 'Requires Attention'}
+                </Badge>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -817,7 +821,7 @@ const SaudizationCalculator = () => {
         <TabsContent value="department" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className="flex items-center justify-center gap-2 text-center">
                 <BarChart3 className="h-5 w-5" />
                 {isRTL ? 'السعودة حسب القسم' : 'Saudization by Department'}
               </CardTitle>
