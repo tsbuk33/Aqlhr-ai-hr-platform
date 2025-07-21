@@ -94,10 +94,10 @@ const MasterIntelligenceDashboard: React.FC = () => {
         alerts.push({
           id: rec.id,
           type: rec.priority === 'urgent' ? 'critical' : 'warning',
-          title: `Strategic Action Required: ${rec.recommendation_type}`,
+          title: isArabic ? `إجراء استراتيجي مطلوب: ${rec.recommendation_type}` : `Strategic Action Required: ${rec.recommendation_type}`,
           description: rec.reasoning,
           actionRequired: true,
-          module: 'AI Recommendations',
+          module: isArabic ? 'توصيات الذكاء الاصطناعي' : 'AI Recommendations',
           timestamp: new Date(rec.created_at)
         });
       });
@@ -108,10 +108,10 @@ const MasterIntelligenceDashboard: React.FC = () => {
       alerts.push({
         id: 'sync-failures',
         type: 'critical',
-        title: `${failedSyncs.length} Integration Failures`,
-        description: 'Critical government integrations require immediate attention',
+        title: isArabic ? `${failedSyncs.length} فشل في التكامل` : `${failedSyncs.length} Integration Failures`,
+        description: isArabic ? 'التكاملات الحكومية الحرجة تتطلب اهتماماً فورياً' : 'Critical government integrations require immediate attention',
         actionRequired: true,
-        module: 'System Integration',
+        module: isArabic ? 'تكامل النظام' : 'System Integration',
         timestamp: new Date()
       });
     }
@@ -121,10 +121,10 @@ const MasterIntelligenceDashboard: React.FC = () => {
       alerts.push({
         id: 'roi-opportunity',
         type: 'opportunity',
-        title: 'Exceptional Workforce ROI Detected',
-        description: 'Current performance indicates opportunity for strategic expansion',
+        title: isArabic ? 'تم اكتشاف عائد استثمار استثنائي للقوى العاملة' : 'Exceptional Workforce ROI Detected',
+        description: isArabic ? 'يشير الأداء الحالي إلى فرصة للتوسع الاستراتيجي' : 'Current performance indicates opportunity for strategic expansion',
         actionRequired: false,
-        module: 'Workforce Analytics',
+        module: isArabic ? 'تحليلات القوى العاملة' : 'Workforce Analytics',
         timestamp: new Date()
       });
     }
@@ -409,19 +409,19 @@ const MasterIntelligenceDashboard: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Users className="h-5 w-5 mr-2" />
-                  Workforce Overview
+                  {isArabic ? 'نظرة عامة على القوى العاملة' : 'Workforce Overview'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{aiMetrics?.totalEmployees || 0}</div>
-                <p className="text-sm text-muted-foreground">Total Employees</p>
+                <p className="text-sm text-muted-foreground">{isArabic ? 'إجمالي الموظفين' : 'Total Employees'}</p>
                 <div className="mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Saudi Nationals</span>
+                    <span>{isArabic ? 'المواطنون السعوديون' : 'Saudi Nationals'}</span>
                     <span className="font-medium">{executiveMetrics.saudizationRate}%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Retention Rate</span>
+                    <span>{isArabic ? 'معدل الاحتفاظ' : 'Retention Rate'}</span>
                     <span className="font-medium">{(100 - executiveMetrics.turnoverRisk).toFixed(0)}%</span>
                   </div>
                 </div>
@@ -432,21 +432,21 @@ const MasterIntelligenceDashboard: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <BarChart3 className="h-5 w-5 mr-2" />
-                  Performance Metrics
+                  {isArabic ? 'مقاييس الأداء' : 'Performance Metrics'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-brand-success">
                   {executiveMetrics.productivityGains}%
                 </div>
-                <p className="text-sm text-muted-foreground">Productivity Growth</p>
+                <p className="text-sm text-muted-foreground">{isArabic ? 'نمو الإنتاجية' : 'Productivity Growth'}</p>
                 <div className="mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Efficiency Score</span>
+                    <span>{isArabic ? 'نقاط الكفاءة' : 'Efficiency Score'}</span>
                     <span className="font-medium">{executiveMetrics.strategicReadiness}%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Goal Achievement</span>
+                    <span>{isArabic ? 'تحقيق الأهداف' : 'Goal Achievement'}</span>
                     <span className="font-medium">{(executiveMetrics.complianceScore * 1.1).toFixed(0)}%</span>
                   </div>
                 </div>
@@ -457,21 +457,21 @@ const MasterIntelligenceDashboard: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Target className="h-5 w-5 mr-2" />
-                  Strategic Goals
+                  {isArabic ? 'الأهداف الاستراتيجية' : 'Strategic Goals'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-primary">
                   {executiveMetrics.strategicReadiness}%
                 </div>
-                <p className="text-sm text-muted-foreground">Goal Completion</p>
+                <p className="text-sm text-muted-foreground">{isArabic ? 'إنجاز الأهداف' : 'Goal Completion'}</p>
                 <div className="mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Vision 2030 Alignment</span>
+                    <span>{isArabic ? 'التوافق مع رؤية 2030' : 'Vision 2030 Alignment'}</span>
                     <span className="font-medium">{executiveMetrics.saudizationRate}%</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Compliance Score</span>
+                    <span>{isArabic ? 'نقاط الامتثال' : 'Compliance Score'}</span>
                     <span className="font-medium">{executiveMetrics.complianceScore}%</span>
                   </div>
                 </div>
@@ -483,26 +483,26 @@ const MasterIntelligenceDashboard: React.FC = () => {
         <TabsContent value="compliance" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Regulatory Compliance Intelligence</CardTitle>
-              <CardDescription>Real-time compliance across all 22 government integrations</CardDescription>
+              <CardTitle>{isArabic ? 'ذكاء الامتثال التنظيمي' : 'Regulatory Compliance Intelligence'}</CardTitle>
+              <CardDescription>{isArabic ? 'الامتثال في الوقت الفعلي عبر جميع التكاملات الحكومية الـ22' : 'Real-time compliance across all 22 government integrations'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
                   <div className="text-2xl font-bold text-brand-success">100%</div>
-                  <div className="text-xs text-brand-success/80">HRSD Compliance</div>
+                  <div className="text-xs text-brand-success/80">{isArabic ? 'امتثال وزارة الموارد البشرية' : 'HRSD Compliance'}</div>
                 </div>
                 <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
                   <div className="text-2xl font-bold text-brand-success">98%</div>
-                  <div className="text-xs text-brand-success/80">Qiwa Integration</div>
+                  <div className="text-xs text-brand-success/80">{isArabic ? 'تكامل قوى' : 'Qiwa Integration'}</div>
                 </div>
                 <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
                   <div className="text-2xl font-bold text-brand-success">100%</div>
-                  <div className="text-xs text-brand-success/80">GOSI Sync</div>
+                  <div className="text-xs text-brand-success/80">{isArabic ? 'مزامنة التأمينات الاجتماعية' : 'GOSI Sync'}</div>
                 </div>
                 <div className="text-center p-4 bg-brand-success/10 rounded-lg border border-brand-success/20">
                   <div className="text-2xl font-bold text-brand-success">{executiveMetrics.complianceScore}%</div>
-                  <div className="text-xs text-brand-success/80">Overall Score</div>
+                  <div className="text-xs text-brand-success/80">{isArabic ? 'النتيجة الإجمالية' : 'Overall Score'}</div>
                 </div>
               </div>
             </CardContent>
@@ -512,30 +512,27 @@ const MasterIntelligenceDashboard: React.FC = () => {
         <TabsContent value="predictions" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>AI-Powered Strategic Predictions</CardTitle>
-              <CardDescription>Leveraging 26 AI capabilities for executive forecasting</CardDescription>
+              <CardTitle>{isArabic ? 'التنبؤات الاستراتيجية المدعومة بالذكاء الاصطناعي' : 'AI-Powered Strategic Predictions'}</CardTitle>
+              <CardDescription>{isArabic ? 'الاستفادة من 26 قدرة ذكاء اصطناعي للتنبؤ التنفيذي' : 'Leveraging 26 AI capabilities for executive forecasting'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <Alert>
                   <TrendingUp className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Workforce Growth Prediction:</strong> 15% expansion recommended in Q2 2025 
-                    based on current productivity trends and market indicators.
+                    <strong>{isArabic ? 'توقع نمو القوى العاملة:' : 'Workforce Growth Prediction:'}</strong> {isArabic ? 'يُوصى بتوسع 15% في الربع الثاني من 2025 استناداً إلى اتجاهات الإنتاجية الحالية ومؤشرات السوق.' : '15% expansion recommended in Q2 2025 based on current productivity trends and market indicators.'}
                   </AlertDescription>
                 </Alert>
                 <Alert>
                   <Target className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Saudization Forecast:</strong> On track to exceed 70% by Q4 2025, 
-                    surpassing Vision 2030 targets ahead of schedule.
+                    <strong>{isArabic ? 'توقعات السعودة:' : 'Saudization Forecast:'}</strong> {isArabic ? 'في طريقها لتجاوز 70% بحلول الربع الرابع من 2025، متجاوزة أهداف رؤية 2030 قبل الموعد المحدد.' : 'On track to exceed 70% by Q4 2025, surpassing Vision 2030 targets ahead of schedule.'}
                   </AlertDescription>
                 </Alert>
                 <Alert>
                   <DollarSign className="h-4 w-4" />
                   <AlertDescription>
-                    <strong>Cost Optimization:</strong> Additional 8% cost reduction possible through 
-                    AI-driven workflow automation in HR processes.
+                    <strong>{isArabic ? 'تحسين التكاليف:' : 'Cost Optimization:'}</strong> {isArabic ? 'إمكانية تخفيض إضافي للتكاليف بنسبة 8% من خلال أتمتة سير العمل المدعومة بالذكاء الاصطناعي في عمليات الموارد البشرية.' : 'Additional 8% cost reduction possible through AI-driven workflow automation in HR processes.'}
                   </AlertDescription>
                 </Alert>
               </div>
@@ -546,41 +543,41 @@ const MasterIntelligenceDashboard: React.FC = () => {
         <TabsContent value="performance" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Cross-Module Performance Analytics</CardTitle>
-              <CardDescription>Integrated insights from all operational modules</CardDescription>
+              <CardTitle>{isArabic ? 'تحليلات الأداء متعددة الوحدات' : 'Cross-Module Performance Analytics'}</CardTitle>
+              <CardDescription>{isArabic ? 'رؤى متكاملة من جميع الوحدات التشغيلية' : 'Integrated insights from all operational modules'}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <h4 className="font-medium">Module Performance</h4>
+                  <h4 className="font-medium">{isArabic ? 'أداء الوحدات' : 'Module Performance'}</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Core HR Modules</span>
-                      <span className="text-sm font-medium">98% Operational</span>
+                      <span className="text-sm">{isArabic ? 'وحدات الموارد البشرية الأساسية' : 'Core HR Modules'}</span>
+                      <span className="text-sm font-medium">{isArabic ? '98% تشغيلي' : '98% Operational'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">AI Capabilities</span>
-                      <span className="text-sm font-medium">96% Accuracy</span>
+                      <span className="text-sm">{isArabic ? 'قدرات الذكاء الاصطناعي' : 'AI Capabilities'}</span>
+                      <span className="text-sm font-medium">{isArabic ? '96% دقة' : '96% Accuracy'}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Integration Health</span>
-                      <span className="text-sm font-medium">99% Uptime</span>
+                      <span className="text-sm">{isArabic ? 'صحة التكامل' : 'Integration Health'}</span>
+                      <span className="text-sm font-medium">{isArabic ? '99% وقت التشغيل' : '99% Uptime'}</span>
                     </div>
                   </div>
                 </div>
                 <div className="space-y-4">
-                  <h4 className="font-medium">Business Impact</h4>
+                  <h4 className="font-medium">{isArabic ? 'التأثير التجاري' : 'Business Impact'}</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Process Efficiency</span>
+                      <span className="text-sm">{isArabic ? 'كفاءة العملية' : 'Process Efficiency'}</span>
                       <span className="text-sm font-medium text-brand-success">+{executiveMetrics.productivityGains}%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Cost Reduction</span>
+                      <span className="text-sm">{isArabic ? 'تخفيض التكاليف' : 'Cost Reduction'}</span>
                       <span className="text-sm font-medium text-primary">-{executiveMetrics.costOptimization}%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">ROI Achievement</span>
+                      <span className="text-sm">{isArabic ? 'تحقيق العائد على الاستثمار' : 'ROI Achievement'}</span>
                       <span className="text-sm font-medium text-brand-accent">{executiveMetrics.workforceROI}%</span>
                     </div>
                   </div>

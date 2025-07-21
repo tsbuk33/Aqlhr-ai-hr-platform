@@ -23,6 +23,25 @@ const ExecutiveIntelligenceCenter = () => {
         {/* Dashboard cards centered */}
         <div className="dashboard-grid">
           {/* All dashboard components */}
+          <div className="flex justify-center">
+            <div className="text-center py-8">
+              <h2 className="text-2xl font-bold mb-4">
+                {isArabic ? 'مرحباً بك في مركز الذكاء التنفيذي' : 'Welcome to Executive Intelligence Center'}
+              </h2>
+              <p className="text-muted-foreground mb-6">
+                {isArabic 
+                  ? 'يرجى الانتقال إلى مركز التنفيذي للوصول إلى جميع الميزات'
+                  : 'Please navigate to Executive Center to access all features'
+                }
+              </p>
+              <button 
+                onClick={() => window.location.href = '/executive-center'}
+                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                {isArabic ? 'فتح المركز التنفيذي' : 'Open Executive Center'}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -334,7 +334,7 @@ const SystemEngineerDashboard = () => {
         {isLoading && (
           <Button disabled className="flex items-center gap-2">
             <RefreshCw className="h-4 w-4 animate-spin" />
-            Processing...
+            {isArabic ? 'جارٍ المعالجة...' : 'Processing...'}
           </Button>
         )}
       </div>
@@ -409,19 +409,19 @@ const SystemEngineerDashboard = () => {
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="brain" className="flex items-center gap-2">
             <Brain className="h-4 w-4" />
-            Autonomous Brain
+            {isArabic ? 'الدماغ المستقل' : 'Autonomous Brain'}
           </TabsTrigger>
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
-            Predictive Analytics
+            {isArabic ? 'التحليلات التنبؤية' : 'Predictive Analytics'}
           </TabsTrigger>
           <TabsTrigger value="compliance" className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
-            Compliance Automation
+            {isArabic ? 'أتمتة الامتثال' : 'Compliance Automation'}
           </TabsTrigger>
           <TabsTrigger value="translation" className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
-            Translation Engine
+            {isArabic ? 'محرك الترجمة' : 'Translation Engine'}
           </TabsTrigger>
           <TabsTrigger value="modules">{tr.moduleHealth}</TabsTrigger>
           <TabsTrigger value="learning">{tr.adaptiveLearning}</TabsTrigger>
@@ -505,7 +505,7 @@ const SystemEngineerDashboard = () => {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <Activity className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p>Run a health check to see module status</p>
+                  <p>{isArabic ? 'قم بتشغيل فحص الصحة لرؤية حالة الوحدات' : 'Run a health check to see module status'}</p>
                 </div>
               )}
             </CardContent>
@@ -524,13 +524,13 @@ const SystemEngineerDashboard = () => {
                 {tr.systemDiagnostics}
               </CardTitle>
               <CardDescription>
-                Advanced system analysis and issue detection
+                {isArabic ? 'تحليل النظام المتقدم واكتشاف المشاكل' : 'Advanced system analysis and issue detection'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
                 <Brain className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p>AI diagnostics will appear here after health checks</p>
+                <p>{isArabic ? 'ستظهر تشخيصات الذكاء الاصطناعي هنا بعد فحص الصحة' : 'AI diagnostics will appear here after health checks'}</p>
               </div>
             </CardContent>
           </Card>
@@ -544,7 +544,7 @@ const SystemEngineerDashboard = () => {
                 {tr.aiRecommendations}
               </CardTitle>
               <CardDescription>
-                Highest-level expertise recommendations for system optimization
+                {isArabic ? 'توصيات الخبرة عالية المستوى لتحسين النظام' : 'Highest-level expertise recommendations for system optimization'}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -586,7 +586,7 @@ const SystemEngineerDashboard = () => {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <Brain className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                  <p>Generate a system report to see AI recommendations</p>
+                  <p>{isArabic ? 'قم بإنشاء تقرير النظام لرؤية توصيات الذكاء الاصطناعي' : 'Generate a system report to see AI recommendations'}</p>
                 </div>
               )}
             </CardContent>
@@ -601,13 +601,13 @@ const SystemEngineerDashboard = () => {
                 {tr.adaptiveLearning}
               </CardTitle>
               <CardDescription>
-                Self-improving AI that learns from system patterns
+                {isArabic ? 'ذكاء اصطناعي محسن ذاتياً يتعلم من أنماط النظام' : 'Self-improving AI that learns from system patterns'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
                 <Brain className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p>Adaptive learning insights will appear here as the system evolves</p>
+                <p>{isArabic ? 'ستظهر رؤى التعلم التكيفي هنا مع تطور النظام' : 'Adaptive learning insights will appear here as the system evolves'}</p>
               </div>
             </CardContent>
           </Card>
