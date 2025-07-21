@@ -175,7 +175,7 @@ const CompensationManagementCore = () => {
     <TooltipProvider>
       <div className="container mx-auto p-6 space-y-8">
       {/* Header - MAINTAIN EXACTLY */}
-      <div>
+      <div className={language === 'ar' ? 'text-right' : 'text-left'}>
         <h1 className="text-3xl font-bold text-foreground">{t('compensation_management')}</h1>
         <p className="text-muted-foreground">{t('compensation_management_desc')}</p>
       </div>
@@ -185,7 +185,7 @@ const CompensationManagementCore = () => {
         {/* Current 4 Cards - MAINTAIN EXACTLY */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               {t('compensation_bands')}
               <Tooltip>
                 <TooltipTrigger>
@@ -198,12 +198,12 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-brand-primary">47</div>
+            <div className={`text-3xl font-bold text-brand-primary ${language === 'ar' ? 'text-right' : 'text-left'}`}>47</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               {t('merit_increase')}
               <Tooltip>
                 <TooltipTrigger>
@@ -216,12 +216,12 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-brand-success">8.5%</div>
+            <div className={`text-3xl font-bold text-brand-success ${language === 'ar' ? 'text-right' : 'text-left'}`}>8.5%</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               {t('market_alignment')}
               <Tooltip>
                 <TooltipTrigger>
@@ -234,12 +234,12 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-brand-accent">92%</div>
+            <div className={`text-3xl font-bold text-brand-accent ${language === 'ar' ? 'text-right' : 'text-left'}`}>92%</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               {t('budget_variance')}
               <Tooltip>
                 <TooltipTrigger>
@@ -252,14 +252,14 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-brand-warning">-2.1%</div>
+            <div className={`text-3xl font-bold text-brand-warning ${language === 'ar' ? 'text-right' : 'text-left'}`}>-2.1%</div>
           </CardContent>
         </Card>
 
         {/* New 2 Cards */}
         <Card className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950 dark:to-teal-900">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <TrendingUp className="h-5 w-5 text-teal-600" />
               {t('salary_competitiveness')}
               <Tooltip>
@@ -273,7 +273,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse justify-end' : 'justify-start'}`}>
               <div className="text-3xl font-bold text-teal-600">87.3%</div>
               <Badge variant="secondary" className="text-xs bg-teal-100 text-teal-700">
                 +2.4%
@@ -284,7 +284,7 @@ const CompensationManagementCore = () => {
 
         <Card className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-900">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse text-right' : 'text-left'}`}>
               <Scale className="h-5 w-5 text-indigo-600" />
               {t('pay_equity_score')}
               <Tooltip>
@@ -298,7 +298,7 @@ const CompensationManagementCore = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-2 ${language === 'ar' ? 'flex-row-reverse justify-end' : 'justify-start'}`}>
               <div className="text-3xl font-bold text-indigo-600">94.8%</div>
               <Badge variant="secondary" className="text-xs bg-indigo-100 text-indigo-700">
                 +1.2%
