@@ -30,30 +30,28 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <div className={`w-full max-w-full ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
-      {/* Page Header */}
+    <div className={`w-full max-w-6xl mx-auto ${isArabic ? 'rtl-container' : 'ltr-container'} ${className}`}>
+      {/* Page Header - Centered */}
       <div className="bg-gradient-to-r from-surface via-surface-raised to-surface-subtle border-b border-border/40 shadow-sm -m-4 sm:-m-6 lg:-m-8 mb-6 sm:mb-8 lg:mb-12 w-full">
         <div className="px-4 py-6 sm:px-6 lg:px-8 sm:py-8 w-full max-w-full">
-          <div className={`flex items-start justify-between w-full ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <div className={`space-y-3 flex-1 min-w-0 ${isArabic ? 'text-right' : ''}`}>
-              <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground dark:text-foreground bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text">
-                  {isArabic && titleAr ? titleAr : title}
-                </h1>
-                {badge && (
-                  <Badge variant={badgeVariant} className="text-xs font-medium px-3 py-1 shadow-sm flex-shrink-0">
-                    {badge}
-                  </Badge>
-                )}
-              </div>
-              {(description || descriptionAr) && (
-                <p className="text-base sm:text-lg text-foreground-muted dark:text-foreground-muted font-medium max-w-3xl leading-relaxed">
-                  {isArabic && descriptionAr ? descriptionAr : description}
-                </p>
+          <div className="text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground dark:text-foreground bg-gradient-to-r from-foreground via-foreground to-foreground-muted bg-clip-text">
+                {isArabic && titleAr ? titleAr : title}
+              </h1>
+              {badge && (
+                <Badge variant={badgeVariant} className="text-xs font-medium px-3 py-1 shadow-sm flex-shrink-0">
+                  {badge}
+                </Badge>
               )}
             </div>
+            {(description || descriptionAr) && (
+              <p className="text-base sm:text-lg text-foreground-muted dark:text-foreground-muted font-medium max-w-3xl mx-auto leading-relaxed mb-4">
+                {isArabic && descriptionAr ? descriptionAr : description}
+              </p>
+            )}
             {action && (
-              <div className="flex-shrink-0 ml-4">
+              <div className="flex justify-center">
                 {action}
               </div>
             )}

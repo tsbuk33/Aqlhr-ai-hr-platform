@@ -23,26 +23,24 @@ const AIFeatures = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-            <Brain className="h-8 w-8 text-brand-primary" />
-            {isArabic ? 'ميزات الذكاء الاصطناعي والأتمتة' : 'AI Features & Automation'}
-            <EduBox
-              title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'SanadHR AI Suite'}
-              description={isArabic ? 'وحدات ذكية متقدمة تؤتمت عمليات الموارد البشرية وتوفر التحليلات التنبؤية والتوصيات الذكية' : 'Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations'}
-              howToUse={isArabic ? 'تنقل عبر ميزات الذكاء الاصطناعي المختلفة باستخدام التبويبات أدناه' : 'Navigate through different AI features using the tabs below'}
-              linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
-              userLevel="hr_admin"
-            >
-              <></>
-            </EduBox>
-          </h1>
-          <p className="text-muted-foreground">
-            {isArabic ? 'أتمتة الموارد البشرية الذكية بواسطة الذكاء الاصطناعي المتقدم' : 'Intelligent HR automation powered by advanced AI'}
-          </p>
-        </div>
+    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-foreground flex items-center justify-center gap-3 mb-4">
+          <Brain className="h-8 w-8 text-brand-primary" />
+          {isArabic ? 'ميزات الذكاء الاصطناعي والأتمتة' : 'AI Features & Automation'}
+          <EduBox
+            title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'SanadHR AI Suite'}
+            description={isArabic ? 'وحدات ذكية متقدمة تؤتمت عمليات الموارد البشرية وتوفر التحليلات التنبؤية والتوصيات الذكية' : 'Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations'}
+            howToUse={isArabic ? 'تنقل عبر ميزات الذكاء الاصطناعي المختلفة باستخدام التبويبات أدناه' : 'Navigate through different AI features using the tabs below'}
+            linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
+            userLevel="hr_admin"
+          >
+            <></>
+          </EduBox>
+        </h1>
+        <p className="text-muted-foreground max-w-3xl mx-auto mb-4">
+          {isArabic ? 'أتمتة الموارد البشرية الذكية بواسطة الذكاء الاصطناعي المتقدم' : 'Intelligent HR automation powered by advanced AI'}
+        </p>
         <Badge className="bg-brand-primary text-white px-3 py-1">
           <Zap className="h-3 w-3 mr-1" />
           {isArabic ? '5 محركات ذكية نشطة' : '5 AI Engines Active'}

@@ -177,6 +177,95 @@
     overflow-x: hidden;
   }
 
+  /* Centered page layout styles */
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 3rem;
+  }
+
+  .page-title {
+    text-align: center !important;
+    margin: 0 auto;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .page-description {
+    text-align: center !important;
+    margin: 0 auto;
+    max-width: 800px;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .dashboard-card {
+    text-align: center;
+  }
+
+  .dashboard-card .card-content {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  /* RTL Specific Centering */
+  .rtl .page-container {
+    direction: rtl;
+  }
+
+  .rtl .page-header,
+  .rtl .page-title,
+  .rtl .page-description {
+    text-align: center;
+    direction: rtl;
+  }
+
+  .rtl .dashboard-grid {
+    direction: rtl;
+  }
+
+  .rtl .dashboard-card {
+    text-align: center;
+    direction: rtl;
+  }
+
+  /* Responsive Centering */
+  @media (max-width: 768px) {
+    .page-container {
+      padding: 1rem;
+    }
+    
+    .page-title {
+      font-size: 2rem;
+    }
+    
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
   #root {
     width: 100%;
     max-width: 100%;

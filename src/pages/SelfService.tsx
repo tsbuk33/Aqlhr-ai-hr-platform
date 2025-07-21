@@ -119,9 +119,17 @@ const SelfService = () => {
   ];
 
   return (
-    <div className={`container mx-auto p-4 space-y-6 ${directionClasses.container}`}>
-      {/* Header with Employee Info */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div className={`container mx-auto p-4 space-y-6 max-w-6xl ${directionClasses.container}`}>
+      {/* Header with Employee Info - Centered */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-4">
+          {language === 'ar' ? 'الخدمة الذاتية للموظفين' : 'Employee Self Service'}
+        </h1>
+        <p className="text-muted-foreground max-w-3xl mx-auto mb-6">
+          {language === 'ar' ? 'إدارة معلوماتك الشخصية وطلباتك' : 'Manage your personal information and requests'}
+        </p>
+      </div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center gap-4 mb-8">
         <div className={`flex items-center gap-4 ${directionClasses.flex}`}>
           <Avatar className="h-16 w-16">
             <AvatarImage src={employee.avatar || ''} alt={employee.name} />

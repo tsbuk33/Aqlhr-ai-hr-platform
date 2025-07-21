@@ -73,7 +73,7 @@ const Consulting = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto p-6 space-y-8 max-w-6xl">
       {/* Header Section */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold text-foreground">

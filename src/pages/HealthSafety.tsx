@@ -12,7 +12,15 @@ const HealthSafety = () => {
   const isArabic = language === 'ar';
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-foreground mb-4">
+          {isArabic ? 'الصحة والسلامة المهنية' : 'Health & Safety'}
+        </h1>
+        <p className="text-muted-foreground max-w-3xl mx-auto">
+          {isArabic ? 'نظام شامل لإدارة الصحة والسلامة المهنية مع أدوات الذكاء الاصطناعي المتقدمة' : 'Comprehensive occupational health and safety management system with advanced AI tools'}
+        </p>
+      </div>
       <Tabs defaultValue="dashboard" className="w-full">
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="dashboard">
