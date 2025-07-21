@@ -34,7 +34,7 @@ export const QuickDocumentUpload: React.FC<QuickDocumentUploadProps> = ({
   }
 
   return (
-    <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5">
+    <Card className="border-primary/20 bg-gradient-to-r from-primary/5 to-accent/5 w-full max-w-4xl mx-auto">
       <CardContent className="p-4">
         <div className="flex items-center justify-between" dir={isRTL ? 'rtl' : 'ltr'}>
           <div className="flex items-center gap-3">
