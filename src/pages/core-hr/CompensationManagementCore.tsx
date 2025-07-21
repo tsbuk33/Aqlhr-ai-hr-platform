@@ -174,10 +174,10 @@ const CompensationManagementCore = () => {
   return (
     <TooltipProvider>
       <div className="container mx-auto p-6 space-y-8">
-      {/* Header - MAINTAIN EXACTLY */}
-      <div className={language === 'ar' ? 'text-right' : 'text-left'}>
+      {/* Header */}
+      <div className={`space-y-2 ${language === 'ar' ? 'text-right' : 'text-left'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
         <h1 className="text-3xl font-bold text-foreground">{t('compensation_management')}</h1>
-        <p className="text-muted-foreground">{t('compensation_management_desc')}</p>
+        <p className="text-muted-foreground text-lg">{t('compensation_management_desc')}</p>
       </div>
       
       {/* Expanded 6-Card Layout */}
