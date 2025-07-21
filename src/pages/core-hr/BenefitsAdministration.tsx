@@ -3,6 +3,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload, Heart, Shield, DollarSign, Gift } from "lucide-react";
 
 const BenefitsAdministration = () => {
@@ -36,11 +37,10 @@ const BenefitsAdministration = () => {
   const t = isRTL ? translations.ar : translations.en;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
-        <p className="text-muted-foreground">{t.description}</p>
-      </div>
+    <PageLayout
+      title={t.title}
+      description={t.description}
+    >
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -114,7 +114,7 @@ const BenefitsAdministration = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   );
 };
 

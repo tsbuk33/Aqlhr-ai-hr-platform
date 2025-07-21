@@ -3,6 +3,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload, BookOpen, Trophy, Users, Target } from "lucide-react";
 
 const TrainingDevelopment = () => {
@@ -32,11 +33,10 @@ const TrainingDevelopment = () => {
   const t = isRTL ? translations.ar : translations.en;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
-        <p className="text-muted-foreground">{t.description}</p>
-      </div>
+    <PageLayout
+      title={t.title}
+      description={t.description}
+    >
       
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
@@ -119,7 +119,7 @@ const TrainingDevelopment = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   );
 };
 

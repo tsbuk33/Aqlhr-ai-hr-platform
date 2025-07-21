@@ -3,6 +3,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload, Calendar, Clock, CheckCircle } from "lucide-react";
 
 const LeaveManagement = () => {
@@ -31,11 +32,10 @@ const LeaveManagement = () => {
   const t = (key: string) => translations[language][key] || key;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('leave_management')}</h1>
-        <p className="text-muted-foreground">{t('leave_management_desc')}</p>
-      </div>
+    <PageLayout
+      title={t('leave_management')}
+      description={t('leave_management_desc')}
+    >
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -109,7 +109,7 @@ const LeaveManagement = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   );
 };
 

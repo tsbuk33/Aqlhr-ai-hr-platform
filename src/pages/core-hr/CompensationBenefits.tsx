@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload } from "lucide-react";
 
 const CompensationBenefits = () => {
@@ -10,11 +11,10 @@ const CompensationBenefits = () => {
   const { toast } = useToast();
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">{t('core_hr.compensation_benefits')}</h1>
-        <p className="text-muted-foreground">{t('core_hr.compensation_benefits_desc')}</p>
-      </div>
+    <PageLayout
+      title={t('core_hr.compensation_benefits')}
+      description={t('core_hr.compensation_benefits_desc')}
+    >
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -87,7 +87,7 @@ const CompensationBenefits = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageLayout>
   );
 };
 
