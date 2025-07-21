@@ -21,6 +21,7 @@ import {
 import { useAIDashboard } from '@/hooks/useAIDashboard';
 import { useAISync } from '@/hooks/useAISync';
 import { useAIRecommendations } from '@/hooks/useAIRecommendations';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface ExecutiveMetrics {
   workforceROI: number;
@@ -44,6 +45,7 @@ interface StrategicAlert {
 }
 
 const MasterIntelligenceDashboard: React.FC = () => {
+  const { isArabic } = useSimpleLanguage();
   const aiDashboard = useAIDashboard();
   const aiMetrics = aiDashboard;
   const aiLoading = aiDashboard.loading;
@@ -197,7 +199,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex items-center space-x-2">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-          <span className="text-lg">Loading Executive Intelligence...</span>
+          <span className="text-lg">{isArabic ? 'تحميل الذكاء التنفيذي...' : 'Loading Executive Intelligence...'}</span>
         </div>
       </div>
     );
@@ -208,17 +210,17 @@ const MasterIntelligenceDashboard: React.FC = () => {
       {/* Executive Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Executive Intelligence Center</h1>
-          <p className="text-muted-foreground">Strategic insights across all 105+ HR modules</p>
+          <h1 className="text-3xl font-bold text-foreground">{isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}</h1>
+          <p className="text-muted-foreground">{isArabic ? 'رؤى استراتيجية عبر جميع وحدات الموارد البشرية البالغ عددها 105+' : 'Strategic insights across all 105+ HR modules'}</p>
         </div>
         <div className="flex items-center space-x-2">
           <Badge variant="secondary" className="bg-brand-success/10 text-brand-success border-brand-success/20">
             <Brain className="h-3 w-3 mr-1" />
-            AI-Powered
+            {isArabic ? 'مدعوم بالذكاء الاصطناعي' : 'AI-Powered'}
           </Badge>
           <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
             <Zap className="h-3 w-3 mr-1" />
-            Real-Time
+            {isArabic ? 'في الوقت الفعلي' : 'Real-Time'}
           </Badge>
         </div>
       </div>
@@ -227,20 +229,20 @@ const MasterIntelligenceDashboard: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card className="bg-gradient-to-br from-brand-success/10 to-brand-success/5 border-brand-success/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-brand-success">Workforce ROI</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-success">{isArabic ? 'عائد الاستثمار للقوى العاملة' : 'Workforce ROI'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-brand-success">{executiveMetrics.workforceROI}%</div>
             <div className="flex items-center text-xs text-brand-success/80 mt-1">
               <TrendingUp className="h-3 w-3 mr-1" />
-              +{executiveMetrics.productivityGains}% productivity
+              +{executiveMetrics.productivityGains}% {isArabic ? 'إنتاجية' : 'productivity'}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-primary">Revenue/Employee</CardTitle>
+            <CardTitle className="text-sm font-medium text-primary">{isArabic ? 'الإيرادات/الموظف' : 'Revenue/Employee'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-primary">
@@ -248,33 +250,33 @@ const MasterIntelligenceDashboard: React.FC = () => {
             </div>
             <div className="flex items-center text-xs text-primary/80 mt-1">
               <DollarSign className="h-3 w-3 mr-1" />
-              {executiveMetrics.costOptimization}% cost optimized
+              {executiveMetrics.costOptimization}% {isArabic ? 'محسن التكلفة' : 'cost optimized'}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-brand-warning/10 to-brand-warning/5 border-brand-warning/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-brand-warning">Saudization Rate</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-warning">{isArabic ? 'معدل السعودة' : 'Saudization Rate'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-brand-warning">{executiveMetrics.saudizationRate}%</div>
             <div className="flex items-center text-xs text-brand-warning/80 mt-1">
               <Target className="h-3 w-3 mr-1" />
-              Vision 2030 aligned
+              {isArabic ? 'متوافق مع رؤية 2030' : 'Vision 2030 aligned'}
             </div>
           </CardContent>
         </Card>
 
         <Card className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-brand-accent">Strategic Readiness</CardTitle>
+            <CardTitle className="text-sm font-medium text-brand-accent">{isArabic ? 'الجاهزية الاستراتيجية' : 'Strategic Readiness'}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-brand-accent">{executiveMetrics.strategicReadiness}%</div>
             <div className="flex items-center text-xs text-brand-accent/80 mt-1">
               <Shield className="h-3 w-3 mr-1" />
-              {executiveMetrics.complianceScore}% compliant
+              {executiveMetrics.complianceScore}% {isArabic ? 'متوافق' : 'compliant'}
             </div>
           </CardContent>
         </Card>
@@ -286,9 +288,9 @@ const MasterIntelligenceDashboard: React.FC = () => {
           <CardHeader>
             <CardTitle className="flex items-center text-brand-warning">
               <AlertTriangle className="h-5 w-5 mr-2" />
-              Strategic Alerts ({strategicAlerts.length})
+              {isArabic ? 'التنبيهات الاستراتيجية' : 'Strategic Alerts'} ({strategicAlerts.length})
             </CardTitle>
-            <CardDescription>Critical items requiring executive attention</CardDescription>
+            <CardDescription>{isArabic ? 'العناصر الحرجة التي تتطلب اهتماماً تنفيذياً' : 'Critical items requiring executive attention'}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             {strategicAlerts.slice(0, 3).map((alert) => (
@@ -306,7 +308,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                   </div>
                   {alert.actionRequired && (
                     <Button size="sm" variant="outline">
-                      Take Action
+                      {isArabic ? 'اتخاذ إجراء' : 'Take Action'}
                     </Button>
                   )}
                 </div>
@@ -314,7 +316,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
             ))}
             {strategicAlerts.length > 3 && (
               <Button variant="link" className="w-full">
-                View All {strategicAlerts.length} Alerts
+                {isArabic ? `عرض جميع التنبيهات ${strategicAlerts.length}` : `View All ${strategicAlerts.length} Alerts`}
               </Button>
             )}
           </CardContent>
@@ -324,43 +326,43 @@ const MasterIntelligenceDashboard: React.FC = () => {
       {/* Executive Intelligence Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="overview">Strategic Overview</TabsTrigger>
-          <TabsTrigger value="workforce">Workforce Intelligence</TabsTrigger>
-          <TabsTrigger value="compliance">Compliance Intelligence</TabsTrigger>
-          <TabsTrigger value="predictions">AI Predictions</TabsTrigger>
-          <TabsTrigger value="performance">Performance Analytics</TabsTrigger>
+          <TabsTrigger value="overview">{isArabic ? 'النظرة الاستراتيجية' : 'Strategic Overview'}</TabsTrigger>
+          <TabsTrigger value="workforce">{isArabic ? 'ذكاء القوى العاملة' : 'Workforce Intelligence'}</TabsTrigger>
+          <TabsTrigger value="compliance">{isArabic ? 'ذكاء الامتثال' : 'Compliance Intelligence'}</TabsTrigger>
+          <TabsTrigger value="predictions">{isArabic ? 'تنبؤات الذكاء الاصطناعي' : 'AI Predictions'}</TabsTrigger>
+          <TabsTrigger value="performance">{isArabic ? 'تحليلات الأداء' : 'Performance Analytics'}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Business Impact Summary</CardTitle>
-                <CardDescription>Key metrics driving strategic decisions</CardDescription>
+                <CardTitle>{isArabic ? 'ملخص التأثير التجاري' : 'Business Impact Summary'}</CardTitle>
+                <CardDescription>{isArabic ? 'المقاييس الرئيسية التي تدعم القرارات الاستراتيجية' : 'Key metrics driving strategic decisions'}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Operational Efficiency</span>
+                  <span className="text-sm font-medium">{isArabic ? 'الكفاءة التشغيلية' : 'Operational Efficiency'}</span>
                   <span className="text-sm font-bold text-brand-success">
-                    {executiveMetrics.productivityGains}% improvement
+                    {executiveMetrics.productivityGains}% {isArabic ? 'تحسن' : 'improvement'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Cost Reduction</span>
+                  <span className="text-sm font-medium">{isArabic ? 'تخفيض التكاليف' : 'Cost Reduction'}</span>
                   <span className="text-sm font-bold text-primary">
-                    {executiveMetrics.costOptimization}% optimized
+                    {executiveMetrics.costOptimization}% {isArabic ? 'محسن' : 'optimized'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Risk Mitigation</span>
+                  <span className="text-sm font-medium">{isArabic ? 'تخفيف المخاطر' : 'Risk Mitigation'}</span>
                   <span className="text-sm font-bold text-brand-warning">
-                    {(100 - executiveMetrics.turnoverRisk).toFixed(0)}% secure
+                    {(100 - executiveMetrics.turnoverRisk).toFixed(0)}% {isArabic ? 'آمن' : 'secure'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium">Strategic Alignment</span>
+                  <span className="text-sm font-medium">{isArabic ? 'التوافق الاستراتيجي' : 'Strategic Alignment'}</span>
                   <span className="text-sm font-bold text-brand-accent">
-                    {executiveMetrics.strategicReadiness}% ready
+                    {executiveMetrics.strategicReadiness}% {isArabic ? 'جاهز' : 'ready'}
                   </span>
                 </div>
               </CardContent>
@@ -368,32 +370,32 @@ const MasterIntelligenceDashboard: React.FC = () => {
 
             <Card>
               <CardHeader>
-                <CardTitle>Cross-Module Integration Status</CardTitle>
-                <CardDescription>All 105+ modules synchronized</CardDescription>
+                <CardTitle>{isArabic ? 'حالة التكامل متعدد الوحدات' : 'Cross-Module Integration Status'}</CardTitle>
+                <CardDescription>{isArabic ? 'جميع الوحدات البالغ عددها 105+ متزامنة' : 'All 105+ modules synchronized'}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Government Integrations</span>
+                  <span className="text-sm font-medium">{isArabic ? 'التكاملات الحكومية' : 'Government Integrations'}</span>
                   <Badge variant="secondary" className="bg-brand-success/10 text-brand-success">
-                    22/22 Active
+                    22/22 {isArabic ? 'نشط' : 'Active'}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">AI Capabilities</span>
+                  <span className="text-sm font-medium">{isArabic ? 'قدرات الذكاء الاصطناعي' : 'AI Capabilities'}</span>
                   <Badge variant="secondary" className="bg-primary/10 text-primary">
-                    26/26 Operational
+                    26/26 {isArabic ? 'تشغيلي' : 'Operational'}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Real-Time Features</span>
+                  <span className="text-sm font-medium">{isArabic ? 'الميزات في الوقت الفعلي' : 'Real-Time Features'}</span>
                   <Badge variant="secondary" className="bg-brand-accent/10 text-brand-accent">
-                    15/15 Live
+                    15/15 {isArabic ? 'مباشر' : 'Live'}
                   </Badge>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Core Modules</span>
+                  <span className="text-sm font-medium">{isArabic ? 'الوحدات الأساسية' : 'Core Modules'}</span>
                   <Badge variant="secondary" className="bg-brand-warning/10 text-brand-warning">
-                    105+ Integrated
+                    105+ {isArabic ? 'متكامل' : 'Integrated'}
                   </Badge>
                 </div>
               </CardContent>
