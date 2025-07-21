@@ -580,21 +580,24 @@ export const SalarySearchEngine = () => {
         {/* Search Interface */}
         <Card>
           <CardHeader>
-            <CardTitle>Position Search Interface</CardTitle>
+            <CardTitle className={language === 'ar' ? 'text-right' : 'text-left'}>
+              {language === 'ar' ? 'واجهة البحث عن المناصب الوظيفية' : 'Position Search Interface'}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className={`grid grid-cols-1 md:grid-cols-4 gap-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
-                  {t('search_placeholder')}
+                <label className={`text-sm font-medium text-foreground block ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  {language === 'ar' ? 'البحث عن المناصب الوظيفية...' : 'Search job positions...'}
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Search className={`absolute top-3 h-4 w-4 text-muted-foreground ${language === 'ar' ? 'right-3' : 'left-3'}`} />
                   <Input
                     placeholder={t('search_placeholder')}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className={`${language === 'ar' ? 'pr-10 text-right' : 'pl-10 text-left'}`}
+                    dir={language === 'ar' ? 'rtl' : 'ltr'}
                     list="positions"
                   />
                   <datalist id="positions">
@@ -606,11 +609,11 @@ export const SalarySearchEngine = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label className={`text-sm font-medium text-foreground block ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {t('department')}
                 </label>
                 <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                  <SelectTrigger>
+                  <SelectTrigger className={language === 'ar' ? 'text-right' : 'text-left'} dir={language === 'ar' ? 'rtl' : 'ltr'}>
                     <SelectValue placeholder={t('select_department')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -623,11 +626,11 @@ export const SalarySearchEngine = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">
+                <label className={`text-sm font-medium text-foreground block ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                   {t('level')}
                 </label>
                 <Select value={selectedLevel} onValueChange={setSelectedLevel}>
-                  <SelectTrigger>
+                  <SelectTrigger className={language === 'ar' ? 'text-right' : 'text-left'} dir={language === 'ar' ? 'rtl' : 'ltr'}>
                     <SelectValue placeholder={t('select_level')} />
                   </SelectTrigger>
                   <SelectContent>
@@ -640,7 +643,9 @@ export const SalarySearchEngine = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground">Action</label>
+                <label className={`text-sm font-medium text-foreground block ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                  {language === 'ar' ? 'إجراء' : 'Action'}
+                </label>
                 <Button 
                   onClick={handleSearch}
                   disabled={isLoading}
