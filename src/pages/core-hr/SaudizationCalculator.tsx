@@ -1142,14 +1142,14 @@ const SaudizationCalculator = () => {
         </TabsContent>
 
         {/* Documents View */}
-        <TabsContent value="documents" className="space-y-6">
+        <TabsContent value="documents" className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
                 <Upload className="h-5 w-5" />
                 {isRTL ? 'رفع مستندات السعودة' : 'Upload Saudization Documents'}
               </CardTitle>
-              <CardDescription>
+              <CardDescription className={isRTL ? 'text-right' : 'text-left'}>
                 {isRTL ? 'ارفع ملفات الموظفين، تقارير النطاقات، وثائق التأشيرات لمعالجتها بالذكاء الاصطناعي' : 'Upload employee files, Nitaqat reports, visa documents for AI processing'}
               </CardDescription>
             </CardHeader>
@@ -1171,25 +1171,25 @@ const SaudizationCalculator = () => {
 
           <Card>
             <CardHeader>
-              <CardTitle>
+              <CardTitle className={isRTL ? 'text-right' : 'text-left'}>
                 {isRTL ? 'المستندات المرفوعة' : 'Uploaded Documents'}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <div className="flex items-center gap-3">
+                <div className={`flex items-center justify-between p-3 border rounded-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <FileBarChart className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">
+                    <span className={`text-sm font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
                       {isRTL ? 'تقرير نطاقات Q1 2024.xlsx' : 'Nitaqat Report Q1 2024.xlsx'}
                     </span>
                   </div>
                   <Badge variant="secondary">{isRTL ? 'تم معالجته' : 'Processed'}</Badge>
                 </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <div className="flex items-center gap-3">
+                <div className={`flex items-center justify-between p-3 border rounded-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+                  <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <FileBarChart className="h-4 w-4 text-primary" />
-                    <span className="text-sm font-medium">
+                    <span className={`text-sm font-medium ${isRTL ? 'text-right' : 'text-left'}`}>
                       {isRTL ? 'قائمة الموظفين الحالية.pdf' : 'Current Employee List.pdf'}
                     </span>
                   </div>
