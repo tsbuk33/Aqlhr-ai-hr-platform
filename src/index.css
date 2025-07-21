@@ -257,16 +257,32 @@
     padding: 2rem;
   }
 
-  /* RTL Specific Centering */
+  /* Arabic RTL Centering */
   .rtl .page-container {
+    direction: rtl;
+    text-align: center;
+  }
+
+  .rtl .page-header {
+    text-align: center;
     direction: rtl;
   }
 
-  .rtl .page-header,
-  .rtl .page-title,
-  .rtl .page-description {
+  .rtl .page-content {
     text-align: center;
     direction: rtl;
+  }
+
+  .rtl .page-title {
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .rtl .page-description {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 800px;
   }
 
   .rtl .dashboard-grid {
