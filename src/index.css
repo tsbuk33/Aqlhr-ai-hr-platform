@@ -177,49 +177,21 @@
     overflow-x: hidden;
   }
 
-  /* Universal Page Centering Styles */
+  /* Complete Centering Styles */
   .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    padding: 0 20px;
+    min-height: calc(100vh - 80px);
+    padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-  }
-
-  @media (min-width: 640px) {
-    .page-container {
-      padding: 2rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .page-container {
-      padding: 3rem;
-    }
   }
 
   .page-header {
     text-align: center;
     width: 100%;
-    margin-bottom: 2rem;
-    padding: 2rem 0;
-  }
-
-  .page-content {
-    width: 100%;
-    max-width: 1000px;
-    text-align: center;
-    margin: 0 auto;
-  }
-
-  .page-footer {
-    text-align: center;
-    width: 100%;
-    margin-top: auto;
-    padding: 2rem 0;
+    margin-bottom: 3rem;
   }
 
   .page-title {
@@ -257,32 +229,39 @@
     padding: 2rem;
   }
 
-  /* Arabic RTL Centering */
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 60vh;
+    padding: 2rem;
+  }
+
+  .form-wrapper {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+
+  .centered-form {
+    text-align: center;
+  }
+
+  .form-actions {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  /* RTL Specific Centering */
   .rtl .page-container {
     direction: rtl;
-    text-align: center;
   }
 
-  .rtl .page-header {
-    text-align: center;
-    direction: rtl;
-  }
-
-  .rtl .page-content {
-    text-align: center;
-    direction: rtl;
-  }
-
-  .rtl .page-title {
-    text-align: center;
-    margin: 0 auto;
-    display: block;
-  }
-
+  .rtl .page-header,
+  .rtl .page-title,
   .rtl .page-description {
     text-align: center;
-    margin: 0 auto;
-    max-width: 800px;
+    direction: rtl;
   }
 
   .rtl .dashboard-grid {
@@ -292,34 +271,6 @@
   .rtl .dashboard-card {
     text-align: center;
     direction: rtl;
-  }
-
-  /* Global content centering */
-  .main-content,
-  .container,
-  .page-wrapper {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Ensure all page layouts are centered */
-  [class*="max-w"] {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Center grid layouts */
-  .grid {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* Enhanced centering for specific components */
-  .w-full.max-w-6xl,
-  .w-full.max-w-7xl,
-  .container.mx-auto {
-    margin-left: auto !important;
-    margin-right: auto !important;
   }
 
   /* Responsive Centering */
@@ -335,57 +286,6 @@
     .dashboard-grid {
       grid-template-columns: 1fr;
       gap: 1rem;
-    }
-  }
-  
-  /* Legacy container override for consistent centering across ALL pages */
-  .container.mx-auto {
-    max-width: 1400px !important;
-    margin: 0 auto !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  .container.mx-auto > div:first-child {
-    text-align: center !important;
-    width: 100% !important;
-    max-width: 1000px !important;
-    margin-bottom: 3rem !important;
-  }
-
-  .container.mx-auto > div:first-child h1 {
-    text-align: center !important;
-    margin: 0 auto !important;
-  }
-
-  .container.mx-auto > div:first-child p {
-    text-align: center !important;
-    margin: 0 auto !important;
-    max-width: 800px !important;
-  }
-
-  /* Grid layouts in containers */
-  .container.mx-auto .grid {
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-  }
-
-  /* Tabs in containers */
-  .container.mx-auto .w-full {
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-  }
-
-  /* Responsive container adjustments */
-  @media (max-width: 768px) {
-    .container.mx-auto {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
     }
   }
 
