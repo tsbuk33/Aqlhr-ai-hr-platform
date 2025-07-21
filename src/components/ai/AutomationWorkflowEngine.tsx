@@ -160,6 +160,19 @@ const AutomationWorkflowEngine = () => {
     }).format(amount);
   };
 
+  const getStatusTranslation = (status: string) => {
+    const statusMap = {
+      'active': 'نشط',
+      'paused': 'متوقف',
+      'completed': 'مكتمل',
+      'error': 'خطأ',
+      'running': 'يعمل',
+      'pending': 'في الانتظار',
+      'failed': 'فشل'
+    };
+    return statusMap[status as keyof typeof statusMap] || status;
+  };
+
   const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat(isArabic ? 'ar-SA' : 'en-SA', {
       dateStyle: 'medium',
@@ -353,7 +366,7 @@ const AutomationWorkflowEngine = () => {
 
                     <div className="text-right">
                       <Badge className={getStatusColor(step.status)}>
-                        {step.status}
+                        {isArabic ? getStatusTranslation(step.status) : step.status}
                       </Badge>
                     </div>
                   </div>
