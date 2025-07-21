@@ -326,7 +326,7 @@ const SuccessionPlanningCore = () => {
           <TabsTrigger value="readiness">{t('successor_readiness')}</TabsTrigger>
           <TabsTrigger value="ninebox">{t('nine_box_grid')}</TabsTrigger>
           <TabsTrigger value="development">{t('development_plans')}</TabsTrigger>
-          <TabsTrigger value="documents">{t('upload_documents') || 'Documents'}</TabsTrigger>
+          <TabsTrigger value="documents">{language === 'ar' ? 'رفع المستندات' : 'Documents'}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="readiness" className="space-y-6">
@@ -427,7 +427,7 @@ const SuccessionPlanningCore = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Upload className="h-5 w-5" />
-                {t('upload_documents') || 'Upload Documents'}
+                {language === 'ar' ? 'رفع المستندات' : 'Upload Documents'}
               </CardTitle>
               <CardDescription>
                 {language === 'ar' ? 
