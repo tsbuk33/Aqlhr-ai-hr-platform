@@ -580,7 +580,7 @@ export const SalarySearchEngine = () => {
         {/* Search Interface */}
         <Card>
           <CardHeader>
-            <CardTitle className={language === 'ar' ? 'text-right' : 'text-left'}>
+            <CardTitle className="text-center">
               {language === 'ar' ? 'واجهة البحث عن المناصب الوظيفية' : 'Position Search Interface'}
             </CardTitle>
           </CardHeader>
