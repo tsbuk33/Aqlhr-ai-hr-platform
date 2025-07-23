@@ -1,0 +1,246 @@
+import React, { Suspense } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Shield, Loader2 } from 'lucide-react';
+
+// Lazy load the compliance module for better performance
+const ComplianceModule = React.lazy(() => import('../components/compliance/ComplianceModule'));
+
+// Loading component for compliance module
+const ComplianceLoader = () => (
+  <div className="min-h-screen bg-gray-900 flex items-center justify-center" dir="rtl">
+    <div className="text-center">
+      <div className="flex items-center justify-center mb-4">
+        <Shield className="h-12 w-12 text-blue-400 animate-pulse" />
+      </div>
+      <div className="flex items-center justify-center space-x-2 space-x-reverse">
+        <Loader2 className="h-6 w-6 text-blue-400 animate-spin" />
+        <span className="text-lg text-gray-300">جاري تحميل وحدة الامتثال...</span>
+      </div>
+    </div>
+  </div>
+);
+
+// Error Boundary for compliance module
+class ComplianceErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Compliance Module Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-gray-900 flex items-center justify-center" dir="rtl">
+          <div className="text-center max-w-md mx-auto p-6">
+            <div className="flex items-center justify-center mb-4">
+              <Shield className="h-12 w-12 text-red-400" />
+            </div>
+            <h2 className="text-xl font-bold text-white mb-2">خطأ في تحميل وحدة الامتثال</h2>
+            <p className="text-gray-400 mb-4">
+              عذراً، حدث خطأ أثناء تحميل وحدة الامتثال والحوكمة. يرجى إعادة تحميل الصفحة أو الاتصال بالدعم التقني.
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              إعادة تحميل
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Protected Route Component for Compliance
+const ProtectedComplianceRoute = ({ children }) => {
+  // Add your authentication logic here
+  const isAuthenticated = true; // Replace with actual auth check
+  const hasComplianceAccess = true; // Replace with actual permission check
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!hasComplianceAccess) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center" dir="rtl">
+        <div className="text-center max-w-md mx-auto p-6">
+          <div className="flex items-center justify-center mb-4">
+            <Shield className="h-12 w-12 text-yellow-400" />
+          </div>
+          <h2 className="text-xl font-bold text-white mb-2">غير مصرح بالوصول</h2>
+          <p className="text-gray-400">
+            ليس لديك صلاحية للوصول إلى وحدة الامتثال والحوكمة. يرجى الاتصال بمدير النظام.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return children;
+};
+
+// Main Compliance Routes Component
+const ComplianceRoutes = () => {
+  return (
+    <ComplianceErrorBoundary>
+      <Routes>
+        {/* Main compliance dashboard route */}
+        <Route
+          path="/"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Compliance dashboard with explicit path */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Saudization specific route */}
+        <Route
+          path="/saudization"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule defaultTab="saudization" />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Government integration route */}
+        <Route
+          path="/integration"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule defaultTab="integration" />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Reports route */}
+        <Route
+          path="/reports"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule defaultTab="reports" />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Settings route */}
+        <Route
+          path="/settings"
+          element={
+            <ProtectedComplianceRoute>
+              <Suspense fallback={<ComplianceLoader />}>
+                <ComplianceModule defaultTab="settings" />
+              </Suspense>
+            </ProtectedComplianceRoute>
+          }
+        />
+        
+        {/* Catch-all route - redirect to main dashboard */}
+        <Route path="*" element={<Navigate to="/compliance" replace />} />
+      </Routes>
+    </ComplianceErrorBoundary>
+  );
+};
+
+// Export the routes component
+export default ComplianceRoutes;
+
+// Export individual components for flexibility
+export {
+  ComplianceRoutes,
+  ComplianceLoader,
+  ComplianceErrorBoundary,
+  ProtectedComplianceRoute,
+};
+
+// Route configuration for integration with main app router
+export const complianceRouteConfig = {
+  path: '/compliance/*',
+  element: <ComplianceRoutes />,
+  name: 'الامتثال والحوكمة',
+  icon: Shield,
+  description: 'إدارة الامتثال التنظيمي والحوكمة المؤسسية',
+  permissions: ['compliance.view'],
+  order: 20, // Position in navigation (after existing 19 modules)
+};
+
+// Navigation item for sidebar integration
+export const complianceNavItem = {
+  id: 'compliance',
+  name: 'إدارة الامتثال والحوكمة',
+  nameEn: 'Compliance & Governance',
+  path: '/compliance',
+  icon: Shield,
+  order: 20,
+  permissions: ['compliance.view'],
+  subItems: [
+    {
+      id: 'compliance-dashboard',
+      name: 'لوحة التحكم',
+      nameEn: 'Dashboard',
+      path: '/compliance/dashboard',
+      icon: 'BarChart3',
+    },
+    {
+      id: 'compliance-saudization',
+      name: 'إدارة السعودة',
+      nameEn: 'Saudization Management',
+      path: '/compliance/saudization',
+      icon: 'Users',
+    },
+    {
+      id: 'compliance-integration',
+      name: 'التكامل الحكومي',
+      nameEn: 'Government Integration',
+      path: '/compliance/integration',
+      icon: 'Globe',
+    },
+    {
+      id: 'compliance-reports',
+      name: 'التقارير',
+      nameEn: 'Reports',
+      path: '/compliance/reports',
+      icon: 'FileText',
+    },
+    {
+      id: 'compliance-settings',
+      name: 'الإعدادات',
+      nameEn: 'Settings',
+      path: '/compliance/settings',
+      icon: 'Settings',
+    },
+  ],
+};
