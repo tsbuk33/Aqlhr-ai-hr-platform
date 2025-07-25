@@ -1,78 +1,27 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { 
-  Users, 
-  Calendar, 
-  FileText, 
-  Clock, 
-  BookOpen, 
-  Check, 
-  ArrowUp, 
-  ArrowDown,
-  Settings,
-  Shield,
-  Scale,
-  Award,
-  HelpCircle,
-  Heart,
-  BarChart3,
-  Briefcase,
-  Building2,
-  Zap,
-  Brain,
-  Globe,
-  FileCheck,
-  Wrench,
-  GraduationCap,
-  TrendingUp,
-  Star,
-  Sparkles,
-  Activity,
-  Crown
+  Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown,
+  Settings, Shield, Scale, Award, HelpCircle, Heart, BarChart3, Briefcase,
+  Building2, Zap, Brain, Globe, FileCheck, Wrench, GraduationCap, TrendingUp,
+  Star, Sparkles, Activity, Crown
 } from "lucide-react";
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarTrigger,
-  useSidebar,
+  Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar,
 } from "@/components/ui/sidebar";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
 import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
 
-// Organized platform modules with logical grouping and enhanced visual appeal
 const getPlatformModules = (isArabic: boolean) => [
   // Core Essentials
+  { title: isArabic ? "لوحة التحكم" : "Dashboard", url: "/", icon: BarChart3, badge: "1", color: "blue" },
+  // Executive Intelligence Center
+  { title: isArabic ? "مركز الذكاء التنفيذي عقل HR" : "AqlHR Executive Intelligence Center", url: "/executive-center", icon: Crown, badge: "PREMIUM", color: "gold" },
+  // Core HR Management
   { 
-    title: isArabic ? "لوحة التحكم" : "Dashboard", 
-    url: "/", 
-    icon: BarChart3,
-    badge: "1",
-    color: "blue"
-  },
-
-  // Executive Intelligence Center - Premium Feature
-  { 
-    title: isArabic ? "مركز الذكاء التنفيذي عقل HR" : "AqlHR Executive Intelligence Center", 
-    url: "/executive-center", 
-    icon: Crown,
-    badge: "PREMIUM",
-    color: "gold"
-  },
-  
-  // Core HR Management - Primary Module
-  { 
-    title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", 
-    url: "/core-hr", 
-    icon: Users,
-    badge: "13",
-    color: "emerald",
+    title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", url: "/core-hr", icon: Users, badge: "13", color: "emerald",
     subItems: [
       { title: isArabic ? "بيانات الموظفين الرئيسية" : "Employee Master Data", url: "/core-hr/master-data" },
       { title: isArabic ? "التوظيف والتعيين" : "Recruitment & Hiring", url: "/core-hr/recruitment" },
@@ -89,41 +38,15 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "لوحة تحكم المدير" : "Manager Dashboard", url: "/core-hr/organization" },
     ]
   },
-
   // Skills Intelligence
-  { 
-    title: isArabic ? "ذكاء المهارات وتحليل الوظائف" : "Skills Intelligence", 
-    url: "/skills-intelligence", 
-    icon: Star,
-    badge: "NEW",
-    color: "amber"
-  },
-
-  // Learning Experience Optimization (LEO)
-  { 
-    title: isArabic ? "تحسين تجربة التعلم" : "Learning Experience Optimization", 
-    url: "/leo", 
-    icon: GraduationCap,
-    badge: "LEO",
-    color: "blue"
-  },
-
-  // Generative Engagement Optimization (GEO)
-  { 
-    title: isArabic ? "تحسين المشاركة التوليدية" : "Generative Engagement Optimization", 
-    url: "/geo", 
-    icon: Sparkles,
-    badge: "GEO",
-    color: "pink"
-  },
-
+  { title: isArabic ? "ذكاء المهارات وتحليل الوظائف" : "Skills Intelligence", url: "/skills-intelligence", icon: Star, badge: "NEW", color: "amber" },
+  // LEO
+  { title: isArabic ? "تحسين تجربة التعلم" : "Learning Experience Optimization", url: "/leo", icon: GraduationCap, badge: "LEO", color: "blue" },
+  // GEO
+  { title: isArabic ? "تحسين المشاركة التوليدية" : "Generative Engagement Optimization", url: "/geo", icon: Sparkles, badge: "GEO", color: "pink" },
   // AI & Analytics
   { 
-    title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", 
-    url: "/analytics", 
-    icon: TrendingUp,
-    badge: "18",
-    color: "purple",
+    title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", url: "/analytics", icon: TrendingUp, badge: "18", color: "purple",
     subItems: [
       { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
       { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
@@ -139,14 +62,9 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "الذكاء التنفيذي" : "AI Executive Intelligence", url: "/ai-executive-intelligence" },
     ]
   },
-
   // AI Automation Engine
   { 
-    title: isArabic ? "محرك الأتمتة الذكي" : "AI Automation Engine", 
-    url: "/ai-automation", 
-    icon: Brain,
-    badge: "6",
-    color: "violet",
+    title: isArabic ? "محرك الأتمتة الذكي" : "AI Automation Engine", url: "/ai-automation", icon: Brain, badge: "6", color: "violet",
     subItems: [
       { title: isArabic ? "محرك المزامنة الذكي" : "AI Sync Engine", url: "/ai-automation/sync-engine" },
       { title: isArabic ? "التوصيات الذكية" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
@@ -156,14 +74,9 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "محرك التوافق" : "Compliance Predictor", url: "/ai-automation/compliance-predictor" },
     ]
   },
-
   // Government Integrations
   { 
-    title: isArabic ? "التكاملات الحكومية" : "Government Integrations", 
-    url: "/government", 
-    icon: Building2,
-    badge: "22",
-    color: "green",
+    title: isArabic ? "التكاملات الحكومية" : "Government Integrations", url: "/government", icon: Building2, badge: "22", color: "green",
     subItems: [
       { title: isArabic ? "تكامل قوى" : "Qiwa Integration", url: "/government/qiwa" },
       { title: isArabic ? "تكامل التأمينات الاجتماعية" : "GOSI Integration", url: "/government/gosi" },
@@ -175,7 +88,6 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "مدد" : "Mudad Platform", url: "/government/mudad" },
       { title: isArabic ? "تكامل وزارة الموارد البشرية" : "HRSD Integration", url: "/government/mol" },
       { title: isArabic ? "دروب التقني" : "TVTC Doroob", url: "/government/tvtc" },
-      
       { title: isArabic ? "تقييم قياس" : "Qiyas Assessment", url: "/government/qiyas" },
       { title: isArabic ? "اعتماد هيئة تقويم التعليم" : "NCAAA Accreditation", url: "/government/ncaaa" },
       { title: isArabic ? "وزارة التعليم" : "Education Ministry", url: "/government/education" },
@@ -189,62 +101,25 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "المجلس السعودي للمهندسين" : "Saudi Council of Engineers", url: "/government/saudi-engineering" },
     ]
   },
-
-  // Professional Services - Flagship
-  { 
-    title: isArabic ? "الاستشارات المستقلة لرفاهية الموظفين" : "Employee-Welfare Consultancy", 
-    url: "/welfare-consultancy", 
-    icon: Heart,
-    badge: "FLAGSHIP",
-    color: "rose"
-  },
-
+  // Professional Services
+  { title: isArabic ? "الاستشارات المستقلة لرفاهية الموظفين" : "Employee-Welfare Consultancy", url: "/welfare-consultancy", icon: Heart, badge: "FLAGSHIP", color: "rose" },
   // AI-Powered Specialized Modules
-  { 
-    title: isArabic ? "المستشار القانوني الذكي" : "Legal Consultant AI", 
-    url: "/legal-consultant", 
-    icon: Scale,
-    badge: "NEW",
-    color: "indigo"
-  },
-  { 
-    title: isArabic ? "إدارة لجنة الترشيحات والمكافآت" : "NRC Management", 
-    url: "/nrc-management", 
-    icon: Award,
-    badge: "AI",
-    color: "amber"
-  },
-  { 
-    title: isArabic ? "إدارة ISO بالذكاء الاصطناعي" : "ISO Management AI", 
-    url: "/iso-management", 
-    icon: Shield,
-    badge: "NEW",
-    color: "cyan"
-  },
-
+  { title: isArabic ? "المستشار القانوني الذكي" : "Legal Consultant AI", url: "/legal-consultant", icon: Scale, badge: "NEW", color: "indigo" },
+  { title: isArabic ? "إدارة لجنة الترشيحات والمكافآت" : "NRC Management", url: "/nrc-management", icon: Award, badge: "AI", color: "amber" },
+  { title: isArabic ? "إدارة ISO بالذكاء الاصطناعي" : "ISO Management AI", url: "/iso-management", icon: Shield, badge: "NEW", color: "cyan" },
   // Health, Safety & Environment
+  { title: isArabic ? "الصحة والسلامة والبيئة" : "Health, Safety & Environment", url: "/health-safety", icon: Activity, badge: "HSE", color: "red" },
+  // Compliance & Governance
   { 
-    title: isArabic ? "الصحة والسلامة والبيئة" : "Health, Safety & Environment", 
-    url: "/health-safety", 
-    icon: Activity,
-    badge: "HSE",
-    color: "red"
-  },
-
-  // Consulting Services
-  {   // Compliance & Governance
     title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", 
     url: "/compliance", 
     icon: Shield,
     badge: "NEW",
     color: "blue"
   },
-
-    title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", 
-    url: "/consulting", 
-    icon: GraduationCap,
-    badge: "NEW",
-    color: "teal",
+  // Consulting Services
+  { 
+    title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", url: "/consulting", icon: GraduationCap, badge: "NEW", color: "teal",
     subItems: [
       { title: isArabic ? "التقييم الاستراتيجي الذكي" : "AI Strategic Assessment", url: "/consulting/ai-assessment", badge: "NEW" },
       { title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/consulting/strategic-planning" },
@@ -261,14 +136,9 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "تقييم المخاطر" : "Risk Assessment", url: "/consulting/risk-assessment" }
     ]
   },
-
   // Strategic Planning
   { 
-    title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", 
-    url: "/strategic", 
-    icon: Star,
-    badge: "10",
-    color: "orange",
+    title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/strategic", icon: Star, badge: "10", color: "orange",
     subItems: [
       { title: isArabic ? "استراتيجية التعويضات" : "Compensation Strategy", url: "/strategic/compensation" },
       { title: isArabic ? "تخطيط القوى العاملة" : "Workforce Planning", url: "/strategic/workforce-planning" },
@@ -282,48 +152,23 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
     ]
   },
-
   // Operations & Forms
-  { 
-    title: isArabic ? "العمليات والنماذج" : "Processes & Forms", 
-    url: "/processes-forms", 
-    icon: FileCheck,
-    badge: "AI",
-    color: "slate"
-  },
-
+  { title: isArabic ? "العمليات والنماذج" : "Processes & Forms", url: "/processes-forms", icon: FileCheck, badge: "AI", color: "slate" },
   // Tools & Integrations
-  { 
-    title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", 
-    url: "/tools", 
-    icon: Wrench,
-    badge: "24",
-    color: "gray"
-  },
-
+  { title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", url: "/tools", icon: Wrench, badge: "24", color: "gray" },
   // Interactive Help
-  { 
-    title: isArabic ? "المساعدة التفاعلية" : "Interactive Help", 
-    url: "/help", 
-    icon: HelpCircle,
-    badge: "40",
-    color: "blue"
-  },
+  { title: isArabic ? "المساعدة التفاعلية" : "Interactive Help", url: "/help", icon: HelpCircle, badge: "40", color: "blue" },
 ];
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const { isArabic } = useSimpleLanguage();
-  
   const location = useLocation();
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
-
   const platformModules = getPlatformModules(isArabic);
-
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
-  
   const getNavClasses = (isActive: boolean, isGroup = false, color?: string) => {
     const baseClasses = "w-full justify-start transition-all duration-200 text-sm relative overflow-hidden";
     if (isActive) {
@@ -333,19 +178,15 @@ export function AppSidebar() {
     }
     return `${baseClasses} text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-sm`;
   };
-
   const getBadgeClasses = (badge: string, color?: string) => {
     const baseClasses = "text-xs px-1 py-0.5 rounded font-medium flex-shrink-0 whitespace-nowrap";
-    
     if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
     if (badge === "AI") return `${baseClasses} bg-purple-500/20 text-purple-400 border border-purple-500/30`;
     if (badge === "FLAGSHIP") return `${baseClasses} bg-gradient-to-r from-rose-500/20 to-pink-500/20 text-rose-400 border border-rose-500/30`;
     if (badge === "PREMIUM") return `${baseClasses} bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border border-yellow-500/30`;
     if (badge === "HSE") return `${baseClasses} bg-red-500/20 text-red-400 border border-red-500/30`;
-    
     return `${baseClasses} bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border`;
   };
-
   const toggleGroup = (title: string) => {
     setExpandedGroups(prev => 
       prev.includes(title) 
@@ -357,14 +198,9 @@ export function AppSidebar() {
   return (
     <Sidebar className="border-r border-sidebar-border w-72">
       <SidebarContent className="bg-sidebar">
-        {/* Header */}
         <div className="p-6 border-b border-sidebar-border">
           <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <img 
-              src={aqlHRLogo} 
-              alt="AqlHR Logo" 
-              className={state !== "collapsed" ? "h-10 w-auto object-contain flex-shrink-0" : "w-8 h-8 object-contain flex-shrink-0"}
-            />
+            <img src={aqlHRLogo} alt="AqlHR Logo" className={state !== "collapsed" ? "h-10 w-auto object-contain flex-shrink-0" : "w-8 h-8 object-contain flex-shrink-0"} />
             {state !== "collapsed" && (
               <div className={`min-w-0 flex-1 ${isArabic ? 'text-right' : 'text-left'}`}>
                 <h1 className="text-sm font-bold text-sidebar-primary-foreground leading-tight">
@@ -385,8 +221,6 @@ export function AppSidebar() {
             </div>
           )}
         </div>
-
-        {/* Platform Modules */}
         <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium">
             {isArabic ? 'وحدات المنصة' : 'Platform Modules'}
@@ -445,8 +279,6 @@ export function AppSidebar() {
                       </NavLink>
                     )}
                   </SidebarMenuButton>
-                  
-                  {/* Sub-items */}
                   {item.subItems && expandedGroups.includes(item.title) && state !== "collapsed" && (
                     <div className="ml-6 mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
                       {item.subItems.map((subItem, index) => (
@@ -474,8 +306,6 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        {/* Language Selector */}
         {state !== "collapsed" && (
           <div className="mt-auto p-4 border-t border-sidebar-border">
             <div className="flex items-center justify-center">
