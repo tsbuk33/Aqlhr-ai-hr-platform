@@ -63,3 +63,4 @@ const AqlHRComplianceOverview = () => {
 };
 
 export default AqlHRComplianceOverview;
+
