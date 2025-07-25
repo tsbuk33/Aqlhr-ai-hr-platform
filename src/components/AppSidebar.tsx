@@ -167,8 +167,10 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
   const platformModules = getPlatformModules(isArabic);
+  
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
+  
   const getNavClasses = (isActive: boolean, isGroup = false, color?: string) => {
     const baseClasses = "w-full justify-start transition-all duration-200 text-sm relative overflow-hidden";
     if (isActive) {
@@ -178,6 +180,7 @@ export function AppSidebar() {
     }
     return `${baseClasses} text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-sm`;
   };
+  
   const getBadgeClasses = (badge: string, color?: string) => {
     const baseClasses = "text-xs px-1 py-0.5 rounded font-medium flex-shrink-0 whitespace-nowrap";
     if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
@@ -187,6 +190,7 @@ export function AppSidebar() {
     if (badge === "HSE") return `${baseClasses} bg-red-500/20 text-red-400 border border-red-500/30`;
     return `${baseClasses} bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border`;
   };
+  
   const toggleGroup = (title: string) => {
     setExpandedGroups(prev => 
       prev.includes(title) 
