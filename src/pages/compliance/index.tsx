@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Users, FileText, AlertTriangle, CheckCircle, Clock, TrendingUp, BarChart3, Globe, Lock, UserCheck, Building, Calendar, Target, Activity, Zap, Eye, Download, RefreshCw, Bell, Search, Filter, MoreHorizontal, ChevronRight, Home, Menu, X, Settings } from 'lucide-react';
+import { Shield, Users, FileText, AlertTriangle, Download, Bell } from 'lucide-react';
 
 const AqlHRComplianceOverview = () => {
   const [activeTab, setActiveTab] = useState('overview');
@@ -15,23 +15,15 @@ const AqlHRComplianceOverview = () => {
     activeAlerts: 2,
     pifReadiness: 98.7,
     auditTrails: 15678,
-    activeCommittees: 18,
-    activePolicies: 47,
   };
-
-  const alerts = [
-    { id: 1, type: 'critical', title: 'انتهاء صلاحية التأشيرات', description: '5 تأشيرات موظفين تنتهي خلال 30 يوماً', time: 'منذ 3 ساعات' },
-    { id: 2, type: 'warning', title: 'هدف السعودة', description: 'قسم الهندسة أقل من النسبة المطلوبة', time: 'منذ يوم واحد' },
-  ];
 
   const saudizationData = {
     departments: [
-      { name: 'الهندسة', ratio: 37.5, band: 'red', trend: -2.1 },
-      { name: 'العمليات', ratio: 59.3, band: 'yellow', trend: 1.5 },
-      { name: 'المالية', ratio: 80.0, band: 'green', trend: 0.5 },
-      { name: 'الموارد البشرية', ratio: 83.3, band: 'platinum', trend: 1.1 },
+      { name: 'الهندسة', ratio: 37.5, band: 'red' },
+      { name: 'العمليات', ratio: 59.3, band: 'yellow' },
+      { name: 'المالية', ratio: 80.0, band: 'green' },
+      { name: 'الموارد البشرية', ratio: 83.3, band: 'platinum' },
     ],
-    monthlyTrend: 1.2,
   };
 
   const integrations = [
@@ -53,7 +45,7 @@ const AqlHRComplianceOverview = () => {
     }
   };
 
-  const MetricCard = ({ icon, title, value, unit, pillText, pillColor, children }: any) => (
+  const MetricCard = ({ icon, title, value, unit, pillText, pillColor }: any) => (
     <div className="bg-gray-800/50 border border-gray-700/50 rounded-2xl p-6 flex flex-col justify-between shadow-lg hover:bg-gray-800 transition-colors duration-300">
       <div>
         <div className="flex justify-between items-start mb-4">
@@ -63,15 +55,13 @@ const AqlHRComplianceOverview = () => {
         <p className="text-gray-400 text-sm mb-1">{title}</p>
         <p className="text-3xl font-bold text-white">{value}<span className="text-xl font-medium text-gray-300">{unit}</span></p>
       </div>
-      {children}
     </div>
   );
 
   const OverviewTab = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
       <MetricCard icon={<Shield className="text-blue-400" />} title="الامتثال العام" value={complianceData.overallScore} unit="%" />
       <MetricCard icon={<Users className="text-green-400" />} title="نسبة السعودة" value={complianceData.saudizationRatio} unit="%" pillText={`النطاق ${complianceData.nitaqatBand}`} pillColor={getPillStyle(complianceData.nitaqatBand)} />
-      <MetricCard icon={<Globe className="text-purple-400" />} title="جاهزية PIF" value={complianceData.pifReadiness} unit="%" />
       <MetricCard icon={<AlertTriangle className="text-red-400" />} title="تنبيهات نشطة" value={complianceData.activeAlerts} />
       <MetricCard icon={<FileText className="text-yellow-400" />} title="مسارات المراجعة" value={formatNumber(complianceData.auditTrails)} />
     </div>
@@ -129,20 +119,4 @@ const AqlHRComplianceOverview = () => {
 
         <nav className="mb-8">
           <div className="flex border-b border-gray-700">
-            <button onClick={() => setActiveTab('overview')} className={`px-4 py-3 font-medium ${activeTab === 'overview' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400'}`}>نظرة عامة</button>
-            <button onClick={() => setActiveTab('saudization')} className={`px-4 py-3 font-medium ${activeTab === 'saudization' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400'}`}>إدارة السعودة</button>
-            <button onClick={() => setActiveTab('integration')} className={`px-4 py-3 font-medium ${activeTab === 'integration' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400'}`}>التكامل الحكومي</button>
-          </div>
-        </nav>
-
-        <main>
-          {activeTab === 'overview' && <OverviewTab />}
-          {activeTab === 'saudization' && <SaudizationTab />}
-          {activeTab === 'integration' && <IntegrationTab />}
-        </main>
-      </div>
-    </div>
-  );
-};
-
-export default AqlHRComplianceOverview;
+            <button onClick={() => setActiveTab('overview')} className={`px-4 py-3 font-medium ${activeT
