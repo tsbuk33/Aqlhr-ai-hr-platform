@@ -233,7 +233,6 @@ const getPlatformModules = (isArabic: boolean) => [
 
   // Consulting Services
   {   // Compliance & Governance
-  { 
     title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", 
     url: "/compliance", 
     icon: Shield,
