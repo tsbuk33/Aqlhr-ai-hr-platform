@@ -232,7 +232,15 @@ const getPlatformModules = (isArabic: boolean) => [
   },
 
   // Consulting Services
+  {   // Compliance & Governance
   { 
+    title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", 
+    url: "/compliance", 
+    icon: Shield,
+    badge: "NEW",
+    color: "blue"
+  },
+
     title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", 
     url: "/consulting", 
     icon: GraduationCap,
