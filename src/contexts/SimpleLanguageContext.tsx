@@ -9,16 +9,14 @@ interface SimpleLanguageContextType {
 const SimpleLanguageContext = createContext<SimpleLanguageContextType | undefined>(undefined);
 
 export const SimpleLanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isArabic, setIsArabic] = useState(true);
+  // Fix: Check localStorage immediately for initial state
+  const [isArabic, setIsArabic] = useState(() => {
+    const savedLang = localStorage.getItem('sanadhr_language');
+    return savedLang ? savedLang === 'ar' : false; // Default to English if no preference
+  });
 
   useEffect(() => {
-    // Load saved language preference
-    const savedLang = localStorage.getItem('sanadhr_language');
-    if (savedLang) {
-      setIsArabic(savedLang === 'ar');
-    }
-    
-    // Set document direction
+    // Set document direction whenever language changes
     document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
     document.documentElement.lang = isArabic ? 'ar' : 'en';
   }, [isArabic]);
@@ -27,10 +25,6 @@ export const SimpleLanguageProvider: React.FC<{ children: React.ReactNode }> = (
     const newIsArabic = !isArabic;
     setIsArabic(newIsArabic);
     localStorage.setItem('sanadhr_language', newIsArabic ? 'ar' : 'en');
-    
-    // Update document direction immediately
-    document.documentElement.dir = newIsArabic ? 'rtl' : 'ltr';
-    document.documentElement.lang = newIsArabic ? 'ar' : 'en';
   };
 
   return (
