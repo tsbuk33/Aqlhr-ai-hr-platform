@@ -5,9 +5,11 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle, Clock, Shield, TrendingUp, Users, FileText, AlertCircle } from "lucide-react";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useToast } from "@/hooks/use-toast";
 
 const ComplianceOverview = () => {
   const { isArabic } = useSimpleLanguage();
+  const { toast } = useToast();
 
   // Helper function to format numbers with commas
   const formatNumber = (num: number) => new Intl.NumberFormat(isArabic ? 'ar-SA' : 'en-US').format(num);
@@ -68,6 +70,13 @@ const ComplianceOverview = () => {
     }
   };
 
+  const handleCreateReport = () => {
+    toast({
+      title: isArabic ? "تم إنشاء التقرير" : "Report Created",
+      description: isArabic ? "سيتم توليد تقرير الامتثال قريباً" : "Compliance report will be generated shortly",
+    });
+  };
+
   const t = translations[isArabic ? 'ar' : 'en'];
 
   return (
@@ -78,7 +87,10 @@ const ComplianceOverview = () => {
           <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
           <p className="text-muted-foreground mt-1">{t.subtitle}</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90">
+        <Button 
+          className="bg-primary hover:bg-primary/90"
+          onClick={handleCreateReport}
+        >
           {t.createReport}
         </Button>
       </div>
