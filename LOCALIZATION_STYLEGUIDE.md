@@ -177,7 +177,68 @@ This document defines the official style guidelines for all text content in the 
 - Government references must use **official translations**
 - Financial formats must follow **SAMA guidelines**
 
-## Implementation Guidelines
+## Translation Memory (TM) Integration
+
+### TM System Configuration
+The platform integrates with Translation Memory systems (Crowdin, Lokalise, or custom) for automated translation workflow:
+
+```bash
+# Extract translation keys from code
+npm run extract-keys
+
+# Verify translation completeness  
+npm run verify-translations
+
+# Sync with TM system
+npm run translations:sync
+```
+
+### Local Development Setup
+1. Set up TM API credentials in your environment:
+```bash
+# For Crowdin
+export CROWDIN_API_KEY="your_api_key"
+export CROWDIN_PROJECT_ID="your_project_id"
+
+# For Lokalise  
+export LOKALISE_API_KEY="your_api_key"
+export LOKALISE_PROJECT_ID="your_project_id"
+```
+
+2. Install pre-commit hooks:
+```bash
+npm run setup:git-hooks
+```
+
+### Pre-Commit Workflow
+The pre-commit hook automatically:
+- Extracts new translation keys from modified files
+- Uploads keys to TM system  
+- Validates existing translations
+- Aborts commit if translations are incomplete
+
+To bypass temporarily: `git commit --no-verify`
+
+### CI/CD Integration
+The CI pipeline includes a `translation-check` job that:
+1. Downloads latest translations from TM
+2. Verifies completeness across all locales
+3. Fails build if critical keys are missing
+4. Generates detailed reports
+
+### Fixing Build Failures
+If translation checks fail:
+
+1. **Missing Keys**: Run `npm run translations:sync` to download latest
+2. **Critical Keys Missing**: Translate critical keys in your TM system first
+3. **Outdated Translations**: Update translations in TM and re-run pipeline
+4. **Check Reports**: Review artifacts/translation_report.html for details
+
+### Quality Thresholds
+- **Minimum Completeness**: 80%
+- **Target Completeness**: 95%  
+- **Critical Keys**: 100% (must be translated)
+- **Translation Age**: Max 7 days before warning
 
 ### Development Requirements
 - All user-facing text must use **translation keys**
