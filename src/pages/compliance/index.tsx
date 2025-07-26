@@ -93,7 +93,7 @@ const ComplianceOverview = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-primary">{complianceData.overallScore}%</div>
+            <div className="text-3xl font-bold text-foreground">{complianceData.overallScore}%</div>
             <Progress value={complianceData.overallScore} className="mt-2" />
           </CardContent>
         </Card>
@@ -106,7 +106,7 @@ const ComplianceOverview = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-secondary">{complianceData.saudizationRatio}%</div>
+            <div className="text-3xl font-bold text-foreground">{complianceData.saudizationRatio}%</div>
             <Badge variant={getBadgeVariant(complianceData.nitaqatBand)} className="mt-2">
               {t.nitaqatBand} {complianceData.nitaqatBand}
             </Badge>
@@ -121,7 +121,7 @@ const ComplianceOverview = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-destructive">{complianceData.activeAlerts}</div>
+            <div className="text-3xl font-bold text-foreground">{complianceData.activeAlerts}</div>
           </CardContent>
         </Card>
 
@@ -133,7 +133,7 @@ const ComplianceOverview = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-accent">{formatNumber(complianceData.auditTrails)}</div>
+            <div className="text-3xl font-bold text-foreground">{formatNumber(complianceData.auditTrails)}</div>
           </CardContent>
         </Card>
       </div>
