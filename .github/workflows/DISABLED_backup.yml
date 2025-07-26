@@ -1,56 +1,29 @@
 name: 🔄 SanadHR Nightly Backup
 on:
   schedule:
-    - cron: '0 2 * * *'   # 02:00 UTC daily
-  workflow_dispatch:       # Allow manual triggering
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 
 jobs:
   backup:
     runs-on: ubuntu-latest
-    env:
-      TIMESTAMP: ${{ github.run_number }}-$(date +%F-%H%M)
-      
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for complete backup
+          fetch-depth: 0
           
       - name: 📦 Create Repository Archive
         run: |
           TIMESTAMP=$(date +%F-%H%M)
           BACKUP_NAME="sanadhr-backup-$TIMESTAMP"
           
-          # Create comprehensive archive
           git archive --format=zip --prefix=$BACKUP_NAME/ -o $BACKUP_NAME.zip HEAD
-          
-          # Generate checksums
           sha256sum $BACKUP_NAME.zip > checksums-$TIMESTAMP.txt
           
-          # Create backup metadata
-          cat > backup-metadata-$TIMESTAMP.json << EOF
-          {
-            "timestamp": "$(date -Iseconds)",
-            "commit_sha": "${{ github.sha }}",
-            "commit_message": "$(git log -1 --pretty=%B)",
-            "branch": "${{ github.ref_name }}",
-            "total_commits": $(git rev-list --count HEAD),
-            "backup_size": "$(stat -c%s $BACKUP_NAME.zip) bytes",
-            "checksum": "$(cat checksums-$TIMESTAMP.txt)"
-          }
-          EOF
-          
-          # Display backup info
           echo "📊 Backup created: $BACKUP_NAME.zip"
           echo "📏 Size: $(du -h $BACKUP_NAME.zip | cut -f1)"
           echo "🔑 SHA256: $(cat checksums-$TIMESTAMP.txt)"
-
-      - name: ☁️ Backup Summary
-        run: |
-          TIMESTAMP=$(date +%F-%H%M)
-          echo "✅ Backup created successfully"
-          echo "📦 Stored as GitHub artifact for 30 days"
-          echo "🔄 AWS upload disabled - using GitHub storage only"
 
       - name: 💾 Store as GitHub Artifact
         uses: actions/upload-artifact@v4
@@ -58,7 +31,6 @@ jobs:
           name: sanadhr-backup-${{ github.run_number }}
           path: |
             sanadhr-backup-*.zip
-            backup-metadata-*.json
             checksums-*.txt
           retention-days: 30
 
@@ -70,7 +42,7 @@ jobs:
       - name: 📧 Backup Status Notification
         run: |
           if [ "${{ needs.backup.result }}" == "success" ]; then
-            echo "✅ SanadHR backup completed successfully at $(date)"
+            echo "✅ SanadHR backup completed successfully"
           else
-            echo "❌ SanadHR backup failed at $(date)"
+            echo "❌ SanadHR backup failed"
           fi
