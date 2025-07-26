@@ -119,8 +119,30 @@
     "saudization_rate": "Saudization Rate"
   },
   "consulting": {
-    "premium_consulting": "Premium Consulting",
-    "executive_hr_consulting": "Executive HR consulting services"
+    "executive_compensation": "Executive Compensation",
+    "executive_compensation_desc": "Strategic executive compensation design and benchmarking",
+    "strategic_planning": "Strategic Planning",
+    "strategic_planning_desc": "Long-term strategic planning and implementation",
+    "digital_transformation": "Digital Transformation",
+    "digital_transformation_desc": "Digital HR transformation and automation",
+    "benchmarking_analysis": "Benchmarking Analysis",
+    "benchmarking_analysis_desc": "Comprehensive market benchmarking and analysis",
+    "hr_optimization": "HR Process Optimization",
+    "hr_optimization_desc": "End-to-end HR process improvement",
+    "merger_integration": "Merger & Acquisition Integration",
+    "merger_integration_desc": "HR integration for M&A transactions",
+    "talent_strategy": "Talent Strategy Consulting",
+    "talent_strategy_desc": "Strategic talent planning and optimization",
+    "risk_assessment": "HR Risk Assessment",
+    "risk_assessment_desc": "Comprehensive HR risk analysis and mitigation",
+    "leadership_consulting": "Leadership Consulting",
+    "leadership_consulting_desc": "Executive coaching and leadership development",
+    "organizational_restructuring": "Organizational Restructuring",
+    "organizational_restructuring_desc": "Strategic reorganization and efficiency optimization",
+    "culture_transformation": "Culture Transformation",
+    "culture_transformation_desc": "Organizational culture change and development",
+    "change_management": "Change Management",
+    "change_management_desc": "Strategic change management and implementation"
   },
   "organization": {
     "structure": "Organization Structure",

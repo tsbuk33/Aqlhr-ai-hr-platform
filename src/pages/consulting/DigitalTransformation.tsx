@@ -1,25 +1,20 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useAPITranslations } from "@/hooks/useAPITranslations";
 
 const DigitalTransformation = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { t } = useAPITranslations();
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">
-          {isArabic ? 'التحول الرقمي للموارد البشرية' : 'Digital HR Transformation'}
-        </h1>
-        <p className="text-muted-foreground">
-          {isArabic ? 'استشارات الرقمنة الشاملة من البداية إلى النهاية' : 'End-to-end digitalization consulting'}
-        </p>
+        <h1 className="text-3xl font-bold text-foreground">{t('consulting.digital_transformation')}</h1>
+        <p className="text-muted-foreground">{t('consulting.digital_transformation_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{isArabic ? 'النضج الرقمي' : 'Digital Maturity'}</CardTitle>
+            <CardTitle>Digital Maturity</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">8.2/10</div>
@@ -27,7 +22,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{isArabic ? 'أتمتة العمليات' : 'Process Automation'}</CardTitle>
+            <CardTitle>Process Automation</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">89%</div>
@@ -35,7 +30,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{isArabic ? 'كسب الكفاءة' : 'Efficiency Gain'}</CardTitle>
+            <CardTitle>Efficiency Gain</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">+67%</div>
@@ -43,7 +38,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>{isArabic ? 'تحقيق عائد الاستثمار' : 'ROI Achievement'}</CardTitle>
+            <CardTitle>ROI Achievement</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">280%</div>

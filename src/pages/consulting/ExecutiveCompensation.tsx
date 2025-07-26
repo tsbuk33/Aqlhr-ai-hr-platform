@@ -1,10 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Download } from "lucide-react";
-import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useAPITranslations } from "@/hooks/useAPITranslations";
 
 const ExecutiveCompensation = () => {
-  const { t } = useLanguage();
+  const { t } = useAPITranslations();
   
   return (
     <div className="container mx-auto p-6 space-y-6">

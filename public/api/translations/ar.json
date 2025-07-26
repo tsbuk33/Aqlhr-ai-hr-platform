@@ -125,8 +125,30 @@
     "saudization_rate": "معدل السعودة"
   },
   "consulting": {
-    "premium_consulting": "الاستشارات المتميزة",
-    "executive_hr_consulting": "استشارات الموارد البشرية التنفيذية"
+    "executive_compensation": "تعويضات المديرين التنفيذيين",
+    "executive_compensation_desc": "تصميم ومقارنة تعويضات المديرين التنفيذيين الاستراتيجية",
+    "strategic_planning": "التخطيط الاستراتيجي",
+    "strategic_planning_desc": "التخطيط الاستراتيجي طويل المدى والتنفيذ",
+    "digital_transformation": "التحول الرقمي",
+    "digital_transformation_desc": "التحول الرقمي للموارد البشرية والأتمتة",
+    "benchmarking_analysis": "تحليل المقارنات المرجعية",
+    "benchmarking_analysis_desc": "مقارنات مرجعية شاملة للسوق والتحليل",
+    "hr_optimization": "تحسين عمليات الموارد البشرية",
+    "hr_optimization_desc": "تحسين عمليات الموارد البشرية من البداية إلى النهاية",
+    "merger_integration": "تكامل عمليات الدمج والاستحواذ",
+    "merger_integration_desc": "تكامل الموارد البشرية لمعاملات الدمج والاستحواذ",
+    "talent_strategy": "استشارات استراتيجية المواهب",
+    "talent_strategy_desc": "التخطيط الاستراتيجي للمواهب والتحسين",
+    "risk_assessment": "تقييم مخاطر الموارد البشرية",
+    "risk_assessment_desc": "تحليل شامل لمخاطر الموارد البشرية والتخفيف منها",
+    "leadership_consulting": "استشارات القيادة",
+    "leadership_consulting_desc": "التدريب التنفيذي وتطوير القيادة",
+    "organizational_restructuring": "إعادة الهيكلة التنظيمية",
+    "organizational_restructuring_desc": "إعادة التنظيم الاستراتيجي وتحسين الكفاءة",
+    "culture_transformation": "تحويل الثقافة التنظيمية",
+    "culture_transformation_desc": "تغيير وتطوير الثقافة التنظيمية",
+    "change_management": "إدارة التغيير",
+    "change_management_desc": "إدارة التغيير الاستراتيجي والتنفيذ"
   },
   "organization": {
     "structure": "الهيكل التنظيمي",
