@@ -2948,6 +2948,45 @@ export type Database = {
           },
         ]
       }
+      pilot_group_users: {
+        Row: {
+          access_level: string | null
+          added_by: string | null
+          company_id: string | null
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          notes: string | null
+          pilot_features: string[] | null
+          user_id: string
+        }
+        Insert: {
+          access_level?: string | null
+          added_by?: string | null
+          company_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          notes?: string | null
+          pilot_features?: string[] | null
+          user_id: string
+        }
+        Update: {
+          access_level?: string | null
+          added_by?: string | null
+          company_id?: string | null
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          notes?: string | null
+          pilot_features?: string[] | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       saudi_activities: {
         Row: {
           classification_code: string
@@ -3655,6 +3694,75 @@ export type Database = {
         }
         Relationships: []
       }
+      translation_feedback: {
+        Row: {
+          company_id: string | null
+          context_url: string
+          created_at: string
+          feedback_type: string | null
+          id: string
+          implemented_at: string | null
+          language_code: string | null
+          metadata: Json | null
+          original_text: string
+          page_title: string | null
+          priority_level: string | null
+          reviewed_at: string | null
+          reviewer_id: string | null
+          reviewer_notes: string | null
+          screenshot_url: string | null
+          status: string | null
+          suggested_text: string
+          translation_key: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          context_url: string
+          created_at?: string
+          feedback_type?: string | null
+          id?: string
+          implemented_at?: string | null
+          language_code?: string | null
+          metadata?: Json | null
+          original_text: string
+          page_title?: string | null
+          priority_level?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          reviewer_notes?: string | null
+          screenshot_url?: string | null
+          status?: string | null
+          suggested_text: string
+          translation_key: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          context_url?: string
+          created_at?: string
+          feedback_type?: string | null
+          id?: string
+          implemented_at?: string | null
+          language_code?: string | null
+          metadata?: Json | null
+          original_text?: string
+          page_title?: string | null
+          priority_level?: string | null
+          reviewed_at?: string | null
+          reviewer_id?: string | null
+          reviewer_notes?: string | null
+          screenshot_url?: string | null
+          status?: string | null
+          suggested_text?: string
+          translation_key?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       translation_patches: {
         Row: {
           applied_at: string | null
@@ -4074,6 +4182,10 @@ export type Database = {
           _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
         }
+        Returns: boolean
+      }
+      is_pilot_user: {
+        Args: { user_uuid: string; feature_name?: string }
         Returns: boolean
       }
       register_discovered_module: {
