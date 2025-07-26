@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+import { AlertTriangle, CheckCircle, Clock, Shield, TrendingUp, Users, FileText, AlertCircle } from "lucide-react";
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
-// Color-corrected and simplified version of the Compliance Overview component.
-const AqlHRComplianceOverview = () => {
+const ComplianceOverview = () => {
+  const { isArabic } = useSimpleLanguage();
+
   // Helper function to format numbers with commas
-  const formatNumber = (num: number) => new Intl.NumberFormat('en-US').format(num);
+  const formatNumber = (num: number) => new Intl.NumberFormat(isArabic ? 'ar-SA' : 'en-US').format(num);
 
-  // --- MOCK DATA ---
+  // Mock compliance data
   const complianceData = {
     overallScore: 94.2,
     saudizationRatio: 67.5,
@@ -14,50 +21,151 @@ const AqlHRComplianceOverview = () => {
     auditTrails: 15678,
   };
 
-  const getPillStyle = (band: string) => {
+  const getBadgeVariant = (band: string) => {
     switch (band.toLowerCase()) {
-      case 'platinum': return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40';
-      case 'green': return 'bg-green-500/20 text-green-300 border-green-500/40';
-      case 'yellow': return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40';
-      case 'red': return 'bg-red-500/20 text-red-300 border-red-500/40';
-      default: return 'bg-gray-500/20 text-gray-300 border-gray-500/40';
+      case 'platinum': return 'default';
+      case 'green': return 'secondary';
+      case 'yellow': return 'outline';
+      case 'red': return 'destructive';
+      default: return 'outline';
     }
   };
 
-  return (
-    <div dir="rtl" className="p-4 sm:p-6 lg:p-8 bg-gray-900 min-h-screen text-white font-sans">
-      <div className="max-w-screen-2xl mx-auto">
-        <header className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-100">إدارة الامتثال والحوكمة</h1>
-            <p className="text-gray-300 mt-1">نظرة شاملة على حالة الامتثال في المنظمة.</p>
-          </div>
-          <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 font-semibold text-white">إنشاء تقرير</button>
-        </header>
+  const translations = {
+    en: {
+      title: "Compliance & Governance Management",
+      subtitle: "Comprehensive overview of organizational compliance status",
+      createReport: "Create Report",
+      overallCompliance: "Overall Compliance",
+      saudizationRatio: "Saudization Ratio",
+      nitaqatBand: "Nitaqat Band",
+      activeAlerts: "Active Alerts",
+      auditTrails: "Audit Trails",
+      complianceModules: "Compliance Modules",
+      regulatory: "Regulatory Compliance",
+      riskManagement: "Risk Management",
+      policyManagement: "Policy Management",
+      auditTrailsModule: "Audit Trails",
+      recentActivity: "Recent Activity",
+      viewAll: "View All"
+    },
+    ar: {
+      title: "إدارة الامتثال والحوكمة",
+      subtitle: "نظرة شاملة على حالة الامتثال في المنظمة",
+      createReport: "إنشاء تقرير",
+      overallCompliance: "الامتثال العام",
+      saudizationRatio: "نسبة السعودة",
+      nitaqatBand: "النطاق",
+      activeAlerts: "تنبيهات نشطة",
+      auditTrails: "مسارات المراجعة",
+      complianceModules: "وحدات الامتثال",
+      regulatory: "الامتثال التنظيمي",
+      riskManagement: "إدارة المخاطر",
+      policyManagement: "إدارة السياسات",
+      auditTrailsModule: "مسارات المراجعة",
+      recentActivity: "النشاط الأخير",
+      viewAll: "عرض الكل"
+    }
+  };
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* MetricCard Component Inlined with improved colors */}
-            <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg">
-                <p className="text-gray-300 text-sm mb-1">الامتثال العام</p>
-                <p className="text-4xl font-bold text-blue-300">{complianceData.overallScore}<span className="text-2xl font-medium text-blue-200">%</span></p>
-            </div>
-            <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg">
-                <p className="text-gray-300 text-sm mb-1">نسبة السعودة</p>
-                <p className="text-4xl font-bold text-green-300">{complianceData.saudizationRatio}<span className="text-2xl font-medium text-green-200">%</span></p>
-                <span className={`mt-2 inline-block px-3 py-1 text-sm font-semibold rounded-full ${getPillStyle(complianceData.nitaqatBand)}`}>النطاق {complianceData.nitaqatBand}</span>
-            </div>
-            <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg">
-                <p className="text-gray-300 text-sm mb-1">تنبيهات نشطة</p>
-                <p className="text-4xl font-bold text-red-400">{complianceData.activeAlerts}</p>
-            </div>
-            <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-lg">
-                <p className="text-gray-300 text-sm mb-1">مسارات المراجعة</p>
-                <p className="text-4xl font-bold text-yellow-300">{formatNumber(complianceData.auditTrails)}</p>
-            </div>
+  const t = translations[isArabic ? 'ar' : 'en'];
+
+  return (
+    <div className={`container mx-auto p-6 space-y-6 ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <div className={`flex justify-between items-center ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+        <div className={isArabic ? 'text-right' : 'text-left'}>
+          <h1 className="text-3xl font-bold text-foreground">{t.title}</h1>
+          <p className="text-muted-foreground mt-1">{t.subtitle}</p>
         </div>
+        <Button className="bg-primary hover:bg-primary/90">
+          {t.createReport}
+        </Button>
       </div>
+
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className={`text-lg flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+              <Shield className="h-5 w-5 text-primary" />
+              {t.overallCompliance}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-primary">{complianceData.overallScore}%</div>
+            <Progress value={complianceData.overallScore} className="mt-2" />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className={`text-lg flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+              <Users className="h-5 w-5 text-secondary" />
+              {t.saudizationRatio}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-secondary">{complianceData.saudizationRatio}%</div>
+            <Badge variant={getBadgeVariant(complianceData.nitaqatBand)} className="mt-2">
+              {t.nitaqatBand} {complianceData.nitaqatBand}
+            </Badge>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className={`text-lg flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+              <AlertCircle className="h-5 w-5 text-destructive" />
+              {t.activeAlerts}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-destructive">{complianceData.activeAlerts}</div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className={`text-lg flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : 'flex-row'}`}>
+              <FileText className="h-5 w-5 text-accent" />
+              {t.auditTrails}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-accent">{formatNumber(complianceData.auditTrails)}</div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Compliance Modules */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={isArabic ? 'text-right' : 'text-left'}>{t.complianceModules}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Button variant="outline" className="h-20 flex flex-col items-center justify-center">
+              <Shield className="h-6 w-6 mb-2" />
+              {t.regulatory}
+            </Button>
+            <Button variant="outline" className="h-20 flex flex-col items-center justify-center">
+              <AlertTriangle className="h-6 w-6 mb-2" />
+              {t.riskManagement}
+            </Button>
+            <Button variant="outline" className="h-20 flex flex-col items-center justify-center">
+              <FileText className="h-6 w-6 mb-2" />
+              {t.policyManagement}
+            </Button>
+            <Button variant="outline" className="h-20 flex flex-col items-center justify-center">
+              <Clock className="h-6 w-6 mb-2" />
+              {t.auditTrailsModule}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
 
-export default AqlHRComplianceOverview;
+export default ComplianceOverview;
