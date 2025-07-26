@@ -1,0 +1,372 @@
+# AqlHR Localization Governance
+
+## Core HR Terminology Bank
+# This file contains the official terminology glossary for all HR-specific terms used in AqlHR platform.
+# Each term must be used consistently across the platform and new terms must be added here first.
+
+# Business Terms
+business_terms:
+  # Core HR Concepts
+  employee:
+    en: "Employee"
+    ar: "موظف"
+    context: "Individual working for the organization"
+    usage: "Use for all staff members regardless of level"
+    
+  probation:
+    en: "Probation"
+    ar: "فترة التجربة"
+    context: "Initial employment period for evaluation"
+    usage: "Saudi labor law requires 90-day maximum probation period"
+    
+  end_of_service:
+    en: "End of Service"
+    ar: "نهاية الخدمة"
+    context: "Employee termination benefits calculation"
+    usage: "Official Saudi labor law term for severance"
+    
+  saudization:
+    en: "Saudization"
+    ar: "السعودة"
+    context: "Government program to increase Saudi national employment"
+    usage: "Always capitalize, refers to official government policy"
+    
+  nitaqat:
+    en: "Nitaqat"
+    ar: "النطاقات"
+    context: "Saudi government classification system for companies based on Saudi employment ratio"
+    usage: "Official government program name, do not translate"
+    
+  qiwa:
+    en: "Qiwa"
+    ar: "قوى"
+    context: "Ministry of Labor online platform"
+    usage: "Official platform name, do not translate"
+    
+  gosi:
+    en: "GOSI"
+    ar: "المؤسسة العامة للتأمينات الاجتماعية"
+    context: "General Organization for Social Insurance"
+    usage: "Use GOSI in English, full Arabic name in Arabic"
+    
+  # Employment Types
+  full_time:
+    en: "Full-time"
+    ar: "دوام كامل"
+    context: "Standard 40-hour work week"
+    usage: "Hyphenated in English"
+    
+  part_time:
+    en: "Part-time"
+    ar: "دوام جزئي"
+    context: "Less than full-time hours"
+    usage: "Hyphenated in English"
+    
+  contractor:
+    en: "Contractor"
+    ar: "مقاول"
+    context: "Non-employee service provider"
+    usage: "Distinguish from employee"
+    
+  # Compensation & Benefits
+  basic_salary:
+    en: "Basic Salary"
+    ar: "الراتب الأساسي"
+    context: "Base monthly compensation"
+    usage: "Exclude allowances and bonuses"
+    
+  allowances:
+    en: "Allowances"
+    ar: "البدلات"
+    context: "Additional compensation beyond basic salary"
+    usage: "Housing, transportation, etc."
+    
+  bonus:
+    en: "Bonus"
+    ar: "مكافأة"
+    context: "Performance or special payment"
+    usage: "Variable compensation"
+    
+  overtime:
+    en: "Overtime"
+    ar: "العمل الإضافي"
+    context: "Work beyond standard hours"
+    usage: "Follow Saudi labor law calculations"
+    
+  # Leave Management
+  annual_leave:
+    en: "Annual Leave"
+    ar: "الإجازة السنوية"
+    context: "Paid vacation time"
+    usage: "21-30 days per Saudi labor law"
+    
+  sick_leave:
+    en: "Sick Leave"
+    ar: "الإجازة المرضية"
+    context: "Medical absence from work"
+    usage: "First 30 days paid, next 60 days half-pay"
+    
+  maternity_leave:
+    en: "Maternity Leave"
+    ar: "إجازة الوضع"
+    context: "Leave for childbirth"
+    usage: "10 weeks paid leave in Saudi Arabia"
+    
+  hajj_leave:
+    en: "Hajj Leave"
+    ar: "إجازة الحج"
+    context: "Religious pilgrimage leave"
+    usage: "Once per employment, unpaid but job protected"
+    
+  # Performance Management
+  performance_review:
+    en: "Performance Review"
+    ar: "تقييم الأداء"
+    context: "Formal evaluation of employee performance"
+    usage: "Annual or quarterly assessment"
+    
+  kpi:
+    en: "KPI"
+    ar: "مؤشر الأداء الرئيسي"
+    context: "Key Performance Indicator"
+    usage: "Measurable value for objectives"
+    
+  # Training & Development
+  training_program:
+    en: "Training Program"
+    ar: "برنامج التدريب"
+    context: "Structured learning initiative"
+    usage: "Professional development activities"
+    
+  certification:
+    en: "Certification"
+    ar: "شهادة"
+    context: "Official recognition of competency"
+    usage: "Professional or technical qualification"
+    
+  # Government Entities
+  mol:
+    en: "Ministry of Labor"
+    ar: "وزارة العمل"
+    context: "Government labor oversight body"
+    usage: "Official government ministry"
+    
+  hrdf:
+    en: "HRDF"
+    ar: "صندوق تنمية الموارد البشرية"
+    context: "Human Resources Development Fund"
+    usage: "Government training and development fund"
+    
+  tvtc:
+    en: "TVTC"
+    ar: "المؤسسة العامة للتدريب التقني والمهني"
+    context: "Technical and Vocational Training Corporation"
+    usage: "Government technical training body"
+
+# Technical Terms
+technical_terms:
+  dashboard:
+    en: "Dashboard"
+    ar: "لوحة التحكم"
+    context: "Main system interface"
+    usage: "Primary navigation hub"
+    
+  module:
+    en: "Module"
+    ar: "وحدة"
+    context: "System component or feature"
+    usage: "Functional unit of the platform"
+    
+  integration:
+    en: "Integration"
+    ar: "التكامل"
+    context: "Connection between systems"
+    usage: "Data exchange or API connection"
+    
+  automation:
+    en: "Automation"
+    ar: "الأتمتة"
+    context: "Automated process or workflow"
+    usage: "System-driven tasks"
+    
+  ai_powered:
+    en: "AI-Powered"
+    ar: "مدعوم بالذكاء الاصطناعي"
+    context: "Feature enhanced by artificial intelligence"
+    usage: "Hyphenated in English"
+    
+  real_time:
+    en: "Real-time"
+    ar: "في الوقت الفعلي"
+    context: "Immediate data processing"
+    usage: "Hyphenated in English"
+    
+  workflow:
+    en: "Workflow"
+    ar: "سير العمل"
+    context: "Business process sequence"
+    usage: "Step-by-step procedure"
+
+# UI/UX Terms
+interface_terms:
+  search:
+    en: "Search"
+    ar: "بحث"
+    context: "Find functionality"
+    usage: "Input field or action"
+    
+  filter:
+    en: "Filter"
+    ar: "تصفية"
+    context: "Narrow down results"
+    usage: "Refinement tool"
+    
+  sort:
+    en: "Sort"
+    ar: "ترتيب"
+    context: "Organize data order"
+    usage: "Ascending/descending arrangement"
+    
+  export:
+    en: "Export"
+    ar: "تصدير"
+    context: "Download data"
+    usage: "External file generation"
+    
+  import:
+    en: "Import"
+    ar: "استيراد"
+    context: "Upload data"
+    usage: "External file processing"
+    
+  save:
+    en: "Save"
+    ar: "حفظ"
+    context: "Store changes"
+    usage: "Persist data"
+    
+  cancel:
+    en: "Cancel"
+    ar: "إلغاء"
+    context: "Abort action"
+    usage: "Discard changes"
+    
+  loading:
+    en: "Loading..."
+    ar: "جاري التحميل..."
+    context: "Process in progress"
+    usage: "With ellipsis"
+
+# Status & Messages
+status_terms:
+  active:
+    en: "Active"
+    ar: "نشط"
+    context: "Currently enabled or working"
+    usage: "Operational status"
+    
+  inactive:
+    en: "Inactive"
+    ar: "غير نشط"
+    context: "Currently disabled"
+    usage: "Non-operational status"
+    
+  pending:
+    en: "Pending"
+    ar: "قيد الانتظار"
+    context: "Awaiting action or approval"
+    usage: "Intermediate state"
+    
+  approved:
+    en: "Approved"
+    ar: "موافق عليه"
+    context: "Officially accepted"
+    usage: "Final positive decision"
+    
+  rejected:
+    en: "Rejected"
+    ar: "مرفوض"
+    context: "Officially declined"
+    usage: "Final negative decision"
+    
+  completed:
+    en: "Completed"
+    ar: "مكتمل"
+    context: "Successfully finished"
+    usage: "Final success state"
+    
+  error:
+    en: "Error"
+    ar: "خطأ"
+    context: "System or user error"
+    usage: "Problem indication"
+    
+  success:
+    en: "Success"
+    ar: "نجح"
+    context: "Operation completed successfully"
+    usage: "Positive outcome"
+    
+  warning:
+    en: "Warning"
+    ar: "تحذير"
+    context: "Caution or attention needed"
+    usage: "Alert level"
+
+# Date & Time Formats
+datetime_formats:
+  date_short:
+    en: "MM/DD/YYYY"
+    ar: "DD/MM/YYYY"
+    context: "Short date format"
+    usage: "Forms and lists"
+    
+  date_long:
+    en: "Month DD, YYYY"
+    ar: "DD Month YYYY"
+    context: "Full date format"
+    usage: "Reports and formal documents"
+    
+  time_12h:
+    en: "HH:MM AM/PM"
+    ar: "HH:MM ص/م"
+    context: "12-hour time format"
+    usage: "User interface"
+    
+  time_24h:
+    en: "HH:MM"
+    ar: "HH:MM"
+    context: "24-hour time format"
+    usage: "System logs and technical areas"
+    
+  hijri_date:
+    en: "DD/MM/YYYY H"
+    ar: "DD/MM/YYYY هـ"
+    context: "Islamic calendar date"
+    usage: "Cultural and religious contexts"
+
+# Currency & Numbers
+formatting:
+  currency_sar:
+    en: "SAR {amount}"
+    ar: "{amount} ريال"
+    context: "Saudi Riyal currency"
+    usage: "Financial amounts"
+    
+  currency_usd:
+    en: "USD {amount}"
+    ar: "{amount} دولار"
+    context: "US Dollar currency"
+    usage: "International amounts"
+    
+  percentage:
+    en: "{value}%"
+    ar: "{value}%"
+    context: "Percentage value"
+    usage: "Statistics and metrics"
+    
+  thousand_separator:
+    en: ","
+    ar: "٬"
+    context: "Number formatting"
+    usage: "Large numbers"
