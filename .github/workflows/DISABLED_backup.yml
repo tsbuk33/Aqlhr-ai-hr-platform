@@ -44,22 +44,13 @@ jobs:
           echo "📊 Backup created: $BACKUP_NAME.zip"
           echo "📏 Size: $(du -h $BACKUP_NAME.zip | cut -f1)"
           echo "🔑 SHA256: $(cat checksums-$TIMESTAMP.txt)"
-          
-      - name: ☁️ Upload to AWS S3
+
+      - name: ☁️ Backup Summary
         run: |
           TIMESTAMP=$(date +%F-%H%M)
-          pip install awscli
-          
-          # Upload backup files
-          aws s3 cp sanadhr-backup-$TIMESTAMP.zip s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
-          aws s3 cp backup-metadata-$TIMESTAMP.json s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
-          aws s3 cp checksums-$TIMESTAMP.txt s3://${{ secrets.S3_BUCKET_NAME }}/sanadhr-backups/$(date +%Y)/$(date +%m)/
-          
-          echo "✅ Backup uploaded to S3"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
+          echo "✅ Backup created successfully"
+          echo "📦 Stored as GitHub artifact for 30 days"
+          echo "🔄 AWS upload disabled - using GitHub storage only"
 
       - name: 💾 Store as GitHub Artifact
         uses: actions/upload-artifact@v4
@@ -70,18 +61,6 @@ jobs:
             backup-metadata-*.json
             checksums-*.txt
           retention-days: 30
-          
-      - name: 🧹 Cleanup Old S3 Backups (Optional)
-        
-        run: |
-          # Keep only last 30 days of backups
-          CUTOFF_DATE=$(date -d '30 days ago' +%Y-%m-%d)
-          echo "🗑️ Cleaning up backups older than $CUTOFF_DATE"
-          # Note: Implement specific cleanup logic based on your S3 structure
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
 
   notify:
     needs: backup
