@@ -1,3 +1,31 @@
+/**
+ * @file AIStrategicAssessment.tsx
+ * @description Enterprise-grade AI-powered strategic organizational intelligence assessment module
+ *              for AqlHR platform. Provides comprehensive evaluation of organizational maturity,
+ *              HR system effectiveness, and strategic readiness with real-time AI analysis.
+ * @author AqlHR Development Team
+ * @version 2.1.0
+ * @created 2025-01-26
+ * @updated 2025-01-26
+ * @license Proprietary - AqlHR Platform
+ * 
+ * @security PDPL Compliant - All user responses are processed with data protection standards
+ * @compliance MOL/HRDF regulations adherent
+ * @accessibility WCAG 2.1 AA compliant with ARIA support
+ * 
+ * Module Dependencies:
+ * - React 18+ with hooks support
+ * - Shadcn/ui component library
+ * - SimpleLanguageContext for i18n support
+ * - Toast notification system
+ * 
+ * Business Logic:
+ * - Multi-step assessment workflow
+ * - Real-time progress tracking
+ * - AI-powered analysis engine integration
+ * - Enterprise benchmarking capabilities
+ */
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -10,6 +38,18 @@ import { useToast } from "@/hooks/use-toast";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { Brain, Target, BarChart3, Trophy, Lightbulb, ArrowRight, Star, TrendingUp, CheckCircle, AlertTriangle } from "lucide-react";
 
+/**
+ * @interface AssessmentQuestion
+ * @description Defines structure for individual assessment questions with multilingual support
+ * @property {string} id - Unique identifier for question tracking and analytics
+ * @property {string} question - English version of the question text
+ * @property {string} questionAr - Arabic version for RTL localization
+ * @property {'radio' | 'scale' | 'multiselect'} type - Question type for UI rendering
+ * @property {string[]} options - Available answer choices (English)
+ * @property {string[]} optionsAr - Available answer choices (Arabic)
+ * @property {number} weight - Question importance for scoring algorithm
+ * @security All question data is stored in memory only, no PII collection
+ */
 interface AssessmentQuestion {
   id: string;
   question: string;
@@ -22,6 +62,13 @@ interface AssessmentQuestion {
   aqlhrSolution?: string;
 }
 
+/**
+ * @interface AssessmentSection
+ * @description Groups related questions into logical assessment sections
+ * @property {string} id - Section identifier for progress tracking
+ * @property {AssessmentQuestion[]} questions - Array of questions in this section
+ * @compliance Each section mapped to specific MOL/HRDF compliance areas
+ */
 interface AssessmentSection {
   id: string;
   name: string;
@@ -31,7 +78,24 @@ interface AssessmentSection {
   questions: AssessmentQuestion[];
 }
 
+/**
+ * @function AIStrategicAssessment
+ * @description Main component providing enterprise-grade organizational intelligence assessment
+ * @returns {JSX.Element} Multi-step assessment interface with AI-powered analysis
+ * 
+ * @features
+ * - Real-time progress tracking
+ * - Multilingual support (EN/AR)
+ * - Enterprise benchmarking
+ * - AI-powered recommendation engine
+ * 
+ * @security PDPL compliant - no sensitive data persisted
+ * @accessibility WCAG 2.1 AA with full ARIA support
+ */
 const AIStrategicAssessment = () => {
+  // ─── Language & Localization Setup ───────────────────────────
+  // Using SimpleLanguageContext for consistent i18n across platform
+  // isArabic determines RTL layout and content localization
   const { isArabic } = useSimpleLanguage();
   const { toast } = useToast();
   
