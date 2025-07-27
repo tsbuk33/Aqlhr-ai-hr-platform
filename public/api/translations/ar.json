@@ -148,7 +148,12 @@
     "culture_transformation": "تحويل الثقافة التنظيمية",
     "culture_transformation_desc": "تغيير وتطوير الثقافة التنظيمية",
     "change_management": "إدارة التغيير",
-    "change_management_desc": "إدارة التغيير الاستراتيجي والتنفيذ"
+    "change_management_desc": "إدارة التغيير الاستراتيجي والتنفيذ",
+    "strategic_goals": "الأهداف الاستراتيجية",
+    "achievement_rate": "معدل الإنجاز",
+    "planning_horizon": "أفق التخطيط",
+    "strategic_roi": "العائد الاستراتيجي على الاستثمار",
+    "years_value": "سنوات"
   },
   "organization": {
     "structure": "الهيكل التنظيمي",

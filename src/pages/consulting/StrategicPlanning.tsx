@@ -14,7 +14,7 @@ const StrategicPlanning = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Strategic Goals</CardTitle>
+            <CardTitle>{t('consulting.strategic_goals')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">23</div>
@@ -22,7 +22,7 @@ const StrategicPlanning = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Achievement Rate</CardTitle>
+            <CardTitle>{t('consulting.achievement_rate')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">87%</div>
@@ -30,15 +30,15 @@ const StrategicPlanning = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Planning Horizon</CardTitle>
+            <CardTitle>{t('consulting.planning_horizon')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-foreground">5 Years</div>
+            <div className="text-3xl font-bold text-foreground">5 {t('consulting.years_value')}</div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Strategic ROI</CardTitle>
+            <CardTitle>{t('consulting.strategic_roi')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">450%</div>
