@@ -29,20 +29,20 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'promotion': return 'bg-brand-success text-white';
-      case 'transfer': return 'bg-brand-primary text-white';
-      case 'warning': return 'bg-brand-warning text-white';
-      case 'retention': return 'bg-brand-danger text-white';
-      case 'training': return 'bg-brand-accent text-white';
+      case 'promotion': return 'bg-brand-success text-primary-foreground';
+      case 'transfer': return 'bg-brand-primary text-primary-foreground';
+      case 'warning': return 'bg-brand-warning text-primary-foreground';
+      case 'retention': return 'bg-brand-danger text-primary-foreground';
+      case 'training': return 'bg-brand-accent text-primary-foreground';
       default: return 'bg-muted text-muted-foreground';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-brand-danger text-white';
-      case 'high': return 'bg-brand-warning text-white';
-      case 'medium': return 'bg-brand-primary text-white';
+      case 'urgent': return 'bg-brand-danger text-primary-foreground';
+      case 'high': return 'bg-brand-warning text-primary-foreground';
+      case 'medium': return 'bg-brand-primary text-primary-foreground';
       default: return 'bg-muted text-muted-foreground';
     }
   };
@@ -146,7 +146,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
                   size="sm"
                   variant="outline"
                   onClick={() => onStatusUpdate(recommendation.id, 'rejected')}
-                  className="text-brand-danger border-brand-danger hover:bg-brand-danger hover:text-white"
+                  className="text-brand-danger border-brand-danger hover:bg-brand-danger hover:text-primary-foreground"
                 >
                   <XCircle className="h-3 w-3 mr-1" />
                   Reject
@@ -154,7 +154,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
                 <Button
                   size="sm"
                   onClick={() => onStatusUpdate(recommendation.id, 'approved')}
-                  className="bg-brand-success hover:bg-brand-success/90 text-white"
+                  className="bg-brand-success hover:bg-brand-success/90 text-primary-foreground"
                 >
                   <CheckCircle className="h-3 w-3 mr-1" />
                   Approve

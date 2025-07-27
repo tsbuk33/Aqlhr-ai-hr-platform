@@ -21,17 +21,17 @@ interface SimpleMetricCardProps {
 const getVariantClasses = (variant?: string) => {
   switch (variant) {
     case "primary":
-      return "bg-gradient-to-br from-brand-primary to-brand-primary-light text-white";
+      return "bg-gradient-to-br from-brand-primary to-brand-primary-light text-primary-foreground";
     case "secondary":
-      return "bg-gradient-to-br from-brand-secondary to-brand-secondary text-white";
+      return "bg-gradient-to-br from-brand-secondary to-brand-secondary text-primary-foreground";
     case "accent":
-      return "bg-gradient-to-br from-brand-accent to-purple-400 text-white";
+      return "bg-gradient-to-br from-brand-accent to-purple-400 text-primary-foreground";
     case "success":
-      return "bg-gradient-to-br from-brand-success to-green-400 text-white";
+      return "bg-gradient-to-br from-brand-success to-green-400 text-primary-foreground";
     case "warning":
-      return "bg-gradient-to-br from-brand-warning to-orange-400 text-white";
+      return "bg-gradient-to-br from-brand-warning to-orange-400 text-primary-foreground";
     default:
-      return "bg-surface dark:bg-surface border border-border dark:border-border";
+      return "bg-surface border border-border";
   }
 };
 
@@ -54,29 +54,29 @@ export function SimpleMetricCard({
       <CardContent className="p-6">
         <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
           <div className={`flex-1 ${isArabic ? 'text-right' : ''}`}>
-            <h3 className={`text-sm font-medium mb-2 ${isColored ? 'text-white/90' : 'text-foreground-muted dark:text-foreground-muted'}`}>
+            <h3 className={`text-sm font-medium mb-2 ${isColored ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
               {isArabic ? titleAr : titleEn}
             </h3>
-            <div className={`text-3xl font-bold mb-1 number-display ${isColored ? 'text-white' : 'text-foreground dark:text-foreground'}`}>
+            <div className={`text-3xl font-bold mb-1 number-display ${isColored ? 'text-primary-foreground' : 'text-foreground'}`}>
               {value}
             </div>
-            <p className={`text-sm mb-2 ${isColored ? 'text-white/75' : 'text-foreground-muted dark:text-foreground-muted'}`}>
+            <p className={`text-sm mb-2 ${isColored ? 'text-primary-foreground/75' : 'text-muted-foreground'}`}>
               {isArabic ? descriptionAr : descriptionEn}
             </p>
             {trend && (
               <div className={`flex items-center gap-1 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <span className={`text-sm ${isColored ? 'text-white/90' : 'text-foreground-muted dark:text-foreground-muted'}`}>
+                <span className={`text-sm ${isColored ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>
                   {isArabic ? trend.valueAr : trend.valueEn}
                 </span>
                 {trend.isPositive && (
-                  <span className={`text-sm ${isColored ? 'text-white' : 'text-foreground dark:text-foreground'}`}>
+                  <span className={`text-sm ${isColored ? 'text-primary-foreground' : 'text-foreground'}`}>
                     {isArabic ? '↙' : '↗'}
                   </span>
                 )}
               </div>
             )}
           </div>
-          <div className={`text-2xl ${isColored ? 'text-white/80' : 'text-foreground-muted dark:text-foreground-muted'}`}>
+          <div className={`text-2xl ${isColored ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
             {icon}
           </div>
         </div>

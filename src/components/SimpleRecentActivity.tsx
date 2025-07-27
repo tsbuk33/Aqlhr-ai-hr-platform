@@ -55,7 +55,7 @@ export function SimpleRecentActivity() {
             <div className={`flex items-center justify-between mt-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <Avatar className="h-5 w-5">
-                  <AvatarFallback className="text-xs bg-gradient-primary text-white">
+                  <AvatarFallback className="text-xs bg-gradient-primary text-primary-foreground">
                     AR
                   </AvatarFallback>
                 </Avatar>
@@ -107,7 +107,7 @@ export function SimpleRecentActivity() {
             <div className={`flex items-center justify-between mt-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <Avatar className="h-5 w-5">
-                  <AvatarFallback className="text-xs bg-gradient-primary text-white">
+                  <AvatarFallback className="text-xs bg-gradient-primary text-primary-foreground">
                     FZ
                   </AvatarFallback>
                 </Avatar>
@@ -159,7 +159,7 @@ export function SimpleRecentActivity() {
             <div className={`flex items-center justify-between mt-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <Avatar className="h-5 w-5">
-                  <AvatarFallback className="text-xs bg-gradient-primary text-white">
+                  <AvatarFallback className="text-xs bg-gradient-primary text-primary-foreground">
                     SY
                   </AvatarFallback>
                 </Avatar>
@@ -213,7 +213,7 @@ export function SimpleRecentActivity() {
             <div className={`flex items-center justify-between mt-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
               <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
                 <Avatar className="h-5 w-5">
-                  <AvatarFallback className="text-xs bg-gradient-primary text-white">
+                  <AvatarFallback className="text-xs bg-gradient-primary text-primary-foreground">
                     TD
                   </AvatarFallback>
                 </Avatar>

@@ -178,7 +178,7 @@ export const AICommandCenter: React.FC = () => {
               <div className="relative">
                 <Brain className="h-10 w-10 text-primary" />
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-brand-success rounded-full animate-pulse flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full" />
+                  <div className="w-2 h-2 bg-primary-foreground rounded-full" />
                 </div>
               </div>
               <div>
