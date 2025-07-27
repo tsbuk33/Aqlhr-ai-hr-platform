@@ -26,12 +26,16 @@ The `fix-center-layout.ts` CLI tool automatically:
 
 ### English Dashboard Page (After)
 ```tsx
-<div className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4" dir="ltr">
-  <main className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4">
-    <h1 className="text-2xl font-bold mb-4">Employee Dashboard</h1>
-    // ... content
-  </main>
-</div>
+import CenteredLayout from '@/components/layout/CenteredLayout';
+
+<CenteredLayout>
+  <div className="page-wrapper">
+    <main className="dashboard-container">
+      <h1 className="text-2xl font-bold mb-4">Employee Dashboard</h1>
+      // ... content  
+    </main>
+  </div>
+</CenteredLayout>
 ```
 
 ### Arabic Payroll Page (Before)
@@ -46,12 +50,16 @@ The `fix-center-layout.ts` CLI tool automatically:
 
 ### Arabic Payroll Page (After)
 ```tsx
-<div className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4" dir="rtl">
-  <section className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4">
-    <h1 className="text-2xl font-bold mb-4">كشوف المرتبات</h1>
-    // ... content
-  </section>
-</div>
+import CenteredLayout from '@/components/layout/CenteredLayout';
+
+<CenteredLayout className="rtl">
+  <div className="page-layout">
+    <section className="payroll-main">
+      <h1 className="text-2xl font-bold mb-4">كشوف المرتبات</h1>
+      // ... content
+    </section>
+  </div>
+</CenteredLayout>
 ```
 
 ## Changes Applied

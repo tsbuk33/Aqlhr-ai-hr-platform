@@ -18,6 +18,10 @@ export default {
 			}
 		},
 		extend: {
+			maxWidth: {
+				'screen-xl': '1280px',
+				'screen-2xl': '1400px',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

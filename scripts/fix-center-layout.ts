@@ -103,6 +103,8 @@ class CenterLayoutFixer {
     if (!this.dryRun) {
       await this.createGlobalStyles();
       await this.updateLayoutComponents();
+      await this.ensureGlobalCSSImport();
+      await this.updateTailwindConfig();
     }
 
     return this.results;
@@ -183,41 +185,62 @@ class CenterLayoutFixer {
 
   private async fixElement(element: JsxElement | JsxSelfClosingElement, isArabicFile: boolean) {
     const before = element.getText();
-    const className = this.getClassName(element) || '';
+    const sourceFile = element.getSourceFile();
     
+    // Strategy: Wrap the entire element with CenteredLayout instead of just adding classes
+    if (!this.dryRun) {
+      this.wrapWithCenteredLayout(element, isArabicFile, sourceFile);
+    }
+    
+    return {
+      before: before.slice(0, 100) + (before.length > 100 ? '...' : ''),
+      after: `<CenteredLayout>${element.getTagName()}>...</CenteredLayout>`,
+      changeType: 'wrap-centered' as const
+    };
+  }
+
+  private wrapWithCenteredLayout(element: JsxElement | JsxSelfClosingElement, isArabicFile: boolean, sourceFile: any): void {
+    // Remove conflicting classes from the element first
+    this.removeConflictingClasses(element);
+    
+    // Get the element's content
+    const elementText = element.getText();
+    
+    // Create the wrapper
+    const wrapperProps = isArabicFile ? ' className="rtl"' : '';
+    const wrappedElement = `<CenteredLayout${wrapperProps}>\n  ${elementText}\n</CenteredLayout>`;
+    
+    // Replace the element
+    element.replaceWithText(wrappedElement);
+  }
+
+  private removeConflictingClasses(element: JsxElement | JsxSelfClosingElement): void {
+    const className = this.getClassName(element);
+    if (!className) return;
+
     // Remove conflicting classes
     let newClassName = className;
     this.CONFLICTING_CLASSES.forEach(conflictClass => {
       newClassName = newClassName.replace(new RegExp(`\\b${conflictClass}\\b`, 'g'), '').trim();
     });
 
-    // Add centered classes if not already present
-    const centeredWords = this.CENTERED_CLASSES.split(' ');
-    const existingWords = newClassName.split(' ');
-    const missingClasses = centeredWords.filter(cls => !existingWords.includes(cls));
+    // Clean up extra spaces
+    newClassName = newClassName.replace(/\s+/g, ' ').trim();
     
-    if (missingClasses.length > 0) {
-      newClassName = `${newClassName} ${missingClasses.join(' ')}`.trim();
-    }
-
-    // Add RTL-specific classes for Arabic
-    if (isArabicFile && !newClassName.includes('text-center')) {
-      newClassName = `${newClassName} text-center`.trim();
-    }
-
     if (newClassName !== className) {
-      if (!this.dryRun) {
+      if (newClassName) {
         this.setClassName(element, newClassName);
+      } else {
+        // Remove className attribute if empty
+        const openingElement = Node.isJsxElement(element) 
+          ? element.getOpeningElement()
+          : element;
+        const classNameAttr = openingElement.getAttribute('className');
+        if (classNameAttr) {
+          classNameAttr.remove();
+        }
       }
-      
-      return {
-        before: before.slice(0, 100) + (before.length > 100 ? '...' : ''),
-        after: `className="${newClassName}"`,
-        changeType: 'add-classes' as const
-      };
     }
-
-    return null;
   }
 
   private getTagName(element: JsxElement | JsxSelfClosingElement): string {
@@ -274,6 +297,27 @@ class CenterLayoutFixer {
 
   private addRequiredImports(sourceFile: any): void {
     const imports = sourceFile.getImportDeclarations();
+    
+    // Check if CenteredLayout is already imported
+    const hasCenteredLayoutImport = imports.some((imp: any) => {
+      const namedImports = imp.getNamedImports();
+      const defaultImport = imp.getDefaultImport();
+      return (
+        (defaultImport && defaultImport.getText() === 'CenteredLayout') ||
+        namedImports.some((named: any) => named.getName() === 'CenteredLayout')
+      );
+    });
+
+    // Add CenteredLayout import if not present
+    if (!hasCenteredLayoutImport) {
+      sourceFile.addImportDeclaration({
+        moduleSpecifier: '@/components/layout/CenteredLayout',
+        defaultImport: 'CenteredLayout'
+      });
+      console.log(chalk.green(`✅ Added CenteredLayout import to ${sourceFile.getBaseName()}`));
+    }
+
+    // Ensure React import exists (for JSX)
     const hasReactImport = imports.some((imp: any) => 
       imp.getModuleSpecifierValue() === 'react'
     );
@@ -389,6 +433,42 @@ export const withCenteredLayout = <P extends object>(
 
     fs.writeFileSync('src/components/layout/CenteredLayout.tsx', centeredTemplateContent);
     console.log(chalk.green('✅ Updated CenteredLayout component'));
+  }
+
+  private async ensureGlobalCSSImport(): Promise<void> {
+    const mainCSSPath = 'src/index.css';
+    const centeredLayoutCSSPath = '@/styles/centered-layout.css';
+    
+    if (fs.existsSync(mainCSSPath)) {
+      const cssContent = fs.readFileSync(mainCSSPath, 'utf8');
+      
+      if (!cssContent.includes('centered-layout.css')) {
+        const importStatement = `@import '${centeredLayoutCSSPath}';\n`;
+        const updatedCSS = importStatement + cssContent;
+        fs.writeFileSync(mainCSSPath, updatedCSS);
+        console.log(chalk.green(`✅ Added centered-layout.css import to ${mainCSSPath}`));
+      }
+    }
+  }
+
+  private async updateTailwindConfig(): Promise<void> {
+    const tailwindConfigPath = 'tailwind.config.ts';
+    
+    if (fs.existsSync(tailwindConfigPath)) {
+      const configContent = fs.readFileSync(tailwindConfigPath, 'utf8');
+      
+      // Check if max-w-screen-xl is already in the config
+      if (!configContent.includes('max-w-screen-xl') && !configContent.includes('maxWidth')) {
+        console.log(chalk.yellow('⚠️  Consider adding max-w-screen-xl to your Tailwind config maxWidth section'));
+        console.log(chalk.blue('💡 Example: maxWidth: { "screen-xl": "1280px" }'));
+      }
+      
+      // Ensure container centering is enabled
+      if (!configContent.includes('center: true')) {
+        console.log(chalk.yellow('⚠️  Consider enabling container centering in Tailwind config'));
+        console.log(chalk.blue('💡 Example: container: { center: true, padding: "2rem" }'));
+      }
+    }
   }
 
   public printResults(): void {
