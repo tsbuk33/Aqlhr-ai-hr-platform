@@ -79,9 +79,9 @@ const AISyncDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="flex items-center gap-2">
-                AI Sync Engine Control
+                AI SYNC ENGINE Control
                 <EduBox
-                  title="AI Sync Engine"
+                  title="AI SYNC ENGINE"
                   description="Automatically synchronizes data changes across all 105+ HR modules within 200ms latency"
                   howToUse="Monitor sync events or trigger manual sync when needed"
                   linkedFeatures={['All HR Modules', 'Real-time Updates', 'Data Consistency']}

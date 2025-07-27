@@ -15,7 +15,7 @@ export function AIAnalysisReport() {
       category: "Predictive Analytics"
     },
     {
-      name: "Document Intelligence",
+      name: "DOCUMENT INTELLIGENCE",
       status: "Active", 
       performance: "96.8%",
       insights: "Automated processing of 15,678 documents",

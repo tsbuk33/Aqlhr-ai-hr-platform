@@ -32,7 +32,7 @@ const AIFeatures = () => {
             title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'SanadHR AI Suite'}
             description={isArabic ? 'وحدات ذكية متقدمة تؤتمت عمليات الموارد البشرية وتوفر التحليلات التنبؤية والتوصيات الذكية' : 'Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations'}
             howToUse={isArabic ? 'تنقل عبر ميزات الذكاء الاصطناعي المختلفة باستخدام التبويبات أدناه' : 'Navigate through different AI features using the tabs below'}
-            linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI Sync Engine', 'Smart Recommendations', 'Predictive Analytics', 'Document Intelligence']}
+            linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI SYNC ENGINE', 'Smart Recommendations', 'Predictive Analytics', 'DOCUMENT INTELLIGENCE']}
             userLevel="hr_admin"
           >
             <></>
@@ -49,7 +49,7 @@ const AIFeatures = () => {
 
       <Tabs defaultValue="sync-engine" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="sync-engine">{isArabic ? 'محرك المزامنة' : 'Sync Engine'}</TabsTrigger>
+          <TabsTrigger value="sync-engine">{isArabic ? 'محرك المزامنة' : 'SYNC ENGINE'}</TabsTrigger>
           <TabsTrigger value="recommendations">{isArabic ? 'التوصيات' : 'Recommendations'}</TabsTrigger>
           <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
           <TabsTrigger value="documents">{isArabic ? 'المستندات' : 'Documents'}</TabsTrigger>
@@ -123,7 +123,7 @@ const AIFeatures = () => {
         <TabsContent value="documents">
           <Card>
             <CardHeader>
-              <CardTitle>{isArabic ? 'ذكاء المستندات' : 'Document Intelligence'}</CardTitle>
+              <CardTitle>{isArabic ? 'ذكاء المستندات' : 'DOCUMENT INTELLIGENCE'}</CardTitle>
               <CardDescription>{isArabic ? 'معالجة المستندات بالذكاء الاصطناعي' : 'AI-powered document processing'}</CardDescription>
             </CardHeader>
             <CardContent>

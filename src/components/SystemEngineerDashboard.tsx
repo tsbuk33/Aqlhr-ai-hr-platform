@@ -421,7 +421,7 @@ const SystemEngineerDashboard = () => {
           </TabsTrigger>
           <TabsTrigger value="translation" className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
-            {isArabic ? 'محرك الترجمة' : 'Translation Engine'}
+            {isArabic ? 'محرك الترجمة' : 'TRANSLATION ENGINE'}
           </TabsTrigger>
           <TabsTrigger value="modules">{tr.moduleHealth}</TabsTrigger>
           <TabsTrigger value="learning">{tr.adaptiveLearning}</TabsTrigger>

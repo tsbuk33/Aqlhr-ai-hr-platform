@@ -54,8 +54,8 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "ميزات الذكاء الاصطناعي" : "AI Features", url: "/ai-features" },
       { title: isArabic ? "التوصيات الذكية" : "Smart KPI Tool", url: "/additional/smart-kpi" },
       { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
-      { title: isArabic ? "ذكاء المستندات" : "Document Intelligence", url: "/ai-automation/document-intelligence" },
-      { title: isArabic ? "سير العمل الآلي" : "Automation Workflows", url: "/automation-workflows" },
+      { title: isArabic ? "ذكاء المستندات" : "DOCUMENT INTELLIGENCE", url: "/ai-automation/document-intelligence" },
+      { title: isArabic ? "سير العمل الآلي" : "AUTOMATION WORKFLOWS", url: "/automation-workflows" },
       { title: isArabic ? "الذكاء متعدد الوحدات" : "Cross-Module Intelligence", url: "/cross-module-intelligence" },
       { title: isArabic ? "مساعد الذكاء الاصطناعي المحمول" : "Mobile AI Assistant", url: "/mobile-ai-assistant" },
       { title: isArabic ? "التكامل الحكومي الذكي" : "Government AI Integration", url: "/government-ai-integration" },
@@ -66,7 +66,7 @@ const getPlatformModules = (isArabic: boolean) => [
   { 
     title: isArabic ? "محرك الأتمتة الذكي" : "AI Automation Engine", url: "/ai-automation", icon: Brain, badge: "6", color: "violet",
     subItems: [
-      { title: isArabic ? "محرك المزامنة الذكي" : "AI Sync Engine", url: "/ai-automation/sync-engine" },
+      { title: isArabic ? "محرك المزامنة الذكي" : "AI SYNC ENGINE", url: "/ai-automation/sync-engine" },
       { title: isArabic ? "التوصيات الذكية" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
       { title: isArabic ? "معالجة اللغة العربية/الإنجليزية" : "Arabic/English NLP", url: "/ai-automation/arabic-english-nlp" },
       { title: isArabic ? "سير العمل التلقائي" : "Automated Workflows", url: "/ai-automation/automated-workflow" },

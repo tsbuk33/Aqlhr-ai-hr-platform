@@ -188,7 +188,7 @@ const AutomationWorkflowEngine = () => {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-foreground">
-            {isArabic ? 'محرك سير عمل الأتمتة المتقدم' : 'Advanced Automation Workflow Engine'}
+            {isArabic ? 'محرك سير عمل الأتمتة المتقدم' : 'ADVANCED AUTOMATION WORKFLOW ENGINE'}
           </h2>
           <p className="text-muted-foreground">
             {isArabic ? 'أتمتة ذكية للعمليات الحيوية في الموارد البشرية' : 'Intelligent automation for critical HR processes'}

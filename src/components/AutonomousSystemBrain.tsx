@@ -69,7 +69,7 @@ const AutonomousSystemBrain = () => {
           autoHealed: 1
         },
         {
-          name: "AI Translation Engine",
+          name: "AI TRANSLATION ENGINE",
           score: 99.1,
           status: 'excellent',
           issues: [],
