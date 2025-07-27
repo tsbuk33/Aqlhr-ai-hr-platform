@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Brain, Zap, TrendingUp, Shield, Target, Activity } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface AqlMindStatus {

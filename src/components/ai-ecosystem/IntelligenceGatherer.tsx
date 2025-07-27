@@ -18,7 +18,7 @@ import {
   Filter,
   BarChart3
 } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface DataSource {
   id: string;

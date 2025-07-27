@@ -23,7 +23,7 @@ import { AqlMindCore } from './AqlMindCore';
 import { AIDecisionEngine } from './AIDecisionEngine';
 import { LearningEngine } from './LearningEngine';
 import { IntelligenceGatherer } from './IntelligenceGatherer';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 interface SystemAlert {

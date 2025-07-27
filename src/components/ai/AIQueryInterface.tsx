@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { useAICore } from '@/hooks/useAICore';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Brain, Send, Loader2, MessageCircle, TrendingUp, Users, BarChart3 } from 'lucide-react';
