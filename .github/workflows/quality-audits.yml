@@ -1,0 +1,246 @@
+name: AqlHR Quality Audits & Compliance
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 8 * * *' # Daily at 8 AM UTC
+
+jobs:
+  comprehensive-audit:
+    runs-on: ubuntu-latest
+    name: Comprehensive Audit Suite
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run AI Inventory Audit
+        id: ai-audit
+        run: |
+          echo "::group::AI Inventory Audit"
+          npm run audit:ai || echo "ai_audit_failed=true" >> $GITHUB_OUTPUT
+          echo "::endgroup::"
+        continue-on-error: true
+        
+      - name: Run Reliability Verification
+        id: reliability-check
+        run: |
+          echo "::group::Reliability Verification"
+          npm run verify:uptime || echo "reliability_failed=true" >> $GITHUB_OUTPUT
+          echo "::endgroup::"
+        continue-on-error: true
+        
+      - name: Run Locale Compliance Audit
+        id: locale-audit
+        run: |
+          echo "::group::Locale Compliance Audit" 
+          npm run audit:locale || echo "locale_audit_failed=true" >> $GITHUB_OUTPUT
+          echo "::endgroup::"
+        continue-on-error: true
+        
+      - name: Generate Comprehensive Report
+        run: |
+          echo "::group::Comprehensive Report Generation"
+          npm run audit:all
+          echo "::endgroup::"
+          
+      - name: Upload Audit Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: aqlhr-audit-reports-${{ github.sha }}
+          path: |
+            docs/*AUDIT*.md
+            docs/RELIABILITY_REPORT.md
+            ai-inventory.json
+          retention-days: 30
+          
+      - name: Create Status Badge
+        run: |
+          if [[ "${{ steps.ai-audit.outputs.ai_audit_failed }}" != "true" && \
+                "${{ steps.reliability-check.outputs.reliability_failed }}" != "true" && \
+                "${{ steps.locale-audit.outputs.locale_audit_failed }}" != "true" ]]; then
+            echo "AUDIT_STATUS=passing" >> $GITHUB_ENV
+            echo "BADGE_COLOR=brightgreen" >> $GITHUB_ENV
+          else
+            echo "AUDIT_STATUS=failing" >> $GITHUB_ENV  
+            echo "BADGE_COLOR=red" >> $GITHUB_ENV
+          fi
+          
+      - name: Comment PR with Audit Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read comprehensive report
+            let reportContent = '';
+            try {
+              reportContent = fs.readFileSync('docs/COMPREHENSIVE_AUDIT_REPORT.md', 'utf8');
+            } catch (error) {
+              reportContent = '❌ Could not generate comprehensive audit report';
+            }
+            
+            // Create comment body
+            const commentBody = `## 🤖 AqlHR Quality Audit Results
+            
+            **Status**: ${process.env.AUDIT_STATUS === 'passing' ? '✅ All Checks Passed' : '❌ Issues Detected'}
+            **Commit**: ${context.sha.substring(0, 7)}
+            **Branch**: ${context.ref}
+            
+            ### Quick Summary
+            - **AI Inventory**: ${'${{ steps.ai-audit.outputs.ai_audit_failed }}' !== 'true' ? '✅ Passed' : '❌ Failed'}
+            - **Reliability**: ${'${{ steps.reliability-check.outputs.reliability_failed }}' !== 'true' ? '✅ Passed' : '❌ Failed'}  
+            - **Locale Compliance**: ${'${{ steps.locale-audit.outputs.locale_audit_failed }}' !== 'true' ? '✅ Passed' : '❌ Failed'}
+            
+            <details>
+            <summary>📄 View Full Audit Report</summary>
+            
+            \`\`\`
+            ${reportContent.substring(0, 4000)}...
+            \`\`\`
+            
+            </details>
+            
+            **📁 Download**: [Complete Audit Reports](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            
+            ---
+            *Automated audit by AqlHR Quality Assurance System*`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
+            
+      - name: Fail job if any audit failed
+        if: steps.ai-audit.outputs.ai_audit_failed == 'true' || steps.reliability-check.outputs.reliability_failed == 'true' || steps.locale-audit.outputs.locale_audit_failed == 'true'
+        run: |
+          echo "❌ One or more audits failed. Check the logs above for details."
+          exit 1
+          
+      - name: Update README Badge
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Update README with audit status badge
+          sed -i 's/audit-status-[^-]*-[^)]*)/audit-status-${{ env.AUDIT_STATUS }}-${{ env.BADGE_COLOR }})/g' README.md || echo "Badge not found in README"
+
+  security-audit:
+    runs-on: ubuntu-latest
+    name: Security & Dependency Audit
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Run npm audit
+        run: |
+          echo "::group::NPM Security Audit"
+          npm audit --audit-level=moderate || echo "npm_audit_issues=true" >> $GITHUB_ENV
+          echo "::endgroup::"
+        continue-on-error: true
+        
+      - name: Check for vulnerable dependencies
+        run: |
+          echo "::group::Dependency Vulnerability Check"
+          npx audit-ci --moderate || echo "dependency_vulnerabilities=true" >> $GITHUB_ENV
+          echo "::endgroup::"
+        continue-on-error: true
+
+  performance-audit:
+    runs-on: ubuntu-latest
+    name: Performance & Load Testing
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build application
+        run: npm run build
+        
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun || echo "lighthouse_audit_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+  notify-teams:
+    needs: [comprehensive-audit, security-audit, performance-audit]
+    runs-on: ubuntu-latest
+    if: failure() && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Notify Slack on audit failure
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#aqlhr-alerts'
+          text: |
+            🚨 AqlHR Quality Audit Failed!
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            
+            Please check the audit reports and address issues immediately.
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
+      - name: Create GitHub Issue on repeated failures
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create issue if audits fail multiple times
+            const title = `🚨 AqlHR Quality Audit Failures - ${new Date().toISOString().split('T')[0]}`;
+            const body = `## Audit Failure Alert
+            
+            Multiple quality audits have failed for the main branch.
+            
+            **Commit**: ${context.sha}
+            **Workflow**: ${context.workflow}
+            **Run**: ${context.runNumber}
+            
+            ### Required Actions
+            1. Review audit reports from the workflow artifacts
+            2. Fix identified issues
+            3. Re-run audits to verify fixes
+            
+            ### Links
+            - [Workflow Run](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            - [Audit Reports](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})
+            
+            /cc @dev-team @product-team`;
+            
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['bug', 'audit-failure', 'high-priority']
+            });
