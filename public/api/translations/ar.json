@@ -157,7 +157,16 @@
     "digital_maturity": "النضج الرقمي",
     "process_automation": "أتمتة العمليات",
     "efficiency_gain": "مكاسب الكفاءة",
-    "roi_achievement": "تحقيق العائد على الاستثمار"
+    "roi_achievement": "تحقيق العائد على الاستثمار",
+    "benchmarking_analysis": "تحليل المقارنات المرجعية",
+    "benchmarking_analysis_desc": "مقارنات السوق والتحليل التنافسي",
+    "market_position": "المركز السوقي",
+    "peer_companies": "الشركات النظيرة",
+    "data_points": "نقاط البيانات",
+    "accuracy_score": "درجة الدقة",
+    "benchmarking_reports": "تقارير المقارنات المرجعية",
+    "benchmarks_tracked": "المؤشرات المتتبعة",
+    "improvement_areas": "مجالات التحسين"
   },
   "organization": {
     "structure": "الهيكل التنظيمي",

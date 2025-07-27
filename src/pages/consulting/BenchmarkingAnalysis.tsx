@@ -14,7 +14,7 @@ const BenchmarkingAnalysis = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Market Position</CardTitle>
+            <CardTitle>{t('consulting.market_position')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">Top 25%</div>
@@ -22,7 +22,7 @@ const BenchmarkingAnalysis = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Peer Companies</CardTitle>
+            <CardTitle>{t('consulting.peer_companies')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">156</div>
@@ -30,7 +30,7 @@ const BenchmarkingAnalysis = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Data Points</CardTitle>
+            <CardTitle>{t('consulting.data_points')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">2,847</div>
@@ -38,7 +38,7 @@ const BenchmarkingAnalysis = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Accuracy Score</CardTitle>
+            <CardTitle>{t('consulting.accuracy_score')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">96.8%</div>

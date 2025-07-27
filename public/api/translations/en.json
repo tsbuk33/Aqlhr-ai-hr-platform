@@ -151,7 +151,16 @@
     "digital_maturity": "Digital Maturity",
     "process_automation": "Process Automation",
     "efficiency_gain": "Efficiency Gain",
-    "roi_achievement": "ROI Achievement"
+    "roi_achievement": "ROI Achievement",
+    "benchmarking_analysis": "Benchmarking Analysis",
+    "benchmarking_analysis_desc": "Market comparison and competitive analysis",
+    "market_position": "Market Position",
+    "peer_companies": "Peer Companies",
+    "data_points": "Data Points",
+    "accuracy_score": "Accuracy Score",
+    "benchmarking_reports": "Benchmarking Reports",
+    "benchmarks_tracked": "Benchmarks Tracked",
+    "improvement_areas": "Improvement Areas"
   },
   "organization": {
     "structure": "Organization Structure",
