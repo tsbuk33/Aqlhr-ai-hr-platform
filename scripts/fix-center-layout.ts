@@ -201,33 +201,53 @@ class CenterLayoutFixer {
 
   private wrapWithCenteredLayout(element: JsxElement | JsxSelfClosingElement, isArabicFile: boolean, sourceFile: any): void {
     // Remove conflicting classes from the element first
-    this.removeConflictingClasses(element);
+    const classFix = this.removeConflictingClasses(element, isArabicFile);
     
-    // Get the element's content
+    // Preserve original formatting by getting the element structure
+    const elementStructure = element.getStructure();
     const elementText = element.getText();
     
-    // Create the wrapper
+    // Create the wrapper with proper AST handling
+    const indent = element.getIndentationText();
     const wrapperProps = isArabicFile ? ' className="rtl"' : '';
-    const wrappedElement = `<CenteredLayout${wrapperProps}>\n  ${elementText}\n</CenteredLayout>`;
+    const wrappedElement = `<CenteredLayout${wrapperProps}>\n${indent}  ${elementText}\n${indent}</CenteredLayout>`;
     
-    // Replace the element
+    // Replace the element while preserving comments and formatting
     element.replaceWithText(wrappedElement);
+    
+    // Track class changes for reporting
+    if (classFix) {
+      this.results.fixes.push({
+        filePath: sourceFile.getFilePath(),
+        lineNumber: element.getStartLineNumber(),
+        before: `className="${classFix.before}"`,
+        after: `className="${classFix.after}"`,
+        changeType: 'remove-conflicts'
+      });
+    }
   }
 
-  private removeConflictingClasses(element: JsxElement | JsxSelfClosingElement): void {
+  private removeConflictingClasses(element: JsxElement | JsxSelfClosingElement, isArabicFile: boolean): { before: string; after: string } | null {
     const className = this.getClassName(element);
-    if (!className) return;
+    if (!className) return null;
 
+    const originalClassName = className;
+    
     // Remove conflicting classes
     let newClassName = className;
     this.CONFLICTING_CLASSES.forEach(conflictClass => {
       newClassName = newClassName.replace(new RegExp(`\\b${conflictClass}\\b`, 'g'), '').trim();
     });
 
+    // Add text-center for RTL compliance
+    if (isArabicFile && !newClassName.includes('text-center')) {
+      newClassName = `${newClassName} text-center`.trim();
+    }
+
     // Clean up extra spaces
     newClassName = newClassName.replace(/\s+/g, ' ').trim();
     
-    if (newClassName !== className) {
+    if (newClassName !== originalClassName) {
       if (newClassName) {
         this.setClassName(element, newClassName);
       } else {
@@ -240,7 +260,14 @@ class CenterLayoutFixer {
           classNameAttr.remove();
         }
       }
+      
+      return {
+        before: originalClassName,
+        after: newClassName || '(removed)'
+      };
     }
+    
+    return null;
   }
 
   private getTagName(element: JsxElement | JsxSelfClosingElement): string {

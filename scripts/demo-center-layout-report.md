@@ -28,14 +28,17 @@ The `fix-center-layout.ts` CLI tool automatically:
 ```tsx
 import CenteredLayout from '@/components/layout/CenteredLayout';
 
-<CenteredLayout>
-  <div className="page-wrapper">
-    <main className="dashboard-container">
-      <h1 className="text-2xl font-bold mb-4">Employee Dashboard</h1>
-      // ... content  
-    </main>
-  </div>
-</CenteredLayout>
+const DashboardPage = () => {
+  return (
+    <CenteredLayout title="Dashboard" description="Welcome to your dashboard">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <MetricCard title="Total Employees" value="1,234" />
+        <MetricCard title="Active Projects" value="56" />
+        <MetricCard title="Monthly Growth" value="12%" />
+      </div>
+    </CenteredLayout>
+  );
+};
 ```
 
 ### Arabic Payroll Page (Before)
