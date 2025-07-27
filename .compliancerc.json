@@ -1,0 +1,57 @@
+{
+  "checks": {
+    "i18n": {
+      "enabled": true,
+      "enforceTranslationKeys": true,
+      "validateLocaleSync": true,
+      "detectMixedLanguages": true
+    },
+    "layout": {
+      "enabled": true,
+      "enforceCenteredLayout": true,
+      "removeConflictingClasses": true,
+      "normalizePageWidth": true
+    },
+    "theming": {
+      "enabled": true,
+      "validateContrast": true,
+      "wcagLevel": "AA",
+      "autoFixContrast": true
+    },
+    "accessibility": {
+      "enabled": true,
+      "runAxeChecks": true,
+      "autoFixSimple": true,
+      "reportComplex": true
+    },
+    "codeQuality": {
+      "enabled": true,
+      "runESLint": true,
+      "runPrettier": true,
+      "enforceTyping": true
+    },
+    "performance": {
+      "enabled": true,
+      "detectLargeImports": true,
+      "runLighthouse": false,
+      "suggestCodeSplitting": true
+    },
+    "security": {
+      "enabled": true,
+      "runAudit": true,
+      "autoUpgrade": false,
+      "reportVulnerabilities": true
+    }
+  },
+  "paths": {
+    "src": "src/",
+    "translations": "public/api/translations/",
+    "reports": "artifacts/"
+  },
+  "excludePatterns": [
+    "**/*.test.{ts,tsx}",
+    "**/*.spec.{ts,tsx}",
+    "**/node_modules/**",
+    "**/dist/**"
+  ]
+}
