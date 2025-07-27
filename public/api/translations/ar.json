@@ -153,7 +153,11 @@
     "achievement_rate": "معدل الإنجاز",
     "planning_horizon": "أفق التخطيط",
     "strategic_roi": "العائد الاستراتيجي على الاستثمار",
-    "years_value": "سنوات"
+    "years_value": "سنوات",
+    "digital_maturity": "النضج الرقمي",
+    "process_automation": "أتمتة العمليات",
+    "efficiency_gain": "مكاسب الكفاءة",
+    "roi_achievement": "تحقيق العائد على الاستثمار"
   },
   "organization": {
     "structure": "الهيكل التنظيمي",

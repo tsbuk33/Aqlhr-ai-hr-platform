@@ -14,7 +14,7 @@ const DigitalTransformation = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Digital Maturity</CardTitle>
+            <CardTitle>{t('consulting.digital_maturity')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">8.2/10</div>
@@ -22,7 +22,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Process Automation</CardTitle>
+            <CardTitle>{t('consulting.process_automation')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">89%</div>
@@ -30,7 +30,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Efficiency Gain</CardTitle>
+            <CardTitle>{t('consulting.efficiency_gain')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">+67%</div>
@@ -38,7 +38,7 @@ const DigitalTransformation = () => {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>ROI Achievement</CardTitle>
+            <CardTitle>{t('consulting.roi_achievement')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold text-foreground">280%</div>
