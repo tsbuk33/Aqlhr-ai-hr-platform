@@ -219,6 +219,9 @@ const Help = lazy(() => import('../pages/Help'));
 // Welfare Consultancy module
 const WelfareConsultancy = lazy(() => import('../pages/WelfareConsultancy'));
 
+// ESG-HR module
+const EsgHrPage = lazy(() => import('../pages/esg-hr'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -434,6 +437,9 @@ export const ROUTES: RouteConfig[] = [
   // LEO & GEO Advanced Modules - auth required
   { path: '/leo', element: LearningExperienceOptimization, auth: true },
   { path: '/geo', element: GenerativeEngagementOptimization, auth: true },
+  
+  // ESG-HR Module - auth required
+  { path: '/esg-hr', element: EsgHrPage, auth: true },
   
   // Executive Intelligence Center - admin only
   { path: '/executive-center', element: ExecutiveCenter, auth: true, adminOnly: true },

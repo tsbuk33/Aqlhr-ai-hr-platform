@@ -272,5 +272,32 @@
      "training": "Training",
      "system": "System",
      "training_dept": "Training Dept"
+   },
+   "esgHr": {
+     "pageTitle": "ESG and HR",
+     "pageDescription": "Environmental, Social, and Governance integration with Human Resources management",
+     "environmental": "Environmental",
+     "social": "Social",
+     "governance": "Governance",
+     "envBullets": [
+       "Climate adaptive practices",
+       "Responsible operations",
+       "Resource management",
+       "Sustainable workplaces"
+     ],
+     "socialBullets": [
+       "Employee wellbeing programs",
+       "Diversity and inclusion",
+       "Community engagement",
+       "Fair labor practices"
+     ],
+     "governanceBullets": [
+       "Ethical leadership",
+       "Transparent reporting",
+       "Risk management",
+       "Regulatory compliance"
+     ],
+     "integrationTitle": "Integrated ESG-HR Platform",
+     "integrationDescription": "Seamlessly combining environmental responsibility, social impact, and governance excellence with comprehensive HR management for sustainable business success."
    }
 }
