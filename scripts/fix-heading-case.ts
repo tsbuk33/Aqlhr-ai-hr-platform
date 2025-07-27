@@ -16,11 +16,91 @@ interface CaseRule {
   pattern: RegExp;
   type: 'module' | 'submodule' | 'tool' | 'sub-tool';
   transformer: (text: string) => string;
+  description: string;
+}
+
+interface ScanConfig {
+  paths: string[];
+  extensions: string[];
+  excludePatterns: string[];
+}
+
+interface ClassificationConfig {
+  module: {
+    description: string;
+    patterns: RegExp[];
+    transformer: (text: string) => string;
+  };
+  tool: {
+    description: string;
+    patterns: RegExp[];
+    transformer: (text: string) => string;
+  };
+  subTool: {
+    description: string;
+    patterns: RegExp[];
+    transformer: (text: string) => string;
+  };
+  submodule: {
+    description: string;
+    patterns: RegExp[];
+    transformer: (text: string) => string;
+  };
 }
 
 class HeadingCaseFixer {
   private project: Project;
   private changes: Change[] = [];
+  private errors: { file: string; error: string }[] = [];
+  private skippedFiles: string[] = [];
+
+  // Configuration for scanning
+  private scanConfig: ScanConfig = {
+    paths: [
+      'src/pages/**/*.{tsx,jsx}',
+      'src/components/**/*.{tsx,jsx}',
+      'src/modules/**/*.{tsx,jsx}',
+      'src/features/**/*.{tsx,jsx}',
+      'src/layouts/**/*.{tsx,jsx}'
+    ],
+    extensions: ['tsx', 'jsx'],
+    excludePatterns: ['node_modules/**', 'dist/**', 'build/**', '**/*.test.*', '**/*.spec.*']
+  };
+
+  // Classification rules configuration
+  private classificationConfig: ClassificationConfig = {
+    module: {
+      description: 'Main system/module names → Title Case',
+      patterns: [
+        /^(Core HR|Analytics|Government|Payroll|Strategic|Consulting|AI Features|Health Safety|Legal Consultant|Organization|Self Service|Tools|Documents|Employees|Help|About|ISO Management|NRC Management|Welfare Consultancy|Processes And Forms|Executive Intelligence|System Engineer)/i,
+        /^(employee data export|payroll system|hr management|analytics dashboard)/i
+      ],
+      transformer: this.toTitleCase
+    },
+    tool: {
+      description: 'Tools/Engines/Systems → UPPERCASE',
+      patterns: [
+        /(TOOL|ENGINE|PROCESSOR|ANALYZER|GENERATOR|CALCULATOR|MANAGER|DASHBOARD|SYSTEM|PLATFORM|INTEGRATION)$/i,
+        /^(data export tool|ai analyzer|report generator|sync engine)/i
+      ],
+      transformer: this.toUpperCase
+    },
+    subTool: {
+      description: 'Utility functions/helpers → lowercase',
+      patterns: [
+        /(parser|validator|formatter|converter|helper|utility|handler|processor)$/i,
+        /^(data parser|file converter|validation helper)/i
+      ],
+      transformer: this.toLowerCase
+    },
+    submodule: {
+      description: 'Features/submodules → Sentence case',
+      patterns: [
+        /^[a-zA-Z\s_-]+$/
+      ],
+      transformer: this.toSentenceCase
+    }
+  };
 
   constructor() {
     this.project = new Project({
@@ -47,51 +127,29 @@ class HeadingCaseFixer {
     return str.toLowerCase();
   }
 
-  // Classification rules for different heading types
-  private getCaseRules(): CaseRule[] {
-    return [
-      // Module patterns (Title Case)
-      {
-        pattern: /^(Core HR|Analytics|Government|Payroll|Strategic|Consulting|AI Features|Health Safety|Legal Consultant|Organization|Self Service|Tools|Documents|Employees|Help|About|ISOManagement|NRCManagement|WelfareConsultancy|ProcessesAndForms|NotFound|Index|TestHarness|SystemEngineer|ExecutiveIntelligenceCenter)/i,
-        type: 'module',
-        transformer: this.toTitleCase
-      },
-      // Tool patterns (UPPERCASE) - keywords that indicate tools
-      {
-        pattern: /(TOOL|ENGINE|PROCESSOR|ANALYZER|GENERATOR|CALCULATOR|MANAGER|DASHBOARD|SYSTEM|PLATFORM|INTEGRATION)/i,
-        type: 'tool',
-        transformer: this.toUpperCase
-      },
-      // Sub-tool patterns (lowercase) - utility functions
-      {
-        pattern: /(parser|validator|formatter|converter|helper|utility|handler|processor)/i,
-        type: 'sub-tool',
-        transformer: this.toLowerCase
-      },
-      // Submodule patterns (Sentence case) - everything else that looks like a feature
-      {
-        pattern: /^[a-zA-Z\s]+$/,
-        type: 'submodule',
-        transformer: this.toSentenceCase
-      }
-    ];
-  }
-
   private classifyAndTransform(text: string): { type: 'module' | 'submodule' | 'tool' | 'sub-tool'; transformed: string } | null {
     const cleanText = text.replace(/[_-]/g, ' ').trim();
     
     // Skip if already properly formatted or too short
     if (cleanText.length < 3) return null;
 
-    const rules = this.getCaseRules();
+    // Check each classification type in priority order
+    const classifications = [
+      { key: 'module', config: this.classificationConfig.module, type: 'module' as const },
+      { key: 'tool', config: this.classificationConfig.tool, type: 'tool' as const },
+      { key: 'subTool', config: this.classificationConfig.subTool, type: 'sub-tool' as const },
+      { key: 'submodule', config: this.classificationConfig.submodule, type: 'submodule' as const }
+    ];
     
-    for (const rule of rules) {
-      if (rule.pattern.test(cleanText)) {
-        const transformed = rule.transformer(cleanText);
-        if (transformed !== text) {
-          return { type: rule.type, transformed };
+    for (const { config, type } of classifications) {
+      for (const pattern of config.patterns) {
+        if (pattern.test(cleanText)) {
+          const transformed = config.transformer.call(this, cleanText);
+          if (transformed !== text) {
+            return { type, transformed };
+          }
+          return null; // Already properly formatted
         }
-        break;
       }
     }
     
@@ -165,50 +223,90 @@ class HeadingCaseFixer {
     }
   }
 
-  private processFile(filePath: string): void {
-    console.log(`Processing: ${filePath}`);
-    
-    const sourceFile = this.project.addSourceFileAtPath(filePath);
-    
-    sourceFile.forEachDescendant((node) => {
-      // Process JSX text content
-      this.processJsxText(node, filePath);
+  private processFile(filePath: string): boolean {
+    try {
+      console.log(`Processing: ${filePath}`);
       
-      // Process JSX attributes (title, name, etc.)
-      this.processJsxAttribute(node, filePath);
+      const sourceFile = this.project.addSourceFileAtPath(filePath);
       
-      // Process string literals in general
-      this.processStringLiteral(node, filePath);
-      
-      // Process template literals and other text nodes
-      if (Node.isTemplateExpression(node) || Node.isNoSubstitutionTemplateLiteral(node)) {
-        // Handle template literals if needed
-      }
-    });
+      sourceFile.forEachDescendant((node) => {
+        try {
+          // Process JSX text content
+          this.processJsxText(node, filePath);
+          
+          // Process JSX attributes (title, name, etc.)
+          this.processJsxAttribute(node, filePath);
+          
+          // Process string literals in general
+          this.processStringLiteral(node, filePath);
+        } catch (nodeError) {
+          console.warn(`⚠️  Error processing node in ${filePath}: ${nodeError}`);
+        }
+      });
 
-    sourceFile.saveSync();
+      sourceFile.saveSync();
+      return true;
+    } catch (error) {
+      this.errors.push({
+        file: filePath,
+        error: error instanceof Error ? error.message : String(error)
+      });
+      this.skippedFiles.push(filePath);
+      console.warn(`⚠️  Skipping ${filePath}: ${error}`);
+      return false;
+    }
   }
 
   public async run(): Promise<void> {
+    console.log('🚀 AqlHR Heading Case Fixer');
+    console.log('==========================\n');
     console.log('🔍 Scanning for React files...');
     
-    // Find all .tsx and .jsx files in src/pages and src/components
-    const patterns = [
-      'src/pages/**/*.{tsx,jsx}',
-      'src/components/**/*.{tsx,jsx}'
-    ];
-
+    // Display scan configuration
+    console.log('📂 Scan paths:');
+    this.scanConfig.paths.forEach(path => console.log(`  - ${path}`));
+    
+    // Find all files using the scan configuration
     let allFiles: string[] = [];
-    for (const pattern of patterns) {
-      const files = await glob(pattern, { ignore: ['node_modules/**', 'dist/**'] });
-      allFiles = allFiles.concat(files);
+    for (const pattern of this.scanConfig.paths) {
+      try {
+        const files = await glob(pattern, { ignore: this.scanConfig.excludePatterns });
+        allFiles = allFiles.concat(files);
+      } catch (error) {
+        console.warn(`⚠️  Error scanning pattern ${pattern}: ${error}`);
+      }
     }
+
+    // Remove duplicates
+    allFiles = [...new Set(allFiles)];
 
     console.log(`📁 Found ${allFiles.length} files to process`);
 
-    // Process each file
+    if (allFiles.length === 0) {
+      console.log('❌ No files found to process. Check your paths and file patterns.');
+      return;
+    }
+
+    // Display classification rules
+    console.log('\n🏷️  Classification Rules:');
+    Object.entries(this.classificationConfig).forEach(([key, config]) => {
+      console.log(`  ${key}: ${config.description}`);
+    });
+
+    console.log('\n🔄 Processing files...');
+    
+    // Process each file with error handling
+    let successCount = 0;
     for (const file of allFiles) {
-      this.processFile(path.resolve(file));
+      if (this.processFile(path.resolve(file))) {
+        successCount++;
+      }
+    }
+
+    console.log(`\n✅ Successfully processed ${successCount}/${allFiles.length} files`);
+    
+    if (this.skippedFiles.length > 0) {
+      console.log(`⚠️  Skipped ${this.skippedFiles.length} files due to errors`);
     }
 
     // Report results
@@ -221,6 +319,7 @@ class HeadingCaseFixer {
 
     if (this.changes.length === 0) {
       console.log('✅ No changes needed - all headings are already properly formatted!');
+      console.log('ℹ️  Note: Running this script again will produce the same result (idempotent)');
       return;
     }
 
@@ -243,6 +342,16 @@ class HeadingCaseFixer {
 
     console.log(`\n🎉 Total changes applied: ${this.changes.length}`);
     console.log('💾 All files have been updated in place');
+    
+    // Report any errors
+    if (this.errors.length > 0) {
+      console.log('\n⚠️  ERRORS ENCOUNTERED:');
+      this.errors.forEach(({ file, error }) => {
+        console.log(`  ❌ ${file}: ${error}`);
+      });
+    }
+    
+    console.log('\nℹ️  Note: This script is idempotent - running it again will make no further changes');
   }
 }
 
