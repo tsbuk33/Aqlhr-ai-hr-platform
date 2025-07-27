@@ -23,6 +23,16 @@ export default {
 				'screen-2xl': '1400px',
 			},
 			colors: {
+				// High contrast color system for WCAG AA compliance
+				'color-primary': 'hsl(var(--color-primary))',
+				'color-secondary': 'hsl(var(--color-secondary))',
+				'color-muted': 'hsl(var(--color-muted))',
+				'color-accent': 'hsl(var(--color-accent))',
+				'color-success': 'hsl(var(--color-success))',
+				'color-warning': 'hsl(var(--color-warning))',
+				'color-error': 'hsl(var(--color-error))',
+				
+				// Existing design system colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
