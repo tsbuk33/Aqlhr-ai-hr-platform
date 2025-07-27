@@ -142,7 +142,16 @@
     "culture_transformation": "Culture Transformation",
     "culture_transformation_desc": "Organizational culture change and development",
     "change_management": "Change Management",
-    "change_management_desc": "Strategic change management and implementation"
+    "change_management_desc": "Strategic change management and implementation",
+    "strategic_goals": "Strategic Goals",
+    "achievement_rate": "Achievement Rate", 
+    "planning_horizon": "Planning Horizon",
+    "strategic_roi": "Strategic ROI",
+    "years_value": "Years",
+    "digital_maturity": "Digital Maturity",
+    "process_automation": "Process Automation",
+    "efficiency_gain": "Efficiency Gain",
+    "roi_achievement": "ROI Achievement"
   },
   "organization": {
     "structure": "Organization Structure",
