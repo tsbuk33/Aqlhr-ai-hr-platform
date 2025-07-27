@@ -238,7 +238,7 @@ const Analytics = () => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{language === 'ar' ? 'مولد التقارير' : 'Report Generator'}</CardTitle>
+              <CardTitle>{language === 'ar' ? 'مولد التقارير' : 'REPORT GENERATOR'}</CardTitle>
               <CardDescription>
                 {language === 'ar' ? 'إنشاء تقارير مخصصة للتحليلات' : 'Generate custom analytics reports'}
               </CardDescription>

@@ -1495,19 +1495,19 @@ const EmployeeMasterData = () => {
 
   const documents = [
     {
-      name: language === 'ar' ? 'كشف_بيانات_الموظفين_ديسمبر_2024.xlsx' : 'employee_data_export_december_2024.xlsx',
+      name: language === 'ar' ? 'كشف_بيانات_الموظفين_ديسمبر_2024.xlsx' : 'Employee Data Export December 2024.xlsx',
       type: language === 'ar' ? 'جدول بيانات' : 'Spreadsheet',
       date: '2024-12-30',
       size: '2.4 MB'
     },
     {
-      name: language === 'ar' ? 'تقرير_البيانات_الناقصة.pdf' : 'incomplete_data_report.pdf',
+      name: language === 'ar' ? 'تقرير_البيانات_الناقصة.pdf' : 'Incomplete Data Report.pdf',
       type: language === 'ar' ? 'تقرير' : 'Report',
       date: '2024-12-28',
       size: '890 KB'
     },
     {
-      name: language === 'ar' ? 'قالب_بيانات_الموظف_الجديد.docx' : 'new_employee_data_template.docx',
+      name: language === 'ar' ? 'قالب_بيانات_الموظف_الجديد.docx' : 'New Employee Data Template.docx',
       type: language === 'ar' ? 'قالب' : 'Template',
       date: '2024-12-20',
       size: '245 KB'
