@@ -1,6 +1,15 @@
 {
   "lastUpdated": "2025-01-27T22:15:00.000Z",
   "version": "1.0.0",
+  "manifestSchema": "2.0",
+  "bumpHistory": [
+    {
+      "version": "1.0.0", 
+      "date": "2025-01-27T22:15:00.000Z",
+      "changes": "Initial audit system implementation",
+      "author": "automated"
+    }
+  ],
   "expectedCounts": {
     "edgeFunctions": 25,
     "aiComponents": 50,

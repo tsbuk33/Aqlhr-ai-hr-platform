@@ -18,17 +18,25 @@ interface ReliabilityMetrics {
 
 interface SLATargets {
   uptimeTarget: number; // 99.97%
+  uptimeWarning: number; // 99.9%
   responseTimeTarget: number; // 2000ms
+  responseTimeWarning: number; // 1500ms
   errorRateTarget: number; // 0.1%
+  errorRateWarning: number; // 0.05%
   throughputTarget: number; // 1000 req/min
+  throughputWarning: number; // 800 req/min
 }
 
 class ReliabilityVerifier {
   private targets: SLATargets = {
     uptimeTarget: 99.97,
+    uptimeWarning: 99.9,
     responseTimeTarget: 2000,
+    responseTimeWarning: 1500,
     errorRateTarget: 0.1,
-    throughputTarget: 1000
+    errorRateWarning: 0.05,
+    throughputTarget: 1000,
+    throughputWarning: 800
   };
 
   async fetchMetricsFromSupabase(): Promise<ReliabilityMetrics> {
@@ -79,32 +87,75 @@ class ReliabilityVerifier {
     };
   }
 
-  validateMetrics(metrics: ReliabilityMetrics): boolean {
+  validateMetrics(metrics: ReliabilityMetrics): { passed: boolean; warnings: boolean; results: any } {
     console.log(chalk.blue.bold('\n🎯 Validating against SLA Targets:\n'));
 
     let allPassed = true;
+    let hasWarnings = false;
+    const results = {
+      uptime: { value: metrics.uptime, status: 'pass', grade: 'A' },
+      responseTime: { value: metrics.responseTime, status: 'pass', grade: 'A' },
+      errorRate: { value: metrics.errorRate, status: 'pass', grade: 'A' },
+      throughput: { value: metrics.throughput, status: 'pass', grade: 'A' }
+    };
 
-    // Uptime Check
+    // Uptime Check with grading
     const uptimePassed = metrics.uptime >= this.targets.uptimeTarget;
-    console.log(`Uptime: ${metrics.uptime.toFixed(3)}% ${uptimePassed ? chalk.green('✓') : chalk.red('✗')} (target: ${this.targets.uptimeTarget}%)`);
-    if (!uptimePassed) allPassed = false;
+    const uptimeWarning = metrics.uptime < this.targets.uptimeWarning;
+    if (!uptimePassed) {
+      allPassed = false;
+      results.uptime.status = 'fail';
+      results.uptime.grade = 'F';
+    } else if (uptimeWarning) {
+      hasWarnings = true;
+      results.uptime.status = 'warning';
+      results.uptime.grade = 'C';
+    }
+    console.log(`Uptime: ${metrics.uptime.toFixed(3)}% ${uptimePassed ? (uptimeWarning ? chalk.yellow('⚠') : chalk.green('✓')) : chalk.red('✗')} (target: ${this.targets.uptimeTarget}%, warning: ${this.targets.uptimeWarning}%)`);
 
-    // Response Time Check
+    // Response Time Check with grading
     const responseTimePassed = metrics.responseTime <= this.targets.responseTimeTarget;
-    console.log(`Response Time: ${metrics.responseTime.toFixed(0)}ms ${responseTimePassed ? chalk.green('✓') : chalk.red('✗')} (target: ≤${this.targets.responseTimeTarget}ms)`);
-    if (!responseTimePassed) allPassed = false;
+    const responseTimeWarning = metrics.responseTime > this.targets.responseTimeWarning;
+    if (!responseTimePassed) {
+      allPassed = false;
+      results.responseTime.status = 'fail';
+      results.responseTime.grade = 'F';
+    } else if (responseTimeWarning) {
+      hasWarnings = true;
+      results.responseTime.status = 'warning';
+      results.responseTime.grade = 'C';
+    }
+    console.log(`Response Time: ${metrics.responseTime.toFixed(0)}ms ${responseTimePassed ? (responseTimeWarning ? chalk.yellow('⚠') : chalk.green('✓')) : chalk.red('✗')} (target: ≤${this.targets.responseTimeTarget}ms, warning: ≥${this.targets.responseTimeWarning}ms)`);
 
-    // Error Rate Check
+    // Error Rate Check with grading
     const errorRatePassed = metrics.errorRate <= this.targets.errorRateTarget;
-    console.log(`Error Rate: ${metrics.errorRate.toFixed(3)}% ${errorRatePassed ? chalk.green('✓') : chalk.red('✗')} (target: ≤${this.targets.errorRateTarget}%)`);
-    if (!errorRatePassed) allPassed = false;
+    const errorRateWarning = metrics.errorRate > this.targets.errorRateWarning;
+    if (!errorRatePassed) {
+      allPassed = false;
+      results.errorRate.status = 'fail';
+      results.errorRate.grade = 'F';
+    } else if (errorRateWarning) {
+      hasWarnings = true;
+      results.errorRate.status = 'warning';
+      results.errorRate.grade = 'C';
+    }
+    console.log(`Error Rate: ${metrics.errorRate.toFixed(3)}% ${errorRatePassed ? (errorRateWarning ? chalk.yellow('⚠') : chalk.green('✓')) : chalk.red('✗')} (target: ≤${this.targets.errorRateTarget}%, warning: ≥${this.targets.errorRateWarning}%)`);
 
-    // Throughput Check
+    // Throughput Check with grading
     const throughputPassed = metrics.throughput >= this.targets.throughputTarget;
-    console.log(`Throughput: ${metrics.throughput.toFixed(0)} req/min ${throughputPassed ? chalk.green('✓') : chalk.red('✗')} (target: ≥${this.targets.throughputTarget} req/min)`);
-    if (!throughputPassed) allPassed = false;
+    const throughputWarning = metrics.throughput < this.targets.throughputWarning;
+    if (!throughputPassed) {
+      allPassed = false;
+      results.throughput.status = 'fail';
+      results.throughput.grade = 'F';
+    } else if (throughputWarning) {
+      hasWarnings = true;
+      results.throughput.status = 'warning';
+      results.throughput.grade = 'C';
+    }
+    console.log(`Throughput: ${metrics.throughput.toFixed(0)} req/min ${throughputPassed ? (throughputWarning ? chalk.yellow('⚠') : chalk.green('✓')) : chalk.red('✗')} (target: ≥${this.targets.throughputTarget} req/min, warning: ≤${this.targets.throughputWarning} req/min)`);
 
-    return allPassed;
+    return { passed: allPassed, warnings: hasWarnings, results };
   }
 
   calculateAvailabilityScore(metrics: ReliabilityMetrics): number {
@@ -184,8 +235,19 @@ ${passed ?
       return false;
     }
 
-    const passed = this.validateMetrics(metrics);
-    await this.generateReliabilityReport(metrics, passed);
+    const validation = this.validateMetrics(metrics);
+    await this.generateReliabilityReport(metrics, validation.passed);
+    
+    // Export results as JSON for CI artifacts
+    const resultsData = {
+      timestamp: new Date().toISOString(),
+      source,
+      metrics,
+      validation,
+      availabilityScore: this.calculateAvailabilityScore(metrics)
+    };
+    await fs.writeFile('reliability-results.json', JSON.stringify(resultsData, null, 2));
+    console.log(chalk.blue('📁 Exported results: reliability-results.json'));
 
     // Summary
     const availabilityScore = this.calculateAvailabilityScore(metrics);
@@ -212,7 +274,7 @@ ${passed ?
       console.log(chalk.green('\n✅ All SLA targets met! System operating within acceptable parameters.'));
     }
 
-    return passed;
+    return validation.passed;
   }
 }
 
