@@ -1,16 +1,18 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { PageLayout } from "@/components/layout/PageLayout";
 
 const SmartKPITool = () => {
+  const { t } = useAPITranslations();
+
   return (
     <PageLayout
-      title="Smart KPI Tool"
-      description="Advanced KPI management and analytics tool"
+      title={t('additional.smart_kpi_tool')}
+      description={t('additional.smart_kpi_desc')}
     >
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Smart KPI & Performance Agreement Tool</h1>
-        <p className="text-muted-foreground">Mutual employee-manager goal setting and tracking</p>
+        <h1 className="text-3xl font-bold text-foreground">{t('additional.smart_kpi_tool')}</h1>
+        <p className="text-muted-foreground">{t('additional.smart_kpi_desc')}</p>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
