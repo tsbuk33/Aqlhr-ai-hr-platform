@@ -8,6 +8,7 @@ import AIRecommendationCard from "@/components/AIRecommendationCard";
 import { useAIRecommendations } from "@/hooks/useAIRecommendations";
 import EduBox from "@/components/EduBox";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { ModuleAIChat, ModuleDocumentUploader } from '@/components/universal';
 
 const AIFeatures = () => {
   const { language } = useLanguage();
@@ -23,7 +24,18 @@ const AIFeatures = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+    <>
+      {/* Document Upload Panel */}
+      <div className="mb-6">
+        <ModuleDocumentUploader 
+          moduleKey="aIFeatures"
+          maxFiles={5}
+          maxSize={10 * 1024 * 1024}
+          acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']}
+        />
+      </div>
+
+      <div className="container mx-auto p-6 space-y-6 max-w-6xl">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-foreground flex items-center justify-center gap-3 mb-4">
           <Brain className="h-8 w-8 text-brand-primary" />
@@ -150,7 +162,20 @@ const AIFeatures = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+
+      {/* AI Assistant Panel */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <ModuleAIChat 
+          moduleKey="aIFeatures"
+          context={{
+            moduleName: "aIFeatures",
+            currentData: {}
+          }}
+          className="w-80 h-96 shadow-2xl rounded-lg"
+        />
+      </div>
+    </>
   );
 };
 
