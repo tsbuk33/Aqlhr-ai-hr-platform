@@ -644,6 +644,9 @@ ${securityNotice}`;
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={isArabic ? 'اكتب رسالتك لمساعد عقل HR...' : 'Type your message to AqlHR Assistant...'}
               className="flex-1 min-h-[60px] resize-none text-sm"
+              spellCheck={true}
+              lang={isArabic ? 'ar' : 'en'}
+              dir={isArabic ? 'rtl' : 'ltr'}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
