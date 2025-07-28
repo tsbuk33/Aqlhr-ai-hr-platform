@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import ModuleAIChat from '@/components/universal/ModuleAIChat';
 
 const OrganizationalDevelopment = () => {
   return (
@@ -42,6 +44,9 @@ const OrganizationalDevelopment = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="strategic.organizationalDevelopment" />
+      <ModuleAIChat moduleKey="strategic.organizationalDevelopment" />
     </div>
   );
 };

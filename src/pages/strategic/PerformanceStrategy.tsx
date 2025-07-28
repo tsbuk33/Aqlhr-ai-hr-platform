@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import ModuleAIChat from '@/components/universal/ModuleAIChat';
 
 const PerformanceStrategy = () => {
   return (
@@ -42,6 +44,9 @@ const PerformanceStrategy = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="strategic.performanceStrategy" />
+      <ModuleAIChat moduleKey="strategic.performanceStrategy" />
     </div>
   );
 };
