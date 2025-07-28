@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 
 import fs from 'fs';
-import { glob } from 'glob';
+import glob from 'glob';
 
 interface TestResult {
   file: string;
