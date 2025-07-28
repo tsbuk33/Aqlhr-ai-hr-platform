@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import ModuleAIChat from '@/components/universal/ModuleAIChat';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const LeadershipDevelopment = () => {
   return (
@@ -46,7 +46,7 @@ const LeadershipDevelopment = () => {
       </div>
       
       <ModuleDocumentUploader moduleKey="strategic.leadershipDevelopment" />
-      <ModuleAIChat moduleKey="strategic.leadershipDevelopment" />
+      <AqlHRAIAssistant moduleContext="strategic.leadershipDevelopment" />
     </div>
   );
 };

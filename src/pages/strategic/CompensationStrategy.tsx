@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import ModuleAIChat from '@/components/universal/ModuleAIChat';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const CompensationStrategy = () => {
   return (
@@ -46,7 +46,7 @@ const CompensationStrategy = () => {
       </div>
       
       <ModuleDocumentUploader moduleKey="strategic.compensationStrategy" />
-      <ModuleAIChat moduleKey="strategic.compensationStrategy" />
+      <AqlHRAIAssistant moduleContext="strategic.compensationStrategy" />
     </div>
   );
 };
