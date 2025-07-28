@@ -6,6 +6,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Employees = () => {
   const { language } = useLanguage();
@@ -138,6 +139,11 @@ const Employees = () => {
         moduleContext="employees"
         companyId="demo-company"
         currentPageData={{ totalEmployees: 2847, saudizationRate: 67.2 }}
+      />
+
+      <AqlHRAIAssistant 
+        moduleContext="employees" 
+        companyId="demo-company"
       />
     </div>
   );

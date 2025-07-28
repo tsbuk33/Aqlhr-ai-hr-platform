@@ -6,6 +6,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { 
   useRegions, 
   useCities, 
@@ -400,6 +401,11 @@ const Government = () => {
         moduleContext="government"
         companyId="demo-company"
         currentPageData={{ connectedPlatforms: 8, complianceScore: 98.9 }}
+      />
+
+      <AqlHRAIAssistant 
+        moduleContext="government" 
+        companyId="demo-company"
       />
     </div>
   );

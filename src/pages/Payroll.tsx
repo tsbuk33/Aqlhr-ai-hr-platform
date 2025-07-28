@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { 
   DollarSign,
   Users, 
@@ -377,19 +378,26 @@ const Payroll = () => {
   );
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'الرواتب والشؤون المالية' : 'Payroll & Financial'}
-      description={language === 'ar' ? 'معالجة WPS والتأمينات الاجتماعية' : 'WPS processing and GOSI integration'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-      headerActions={headerActions}
-      onUpload={handleFileProcessed}
-    />
+    <div className="space-y-6">
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'الرواتب والشؤون المالية' : 'Payroll & Financial'}
+        description={language === 'ar' ? 'معالجة WPS والتأمينات الاجتماعية' : 'WPS processing and GOSI integration'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+        headerActions={headerActions}
+        onUpload={handleFileProcessed}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="payroll" 
+        companyId="demo-company"
+      />
+    </div>
   );
 };
 
