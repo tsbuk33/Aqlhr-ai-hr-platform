@@ -60,7 +60,7 @@ class AIChatPresenceTest {
   async run(): Promise<void> {
     console.log('🧪 Testing AI Chat Presence...\n');
 
-    const pageFiles = await glob('src/pages/**/*.{tsx,jsx}', {
+    const pageFiles = glob.sync('src/pages/**/*.{tsx,jsx}', {
       ignore: ['**/*.test.*', '**/*.spec.*', '**/test/**', '**/tests/**']
     });
 
