@@ -36,16 +36,21 @@ class AIChatPresenceTest {
       const content = fs.readFileSync(filePath, 'utf-8');
       const moduleKey = this.generateModuleKey(filePath);
       
-      const hasAIChat = content.includes('ModuleAIChat') || content.includes('EnhancedModuleAIChat');
-      const hasDocumentUploader = content.includes('ModuleDocumentUploader');
-      const hasCorrectModuleKey = content.includes(`moduleKey="${moduleKey}"`);
+      // More robust checking with regex patterns
+      const aiChatPattern = /(<ModuleAIChat|<EnhancedModuleAIChat)/;
+      const docUploaderPattern = /<ModuleDocumentUploader/;
+      const moduleKeyPattern = new RegExp(`moduleKey\\s*=\\s*["']${moduleKey}["']`);
+      
+      const hasAIChat = aiChatPattern.test(content);
+      const hasDocumentUploader = docUploaderPattern.test(content);
+      const hasCorrectModuleKey = moduleKeyPattern.test(content);
 
       this.results.push({
         file: filePath,
         moduleKey,
         hasAIChat,
         hasDocumentUploader,
-        hasCorrectModuleKey
+        hasCorrectModuleKey: hasAIChat ? hasCorrectModuleKey : true // Only check module key if AI chat exists
       });
     } catch (error) {
       console.error(`Error testing file ${filePath}:`, error);

@@ -70,15 +70,15 @@ class AIchatEmbedder {
 
     if (!hasModuleAIChat) {
       sourceFile.addImportDeclaration({
-        moduleSpecifier: '@/components/universal/ModuleAIChat',
-        defaultImport: 'ModuleAIChat'
+        moduleSpecifier: '@/components/universal',
+        namedImports: ['ModuleAIChat']
       });
     }
 
     if (!hasDocumentUploader) {
       sourceFile.addImportDeclaration({
-        moduleSpecifier: '@/components/universal/ModuleDocumentUploader',
-        defaultImport: 'ModuleDocumentUploader'
+        moduleSpecifier: '@/components/universal',
+        namedImports: ['ModuleDocumentUploader']
       });
     }
   }
@@ -87,10 +87,16 @@ class AIchatEmbedder {
     try {
       // Find the default export function
       const defaultExport = sourceFile.getDefaultExportSymbol();
-      if (!defaultExport) return false;
+      if (!defaultExport) {
+        console.warn(`No default export found in ${sourceFile.getFilePath()}`);
+        return false;
+      }
 
       const exportedDeclarations = defaultExport.getDeclarations();
-      if (exportedDeclarations.length === 0) return false;
+      if (exportedDeclarations.length === 0) {
+        console.warn(`No exported declarations found in ${sourceFile.getFilePath()}`);
+        return false;
+      }
 
       // Look for function component
       const functionComponent = exportedDeclarations.find(decl => 
@@ -99,7 +105,10 @@ class AIchatEmbedder {
         decl.getKind() === SyntaxKind.VariableDeclaration
       );
 
-      if (!functionComponent) return false;
+      if (!functionComponent) {
+        console.warn(`No function component found in ${sourceFile.getFilePath()}`);
+        return false;
+      }
 
       // Find the return statement with JSX
       const returnStatements = functionComponent.getDescendantsOfKind(SyntaxKind.ReturnStatement);
@@ -112,7 +121,10 @@ class AIchatEmbedder {
         );
       });
 
-      if (!jsxReturn) return false;
+      if (!jsxReturn) {
+        console.warn(`No JSX return statement found in ${sourceFile.getFilePath()}`);
+        return false;
+      }
 
       const jsxExpression = jsxReturn.getExpression();
       if (!jsxExpression) return false;
@@ -123,13 +135,16 @@ class AIchatEmbedder {
         return false; // Already has AI chat
       }
 
-      // Inject the AI components
-      const isArabicPattern = /const\s+isArabic\s*=\s*language\s*===\s*['"]ar['"]/.test(sourceFile.getText());
-      const languageVar = isArabicPattern ? 'language' : "'en'";
+      // Detect RTL/LTR support
+      const fileContent = sourceFile.getText();
+      const hasLanguageContext = fileContent.includes('useLanguage') || fileContent.includes('useSimpleLanguage');
+      const isArabicPattern = /const\s+isArabic\s*=/.test(fileContent);
+      const hasRTLSupport = hasLanguageContext && isArabicPattern;
 
+      // Create AI components with RTL support
       const aiChatComponent = `
         {/* AI Assistant Panel */}
-        <div className="fixed bottom-4 right-4 z-50">
+        <div className="fixed bottom-4 ${hasRTLSupport ? 'left-4 ltr:right-4' : 'right-4'} z-50">
           <ModuleAIChat 
             moduleKey="${moduleKey}"
             context={{
@@ -137,6 +152,7 @@ class AIchatEmbedder {
               currentData: {}
             }}
             className="w-80 h-96 shadow-2xl rounded-lg"
+            ${hasRTLSupport ? 'isRTL={isArabic}' : ''}
           />
         </div>
 
@@ -147,6 +163,7 @@ class AIchatEmbedder {
             maxFiles={5}
             maxSize={10 * 1024 * 1024}
             acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']}
+            ${hasRTLSupport ? 'isRTL={isArabic}' : ''}
           />
         </div>`;
 
@@ -193,7 +210,10 @@ class AIchatEmbedder {
 
       return true;
     } catch (error) {
-      console.error(`Error injecting AI components: ${error}`);
+      console.error(`Error injecting AI components in ${sourceFile.getFilePath()}:`, error);
+      if (error instanceof Error) {
+        console.error('Stack trace:', error.stack);
+      }
       return false;
     }
   }

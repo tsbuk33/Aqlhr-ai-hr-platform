@@ -438,16 +438,12 @@ const NRCManagement = () => {
           </div>
 
           <UniversalDocumentManager 
-            title={isArabic ? 'مستندات لجنة الترشيحات والمكافآت' : 'NRC Documents'}
-            allowedTypes={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']}
-            maxFileSize={10}
-            categories={[
-              isArabic ? 'محاضر الاجتماعات' : 'Meeting Minutes',
-              isArabic ? 'تقارير الامتثال' : 'Compliance Reports',
-              isArabic ? 'سياسات المكافآت' : 'Remuneration Policies',
-              isArabic ? 'تقييمات الأداء' : 'Performance Evaluations',
-              isArabic ? 'الوثائق التنظيمية' : 'Regulatory Documents'
-            ]}
+            moduleName={isArabic ? 'مستندات لجنة الترشيحات والمكافآت' : 'NRC Documents'}
+            platform="nrc-management"
+            moduleType="hr"
+            acceptedTypes={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']}
+            maxFileSize={10 * 1024 * 1024}
+            maxFiles={20}
           />
         </TabsContent>
 
