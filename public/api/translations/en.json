@@ -237,6 +237,72 @@
     "visual_representation": "Visual representation of organizational structure",
     "interactive_chart": "Interactive organizational chart - to be implemented"
   },
+  "universal": {
+    "tooltip": "Click here for instructions on how to use this feature",
+    "howToUse": {
+      "title": "How to Use This Module",
+      "description": "Follow these steps to effectively use this module and maximize your productivity."
+    },
+    "documentUpload": {
+      "title": "Upload Documents",
+      "description": "Upload relevant documents to provide context for AI analysis and recommendations."
+    },
+    "aiChat": {
+      "title": "AI Assistant",
+      "welcomeMessage": "Hello! I'm here to help you with this module. Ask me anything!",
+      "placeholder": "Type your question here...",
+      "beta": "Beta"
+    },
+    "diagnostic": {
+      "title": "AI Diagnostic",
+      "runDiagnostic": "Run Diagnostic",
+      "refresh": "Refresh",
+      "lastUpdated": "Last updated",
+      "issues": "Issues Found",
+      "recommendations": "Recommendations",
+      "estimatedImpact": "Estimated Impact",
+      "recommendation": "Recommendation",
+      "categories": {
+        "excellent": "Excellent",
+        "good": "Good",
+        "needs_improvement": "Needs Improvement",
+        "critical": "Critical"
+      },
+      "severity": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+      },
+      "priority": {
+        "low": "Low Priority",
+        "medium": "Medium Priority",
+        "high": "High Priority"
+      },
+      "error": "Diagnostic Error",
+      "errorMessage": "Failed to run diagnostic. Please try again."
+    }
+  },
+  "upload": {
+    "dragAndDrop": "Drag and drop files here, or click to browse",
+    "dropHere": "Drop files here",
+    "browse": "Browse Files",
+    "maxFiles": "Maximum 5 files, 10MB each",
+    "maxFilesExceeded": "Maximum number of files exceeded",
+    "failed": "Upload failed",
+    "success": "File uploaded successfully",
+    "status": {
+      "uploading": "Uploading",
+      "uploaded": "Uploaded",
+      "error": "Error"
+    }
+  },
+  "aiChat": {
+    "typing": "AI is typing...",
+    "placeholder": "Ask me anything about this module...",
+    "defaultError": "I'm sorry, I couldn't process your request right now.",
+    "errorMessage": "Failed to get AI response. Please try again."
+  },
   "common": {
     "search": "Search",
     "filter": "Filter",
