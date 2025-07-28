@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const TurnoverAnalysis = () => {
   return (
@@ -42,6 +43,11 @@ const TurnoverAnalysis = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.turnover" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

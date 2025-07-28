@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const PredictiveModeling = () => {
   return (
@@ -42,6 +43,11 @@ const PredictiveModeling = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.predictive" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

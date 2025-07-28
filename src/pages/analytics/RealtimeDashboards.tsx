@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -223,6 +224,11 @@ const RealtimeDashboards = () => {
           </div>
         </CardContent>
       </Card>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.realtime" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

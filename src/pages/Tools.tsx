@@ -18,6 +18,7 @@ import {
   Share2
 } from 'lucide-react';
 import ToolIntegrationManager from '@/components/tools/ToolIntegrationManager';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Tools = () => {
   const { t, isRTL } = useLanguage();
@@ -309,6 +310,11 @@ const Tools = () => {
           />
         </TabsContent>
       </Tabs>
+
+      <AqlHRAIAssistant 
+        moduleContext="tools" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

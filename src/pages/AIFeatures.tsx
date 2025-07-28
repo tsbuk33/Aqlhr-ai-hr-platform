@@ -9,6 +9,7 @@ import { useAIRecommendations } from "@/hooks/useAIRecommendations";
 import EduBox from "@/components/EduBox";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { ModuleAIChat, ModuleDocumentUploader } from '@/components/universal';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const AIFeatures = () => {
   const { language } = useLanguage();
@@ -175,6 +176,11 @@ const AIFeatures = () => {
           className="w-80 h-96 shadow-2xl rounded-lg"
         />
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="ai-features" 
+        companyId="demo-company"
+      />
     </>
   );
 };

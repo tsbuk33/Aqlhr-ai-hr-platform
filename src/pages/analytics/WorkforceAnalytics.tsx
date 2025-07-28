@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { Button } from "@/components/ui/button";
 import { Upload, Download, BarChart } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
@@ -94,6 +95,11 @@ const WorkforceAnalytics = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.workforce" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

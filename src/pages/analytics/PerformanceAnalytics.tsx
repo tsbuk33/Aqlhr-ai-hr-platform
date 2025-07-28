@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const PerformanceAnalytics = () => {
   return (
@@ -42,6 +43,11 @@ const PerformanceAnalytics = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.performance" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

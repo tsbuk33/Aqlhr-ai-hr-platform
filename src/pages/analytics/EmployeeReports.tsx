@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -385,6 +386,11 @@ const EmployeeReports = () => {
           )}
         </CardContent>
       </Card>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.employee-reports" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Brain, Heart, Shield, TrendingUp, Users, Award, Zap, Target } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const WelfareConsultancy = () => {
   const { isArabic } = useSimpleLanguage();
@@ -380,6 +381,11 @@ const WelfareConsultancy = () => {
           </TabsContent>
 
         </Tabs>
+
+        <AqlHRAIAssistant 
+          moduleContext="welfare-consultancy" 
+          companyId="demo-company"
+        />
       </div>
     </div>
   );

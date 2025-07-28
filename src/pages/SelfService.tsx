@@ -25,6 +25,7 @@ import {
   FileCheck,
   Briefcase
 } from "lucide-react";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const SelfService = () => {
   const { t, language, isRTL } = useLanguage();
@@ -351,6 +352,11 @@ const SelfService = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <AqlHRAIAssistant 
+        moduleContext="self-service" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

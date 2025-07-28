@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { FileText, Shield, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Documents = () => {
   const { language } = useLanguage();
@@ -146,6 +147,11 @@ const Documents = () => {
         acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.jpg', '.jpeg', '.png', '.txt']}
         maxFileSize={50 * 1024 * 1024}
         maxFiles={50}
+      />
+
+      <AqlHRAIAssistant 
+        moduleContext="documents" 
+        companyId="demo-company"
       />
     </div>
   );

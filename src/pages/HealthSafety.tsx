@@ -6,6 +6,7 @@ import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import CrossModuleIntelligence from "@/components/ai/CrossModuleIntelligence";
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const HealthSafety = () => {
   const { language } = useLanguage();
@@ -81,6 +82,11 @@ const HealthSafety = () => {
           />
         </TabsContent>
       </Tabs>
+
+      <AqlHRAIAssistant 
+        moduleContext="health-safety" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

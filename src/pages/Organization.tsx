@@ -8,6 +8,7 @@ import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, GitBranch, Layers, Network, Pyramid, Users, Upload, FileText, CheckCircle2, HelpCircle, Sparkles, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Organization = () => {
   const { language } = useLanguage();
@@ -476,6 +477,11 @@ const Organization = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      <AqlHRAIAssistant 
+        moduleContext="organization" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

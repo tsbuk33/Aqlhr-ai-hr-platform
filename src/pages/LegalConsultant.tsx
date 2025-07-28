@@ -85,6 +85,7 @@ import {
   Copy,
   Scissors
 } from 'lucide-react';
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const LegalConsultant: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -268,6 +269,11 @@ const LegalConsultant: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="legal-consultant" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

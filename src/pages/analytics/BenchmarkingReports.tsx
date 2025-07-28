@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 
 const BenchmarkingReports = () => {
@@ -45,6 +46,11 @@ const BenchmarkingReports = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.benchmarking" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

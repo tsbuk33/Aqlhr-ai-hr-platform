@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const DataVisualization = () => {
   return (
@@ -42,6 +43,11 @@ const DataVisualization = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.visualization" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

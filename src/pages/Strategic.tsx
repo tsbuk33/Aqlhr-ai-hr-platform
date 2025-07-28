@@ -16,6 +16,7 @@ import {
   Briefcase,
   Globe
 } from "lucide-react";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Strategic = () => {
   const { t, language } = useLanguage();
@@ -212,17 +213,24 @@ const Strategic = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'الموارد البشرية الاستراتيجية' : 'Strategic HR'}
-      description={language === 'ar' ? 'تخطيط استراتيجي شامل للموارد البشرية والمواهب' : 'Comprehensive strategic planning for HR and talent'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <div className="space-y-6">
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'الموارد البشرية الاستراتيجية' : 'Strategic HR'}
+        description={language === 'ar' ? 'تخطيط استراتيجي شامل للموارد البشرية والمواهب' : 'Comprehensive strategic planning for HR and talent'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+
+      <AqlHRAIAssistant 
+        moduleContext="strategic" 
+        companyId="demo-company"
+      />
+    </div>
   );
 };
 

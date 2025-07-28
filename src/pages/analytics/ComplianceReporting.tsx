@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const ComplianceReporting = () => {
   return (
@@ -42,6 +43,11 @@ const ComplianceReporting = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.compliance" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

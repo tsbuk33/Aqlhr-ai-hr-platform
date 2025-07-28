@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const ExecutiveReporting = () => {
   return (
@@ -42,6 +43,11 @@ const ExecutiveReporting = () => {
           </CardContent>
         </Card>
       </div>
+
+      <AqlHRAIAssistant 
+        moduleContext="analytics.executive" 
+        companyId="demo-company"
+      />
     </div>
   );
 };
