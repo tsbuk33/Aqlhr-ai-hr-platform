@@ -109,6 +109,8 @@ const getPlatformModules = (isArabic: boolean) => [
   { title: isArabic ? "إدارة ISO بالذكاء الاصطناعي" : "ISO Management AI", url: "/iso-management", icon: Shield, badge: "NEW", color: "cyan" },
   // Health, Safety & Environment
   { title: isArabic ? "الصحة والسلامة والبيئة" : "Health, Safety & Environment", url: "/health-safety", icon: Activity, badge: "HSE", color: "red" },
+  // ESG & HR
+  { title: isArabic ? "ESG وإدارة الموارد البشرية" : "ESG & HR", url: "/esg-hr", icon: TrendingUp, badge: "NEW", color: "green" },
   // Compliance & Governance
   { 
     title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", 
