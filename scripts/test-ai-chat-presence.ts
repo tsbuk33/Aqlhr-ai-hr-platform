@@ -122,9 +122,7 @@ class AIChatPresenceTest {
 }
 
 // Run the test
-if (require.main === module) {
-  const tester = new AIChatPresenceTest();
-  tester.run().catch(console.error);
-}
+const tester = new AIChatPresenceTest();
+tester.run().catch(console.error);
 
 export default AIChatPresenceTest;
