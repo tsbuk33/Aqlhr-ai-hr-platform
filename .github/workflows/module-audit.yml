@@ -1,0 +1,101 @@
+name: Module Features Audit
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run nightly at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  audit-modules:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run module features audit
+      run: npm run audit:modules
+      
+    - name: Upload audit manifest
+      uses: actions/upload-artifact@v4
+      with:
+        name: audit-manifest
+        path: audit-manifest.json
+        retention-days: 30
+        
+  test-components:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run unit tests
+      run: npm run test:coverage
+      
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/
+        retention-days: 30
+        
+  test-ui:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build application
+      run: npm run build
+      
+    - name: Run Cypress tests
+      uses: cypress-io/github-action@v6
+      with:
+        start: npm run preview
+        wait-on: 'http://localhost:4173'
+        wait-on-timeout: 120
+        
+  notify-on-failure:
+    runs-on: ubuntu-latest
+    needs: [audit-modules, test-components, test-ui]
+    if: failure()
+    
+    steps:
+    - name: Notify on audit failure
+      run: |
+        echo "❌ Module audit failed. Some modules are missing required features."
+        echo "Check the audit manifest and fix missing features."
+        exit 1
