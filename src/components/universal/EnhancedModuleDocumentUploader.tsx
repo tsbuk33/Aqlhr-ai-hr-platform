@@ -50,7 +50,7 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
   const { t } = useAPITranslations();
   const { language } = useLanguage();
   const { toast } = useToast();
-  const { registerDocument, loadDocuments } = useDocumentAwareAI(moduleKey);
+  const { uploadDocument, loadDocuments } = useDocumentAwareAI(moduleKey);
   const isArabic = language === 'ar';
 
   useEffect(() => {
@@ -129,20 +129,9 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
       clearInterval(progressInterval);
 
       if (enableAIProcessing) {
-        // Register document for AI processing
+        // Upload document for AI processing
         const finalModuleKey = fileRecord.makeGlobal ? 'global' : moduleKey;
-        await registerDocument({
-          fileName: file.name,
-          fileUrl: urlData.publicUrl,
-          moduleKey: finalModuleKey,
-          metadata: {
-            originalModule: moduleKey,
-            fileSize: file.size,
-            fileType: file.type,
-            uploadedBy: 'current_user', // In real app, get from auth
-            aiProcessingEnabled: true
-          }
-        });
+        await uploadDocument(file, finalModuleKey);
 
         updateFileStatus(fileRecord.id, 'uploaded', 100, urlData.publicUrl, true);
         

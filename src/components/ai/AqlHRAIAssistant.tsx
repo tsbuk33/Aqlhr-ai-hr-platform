@@ -17,10 +17,13 @@ import {
   Settings,
   RefreshCw,
   Globe,
-  Shield
+  Shield,
+  Upload
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
+import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
+import { DocumentUploadWidget } from '@/components/DocumentUploadWidget';
 
 interface AqlHRAIAssistantProps {
   moduleContext?: string;
@@ -50,6 +53,14 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isGatheringIntelligence, setIsGatheringIntelligence] = useState(false);
+  const [showDocumentUpload, setShowDocumentUpload] = useState(false);
+  
+  // Document-aware AI integration
+  const { 
+    queryWithDocuments, 
+    documents, 
+    moduleDocuments 
+  } = useDocumentAwareAI(moduleContext);
 
   // Contextual greetings with correct Arabic branding
   const contextualGreetings = {
@@ -177,21 +188,30 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     setIsLoading(true);
 
     try {
-      // Intelligent detection of when external data would be valuable
+      // Enhanced AI processing with document awareness
       const needsExternalIntelligence = detectExternalIntelligenceNeed(inputValue, moduleContext);
+      const isVisualizationRequest = inputValue.toLowerCase().includes('chart') || 
+                                   inputValue.toLowerCase().includes('graph') ||
+                                   inputValue.toLowerCase().includes('visualize') ||
+                                   inputValue.toLowerCase().includes('show data') ||
+                                   inputValue.toLowerCase().includes('dashboard');
       
       let combinedResponse = '';
       
-      if (needsExternalIntelligence) {
+      if (needsExternalIntelligence || isVisualizationRequest || moduleDocuments.length > 0) {
         setIsGatheringIntelligence(true);
         
-        // Add intelligence gathering message
+        // Add comprehensive processing message
+        const processingType = needsExternalIntelligence 
+          ? (isArabic ? '🌐 جاري جمع البيانات الخارجية والداخلية...' : '🌐 Gathering external and internal intelligence...')
+          : isVisualizationRequest 
+          ? (isArabic ? '📊 جاري تحضير التصورات البيانية...' : '📊 Preparing data visualizations...')
+          : (isArabic ? '📚 جاري تحليل المستندات المرفوعة...' : '📚 Analyzing uploaded documents...');
+          
         const gatheringMessage: ChatMessage = {
           id: `gathering-${Date.now()}`,
           type: 'assistant',
-          content: isArabic 
-            ? '🌐 جاري جمع البيانات الخارجية من السوق السعودي لإثراء تحليلي...'
-            : '🌐 Gathering external market intelligence from Saudi market to enrich my analysis...',
+          content: processingType,
           timestamp: new Date(),
           module: moduleContext
         };
@@ -199,25 +219,44 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         setMessages(prev => [...prev, gatheringMessage]);
         
         try {
-          // Call external intelligence function
-          const { data: externalData } = await supabase.functions.invoke('external-intelligence', {
-            body: {
-              moduleContext,
-              query: inputValue,
-              dataType: needsExternalIntelligence.dataType,
-              country: 'Saudi Arabia',
-              industry: 'HR Technology'
-            }
+          // Use comprehensive AI processing with documents
+          const aiResponse = await queryWithDocuments(inputValue, {
+            includeAllDocs: true,
+            language: isArabic ? 'ar' : 'en',
+            specificDocumentIds: undefined
           });
 
-          if (externalData?.success) {
-            // Combine internal capabilities with external intelligence
-            combinedResponse = generateEnhancedResponse(inputValue, moduleContext, externalData, isArabic);
+          // Enhanced response with external intelligence if needed
+          if (needsExternalIntelligence) {
+            const { data: externalData } = await supabase.functions.invoke('external-intelligence', {
+              body: {
+                moduleContext,
+                query: inputValue,
+                dataType: needsExternalIntelligence.dataType,
+                country: 'Saudi Arabia',
+                industry: 'HR Technology'
+              }
+            });
+
+            if (externalData?.success) {
+              combinedResponse = generateEnhancedResponse(inputValue, moduleContext, externalData, isArabic, aiResponse);
+            } else {
+              combinedResponse = aiResponse.response;
+            }
           } else {
-            combinedResponse = generateStandardResponse(inputValue, moduleContext, isArabic);
+            combinedResponse = aiResponse.response;
           }
+
+          // Add visualization insights if requested
+          if (isVisualizationRequest) {
+            const visualNote = isArabic 
+              ? '\n\n📊 تم تحضير اقتراحات للتصورات البيانية. يمكن مشاركة هذه التحليلات مع الإدارة العليا.'
+              : '\n\n📊 Data visualization recommendations prepared. These insights are ready for executive presentation.';
+            combinedResponse += visualNote;
+          }
+
         } catch (error) {
-          console.error('External intelligence error:', error);
+          console.error('AI processing error:', error);
           combinedResponse = generateStandardResponse(inputValue, moduleContext, isArabic);
         }
         
@@ -295,30 +334,36 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     return null;
   };
 
-  // Generate enhanced response combining internal + external intelligence
-  const generateEnhancedResponse = (query: string, context: string, externalData: any, isArabic: boolean) => {
+  // Generate enhanced response combining internal + external intelligence + documents
+  const generateEnhancedResponse = (query: string, context: string, externalData: any, isArabic: boolean, aiResponse?: any) => {
     const securityNotice = isArabic 
       ? '\n\n🔐 ملاحظة أمنية: تم جمع البيانات الخارجية بأمان دون مشاركة أي معلومات داخلية لشركتك.'
       : '\n\n🔐 Security Note: External data was gathered securely without sharing any of your company\'s internal information.';
     
-    if (isArabic) {
-      return `بناءً على تحليل بيانات عقل HR الداخلية والذكاء الخارجي من السوق السعودي:
+    const documentInsights = moduleDocuments.length > 0 
+      ? (isArabic 
+          ? `\n📚 **تحليل المستندات**: تم تحليل ${moduleDocuments.length} مستند من وحدة ${context}`
+          : `\n📚 **Document Analysis**: Analyzed ${moduleDocuments.length} documents from ${context} module`)
+      : '';
 
-📊 **التحليل الداخلي**: ${getInternalAnalysis(context, isArabic)}
+    if (isArabic) {
+      return `${aiResponse?.response || 'بناءً على تحليل بيانات عقل HR المتكامل:'}
 
 🌐 **الذكاء الخارجي**: ${externalData.externalInsight}
 
-💡 **التوصية المدمجة**: بناءً على دمج البيانات الداخلية والخارجية، أنصح بمراجعة مؤشرات الأداء الحالية ومقارنتها بمعايير السوق لاتخاذ قرارات أكثر دقة.
+💡 **التوصية الشاملة**: بناءً على دمج البيانات الداخلية، المستندات المرفوعة، والذكاء الخارجي، يُنصح بتطبيق التوصيات المقترحة لتحسين الأداء.
+
+${documentInsights}
 
 ${securityNotice}`;
     } else {
-      return `Based on AqlHR internal data analysis and external Saudi market intelligence:
-
-📊 **Internal Analysis**: ${getInternalAnalysis(context, isArabic)}
+      return `${aiResponse?.response || 'Based on comprehensive AqlHR data analysis:'}
 
 🌐 **External Intelligence**: ${externalData.externalInsight}
 
-💡 **Combined Recommendation**: By merging internal and external data, I recommend reviewing your current KPIs against market standards to make more informed decisions.
+💡 **Comprehensive Recommendation**: Based on internal data, uploaded documents, and external intelligence, I recommend implementing the suggested improvements for enhanced performance.
+
+${documentInsights}
 
 ${securityNotice}`;
     }
@@ -487,11 +532,34 @@ ${securityNotice}`;
           )}
         </div>
 
+        {/* Document Upload Section */}
+        {showDocumentUpload && (
+          <div className="space-y-2">
+            <DocumentUploadWidget 
+              moduleKey={moduleContext} 
+              compact={true}
+              className="mb-4"
+            />
+          </div>
+        )}
+
         {/* Quick Suggestions */}
         <div className="space-y-2">
-          <p className="text-xs text-muted-foreground font-medium">
-            {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-xs text-muted-foreground font-medium">
+              {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
+            </p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowDocumentUpload(!showDocumentUpload)}
+              className="text-xs h-6 px-2"
+            >
+              <Upload className="h-3 w-3 mr-1" />
+              {isArabic ? 'رفع مستند' : 'Upload'}
+            </Button>
+          </div>
+          
           <div className="flex flex-wrap gap-1">
             {getContextualSuggestions()[isArabic ? 'ar' : 'en'].slice(0, 2).map((suggestion, index) => (
               <Button
@@ -506,6 +574,14 @@ ${securityNotice}`;
               </Button>
             ))}
           </div>
+          
+          {moduleDocuments.length > 0 && (
+            <div className="mt-2">
+              <Badge variant="secondary" className="text-xs">
+                📚 {moduleDocuments.length} {isArabic ? 'مستندات جاهزة للتحليل' : 'documents ready for analysis'}
+              </Badge>
+            </div>
+          )}
         </div>
 
         {/* Input Area */}

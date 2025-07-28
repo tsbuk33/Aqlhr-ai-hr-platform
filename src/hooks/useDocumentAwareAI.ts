@@ -23,12 +23,39 @@ export const useDocumentAwareAI = (moduleKey: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load all uploaded documents for the current company (simplified for now)
+  // Load all uploaded documents for the current company
   const loadDocuments = useCallback(async () => {
     try {
-      // For now, return empty array until migration is approved
-      // TODO: Implement after uploaded_documents table is created
-      setDocuments([]);
+      const { data, error } = await supabase
+        .storage
+        .from('hr-documents')
+        .list('', { limit: 1000 });
+
+      if (error) throw error;
+
+      // Process documents and extract metadata
+      const processedDocs: DocumentContext[] = await Promise.all(
+        (data || []).map(async (file) => {
+          const { data: urlData } = supabase.storage
+            .from('hr-documents')
+            .getPublicUrl(file.name);
+
+          return {
+            id: file.id || Date.now().toString(),
+            fileName: file.name,
+            fileUrl: urlData.publicUrl,
+            moduleKey: 'global', // Default to global, can be enhanced
+            uploadedAt: new Date(file.created_at || Date.now()),
+            metadata: {
+              size: file.metadata?.size,
+              mimetype: file.metadata?.mimetype,
+              lastModified: file.updated_at
+            }
+          };
+        })
+      );
+
+      setDocuments(processedDocs);
     } catch (err) {
       console.error('Error loading documents:', err);
       setError(err instanceof Error ? err.message : 'Failed to load documents');
@@ -62,8 +89,8 @@ export const useDocumentAwareAI = (moduleKey: string) => {
         );
       }
 
-      // Use existing AI function
-      const { data, error } = await supabase.functions.invoke('ai-core-engine', {
+      // Use enhanced AI function with document processing
+      const { data, error } = await supabase.functions.invoke('ai-document-processor', {
         body: {
           query,
           context: {
@@ -72,7 +99,12 @@ export const useDocumentAwareAI = (moduleKey: string) => {
             documents: relevantDocs,
             currentModule: moduleKey,
             availableDocuments: relevantDocs.length,
-            queryIntent: 'document_analysis'
+            queryIntent: 'comprehensive_analysis',
+            educationalMode: true,
+            visualizationRequest: query.toLowerCase().includes('chart') || 
+                                query.toLowerCase().includes('graph') ||
+                                query.toLowerCase().includes('visualize') ||
+                                query.toLowerCase().includes('show data')
           }
         }
       });
@@ -94,32 +126,68 @@ export const useDocumentAwareAI = (moduleKey: string) => {
     }
   }, [documents, moduleKey]);
 
-  // Register a new document (simplified)
-  const registerDocument = useCallback(async (document: {
-    fileName: string;
-    fileUrl: string;
-    moduleKey: string;
-    metadata?: Record<string, any>;
-  }) => {
+  // Upload and process document
+  const uploadDocument = useCallback(async (
+    file: File, 
+    moduleKey: string = 'global'
+  ): Promise<string> => {
     try {
-      // For now, just add to local state
-      // TODO: Implement database storage after migration
-      const newDoc: DocumentContext = {
-        id: Date.now().toString(),
-        fileName: document.fileName,
-        fileUrl: document.fileUrl,
-        moduleKey: document.moduleKey,
-        uploadedAt: new Date(),
-        metadata: document.metadata
-      };
+      setLoading(true);
       
+      // Upload to Supabase storage
+      const fileName = `${moduleKey}/${Date.now()}-${file.name}`;
+      const { data, error } = await supabase.storage
+        .from('hr-documents')
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('hr-documents')
+        .getPublicUrl(fileName);
+
+      // Process document with AI
+      const { data: aiData, error: aiError } = await supabase.functions.invoke('ai-document-processor', {
+        body: {
+          action: 'process_document',
+          fileUrl: urlData.publicUrl,
+          fileName: file.name,
+          moduleKey,
+          fileType: file.type
+        }
+      });
+
+      if (aiError) {
+        console.warn('AI processing failed, but file uploaded:', aiError);
+      }
+
+      // Create document context
+      const newDoc: DocumentContext = {
+        id: data.path,
+        fileName: file.name,
+        fileUrl: urlData.publicUrl,
+        moduleKey,
+        uploadedAt: new Date(),
+        processedContent: aiData?.extractedContent,
+        metadata: {
+          size: file.size,
+          type: file.type,
+          aiProcessed: !!aiData?.success
+        }
+      };
+
       setDocuments(prev => [...prev, newDoc]);
+      await loadDocuments(); // Refresh document list
+      
       return newDoc.id;
     } catch (err) {
-      console.error('Error registering document:', err);
+      console.error('Error uploading document:', err);
       throw err;
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [loadDocuments]);
 
   // Get documents by module
   const getDocumentsByModule = useCallback((targetModuleKey?: string) => {
@@ -139,7 +207,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
     loading,
     error,
     queryWithDocuments,
-    registerDocument,
+    uploadDocument,
     loadDocuments,
     getDocumentsByModule,
     moduleDocuments: getDocumentsByModule()
