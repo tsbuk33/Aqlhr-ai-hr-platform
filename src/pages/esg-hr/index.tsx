@@ -4,11 +4,18 @@ import CenteredLayout from '@/components/layout/CenteredLayout';
 import EsgCard from '@/components/esg/EsgCard';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
+import ModuleTooltip from '@/components/universal/ModuleTooltip';
+import HowToUsePanel from '@/components/universal/HowToUsePanel';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import ModuleAIChat from '@/components/universal/ModuleAIChat';
+import ModuleDiagnosticPanel from '@/components/universal/ModuleDiagnosticPanel';
+import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 
 const EsgHrPage = () => {
   const { language } = useLanguage();
   const { t } = useAPITranslations();
   const isArabic = language === 'ar';
+  const moduleFeatures = useModuleFeatures('esghdiagnostic');
 
   const esgData = [
     {
@@ -44,6 +51,16 @@ const EsgHrPage = () => {
         className="w-full max-w-7xl mx-auto space-y-8"
         dir={isArabic ? 'rtl' : 'ltr'}
       >
+        {/* Module Tooltip */}
+        <ModuleTooltip moduleKey="esghdiagnostic" showIcon={true}>
+          <h1 className="text-3xl font-bold">{t('esgHr.pageTitle')}</h1>
+        </ModuleTooltip>
+
+        {/* How to Use Panel */}
+        {moduleFeatures.isFeatureEnabled('enableHowToUse') && (
+          <HowToUsePanel moduleKey="esghdiagnostic" />
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {esgData.map((item, index) => (
             <EsgCard
@@ -65,6 +82,37 @@ const EsgHrPage = () => {
             {t('esgHr.integrationDescription')}
           </p>
         </div>
+
+        {/* Document Uploader */}
+        {moduleFeatures.isFeatureEnabled('enableDocumentUpload') && (
+          <ModuleDocumentUploader
+            moduleKey="esghdiagnostic"
+            maxFiles={15}
+            maxSize={25 * 1024 * 1024}
+            acceptedTypes={['.pdf', '.docx', '.xlsx']}
+          />
+        )}
+
+        {/* AI Diagnostic Panel */}
+        {moduleFeatures.isFeatureEnabled('enableAIDiagnostic') && (
+          <ModuleDiagnosticPanel
+            moduleKey="esghdiagnostic"
+            autoRefresh={moduleFeatures.config.autoRefreshDiagnostic}
+            refreshInterval={moduleFeatures.config.diagnosticInterval}
+          />
+        )}
+
+        {/* AI Chat */}
+        {moduleFeatures.isFeatureEnabled('enableAIChat') && (
+          <ModuleAIChat
+            moduleKey="esghdiagnostic"
+            context={{
+              moduleName: t('esgHr.pageTitle'),
+              currentData: { esgData },
+              uploadedDocs: []
+            }}
+          />
+        )}
       </div>
     </CenteredLayout>
   );

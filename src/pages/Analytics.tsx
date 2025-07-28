@@ -6,6 +6,14 @@ import { ComprehensiveTestSuite } from "@/components/testing/ComprehensiveTestSu
 import { PerformanceMonitor } from "@/components/monitoring/PerformanceMonitor";
 import { SecurityEnhancements } from "@/components/security/SecurityEnhancements";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import ModuleTooltip from '@/components/universal/ModuleTooltip';
+import HowToUsePanel from '@/components/universal/HowToUsePanel';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import ModuleAIChat from '@/components/universal/ModuleAIChat';
+import ModuleDiagnosticPanel from '@/components/universal/ModuleDiagnosticPanel';
+import { useModuleFeatures } from '@/hooks/useModuleFeatures';
+import CenteredLayout from '@/components/layout/CenteredLayout';
+import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { 
   BarChart, 
   Activity, 
@@ -27,7 +35,10 @@ import {
 } from "lucide-react";
 
 const Analytics = () => {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
+  const { t } = useAPITranslations();
+  const isArabic = language === 'ar';
+  const moduleFeatures = useModuleFeatures('analytics');
 
   const stats = [
     {
@@ -349,8 +360,24 @@ const Analytics = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <EnhancedPageLayout
+    <CenteredLayout
+      title={t('analytics.title')}
+      description={t('analytics.description')}
+      className="min-h-screen"
+    >
+      <div dir={isArabic ? 'rtl' : 'ltr'} className="w-full max-w-7xl mx-auto space-y-6">
+        
+        {/* Module Tooltip */}
+        <ModuleTooltip moduleKey="analytics" showIcon={true}>
+          <h1 className="text-3xl font-bold">{t('analytics.title')}</h1>
+        </ModuleTooltip>
+
+        {/* How to Use Panel */}
+        {moduleFeatures.isFeatureEnabled('enableHowToUse') && (
+          <HowToUsePanel moduleKey="analytics" />
+        )}
+
+        <EnhancedPageLayout
         title={language === 'ar' ? 'التحليلات المتقدمة' : 'Advanced Analytics'}
         description={language === 'ar' ? 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية' : 'Data-driven insights for strategic decision making'}
         showUserInfo={true}
@@ -373,8 +400,30 @@ const Analytics = () => {
         acceptedTypes={['.xlsx', '.xls', '.csv', '.pdf', '.json', '.pptx']}
         maxFileSize={100 * 1024 * 1024}
         maxFiles={30}
-      />
-    </div>
+        />
+
+        {/* AI Diagnostic Panel */}
+        {moduleFeatures.isFeatureEnabled('enableAIDiagnostic') && (
+          <ModuleDiagnosticPanel
+            moduleKey="analytics"
+            autoRefresh={moduleFeatures.config.autoRefreshDiagnostic}
+            refreshInterval={moduleFeatures.config.diagnosticInterval}
+          />
+        )}
+
+        {/* AI Chat */}
+        {moduleFeatures.isFeatureEnabled('enableAIChat') && (
+          <ModuleAIChat
+            moduleKey="analytics"
+            context={{
+              moduleName: t('analytics.title'),
+              currentData: { stats, quickActions, documents },
+              uploadedDocs: []
+            }}
+          />
+        )}
+      </div>
+    </CenteredLayout>
   );
 };
 
