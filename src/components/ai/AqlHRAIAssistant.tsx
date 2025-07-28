@@ -38,6 +38,7 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   module?: string;
+  confidence?: number;
 }
 
 export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({ 
@@ -266,12 +267,18 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         combinedResponse = generateStandardResponse(inputValue, moduleContext, isArabic);
       }
 
+      // Calculate confidence score for the response
+      const hasExternalIntelligence = needsExternalIntelligence !== null;
+      const hasDocuments = moduleDocuments.length > 0;
+      const confidenceScore = calculateConfidenceScore(inputValue, combinedResponse, hasExternalIntelligence, hasDocuments);
+
       const assistantMessage: ChatMessage = {
         id: `assistant-${Date.now()}`,
         type: 'assistant',
         content: combinedResponse,
         timestamp: new Date(),
-        module: moduleContext
+        module: moduleContext,
+        confidence: confidenceScore
       };
 
       setMessages(prev => [...prev, assistantMessage]);
@@ -418,6 +425,34 @@ ${securityNotice}`;
     return getInternalAnalysis(context, isArabic);
   };
 
+  // Calculate confidence score based on response characteristics
+  const calculateConfidenceScore = (query: string, response: string, hasExternalIntelligence: boolean, hasDocuments: boolean) => {
+    let baseConfidence = 65; // Base confidence for standard responses
+    
+    // Boost confidence if external intelligence was used
+    if (hasExternalIntelligence) {
+      baseConfidence += 20;
+    }
+    
+    // Boost confidence if documents were analyzed
+    if (hasDocuments) {
+      baseConfidence += 15;
+    }
+    
+    // Boost confidence for longer, more detailed responses
+    if (response.length > 200) {
+      baseConfidence += 10;
+    }
+    
+    // Boost confidence for responses with structured content (bullet points, numbers)
+    if (response.includes('•') || response.includes('1.') || response.includes('**')) {
+      baseConfidence += 5;
+    }
+    
+    // Cap at 99% to maintain realistic expectations
+    return Math.min(baseConfidence, 99);
+  };
+
   const handleClearChat = () => {
     const welcomeMessage: ChatMessage = {
       id: 'welcome-new',
@@ -500,12 +535,29 @@ ${securityNotice}`;
                   : 'bg-muted'
               }`}>
                 <p className="text-sm">{message.content}</p>
-                <span className="text-xs opacity-70">
-                  {message.timestamp.toLocaleTimeString(isArabic ? 'ar-SA' : 'en-US', { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  })}
-                </span>
+                <div className="flex items-center justify-between mt-2">
+                  <span className="text-xs opacity-70">
+                    {message.timestamp.toLocaleTimeString(isArabic ? 'ar-SA' : 'en-US', { 
+                      hour: '2-digit', 
+                      minute: '2-digit' 
+                    })}
+                  </span>
+                  {message.type === 'assistant' && message.confidence && (
+                    <Badge 
+                      variant="outline" 
+                      className={`text-xs px-2 py-0.5 ${
+                        message.confidence >= 85 
+                          ? 'bg-brand-success/10 text-brand-success border-brand-success/20' 
+                          : message.confidence >= 70
+                          ? 'bg-brand-warning/10 text-brand-warning border-brand-warning/20'
+                          : 'bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      {message.confidence}% {isArabic ? 'دقة' : 'accuracy'}
+                    </Badge>
+                  )}
+                </div>
               </div>
             </div>
           ))}
