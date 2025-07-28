@@ -1,0 +1,112 @@
+#!/usr/bin/env tsx
+
+import fs from 'fs';
+import { glob } from 'glob';
+
+interface TestResult {
+  file: string;
+  moduleKey: string;
+  hasAIChat: boolean;
+  hasDocumentUploader: boolean;
+  hasCorrectModuleKey: boolean;
+}
+
+class AIChatPresenceTest {
+  private results: TestResult[] = [];
+
+  private generateModuleKey(filePath: string): string {
+    const relativePath = filePath.replace(/^src\/pages\//, '').replace(/\.tsx?$/, '');
+    const parts = relativePath.split('/');
+    
+    if (parts.length === 1) {
+      return this.camelCase(parts[0]);
+    }
+    
+    const folder = parts.slice(0, -1).join('.');
+    const fileName = this.camelCase(parts[parts.length - 1]);
+    return `${folder}.${fileName}`;
+  }
+
+  private camelCase(str: string): string {
+    return str.charAt(0).toLowerCase() + str.slice(1);
+  }
+
+  async testFile(filePath: string): Promise<void> {
+    try {
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const moduleKey = this.generateModuleKey(filePath);
+      
+      const hasAIChat = content.includes('ModuleAIChat') || content.includes('EnhancedModuleAIChat');
+      const hasDocumentUploader = content.includes('ModuleDocumentUploader');
+      const hasCorrectModuleKey = content.includes(`moduleKey="${moduleKey}"`);
+
+      this.results.push({
+        file: filePath,
+        moduleKey,
+        hasAIChat,
+        hasDocumentUploader,
+        hasCorrectModuleKey
+      });
+    } catch (error) {
+      console.error(`Error testing file ${filePath}:`, error);
+    }
+  }
+
+  async run(): Promise<void> {
+    console.log('🧪 Testing AI Chat Presence...\n');
+
+    const pageFiles = await glob('src/pages/**/*.{tsx,jsx}', {
+      ignore: ['**/*.test.*', '**/*.spec.*', '**/test/**', '**/tests/**']
+    });
+
+    console.log(`Testing ${pageFiles.length} page files...\n`);
+
+    for (const filePath of pageFiles) {
+      await this.testFile(filePath);
+    }
+
+    this.printResults();
+  }
+
+  private printResults(): void {
+    console.log('📊 AI Chat Presence Test Results:\n');
+
+    const withAIChat = this.results.filter(r => r.hasAIChat).length;
+    const withUploader = this.results.filter(r => r.hasDocumentUploader).length;
+    const withCorrectKeys = this.results.filter(r => r.hasCorrectModuleKey).length;
+    const total = this.results.length;
+
+    console.log('Summary:');
+    console.log(`✅ Files with AI Chat: ${withAIChat}/${total}`);
+    console.log(`📁 Files with Document Uploader: ${withUploader}/${total}`);
+    console.log(`🔑 Files with Correct Module Keys: ${withCorrectKeys}/${total}`);
+
+    console.log('\nMissing Components:');
+    this.results.forEach(result => {
+      const missing = [];
+      if (!result.hasAIChat) missing.push('AI Chat');
+      if (!result.hasDocumentUploader) missing.push('Document Uploader');
+      if (!result.hasCorrectModuleKey && result.hasAIChat) missing.push('Correct Module Key');
+
+      if (missing.length > 0) {
+        console.log(`❌ ${result.file}`);
+        console.log(`   Module Key: ${result.moduleKey}`);
+        console.log(`   Missing: ${missing.join(', ')}`);
+      }
+    });
+
+    if (withAIChat === total && withUploader === total && withCorrectKeys === total) {
+      console.log('\n🎉 All tests passed! Every page has AI chat with correct configuration.');
+    } else {
+      console.log('\n⚠️  Some pages are missing AI chat components. Run fix:embed-chat to fix them.');
+    }
+  }
+}
+
+// Run the test
+if (require.main === module) {
+  const tester = new AIChatPresenceTest();
+  tester.run().catch(console.error);
+}
+
+export default AIChatPresenceTest;
