@@ -1,7 +1,30 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModuleTooltip, HowToUsePanel, ModuleDocumentUploader, ModuleAIChat, ModuleDiagnosticPanel } from '@/components/universal';
+import CenteredLayout from '@/components/layout/CenteredLayout';
+import { useAPITranslations } from '@/hooks/useAPITranslations';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 
 const HRTransformation = () => {
+  const { t } = useAPITranslations();
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+
   return (
+    <CenteredLayout 
+      title={t('strategic.hrTransformation.title')}
+      description={t('strategic.hrTransformation.description')}
+      className="space-y-6"
+    >
+      {/* Universal Features */}
+      <ModuleTooltip moduleKey="strategic.hrTransformation" showIcon>
+        <HowToUsePanel moduleKey="strategic.hrTransformation" />
+      </ModuleTooltip>
+      
+      <ModuleDocumentUploader moduleKey="strategic.hrTransformation" />
+      <ModuleAIChat moduleKey="strategic.hrTransformation" />
+      <ModuleDiagnosticPanel moduleKey="strategic.hrTransformation" />
+      
+      {/* Original Content */}
     <div className="container mx-auto p-6 space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-foreground">HR Transformation</h1>
@@ -43,6 +66,7 @@ const HRTransformation = () => {
         </Card>
       </div>
     </div>
+    </CenteredLayout>
   );
 };
 
