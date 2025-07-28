@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const CustomReporting = () => {
   return (
@@ -42,6 +43,13 @@ const CustomReporting = () => {
           </CardContent>
         </Card>
       </div>
+      
+      {/* Advanced AI Assistant */}
+      <AqlHRAIAssistant 
+        moduleContext="analytics" 
+        companyId="default"
+        position="fixed"
+      />
     </div>
   );
 };
