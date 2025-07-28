@@ -273,31 +273,40 @@
      "system": "System",
      "training_dept": "Training Dept"
    },
-   "esgHr": {
-     "pageTitle": "ESG and HR",
-     "pageDescription": "Environmental, Social, and Governance integration with Human Resources management",
-     "environmental": "Environmental",
-     "social": "Social",
-     "governance": "Governance",
-     "envBullets": [
-       "Climate adaptive practices",
-       "Responsible operations",
-       "Resource management",
-       "Sustainable workplaces"
-     ],
-     "socialBullets": [
-       "Employee wellbeing programs",
-       "Diversity and inclusion",
-       "Community engagement",
-       "Fair labor practices"
-     ],
-     "governanceBullets": [
-       "Ethical leadership",
-       "Transparent reporting",
-       "Risk management",
-       "Regulatory compliance"
-     ],
-     "integrationTitle": "Integrated ESG-HR Platform",
-     "integrationDescription": "Seamlessly combining environmental responsibility, social impact, and governance excellence with comprehensive HR management for sustainable business success."
-   }
+    "esgHr": {
+      "pageTitle": "HR-ESG Diagnostic",
+      "pageDescription": "Environmental, Social, and Governance diagnostic tools integrated with Human Resources management",
+      "environmental": {
+        "title": "Environmental",
+        "desc": "Climate-focused HR practices and sustainable workplace management",
+        "bullets": [
+          "Climate adaptive practices",
+          "Responsible operations",
+          "Resource management",
+          "Sustainable workplaces"
+        ]
+      },
+      "social": {
+        "title": "Social",
+        "desc": "Employee wellbeing and community engagement initiatives",
+        "bullets": [
+          "Employee wellbeing programs",
+          "Diversity and inclusion",
+          "Community engagement",
+          "Fair labor practices"
+        ]
+      },
+      "governance": {
+        "title": "Governance",
+        "desc": "Ethical leadership and transparent organizational practices",
+        "bullets": [
+          "Ethical leadership",
+          "Transparent reporting",
+          "Risk management",
+          "Regulatory compliance"
+        ]
+      },
+      "integrationTitle": "Integrated ESG-HR Platform",
+      "integrationDescription": "Seamlessly combining environmental responsibility, social impact, and governance excellence with comprehensive HR management for sustainable business success."
+    }
 }

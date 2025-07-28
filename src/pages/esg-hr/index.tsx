@@ -13,20 +13,23 @@ const EsgHrPage = () => {
   const esgData = [
     {
       icon: Leaf,
-      titleKey: 'esgHr.environmental',
-      bulletsKey: 'esgHr.envBullets',
+      titleKey: 'esgHr.environmental.title',
+      descKey: 'esgHr.environmental.desc',
+      bulletsKey: 'esgHr.environmental.bullets',
       color: 'text-green-600 dark:text-green-400'
     },
     {
       icon: Users,
-      titleKey: 'esgHr.social',
-      bulletsKey: 'esgHr.socialBullets',
+      titleKey: 'esgHr.social.title',
+      descKey: 'esgHr.social.desc',
+      bulletsKey: 'esgHr.social.bullets',
       color: 'text-blue-600 dark:text-blue-400'
     },
     {
       icon: Shield,
-      titleKey: 'esgHr.governance',
-      bulletsKey: 'esgHr.governanceBullets',
+      titleKey: 'esgHr.governance.title',
+      descKey: 'esgHr.governance.desc',
+      bulletsKey: 'esgHr.governance.bullets',
       color: 'text-purple-600 dark:text-purple-400'
     }
   ];
@@ -35,6 +38,7 @@ const EsgHrPage = () => {
     <CenteredLayout
       title={t('esgHr.pageTitle')}
       description={t('esgHr.pageDescription')}
+      className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-6"
     >
       <div 
         className="w-full max-w-7xl mx-auto space-y-8"
@@ -46,6 +50,7 @@ const EsgHrPage = () => {
               key={index}
               icon={item.icon}
               titleKey={item.titleKey}
+              descKey={item.descKey}
               bulletsKey={item.bulletsKey}
               color={item.color}
             />

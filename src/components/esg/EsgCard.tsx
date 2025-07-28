@@ -6,6 +6,7 @@ import { useAPITranslations } from '@/hooks/useAPITranslations';
 interface EsgCardProps {
   icon: LucideIcon;
   titleKey: string;
+  descKey: string;
   bulletsKey: string;
   color?: string;
 }
@@ -13,6 +14,7 @@ interface EsgCardProps {
 const EsgCard: React.FC<EsgCardProps> = ({ 
   icon: Icon, 
   titleKey, 
+  descKey,
   bulletsKey, 
   color = 'text-primary' 
 }) => {
@@ -30,9 +32,12 @@ const EsgCard: React.FC<EsgCardProps> = ({
             <Icon className={`h-8 w-8 ${color}`} />
           </div>
         </div>
-        <CardTitle className="text-xl font-bold text-foreground">
+        <CardTitle className="text-xl font-bold text-foreground mb-2">
           {t(titleKey)}
         </CardTitle>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {t(descKey)}
+        </p>
       </CardHeader>
       <CardContent className="pt-0">
         <ul className="space-y-3 text-center">
