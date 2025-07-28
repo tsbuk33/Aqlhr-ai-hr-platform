@@ -59,18 +59,31 @@ class AIChatPresenceTest {
 
   async run(): Promise<void> {
     console.log('🧪 Testing AI Chat Presence...\n');
+    console.log('Current working directory:', process.cwd());
+    
+    try {
+      const pageFiles = await glob('src/pages/**/*.{tsx,jsx}', {
+        ignore: ['**/*.test.*', '**/*.spec.*', '**/test/**', '**/tests/**']
+      });
 
-    const pageFiles = await glob('src/pages/**/*.{tsx,jsx}', {
-      ignore: ['**/*.test.*', '**/*.spec.*', '**/test/**', '**/tests/**']
-    });
+      console.log(`Found ${pageFiles.length} page files:`);
+      pageFiles.forEach(file => console.log(`  - ${file}`));
+      console.log('\n');
 
-    console.log(`Testing ${pageFiles.length} page files...\n`);
+      if (pageFiles.length === 0) {
+        console.log('❌ No page files found! Make sure you are in the correct directory.');
+        return;
+      }
 
-    for (const filePath of pageFiles) {
-      await this.testFile(filePath);
+      for (const filePath of pageFiles) {
+        console.log(`Testing file: ${filePath}`);
+        await this.testFile(filePath);
+      }
+
+      this.printResults();
+    } catch (error) {
+      console.error('❌ Error during execution:', error);
     }
-
-    this.printResults();
   }
 
   private printResults(): void {
