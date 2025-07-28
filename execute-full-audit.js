@@ -7,6 +7,36 @@ console.log(chalk.blue('🚀 Starting Full AqlHR Platform Audit & Auto-Fix...\n'
 
 const steps = [
   {
+    name: 'Color Tokens & Contrast Check',
+    command: 'node scripts/fix-color-tokens.js',
+    icon: '🎨'
+  },
+  {
+    name: 'Accessibility Audit',
+    command: 'npx tsx scripts/audit/accessibility-checker.ts --apply',
+    icon: '♿'
+  },
+  {
+    name: 'Responsive Layout Check',
+    command: 'npx tsx scripts/audit/responsive-layout-checker.ts',
+    icon: '📱'
+  },
+  {
+    name: 'Performance Audit',
+    command: 'npx tsx scripts/audit/performance-checker.ts',
+    icon: '⚡'
+  },
+  {
+    name: 'Error Handling Check',
+    command: 'npx tsx scripts/audit/error-handling-checker.ts --apply',
+    icon: '🛡️'
+  },
+  {
+    name: 'SEO Meta Tags Check',
+    command: 'npx tsx scripts/audit/seo-meta-checker.ts --apply',
+    icon: '🔍'
+  },
+  {
     name: 'LTR/RTL Compliance Check',
     command: 'npx tsx scripts/fix-ltr-rtl-compliance.ts --apply',
     icon: '🌍'
@@ -15,11 +45,6 @@ const steps = [
     name: 'Center Layout Enforcement',
     command: 'npx tsx scripts/fix-center-layout.ts --apply',
     icon: '🎯'
-  },
-  {
-    name: 'WCAG Color Compliance',
-    command: 'npx tsx scripts/wcag-compliance-checker.ts --apply',
-    icon: '🎨'
   },
   {
     name: 'Universal Module Scaffolding',
@@ -32,18 +57,8 @@ const steps = [
     icon: '📊'
   },
   {
-    name: 'Module Features Audit',
-    command: 'npx tsx scripts/audit-module-features.ts > audit-manifest.json',
-    icon: '🔍'
-  },
-  {
-    name: 'Audit Verification',
-    command: 'node scripts/verify-audit-manifest.js',
-    icon: '✅'
-  },
-  {
-    name: 'Comprehensive Final Audit',
-    command: 'npx tsx scripts/comprehensive-audit.ts',
+    name: 'Master Audit Orchestrator',
+    command: 'npx tsx scripts/master-audit-orchestrator.ts',
     icon: '🎉'
   }
 ];
