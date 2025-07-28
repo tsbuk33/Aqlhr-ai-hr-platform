@@ -1,6 +1,8 @@
 #!/usr/bin/env tsx
 
 console.log('🧪 Simple test script running...');
+console.log('Working directory:', process.cwd());
+console.log('Script starting successfully!');
 
 import fs from 'fs';
 import path from 'path';
