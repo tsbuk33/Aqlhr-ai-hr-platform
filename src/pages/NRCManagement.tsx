@@ -6,11 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Calendar, Upload, Users, FileText, AlertTriangle, CheckCircle, TrendingUp, Clock, Settings, BarChart3, BookOpen, Shield } from 'lucide-react';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const NRCManagement = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { isArabic } = useSimpleLanguage();
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
@@ -367,7 +366,7 @@ const NRCManagement = () => {
         <TabsContent value="analytics" className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">
-              {isArabic ? 'تحليلات وإحصائيات متقدمة' : 'Advanced Analytics & Insights'}
+              {isArabic ? 'تحليلات الأداء المتقدمة' : 'Advanced Performance Analytics'}
             </h2>
             <Button>
               <BarChart3 className="w-4 h-4 mr-2" />
@@ -375,61 +374,46 @@ const NRCManagement = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>
-                  {isArabic ? 'تحليل تنافسية التعويضات' : 'Compensation Competitiveness'}
+                <CardTitle className="text-lg">
+                  {isArabic ? 'معدل إنجاز الاجتماعات' : 'Meeting Completion Rate'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span>{isArabic ? 'متوسط السوق' : 'Market Average'}</span>
-                    <span className="font-semibold">100%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>{isArabic ? 'التعويض الحالي' : 'Current Compensation'}</span>
-                    <span className="font-semibold text-status-warning">88%</span>
-                  </div>
-                  <Progress value={88} className="h-3" />
-                  <p className="text-sm text-muted-foreground">
-                    {isArabic 
-                      ? '12% أقل من متوسط السوق - يوصى بالمراجعة'
-                      : '12% below market average - review recommended'
-                    }
-                  </p>
-                </div>
+                <div className="text-3xl font-bold text-status-success mb-2">87.5%</div>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? 'تحسن بنسبة 12% عن العام الماضي' : '12% improvement from last year'}
+                </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>
-                  {isArabic ? 'مخاطر الاحتفاظ بالمواهب' : 'Talent Retention Risk'}
+                <CardTitle className="text-lg">
+                  {isArabic ? 'متوسط وقت القرار' : 'Average Decision Time'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span>{isArabic ? 'الرئيس التنفيذي' : 'CEO'}</span>
-                    <Badge className="bg-status-success/10 text-status-success">
-                      {isArabic ? 'منخفض' : 'Low'}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>{isArabic ? 'المدير المالي' : 'CFO'}</span>
-                    <Badge className="bg-status-error/10 text-status-error">
-                      {isArabic ? 'عالي' : 'High'}
-                    </Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>{isArabic ? 'المدير التنفيذي للعمليات' : 'COO'}</span>
-                    <Badge className="bg-status-warning/10 text-status-warning">
-                      {isArabic ? 'متوسط' : 'Medium'}
-                    </Badge>
-                  </div>
-                </div>
+                <div className="text-3xl font-bold text-status-info mb-2">14</div>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? 'أيام لكل قرار رئيسي' : 'days per major decision'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">
+                  {isArabic ? 'مؤشر رضا أعضاء اللجنة' : 'Committee Satisfaction Index'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-status-success mb-2">4.6/5</div>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? 'بناءً على آخر استطلاع' : 'Based on latest survey'}
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -439,86 +423,32 @@ const NRCManagement = () => {
         <TabsContent value="documents" className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold">
-              {isArabic ? 'إدارة الوثائق والملفات' : 'Document Management'}
+              {isArabic ? 'إدارة الوثائق والملفات' : 'Document & File Management'}
             </h2>
             <div className="flex gap-2">
               <Button variant="outline">
-                <BookOpen className="w-4 h-4 mr-2" />
-                {isArabic ? 'مكتبة القوالب' : 'Template Library'}
+                <Upload className="w-4 h-4 mr-2" />
+                {isArabic ? 'رفع ملف' : 'Upload File'}
               </Button>
-              <label htmlFor="file-upload">
-                <Button>
-                  <Upload className="w-4 h-4 mr-2" />
-                  {isArabic ? 'رفع الوثائق' : 'Upload Documents'}
-                </Button>
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                className="hidden"
-                onChange={handleFileUpload}
-                accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
-              />
+              <Button>
+                <FileText className="w-4 h-4 mr-2" />
+                {isArabic ? 'إنشاء وثيقة' : 'Create Document'}
+              </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  {isArabic ? 'الوثائق المرفوعة حديثاً' : 'Recently Uploaded Documents'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {uploadedFiles.length === 0 ? (
-                    <p className="text-muted-foreground text-center py-8">
-                      {isArabic ? 'لا توجد وثائق مرفوعة بعد' : 'No documents uploaded yet'}
-                    </p>
-                  ) : (
-                    uploadedFiles.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 border rounded">
-                        <div className="flex items-center gap-2">
-                          <FileText className="w-4 h-4" />
-                          <span className="text-sm">{file.name}</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          {(file.size / 1024 / 1024).toFixed(2)} MB
-                        </span>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>
-                  {isArabic ? 'قوالب الوثائق المطلوبة' : 'Required Document Templates'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {[
-                    isArabic ? 'قالب تقرير الاجتماع الفصلي' : 'Quarterly Meeting Report Template',
-                    isArabic ? 'نموذج تحليل التعويضات' : 'Compensation Analysis Form',
-                    isArabic ? 'قائمة فحص الامتثال' : 'Compliance Checklist',
-                    isArabic ? 'تقرير تقييم المخاطر' : 'Risk Assessment Report',
-                    isArabic ? 'خطة التطوير التنفيذي' : 'Executive Development Plan'
-                  ].map((template, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border rounded">
-                      <span className="text-sm">{template}</span>
-                      <Button variant="outline" size="sm">
-                        {isArabic ? 'تحميل' : 'Download'}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <UniversalDocumentManager 
+            title={isArabic ? 'مستندات لجنة الترشيحات والمكافآت' : 'NRC Documents'}
+            allowedTypes={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']}
+            maxFileSize={10}
+            categories={[
+              isArabic ? 'محاضر الاجتماعات' : 'Meeting Minutes',
+              isArabic ? 'تقارير الامتثال' : 'Compliance Reports',
+              isArabic ? 'سياسات المكافآت' : 'Remuneration Policies',
+              isArabic ? 'تقييمات الأداء' : 'Performance Evaluations',
+              isArabic ? 'الوثائق التنظيمية' : 'Regulatory Documents'
+            ]}
+          />
         </TabsContent>
 
         {/* AI Insights Tab */}
@@ -528,7 +458,7 @@ const NRCManagement = () => {
               {isArabic ? 'رؤى الذكاء الاصطناعي والتوصيات' : 'AI Insights & Recommendations'}
             </h2>
             <Button>
-              <TrendingUp className="w-4 h-4 mr-2" />
+              <BookOpen className="w-4 h-4 mr-2" />
               {isArabic ? 'تحديث التحليل' : 'Refresh Analysis'}
             </Button>
           </div>
@@ -551,19 +481,19 @@ const NRCManagement = () => {
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div>
-                    <h4 className="font-medium mb-1">
-                      {isArabic ? 'التحليل:' : 'Analysis:'}
+                    <h4 className="font-medium text-sm mb-1">
+                      {isArabic ? 'الملاحظة:' : 'Insight:'}
                     </h4>
                     <p className="text-sm text-muted-foreground">{insight.insight}</p>
                   </div>
                   <div>
-                    <h4 className="font-medium mb-1">
+                    <h4 className="font-medium text-sm mb-1">
                       {isArabic ? 'التوصية:' : 'Recommendation:'}
                     </h4>
                     <p className="text-sm">{insight.recommendation}</p>
                   </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
+                  <div className="flex gap-2 pt-2">
+                    <Button size="sm" variant="outline">
                       {isArabic ? 'عرض التفاصيل' : 'View Details'}
                     </Button>
                     <Button size="sm">
