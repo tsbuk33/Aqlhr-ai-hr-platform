@@ -59,10 +59,13 @@ function addUniversalFeatures(filePath: string, moduleAudit: ModuleAudit): void 
   
   // Add imports if not present
   if (!content.includes('ModuleTooltip')) {
-    const importMatch = content.match(/import.*from ['"][^'"]+['"];?\n/g);
-    if (importMatch) {
-      const lastImport = importMatch[importMatch.length - 1];
-      content = content.replace(lastImport, lastImport + UNIVERSAL_IMPORTS);
+    // Find the last import statement
+    const importRegex = /^import.*from\s+['"][^'"]+['"];\s*$/gm;
+    const imports = content.match(importRegex);
+    if (imports && imports.length > 0) {
+      const lastImport = imports[imports.length - 1];
+      const lastImportIndex = content.lastIndexOf(lastImport) + lastImport.length;
+      content = content.slice(0, lastImportIndex) + '\n' + UNIVERSAL_IMPORTS.trim() + content.slice(lastImportIndex);
     }
   }
 
@@ -88,63 +91,67 @@ function addUniversalFeatures(filePath: string, moduleAudit: ModuleAudit): void 
       const openParenIndex = content.indexOf('(', returnIndex);
       const closingIndex = findClosingParen(content, openParenIndex);
       
-      const wrappedContent = `
-    <CenteredLayout
-      title={t('${moduleKey}.title')}
-      description={t('${moduleKey}.description')}
-      className="min-h-screen"
-    >
-      <div dir={isArabic ? 'rtl' : 'ltr'} className="w-full max-w-7xl mx-auto space-y-6">
+      if (closingIndex > openParenIndex) {
+        const originalContent = content.slice(openParenIndex + 1, closingIndex).trim();
         
-        {/* Module Tooltip */}
-        <ModuleTooltip moduleKey="${moduleKey}" showIcon={true}>
-          <h1 className="text-3xl font-bold">{t('${moduleKey}.title')}</h1>
-        </ModuleTooltip>
+        const wrappedContent = `
+      <CenteredLayout
+        title={t('${moduleKey}.title')}
+        description={t('${moduleKey}.description')}
+        className="min-h-screen"
+      >
+        <div dir={isArabic ? 'rtl' : 'ltr'} className="w-full max-w-7xl mx-auto space-y-6">
+          
+          {/* Module Tooltip */}
+          <ModuleTooltip moduleKey="${moduleKey}" showIcon={true}>
+            <h1 className="text-3xl font-bold">{t('${moduleKey}.title')}</h1>
+          </ModuleTooltip>
 
-        {/* How to Use Panel */}
-        {moduleFeatures.isFeatureEnabled('enableHowToUse') && (
-          <HowToUsePanel moduleKey="${moduleKey}" />
-        )}
+          {/* How to Use Panel */}
+          {moduleFeatures.isFeatureEnabled('enableHowToUse') && (
+            <HowToUsePanel moduleKey="${moduleKey}" />
+          )}
 
-        ${content.slice(openParenIndex + 1, closingIndex)}
+          {/* Original Content */}
+          ${originalContent}
 
-        {/* Document Uploader */}
-        {moduleFeatures.isFeatureEnabled('enableDocumentUpload') && (
-          <ModuleDocumentUploader
-            moduleKey="${moduleKey}"
-            maxFiles={10}
-            maxSize={50 * 1024 * 1024}
-            acceptedTypes={['.pdf', '.docx', '.xlsx', '.pptx']}
-          />
-        )}
+          {/* Document Uploader */}
+          {moduleFeatures.isFeatureEnabled('enableDocumentUpload') && (
+            <ModuleDocumentUploader
+              moduleKey="${moduleKey}"
+              maxFiles={10}
+              maxSize={50 * 1024 * 1024}
+              acceptedTypes={['.pdf', '.docx', '.xlsx', '.pptx']}
+            />
+          )}
 
-        {/* AI Diagnostic Panel */}
-        {moduleFeatures.isFeatureEnabled('enableAIDiagnostic') && (
-          <ModuleDiagnosticPanel
-            moduleKey="${moduleKey}"
-            autoRefresh={moduleFeatures.config.autoRefreshDiagnostic}
-            refreshInterval={moduleFeatures.config.diagnosticInterval}
-          />
-        )}
+          {/* AI Diagnostic Panel */}
+          {moduleFeatures.isFeatureEnabled('enableAIDiagnostic') && (
+            <ModuleDiagnosticPanel
+              moduleKey="${moduleKey}"
+              autoRefresh={moduleFeatures.config.autoRefreshDiagnostic}
+              refreshInterval={moduleFeatures.config.diagnosticInterval}
+            />
+          )}
 
-        {/* AI Chat */}
-        {moduleFeatures.isFeatureEnabled('enableAIChat') && (
-          <ModuleAIChat
-            moduleKey="${moduleKey}"
-            context={{
-              moduleName: t('${moduleKey}.title'),
-              currentData: {},
-              uploadedDocuments: []
-            }}
-          />
-        )}
-      </div>
-    </CenteredLayout>`;
-      
-      content = content.slice(0, returnIndex) + 
-                `return (${wrappedContent}
-  );` + 
-                content.slice(closingIndex + 2);
+          {/* AI Chat */}
+          {moduleFeatures.isFeatureEnabled('enableAIChat') && (
+            <ModuleAIChat
+              moduleKey="${moduleKey}"
+              context={{
+                moduleName: t('${moduleKey}.title'),
+                currentData: {},
+                uploadedDocuments: []
+              }}
+            />
+          )}
+        </div>
+      </CenteredLayout>`;
+        
+        content = content.slice(0, returnIndex) + 
+                  `return (${wrappedContent}\n    );` + 
+                  content.slice(closingIndex + 2);
+      }
     }
   }
 
