@@ -11,6 +11,7 @@ import { SalarySearchEngine } from "@/components/salary/SalarySearchEngine";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const CompensationManagementCore = () => {
   const { language } = useLanguage();
@@ -611,6 +612,8 @@ const CompensationManagementCore = () => {
           </Card>
         </div>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="core-hr.compensationManagement" />
     </div>
     </TooltipProvider>
   );
