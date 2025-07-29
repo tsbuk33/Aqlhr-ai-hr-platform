@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SkillMatrixDashboard } from '@/components/skills/SkillMatrixDashboard';
 import { JobAnalysisWorkspace } from '@/components/skills/JobAnalysisWorkspace';
-import { EnhancedFileUpload } from '@/components/enhanced/EnhancedFileUpload';
+import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 import { 
   Target, 
   Briefcase, 
@@ -215,21 +216,17 @@ export default function SkillIntelligence() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <EnhancedFileUpload
-                title={language === 'ar' ? 'رفع مستندات المهارات' : 'Skills Document Upload'}
-                description={language === 'ar' 
-                  ? 'رفع السير الذاتية، شهادات التدريب، تقييمات المهارات، وتقارير الأداء'
-                  : 'Upload resumes, training certificates, skill assessments, and performance reports'
-                }
-                moduleType="hr"
+              <UniversalDocumentManager 
+                moduleName="Skills Intelligence"
+                moduleNameAr="ذكاء المهارات"
+                description="Upload and manage skills-related documents, training certificates, and employee resumes"
+                descriptionAr="رفع وإدارة المستندات المتعلقة بالمهارات، شهادات التدريب، وسيرة الموظفين الذاتية"
                 platform="skills-intelligence"
+                moduleType="hr"
                 acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.jpg', '.jpeg', '.png']}
                 maxFileSize={50 * 1024 * 1024}
                 maxFiles={20}
-                compressionEnabled={true}
-                multipleUploads={true}
-                showPresets={true}
-                showUploadMethods={true}
+                showAsCard={false}
               />
             </CardContent>
           </Card>
@@ -251,6 +248,12 @@ export default function SkillIntelligence() {
           {language === 'ar' ? 'تصدير البيانات' : 'Export Data'}
         </Button>
       </div>
+
+      {/* AI Assistant Integration */}
+      <AqlHRAIAssistant 
+        moduleContext="skills-intelligence" 
+        companyId="demo-company"
+      />
     </div>
   );
 }
