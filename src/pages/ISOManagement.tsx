@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useLocalization } from '@/hooks/useLocalization';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -988,6 +990,9 @@ const ISOManagement = () => {
           </div>
         </TabsContent>
       </Tabs>
+      
+      <ModuleDocumentUploader moduleKey="isoManagement.compliance" />
+      <AqlHRAIAssistant moduleContext="isoManagement.compliance" />
     </div>
   );
 };

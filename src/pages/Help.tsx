@@ -43,6 +43,8 @@ import {
 } from 'lucide-react';
 
 import { PageLayout, PageSection, PageCard } from '@/components/layout/PageLayout';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const Help = () => {
   const { language, isRTL } = useLanguage();
@@ -1032,6 +1034,9 @@ const Help = () => {
           </div>
         </CardContent>
       </Card>
+      
+      <ModuleDocumentUploader moduleKey="help.interactiveGuide" />
+      <AqlHRAIAssistant moduleContext="help.interactiveGuide" />
     </div>
   );
 };

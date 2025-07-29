@@ -6,6 +6,8 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Brain, Target, BarChart3, Trophy, Lightbulb, ArrowRight, Star, Users, Building, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const Consulting = () => {
   const { t, language } = useLanguage();
@@ -298,6 +300,9 @@ const Consulting = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      <ModuleDocumentUploader moduleKey="consulting.services" />
+      <AqlHRAIAssistant moduleContext="consulting.services" />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react';
 import { PartnerLogo } from '@/components/PartnerLogo';
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const About = () => {
   const { t, language } = useLanguage();
@@ -110,6 +112,9 @@ const About = () => {
           </div>
         </div>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="about.company" />
+      <AqlHRAIAssistant moduleContext="about.company" />
     </div>
   );
 };

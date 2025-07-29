@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Calendar, Upload, Users, FileText, AlertTriangle, CheckCircle, TrendingUp, Clock, Settings, BarChart3, BookOpen, Shield } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const NRCManagement = () => {
   const { isArabic } = useSimpleLanguage();
@@ -502,6 +504,9 @@ const NRCManagement = () => {
           </div>
         </TabsContent>
       </Tabs>
+      
+      <ModuleDocumentUploader moduleKey="nrcManagement.governance" />
+      <AqlHRAIAssistant moduleContext="nrcManagement.governance" />
     </div>
   );
 };
