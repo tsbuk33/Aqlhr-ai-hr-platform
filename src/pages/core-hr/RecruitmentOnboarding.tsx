@@ -29,6 +29,8 @@ import {
   FileText
 } from "lucide-react";
 import { JobOfferManagement } from "@/components/job-offer/JobOfferManagement";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const RecruitmentOnboarding = () => {
   const { language } = useLanguage();
@@ -406,20 +408,25 @@ const RecruitmentOnboarding = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'التوظيف والإعداد' : 'Recruitment & Onboarding'}
-      description={language === 'ar' ? 
-        'إدارة شاملة لعمليات التوظيف والإعداد مع التكامل مع المراجع السعودية' : 
-        'Comprehensive recruitment and onboarding management with Saudi reference integration'
-      }
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <>
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'التوظيف والإعداد' : 'Recruitment & Onboarding'}
+        description={language === 'ar' ? 
+          'إدارة شاملة لعمليات التوظيف والإعداد مع التكامل مع المراجع السعودية' : 
+          'Comprehensive recruitment and onboarding management with Saudi reference integration'
+        }
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+      
+      <ModuleDocumentUploader moduleKey="core-hr.recruitmentOnboarding" />
+      <AqlHRAIAssistant moduleContext="core-hr.recruitmentOnboarding" />
+    </>
   );
 };
 
