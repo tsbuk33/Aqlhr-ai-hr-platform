@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle, Globe, BarChart3, FileText } from 'lucide-react';
+import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle, Globe, BarChart3, FileText, User, Briefcase, Calendar } from 'lucide-react';
 import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
 import SmartRecommendationEngine from '@/components/SmartRecommendationEngine';
 import { supabase } from '@/integrations/supabase/client';
@@ -25,9 +25,12 @@ const LearningExperienceOptimization: React.FC = () => {
   const [marketIntelligence, setMarketIntelligence] = useState(null);
   const [learningAnalytics, setLearningAnalytics] = useState(null);
   const [skillGapPredictions, setSkillGapPredictions] = useState(null);
+  const [jobSpecificRecommendations, setJobSpecificRecommendations] = useState(null);
+  const [employeeProfile, setEmployeeProfile] = useState(null);
   const [isLoadingIntelligence, setIsLoadingIntelligence] = useState(false);
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false);
   const [isLoadingPredictions, setIsLoadingPredictions] = useState(false);
+  const [isLoadingJobRecommendations, setIsLoadingJobRecommendations] = useState(false);
   
   // Load comprehensive dummy data
   const trainingModules = generateDummyTrainingModules();
@@ -328,10 +331,42 @@ const LearningExperienceOptimization: React.FC = () => {
     }
   };
 
+  const fetchJobSpecificRecommendations = async () => {
+    setIsLoadingJobRecommendations(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('job-specific-learning-ai', {
+        body: {
+          employeeId: 'demo-employee-id', // In real app, get from auth/context
+          companyId: 'demo-company-id',
+          language: 'en'
+        }
+      });
+
+      if (error) throw error;
+
+      setJobSpecificRecommendations(data.recommendations);
+      setEmployeeProfile(data.employeeProfile);
+      toast({
+        title: "Job-Specific Recommendations Ready",
+        description: "Personalized learning path generated based on your role"
+      });
+    } catch (error) {
+      console.error('Error fetching job-specific recommendations:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate job-specific recommendations",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoadingJobRecommendations(false);
+    }
+  };
+
   useEffect(() => {
     fetchMarketIntelligence();
     fetchLearningAnalytics();
     fetchSkillGapPredictions();
+    fetchJobSpecificRecommendations();
   }, []);
 
   // Get integrated insights
@@ -515,6 +550,156 @@ const LearningExperienceOptimization: React.FC = () => {
                   {isLoadingPredictions ? 'Predicting...' : 'Refresh Predictions'}
                 </Button>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Personalized Job-Specific Learning Recommendations */}
+      {jobSpecificRecommendations && (
+        <Card className="border-indigo-200 bg-gradient-to-r from-indigo-50 to-blue-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Briefcase className="h-5 w-5 text-indigo-600" />
+              AI-Personalized Learning for Your Role
+              {employeeProfile && (
+                <Badge variant="secondary" className="ml-2">
+                  {employeeProfile.position}
+                </Badge>
+              )}
+            </CardTitle>
+            {employeeProfile && (
+              <div className="text-sm text-muted-foreground">
+                Customized for {employeeProfile.name} • {employeeProfile.department} • {employeeProfile.experience} years experience
+              </div>
+            )}
+          </CardHeader>
+          <CardContent className="space-y-6">
+            
+            {/* Primary Recommendations */}
+            {jobSpecificRecommendations.primaryRecommendations && (
+              <div>
+                <h4 className="font-semibold text-indigo-800 mb-3 flex items-center gap-2">
+                  <Target className="h-4 w-4" />
+                  Priority Learning Recommendations
+                </h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {jobSpecificRecommendations.primaryRecommendations.slice(0, 4).map((rec, index) => (
+                    <div key={index} className="p-4 bg-white rounded-lg border border-indigo-200">
+                      <div className="flex justify-between items-start mb-2">
+                        <h5 className="font-semibold text-indigo-900">{rec.title}</h5>
+                        <Badge 
+                          variant={rec.priority === 'Critical' ? 'destructive' : 
+                                 rec.priority === 'High' ? 'default' : 'secondary'}
+                          className="text-xs"
+                        >
+                          {rec.priority}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-gray-600 mb-2">{rec.description}</p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {rec.estimatedHours}h
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Star className="h-3 w-3" />
+                          {rec.relevanceScore}% match
+                        </span>
+                        <span className="bg-gray-100 px-2 py-1 rounded">
+                          {rec.category}
+                        </span>
+                      </div>
+                      <div className="text-xs text-green-600 mb-2">
+                        💡 {rec.visionAlignment}
+                      </div>
+                      <div className="text-xs text-blue-600">
+                        🚀 {rec.careerImpact}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Quick Wins */}
+            {jobSpecificRecommendations.quickWins && jobSpecificRecommendations.quickWins.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-indigo-800 mb-3 flex items-center gap-2">
+                  <Zap className="h-4 w-4" />
+                  Quick Learning Wins
+                </h4>
+                <div className="grid md:grid-cols-3 gap-3">
+                  {jobSpecificRecommendations.quickWins.map((quick, index) => (
+                    <div key={index} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                      <h5 className="font-medium text-yellow-800">{quick.title}</h5>
+                      <div className="text-sm text-yellow-600 flex items-center gap-1 mt-1">
+                        <Clock className="h-3 w-3" />
+                        {quick.duration}
+                      </div>
+                      <p className="text-xs text-yellow-700 mt-1">{quick.immediateValue}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Future Learning Path */}
+            {jobSpecificRecommendations.futurePath && (
+              <div>
+                <h4 className="font-semibold text-indigo-800 mb-3 flex items-center gap-2">
+                  <Calendar className="h-4 w-4" />
+                  Your Learning Roadmap
+                </h4>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {jobSpecificRecommendations.futurePath.map((path, index) => (
+                    <div key={index} className="p-4 bg-green-50 rounded-lg border border-green-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Calendar className="h-4 w-4 text-green-600" />
+                        <span className="font-semibold text-green-800">{path.timeframe}</span>
+                      </div>
+                      <h5 className="font-medium text-green-900 mb-2">{path.focus}</h5>
+                      <ul className="text-sm text-green-700 space-y-1">
+                        {path.skills.map((skill, skillIndex) => (
+                          <li key={skillIndex} className="flex items-center gap-1">
+                            <span className="w-1 h-1 bg-green-600 rounded-full"></span>
+                            {skill}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Saudi-Specific Learning */}
+            {jobSpecificRecommendations.saudiSpecific && jobSpecificRecommendations.saudiSpecific.length > 0 && (
+              <div>
+                <h4 className="font-semibold text-indigo-800 mb-3 flex items-center gap-2">
+                  🇸🇦 Saudi Context Learning
+                </h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {jobSpecificRecommendations.saudiSpecific.map((saudi, index) => (
+                    <div key={index} className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+                      <h5 className="font-semibold text-emerald-800">{saudi.area}</h5>
+                      <p className="text-sm text-emerald-600 mb-2">{saudi.importance}</p>
+                      <p className="text-xs text-emerald-700">💡 {saudi.learningApproach}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-end">
+              <Button 
+                onClick={fetchJobSpecificRecommendations} 
+                disabled={isLoadingJobRecommendations}
+                size="sm"
+                variant="outline"
+              >
+                {isLoadingJobRecommendations ? 'Generating...' : 'Refresh Recommendations'}
+              </Button>
             </div>
           </CardContent>
         </Card>
