@@ -94,35 +94,70 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
     const scores = [75, 82, 68, 91, 59];
     const score = scores[Math.floor(Math.random() * scores.length)];
     
+    const getLocalizedText = (key: string, fallback: string) => {
+      const translation = t(key);
+      return translation === key ? fallback : translation;
+    };
+    
     return {
       score,
       category: score >= 80 ? 'excellent' : score >= 60 ? 'good' : score >= 40 ? 'needs_improvement' : 'critical',
       issues: [
         {
           severity: 'medium',
-          title: t(`${moduleKey}.diagnostic.issues.dataIncomplete`),
-          description: t(`${moduleKey}.diagnostic.issues.dataIncompleteDesc`),
-          recommendation: t(`${moduleKey}.diagnostic.issues.dataIncompleteRec`),
+          title: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.dataIncomplete`,
+            isArabic ? 'بيانات غير مكتملة' : 'Data Incomplete'
+          ),
+          description: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.dataIncompleteDesc`,
+            isArabic ? 'بعض البيانات المطلوبة مفقودة أو غير مكتملة' : 'Some required data is missing or incomplete'
+          ),
+          recommendation: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.dataIncompleteRec`,
+            isArabic ? 'قم بتحديث البيانات المفقودة لتحسين دقة التحليلات' : 'Update missing data to improve analytics accuracy'
+          ),
         },
         {
           severity: 'low',
-          title: t(`${moduleKey}.diagnostic.issues.processOptimization`),
-          description: t(`${moduleKey}.diagnostic.issues.processOptimizationDesc`),
-          recommendation: t(`${moduleKey}.diagnostic.issues.processOptimizationRec`),
+          title: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.processOptimization`,
+            isArabic ? 'تحسين العمليات' : 'Process Optimization'
+          ),
+          description: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.processOptimizationDesc`,
+            isArabic ? 'يمكن تحسين كفاءة العمليات الحالية' : 'Current processes can be optimized for better efficiency'
+          ),
+          recommendation: getLocalizedText(
+            `${moduleKey}.diagnostic.issues.processOptimizationRec`,
+            isArabic ? 'قم بمراجعة وتحسين العمليات الحالية' : 'Review and optimize current processes'
+          ),
         },
       ],
       recommendations: [
         {
           priority: 'high',
-          title: t(`${moduleKey}.diagnostic.recommendations.automateProcesses`),
-          description: t(`${moduleKey}.diagnostic.recommendations.automateProcessesDesc`),
-          estimatedImpact: '+15% efficiency',
+          title: getLocalizedText(
+            `${moduleKey}.diagnostic.recommendations.automateProcesses`,
+            isArabic ? 'أتمتة العمليات' : 'Automate Processes'
+          ),
+          description: getLocalizedText(
+            `${moduleKey}.diagnostic.recommendations.automateProcessesDesc`,
+            isArabic ? 'أتمتة العمليات اليدوية لتوفير الوقت وتقليل الأخطاء' : 'Automate manual processes to save time and reduce errors'
+          ),
+          estimatedImpact: isArabic ? '+15% كفاءة' : '+15% efficiency',
         },
         {
           priority: 'medium',
-          title: t(`${moduleKey}.diagnostic.recommendations.improveDataQuality`),
-          description: t(`${moduleKey}.diagnostic.recommendations.improveDataQualityDesc`),
-          estimatedImpact: '+10% accuracy',
+          title: getLocalizedText(
+            `${moduleKey}.diagnostic.recommendations.improveDataQuality`,
+            isArabic ? 'تحسين جودة البيانات' : 'Improve Data Quality'
+          ),
+          description: getLocalizedText(
+            `${moduleKey}.diagnostic.recommendations.improveDataQualityDesc`,
+            isArabic ? 'تحسين جودة البيانات ودقتها للحصول على نتائج أفضل' : 'Improve data quality and accuracy for better results'
+          ),
+          estimatedImpact: isArabic ? '+10% دقة' : '+10% accuracy',
         },
       ],
       lastUpdated: new Date(),
