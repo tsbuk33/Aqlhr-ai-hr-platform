@@ -164,11 +164,12 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
 
   if (isMinimized) {
     return (
-      <div className={`fixed bottom-4 ${isArabic ? 'left-4' : 'right-4'} z-50`}>
+      <div className={`fixed bottom-20 ${isArabic ? 'left-4' : 'right-4'} z-40`}>
         <Button
           onClick={onToggleMinimize}
-          className="rounded-full w-12 h-12 shadow-lg"
+          className="rounded-full w-12 h-12 shadow-lg hover:shadow-xl transition-shadow"
           size="icon"
+          variant="secondary"
         >
           <MessageCircle className="h-6 w-6" />
         </Button>
