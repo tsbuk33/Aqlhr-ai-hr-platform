@@ -33,7 +33,15 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
   moduleKey,
   maxFiles = 5,
   maxSize = 10,
-  acceptedTypes = ['.pdf', '.doc', '.docx', '.txt', '.csv', '.xlsx'],
+  acceptedTypes = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
+    'text/csv',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel'
+  ],
   onFilesUploaded,
   className = ""
 }) => {
