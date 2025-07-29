@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const OrgStructureAssessment = () => {
   return (
@@ -42,6 +43,8 @@ const OrgStructureAssessment = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="diagnostic.orgStructureAssessment" />
     </div>
   );
 };

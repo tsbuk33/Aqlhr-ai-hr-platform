@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const RetentionStrategyAssessment = () => {
   return (
@@ -42,6 +43,8 @@ const RetentionStrategyAssessment = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="diagnostic.retentionStrategyAssessment" />
     </div>
   );
 };

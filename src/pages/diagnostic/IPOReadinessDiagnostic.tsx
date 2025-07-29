@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const IPOReadinessDiagnostic = () => {
   return (
@@ -42,6 +43,8 @@ const IPOReadinessDiagnostic = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="diagnostic.ipoReadinessDiagnostic" />
     </div>
   );
 };
