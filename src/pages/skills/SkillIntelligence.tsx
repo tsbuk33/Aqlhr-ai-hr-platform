@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -6,6 +6,8 @@ import { SkillMatrixDashboard } from '@/components/skills/SkillMatrixDashboard';
 import { JobAnalysisWorkspace } from '@/components/skills/JobAnalysisWorkspace';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
 import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/components/ui/use-toast';
 import { 
   Target, 
   Briefcase, 
@@ -24,7 +26,46 @@ import { useLanguage } from '@/hooks/useLanguageCompat';
 
 export default function SkillIntelligence() {
   const { language, isRTL } = useLanguage();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('matrix');
+  const [marketIntelligence, setMarketIntelligence] = useState(null);
+  const [isLoadingIntelligence, setIsLoadingIntelligence] = useState(false);
+
+  const fetchMarketIntelligence = async () => {
+    setIsLoadingIntelligence(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('external-intelligence', {
+        body: {
+          moduleContext: 'skills',
+          query: 'Current skill demands, salary trends, and emerging technologies in Saudi Arabia technology and HR sector',
+          dataType: 'market_data',
+          country: 'Saudi Arabia',
+          industry: 'HR Technology'
+        }
+      });
+
+      if (error) throw error;
+
+      setMarketIntelligence(data.externalInsight);
+      toast({
+        title: "Market Intelligence Updated",
+        description: "Latest Saudi market data retrieved successfully"
+      });
+    } catch (error) {
+      console.error('Error fetching market intelligence:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch market intelligence",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoadingIntelligence(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMarketIntelligence();
+  }, []);
 
   const features = [
     {
@@ -132,6 +173,41 @@ export default function SkillIntelligence() {
           </Card>
         ))}
       </div>
+
+      {/* Market Intelligence Panel */}
+      {marketIntelligence && (
+        <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-orange-600" />
+              {language === 'ar' ? 'ذكاء السوق المباشر' : 'Live Market Intelligence'}
+            </CardTitle>
+            <CardDescription>
+              {language === 'ar' 
+                ? 'معلومات السوق السعودي المحدثة من مصادر خارجية'
+                : 'Real-time Saudi market insights from external sources'
+              }
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="prose prose-sm max-w-none">
+              <div className="p-4 bg-white rounded-lg border border-orange-200">
+                <pre className="whitespace-pre-wrap text-sm">{marketIntelligence}</pre>
+              </div>
+              <div className="flex justify-end mt-4">
+                <Button 
+                  onClick={fetchMarketIntelligence} 
+                  disabled={isLoadingIntelligence}
+                  size="sm"
+                  variant="outline"
+                >
+                  {isLoadingIntelligence ? 'Updating...' : 'Refresh Intelligence'}
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Integration Overview */}
       <Card>
