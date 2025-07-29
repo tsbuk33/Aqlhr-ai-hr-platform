@@ -4,6 +4,8 @@ import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 import { FileText, Zap, Clock, Globe, Upload, BarChart3, CheckCircle, Eye, Brain } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const DocumentIntelligence = () => {
   const { language, isRTL } = useLanguage();
@@ -539,6 +541,9 @@ const DocumentIntelligence = () => {
           />
         </CardContent>
       </Card>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.documentIntelligence" />
+      <AqlHRAIAssistant moduleContext="ai-automation.documentIntelligence" />
     </div>
   );
 };

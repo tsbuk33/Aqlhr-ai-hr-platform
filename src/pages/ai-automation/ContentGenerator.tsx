@@ -5,6 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { BookOpen, Zap, Star, PlayCircle, Brain, FileText } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const ContentGenerator = () => {
   const { t } = useLanguage();
@@ -273,6 +275,9 @@ const ContentGenerator = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.contentGenerator" />
+      <AqlHRAIAssistant moduleContext="ai-automation.contentGenerator" />
     </div>
   );
 };
