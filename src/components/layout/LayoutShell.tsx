@@ -27,8 +27,6 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
         </main>
         <GlobalFooter />
         
-        {/* Executive Intelligence Center - Available everywhere */}
-        <ExecutiveFloatingButton />
       </div>
     </div>
   );
