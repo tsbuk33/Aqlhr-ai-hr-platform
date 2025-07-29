@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.ai-translation-engine]
 verify_jwt = false
+
+[functions.hf-document-processor]
+verify_jwt = false
