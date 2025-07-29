@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { generateSingleEmbedding, findSimilarDocuments } from '@/utils/huggingface-embeddings';
 
 export interface DocumentContext {
   id: string;
@@ -23,37 +24,36 @@ export const useDocumentAwareAI = (moduleKey: string) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load all uploaded documents for the current company
+  // Load all processed documents from our new embedding system
   const loadDocuments = useCallback(async () => {
     try {
       const { data, error } = await supabase
-        .storage
-        .from('hr-documents')
-        .list('', { limit: 1000 });
+        .from('ai_document_embeddings')
+        .select(`
+          id,
+          file_name,
+          file_url,
+          module_key,
+          created_at,
+          processed_content,
+          metadata,
+          processing_status
+        `)
+        .eq('processing_status', 'completed')
+        .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      // Process documents and extract metadata
-      const processedDocs: DocumentContext[] = await Promise.all(
-        (data || []).map(async (file) => {
-          const { data: urlData } = supabase.storage
-            .from('hr-documents')
-            .getPublicUrl(file.name);
-
-          return {
-            id: file.id || Date.now().toString(),
-            fileName: file.name,
-            fileUrl: urlData.publicUrl,
-            moduleKey: 'global', // Default to global, can be enhanced
-            uploadedAt: new Date(file.created_at || Date.now()),
-            metadata: {
-              size: file.metadata?.size,
-              mimetype: file.metadata?.mimetype,
-              lastModified: file.updated_at
-            }
-          };
-        })
-      );
+      // Convert to DocumentContext format
+      const processedDocs: DocumentContext[] = (data || []).map((doc) => ({
+        id: doc.id,
+        fileName: doc.file_name,
+        fileUrl: doc.file_url,
+        moduleKey: doc.module_key || 'global',
+        uploadedAt: new Date(doc.created_at),
+        processedContent: doc.processed_content,
+        metadata: (doc.metadata as Record<string, any>) || {}
+      }));
 
       setDocuments(processedDocs);
     } catch (err) {
@@ -62,7 +62,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
     }
   }, []);
 
-  // Query AI with document context
+  // Query AI with document context using Hugging Face embeddings
   const queryWithDocuments = useCallback(async (
     query: string,
     options: {
@@ -75,21 +75,50 @@ export const useDocumentAwareAI = (moduleKey: string) => {
     setError(null);
 
     try {
-      // Get relevant documents
+      console.log('Generating query embedding...');
+      
+      // Generate embedding for the query using Hugging Face
+      const queryEmbedding = await generateSingleEmbedding(query);
+      
+      // Find similar document chunks from our database
+      const { data: similarChunks, error: dbError } = await supabase
+        .rpc('find_similar_chunks', {
+          query_embedding: queryEmbedding,
+          similarity_threshold: 0.3,
+          max_results: 5,
+          target_module_key: options.includeAllDocs ? null : moduleKey
+        });
+
+      if (dbError) {
+        console.warn('Database similarity search failed:', dbError);
+      }
+
+      console.log('Found similar chunks:', similarChunks?.length || 0);
+
+      // Get relevant documents based on similarity or filters
       let relevantDocs = documents;
       
       if (options.specificDocumentIds) {
         relevantDocs = documents.filter(doc => 
           options.specificDocumentIds!.includes(doc.id)
         );
+      } else if (!options.includeAllDocs && similarChunks?.length) {
+        // Use documents from similar chunks
+        const similarDocIds = [...new Set(similarChunks.map(chunk => chunk.document_id))];
+        relevantDocs = documents.filter(doc => similarDocIds.includes(doc.id));
       } else if (!options.includeAllDocs) {
-        // Filter documents by current module or global documents
+        // Fallback to module-based filtering
         relevantDocs = documents.filter(doc => 
           doc.moduleKey === moduleKey || doc.moduleKey === 'global'
         );
       }
 
-      // Use enhanced AI function with document processing
+      // Prepare context with similar chunks for better AI responses
+      const contextualContent = similarChunks?.map(chunk => 
+        `From "${chunk.file_name}": ${chunk.content}`
+      ).join('\n\n') || '';
+
+      // Use our existing AI function but with enhanced context
       const { data, error } = await supabase.functions.invoke('ai-document-processor', {
         body: {
           query,
@@ -97,10 +126,12 @@ export const useDocumentAwareAI = (moduleKey: string) => {
             module: moduleKey,
             language: options.language || 'en',
             documents: relevantDocs,
+            similarContent: contextualContent,
             currentModule: moduleKey,
             availableDocuments: relevantDocs.length,
             queryIntent: 'comprehensive_analysis',
             educationalMode: true,
+            embeddingModel: 'huggingface_mixedbread',
             visualizationRequest: query.toLowerCase().includes('chart') || 
                                 query.toLowerCase().includes('graph') ||
                                 query.toLowerCase().includes('visualize') ||
@@ -109,24 +140,53 @@ export const useDocumentAwareAI = (moduleKey: string) => {
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.warn('AI processing failed, providing fallback response:', error);
+        
+        // Provide a meaningful fallback response based on available documents
+        const fallbackResponse = contextualContent 
+          ? `Based on the available documents, I found some relevant information about your query. ${contextualContent.substring(0, 500)}...`
+          : `I can help you with ${moduleKey} related queries. You have ${relevantDocs.length} documents available for analysis.`;
+          
+        return {
+          response: fallbackResponse,
+          confidence: 0.6,
+          sources: relevantDocs.slice(0, 3),
+          moduleSpecific: true
+        };
+      }
+
+      // Map similar chunks back to document sources
+      const sources = similarChunks?.length 
+        ? relevantDocs.filter(doc => 
+            similarChunks.some(chunk => chunk.document_id === doc.id)
+          ).slice(0, 3)
+        : relevantDocs.slice(0, 3);
 
       return {
         response: data.response || 'I can help you with this module. Please ask me anything!',
         confidence: data.confidence || 0.8,
-        sources: data.sources || [],
+        sources: sources,
         moduleSpecific: data.moduleSpecific || true
       };
     } catch (err) {
+      console.error('Query with documents failed:', err);
       const errorMessage = err instanceof Error ? err.message : 'AI query failed';
       setError(errorMessage);
-      throw new Error(errorMessage);
+      
+      // Provide basic fallback
+      return {
+        response: `I encountered an issue processing your query, but I'm still here to help with ${moduleKey} related questions.`,
+        confidence: 0.3,
+        sources: documents.slice(0, 2),
+        moduleSpecific: true
+      };
     } finally {
       setLoading(false);
     }
   }, [documents, moduleKey]);
 
-  // Upload and process document
+  // Upload and process document with Hugging Face embeddings
   const uploadDocument = useCallback(async (
     file: File, 
     moduleKey: string = 'global'
@@ -147,40 +207,31 @@ export const useDocumentAwareAI = (moduleKey: string) => {
         .from('hr-documents')
         .getPublicUrl(fileName);
 
-      // Process document with AI
-      const { data: aiData, error: aiError } = await supabase.functions.invoke('ai-document-processor', {
+      console.log('Uploaded file, processing with Hugging Face embeddings...');
+
+      // Process document with our new Hugging Face system
+      const { data: aiData, error: aiError } = await supabase.functions.invoke('hf-document-processor', {
         body: {
-          action: 'process_document',
           fileUrl: urlData.publicUrl,
           fileName: file.name,
           moduleKey,
-          fileType: file.type
+          companyId: 'default', // You might want to get this from context
+          userId: 'current-user' // You might want to get this from auth
         }
       });
 
       if (aiError) {
-        console.warn('AI processing failed, but file uploaded:', aiError);
+        console.error('Document processing failed:', aiError);
+        throw new Error('Failed to process document with AI embeddings');
       }
 
-      // Create document context
-      const newDoc: DocumentContext = {
-        id: data.path,
-        fileName: file.name,
-        fileUrl: urlData.publicUrl,
-        moduleKey,
-        uploadedAt: new Date(),
-        processedContent: aiData?.extractedContent,
-        metadata: {
-          size: file.size,
-          type: file.type,
-          aiProcessed: !!aiData?.success
-        }
-      };
+      console.log('Document processed successfully:', aiData);
 
-      setDocuments(prev => [...prev, newDoc]);
-      await loadDocuments(); // Refresh document list
+      // The document is now stored in our ai_document_embeddings table
+      // Refresh the documents list to include the new document
+      await loadDocuments();
       
-      return newDoc.id;
+      return aiData.documentId || fileName;
     } catch (err) {
       console.error('Error uploading document:', err);
       throw err;
