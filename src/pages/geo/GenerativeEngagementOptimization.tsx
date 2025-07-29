@@ -457,86 +457,26 @@ const GenerativeEngagementOptimization: React.FC = () => {
         </Card>
       )}
 
-      {/* AI Engagement Analytics Panel */}
-      {engagementAnalytics && (
-        <Card className="border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-purple-600" />
-              AI Engagement Analytics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="p-4 bg-white rounded-lg border border-purple-200">
-                <h4 className="font-semibold text-purple-800 mb-2">Engagement Insights</h4>
-                <div className="text-sm space-y-2">
-                  <div>Response Rate: <span className="font-bold text-green-600">94%</span></div>
-                  <div>Satisfaction Score: <span className="font-bold text-blue-600">87%</span></div>
-                  <div>Team Cohesion: <span className="font-bold text-orange-600">91%</span></div>
-                </div>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-purple-200">
-                <h4 className="font-semibold text-purple-800 mb-2">Trend Analysis</h4>
-                <div className="text-sm space-y-2">
-                  <div>Weekly Growth: <span className="font-bold text-green-600">+12%</span></div>
-                  <div>Best Practices: <span className="font-bold">Recognition, Feedback</span></div>
-                  <div>Peak Engagement: <span className="font-bold">10-12 PM</span></div>
-                </div>
-              </div>
-              <div className="p-4 bg-white rounded-lg border border-purple-200">
-                <h4 className="font-semibold text-purple-800 mb-2">Recommendations</h4>
-                <div className="text-sm space-y-2">
-                  <div>• Increase peer recognition</div>
-                  <div>• Add cultural celebration days</div>
-                  <div>• Enhance cross-team activities</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button 
-                onClick={fetchEngagementAnalytics} 
-                disabled={isLoadingAnalytics}
-                size="sm"
-                variant="outline"
-              >
-                {isLoadingAnalytics ? 'Analyzing...' : 'Refresh Analytics'}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       {/* Cultural Insights Panel */}
       {culturalInsights && (
-        <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
+        <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🇸🇦 Saudi Cultural Engagement Insights
+              <Globe className="h-5 w-5 text-orange-600" />
+              Cultural Engagement Insights
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="p-4 bg-white rounded-lg border border-emerald-200">
-                <h4 className="font-semibold text-emerald-800 mb-3">Cultural Alignment</h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Vision 2030 Connection</span>
-                    <Badge className="bg-green-600">Strong</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Islamic Values Integration</span>
-                    <Badge className="bg-blue-600">Excellent</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Cross-Cultural Harmony</span>
-                    <Badge className="bg-purple-600">High</Badge>
-                  </div>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-3">🇸🇦 Cultural Recommendations</h4>
+                <div className="p-4 bg-white rounded-lg border border-orange-200">
+                  <pre className="whitespace-pre-wrap text-sm">{culturalInsights}</pre>
                 </div>
               </div>
-              <div className="p-4 bg-white rounded-lg border border-emerald-200">
-                <h4 className="font-semibold text-emerald-800 mb-3">Optimization Opportunities</h4>
-                <div className="text-sm space-y-2">
+              <div>
+                <h4 className="font-semibold text-orange-800 mb-3">🌟 Saudi-Specific Engagement</h4>
+                <div className="space-y-2 text-sm">
                   <div>• Ramadan engagement adaptation</div>
                   <div>• National Day team celebrations</div>
                   <div>• Arabic language peer support</div>
@@ -559,7 +499,7 @@ const GenerativeEngagementOptimization: React.FC = () => {
       )}
 
       <Tabs defaultValue="pulse" className="w-full">
-        <TabsList className="grid w-full grid-cols-8">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="pulse" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
             Pulse Check
@@ -580,79 +520,72 @@ const GenerativeEngagementOptimization: React.FC = () => {
             <Brain className="h-4 w-4" />
             Smart AI
           </TabsTrigger>
-          <TabsTrigger value="insights" className="flex items-center gap-2">
-            <Zap className="h-4 w-4" />
-            AI Insights
-          </TabsTrigger>
-          <TabsTrigger value="advanced-engagement" className="flex items-center gap-2">
-            <Star className="h-4 w-4" />
-            Advanced
-          </TabsTrigger>
-          <TabsTrigger value="cultural-intelligence" className="flex items-center gap-2">
-            <Heart className="h-4 w-4" />
-            Cultural AI
+          <TabsTrigger value="cultural" className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            Culture
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="pulse" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Today's Pulse Survey */}
-            <Card className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Daily Pulse */}
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5 text-primary" />
+                  <MessageCircle className="h-5 w-5" />
                   Today's Pulse Check
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4">
                 <div className="text-center">
-                  <h3 className="text-lg font-medium mb-4">{todaysPulse.question}</h3>
-                  <div className="grid grid-cols-5 gap-2">
+                  <p className="text-lg font-medium mb-4">{todaysPulse.question}</p>
+                  <div className="grid grid-cols-2 gap-3">
                     {todaysPulse.options.map((option) => (
-                      <button
+                      <Button
                         key={option.id}
-                        className={`p-4 rounded-lg border-2 transition-all duration-200 hover:scale-105 ${
-                          selectedPulseOption === option.id
-                            ? 'border-primary bg-primary/10'
-                            : 'border-border hover:border-primary/50'
-                        }`}
+                        variant={selectedPulseOption === option.id ? "default" : "outline"}
+                        className="h-auto p-4 flex flex-col items-center gap-2"
                         onClick={() => handlePulseSubmit(option.id)}
                       >
-                        <div className="text-2xl mb-2">{option.emoji}</div>
-                        <div className="text-xs font-medium">{option.text}</div>
-                      </button>
+                        <span className="text-2xl">{option.emoji}</span>
+                        <span className="text-xs">{option.text}</span>
+                      </Button>
                     ))}
                   </div>
                 </div>
                 {selectedPulseOption && (
-                  <div className="space-y-4">
+                  <div className="mt-4">
                     <Textarea
-                      placeholder="Any additional thoughts? (Optional)"
+                      placeholder="Share more details about your energy level today..."
                       value={pulseResponse}
                       onChange={(e) => setPulseResponse(e.target.value)}
-                      className="min-h-20"
+                      className="mb-2"
                     />
-                    <Button className="w-full">Submit Response</Button>
+                    <Button size="sm" className="w-full">
+                      Submit Pulse
+                    </Button>
                   </div>
                 )}
               </CardContent>
             </Card>
 
-            {/* Team Insights */}
+            {/* Pulse Insights */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Zap className="h-5 w-5 text-primary" />
-                  Team Insights
+                  <BarChart3 className="h-5 w-5" />
+                  Team Pulse Insights
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {pulseInsights.map((insight) => (
-                  <div key={insight.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                    <span className="text-xl">{insight.icon}</span>
-                    <span className="text-sm">{insight.text}</span>
-                  </div>
-                ))}
+              <CardContent>
+                <div className="space-y-4">
+                  {pulseInsights.map((insight) => (
+                    <div key={insight.id} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                      <span className="text-2xl">{insight.icon}</span>
+                      <span className="text-sm font-medium">{insight.text}</span>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -660,78 +593,79 @@ const GenerativeEngagementOptimization: React.FC = () => {
 
         <TabsContent value="recognition" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Give Recognition */}
+            {/* Recognition Suggestions */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Gift className="h-5 w-5 text-primary" />
-                  AI Recognition Suggestions
+                  <Star className="h-5 w-5" />
+                  Recognition Suggestions
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {recognitionSuggestions.map((suggestion) => (
-                  <div key={suggestion.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-                    <div className="flex items-start gap-3 mb-3">
-                      <img
-                        src={suggestion.employeePhoto}
-                        alt={suggestion.employeeName}
-                        className="w-10 h-10 rounded-full object-cover"
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-medium">{suggestion.employeeName}</h4>
-                        <p className="text-sm text-muted-foreground">{suggestion.department}</p>
+              <CardContent>
+                <div className="space-y-4">
+                  {recognitionSuggestions.map((suggestion) => (
+                    <div key={suggestion.id} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={suggestion.employeePhoto}
+                          alt={suggestion.employeeName}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div>
+                          <div className="font-semibold">{suggestion.employeeName}</div>
+                          <div className="text-sm text-muted-foreground">{suggestion.department}</div>
+                        </div>
                       </div>
-                      <Badge variant={suggestion.impact === 'High' ? 'destructive' : 'secondary'}>
-                        {suggestion.impact} Impact
-                      </Badge>
+                      <p className="text-sm">{suggestion.achievement}</p>
+                      <div className="flex items-center justify-between">
+                        <Badge variant={suggestion.impact === 'High' ? 'default' : 'secondary'}>
+                          {suggestion.impact} Impact
+                        </Badge>
+                        <Button size="sm">Send Recognition</Button>
+                      </div>
                     </div>
-                    <p className="text-sm mb-3">{suggestion.achievement}</p>
-                    <Button size="sm" className="w-full">
-                      <Award className="h-4 w-4 mr-2" />
-                      Recognize Achievement
-                    </Button>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </CardContent>
             </Card>
 
-            {/* Recent Recognition Feed */}
+            {/* Recent Recognitions */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-primary" />
-                  Recognition Feed
+                  <Trophy className="h-5 w-5" />
+                  Recent Recognitions
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {recentRecognitions.map((recognition) => (
-                  <div key={recognition.id} className="border rounded-lg p-4">
-                    <div className="mb-3">
-                      <p className="text-sm">
-                        <span className="font-medium">{recognition.giver}</span>
-                        <span className="text-muted-foreground"> recognized </span>
-                        <span className="font-medium">{recognition.receiver}</span>
-                        <span className="text-muted-foreground"> for </span>
-                        <span className="font-medium">{recognition.reason}</span>
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">{recognition.timeAgo}</p>
+              <CardContent>
+                <div className="space-y-4">
+                  {recentRecognitions.map((recognition) => (
+                    <div key={recognition.id} className="border rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <Award className="h-5 w-5 text-yellow-500 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-sm">
+                            <span className="font-semibold">{recognition.giver}</span>
+                            {' '}recognized{' '}
+                            <span className="font-semibold">{recognition.receiver}</span>
+                            {' '}for{' '}
+                            <span className="italic">{recognition.reason}</span>
+                          </p>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
+                            <span>{recognition.timeAgo}</span>
+                            <div className="flex items-center gap-1">
+                              <ThumbsUp className="h-3 w-3" />
+                              <span>{recognition.likes}</span>
+                            </div>
+                            <Badge variant="outline" className="text-xs">
+                              {recognition.type}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary">
-                        <ThumbsUp className="h-4 w-4" />
-                        {recognition.likes}
-                      </button>
-                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary">
-                        <MessageCircle className="h-4 w-4" />
-                        Comment
-                      </button>
-                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary">
-                        <Share className="h-4 w-4" />
-                        Share
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -743,41 +677,43 @@ const GenerativeEngagementOptimization: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <UserPlus className="h-5 w-5 text-primary" />
-                  Smart Connection Recommendations
+                  <UserPlus className="h-5 w-5" />
+                  Recommended Connections
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {connectionRecommendations.map((connection) => (
-                  <div key={connection.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-                    <div className="flex items-start gap-3 mb-3">
-                      <img
-                        src={connection.photo}
-                        alt={connection.name}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-medium">{connection.name}</h4>
-                        <p className="text-sm text-muted-foreground">{connection.role}</p>
-                        <p className="text-sm text-muted-foreground">{connection.department}</p>
+              <CardContent>
+                <div className="space-y-4">
+                  {connectionRecommendations.map((person) => (
+                    <div key={person.id} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={person.photo}
+                          alt={person.name}
+                          className="w-12 h-12 rounded-full"
+                        />
+                        <div>
+                          <div className="font-semibold">{person.name}</div>
+                          <div className="text-sm text-muted-foreground">{person.role}</div>
+                          <div className="text-xs text-muted-foreground">{person.department}</div>
+                        </div>
+                      </div>
+                      <p className="text-sm">{person.reason}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {person.commonInterests.map((interest, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {interest}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          {person.mutualConnections} mutual connections
+                        </span>
+                        <Button size="sm">Connect</Button>
                       </div>
                     </div>
-                    <p className="text-sm mb-2">{connection.reason}</p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {connection.commonInterests.map((interest, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {interest}
-                        </Badge>
-                      ))}
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-muted-foreground">
-                        {connection.mutualConnections} mutual connections
-                      </span>
-                      <Button size="sm">Connect</Button>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </CardContent>
             </Card>
 
@@ -785,46 +721,47 @@ const GenerativeEngagementOptimization: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5 text-primary" />
+                  <Target className="h-5 w-5" />
                   Collaboration Opportunities
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {collaborationOpportunities.map((opportunity) => (
-                  <div key={opportunity.id} className="border rounded-lg p-4 hover:bg-muted/50 transition-colors">
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="font-medium">{opportunity.title}</h4>
-                      <Badge variant="outline">{opportunity.type}</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mb-3">{opportunity.description}</p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {opportunity.skills.map((skill, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {skill}
+              <CardContent>
+                <div className="space-y-4">
+                  {collaborationOpportunities.map((opportunity) => (
+                    <div key={opportunity.id} className="border rounded-lg p-4 space-y-3">
+                      <div>
+                        <div className="font-semibold">{opportunity.title}</div>
+                        <Badge variant="outline" className="text-xs mt-1">
+                          {opportunity.type}
                         </Badge>
-                      ))}
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <div className="text-xs text-muted-foreground">
-                        <span>{opportunity.participants} participants</span>
-                        <span className="mx-2">•</span>
-                        <span>{opportunity.deadline}</span>
                       </div>
-                      <Button size="sm">Join Project</Button>
+                      <p className="text-sm text-muted-foreground">{opportunity.description}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {opportunity.skills.map((skill, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>{opportunity.participants} participants</span>
+                        <span>Deadline: {opportunity.deadline}</span>
+                      </div>
+                      <Button size="sm" className="w-full">Join Collaboration</Button>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {engagementMetrics.map((metric, index) => (
               <Card key={index}>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-medium">{metric.metric}</CardTitle>
+                  <CardTitle className="text-base">{metric.metric}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between mb-2">
@@ -845,453 +782,12 @@ const GenerativeEngagementOptimization: React.FC = () => {
           />
         </TabsContent>
 
-        <TabsContent value="insights" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>AI Engagement Predictions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <h4 className="font-medium text-blue-900 mb-2">🔮 Next Week Forecast</h4>
-                  <p className="text-sm text-blue-800">
-                    Engagement expected to increase by 8% due to upcoming Vision 2030 workshop and team building activities.
-                  </p>
-                </div>
-                <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-                  <h4 className="font-medium text-green-900 mb-2">💡 Optimization Opportunity</h4>
-                  <p className="text-sm text-green-800">
-                    Implementing morning pulse checks could boost response rates by 15% based on team behavior patterns.
-                  </p>
-                </div>
-                <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                  <h4 className="font-medium text-yellow-900 mb-2">⚠️ Attention Needed</h4>
-                  <p className="text-sm text-yellow-800">
-                    3 team members showing decreased engagement patterns. Consider proactive check-ins.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Cultural Intelligence Insights</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-                  <h4 className="font-medium text-purple-900 mb-2">🕌 Cultural Resonance</h4>
-                  <p className="text-sm text-purple-800">
-                    Recognition patterns align well with Saudi cultural values. Family-focused benefits highly appreciated.
-                  </p>
-                </div>
-                <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-                  <h4 className="font-medium text-indigo-900 mb-2">🤝 Cross-Cultural Collaboration</h4>
-                  <p className="text-sm text-indigo-800">
-                    International team members showing 92% satisfaction with cultural integration programs.
-                  </p>
-                </div>
-                <div className="p-4 bg-pink-50 rounded-lg border border-pink-200">
-                  <h4 className="font-medium text-pink-900 mb-2">🎯 Vision 2030 Alignment</h4>
-                  <p className="text-sm text-pink-800">
-                    89% of employees feel connected to Vision 2030 goals through current engagement initiatives.
-                  </p>
-                </div>
-              </CardContent>
-        <TabsContent value="advanced-engagement" className="space-y-6">
-          
-          {/* AI-Powered Engagement Optimization */}
-          <Card className="border-violet-200 bg-gradient-to-r from-violet-50 to-purple-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Brain className="h-5 w-5 text-violet-600" />
-                AI Engagement Optimization Engine
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-violet-800">Personalized Engagement Strategies</h4>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-white rounded-lg border border-violet-200">
-                      <h5 className="font-medium text-violet-900 mb-2">🎯 Individual Engagement Profiles</h5>
-                      <p className="text-sm text-violet-700">AI analyzes each employee's engagement patterns and preferences</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-lg border border-violet-200">
-                      <h5 className="font-medium text-violet-900 mb-2">🇸🇦 Cultural Engagement Adaptation</h5>
-                      <p className="text-sm text-violet-700">Tailored for Saudi cultural values and Islamic principles</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-lg border border-violet-200">
-                      <h5 className="font-medium text-violet-900 mb-2">⚡ Real-time Engagement Monitoring</h5>
-                      <p className="text-sm text-violet-700">Continuous assessment and adaptive recommendations</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <h4 className="font-semibold text-violet-800">Team Dynamics Intelligence</h4>
-                  <div className="p-4 bg-violet-100 rounded-lg">
-                    <div className="text-sm space-y-2">
-                      <div>🤝 Cross-cultural collaboration: <span className="font-bold text-green-600">Excellent</span></div>
-                      <div>🎭 Team cohesion score: <span className="font-bold text-blue-600">91%</span></div>
-                      <div>💬 Communication effectiveness: <span className="font-bold text-purple-600">87%</span></div>
-                      <div>🌟 Innovation mindset: <span className="font-bold text-emerald-600">93%</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Real-time Engagement Impact Analytics */}
-          <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-emerald-600" />
-                Real-time Engagement Impact Analytics
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-4 gap-4">
-                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
-                  <div className="text-2xl font-bold text-emerald-600">+31%</div>
-                  <div className="text-sm text-emerald-800">Productivity Boost</div>
-                  <div className="text-xs text-muted-foreground mt-1">From engagement initiatives</div>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
-                  <div className="text-2xl font-bold text-blue-600">94%</div>
-                  <div className="text-sm text-blue-800">Retention Rate</div>
-                  <div className="text-xs text-muted-foreground mt-1">Engaged employees</div>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
-                  <div className="text-2xl font-bold text-orange-600">+25%</div>
-                  <div className="text-sm text-orange-800">Innovation Index</div>
-                  <div className="text-xs text-muted-foreground mt-1">Creative contributions</div>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
-                  <div className="text-2xl font-bold text-purple-600">+18%</div>
-                  <div className="text-sm text-purple-800">Team Collaboration</div>
-                  <div className="text-xs text-muted-foreground mt-1">Cross-functional projects</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Advanced Recognition Engine */}
+        <TabsContent value="cultural" className="space-y-6">
           <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                🏆 Advanced Recognition Engine
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-lg border border-amber-200">
-                  <h4 className="font-semibold text-amber-800 mb-3">🎯 Smart Recognition Timing</h4>
-                  <ul className="text-sm space-y-2 text-amber-700">
-                    <li>• AI-predicted optimal recognition moments</li>
-                    <li>• Cultural event alignment</li>
-                    <li>• Personal milestone awareness</li>
-                    <li>• Team achievement correlation</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-amber-200">
-                  <h4 className="font-semibold text-amber-800 mb-3">🌍 Cultural Recognition Styles</h4>
-                  <ul className="text-sm space-y-2 text-amber-700">
-                    <li>• Arabic appreciation messages</li>
-                    <li>• Islamic value-based recognition</li>
-                    <li>• Saudi cultural celebration themes</li>
-                    <li>• Respectful public/private preferences</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-amber-200">
-                  <h4 className="font-semibold text-amber-800 mb-3">📊 Recognition Impact Tracking</h4>
-                  <ul className="text-sm space-y-2 text-amber-700">
-                    <li>• Engagement boost measurement</li>
-                    <li>• Peer recognition ripple effects</li>
-                    <li>• Performance correlation analysis</li>
-                    <li>• Team morale improvement</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Engagement Gamification Engine */}
-          <Card className="border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🎮 Engagement Gamification Engine
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold text-cyan-800 mb-3">🏅 Achievement System</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
-                      <div className="text-2xl">🤝</div>
-                      <div>
-                        <div className="font-medium">Team Unity Champion</div>
-                        <div className="text-sm text-muted-foreground">Foster cross-cultural collaboration</div>
-                      </div>
-                      <Badge className="bg-gold text-white">Earned</Badge>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
-                      <div className="text-2xl">💝</div>
-                      <div>
-                        <div className="font-medium">Recognition Master</div>
-                        <div className="text-sm text-muted-foreground">Give 25 meaningful recognitions</div>
-                      </div>
-                      <Badge variant="secondary">In Progress</Badge>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
-                      <div className="text-2xl">🌟</div>
-                      <div>
-                        <div className="font-medium">Culture Ambassador</div>
-                        <div className="text-sm text-muted-foreground">Bridge cultural understanding</div>
-                      </div>
-                      <Badge variant="outline">Locked</Badge>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-cyan-800 mb-3">🏆 Department Engagement Race</h4>
-                  <div className="p-4 bg-cyan-100 rounded-lg">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">🥇 HR Department</span>
-                        <span className="font-bold text-gold">3,247 points</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">🥈 Technology</span>
-                        <span className="font-bold text-gray-500">3,156 points</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">🥉 Sales</span>
-                        <span className="font-bold text-orange-600">2,987 points</span>
-                      </div>
-                      <div className="text-xs text-cyan-700 mt-2">
-                        Monthly engagement challenge • Your team: Finance (4th place)
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Voice-Enabled Engagement Assistant */}
-          <Card className="border-slate-200 bg-gradient-to-r from-slate-50 to-gray-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🎤 Voice-Enabled Engagement Assistant
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-lg border border-slate-200">
-                  <h4 className="font-semibold text-slate-800 mb-3">🗣️ Voice Recognition</h4>
-                  <ul className="text-sm space-y-2 text-slate-700">
-                    <li>• Arabic/English voice commands</li>
-                    <li>• Quick pulse check responses</li>
-                    <li>• Voice-to-text feedback</li>
-                    <li>• Hands-free navigation</li>
-                  </ul>
-                  <Button size="sm" className="w-full mt-3">
-                    Start Voice Session
-                  </Button>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-slate-200">
-                  <h4 className="font-semibold text-slate-800 mb-3">🤖 Smart Conversations</h4>
-                  <ul className="text-sm space-y-2 text-slate-700">
-                    <li>• Engagement coaching</li>
-                    <li>• Recognition suggestions</li>
-                    <li>• Team dynamics insights</li>
-                    <li>• Cultural guidance</li>
-                  </ul>
-                  <Button size="sm" variant="outline" className="w-full mt-3">
-                    Chat with Engagement AI
-                  </Button>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-slate-200">
-                  <h4 className="font-semibold text-slate-800 mb-3">📊 Voice Analytics</h4>
-                  <ul className="text-sm space-y-2 text-slate-700">
-                    <li>• Sentiment analysis</li>
-                    <li>• Engagement tone tracking</li>
-                    <li>• Communication patterns</li>
-                    <li>• Emotional intelligence</li>
-                  </ul>
-                  <Button size="sm" variant="secondary" className="w-full mt-3">
-                    View Voice Insights
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Engagement ROI Calculator */}
-          <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                💰 Engagement ROI Calculator
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="p-4 bg-white rounded-lg border border-emerald-200">
-                  <h4 className="font-semibold text-emerald-800 mb-3">📈 Productivity Impact</h4>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-emerald-600">+31%</div>
-                    <div className="text-sm text-emerald-800">Output Increase</div>
-                    <div className="text-xs text-muted-foreground mt-2">
-                      From engagement initiatives
-                    </div>
-                  </div>
-                  <div className="mt-4 p-3 bg-emerald-50 rounded text-sm">
-                    <div className="font-medium text-emerald-800">Value Generated:</div>
-                    <div className="text-emerald-700">SAR 127,000 annually</div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-emerald-200">
-                  <h4 className="font-semibold text-emerald-800 mb-3">🛡️ Retention Benefits</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Turnover Reduction</span>
-                      <span className="font-bold text-green-600">68%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Recruitment Savings</span>
-                      <span className="font-bold text-blue-600">SAR 89,000</span>
-                    </div>
-                    <div className="p-2 bg-emerald-50 rounded text-center">
-                      <div className="text-lg font-bold text-emerald-600">SAR 216,000</div>
-                      <div className="text-xs text-emerald-700">Annual Savings</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-emerald-200">
-                  <h4 className="font-semibold text-emerald-800 mb-3">💸 Investment vs. Return</h4>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Engagement Investment</span>
-                      <span className="font-bold">SAR 45,000</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm">Total Value Return</span>
-                      <span className="font-bold text-green-600">SAR 343,000</span>
-                    </div>
-                    <div className="p-2 bg-emerald-50 rounded text-center">
-                      <div className="text-lg font-bold text-emerald-600">7.6x ROI</div>
-                      <div className="text-xs text-emerald-700">Return on Investment</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="cultural-intelligence" className="space-y-6">
-          
-          {/* Cultural Engagement Adapter */}
-          <Card className="border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🕌 Cultural Engagement Adapter
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="p-4 bg-white rounded-lg border border-rose-200">
-                  <h4 className="font-semibold text-rose-800 mb-3">🇸🇦 Saudi Context Integration</h4>
-                  <ul className="text-sm space-y-2 text-rose-700">
-                    <li>• Islamic values in recognition</li>
-                    <li>• Respectful communication styles</li>
-                    <li>• Cultural sensitivity awareness</li>
-                    <li>• Traditional celebration integration</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-rose-200">
-                  <h4 className="font-semibold text-rose-800 mb-3">🌙 Islamic Calendar Alignment</h4>
-                  <ul className="text-sm space-y-2 text-rose-700">
-                    <li>• Ramadan engagement adaptation</li>
-                    <li>• Prayer time consideration</li>
-                    <li>• Religious holiday recognition</li>
-                    <li>• Spiritual well-being support</li>
-                  </ul>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-rose-200">
-                  <h4 className="font-semibold text-rose-800 mb-3">🤝 Cross-Cultural Bridge</h4>
-                  <ul className="text-sm space-y-2 text-rose-700">
-                    <li>• International team integration</li>
-                    <li>• Cultural exchange programs</li>
-                    <li>• Language support initiatives</li>
-                    <li>• Inclusive celebration planning</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* AI Mentorship Matching for Engagement */}
-          <Card className="border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🤝 AI Engagement Mentorship Matching
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold text-teal-800 mb-3">🎯 Smart Engagement Pairing</h4>
-                  <div className="space-y-3">
-                    <div className="p-3 bg-white rounded-lg border border-teal-200">
-                      <h5 className="font-medium text-teal-900">Engagement Style Matching</h5>
-                      <p className="text-sm text-teal-700">Pairs based on communication and motivation preferences</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-lg border border-teal-200">
-                      <h5 className="font-medium text-teal-900">Cultural Bridge Building</h5>
-                      <p className="text-sm text-teal-700">Connects across cultural backgrounds for mutual learning</p>
-                    </div>
-                    <div className="p-3 bg-white rounded-lg border border-teal-200">
-                      <h5 className="font-medium text-teal-900">Engagement Journey Alignment</h5>
-                      <p className="text-sm text-teal-700">Matches mentors with similar engagement evolution paths</p>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-teal-800 mb-3">👥 Suggested Engagement Mentors</h4>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-teal-200">
-                      <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold">
-                        LR
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium">Layla Al-Rashid</div>
-                        <div className="text-sm text-muted-foreground">Engagement Specialist • 96% match</div>
-                      </div>
-                      <Button size="sm">Connect</Button>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-teal-200">
-                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                        KM
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium">Khalid Al-Mansouri</div>
-                        <div className="text-sm text-muted-foreground">Team Dynamics Expert • 92% match</div>
-                      </div>
-                      <Button size="sm" variant="outline">View Profile</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Government Integration for Engagement */}
-          <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🏛️ Government Engagement Integration
+                <Globe className="h-5 w-5 text-amber-600" />
+                🇸🇦 Saudi Cultural Intelligence
               </CardTitle>
             </CardHeader>
             <CardContent>
