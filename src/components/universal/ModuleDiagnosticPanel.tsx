@@ -50,6 +50,37 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
   const { toast } = useToast();
   const isArabic = language === 'ar';
 
+  const getLocalizedText = (key: string, fallback: string) => {
+    const translation = t(key);
+    return translation === key ? fallback : translation;
+  };
+
+  const getSeverityText = (severity: string) => {
+    switch (severity) {
+      case 'high':
+        return isArabic ? 'عالي' : 'High';
+      case 'medium':
+        return isArabic ? 'متوسط' : 'Medium';
+      case 'low':
+        return isArabic ? 'منخفض' : 'Low';
+      default:
+        return severity;
+    }
+  };
+
+  const getPriorityText = (priority: string) => {
+    switch (priority) {
+      case 'high':
+        return isArabic ? 'عالي' : 'High';
+      case 'medium':
+        return isArabic ? 'متوسط' : 'Medium';
+      case 'low':
+        return isArabic ? 'منخفض' : 'Low';
+      default:
+        return priority;
+    }
+  };
+
   useEffect(() => {
     runDiagnostic();
     
@@ -93,11 +124,6 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
   const generateMockDiagnostic = (): DiagnosticResult => {
     const scores = [75, 82, 68, 91, 59];
     const score = scores[Math.floor(Math.random() * scores.length)];
-    
-    const getLocalizedText = (key: string, fallback: string) => {
-      const translation = t(key);
-      return translation === key ? fallback : translation;
-    };
     
     return {
       score,
@@ -195,14 +221,17 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5" />
-            {t(`${moduleKey}.diagnostic.title`)}
+            {getLocalizedText(
+              `${moduleKey}.diagnostic.title`,
+              isArabic ? `تشخيصات ${moduleKey}` : `${moduleKey} Diagnostics`
+            )}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-32">
             <Button onClick={runDiagnostic} disabled={isLoading} className="gap-2">
               <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-              {t('diagnostic.runDiagnostic')}
+              {getLocalizedText('diagnostic.runDiagnostic', isArabic ? 'تشغيل التشخيص' : 'Run Diagnostic')}
             </Button>
           </div>
         </CardContent>
@@ -216,7 +245,10 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Target className="h-5 w-5" />
-            {t(`${moduleKey}.diagnostic.title`)}
+            {getLocalizedText(
+              `${moduleKey}.diagnostic.title`,
+              isArabic ? `تشخيصات ${moduleKey}` : `${moduleKey} Diagnostics`
+            )}
           </div>
           <Button
             variant="outline"
@@ -226,7 +258,7 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
             className="gap-2"
           >
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            {t('diagnostic.refresh')}
+            {getLocalizedText('diagnostic.refresh', isArabic ? 'تحديث' : 'Refresh')}
           </Button>
         </CardTitle>
       </CardHeader>
@@ -250,7 +282,7 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
           <div className="space-y-3">
             <h4 className="font-semibold flex items-center gap-2">
               <AlertTriangle className="h-4 w-4" />
-              {t('diagnostic.issues')} ({diagnostic.issues.length})
+              {getLocalizedText('diagnostic.issues', isArabic ? 'المشاكل' : 'Issues')} ({diagnostic.issues.length})
             </h4>
             
             <div className="space-y-2">
@@ -258,15 +290,15 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
                 <div key={index} className="p-3 bg-muted/30 rounded-lg space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <h5 className="font-medium text-sm">{issue.title}</h5>
-                    <Badge variant="outline" className={getSeverityColor(issue.severity)}>
-                      {t(`diagnostic.severity.${issue.severity}`)}
-                    </Badge>
+                     <Badge variant="outline" className={getSeverityColor(issue.severity)}>
+                       {getSeverityText(issue.severity)}
+                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">{issue.description}</p>
-                  <div className="text-xs">
-                    <span className="font-medium">{t('diagnostic.recommendation')}: </span>
-                    <span className="text-muted-foreground">{issue.recommendation}</span>
-                  </div>
+                   <div className="text-xs">
+                     <span className="font-medium">{getLocalizedText('diagnostic.recommendation', isArabic ? 'التوصية' : 'Recommendation')}: </span>
+                     <span className="text-muted-foreground">{issue.recommendation}</span>
+                   </div>
                 </div>
               ))}
             </div>
@@ -276,24 +308,24 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         {/* Recommendations */}
         {diagnostic.recommendations.length > 0 && (
           <div className="space-y-3">
-            <h4 className="font-semibold flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              {t('diagnostic.recommendations')}
-            </h4>
+             <h4 className="font-semibold flex items-center gap-2">
+               <TrendingUp className="h-4 w-4" />
+               {getLocalizedText('diagnostic.recommendations', isArabic ? 'التوصيات' : 'Recommendations')}
+             </h4>
             
             <div className="space-y-2">
               {diagnostic.recommendations.map((rec, index) => (
                 <div key={index} className="p-3 bg-muted/30 rounded-lg space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <h5 className="font-medium text-sm">{rec.title}</h5>
-                    <Badge variant={getPriorityVariant(rec.priority)}>
-                      {t(`diagnostic.priority.${rec.priority}`)}
-                    </Badge>
+                     <Badge variant={getPriorityVariant(rec.priority)}>
+                       {getPriorityText(rec.priority)}
+                     </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">{rec.description}</p>
                   <div className="flex items-center gap-2 text-xs">
                     <CheckCircle className="h-3 w-3 text-green-500" />
-                    <span className="font-medium">{t('diagnostic.estimatedImpact')}: </span>
+                    <span className="font-medium">{getLocalizedText('diagnostic.estimatedImpact', isArabic ? 'التأثير المتوقع' : 'Estimated Impact')}: </span>
                     <span className="text-green-600 font-medium">{rec.estimatedImpact}</span>
                   </div>
                 </div>
