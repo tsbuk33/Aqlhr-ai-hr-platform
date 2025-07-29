@@ -48,17 +48,29 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isArabic = language === 'ar';
 
+  const getLocalizedText = (key: string, fallback: string) => {
+    const translation = t(key);
+    return translation === key ? fallback : translation;
+  };
+
   useEffect(() => {
     // Initialize with welcome message
     if (messages.length === 0) {
+      const welcomeMessage = getLocalizedText(
+        `${moduleKey}.aiChat.welcomeMessage`,
+        isArabic 
+          ? `مرحباً! أنا مساعد الذكاء الاصطناعي لوحدة ${moduleKey}. كيف يمكنني مساعدتك اليوم؟`
+          : `Hello! I'm your AI assistant for ${moduleKey}. How can I help you today?`
+      );
+      
       setMessages([{
         id: '1',
         role: 'assistant',
-        content: t(`${moduleKey}.aiChat.welcomeMessage`),
+        content: welcomeMessage,
         timestamp: new Date(),
       }]);
     }
-  }, [moduleKey, t, messages.length]);
+  }, [moduleKey, t, messages.length, isArabic]);
 
   useEffect(() => {
     scrollToBottom();
@@ -86,7 +98,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
     const typingMessage: ChatMessage = {
       id: 'typing',
       role: 'assistant',
-      content: t('aiChat.typing'),
+      content: getLocalizedText('aiChat.typing', isArabic ? 'يكتب...' : 'Typing...'),
       timestamp: new Date(),
       isTyping: true,
     };
@@ -110,7 +122,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.response || t('aiChat.defaultError'),
+        content: data.response || getLocalizedText('aiChat.defaultError', isArabic ? 'عذراً، حدث خطأ في المعالجة' : 'Sorry, there was an error processing your request'),
         timestamp: new Date(),
       };
 
@@ -127,8 +139,8 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
       setMessages(prev => prev.filter(m => m.id !== 'typing'));
       
       toast({
-        title: t('common.error'),
-        description: t('aiChat.errorMessage'),
+        title: getLocalizedText('common.error', isArabic ? 'خطأ' : 'Error'),
+        description: getLocalizedText('aiChat.errorMessage', isArabic ? 'حدث خطأ أثناء التواصل مع المساعد الذكي' : 'An error occurred while communicating with the AI assistant'),
         variant: 'destructive',
       });
     } finally {
@@ -169,9 +181,12 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="flex items-center gap-2 text-base">
           <Bot className="h-5 w-5 text-primary" />
-          {t(`${moduleKey}.aiChat.title`)}
+          {getLocalizedText(
+            `${moduleKey}.aiChat.title`,
+            isArabic ? `مساعد ${moduleKey} الذكي` : `${moduleKey} AI Assistant`
+          )}
           <Badge variant="secondary" className="text-xs">
-            {t('aiChat.beta')}
+            {getLocalizedText('aiChat.beta', isArabic ? 'تجريبي' : 'Beta')}
           </Badge>
         </CardTitle>
         
@@ -242,7 +257,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder={t('aiChat.placeholder')}
+              placeholder={getLocalizedText('aiChat.placeholder', isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...')}
               disabled={isLoading}
               className={isArabic ? 'text-right' : 'text-left'}
             />
