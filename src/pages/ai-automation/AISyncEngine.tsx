@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, RefreshCw, Database, Zap, CheckCircle, Clock, Network, Activity, Shield } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const AISyncEngine = () => {
   const { language, isRTL } = useLanguage();
@@ -628,6 +629,8 @@ const AISyncEngine = () => {
           </div>
         </CardContent>
       </Card>
+      
+      <AqlHRAIAssistant moduleContext="ai-automation.aiSyncEngine" />
     </div>
   );
 };

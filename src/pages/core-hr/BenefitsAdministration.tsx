@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload, Heart, Shield, DollarSign, Gift } from "lucide-react";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const BenefitsAdministration = () => {
   const { isRTL, language } = useLanguage();
@@ -114,6 +115,8 @@ const BenefitsAdministration = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      <AqlHRAIAssistant moduleContext="core-hr.benefitsAdministration" />
     </PageLayout>
   );
 };

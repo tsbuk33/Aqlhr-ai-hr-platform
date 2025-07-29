@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Search, Download, Filter, Shield, Eye, Clock } from "lucide-react";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const AuditTrails = () => {
   return (
@@ -294,6 +295,8 @@ const AuditTrails = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="compliance.auditTrails" />
     </div>
   );
 };

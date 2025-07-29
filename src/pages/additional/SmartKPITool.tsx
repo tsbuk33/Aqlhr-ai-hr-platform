@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { PageLayout } from "@/components/layout/PageLayout";
 
@@ -49,6 +50,8 @@ const SmartKPITool = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="additional.smartKPITool" />
     </PageLayout>
   );
 };

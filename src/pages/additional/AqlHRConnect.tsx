@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const AqlHRConnect = () => {
   const { t } = useAPITranslations();
@@ -50,6 +51,8 @@ const AqlHRConnect = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <AqlHRAIAssistant moduleContext="additional.aqlhrConnect" />
     </div>
   );
 };
