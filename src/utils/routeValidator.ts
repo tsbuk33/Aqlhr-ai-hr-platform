@@ -82,6 +82,42 @@ export const AI_ROUTES: AIRoute[] = [
     name: 'AI Executive Intelligence',
     nameAr: 'الذكاء التنفيذي',
     status: 'working'
+  },
+  {
+    path: '/ai-automation/sync-engine',
+    name: 'AI Sync Engine',
+    nameAr: 'محرك المزامنة الذكي',
+    status: 'working'
+  },
+  {
+    path: '/ai-automation/smart-recommendations',
+    name: 'Smart Recommendations',
+    nameAr: 'التوصيات الذكية',
+    status: 'working'
+  },
+  {
+    path: '/ai-automation/arabic-english-nlp',
+    name: 'Arabic-English NLP',
+    nameAr: 'معالجة اللغة العربية-الإنجليزية',
+    status: 'working'
+  },
+  {
+    path: '/ai-automation/automated-workflow',
+    name: 'Automated Workflow Engine',
+    nameAr: 'محرك سير العمل الآلي',
+    status: 'working'
+  },
+  {
+    path: '/ai-ecosystem/command-center',
+    name: 'AI Command Center',
+    nameAr: 'مركز قيادة الذكاء الاصطناعي',
+    status: 'working'
+  },
+  {
+    path: '/ai-ecosystem/aql-mind-core',
+    name: 'AqlMind Core',
+    nameAr: 'نواة عقل أقل',
+    status: 'working'
   }
 ];
 
