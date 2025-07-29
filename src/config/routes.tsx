@@ -74,7 +74,7 @@ const SaudiEngineeringBody = lazy(() => import('../pages/government/SaudiEnginee
 
 // Strategic HR modules
 const WorkforcePlanning = lazy(() => import('../pages/strategic/WorkforcePlanning'));
-const SuccessionPlanning = lazy(() => import('../pages/strategic/SuccessionPlanning'));
+const StrategicSuccessionPlanning = lazy(() => import('../pages/strategic/SuccessionPlanning'));
 const TalentAcquisition = lazy(() => import('../pages/strategic/TalentAcquisition'));
 const OrganizationalDevelopment = lazy(() => import('../pages/strategic/OrganizationalDevelopment'));
 const PerformanceStrategy = lazy(() => import('../pages/strategic/PerformanceStrategy'));
@@ -213,6 +213,9 @@ const ProcessesAndForms = lazy(() => import('../pages/ProcessesAndForms'));
 // Skills Intelligence module
 const SkillIntelligence = lazy(() => import('../pages/skills/SkillIntelligence'));
 
+// Succession Planning module
+const SuccessionPlanning = lazy(() => import('../pages/SuccessionPlanning'));
+
 // Help module
 const Help = lazy(() => import('../pages/Help'));
 
@@ -243,6 +246,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/mobile-ai-assistant', element: MobileAIAssistant, auth: true },
   { path: '/government-ai-integration', element: GovernmentAIIntegration, auth: true },
   { path: '/skills-intelligence', element: SkillIntelligence, auth: true },
+  { path: '/succession-planning', element: SuccessionPlanning, auth: true },
   { path: '/welfare-consultancy', element: WelfareConsultancy },
   { path: '/legal-consultant', element: LegalConsultant },
   { path: '/nrc-management', element: NRCManagement },
@@ -385,7 +389,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Strategic HR Sub-routes
   { path: '/strategic/workforce-planning', element: WorkforcePlanning, auth: true },
-  { path: '/strategic/succession', element: SuccessionPlanning, auth: true },
+  { path: '/strategic/succession', element: StrategicSuccessionPlanning, auth: true },
   { path: '/strategic/talent-acquisition', element: TalentAcquisition, auth: true },
   { path: '/strategic/org-development', element: OrganizationalDevelopment, auth: true },
   { path: '/strategic/performance', element: PerformanceStrategy, auth: true },
