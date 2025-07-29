@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle, Globe, BarChart3, FileText, User, Briefcase, Calendar } from 'lucide-react';
 import { useLeoGeoIntegration } from '@/hooks/useLeoGeoIntegration';
 import SmartRecommendationEngine from '@/components/SmartRecommendationEngine';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -706,7 +707,7 @@ const LearningExperienceOptimization: React.FC = () => {
       )}
 
       <Tabs defaultValue="dashboard" className="w-full">
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-8">
           <TabsTrigger value="dashboard" className="flex items-center gap-2">
             <Target className="h-4 w-4" />
             Dashboard
@@ -730,6 +731,10 @@ const LearningExperienceOptimization: React.FC = () => {
           <TabsTrigger value="ai-insights" className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
             AI Insights
+          </TabsTrigger>
+          <TabsTrigger value="advanced-intelligence" className="flex items-center gap-2">
+            <Star className="h-4 w-4" />
+            Advanced
           </TabsTrigger>
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <Award className="h-4 w-4" />
@@ -1346,7 +1351,421 @@ const LearningExperienceOptimization: React.FC = () => {
             </Card>
           </div>
         </TabsContent>
+
+        {/* Advanced Learning Intelligence Tab */}
+        <TabsContent value="advanced-intelligence" className="space-y-6">
+          
+          {/* AI Learning Path Generator */}
+          <Card className="border-violet-200 bg-gradient-to-r from-violet-50 to-purple-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="h-5 w-5 text-violet-600" />
+                AI Learning Path Generator
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-violet-800">Personalized Journey Creation</h4>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-white rounded-lg border border-violet-200">
+                      <h5 className="font-medium text-violet-900 mb-2">🎯 Role-Based Pathways</h5>
+                      <p className="text-sm text-violet-700">Dynamic learning paths tailored to your current position and career aspirations in the Saudi market</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-violet-200">
+                      <h5 className="font-medium text-violet-900 mb-2">🇸🇦 Vision 2030 Alignment</h5>
+                      <p className="text-sm text-violet-700">Every learning path connects to Saudi Arabia's transformation goals and economic diversification</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-violet-200">
+                      <h5 className="font-medium text-violet-900 mb-2">🧠 Learning Style Adaptation</h5>
+                      <p className="text-sm text-violet-700">AI adapts content delivery based on your preferred learning methods and pace</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <h4 className="font-semibold text-violet-800">Industry-Specific Intelligence</h4>
+                  <div className="p-4 bg-violet-100 rounded-lg">
+                    <div className="text-sm space-y-2">
+                      <div>🏗️ NEOM Skills: <span className="font-bold text-green-600">15 courses available</span></div>
+                      <div>🎭 QIDDIYA Entertainment: <span className="font-bold text-blue-600">8 programs</span></div>
+                      <div>🏙️ Red Sea Project: <span className="font-bold text-purple-600">12 specializations</span></div>
+                      <div>⚡ Green Riyadh: <span className="font-bold text-emerald-600">6 sustainability tracks</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Real-time Learning Impact Analytics */}
+          <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5 text-emerald-600" />
+                Real-time Learning Impact Analytics
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-4 gap-4">
+                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
+                  <div className="text-2xl font-bold text-emerald-600">+23%</div>
+                  <div className="text-sm text-emerald-800">Performance Score</div>
+                  <div className="text-xs text-muted-foreground mt-1">Since last quarter</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
+                  <div className="text-2xl font-bold text-blue-600">87%</div>
+                  <div className="text-sm text-blue-800">Promotion Readiness</div>
+                  <div className="text-xs text-muted-foreground mt-1">Leadership track</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
+                  <div className="text-2xl font-bold text-orange-600">+15%</div>
+                  <div className="text-sm text-orange-800">Salary Potential</div>
+                  <div className="text-xs text-muted-foreground mt-1">Market projection</div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-emerald-200 text-center">
+                  <div className="text-2xl font-bold text-purple-600">+31%</div>
+                  <div className="text-sm text-purple-800">Team Impact</div>
+                  <div className="text-xs text-muted-foreground mt-1">Productivity boost</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Government Certification Tracker */}
+          <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                🏛️ Government Certification Tracker
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-amber-800 mb-3">🇸🇦 Saudi Certifications</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                      <div>
+                        <div className="font-medium">TVTC Technical Certification</div>
+                        <div className="text-sm text-muted-foreground">Advanced Manufacturing</div>
+                      </div>
+                      <Badge className="bg-green-600">Active</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                      <div>
+                        <div className="font-medium">Saudi Digital Academy</div>
+                        <div className="text-sm text-muted-foreground">AI & Data Science</div>
+                      </div>
+                      <Badge variant="secondary">In Progress</Badge>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                      <div>
+                        <div className="font-medium">HRDF Leadership Program</div>
+                        <div className="text-sm text-muted-foreground">Executive Development</div>
+                      </div>
+                      <Badge variant="outline">Available</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-amber-800 mb-3">📊 Sync Status</h4>
+                  <div className="p-4 bg-amber-100 rounded-lg">
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>TVTC Platform</span>
+                        <span className="text-green-600">✓ Synced</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Digital Academy</span>
+                        <span className="text-green-600">✓ Synced</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>HRDF Portal</span>
+                        <span className="text-orange-600">⏳ Pending</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>MOL Compliance</span>
+                        <span className="text-green-600">✓ Current</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Cultural Learning Adapter */}
+          <Card className="border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                🕌 Cultural Learning Adapter
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-4 bg-white rounded-lg border border-rose-200">
+                  <h4 className="font-semibold text-rose-800 mb-3">🇸🇦 Saudi Context Adaptation</h4>
+                  <ul className="text-sm space-y-2 text-rose-700">
+                    <li>• Islamic business ethics integration</li>
+                    <li>• Arabic content localization</li>
+                    <li>• Cultural case studies</li>
+                    <li>• Saudi market examples</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-rose-200">
+                  <h4 className="font-semibold text-rose-800 mb-3">🌙 Islamic Calendar Alignment</h4>
+                  <ul className="text-sm space-y-2 text-rose-700">
+                    <li>• Ramadan-optimized schedules</li>
+                    <li>• Prayer time considerations</li>
+                    <li>• Holiday-aware planning</li>
+                    <li>• Spiritual development tracks</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-rose-200">
+                  <h4 className="font-semibold text-rose-800 mb-3">⚡ Micro-Learning Optimization</h4>
+                  <ul className="text-sm space-y-2 text-rose-700">
+                    <li>• 5-minute focused sessions</li>
+                    <li>• Between-prayers learning</li>
+                    <li>• Commute-friendly content</li>
+                    <li>• Energy-aware scheduling</li>
+                  </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Learning Gamification Engine */}
+          <Card className="border-cyan-200 bg-gradient-to-r from-cyan-50 to-blue-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                🎮 Learning Gamification Engine
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-cyan-800 mb-3">🏆 Achievement System</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
+                      <div className="text-2xl">🕌</div>
+                      <div>
+                        <div className="font-medium">Vision 2030 Champion</div>
+                        <div className="text-sm text-muted-foreground">Complete 10 Vision-aligned courses</div>
+                      </div>
+                      <Badge className="bg-gold text-white">Earned</Badge>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
+                      <div className="text-2xl">🌟</div>
+                      <div>
+                        <div className="font-medium">Cultural Ambassador</div>
+                        <div className="text-sm text-muted-foreground">Master Saudi business culture</div>
+                      </div>
+                      <Badge variant="secondary">In Progress</Badge>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-cyan-200">
+                      <div className="text-2xl">⚡</div>
+                      <div>
+                        <div className="font-medium">Innovation Pioneer</div>
+                        <div className="text-sm text-muted-foreground">Lead 3 digital transformation projects</div>
+                      </div>
+                      <Badge variant="outline">Locked</Badge>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-cyan-800 mb-3">🏅 Department Competition</h4>
+                  <div className="p-4 bg-cyan-100 rounded-lg">
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">🥇 IT Department</span>
+                        <span className="font-bold text-gold">2,547 points</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">🥈 HR Department</span>
+                        <span className="font-bold text-gray-500">2,341 points</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium">🥉 Finance</span>
+                        <span className="font-bold text-orange-600">2,156 points</span>
+                      </div>
+                      <div className="text-xs text-cyan-700 mt-2">
+                        Monthly learning challenge • Your team: Marketing (4th place)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* AI Mentorship Matching */}
+          <Card className="border-teal-200 bg-gradient-to-r from-teal-50 to-emerald-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                🤝 AI Mentorship Matching
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-teal-800 mb-3">🎯 Smart Pairing Algorithm</h4>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-white rounded-lg border border-teal-200">
+                      <h5 className="font-medium text-teal-900">Skill Gap Analysis</h5>
+                      <p className="text-sm text-teal-700">Matches mentors with expertise in your development areas</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-teal-200">
+                      <h5 className="font-medium text-teal-900">Cultural Compatibility</h5>
+                      <p className="text-sm text-teal-700">Considers cultural background and communication styles</p>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-teal-200">
+                      <h5 className="font-medium text-teal-900">Career Path Alignment</h5>
+                      <p className="text-sm text-teal-700">Connects you with mentors who've walked your desired path</p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-teal-800 mb-3">👥 Suggested Mentors</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-teal-200">
+                      <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white font-bold">
+                        AH
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium">Ahmed Al-Hassan</div>
+                        <div className="text-sm text-muted-foreground">Senior AI Engineer • 98% match</div>
+                      </div>
+                      <Button size="sm">Connect</Button>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-teal-200">
+                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                        SF
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium">Sarah Al-Fahad</div>
+                        <div className="text-sm text-muted-foreground">Digital Transformation Lead • 94% match</div>
+                      </div>
+                      <Button size="sm" variant="outline">View Profile</Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Voice-Enabled Learning Assistant */}
+          <Card className="border-slate-200 bg-gradient-to-r from-slate-50 to-gray-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                🎤 Voice-Enabled Learning Assistant
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
+                  <h4 className="font-semibold text-slate-800 mb-3">🚗 Commute Learning</h4>
+                  <ul className="text-sm space-y-2 text-slate-700">
+                    <li>• Hands-free audio lessons</li>
+                    <li>• Traffic-aware session lengths</li>
+                    <li>• Podcast-style delivery</li>
+                    <li>• Voice quiz interactions</li>
+                  </ul>
+                  <Button size="sm" className="w-full mt-3">
+                    Start Voice Session
+                  </Button>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
+                  <h4 className="font-semibold text-slate-800 mb-3">🗣️ Bilingual Support</h4>
+                  <ul className="text-sm space-y-2 text-slate-700">
+                    <li>• Arabic voice recognition</li>
+                    <li>• English pronunciation help</li>
+                    <li>• Technical term coaching</li>
+                    <li>• Accent adaptation</li>
+                  </ul>
+                  <Button size="sm" variant="outline" className="w-full mt-3">
+                    Practice Pronunciation
+                  </Button>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-slate-200">
+                  <h4 className="font-semibold text-slate-800 mb-3">🧠 Smart Conversations</h4>
+                  <ul className="text-sm space-y-2 text-slate-700">
+                    <li>• Context-aware responses</li>
+                    <li>• Learning progress tracking</li>
+                    <li>• Personalized difficulty</li>
+                    <li>• Achievement celebrations</li>
+                  </ul>
+                  <Button size="sm" variant="secondary" className="w-full mt-3">
+                    Chat with AI Tutor
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Learning ROI Calculator */}
+          <Card className="border-emerald-200 bg-gradient-to-r from-emerald-50 to-green-50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                💰 Learning ROI Calculator
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="p-4 bg-white rounded-lg border border-emerald-200">
+                  <h4 className="font-semibold text-emerald-800 mb-3">📈 Productivity Impact</h4>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-emerald-600">+34%</div>
+                    <div className="text-sm text-emerald-800">Efficiency Increase</div>
+                    <div className="text-xs text-muted-foreground mt-2">
+                      Based on AI & Data Analytics skills
+                    </div>
+                  </div>
+                  <div className="mt-4 p-3 bg-emerald-50 rounded text-sm">
+                    <div className="font-medium text-emerald-800">Value Generated:</div>
+                    <div className="text-emerald-700">SAR 45,000 annually</div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-emerald-200">
+                  <h4 className="font-semibold text-emerald-800 mb-3">⏱️ Time to Competency</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Traditional Training</span>
+                      <span className="font-bold text-red-600">12 months</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">AI-Optimized Path</span>
+                      <span className="font-bold text-green-600">7 months</span>
+                    </div>
+                    <div className="p-2 bg-emerald-50 rounded text-center">
+                      <div className="text-lg font-bold text-emerald-600">42% Faster</div>
+                      <div className="text-xs text-emerald-700">Time Savings</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-emerald-200">
+                  <h4 className="font-semibold text-emerald-800 mb-3">💸 Cost vs. Benefit</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Training Investment</span>
+                      <span className="font-bold">SAR 8,500</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm">Annual Value Return</span>
+                      <span className="font-bold text-green-600">SAR 45,000</span>
+                    </div>
+                    <div className="p-2 bg-emerald-50 rounded text-center">
+                      <div className="text-lg font-bold text-emerald-600">5.3x ROI</div>
+                      <div className="text-xs text-emerald-700">Return on Investment</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
+
+      {/* AqlHR AI Assistant */}
+      <AqlHRAIAssistant moduleContext="leo.learningOptimization" />
     </div>
   );
 };
