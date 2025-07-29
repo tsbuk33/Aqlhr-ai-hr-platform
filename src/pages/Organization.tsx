@@ -4,11 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, GitBranch, Layers, Network, Pyramid, Users, Upload, FileText, CheckCircle2, HelpCircle, Sparkles, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 
 const Organization = () => {
   const { language } = useLanguage();
@@ -460,18 +460,17 @@ const Organization = () => {
               <CardDescription>{t('upload_org_docs')}</CardDescription>
             </CardHeader>
             <CardContent>
-              <EnhancedFileUpload
-                title={t('upload_documents')}
-                description={t('upload_org_docs')}
-                moduleType="hr"
+              <UniversalDocumentManager 
+                moduleName="Organization"
+                moduleNameAr="الهيكل التنظيمي"
                 platform="sanadhr"
+                moduleType="hr"
+                description="Upload organizational charts and documents"
+                descriptionAr="رفع المخططات التنظيمية والمستندات"
                 acceptedTypes={['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.png', '.jpg', '.jpeg', '.svg']}
-                maxFileSize={50 * 1024 * 1024} // 50MB
+                maxFileSize={50 * 1024 * 1024}
                 maxFiles={10}
-                multipleUploads={true}
-                onFileProcessed={(file) => {
-                  console.log('File processed:', file.name);
-                }}
+                showAsCard={false}
               />
             </CardContent>
           </Card>
