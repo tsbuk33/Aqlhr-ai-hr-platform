@@ -9,6 +9,7 @@ import { Upload, User, Star, TrendingUp, AlertCircle, Calendar, Camera } from "l
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const SuccessionPlanningCore = () => {
   const { language } = useLanguage();
@@ -453,6 +454,8 @@ const SuccessionPlanningCore = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <AqlHRAIAssistant moduleContext="core-hr.successionPlanning" />
     </div>
   );
 };
