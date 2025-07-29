@@ -7,6 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Users, UserPlus, FileCheck, AlertTriangle, Search, Filter, Calendar, MapPin, Upload } from "lucide-react";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const EmployeeMasterData = () => {
   const { language } = useLanguage();
@@ -1632,17 +1634,22 @@ const EmployeeMasterData = () => {
   ];
 
   return (
-    <EnhancedPageLayout
-      title={language === 'ar' ? 'البيانات الأساسية للموظفين' : 'Employee Master Data'}
-      description={language === 'ar' ? 'إدارة شاملة لمعلومات الموظفين' : 'Complete employee information management'}
-      showUserInfo={true}
-      showQuickActions={true}
-      showTabs={true}
-      stats={stats}
-      quickActions={quickActions}
-      documents={documents}
-      tabs={tabs}
-    />
+    <>
+      <EnhancedPageLayout
+        title={language === 'ar' ? 'البيانات الأساسية للموظفين' : 'Employee Master Data'}
+        description={language === 'ar' ? 'إدارة شاملة لمعلومات الموظفين' : 'Complete employee information management'}
+        showUserInfo={true}
+        showQuickActions={true}
+        showTabs={true}
+        stats={stats}
+        quickActions={quickActions}
+        documents={documents}
+        tabs={tabs}
+      />
+      
+      <ModuleDocumentUploader moduleKey="core-hr.employeeMasterData" />
+      <AqlHRAIAssistant moduleContext="core-hr.employeeMasterData" />
+    </>
   );
 };
 
