@@ -18,6 +18,8 @@ import {
   ArrowRight, Plus, FileText, Download, Upload, Calculator,
   Eye, Edit, Trash2, Clock3, Coffee, Plane, Hospital, Building
 } from 'lucide-react';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 
 interface Employee {
   id: string;
@@ -702,7 +704,7 @@ const TimeAttendance = () => {
 
       {/* Main Content Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="timesheet">
             {language === 'ar' ? 'جدول الحضور' : 'Timesheet'}
           </TabsTrigger>
@@ -717,6 +719,9 @@ const TimeAttendance = () => {
           </TabsTrigger>
           <TabsTrigger value="transfer">
             {language === 'ar' ? 'النقل' : 'Transfer'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {language === 'ar' ? 'المستندات' : 'Documents'}
           </TabsTrigger>
         </TabsList>
 
@@ -739,7 +744,23 @@ const TimeAttendance = () => {
         <TabsContent value="transfer">
           <WorkplaceTransferTab />
         </TabsContent>
+
+        <TabsContent value="documents">
+          <UniversalDocumentManager
+            moduleName="Time & Attendance"
+            moduleNameAr="الحضور والوقت"
+            description="Upload attendance records, timesheets, leave applications, overtime approvals, and workforce scheduling documents"
+            descriptionAr="رفع سجلات الحضور وجداول العمل وطلبات الإجازات وموافقات الوقت الإضافي ومستندات جدولة القوى العاملة"
+            platform="time-attendance"
+            moduleType="hr"
+            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.csv', '.jpg', '.png']}
+            maxFileSize={20 * 1024 * 1024}
+            maxFiles={30}
+          />
+        </TabsContent>
       </Tabs>
+
+      <AqlHRAIAssistant moduleContext="core-hr.timeAttendance" />
     </div>
   );
 };
