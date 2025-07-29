@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Brain, TrendingUp, AlertTriangle, Star, BarChart3, Target, Users, Activity } from "lucide-react";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const PredictiveAnalyticsEngine = () => {
   const { language } = useLanguage();
@@ -224,6 +226,9 @@ const PredictiveAnalyticsEngine = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.predictiveAnalyticsEngine" />
+      <AqlHRAIAssistant moduleContext="ai-automation.predictiveAnalyticsEngine" />
     </div>
   );
 };

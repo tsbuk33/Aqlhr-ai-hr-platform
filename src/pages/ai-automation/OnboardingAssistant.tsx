@@ -5,6 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { MessageCircle, Users, Clock, TrendingUp, Bot, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const OnboardingAssistant = () => {
   const { t } = useLanguage();
@@ -151,6 +153,9 @@ const OnboardingAssistant = () => {
           </div>
         </CardContent>
       </Card>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.onboardingAssistant" />
+      <AqlHRAIAssistant moduleContext="ai-automation.onboardingAssistant" />
     </div>
   );
 };

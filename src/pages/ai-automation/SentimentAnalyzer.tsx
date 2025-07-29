@@ -5,6 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { Heart, TrendingUp, MessageSquare, Users, Brain, BarChart3 } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const SentimentAnalyzer = () => {
   const { t } = useLanguage();
@@ -281,6 +283,9 @@ const SentimentAnalyzer = () => {
           </div>
         </CardContent>
       </Card>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.sentimentAnalyzer" />
+      <AqlHRAIAssistant moduleContext="ai-automation.sentimentAnalyzer" />
     </div>
   );
 };

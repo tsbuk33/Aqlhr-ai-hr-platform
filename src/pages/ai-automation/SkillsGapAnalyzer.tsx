@@ -5,6 +5,8 @@ import { Progress } from "@/components/ui/progress";
 import { Target, BookOpen, TrendingUp, Users, Brain, AlertTriangle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
+import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const SkillsGapAnalyzer = () => {
   const { t } = useLanguage();
@@ -188,6 +190,9 @@ const SkillsGapAnalyzer = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <ModuleDocumentUploader moduleKey="ai-automation.skillsGapAnalyzer" />
+      <AqlHRAIAssistant moduleContext="ai-automation.skillsGapAnalyzer" />
     </div>
   );
 };
