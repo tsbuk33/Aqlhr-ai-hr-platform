@@ -250,6 +250,11 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! أنا مساعدك الذكي لنظام الصحة والسلامة المهنية في عقل HR. 🛡️ يمكنني مساعدتك في تحليل المخاطر، إدارة الحوادث، التدريب الأمني، والامتثال لمعايير السلامة السعودية. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for Health & Safety Management in AqlHR. 🛡️ I can help you with risk assessment, incident management, safety training, and compliance with Saudi safety standards. How can I assist you today?'
     },
+    // AI Features & Automation specific module
+    'ai-features': {
+      ar: 'مرحباً! أنا مساعدك الذكي لميزات الذكاء الاصطناعي والأتمتة في عقل HR. 🤖 يمكنني مساعدتك في إدارة محركات الذكاء الاصطناعي، التوصيات الذكية، التحليلات المتقدمة، ومعالجة اللغات الطبيعية. كيف يمكنني مساعدتك اليوم؟',
+      en: 'Hello! I\'m your AI assistant for AI Features & Automation in AqlHR. 🤖 I can help you with AI engine management, intelligent recommendations, advanced analytics, and natural language processing. How can I assist you today?'
+    },
     'default': {
       ar: 'مرحباً! أنا مساعدك الذكي في منصة عقل HR. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for AqlHR platform. How can I help you today?'
@@ -303,6 +308,24 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           'Review Saudi safety standards',
           'Evaluate personal protective equipment',
           'View incident and safety statistics'
+        ]
+      },
+      'ai-features': {
+        ar: [
+          'إدارة محركات الذكاء الاصطناعي',
+          'إنشاء توصيات ذكية جديدة',
+          'تحليل أداء النماذج المتقدمة',
+          'مراجعة إحصائيات التحليلات التنبؤية',
+          'إعداد مهام معالجة اللغة الطبيعية',
+          'تحسين دقة المحرك الذكي'
+        ],
+        en: [
+          'Manage AI engine configurations',
+          'Generate new intelligent recommendations',
+          'Analyze advanced model performance',
+          'Review predictive analytics statistics',
+          'Configure NLP processing tasks',
+          'Optimize AI engine accuracy'
         ]
       },
       'default': {
@@ -592,6 +615,10 @@ ${securityNotice}`;
       'health-safety': {
         ar: 'مؤشر السلامة العام 94% مع انخفاض الحوادث بنسبة 15% هذا الشهر. جميع معايير OSHA والمعايير السعودية مُطبقة بكفاءة.',
         en: 'Overall safety index at 94% with 15% reduction in incidents this month. All OSHA and Saudi safety standards efficiently implemented.'
+      },
+      'ai-features': {
+        ar: 'محركات الذكاء الاصطناعي تعمل بكفاءة 97% مع معالجة 2.3M معاملة يومياً. التحليلات التنبؤية تحقق دقة 94% والتوصيات الذكية تحسن الإنتاجية بنسبة 31%.',
+        en: 'AI engines operating at 97% efficiency processing 2.3M daily transactions. Predictive analytics achieving 94% accuracy and intelligent recommendations improving productivity by 31%.'
       },
       default: {
         ar: 'جميع الأنظمة تعمل بشكل مثالي مع إمكانيات تحسين متاحة',
