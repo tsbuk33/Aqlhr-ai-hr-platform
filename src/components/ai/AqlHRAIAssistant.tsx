@@ -245,6 +245,11 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! أنا مساعدك في إدارة الحوكمة والامتثال التنظيمي في عقل HR.',
       en: 'Hello! I\'m your assistant for NRC Management and Governance in AqlHR.'
     },
+    // Health & Safety specific module
+    'health-safety': {
+      ar: 'مرحباً! أنا مساعدك الذكي لنظام الصحة والسلامة المهنية في عقل HR. 🛡️ يمكنني مساعدتك في تحليل المخاطر، إدارة الحوادث، التدريب الأمني، والامتثال لمعايير السلامة السعودية. كيف يمكنني مساعدتك اليوم؟',
+      en: 'Hello! I\'m your AI assistant for Health & Safety Management in AqlHR. 🛡️ I can help you with risk assessment, incident management, safety training, and compliance with Saudi safety standards. How can I assist you today?'
+    },
     'default': {
       ar: 'مرحباً! أنا مساعدك الذكي في منصة عقل HR. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for AqlHR platform. How can I help you today?'
@@ -280,6 +285,24 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           'Search employee records',
           'Update employee data',
           'Employee reports'
+        ]
+      },
+      'health-safety': {
+        ar: [
+          'تحليل المخاطر في مكان العمل',
+          'إنشاء تقرير حادث جديد',
+          'جدولة التدريب الأمني للموظفين',
+          'مراجعة معايير السلامة السعودية',
+          'تقييم معدات الحماية الشخصية',
+          'إحصائيات الحوادث والسلامة'
+        ],
+        en: [
+          'Analyze workplace safety risks',
+          'Create new incident report',
+          'Schedule safety training for employees',
+          'Review Saudi safety standards',
+          'Evaluate personal protective equipment',
+          'View incident and safety statistics'
         ]
       },
       'default': {
@@ -565,6 +588,10 @@ ${securityNotice}`;
       employees: {
         ar: 'مستوى رضا الموظفين الحالي 87% مع اتجاه إيجابي في الأداء',
         en: 'Current employee satisfaction at 87% with positive performance trends'
+      },
+      'health-safety': {
+        ar: 'مؤشر السلامة العام 94% مع انخفاض الحوادث بنسبة 15% هذا الشهر. جميع معايير OSHA والمعايير السعودية مُطبقة بكفاءة.',
+        en: 'Overall safety index at 94% with 15% reduction in incidents this month. All OSHA and Saudi safety standards efficiently implemented.'
       },
       default: {
         ar: 'جميع الأنظمة تعمل بشكل مثالي مع إمكانيات تحسين متاحة',
