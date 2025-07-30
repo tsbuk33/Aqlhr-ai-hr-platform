@@ -2,9 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { PageLayout } from "@/components/layout/PageLayout";
+import { KPIOverviewCard } from "@/components/smart-kpi/KPIOverviewCard";
+import { useSmartKPIs } from "@/hooks/useSmartKPIs";
 
 const SmartKPITool = () => {
   const { t } = useAPITranslations();
+  const { stats, loading } = useSmartKPIs();
 
   return (
     <PageLayout
@@ -16,40 +19,7 @@ const SmartKPITool = () => {
         <p className="text-muted-foreground">{t('additional.smart_kpi_desc')}</p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Active KPIs</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-brand-primary">1,234</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Achievement Rate</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-brand-success">87.6%</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Performance Reviews</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-brand-accent">456</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Career Progression</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-brand-warning">234</div>
-          </CardContent>
-        </Card>
-      </div>
+      <KPIOverviewCard stats={stats} loading={loading} />
       
       <AqlHRAIAssistant moduleContext="additional.smartKPITool" />
     </PageLayout>

@@ -1715,6 +1715,48 @@ export type Database = {
           },
         ]
       }
+      employee_kpi_assignments: {
+        Row: {
+          achievement_percentage: number
+          created_at: string
+          current_value: number
+          employee_id: string
+          id: string
+          is_active: boolean
+          job_title_kpi_id: string
+          review_period: string
+          status: string
+          target_value: number
+          updated_at: string
+        }
+        Insert: {
+          achievement_percentage?: number
+          created_at?: string
+          current_value?: number
+          employee_id: string
+          id?: string
+          is_active?: boolean
+          job_title_kpi_id: string
+          review_period: string
+          status?: string
+          target_value: number
+          updated_at?: string
+        }
+        Update: {
+          achievement_percentage?: number
+          created_at?: string
+          current_value?: number
+          employee_id?: string
+          id?: string
+          is_active?: boolean
+          job_title_kpi_id?: string
+          review_period?: string
+          status?: string
+          target_value?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       employee_positions: {
         Row: {
           assignment_percentage: number | null
@@ -3792,6 +3834,78 @@ export type Database = {
           },
         ]
       }
+      job_title_kpis: {
+        Row: {
+          created_at: string
+          custom_target: number | null
+          id: string
+          is_active: boolean
+          is_mandatory: boolean
+          job_title_id: string
+          kpi_id: string
+          updated_at: string
+          weight_override: number | null
+        }
+        Insert: {
+          created_at?: string
+          custom_target?: number | null
+          id?: string
+          is_active?: boolean
+          is_mandatory?: boolean
+          job_title_id: string
+          kpi_id: string
+          updated_at?: string
+          weight_override?: number | null
+        }
+        Update: {
+          created_at?: string
+          custom_target?: number | null
+          id?: string
+          is_active?: boolean
+          is_mandatory?: boolean
+          job_title_id?: string
+          kpi_id?: string
+          updated_at?: string
+          weight_override?: number | null
+        }
+        Relationships: []
+      }
+      job_titles: {
+        Row: {
+          company_id: string
+          created_at: string
+          department: string
+          description: string | null
+          id: string
+          is_active: boolean
+          level: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          department: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          level: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          department?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          level?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       kpi_measurements: {
         Row: {
           created_at: string | null
@@ -4892,6 +5006,54 @@ export type Database = {
           },
         ]
       }
+      performance_agreements: {
+        Row: {
+          agreement_period: string
+          company_id: string
+          created_at: string
+          current_achievement: number
+          employee_id: string
+          id: string
+          overall_target: number
+          review_date: string | null
+          signed_date: string | null
+          status: string
+          total_kpis: number
+          total_weight: number
+          updated_at: string
+        }
+        Insert: {
+          agreement_period: string
+          company_id: string
+          created_at?: string
+          current_achievement?: number
+          employee_id: string
+          id?: string
+          overall_target?: number
+          review_date?: string | null
+          signed_date?: string | null
+          status?: string
+          total_kpis?: number
+          total_weight?: number
+          updated_at?: string
+        }
+        Update: {
+          agreement_period?: string
+          company_id?: string
+          created_at?: string
+          current_achievement?: number
+          employee_id?: string
+          id?: string
+          overall_target?: number
+          review_date?: string | null
+          signed_date?: string | null
+          status?: string
+          total_kpis?: number
+          total_weight?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       performance_cycles: {
         Row: {
           company_id: string
@@ -5983,6 +6145,57 @@ export type Database = {
           name_en?: string
           sic_code?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      smart_kpis: {
+        Row: {
+          category: string
+          company_id: string
+          created_at: string
+          data_source: string | null
+          formula: string | null
+          frequency: string
+          id: string
+          is_active: boolean
+          kpi_description: string
+          kpi_name: string
+          measurement_unit: string
+          target_value: number
+          updated_at: string
+          weight_percentage: number
+        }
+        Insert: {
+          category: string
+          company_id: string
+          created_at?: string
+          data_source?: string | null
+          formula?: string | null
+          frequency: string
+          id?: string
+          is_active?: boolean
+          kpi_description: string
+          kpi_name: string
+          measurement_unit: string
+          target_value: number
+          updated_at?: string
+          weight_percentage?: number
+        }
+        Update: {
+          category?: string
+          company_id?: string
+          created_at?: string
+          data_source?: string | null
+          formula?: string | null
+          frequency?: string
+          id?: string
+          is_active?: boolean
+          kpi_description?: string
+          kpi_name?: string
+          measurement_unit?: string
+          target_value?: number
+          updated_at?: string
+          weight_percentage?: number
         }
         Relationships: []
       }
