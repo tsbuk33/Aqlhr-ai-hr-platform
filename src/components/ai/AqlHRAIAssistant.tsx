@@ -93,6 +93,158 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! كيف يمكنني مساعدتك في وحدات الموارد البشرية الأساسية في عقل HR؟',
       en: 'Hello! How can I help you with Core HR modules in AqlHR?'
     },
+    // Core HR specific modules
+    'core-hr.employeeMasterData': {
+      ar: 'مرحباً! أنا مساعدك الذكي لإدارة البيانات الأساسية للموظفين في عقل HR. كيف يمكنني مساعدتك؟',
+      en: 'Hello! I\'m your AI assistant for Employee Master Data in AqlHR. How can I help you?'
+    },
+    'core-hr.benefitsAdministration': {
+      ar: 'مرحباً! أنا هنا لمساعدتك في إدارة المزايا والفوائد للموظفين في عقل HR.',
+      en: 'Hello! I\'m here to help with Benefits Administration in AqlHR.'
+    },
+    'core-hr.compensationManagement': {
+      ar: 'مرحباً! أنا مساعدك في إدارة التعويضات والرواتب في عقل HR.',
+      en: 'Hello! I\'m your assistant for Compensation Management in AqlHR.'
+    },
+    'core-hr.leaveManagement': {
+      ar: 'مرحباً! كيف يمكنني مساعدتك في إدارة الإجازات والعطل في عقل HR؟',
+      en: 'Hello! How can I help you with Leave Management in AqlHR?'
+    },
+    'core-hr.performanceManagement': {
+      ar: 'مرحباً! أنا مساعدك في إدارة الأداء وتقييم الموظفين في عقل HR.',
+      en: 'Hello! I\'m your assistant for Performance Management in AqlHR.'
+    },
+    'core-hr.recruitmentOnboarding': {
+      ar: 'مرحباً! أنا هنا لمساعدتك في التوظيف والإدماج الوظيفي في عقل HR.',
+      en: 'Hello! I\'m here to help with Recruitment & Onboarding in AqlHR.'
+    },
+    'core-hr.saudization': {
+      ar: 'مرحباً! أنا مساعدك في حاسبة السعودة وإدارة التوطين في عقل HR.',
+      en: 'Hello! I\'m your assistant for Saudization Calculator in AqlHR.'
+    },
+    'core-hr.successionPlanning': {
+      ar: 'مرحباً! أنا هنا لمساعدتك في تخطيط التعاقب الوظيفي في عقل HR.',
+      en: 'Hello! I\'m here to help with Succession Planning in AqlHR.'
+    },
+    'core-hr.timeAttendance': {
+      ar: 'مرحباً! أنا مساعدك في إدارة الوقت والحضور في عقل HR.',
+      en: 'Hello! I\'m your assistant for Time & Attendance in AqlHR.'
+    },
+    'core-hr.trainingDevelopment': {
+      ar: 'مرحباً! أنا هنا لمساعدتك في التدريب والتطوير المهني في عقل HR.',
+      en: 'Hello! I\'m here to help with Training & Development in AqlHR.'
+    },
+    'core-hr.workflowAutomation': {
+      ar: 'مرحباً! أنا مساعدك في أتمتة سير العمل في عقل HR.',
+      en: 'Hello! I\'m your assistant for Workflow Automation in AqlHR.'
+    },
+    // AI Automation modules
+    'ai-automation.aiSyncEngine': {
+      ar: 'مرحباً! أنا مساعدك الذكي لمحرك المزامنة الذكية في عقل HR.',
+      en: 'Hello! I\'m your AI assistant for AI Sync Engine in AqlHR.'
+    },
+    'ai-automation.arabicEnglishNLP': {
+      ar: 'مرحباً! أنا مساعدك في معالجة اللغة الطبيعية العربية والإنجليزية في عقل HR.',
+      en: 'Hello! I\'m your assistant for Arabic-English NLP in AqlHR.'
+    },
+    'ai-automation.automatedWorkflowEngine': {
+      ar: 'مرحباً! أنا مساعدك في محرك سير العمل الآلي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Automated Workflow Engine in AqlHR.'
+    },
+    'ai-automation.compliancePredictor': {
+      ar: 'مرحباً! أنا مساعدك في منبئ الامتثال الذكي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Compliance Predictor in AqlHR.'
+    },
+    'ai-automation.contentGenerator': {
+      ar: 'مرحباً! أنا مساعدك في مولد المحتوى الذكي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Content Generator in AqlHR.'
+    },
+    'ai-automation.documentIntelligence': {
+      ar: 'مرحباً! أنا مساعدك في ذكاء المستندات في عقل HR.',
+      en: 'Hello! I\'m your assistant for Document Intelligence in AqlHR.'
+    },
+    'ai-automation.onboardingAssistant': {
+      ar: 'مرحباً! أنا مساعدك في الإدماج الوظيفي الذكي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Onboarding Assistant in AqlHR.'
+    },
+    'ai-automation.predictiveAnalyticsEngine': {
+      ar: 'مرحباً! أنا مساعدك في محرك التحليلات التنبؤية في عقل HR.',
+      en: 'Hello! I\'m your assistant for Predictive Analytics Engine in AqlHR.'
+    },
+    'ai-automation.sentimentAnalyzer': {
+      ar: 'مرحباً! أنا مساعدك في محلل المشاعر الذكي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Sentiment Analyzer in AqlHR.'
+    },
+    'ai-automation.skillsGapAnalyzer': {
+      ar: 'مرحباً! أنا مساعدك في محلل فجوة المهارات في عقل HR.',
+      en: 'Hello! I\'m your assistant for Skills Gap Analyzer in AqlHR.'
+    },
+    // GEO module
+    'geo.engagementOptimization': {
+      ar: 'مرحباً! أنا مساعدك في تحسين المشاركة التوليدية في عقل HR.',
+      en: 'Hello! I\'m your assistant for Generative Engagement Optimization in AqlHR.'
+    },
+    // LEO module
+    'leo.learningOptimization': {
+      ar: 'مرحباً! أنا مساعدك في تحسين تجربة التعلم في عقل HR.',
+      en: 'Hello! I\'m your assistant for Learning Experience Optimization in AqlHR.'
+    },
+    // Compliance modules
+    'compliance.auditTrails': {
+      ar: 'مرحباً! أنا مساعدك في إدارة مسارات المراجعة والامتثال في عقل HR.',
+      en: 'Hello! I\'m your assistant for Audit Trails management in AqlHR.'
+    },
+    // Diagnostic modules
+    'diagnostic.hrProcessImprovement': {
+      ar: 'مرحباً! أنا مساعدك في تشخيص وتحسين عمليات الموارد البشرية في عقل HR.',
+      en: 'Hello! I\'m your assistant for HR Process Improvement diagnostics in AqlHR.'
+    },
+    'diagnostic.hrRoleOptimization': {
+      ar: 'مرحباً! أنا مساعدك في تحسين أدوار الموارد البشرية في عقل HR.',
+      en: 'Hello! I\'m your assistant for HR Role Optimization in AqlHR.'
+    },
+    'diagnostic.ipoReadinessDiagnostic': {
+      ar: 'مرحباً! أنا مساعدك في تشخيص الاستعداد للاكتتاب العام في عقل HR.',
+      en: 'Hello! I\'m your assistant for IPO Readiness Diagnostic in AqlHR.'
+    },
+    'diagnostic.orgStructureAssessment': {
+      ar: 'مرحباً! أنا مساعدك في تقييم الهيكل التنظيمي في عقل HR.',
+      en: 'Hello! I\'m your assistant for Organizational Structure Assessment in AqlHR.'
+    },
+    'diagnostic.retentionStrategyAssessment': {
+      ar: 'مرحباً! أنا مساعدك في تقييم استراتيجية الاحتفاظ بالموظفين في عقل HR.',
+      en: 'Hello! I\'m your assistant for Retention Strategy Assessment in AqlHR.'
+    },
+    // Additional modules
+    'additional.aqlhrConnect': {
+      ar: 'مرحباً! أنا مساعدك في منصة التواصل عقل HR Connect.',
+      en: 'Hello! I\'m your assistant for AqlHR Connect platform.'
+    },
+    'additional.smartKPITool': {
+      ar: 'مرحباً! أنا مساعدك في أداة مؤشرات الأداء الذكية في عقل HR.',
+      en: 'Hello! I\'m your assistant for Smart KPI Tool in AqlHR.'
+    },
+    // Other modules
+    'about.company': {
+      ar: 'مرحباً! أنا مساعدك لمعرفة المزيد عن شركة عقل HR وخدماتها.',
+      en: 'Hello! I\'m your assistant to learn more about AqlHR company and services.'
+    },
+    'consulting.services': {
+      ar: 'مرحباً! أنا مساعدك في خدمات الاستشارات المتخصصة في عقل HR.',
+      en: 'Hello! I\'m your assistant for Consulting Services in AqlHR.'
+    },
+    'help.interactiveGuide': {
+      ar: 'مرحباً! أنا مساعدك في الدليل التفاعلي ومركز المساعدة في عقل HR.',
+      en: 'Hello! I\'m your assistant for Interactive Guide and Help Center in AqlHR.'
+    },
+    'isoManagement.compliance': {
+      ar: 'مرحباً! أنا مساعدك في إدارة معايير ISO والامتثال في عقل HR.',
+      en: 'Hello! I\'m your assistant for ISO Management and Compliance in AqlHR.'
+    },
+    'nrcManagement.governance': {
+      ar: 'مرحباً! أنا مساعدك في إدارة الحوكمة والامتثال التنظيمي في عقل HR.',
+      en: 'Hello! I\'m your assistant for NRC Management and Governance in AqlHR.'
+    },
     'default': {
       ar: 'مرحباً! أنا مساعدك الذكي في منصة عقل HR. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for AqlHR platform. How can I help you today?'
