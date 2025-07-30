@@ -221,8 +221,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       en: 'Hello! I\'m your assistant for AqlHR Connect platform.'
     },
     'additional.smartKPITool': {
-      ar: 'مرحباً! أنا مساعدك في أداة مؤشرات الأداء الذكية في عقل HR.',
-      en: 'Hello! I\'m your assistant for Smart KPI Tool in AqlHR.'
+      ar: 'مرحباً! أنا مساعدك الذكي لأداة مؤشرات الأداء الرئيسية واتفاقيات الأداء في عقل HR. 📊 يمكنني مساعدتك في تصميم المؤشرات الذكية، تتبع الأداء، إدارة الأهداف، وتحليل النتائج. كيف يمكنني مساعدتك اليوم؟',
+      en: 'Hello! I\'m your AI assistant for Smart KPI & Performance Agreement Tool in AqlHR. 📊 I can help you with intelligent KPI design, performance tracking, goal management, and results analysis. How can I assist you today?'
     },
     // Other modules
     'about.company': {
@@ -326,6 +326,24 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           'Review predictive analytics statistics',
           'Configure NLP processing tasks',
           'Optimize AI engine accuracy'
+        ]
+      },
+      'additional.smartKPITool': {
+        ar: [
+          'إنشاء مؤشرات أداء جديدة للموظفين',
+          'تحليل اتفاقيات الأداء الحالية',
+          'مراجعة معدلات الإنجاز والأهداف',
+          'إعداد تقارير الأداء الذكية',
+          'تحسين مؤشرات الإنتاجية',
+          'مقارنة الأداء بين الأقسام'
+        ],
+        en: [
+          'Create new employee performance KPIs',
+          'Analyze current performance agreements',
+          'Review achievement rates and goals',
+          'Generate intelligent performance reports',
+          'Optimize productivity indicators',
+          'Compare performance across departments'
         ]
       },
       'default': {
@@ -619,6 +637,10 @@ ${securityNotice}`;
       'ai-features': {
         ar: 'محركات الذكاء الاصطناعي تعمل بكفاءة 97% مع معالجة 2.3M معاملة يومياً. التحليلات التنبؤية تحقق دقة 94% والتوصيات الذكية تحسن الإنتاجية بنسبة 31%.',
         en: 'AI engines operating at 97% efficiency processing 2.3M daily transactions. Predictive analytics achieving 94% accuracy and intelligent recommendations improving productivity by 31%.'
+      },
+      'additional.smartKPITool': {
+        ar: 'مؤشرات الأداء الرئيسية تعمل بكفاءة 92% مع 1,234 مؤشر نشط. معدل الإنجاز الحالي 87.6% مع 456 مراجعة أداء مكتملة و234 خطة تطوير مهني نشطة.',
+        en: 'KPI system operating at 92% efficiency with 1,234 active indicators. Current achievement rate at 87.6% with 456 completed performance reviews and 234 active career development plans.'
       },
       default: {
         ar: 'جميع الأنظمة تعمل بشكل مثالي مع إمكانيات تحسين متاحة',
