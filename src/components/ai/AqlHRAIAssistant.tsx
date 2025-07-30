@@ -85,7 +85,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! أنا هنا لمساعدتك في التحليلات والذكاء الاصطناعي في عقل HR. ما الذي تريد تحليله؟',
       en: 'Hello! I\'m here to help with analytics and AI intelligence in AqlHR. What would you like to analyze?'
     },
-    'workforce-analytics': {
+    'workforceAnalytics': {
       ar: 'مرحباً! أنا مساعدك الذكي لتحليلات القوى العاملة في عقل HR. كيف يمكنني مساعدتك في تحليل بيانات الموظفين والأداء؟',
       en: 'Hello! I\'m your AI assistant for Workforce Analytics in AqlHR. How can I help you analyze employee data and performance?'
     },
