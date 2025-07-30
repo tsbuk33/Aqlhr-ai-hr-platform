@@ -476,7 +476,7 @@ This analysis is cached data shown due to high API demand.`);
 
       {/* AI-Enhanced Engagement Intelligence Panels */}
       {marketIntelligence && (
-        <Card className="border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <Card className="border-border bg-gradient-to-r from-surface to-surface-subtle">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5 text-blue-600" />
@@ -485,7 +485,7 @@ This analysis is cached data shown due to high API demand.`);
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm max-w-none">
-              <div className="p-4 bg-white rounded-lg border border-blue-200">
+              <div className="p-4 bg-background rounded-lg border border-border">
                 <pre className="whitespace-pre-wrap text-sm">{marketIntelligence}</pre>
               </div>
               <div className="flex justify-end mt-4">
@@ -505,7 +505,7 @@ This analysis is cached data shown due to high API demand.`);
 
       {/* Cultural Insights Panel */}
       {culturalInsights && (
-        <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
+        <Card className="border-border bg-gradient-to-r from-surface to-surface-subtle">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5 text-orange-600" />
@@ -516,7 +516,7 @@ This analysis is cached data shown due to high API demand.`);
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <h4 className="font-semibold text-orange-800 mb-3">🇸🇦 Cultural Recommendations</h4>
-                <div className="p-4 bg-white rounded-lg border border-orange-200">
+                <div className="p-4 bg-background rounded-lg border border-border">
                   <pre className="whitespace-pre-wrap text-sm">{culturalInsights}</pre>
                 </div>
               </div>
@@ -829,7 +829,7 @@ This analysis is cached data shown due to high API demand.`);
         </TabsContent>
 
         <TabsContent value="cultural" className="space-y-6">
-          <Card className="border-amber-200 bg-gradient-to-r from-amber-50 to-yellow-50">
+          <Card className="border-border bg-gradient-to-r from-surface to-surface-subtle">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Globe className="h-5 w-5 text-amber-600" />
@@ -841,21 +841,21 @@ This analysis is cached data shown due to high API demand.`);
                 <div>
                   <h4 className="font-semibold text-amber-800 mb-3">🇸🇦 Vision 2030 Alignment</h4>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                    <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border">
                       <div>
                         <div className="font-medium">Quality of Life Program</div>
                         <div className="text-sm text-muted-foreground">Employee wellbeing initiatives</div>
                       </div>
                       <Badge className="bg-green-600">Aligned</Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                    <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border">
                       <div>
                         <div className="font-medium">National Transformation</div>
                         <div className="text-sm text-muted-foreground">Innovation and change management</div>
                       </div>
                       <Badge className="bg-blue-600">Active</Badge>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
+                    <div className="flex items-center justify-between p-3 bg-background rounded-lg border border-border">
                       <div>
                         <div className="font-medium">Saudi Green Initiative</div>
                         <div className="text-sm text-muted-foreground">Environmental engagement</div>
@@ -866,7 +866,7 @@ This analysis is cached data shown due to high API demand.`);
                 </div>
                 <div>
                   <h4 className="font-semibold text-amber-800 mb-3">📊 Compliance Metrics</h4>
-                  <div className="p-4 bg-amber-100 rounded-lg">
+                  <div className="p-4 bg-surface rounded-lg">
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>Saudization Engagement</span>
