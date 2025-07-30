@@ -345,6 +345,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Additional Modules Routes
   { path: '/tools/smart-kpi', element: SmartKPITool, auth: true },
+  { path: '/additional/smart-kpi', element: SmartKPITool, auth: true }, // Alternative route
   { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
   { path: '/test-harness', element: TestHarness, auth: true, adminOnly: true },
   
