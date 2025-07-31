@@ -7628,6 +7628,14 @@ export type Database = {
         }
         Returns: string
       }
+      audit_rls_policies: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          table_name: string
+          policy_count: number
+          rls_enabled: boolean
+        }[]
+      }
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
@@ -7705,6 +7713,10 @@ export type Database = {
           timezone: string
         }[]
       }
+      get_user_company_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       has_role: {
         Args: {
           _user_id: string
@@ -7739,6 +7751,14 @@ export type Database = {
       sync_tool_integration: {
         Args: { p_company_id: string; p_tool_name: string; p_action?: string }
         Returns: undefined
+      }
+      validate_user_isolation: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          company_id: string
+          has_access: boolean
+        }[]
       }
     }
     Enums: {
