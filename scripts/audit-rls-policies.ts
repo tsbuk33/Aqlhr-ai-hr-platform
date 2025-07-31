@@ -28,7 +28,7 @@ interface RLSAuditResult {
   total_tables: number;
   tables_with_rls: number;
   tables_with_policies: number;
-  tables_missing_policies: number;
+  tables_missing_policies: string[];
   coverage_percentage: number;
   critical_tables_unprotected: string[];
   detailed_results: TablePolicy[];
@@ -72,11 +72,11 @@ class RLSPolicyAuditor {
       const tablesWithRLS = auditData.filter((table: any) => table.rls_enabled).length;
       const tablesWithPolicies = auditData.filter((table: any) => table.policy_count > 0).length;
       const tablesMissingPolicies = auditData.filter((table: any) => 
-        table.rls_enabled && table.policy_count === 0
-      ).length;
+        !table.rls_enabled || table.policy_count === 0
+      ).map((table: any) => table.table_name);
 
-      const coveragePercentage = tablesWithRLS > 0 
-        ? Math.round((tablesWithPolicies / tablesWithRLS) * 100) 
+      const coveragePercentage = auditData.length > 0 
+        ? Math.round((tablesWithPolicies / auditData.length) * 100) 
         : 0;
 
       // Identify critical unprotected tables
@@ -161,7 +161,7 @@ class RLSPolicyAuditor {
 
   async generateReport(result: RLSAuditResult): Promise<void> {
     const reportPath = 'rls-policy-audit.md';
-    const jsonPath = 'rls-audit-results.json';
+    const jsonPath = 'rls-audit.json';
 
     // Generate markdown report
     const markdownReport = this.generateMarkdownReport(result);
@@ -252,7 +252,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')}
     console.log(`Coverage: ${statusColor(result.coverage_percentage + '%')}`);
     console.log(`Tables with RLS: ${chalk.blue(result.tables_with_rls)}`);
     console.log(`Tables with Policies: ${chalk.green(result.tables_with_policies)}`);
-    console.log(`Missing Policies: ${chalk.red(result.tables_missing_policies)}`);
+    console.log(`Missing Policies: ${chalk.red(result.tables_missing_policies.length)}`);
 
     if (result.critical_tables_unprotected.length > 0) {
       console.log('\n' + chalk.red.bold('🚨 CRITICAL ISSUES:'));
