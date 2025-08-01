@@ -162,6 +162,7 @@ export type Database = {
       ai_knowledge_base: {
         Row: {
           category: string
+          company_id: string | null
           content_ar: string | null
           content_en: string
           created_at: string | null
@@ -186,6 +187,7 @@ export type Database = {
         }
         Insert: {
           category: string
+          company_id?: string | null
           content_ar?: string | null
           content_en: string
           created_at?: string | null
@@ -210,6 +212,7 @@ export type Database = {
         }
         Update: {
           category?: string
+          company_id?: string | null
           content_ar?: string | null
           content_en?: string
           created_at?: string | null
@@ -1554,6 +1557,7 @@ export type Database = {
       }
       employee_documents: {
         Row: {
+          company_id: string | null
           created_at: string | null
           description_arabic: string | null
           description_english: string | null
@@ -1582,6 +1586,7 @@ export type Database = {
           verified_by: string | null
         }
         Insert: {
+          company_id?: string | null
           created_at?: string | null
           description_arabic?: string | null
           description_english?: string | null
@@ -1610,6 +1615,7 @@ export type Database = {
           verified_by?: string | null
         }
         Update: {
+          company_id?: string | null
           created_at?: string | null
           description_arabic?: string | null
           description_english?: string | null
@@ -3550,6 +3556,7 @@ export type Database = {
           applicant_name_english: string
           application_date: string
           available_start_date: string | null
+          company_id: string | null
           cover_letter_arabic: string | null
           cover_letter_english: string | null
           created_at: string | null
@@ -3591,6 +3598,7 @@ export type Database = {
           applicant_name_english: string
           application_date: string
           available_start_date?: string | null
+          company_id?: string | null
           cover_letter_arabic?: string | null
           cover_letter_english?: string | null
           created_at?: string | null
@@ -3632,6 +3640,7 @@ export type Database = {
           applicant_name_english?: string
           application_date?: string
           available_start_date?: string | null
+          company_id?: string | null
           cover_letter_arabic?: string | null
           cover_letter_english?: string | null
           created_at?: string | null
@@ -5676,6 +5685,7 @@ export type Database = {
           arabic_middle_name: string | null
           basic_salary: number | null
           city: string | null
+          company_id: string | null
           contract_type: string | null
           country: string | null
           created_at: string | null
@@ -5737,6 +5747,7 @@ export type Database = {
           arabic_middle_name?: string | null
           basic_salary?: number | null
           city?: string | null
+          company_id?: string | null
           contract_type?: string | null
           country?: string | null
           created_at?: string | null
@@ -5798,6 +5809,7 @@ export type Database = {
           arabic_middle_name?: string | null
           basic_salary?: number | null
           city?: string | null
+          company_id?: string | null
           contract_type?: string | null
           country?: string | null
           created_at?: string | null
