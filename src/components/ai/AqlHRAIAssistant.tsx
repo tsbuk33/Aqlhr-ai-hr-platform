@@ -609,7 +609,14 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
 
   // Get available AI tools for the current context
   const getAvailableTools = (context: string, isArabic: boolean) => {
-    const tools = [
+    const tools: Array<{
+      name: string;
+      description: string;
+      parameters: {
+        type: string;
+        properties: Record<string, { type: string }>;
+      };
+    }> = [
       {
         name: 'get_employee_data',
         description: isArabic ? 'جلب بيانات الموظفين' : 'Retrieve employee data',
@@ -617,7 +624,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           type: 'object',
           properties: {
             employee_id: { type: 'string' },
-            filters: { type: 'object' }
+            filters: { type: 'string' }
           }
         }
       },
@@ -639,7 +646,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           type: 'object',
           properties: {
             report_type: { type: 'string' },
-            parameters: { type: 'object' }
+            parameters: { type: 'string' }
           }
         }
       }
@@ -653,8 +660,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         parameters: {
           type: 'object',
           properties: {
-            month: { type: 'number' },
-            year: { type: 'number' }
+            month: { type: 'string' },
+            year: { type: 'string' }
           }
         }
       });
