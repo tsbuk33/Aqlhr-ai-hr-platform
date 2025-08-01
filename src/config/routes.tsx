@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 
 // Core modules
+const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const Index = lazy(() => import('../pages/Index'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const About = lazy(() => import('../pages/About'));
@@ -235,7 +236,7 @@ export interface RouteConfig {
 export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
-  { path: '/', element: Index, auth: true },
+  { path: '/', element: DashboardPage, auth: true },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },

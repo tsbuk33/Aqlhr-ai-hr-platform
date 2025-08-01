@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { LogOut, User } from 'lucide-react';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuth } from '@/hooks/useAuth';
 import {
   DropdownMenu,
@@ -9,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const { user, signOut } = useAuth();
 
   if (!user) return null;
@@ -18,7 +19,8 @@ const Header: React.FC = () => {
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center justify-between px-4">
         <div className="flex items-center space-x-4">
-          <h1 className="text-lg font-semibold">SanadHR Platform</h1>
+          <SidebarTrigger />
+          <h1 className="text-lg font-semibold">AqlHR Platform</h1>
         </div>
         
         <div className="flex items-center space-x-4">
