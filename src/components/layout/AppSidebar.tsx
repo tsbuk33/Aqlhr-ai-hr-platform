@@ -38,6 +38,7 @@ const navigationItems = [
 ];
 
 const managementItems = [
+  { title: 'Analytics', url: '/analytics', icon: TrendingUp },
   { title: 'AI Intelligence', url: '/ai', icon: Brain, adminOnly: true },
   { title: 'Company', url: '/company', icon: Building2 },
   { title: 'Settings', url: '/settings', icon: Settings },

@@ -5,15 +5,15 @@ import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, 
 const stats = [
   {
     title: 'Total Employees',
-    value: '0',
-    description: 'No employees yet',
+    value: '15',
+    description: '10 Saudi, 5 Non-Saudi',
     icon: Users,
     color: 'text-blue-600'
   },
   {
     title: 'Present Today',
-    value: '0',
-    description: 'Attendance rate: 0%',
+    value: '15',
+    description: 'Attendance rate: 100%',
     icon: Clock,
     color: 'text-green-600'
   },

@@ -2,8 +2,8 @@ import { lazy } from 'react';
 
 // Core modules
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
-const Index = lazy(() => import('../pages/Index'));
-const NotFound = lazy(() => import('../pages/NotFound'));
+const EmployeesPage = lazy(() => import('../pages/EmployeesPage'));
+const AnalyticsPage = lazy(() => import('../pages/AnalyticsPage'));
 const About = lazy(() => import('../pages/About'));
 const CoreHR = lazy(() => import('../pages/CoreHR'));
 const Employees = lazy(() => import('../pages/Employees'));
@@ -237,6 +237,8 @@ export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
   { path: '/', element: DashboardPage, auth: true },
+  { path: '/employees', element: EmployeesPage, auth: true },
+  { path: '/analytics', element: AnalyticsPage, auth: true },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
