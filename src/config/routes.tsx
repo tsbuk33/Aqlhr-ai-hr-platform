@@ -239,6 +239,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/', element: DashboardPage, auth: true },
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/analytics', element: AnalyticsPage, auth: true },
+  { path: '/attendance', element: TimeAttendance, auth: true },
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
