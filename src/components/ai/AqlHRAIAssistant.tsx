@@ -18,7 +18,10 @@ import {
   RefreshCw,
   Globe,
   Shield,
-  Upload
+  Upload,
+  SpellCheck,
+  CheckCircle,
+  AlertTriangle
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -55,6 +58,9 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isGatheringIntelligence, setIsGatheringIntelligence] = useState(false);
   const [showDocumentUpload, setShowDocumentUpload] = useState(false);
+  const [spellCheckEnabled, setSpellCheckEnabled] = useState(true);
+  const [spellingSuggestions, setSpellingSuggestions] = useState<string[]>([]);
+  const [showSpellingSuggestions, setShowSpellingSuggestions] = useState(false);
   
   // Document-aware AI integration
   const { 
@@ -803,6 +809,156 @@ ${securityNotice}`;
     return Math.min(baseConfidence, 99);
   };
 
+  // Spell checking functions
+  const checkSpelling = async (text: string) => {
+    if (!text.trim()) {
+      setSpellingSuggestions([]);
+      return;
+    }
+
+    try {
+      // Use AI-powered spell checker for advanced checking
+      const { data, error } = await supabase.functions.invoke('spell-checker', {
+        body: {
+          text: text,
+          language: isArabic ? 'ar' : 'en',
+          autoFix: false
+        }
+      });
+
+      if (error) {
+        console.error('Spell checker error:', error);
+        // Fallback to basic spell checking
+        performBasicSpellCheck(text);
+        return;
+      }
+
+      if (data.hasErrors && data.suggestions.length > 0) {
+        const suggestionWords = data.suggestions.map((s: any) => s.suggested);
+        setSpellingSuggestions(suggestionWords);
+      } else {
+        setSpellingSuggestions([]);
+      }
+    } catch (error) {
+      console.error('Spell checking failed:', error);
+      // Fallback to basic spell checking
+      performBasicSpellCheck(text);
+    }
+  };
+
+  const performBasicSpellCheck = (text: string) => {
+    const words = text.split(/\s+/);
+    const misspelledWords: string[] = [];
+
+    words.forEach(word => {
+      const cleanWord = word.replace(/[^\w]/g, '');
+      if (cleanWord && cleanWord.length > 2) {
+        const commonMisspellings = [
+          'recieve', 'seperate', 'definately', 'occured', 'accomodate',
+          'neccessary', 'beleive', 'begining', 'untill', 'wich'
+        ];
+        
+        if (commonMisspellings.includes(cleanWord.toLowerCase())) {
+          misspelledWords.push(cleanWord);
+        }
+      }
+    });
+
+    const suggestions = generateSpellingSuggestions(misspelledWords);
+    setSpellingSuggestions(suggestions);
+  };
+
+  const generateSpellingSuggestions = (misspelledWords: string[]) => {
+    const corrections: Record<string, string> = {
+      'recieve': 'receive',
+      'seperate': 'separate', 
+      'definately': 'definitely',
+      'occured': 'occurred',
+      'accomodate': 'accommodate',
+      'neccessary': 'necessary',
+      'beleive': 'believe',
+      'begining': 'beginning',
+      'untill': 'until',
+      'wich': 'which'
+    };
+
+    return misspelledWords.map(word => 
+      corrections[word.toLowerCase()] || word
+    );
+  };
+
+  const applySuggestion = (suggestion: string) => {
+    // Find and replace the misspelled word with the suggestion
+    const words = inputValue.split(/\s+/);
+    const misspelledIndex = words.findIndex(word => 
+      spellingSuggestions.includes(generateSpellingSuggestions([word.replace(/[^\w]/g, '')])[0])
+    );
+    
+    if (misspelledIndex !== -1) {
+      words[misspelledIndex] = suggestion;
+      setInputValue(words.join(' '));
+      setSpellingSuggestions([]);
+      setShowSpellingSuggestions(false);
+    }
+  };
+
+  const fixAllSpelling = async () => {
+    if (!inputValue.trim()) return;
+
+    try {
+      // Use AI-powered auto-fix
+      const { data, error } = await supabase.functions.invoke('spell-checker', {
+        body: {
+          text: inputValue,
+          language: isArabic ? 'ar' : 'en',
+          autoFix: true
+        }
+      });
+
+      if (error) {
+        console.error('Auto-fix error:', error);
+        // Fallback to basic corrections
+        performBasicAutoFix();
+        return;
+      }
+
+      if (data.correctedText && data.correctedText !== inputValue) {
+        setInputValue(data.correctedText);
+        setSpellingSuggestions([]);
+        setShowSpellingSuggestions(false);
+      }
+    } catch (error) {
+      console.error('Auto-fix failed:', error);
+      performBasicAutoFix();
+    }
+  };
+
+  const performBasicAutoFix = () => {
+    let correctedText = inputValue;
+    
+    const corrections: Record<string, string> = {
+      'recieve': 'receive',
+      'seperate': 'separate',
+      'definately': 'definitely',
+      'occured': 'occurred',
+      'accomodate': 'accommodate',
+      'neccessary': 'necessary',
+      'beleive': 'believe',
+      'begining': 'beginning',
+      'untill': 'until',
+      'wich': 'which'
+    };
+
+    Object.entries(corrections).forEach(([misspelled, correct]) => {
+      const regex = new RegExp(`\\b${misspelled}\\b`, 'gi');
+      correctedText = correctedText.replace(regex, correct);
+    });
+
+    setInputValue(correctedText);
+    setSpellingSuggestions([]);
+    setShowSpellingSuggestions(false);
+  };
+
   const handleClearChat = () => {
     const welcomeMessage: ChatMessage = {
       id: 'welcome-new',
@@ -989,21 +1145,95 @@ ${securityNotice}`;
         {/* Input Area */}
         <div className="space-y-2">
           <div className="flex gap-2">
-            <Textarea
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder={isArabic ? 'اكتب رسالتك لمساعد عقل HR...' : 'Type your message to AqlHR Assistant...'}
-              className="flex-1 min-h-[60px] resize-none text-sm"
-              spellCheck={true}
-              lang={isArabic ? 'ar' : 'en'}
-              dir={isArabic ? 'rtl' : 'ltr'}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSendMessage();
-                }
-              }}
-            />
+            <div className="flex-1 relative">
+              <Textarea
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  if (spellCheckEnabled) {
+                    checkSpelling(e.target.value);
+                  }
+                }}
+                placeholder={isArabic ? 'اكتب رسالتك لمساعد عقل HR...' : 'Type your message to AqlHR Assistant...'}
+                className={`min-h-[60px] resize-none text-sm w-full ${
+                  spellingSuggestions.length > 0 ? 'border-warning' : ''
+                }`}
+                spellCheck={spellCheckEnabled}
+                lang={isArabic ? 'ar' : 'en'}
+                dir={isArabic ? 'rtl' : 'ltr'}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+              />
+              
+              {/* Spell Check Status Indicator */}
+              <div className="absolute top-2 right-2 flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSpellCheckEnabled(!spellCheckEnabled)}
+                  className="h-6 w-6 p-0"
+                  title={spellCheckEnabled ? 
+                    (isArabic ? 'إيقاف التدقيق الإملائي' : 'Disable spell check') :
+                    (isArabic ? 'تفعيل التدقيق الإملائي' : 'Enable spell check')
+                  }
+                >
+                  <SpellCheck className={`h-3 w-3 ${spellCheckEnabled ? 'text-brand-success' : 'text-muted-foreground'}`} />
+                </Button>
+                
+                {spellingSuggestions.length > 0 && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowSpellingSuggestions(!showSpellingSuggestions)}
+                    className="h-6 w-6 p-0"
+                    title={isArabic ? 'عرض التصحيحات المقترحة' : 'Show spelling suggestions'}
+                  >
+                    <AlertTriangle className="h-3 w-3 text-warning" />
+                  </Button>
+                )}
+                
+                {spellCheckEnabled && spellingSuggestions.length === 0 && inputValue.trim() && (
+                  <CheckCircle className="h-3 w-3 text-brand-success" />
+                )}
+              </div>
+              
+              {/* Spelling Suggestions Dropdown */}
+              {showSpellingSuggestions && spellingSuggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 z-10 mt-1 bg-background border border-border rounded-md shadow-lg max-h-32 overflow-y-auto">
+                  <div className="p-2">
+                    <p className="text-xs font-medium text-muted-foreground mb-1">
+                      {isArabic ? 'تصحيحات مقترحة:' : 'Spelling suggestions:'}
+                    </p>
+                    <div className="flex flex-wrap gap-1">
+                      {spellingSuggestions.slice(0, 5).map((suggestion, index) => (
+                        <Button
+                          key={index}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => applySuggestion(suggestion)}
+                          className="text-xs h-6 px-2"
+                        >
+                          {suggestion}
+                        </Button>
+                      ))}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => fixAllSpelling()}
+                      className="text-xs h-6 px-2 mt-1 w-full"
+                    >
+                      <SpellCheck className="h-3 w-3 mr-1" />
+                      {isArabic ? 'تصحيح جميع الأخطاء' : 'Fix all spelling'}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex justify-between items-center">
             <Button
