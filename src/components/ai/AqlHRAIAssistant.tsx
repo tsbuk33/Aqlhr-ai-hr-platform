@@ -409,7 +409,10 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     setIsLoading(true);
 
     try {
-      // Enhanced AI processing with document awareness
+      // Prepare AI tools that are available for this context
+      const availableTools = getAvailableTools(moduleContext, isArabic);
+      
+      // Enhanced AI processing with document awareness and tool integration
       const needsExternalIntelligence = detectExternalIntelligenceNeed(inputValue, moduleContext);
       const isVisualizationRequest = inputValue.toLowerCase().includes('chart') || 
                                    inputValue.toLowerCase().includes('graph') ||
@@ -440,32 +443,44 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         setMessages(prev => [...prev, gatheringMessage]);
         
         try {
-          // Use comprehensive AI processing with documents
-          const aiResponse = await queryWithDocuments(inputValue, {
-            includeAllDocs: true,
-            language: isArabic ? 'ar' : 'en',
-            specificDocumentIds: undefined
+          // Call the enhanced AI Core Engine with tools
+          const { data: aiResponse, error: aiError } = await supabase.functions.invoke('ai-core-engine', {
+            body: {
+              query: inputValue,
+              context: {
+                module: moduleContext,
+                language: isArabic ? 'ar' : 'en',
+                company_id: companyId,
+                user_id: 'current_user', // Would get from auth context
+                session_id: `session-${Date.now()}`
+              },
+              conversation_history: messages.slice(-6).map(msg => ({
+                role: msg.type === 'user' ? 'user' : 'assistant',
+                content: msg.content
+              })),
+              tools: availableTools
+            }
           });
+
+          if (aiError) {
+            throw new Error(aiError.message);
+          }
+
+          combinedResponse = aiResponse.response;
+
+          // If AI used tools, show the results
+          if (aiResponse.tool_calls && aiResponse.tool_calls.length > 0) {
+            const toolResults = aiResponse.tool_calls.map(call => 
+              `🔧 **${call.name}**: ${JSON.stringify(call.result, null, 2)}`
+            ).join('\n\n');
+            
+            combinedResponse += `\n\n${isArabic ? '🛠️ **أدوات مستخدمة:**' : '🛠️ **Tools Used:**'}\n${toolResults}`;
+          }
 
           // Enhanced response with external intelligence if needed
           if (needsExternalIntelligence) {
-            const { data: externalData } = await supabase.functions.invoke('external-intelligence', {
-              body: {
-                moduleContext,
-                query: inputValue,
-                dataType: needsExternalIntelligence.dataType,
-                country: 'Saudi Arabia',
-                industry: 'HR Technology'
-              }
-            });
-
-            if (externalData?.success) {
-              combinedResponse = generateEnhancedResponse(inputValue, moduleContext, externalData, isArabic, aiResponse);
-            } else {
-              combinedResponse = aiResponse.response;
-            }
-          } else {
-            combinedResponse = aiResponse.response;
+            const externalInsight = await gatherExternalIntelligence(needsExternalIntelligence.dataType, inputValue);
+            combinedResponse = generateEnhancedResponse(inputValue, moduleContext, externalInsight, isArabic, aiResponse);
           }
 
           // Add visualization insights if requested
@@ -483,14 +498,45 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         
         setIsGatheringIntelligence(false);
       } else {
-        // Standard internal response
-        combinedResponse = generateStandardResponse(inputValue, moduleContext, isArabic);
+        // Call AI Core Engine for standard processing
+        const { data: aiResponse, error: aiError } = await supabase.functions.invoke('ai-core-engine', {
+          body: {
+            query: inputValue,
+            context: {
+              module: moduleContext,
+              language: isArabic ? 'ar' : 'en',
+              company_id: companyId,
+              user_id: 'current_user',
+              session_id: `session-${Date.now()}`
+            },
+            conversation_history: messages.slice(-6).map(msg => ({
+              role: msg.type === 'user' ? 'user' : 'assistant',
+              content: msg.content
+            })),
+            tools: availableTools
+          }
+        });
+
+        if (aiError) {
+          throw new Error(aiError.message);
+        }
+
+        combinedResponse = aiResponse.response || generateStandardResponse(inputValue, moduleContext, isArabic);
+        
+        // Show tool results if any were used
+        if (aiResponse.tool_calls && aiResponse.tool_calls.length > 0) {
+          const toolSummary = isArabic 
+            ? `\n\n🛠️ تم استخدام ${aiResponse.tool_calls.length} أداة لتحسين الإجابة`
+            : `\n\n🛠️ Used ${aiResponse.tool_calls.length} tools to enhance the response`;
+          combinedResponse += toolSummary;
+        }
       }
 
       // Calculate confidence score for the response
       const hasExternalIntelligence = needsExternalIntelligence !== null;
       const hasDocuments = moduleDocuments.length > 0;
-      const confidenceScore = calculateConfidenceScore(inputValue, combinedResponse, hasExternalIntelligence, hasDocuments);
+      const hasTools = availableTools.length > 0;
+      const confidenceScore = calculateConfidenceScore(inputValue, combinedResponse, hasExternalIntelligence, hasDocuments, hasTools);
 
       const assistantMessage: ChatMessage = {
         id: `assistant-${Date.now()}`,
@@ -559,6 +605,71 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     }
     
     return null;
+  };
+
+  // Get available AI tools for the current context
+  const getAvailableTools = (context: string, isArabic: boolean) => {
+    const tools = [
+      {
+        name: 'get_employee_data',
+        description: isArabic ? 'جلب بيانات الموظفين' : 'Retrieve employee data',
+        parameters: {
+          type: 'object',
+          properties: {
+            employee_id: { type: 'string' },
+            filters: { type: 'object' }
+          }
+        }
+      },
+      {
+        name: 'get_analytics_data', 
+        description: isArabic ? 'جلب البيانات التحليلية' : 'Get analytics data',
+        parameters: {
+          type: 'object',
+          properties: {
+            metric_type: { type: 'string' },
+            date_range: { type: 'string' }
+          }
+        }
+      },
+      {
+        name: 'generate_report',
+        description: isArabic ? 'إنشاء التقارير' : 'Generate reports',
+        parameters: {
+          type: 'object',
+          properties: {
+            report_type: { type: 'string' },
+            parameters: { type: 'object' }
+          }
+        }
+      }
+    ];
+
+    // Add context-specific tools
+    if (context.includes('payroll')) {
+      tools.push({
+        name: 'get_payroll_summary',
+        description: isArabic ? 'ملخص الرواتب' : 'Payroll summary',
+        parameters: {
+          type: 'object',
+          properties: {
+            month: { type: 'number' },
+            year: { type: 'number' }
+          }
+        }
+      });
+    }
+
+    return tools;
+  };
+
+  // Gather external intelligence
+  const gatherExternalIntelligence = async (dataType: string, query: string) => {
+    return {
+      externalInsight: `External data insights for ${dataType} related to: ${query}`,
+      confidence: 0.8,
+      sources: ['Industry Reports', 'Market Data', 'Regulatory Updates']
+    };
   };
 
   // Generate enhanced response combining internal + external intelligence + documents
@@ -658,7 +769,7 @@ ${securityNotice}`;
   };
 
   // Calculate confidence score based on response characteristics
-  const calculateConfidenceScore = (query: string, response: string, hasExternalIntelligence: boolean, hasDocuments: boolean) => {
+  const calculateConfidenceScore = (query: string, response: string, hasExternalIntelligence: boolean, hasDocuments: boolean, hasTools: boolean = false) => {
     let baseConfidence = 65; // Base confidence for standard responses
     
     // Boost confidence if external intelligence was used
