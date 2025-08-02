@@ -62,7 +62,14 @@ const PerformanceAnalytics = () => {
       goalAchievement: 87,
       performanceROI: 234
     },
-    uploadedDocs: []
+    uploadedDocs: [],
+    translations: {
+      aiChat: {
+        title: language === 'ar' ? 'مساعد الذكي لتحليلات الأداء' : 'Performance Analytics AI Assistant',
+        welcomeMessage: language === 'ar' ? 'مرحباً! أنا هنا لمساعدتك في تحليل أداء الموظفين وتقديم الإحصائيات والتوصيات.' : 'Hello! I\'m here to help you analyze employee performance and provide insights and recommendations.',
+        placeholder: language === 'ar' ? 'اسأل عن تحليلات الأداء...' : 'Ask about performance analytics...'
+      }
+    }
   };
 
   return (
