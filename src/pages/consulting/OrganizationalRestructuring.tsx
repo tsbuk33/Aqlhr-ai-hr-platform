@@ -1,12 +1,28 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { useLanguage } from "@/hooks/useLanguageCompat";
+import CenteredLayout from "@/components/layout/CenteredLayout";
+
+import HowToUsePanel from "@/components/universal/HowToUsePanel";
+import ModuleDocumentUploader from "@/components/universal/ModuleDocumentUploader";
+import ModuleAIChat from "@/components/universal/ModuleAIChat";
+import ModuleDiagnosticPanel from "@/components/universal/ModuleDiagnosticPanel";
 
 const OrganizationalRestructuring = () => {
+  const { t } = useAPITranslations();
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Organizational Restructuring</h1>
-        <p className="text-muted-foreground">Strategic reorganization and efficiency optimization</p>
-      </div>
+    <CenteredLayout 
+      title={t('consulting.organizational_restructuring')} 
+      description={t('consulting.organizational_restructuring_desc')}
+    >
+      <div className="w-full space-y-6">
+        <HowToUsePanel moduleKey="organizational-restructuring" />
+        <ModuleDocumentUploader moduleKey="organizational-restructuring" />
+        <ModuleAIChat moduleKey="organizational-restructuring" />
+        <ModuleDiagnosticPanel moduleKey="organizational-restructuring" />
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -42,7 +58,8 @@ const OrganizationalRestructuring = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </CenteredLayout>
   );
 };
 

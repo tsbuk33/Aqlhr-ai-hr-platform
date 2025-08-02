@@ -1,12 +1,28 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { useLanguage } from "@/hooks/useLanguageCompat";
+import CenteredLayout from "@/components/layout/CenteredLayout";
+
+import HowToUsePanel from "@/components/universal/HowToUsePanel";
+import ModuleDocumentUploader from "@/components/universal/ModuleDocumentUploader";
+import ModuleAIChat from "@/components/universal/ModuleAIChat";
+import ModuleDiagnosticPanel from "@/components/universal/ModuleDiagnosticPanel";
 
 const LeadershipConsulting = () => {
+  const { t } = useAPITranslations();
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Leadership Consulting</h1>
-        <p className="text-muted-foreground">Executive coaching and leadership development</p>
-      </div>
+    <CenteredLayout 
+      title={t('consulting.leadership_consulting')} 
+      description={t('consulting.leadership_consulting_desc')}
+    >
+      <div className="w-full space-y-6">
+        <HowToUsePanel moduleKey="leadership-consulting" />
+        <ModuleDocumentUploader moduleKey="leadership-consulting" />
+        <ModuleAIChat moduleKey="leadership-consulting" />
+        <ModuleDiagnosticPanel moduleKey="leadership-consulting" />
       
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
@@ -42,7 +58,8 @@ const LeadershipConsulting = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </CenteredLayout>
   );
 };
 
