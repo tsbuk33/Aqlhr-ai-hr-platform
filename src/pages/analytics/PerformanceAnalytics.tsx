@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { TrendingUp, Target, Users, BarChart3, Clock, Award } from "lucide-react";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import EnhancedModuleAIChat from '@/components/universal/EnhancedModuleAIChat';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const PerformanceAnalytics = () => {
   const { isRTL, language } = useLanguage();
@@ -322,6 +323,12 @@ const PerformanceAnalytics = () => {
       <EnhancedModuleAIChat 
         moduleKey="analytics.performance"
         context={contextData}
+      />
+      
+      {/* Main AqlHR AI Assistant - available globally */}
+      <AqlHRAIAssistant 
+        moduleContext="performance.analytics"
+        position="fixed"
       />
     </div>
   );
