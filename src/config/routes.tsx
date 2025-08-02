@@ -299,6 +299,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/core-hr/mobile', element: MobileHR, auth: true },
   { path: '/core-hr/saudization', element: SaudizationCalculator, auth: true },
   { path: '/health-safety', element: HealthSafety, auth: true },
+  { path: '/hse', element: HealthSafety, auth: true },
   
   // AI Ecosystem Routes - admin only
   { path: '/ai-ecosystem/command-center', element: AICommandCenterPage, auth: true, adminOnly: true },
