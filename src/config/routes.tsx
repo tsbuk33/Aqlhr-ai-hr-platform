@@ -269,6 +269,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/strategic', element: Strategic, auth: true },
   { path: '/consulting', element: Consulting, auth: true },
   { path: '/analytics', element: Analytics, auth: true },
+  { path: '/performance', element: PerformanceAnalytics, auth: true },
   
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
