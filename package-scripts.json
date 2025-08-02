@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "audit": "npx tsx scripts/audit-module-features.ts",
+    "scaffold": "npx tsx scripts/scaffold-missing-features.ts",
+    "scaffold-all": "npx tsx scripts/run-comprehensive-scaffolding.ts"
+  }
+}
