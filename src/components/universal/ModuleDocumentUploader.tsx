@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -46,16 +45,36 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
   className = ""
 }) => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
-  const { t } = useAPITranslations();
   const { language } = useLanguage();
   const { toast } = useToast();
   const isArabic = language === 'ar';
 
+  // Static translations for document uploader
+  const getModuleTitle = (moduleKey: string) => {
+    const translations = {
+      'health-safety': {
+        ar: 'رفع وثائق الصحة والسلامة',
+        en: 'Upload Health & Safety Documents'
+      },
+      'analytics.performance': {
+        ar: 'رفع وثائق تحليلات الأداء',
+        en: 'Upload Performance Analytics Documents'
+      },
+      default: {
+        ar: 'رفع الوثائق',
+        en: 'Upload Documents'
+      }
+    };
+    
+    const moduleTranslations = translations[moduleKey as keyof typeof translations] || translations.default;
+    return moduleTranslations[isArabic ? 'ar' : 'en'];
+  };
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (files.length + acceptedFiles.length > maxFiles) {
       toast({
-        title: t('common.error'),
-        description: t('upload.maxFilesExceeded'),
+        title: isArabic ? 'خطأ' : 'Error',
+        description: isArabic ? `الحد الأقصى للملفات هو ${maxFiles}` : `Maximum ${maxFiles} files allowed`,
         variant: 'destructive',
       });
       return;
@@ -83,13 +102,13 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
         console.error('Upload failed:', error);
         updateFileStatus(fileRecord.id, 'error', 0);
         toast({
-          title: t('common.error'),
-          description: t('upload.failed'),
+          title: isArabic ? 'خطأ' : 'Error',
+          description: isArabic ? 'فشل في رفع الملف' : 'Upload failed',
           variant: 'destructive',
         });
       }
     }
-  }, [files.length, maxFiles, moduleKey, t, toast]);
+  }, [files.length, maxFiles, moduleKey, toast]);
 
   const uploadFile = async (file: File, fileRecord: UploadedFile) => {
     const fileExt = file.name.split('.').pop();
@@ -121,8 +140,8 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
     updateFileStatus(fileRecord.id, 'uploaded', 100, urlData.publicUrl);
     
     toast({
-      title: t('common.success'),
-      description: t('upload.success'),
+      title: isArabic ? 'نجح' : 'Success',
+      description: isArabic ? 'تم رفع الملف بنجاح' : 'File uploaded successfully',
     });
   };
 
@@ -166,7 +185,7 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          {t(`${moduleKey}.documentUpload.title`)}
+          {getModuleTitle(moduleKey)}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -186,18 +205,18 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
           
           {isDragActive ? (
             <p className="text-primary font-medium">
-              {t('upload.dropHere')}
+              {isArabic ? 'اسحب الملفات هنا' : 'Drop files here'}
             </p>
           ) : (
             <div className="space-y-2">
               <p className="font-medium">
-                {t('upload.dragAndDrop')}
+                {isArabic ? 'اسحب الملفات هنا أو انقر للتحديد' : 'Drag & drop files here, or click to select'}
               </p>
               <p className="text-sm text-muted-foreground">
-                {t('upload.maxFiles')}
+                {isArabic ? `الحد الأقصى ${maxFiles} ملفات` : `Max ${maxFiles} files`}
               </p>
               <Button variant="outline" size="sm" disabled={files.length >= maxFiles}>
-                {t('upload.browse')}
+                {isArabic ? 'تصفح الملفات' : 'Browse Files'}
               </Button>
             </div>
           )}
@@ -238,7 +257,9 @@ const ModuleDocumentUploader: React.FC<ModuleDocumentUploaderProps> = ({
                     file.status === 'uploaded' ? 'default' :
                     file.status === 'error' ? 'destructive' : 'secondary'
                   }>
-                    {t(`upload.status.${file.status}`)}
+                    {file.status === 'uploaded' ? (isArabic ? 'مرفوع' : 'Uploaded') :
+                     file.status === 'error' ? (isArabic ? 'خطأ' : 'Error') : 
+                     (isArabic ? 'جاري الرفع' : 'Uploading')}
                   </Badge>
                   
                   <Button

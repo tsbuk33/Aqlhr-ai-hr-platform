@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
 import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
@@ -47,11 +46,31 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
   allowGlobalAccess = true
 }) => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
-  const { t } = useAPITranslations();
   const { language } = useLanguage();
   const { toast } = useToast();
   const { uploadDocument, loadDocuments } = useDocumentAwareAI(moduleKey);
   const isArabic = language === 'ar';
+
+  // Static translations for document uploader
+  const getModuleTitle = (moduleKey: string) => {
+    const translations = {
+      'health-safety': {
+        ar: 'رفع وثائق الصحة والسلامة المحسن',
+        en: 'Enhanced Health & Safety Document Upload'
+      },
+      'analytics.performance': {
+        ar: 'رفع وثائق تحليلات الأداء المحسن',
+        en: 'Enhanced Performance Analytics Document Upload'
+      },
+      default: {
+        ar: 'رفع الوثائق المحسن',
+        en: 'Enhanced Document Upload'
+      }
+    };
+    
+    const moduleTranslations = translations[moduleKey as keyof typeof translations] || translations.default;
+    return moduleTranslations[isArabic ? 'ar' : 'en'];
+  };
 
   useEffect(() => {
     if (onFilesUploaded) {
@@ -62,8 +81,8 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (files.length + acceptedFiles.length > maxFiles) {
       toast({
-        title: t('common.error'),
-        description: t('upload.maxFilesExceeded'),
+        title: isArabic ? 'خطأ' : 'Error',
+        description: isArabic ? `الحد الأقصى للملفات هو ${maxFiles}` : `Maximum ${maxFiles} files allowed`,
         variant: 'destructive',
       });
       return;
@@ -92,13 +111,13 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
         console.error('Upload failed:', error);
         updateFileStatus(fileRecord.id, 'error', 0);
         toast({
-          title: t('common.error'),
-          description: t('upload.failed'),
+          title: isArabic ? 'خطأ' : 'Error',
+          description: isArabic ? 'فشل في رفع الملف' : 'Upload failed',
           variant: 'destructive',
         });
       }
     }
-  }, [files.length, maxFiles, moduleKey, t, toast]);
+  }, [files.length, maxFiles, moduleKey, toast]);
 
   const uploadFileWithAI = async (file: File, fileRecord: UploadedFile) => {
     const fileExt = file.name.split('.').pop();
@@ -136,15 +155,15 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
         updateFileStatus(fileRecord.id, 'uploaded', 100, urlData.publicUrl, true);
         
         toast({
-          title: t('common.success'),
-          description: t('upload.successWithAI'),
+          title: isArabic ? 'نجح' : 'Success',
+          description: isArabic ? 'تم رفع الملف ومعالجته بالذكاء الاصطناعي بنجاح' : 'File uploaded and processed with AI successfully',
         });
       } else {
         updateFileStatus(fileRecord.id, 'uploaded', 100, urlData.publicUrl);
         
         toast({
-          title: t('common.success'),
-          description: t('upload.success'),
+          title: isArabic ? 'نجح' : 'Success',
+          description: isArabic ? 'تم رفع الملف بنجاح' : 'File uploaded successfully',
         });
       }
 
@@ -206,7 +225,7 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5" />
-          {t(`${moduleKey}.documentUpload.title`)}
+          {getModuleTitle(moduleKey)}
           {enableAIProcessing && (
             <Badge variant="secondary" className="flex items-center gap-1">
               <Brain className="h-3 w-3" />
@@ -232,21 +251,21 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
           
           {isDragActive ? (
             <p className="text-primary font-medium">
-              {t('upload.dropHere')}
+              {isArabic ? 'اسحب الملفات هنا' : 'Drop files here'}
             </p>
           ) : (
             <div className="space-y-2">
               <p className="font-medium">
-                {t('upload.dragAndDrop')}
+                {isArabic ? 'اسحب الملفات هنا أو انقر للتحديد' : 'Drag & drop files here, or click to select'}
               </p>
               <p className="text-sm text-muted-foreground">
                 {enableAIProcessing 
-                  ? t('upload.aiProcessingEnabled')
-                  : t('upload.maxFiles')
+                  ? (isArabic ? 'تم تفعيل معالجة الذكاء الاصطناعي' : 'AI processing enabled')
+                  : (isArabic ? `الحد الأقصى ${maxFiles} ملفات` : `Max ${maxFiles} files`)
                 }
               </p>
               <Button variant="outline" size="sm" disabled={files.length >= maxFiles}>
-                {t('upload.browse')}
+                {isArabic ? 'تصفح الملفات' : 'Browse Files'}
               </Button>
             </div>
           )}
@@ -281,7 +300,7 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
                     <div className="mt-1">
                       <Progress value={file.progress} className="h-2" />
                       <p className="text-xs text-muted-foreground mt-1">
-                        {file.status === 'processing' ? 'Processing with AI...' : 'Uploading...'}
+                        {file.status === 'processing' ? (isArabic ? 'جاري المعالجة بالذكاء الاصطناعي...' : 'Processing with AI...') : (isArabic ? 'جاري الرفع...' : 'Uploading...')}
                       </p>
                     </div>
                   )}
@@ -295,7 +314,7 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
                       />
                       <Label htmlFor={`global-${file.id}`} className="text-xs flex items-center gap-1">
                         <Database className="h-3 w-3" />
-                        Make available to all modules
+                        {isArabic ? 'جعله متاح لجميع الوحدات' : 'Make available to all modules'}
                       </Label>
                     </div>
                   )}
@@ -307,13 +326,16 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
                       file.status === 'uploaded' ? 'default' :
                       file.status === 'error' ? 'destructive' : 'secondary'
                     }>
-                      {t(`upload.status.${file.status}`)}
+                      {file.status === 'uploaded' ? (isArabic ? 'مرفوع' : 'Uploaded') :
+                       file.status === 'error' ? (isArabic ? 'خطأ' : 'Error') :
+                       file.status === 'processing' ? (isArabic ? 'معالجة' : 'Processing') :
+                       (isArabic ? 'جاري الرفع' : 'Uploading')}
                     </Badge>
                     
                     {file.aiProcessed && (
                       <Badge variant="outline" className="text-xs flex items-center gap-1">
                         <Brain className="h-3 w-3" />
-                        AI Ready
+                        {isArabic ? 'جاهز للذكاء الاصطناعي' : 'AI Ready'}
                       </Badge>
                     )}
                   </div>
@@ -336,11 +358,13 @@ const EnhancedModuleDocumentUploader: React.FC<EnhancedModuleDocumentUploaderPro
           <div className="text-xs text-muted-foreground p-3 bg-muted/20 rounded-lg">
             <div className="flex items-center gap-2 mb-1">
               <Brain className="h-4 w-4" />
-              <span className="font-medium">AI Processing Enabled</span>
+              <span className="font-medium">{isArabic ? 'تم تفعيل معالجة الذكاء الاصطناعي' : 'AI Processing Enabled'}</span>
             </div>
             <p>
-              Uploaded documents will be automatically processed and made available to the AI assistant 
-              for intelligent analysis and question answering across all AqlHR modules.
+              {isArabic 
+                ? 'سيتم معالجة الوثائق المرفوعة تلقائياً وإتاحتها للمساعد الذكي للتحليل الذكي والإجابة على الأسئلة عبر جميع وحدات عقل HR.'
+                : 'Uploaded documents will be automatically processed and made available to the AI assistant for intelligent analysis and question answering across all AqlHR modules.'
+              }
             </p>
           </div>
         )}
