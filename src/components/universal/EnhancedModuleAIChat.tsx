@@ -77,8 +77,8 @@ const EnhancedModuleAIChat: React.FC<EnhancedModuleAIChatProps> = ({
     if (messages.length === 0) {
       const docCount = moduleDocuments.length;
       const welcomeMessage = docCount > 0 
-        ? `${t(`${moduleKey}.aiChat.welcomeMessage`)} I have access to ${docCount} document(s) uploaded to this module and can help you analyze them.`
-        : t(`${moduleKey}.aiChat.welcomeMessage`);
+        ? `${isArabic ? 'مرحباً! أنا مساعد الذكاء الاصطناعي للسلامة والصحة المهنية. لدي إمكانية الوصول إلى' : 'Hello! I\'m your Health & Safety AI assistant. I have access to'} ${docCount} ${isArabic ? 'وثيقة مرفوعة في هذه الوحدة ويمكنني مساعدتك في تحليلها.' : 'document(s) uploaded to this module and can help you analyze them.'}`
+        : isArabic ? 'مرحباً! أنا مساعد الذكاء الاصطناعي للسلامة والصحة المهنية. كيف يمكنني مساعدتك اليوم؟' : 'Hello! I\'m your Health & Safety AI assistant. How can I help you today?';
 
       setMessages([{
         id: '1',
@@ -310,9 +310,9 @@ const EnhancedModuleAIChat: React.FC<EnhancedModuleAIChatProps> = ({
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="flex items-center gap-2 text-base">
           <Bot className="h-5 w-5 text-primary" />
-          {t(`${moduleKey}.aiChat.title`)}
+          {isArabic ? 'مساعد السلامة والصحة المهنية الذكي' : 'Health & Safety AI Assistant'}
           <Badge variant="secondary" className="text-xs">
-            AI Enhanced
+            {isArabic ? 'مُحسن بالذكاء الاصطناعي' : 'AI Enhanced'}
           </Badge>
           {moduleDocuments.length > 0 && (
             <TooltipProvider>
