@@ -1,8 +1,10 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
-import { TrendingUp, Target, Users, BarChart3, Clock, Award } from "lucide-react";
+import { TrendingUp, Target, Users, BarChart3, Clock, Award, FileText, Download, Filter, RefreshCw } from "lucide-react";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import EnhancedModuleAIChat from '@/components/universal/EnhancedModuleAIChat';
 import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
@@ -75,13 +77,37 @@ const PerformanceAnalytics = () => {
 
   return (
     <div className={`container mx-auto p-6 space-y-6 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-          {t.title}
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          {t.description}
-        </p>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div className="text-center lg:text-left space-y-2">
+          <div className="flex items-center gap-2 justify-center lg:justify-start">
+            <BarChart3 className="h-8 w-8 text-primary" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+              {t.title}
+            </h1>
+          </div>
+          <p className="text-muted-foreground max-w-2xl">
+            {t.description}
+          </p>
+        </div>
+        
+        <div className="flex flex-wrap gap-2 justify-center lg:justify-end">
+          <Button variant="outline" size="sm" className="gap-2">
+            <RefreshCw className="h-4 w-4" />
+            {language === 'ar' ? 'تحديث البيانات' : 'Refresh Data'}
+          </Button>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Filter className="h-4 w-4" />
+            {language === 'ar' ? 'الفلاتر' : 'Filters'}
+          </Button>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Download className="h-4 w-4" />
+            {language === 'ar' ? 'تصدير' : 'Export'}
+          </Button>
+          <Button size="sm" className="gap-2">
+            <FileText className="h-4 w-4" />
+            {language === 'ar' ? 'تقرير جديد' : 'New Report'}
+          </Button>
+        </div>
       </div>
       
       <Tabs defaultValue="overview" className="w-full">
@@ -113,9 +139,14 @@ const PerformanceAnalytics = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-primary">2,456</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-3xl font-bold text-primary">2,456</div>
+                  <Badge variant="secondary" className="text-green-600 bg-green-50">
+                    +12%
+                  </Badge>
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {language === 'ar' ? '+12% من الشهر الماضي' : '+12% from last month'}
+                  {language === 'ar' ? 'من الشهر الماضي' : 'from last month'}
                 </p>
               </CardContent>
             </Card>
@@ -127,9 +158,14 @@ const PerformanceAnalytics = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-green-600">4.2/5</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-3xl font-bold text-green-600">4.2/5</div>
+                  <Badge variant="secondary" className="text-green-600 bg-green-50">
+                    +0.3
+                  </Badge>
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {language === 'ar' ? '+0.3 من الشهر الماضي' : '+0.3 from last month'}
+                  {language === 'ar' ? 'من الشهر الماضي' : 'from last month'}
                 </p>
               </CardContent>
             </Card>
@@ -141,9 +177,14 @@ const PerformanceAnalytics = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-blue-600">87%</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-3xl font-bold text-blue-600">87%</div>
+                  <Badge variant="secondary" className="text-blue-600 bg-blue-50">
+                    +5%
+                  </Badge>
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {language === 'ar' ? '+5% من الشهر الماضي' : '+5% from last month'}
+                  {language === 'ar' ? 'من الشهر الماضي' : 'from last month'}
                 </p>
               </CardContent>
             </Card>
@@ -155,9 +196,14 @@ const PerformanceAnalytics = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold text-orange-600">234%</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-3xl font-bold text-orange-600">234%</div>
+                  <Badge variant="secondary" className="text-orange-600 bg-orange-50">
+                    +18%
+                  </Badge>
+                </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {language === 'ar' ? '+18% من الشهر الماضي' : '+18% from last month'}
+                  {language === 'ar' ? 'من الشهر الماضي' : 'from last month'}
                 </p>
               </CardContent>
             </Card>
