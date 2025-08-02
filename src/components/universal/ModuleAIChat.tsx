@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, MessageCircle, X, Minimize2, Maximize2 } from 'lucide-react';
+import { Send, Bot, User, MessageCircle, X, Minimize2, Maximize2, Sparkles, Check, X as XIcon } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
@@ -16,6 +17,14 @@ interface ChatMessage {
   content: string;
   timestamp: Date;
   isTyping?: boolean;
+}
+
+interface SpellingSuggestion {
+  original: string;
+  suggested: string;
+  confidence: number;
+  startIndex: number;
+  endIndex: number;
 }
 
 interface ModuleAIChatProps {
@@ -42,10 +51,14 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [spellingSuggestions, setSpellingSuggestions] = useState<SpellingSuggestion[]>([]);
+  const [isSpellChecking, setIsSpellChecking] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const { t } = useAPITranslations();
   const { language } = useLanguage();
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const isArabic = language === 'ar';
 
   const getLocalizedText = (key: string, fallback: string) => {
@@ -155,6 +168,105 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
     }
   };
 
+  const performSpellCheck = async (text: string) => {
+    if (!text.trim() || text.length < 3) {
+      setSpellingSuggestions([]);
+      return;
+    }
+
+    setIsSpellChecking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('spell-checker', {
+        body: {
+          text: text.trim(),
+          language: language as 'en' | 'ar',
+          autoFix: false
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.suggestions?.length > 0) {
+        setSpellingSuggestions(data.suggestions);
+        setShowSuggestions(true);
+      } else {
+        setSpellingSuggestions([]);
+        setShowSuggestions(false);
+      }
+    } catch (error) {
+      console.error('Spell check error:', error);
+      // Silently fail for spell checking
+    } finally {
+      setIsSpellChecking(false);
+    }
+  };
+
+  const autoFixSpelling = async () => {
+    if (!inputValue.trim()) return;
+
+    setIsSpellChecking(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('spell-checker', {
+        body: {
+          text: inputValue.trim(),
+          language: language as 'en' | 'ar',
+          autoFix: true
+        }
+      });
+
+      if (error) throw error;
+
+      if (data?.correctedText && data.correctedText !== inputValue.trim()) {
+        setInputValue(data.correctedText);
+        setSpellingSuggestions([]);
+        setShowSuggestions(false);
+        toast({
+          title: getLocalizedText('spellCheck.fixed', isArabic ? 'تم التصحيح' : 'Spelling Fixed'),
+          description: getLocalizedText('spellCheck.fixedMessage', isArabic ? 'تم تصحيح الأخطاء الإملائية تلقائياً' : 'Spelling errors have been automatically corrected'),
+        });
+      }
+    } catch (error) {
+      console.error('Auto-fix error:', error);
+      toast({
+        title: getLocalizedText('common.error', isArabic ? 'خطأ' : 'Error'),
+        description: getLocalizedText('spellCheck.error', isArabic ? 'حدث خطأ في التدقيق الإملائي' : 'An error occurred during spell checking'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSpellChecking(false);
+    }
+  };
+
+  const applySuggestion = (suggestion: SpellingSuggestion) => {
+    const newText = inputValue.substring(0, suggestion.startIndex) + 
+                   suggestion.suggested + 
+                   inputValue.substring(suggestion.endIndex);
+    setInputValue(newText);
+    setSpellingSuggestions(prev => prev.filter(s => s !== suggestion));
+    if (spellingSuggestions.length <= 1) {
+      setShowSuggestions(false);
+    }
+  };
+
+  const dismissSuggestion = (suggestion: SpellingSuggestion) => {
+    setSpellingSuggestions(prev => prev.filter(s => s !== suggestion));
+    if (spellingSuggestions.length <= 1) {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    
+    // Debounced spell checking
+    const timeoutId = setTimeout(() => {
+      performSpellCheck(newValue);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  };
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString(isArabic ? 'ar-SA' : 'en-US', {
       hour: '2-digit',
@@ -254,14 +366,100 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
         
         <div className="border-t p-4">
           <div className="flex gap-2">
-            <Input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder={getLocalizedText('aiChat.placeholder', isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...')}
-              disabled={isLoading}
-              className={isArabic ? 'text-right' : 'text-left'}
-            />
+            <div className="flex-1 relative">
+              <Input
+                ref={inputRef}
+                value={inputValue}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder={getLocalizedText('aiChat.placeholder', isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...')}
+                disabled={isLoading}
+                className={`${isArabic ? 'text-right' : 'text-left'} ${
+                  spellingSuggestions.length > 0 ? 'border-yellow-400' : ''
+                }`}
+              />
+              
+              {/* Spelling Check Indicator */}
+              {isSpellChecking && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <Sparkles className="h-4 w-4 text-yellow-500 animate-pulse" />
+                </div>
+              )}
+              
+              {/* Spelling Suggestions Popover */}
+              {spellingSuggestions.length > 0 && (
+                <Popover open={showSuggestions} onOpenChange={setShowSuggestions}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="absolute left-2 top-1/2 transform -translate-y-1/2 h-6 px-2 text-xs"
+                      onClick={() => setShowSuggestions(!showSuggestions)}
+                    >
+                      <Sparkles className="h-3 w-3 mr-1" />
+                      {spellingSuggestions.length}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80" align="start">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <h4 className="font-medium text-sm">
+                          {getLocalizedText('spellCheck.suggestions', isArabic ? 'اقتراحات إملائية' : 'Spelling Suggestions')}
+                        </h4>
+                        <Button
+                          onClick={autoFixSpelling}
+                          disabled={isSpellChecking}
+                          size="sm"
+                          variant="outline"
+                          className="text-xs"
+                        >
+                          {getLocalizedText('spellCheck.fixAll', isArabic ? 'إصلاح الكل' : 'Fix All')}
+                        </Button>
+                      </div>
+                      
+                      <div className="space-y-2 max-h-40 overflow-y-auto">
+                        {spellingSuggestions.map((suggestion, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 bg-muted rounded-lg">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm line-through text-red-500">
+                                  {suggestion.original}
+                                </span>
+                                <span className="text-sm text-green-600 font-medium">
+                                  {suggestion.suggested}
+                                </span>
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {Math.round(suggestion.confidence * 100)}% {getLocalizedText('spellCheck.confidence', isArabic ? 'ثقة' : 'confidence')}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Button
+                                onClick={() => applySuggestion(suggestion)}
+                                size="sm"
+                                variant="ghost"
+                                className="h-6 w-6 p-0"
+                              >
+                                <Check className="h-3 w-3" />
+                              </Button>
+                              <Button
+                                onClick={() => dismissSuggestion(suggestion)}
+                                size="sm"
+                                variant="ghost"
+                                className="h-6 w-6 p-0"
+                              >
+                                <XIcon className="h-3 w-3" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              )}
+            </div>
+            
             <Button
               onClick={sendMessage}
               disabled={!inputValue.trim() || isLoading}
