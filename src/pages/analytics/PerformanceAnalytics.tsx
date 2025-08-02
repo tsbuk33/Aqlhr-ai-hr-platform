@@ -260,6 +260,211 @@ const PerformanceAnalytics = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Department Performance Section */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart3 className="h-5 w-5" />
+                {language === 'ar' ? 'أداء الأقسام التفصيلي' : 'Department Performance Breakdown'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Development Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم التطوير' : 'Development Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-green-600">92%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>24</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'أحمد محمد' : 'Ahmed Mohamed'}</span>
+                          <span className="text-yellow-600">4.9/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'سارة أحمد' : 'Sara Ahmed'}</span>
+                          <span className="text-yellow-600">4.8/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'محمد علي' : 'Mohamed Ali'}</span>
+                          <span className="text-yellow-600">4.7/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sales Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم المبيعات' : 'Sales Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-blue-600">89%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>18</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'فاطمة علي' : 'Fatima Ali'}</span>
+                          <span className="text-yellow-600">4.8/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'خالد سعد' : 'Khalid Saad'}</span>
+                          <span className="text-yellow-600">4.6/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'نور محمد' : 'Nour Mohamed'}</span>
+                          <span className="text-yellow-600">4.5/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Marketing Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم التسويق' : 'Marketing Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-orange-600">85%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>15</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'محمد حسن' : 'Mohamed Hassan'}</span>
+                          <span className="text-yellow-600">4.7/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'ليلى أحمد' : 'Layla Ahmed'}</span>
+                          <span className="text-yellow-600">4.4/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'يوسف محمود' : 'Youssef Mahmoud'}</span>
+                          <span className="text-yellow-600">4.3/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* HR Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم الموارد البشرية' : 'HR Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-purple-600">88%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>12</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'مريم سالم' : 'Mariam Salem'}</span>
+                          <span className="text-yellow-600">4.6/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'عبدالله خالد' : 'Abdullah Khalid'}</span>
+                          <span className="text-yellow-600">4.5/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'هدى محمد' : 'Huda Mohamed'}</span>
+                          <span className="text-yellow-600">4.4/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Finance Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم المالية' : 'Finance Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-red-600">83%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>10</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'علي حسين' : 'Ali Hussein'}</span>
+                          <span className="text-yellow-600">4.5/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'رانيا أحمد' : 'Rania Ahmed'}</span>
+                          <span className="text-yellow-600">4.3/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'محمد صالح' : 'Mohamed Saleh'}</span>
+                          <span className="text-yellow-600">4.2/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Operations Department */}
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-semibold text-lg mb-3">{language === 'ar' ? 'قسم العمليات' : 'Operations Department'}</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'متوسط الأداء:' : 'Avg Performance:'}</span>
+                      <span className="font-bold text-indigo-600">87%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm">{language === 'ar' ? 'عدد الموظفين:' : 'Employees:'}</span>
+                      <span>16</span>
+                    </div>
+                    <div className="mt-3">
+                      <p className="text-xs text-muted-foreground mb-2">{language === 'ar' ? 'أفضل الموظفين:' : 'Top Performers:'}</p>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'سلمان عبدالله' : 'Salman Abdullah'}</span>
+                          <span className="text-yellow-600">4.6/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'دانا محمد' : 'Dana Mohamed'}</span>
+                          <span className="text-yellow-600">4.4/5</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>{language === 'ar' ? 'طارق سعد' : 'Tarek Saad'}</span>
+                          <span className="text-yellow-600">4.3/5</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-6">
