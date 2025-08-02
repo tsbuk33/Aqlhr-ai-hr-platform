@@ -132,30 +132,30 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         {
           severity: 'medium',
           title: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.dataIncomplete`,
+            isArabic ? 'البيانات غير مكتملة' : 'Data Incomplete',
             isArabic ? 'بيانات غير مكتملة' : 'Data Incomplete'
           ),
           description: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.dataIncompleteDesc`,
+            isArabic ? 'توجد حقول مفقودة في البيانات المطلوبة' : 'Required data fields are missing or incomplete',
             isArabic ? 'بعض البيانات المطلوبة مفقودة أو غير مكتملة' : 'Some required data is missing or incomplete'
           ),
           recommendation: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.dataIncompleteRec`,
+            isArabic ? 'قم بإكمال الحقول المفقودة وتحديث البيانات' : 'Complete missing fields and update data sources',
             isArabic ? 'قم بتحديث البيانات المفقودة لتحسين دقة التحليلات' : 'Update missing data to improve analytics accuracy'
           ),
         },
         {
           severity: 'low',
           title: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.processOptimization`,
+            isArabic ? 'تحسين العمليات' : 'Process Optimization',
             isArabic ? 'تحسين العمليات' : 'Process Optimization'
           ),
           description: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.processOptimizationDesc`,
+            isArabic ? 'يمكن تحسين كفاءة العمليات الحالية' : 'Current processes can be optimized for better efficiency',
             isArabic ? 'يمكن تحسين كفاءة العمليات الحالية' : 'Current processes can be optimized for better efficiency'
           ),
           recommendation: getLocalizedText(
-            `${moduleKey}.diagnostic.issues.processOptimizationRec`,
+            isArabic ? 'راجع العمليات وحدد نقاط التحسين' : 'Review processes and identify improvement areas',
             isArabic ? 'قم بمراجعة وتحسين العمليات الحالية' : 'Review and optimize current processes'
           ),
         },
@@ -164,11 +164,11 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         {
           priority: 'high',
           title: getLocalizedText(
-            `${moduleKey}.diagnostic.recommendations.automateProcesses`,
+            isArabic ? 'أتمتة العمليات' : 'Automate Processes',
             isArabic ? 'أتمتة العمليات' : 'Automate Processes'
           ),
           description: getLocalizedText(
-            `${moduleKey}.diagnostic.recommendations.automateProcessesDesc`,
+            isArabic ? 'تنفيذ حلول الأتمتة لتحسين الكفاءة' : 'Implement automation solutions to improve efficiency',
             isArabic ? 'أتمتة العمليات اليدوية لتوفير الوقت وتقليل الأخطاء' : 'Automate manual processes to save time and reduce errors'
           ),
           estimatedImpact: isArabic ? '+15% كفاءة' : '+15% efficiency',
@@ -176,11 +176,11 @@ const ModuleDiagnosticPanel: React.FC<ModuleDiagnosticPanelProps> = ({
         {
           priority: 'medium',
           title: getLocalizedText(
-            `${moduleKey}.diagnostic.recommendations.improveDataQuality`,
+            isArabic ? 'تحسين جودة البيانات' : 'Improve Data Quality',
             isArabic ? 'تحسين جودة البيانات' : 'Improve Data Quality'
           ),
           description: getLocalizedText(
-            `${moduleKey}.diagnostic.recommendations.improveDataQualityDesc`,
+            isArabic ? 'تنفيذ ضوابط جودة البيانات والتحقق من صحتها' : 'Implement data quality controls and validation',
             isArabic ? 'تحسين جودة البيانات ودقتها للحصول على نتائج أفضل' : 'Improve data quality and accuracy for better results'
           ),
           estimatedImpact: isArabic ? '+10% دقة' : '+10% accuracy',

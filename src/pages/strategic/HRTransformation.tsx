@@ -11,8 +11,8 @@ const HRTransformation = () => {
 
   return (
     <CenteredLayout 
-      title={t('strategic.hrTransformation.title')}
-      description={t('strategic.hrTransformation.description')}
+      title={language === 'ar' ? 'تحويل الموارد البشرية' : 'HR Transformation'}
+      description={language === 'ar' ? 'استراتيجية شاملة لتحويل وتطوير إدارة الموارد البشرية' : 'Comprehensive strategy for HR transformation and development'}
       className="space-y-6"
     >
       {/* Universal Features */}

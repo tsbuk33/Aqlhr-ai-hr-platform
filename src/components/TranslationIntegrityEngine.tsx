@@ -51,6 +51,7 @@ export const TranslationIntegrityEngine: React.FC = () => {
   const [healthScore, setHealthScore] = useState(0);
   const { toast } = useToast();
   const { t, language } = useLanguage();
+  const isArabic = language === 'ar';
 
   useEffect(() => {
     loadTranslationData();
@@ -83,7 +84,7 @@ export const TranslationIntegrityEngine: React.FC = () => {
     } catch (error) {
       console.error('Error loading translation data:', error);
       toast({
-        title: t('error.loading.data'),
+        title: isArabic ? 'خطأ في تحميل البيانات' : 'Error Loading Data',
         description: error.message,
         variant: 'destructive',
       });
@@ -120,15 +121,15 @@ export const TranslationIntegrityEngine: React.FC = () => {
       if (error) throw error;
 
       toast({
-        title: t('translation.audit.completed'),
-        description: `${data.results.totalKeys} ${t('translation.keys.scanned')}`,
+        title: isArabic ? 'تم إكمال التدقيق' : 'Audit Completed',
+        description: `${data.results.totalKeys} ${isArabic ? 'مفتاح تم فحصه' : 'keys scanned'}`,
       });
 
       await loadTranslationData();
     } catch (error) {
       console.error('Error running audit:', error);
       toast({
-        title: t('translation.audit.failed'),
+        title: isArabic ? 'فشل التدقيق' : 'Audit Failed',
         description: error.message,
         variant: 'destructive',
       });
@@ -162,15 +163,15 @@ export const TranslationIntegrityEngine: React.FC = () => {
       if (error) throw error;
 
       toast({
-        title: t('translation.healing.completed'),
-        description: `${data.successCount} ${t('translation.keys.healed')}`,
+        title: isArabic ? 'تم إكمال الإصلاح' : 'Healing Completed',
+        description: `${data.successCount} ${isArabic ? 'مفتاح تم إصلاحه' : 'keys healed'}`,
       });
 
       await loadTranslationData();
     } catch (error) {
       console.error('Error running self-healing:', error);
       toast({
-        title: t('translation.healing.failed'),
+        title: isArabic ? 'فشل الإصلاح' : 'Healing Failed',
         description: error.message,
         variant: 'destructive',
       });
@@ -203,7 +204,7 @@ export const TranslationIntegrityEngine: React.FC = () => {
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Languages className="h-5 w-5" />
-                {t('translation.integrity.engine')}
+                {isArabic ? 'محرك سلامة الترجمة' : 'Translation Integrity Engine'}
               </CardTitle>
               <CardDescription>
                 {t('translation.self.healing.description')}

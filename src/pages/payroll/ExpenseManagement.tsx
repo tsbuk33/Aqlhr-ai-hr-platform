@@ -11,8 +11,8 @@ const ExpenseManagement = () => {
 
   return (
     <CenteredLayout 
-      title={t('payroll.expenseManagement.title')}
-      description={t('payroll.expenseManagement.description')}
+      title={language === 'ar' ? 'إدارة المصروفات' : 'Expense Management'}
+      description={language === 'ar' ? 'إدارة شاملة للمصروفات والنفقات المؤسسية' : 'Comprehensive management of organizational expenses'}
       className="space-y-6"
     >
       {/* Universal Features */}

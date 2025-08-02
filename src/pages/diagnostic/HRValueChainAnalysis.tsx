@@ -11,8 +11,8 @@ const HRValueChainAnalysis = () => {
 
   return (
     <CenteredLayout 
-      title={t('diagnostic.hrValueChainAnalysis.title')}
-      description={t('diagnostic.hrValueChainAnalysis.description')}
+      title={language === 'ar' ? 'تحليل سلسلة القيمة للموارد البشرية' : 'HR Value Chain Analysis'}
+      description={language === 'ar' ? 'تحليل شامل لسلسلة القيمة للموارد البشرية وتحديد نقاط التحسين' : 'Comprehensive analysis of HR value chain and improvement opportunities'}
       className="space-y-6"
     >
       {/* Universal Features */}
