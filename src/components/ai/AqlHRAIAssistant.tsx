@@ -261,6 +261,11 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! أنا مساعدك الذكي لميزات الذكاء الاصطناعي والأتمتة في عقل HR. 🤖 يمكنني مساعدتك في إدارة محركات الذكاء الاصطناعي، التوصيات الذكية، التحليلات المتقدمة، ومعالجة اللغات الطبيعية. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for AI Features & Automation in AqlHR. 🤖 I can help you with AI engine management, intelligent recommendations, advanced analytics, and natural language processing. How can I assist you today?'
     },
+    // Analytics specific modules
+    'analytics.performance': {
+      ar: 'مرحباً! أنا مساعدك الذكي لتحليلات الأداء في عقل HR. كيف يمكنني مساعدتك في إدارة الأداء اليوم؟',
+      en: 'Hello! I\'m your AI assistant for AqlHR Performance Analytics. How can I help you with performance management today?'
+    },
     'default': {
       ar: 'مرحباً! أنا مساعدك الذكي في منصة عقل HR. كيف يمكنني مساعدتك اليوم؟',
       en: 'Hello! I\'m your AI assistant for AqlHR platform. How can I help you today?'

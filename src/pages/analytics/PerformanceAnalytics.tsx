@@ -325,9 +325,9 @@ const PerformanceAnalytics = () => {
         context={contextData}
       />
       
-      {/* Main AqlHR AI Assistant - Performance focused */}
+      {/* Main AqlHR AI Assistant - Performance Analytics */}
       <AqlHRAIAssistant 
-        moduleContext="Hello! I'm your AI assistant for AqlHR Performance Analytics. How can I help you with performance management today?"
+        moduleContext="analytics.performance"
         position="fixed"
       />
     </div>
