@@ -185,12 +185,15 @@ const getPlatformModules = (isArabic: boolean) => [
 const useHRBPMode = () => {
   const location = useLocation();
   // Enable HRBP mode for analytics and key HR sections
-  return location.pathname.includes('/analytics') || 
+  const isHRBP = location.pathname.includes('/analytics') || 
          location.pathname.includes('/employees') ||
          location.pathname.includes('/payroll') ||
          location.pathname.includes('/core-hr') ||
          location.pathname.includes('/strategic') ||
          location.pathname.includes('/government');
+  
+  console.log('Current path:', location.pathname, 'HRBP mode:', isHRBP);
+  return isHRBP;
 };
 
 export function AppSidebar() {
