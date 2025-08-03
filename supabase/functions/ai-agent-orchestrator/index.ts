@@ -243,6 +243,14 @@ class AIAgentOrchestrator {
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`${aiProvider.name} API error:`, response.status, response.statusText, errorText);
+        
+        // For rate limiting (429) or other common errors, immediately try fallback
+        if (response.status === 429 || response.status >= 500) {
+          throw new Error(`${aiProvider.name} temporarily unavailable (${response.status})`);
+        }
+        
         throw new Error(`${aiProvider.name} API error: ${response.status} ${response.statusText}`);
       }
 
@@ -270,15 +278,20 @@ class AIAgentOrchestrator {
                              errorMessage.includes('blocked') ||
                              error.status === 451; // HTTP status for unavailable for legal reasons
       
-      if (isRegionalError) {
-        console.log(`Regional restriction detected for ${provider}, trying alternative providers...`);
+      const isRateLimitError = errorMessage.includes('rate limit') || 
+                              errorMessage.includes('too many requests') ||
+                              errorMessage.includes('429') ||
+                              errorMessage.includes('temporarily unavailable');
+      
+      if (isRegionalError || isRateLimitError) {
+        console.log(`${isRateLimitError ? 'Rate limit' : 'Regional restriction'} detected for ${provider}, trying alternative providers...`);
         
-        // Try alternative providers in order of global availability
-        const alternativeProviders = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie'];
+        // Try alternative providers in order of reliability
+        const alternativeProviders = ['gemini', 'julius', 'deepseek', 'openai', 'qwen', 'ernie'];
         
         for (const altProvider of alternativeProviders) {
           if (altProvider !== provider && this.providers.has(altProvider)) {
-            console.log(`Falling back to ${altProvider} for regional availability...`);
+            console.log(`Falling back to ${altProvider}...`);
             try {
               return await this.queryAgent(query, context, altProvider);
             } catch (altError) {
@@ -329,13 +342,21 @@ class AIAgentOrchestrator {
       if (this.providers.has('deepseek')) return 'deepseek';
     }
     
-    // Global availability preference order (most to least globally available)
-    const preferenceOrder = ['openai', 'gemini', 'julius', 'deepseek', 'qwen', 'ernie'];
+    // Global availability preference order (prioritizing non-rate-limited providers)
+    const preferenceOrder = ['gemini', 'julius', 'deepseek', 'qwen', 'ernie', 'openai'];
     
     for (const provider of preferenceOrder) {
       if (this.providers.has(provider)) {
+        console.log(`Selected provider: ${provider}`);
         return provider;
       }
+    }
+    
+    // Fallback to first available if none of the preferred ones are available
+    const availableProviders = this.getAvailableProviders();
+    if (availableProviders.length > 0) {
+      console.log(`Fallback to first available provider: ${availableProviders[0]}`);
+      return availableProviders[0];
     }
     
     throw new Error('No AI providers available');
