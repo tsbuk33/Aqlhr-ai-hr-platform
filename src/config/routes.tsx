@@ -230,7 +230,7 @@ const EsgHrPage = lazy(() => import('../pages/esg-hr'));
 const DebugPage = lazy(() => import('../pages/debug'));
 
 // Demo/Test page
-const TestPage = lazy(() => import('../pages/demo/TestPage'));
+const TestPage = lazy(() => import('../pages/TestHarness'));
 
 export interface RouteConfig {
   path: string;
