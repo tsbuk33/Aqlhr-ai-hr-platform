@@ -47,7 +47,7 @@ const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({
   position = 'fixed',
   trigger = 'button' 
 }) => {
-  const { t, isArabic } = useLanguage();
+  const { t, isRTL: isArabic } = useLanguage();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -161,7 +161,7 @@ const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({
         }
       };
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('user_feedback')
         .insert([feedbackRecord]);
 

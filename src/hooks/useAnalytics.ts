@@ -57,7 +57,7 @@ export const useAnalytics = (moduleName?: string) => {
           startDate.setDate(startDate.getDate() - 7);
       }
 
-      const { data: events, error: eventsError } = await supabase
+      const { data: events, error: eventsError } = await (supabase as any)
         .from('analytics_events')
         .select('*')
         .gte('timestamp', startDate.toISOString())
@@ -65,14 +65,14 @@ export const useAnalytics = (moduleName?: string) => {
 
       if (eventsError) throw eventsError;
 
-      // Process analytics data
-      const processedData = processAnalyticsEvents(events || []);
+      // Process analytics data with type assertion
+      const processedData = processAnalyticsEvents((events as any[]) || []);
       setAnalyticsData(processedData);
 
       // If specific module requested, get module stats
       if (moduleName) {
-        const moduleEvents = events?.filter(e => e.module_name === moduleName) || [];
-        const moduleStatsData = processModuleStats(moduleName, moduleEvents);
+        const moduleEvents = events?.filter((e: any) => e.module_name === moduleName) || [];
+        const moduleStatsData = processModuleStats(moduleName, (moduleEvents as any[]) || []);
         setModuleStats(moduleStatsData);
       }
 
@@ -160,7 +160,7 @@ export const useAnalytics = (moduleName?: string) => {
 };
 
 // Helper function to process raw analytics events
-function processAnalyticsEvents(events: AnalyticsEvent[]): AnalyticsData {
+function processAnalyticsEvents(events: any[]): AnalyticsData {
   const pageViews = events.filter(e => e.event_type === 'page_view');
   const uniqueUsers = new Set(events.map(e => e.user_id).filter(Boolean)).size;
   
@@ -174,8 +174,10 @@ function processAnalyticsEvents(events: AnalyticsEvent[]): AnalyticsData {
     return acc;
   }, {} as Record<string, { start: number; end: number }>);
 
-  const avgSessionDuration = Object.values(sessions).reduce((sum, session) => 
-    sum + (session.end - session.start), 0) / Object.keys(sessions).length || 0;
+  const sessionValues = Object.values(sessions) as Array<{ start: number; end: number }>;
+  const avgSessionDuration = sessionValues.length > 0 
+    ? sessionValues.reduce((sum, session) => sum + (session.end - session.start), 0) / sessionValues.length 
+    : 0;
 
   // Top modules by engagement
   const moduleStats = events.reduce((acc, event) => {
@@ -188,7 +190,7 @@ function processAnalyticsEvents(events: AnalyticsEvent[]): AnalyticsData {
   }, {} as Record<string, { views: number; engagement: number }>);
 
   const topModules = Object.entries(moduleStats)
-    .map(([module, stats]) => ({ module, ...stats }))
+    .map(([module, stats]: [string, any]) => ({ module, ...stats }))
     .sort((a, b) => (b.views + b.engagement) - (a.views + a.engagement))
     .slice(0, 5);
 
@@ -218,7 +220,7 @@ function processAnalyticsEvents(events: AnalyticsEvent[]): AnalyticsData {
 }
 
 // Helper function to process module-specific stats
-function processModuleStats(moduleName: string, events: AnalyticsEvent[]): ModuleUsageStats {
+function processModuleStats(moduleName: string, events: any[]): ModuleUsageStats {
   const moduleUsers = new Set(events.map(e => e.user_id).filter(Boolean));
   
   const usageTimes = events
@@ -248,7 +250,7 @@ function processModuleStats(moduleName: string, events: AnalyticsEvent[]): Modul
     }, {} as Record<string, number>);
 
   const popularFeatures = Object.entries(featureUsage)
-    .map(([feature, usage]) => ({ feature, usage }))
+    .map(([feature, usage]: [string, number]) => ({ feature, usage }))
     .sort((a, b) => b.usage - a.usage)
     .slice(0, 5);
 

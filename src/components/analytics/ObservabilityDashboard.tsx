@@ -41,7 +41,7 @@ interface LiveMetrics {
 }
 
 const ObservabilityDashboard: React.FC = () => {
-  const { t, isArabic } = useLanguage();
+  const { t, isRTL: isArabic } = useLanguage();
   const { analyticsData, loading, refetch } = useAnalytics('observability');
   const [timeRange, setTimeRange] = useState('24h');
   const [systemHealth, setSystemHealth] = useState<SystemHealth | null>(null);
@@ -65,16 +65,16 @@ const ObservabilityDashboard: React.FC = () => {
         };
         setSystemHealth(healthData);
 
-        // Get live metrics
-        const { data: recentEvents } = await supabase
+        // Get live metrics - using type assertion for new tables
+        const { data: recentEvents } = await (supabase as any)
           .from('analytics_events')
           .select('*')
           .gte('timestamp', new Date(Date.now() - 5 * 60 * 1000).toISOString())
           .order('timestamp', { ascending: false });
 
-        const activeUsers = new Set(recentEvents?.map(e => e.user_id).filter(Boolean)).size;
-        const aiRequests = recentEvents?.filter(e => e.event_type === 'ai_interaction').length || 0;
-        const errorCount = recentEvents?.filter(e => e.event_type === 'error').length || 0;
+        const activeUsers = new Set(recentEvents?.map((e: any) => e.user_id).filter(Boolean)).size;
+        const aiRequests = recentEvents?.filter((e: any) => e.event_type === 'ai_interaction').length || 0;
+        const errorCount = recentEvents?.filter((e: any) => e.event_type === 'error').length || 0;
 
         const metrics: LiveMetrics = {
           active_users: activeUsers,

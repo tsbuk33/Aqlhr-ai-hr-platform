@@ -101,7 +101,7 @@ class AnalyticsTracker {
           const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
           const metrics: PerformanceMetrics = {
             page_load_time: navigation.loadEventEnd - navigation.loadEventStart,
-            time_to_interactive: navigation.domInteractive - navigation.navigationStart,
+            time_to_interactive: navigation.domInteractive - navigation.fetchStart,
             largest_contentful_paint: 0,
             cumulative_layout_shift: 0
           };
@@ -178,7 +178,7 @@ class AnalyticsTracker {
       const events = [...this.eventQueue];
       this.eventQueue = [];
 
-      await supabase
+      await (supabase as any)
         .from('analytics_events')
         .insert(events);
 
@@ -232,9 +232,10 @@ class AnalyticsTracker {
 
     // Send errors immediately for high/critical severity
     if (error.severity === 'high' || error.severity === 'critical') {
-      supabase
+      (supabase as any)
         .from('error_events')
         .insert([error])
+        .then(() => {})
         .catch(console.warn);
     } else {
       // Queue for batch processing
