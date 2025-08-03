@@ -263,6 +263,12 @@ export const ROUTES: RouteConfig[] = [
   { path: '/debug', element: DebugPage, auth: true },
   { path: '/demo/test-page', element: TestPage, auth: false },
   
+  // New main pages
+  { path: '/ai', element: lazy(() => import('../pages/AIPage')), auth: true },
+  { path: '/recruitment', element: lazy(() => import('../pages/RecruitmentPage')), auth: true },
+  { path: '/company', element: lazy(() => import('../pages/CompanyPage')), auth: true },
+  { path: '/settings', element: lazy(() => import('../pages/SettingsPage')), auth: true },
+  
   // AI Advanced Components Routes - auth required
   { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
   { path: '/cross-module-intelligence', element: CrossModuleIntelligence, auth: true },

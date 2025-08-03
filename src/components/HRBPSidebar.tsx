@@ -328,15 +328,17 @@ export function HRBPSidebar() {
   return (
     <Sidebar className="border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center border-b px-4">
-        <div className="flex items-center gap-2">
-          <Users className="h-6 w-6 text-primary" />
-          <span className="font-semibold text-foreground">
-            {isArabic ? "شريك الموارد البشرية" : "HRBP Dashboard"}
-          </span>
+        <div className="flex flex-col">
+          <h2 className="font-bold text-lg text-primary">
+            {isArabic ? 'منصة أقل HR' : 'AqlHR Platform'}
+          </h2>
+          {state !== "collapsed" && (
+            <p className="text-xs text-muted-foreground">
+              {isArabic ? 'لوحة تحكم شريك الموارد البشرية' : 'HRBP Dashboard'}
+            </p>
+          )}
         </div>
-        <SidebarTrigger className="ml-auto" />
       </div>
-
       <SidebarContent className="gap-0">
         {hrbpModules.map((module) => {
           const isExpanded = expandedGroups.includes(module.title);

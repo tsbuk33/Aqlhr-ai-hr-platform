@@ -206,8 +206,8 @@ const AnalyticsPage: React.FC = () => {
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(analytics.overview.avgSalary)}</div>
-                <p className="text-xs text-muted-foreground">
+                <div className="text-2xl font-bold break-words">{formatCurrency(analytics.overview.avgSalary)}</div>
+                <p className="text-xs text-muted-foreground break-words">
                   Company average
                 </p>
               </CardContent>
@@ -220,7 +220,7 @@ const AnalyticsPage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{analytics.departmentChart.length}</div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground break-words">
                   Active departments
                 </p>
               </CardContent>
