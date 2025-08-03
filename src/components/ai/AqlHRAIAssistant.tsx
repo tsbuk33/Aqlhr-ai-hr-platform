@@ -69,21 +69,89 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     moduleDocuments 
   } = useDocumentAwareAI(moduleContext);
 
-  // Contextual greetings with correct Arabic branding
+  // Contextual greetings with comprehensive HR expertise for ALL modules
   const contextualGreetings = {
+    'executive': {
+      ar: 'مرحباً! أنا مساعدك الذكي في مركز الذكاء التنفيذي عقل HR. يمكنني مساعدتك في اتخاذ القرارات الاستراتيجية، تحليل البيانات التنفيذية، والرؤى الذكية لإدارة الموارد البشرية.',
+      en: 'Hello! I\'m your AI assistant for AqlHR Executive Intelligence Center. I can help you make strategic decisions, analyze executive data, and provide intelligent HR insights.'
+    },
+    'employees': {
+      ar: 'مرحباً! أنا مساعدك الذكي في إدارة بيانات الموظفين. يمكنني مساعدتك في التوظيف، إدارة السجلات، التقييم، والامتثال للقوانين السعودية.',
+      en: 'Hello! I\'m your AI assistant for Employee Management. I can help you with recruitment, record management, performance evaluation, and Saudi compliance.'
+    },
     'payroll': {
-      ar: 'أهلاً! هل تحتاج مساعدة في معالجة الرواتب عبر نظام عقل HR؟ يمكنني مساعدتك خاصة في أسئلة GOSI والتأمينات الاجتماعية.',
-      en: 'Hi! Need help with payroll processing in AqlHR system? I can especially help you with GOSI and social insurance questions.'
+      ar: 'أهلاً! أنا مساعدك الذكي المتخصص في الرواتب والشؤون المالية في عقل HR. يمكنني مساعدتك في معالجة الرواتب، حسابات GOSI، نظام حماية الأجور، وجميع الأمور المالية للموظفين.',
+      en: 'Hi! I\'m your AI assistant specialized in Payroll & Financial in AqlHR. I can help you with payroll processing, GOSI calculations, WPS, and all employee financial matters.'
+    },
+    'government': {
+      ar: 'مرحباً! أنا مساعدك الذكي للتكامل الحكومي في عقل HR. يمكنني مساعدتك في منصة قوى، وزارة العمل، التأمينات الاجتماعية، ونطاقات.',
+      en: 'Hello! I\'m your AI assistant for Government Integrations in AqlHR. I can help you with Qiwa platform, MOL, GOSI, and Nitaqat.'
+    },
+    'analytics': {
+      ar: 'مرحباً! أنا مساعدك الذكي للتحليلات والذكاء الاصطناعي في عقل HR. يمكنني مساعدتك في تحليل البيانات، إنشاء التقارير، والرؤى الذكية.',
+      en: 'Hello! I\'m your AI assistant for Analytics & AI Intelligence in AqlHR. I can help you analyze data, generate reports, and provide intelligent insights.'
+    },
+    'core-hr': {
+      ar: 'مرحباً! أنا مساعدك الذكي لوحدات الموارد البشرية الأساسية في عقل HR. يمكنني مساعدتك في إدارة الموظفين، الحضور، الإجازات، والأداء.',
+      en: 'Hello! I\'m your AI assistant for Core HR modules in AqlHR. I can help you with employee management, attendance, leave management, and performance.'
+    },
+    'health-safety': {
+      ar: 'مرحباً! أنا مساعدك الذكي لنظام الصحة والسلامة المهنية في عقل HR. 🛡️ يمكنني مساعدتك في تحليل المخاطر، إدارة الحوادث، التدريب الأمني، والامتثال لمعايير السلامة السعودية.',
+      en: 'Hello! I\'m your AI assistant for Health & Safety Management in AqlHR. 🛡️ I can help you with risk assessment, incident management, safety training, and compliance with Saudi safety standards.'
+    },
+    'ai-features': {
+      ar: 'مرحباً! أنا مساعدك الذكي لميزات الذكاء الاصطناعي والأتمتة في عقل HR. 🤖 يمكنني مساعدتك في إدارة محركات الذكاء الاصطناعي، التوصيات الذكية، التحليلات المتقدمة، ومعالجة اللغات الطبيعية.',
+      en: 'Hello! I\'m your AI assistant for AI Features & Automation in AqlHR. 🤖 I can help you with AI engine management, intelligent recommendations, advanced analytics, and natural language processing.'
+    },
+    'consulting': {
+      ar: 'مرحباً! أنا مساعدك الذكي لخدمات الاستشارات المتخصصة في عقل HR. يمكنني مساعدتك في التخطيط الاستراتيجي، تحسين العمليات، والاستشارات التنظيمية.',
+      en: 'Hello! I\'m your AI assistant for Consulting Services in AqlHR. I can help you with strategic planning, process improvement, and organizational consulting.'
+    },
+    'compliance': {
+      ar: 'مرحباً! أنا مساعدك الذكي للامتثال والحوكمة في عقل HR. يمكنني مساعدتك في مراجعة السياسات، الامتثال للقوانين، وإدارة المخاطر.',
+      en: 'Hello! I\'m your AI assistant for Compliance & Governance in AqlHR. I can help you with policy review, legal compliance, and risk management.'
     },
     'default': {
-      ar: 'مرحباً! أنا مساعدك الذكي في منصة عقل HR. كيف يمكنني مساعدتك اليوم؟',
-      en: 'Hello! I\'m your AI assistant for AqlHR platform. How can I help you today?'
+      ar: 'مرحباً! أنا مساعدك الذكي المتخصص في الموارد البشرية في منصة عقل HR. يمكنني مساعدتك في جميع جوانب إدارة الموارد البشرية من التوظيف إلى الامتثال الحكومي.',
+      en: 'Hello! I\'m your specialized HR AI assistant for AqlHR platform. I can help you with all aspects of HR management from recruitment to government compliance.'
     }
   };
 
-  // AI suggestions based on context
+  // Comprehensive AI suggestions for ALL modules
   const getContextualSuggestions = () => {
     const suggestions = {
+      'executive': {
+        ar: [
+          'اعرض التحليلات التنفيذية لهذا الشهر',
+          'ما هي التوصيات الاستراتيجية؟',
+          'أظهر حالة التكامل الحكومي',
+          'تحليل مؤشرات الأداء الرئيسية',
+          'تقرير الامتثال التنفيذي'
+        ],
+        en: [
+          'Show executive analytics for this month',
+          'What are the strategic recommendations?',
+          'Display government integration status',
+          'Analyze key performance indicators',
+          'Executive compliance report'
+        ]
+      },
+      'employees': {
+        ar: [
+          'كيف أسجل موظف سعودي جديد؟',
+          'ما هي متطلبات التوظيف؟',
+          'البحث عن سجلات الموظفين',
+          'تحديث بيانات الموظف',
+          'تقارير الموظفين'
+        ],
+        en: [
+          'How to register a new Saudi employee?',
+          'What are the hiring requirements?',
+          'Search employee records',
+          'Update employee data',
+          'Employee reports'
+        ]
+      },
       'payroll': {
         ar: [
           'كيف أسجل موظف سعودي جديد؟',
@@ -98,6 +166,70 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           'What are the current GOSI rates?',
           'How to calculate end of service benefits?',
           'Explain Wage Protection System (WPS)'
+        ]
+      },
+      'government': {
+        ar: [
+          'كيف أستخدم منصة قوى؟',
+          'ما هي متطلبات وزارة العمل؟',
+          'شرح نظام نطاقات',
+          'تحديث بيانات التأمينات',
+          'تجديد رخص العمل'
+        ],
+        en: [
+          'How to use Qiwa platform?',
+          'What are MOL requirements?',
+          'Explain Nitaqat system',
+          'Update GOSI data',
+          'Renew work permits'
+        ]
+      },
+      'analytics': {
+        ar: [
+          'إنشاء تقرير تحليلي',
+          'تحليل أداء الموظفين',
+          'مؤشرات الأداء الرئيسية',
+          'توقعات الاحتفاظ بالموظفين',
+          'تحليل التكاليف'
+        ],
+        en: [
+          'Generate analytics report',
+          'Analyze employee performance',
+          'Key performance indicators',
+          'Employee retention predictions',
+          'Cost analysis'
+        ]
+      },
+      'health-safety': {
+        ar: [
+          'تحليل المخاطر في مكان العمل',
+          'إنشاء تقرير حادث جديد',
+          'جدولة التدريب الأمني',
+          'مراجعة معايير السلامة',
+          'تقييم معدات الحماية'
+        ],
+        en: [
+          'Analyze workplace safety risks',
+          'Create new incident report',
+          'Schedule safety training',
+          'Review safety standards',
+          'Evaluate protective equipment'
+        ]
+      },
+      'ai-features': {
+        ar: [
+          'إدارة محركات الذكاء الاصطناعي',
+          'إنشاء توصيات ذكية',
+          'تحليل أداء النماذج',
+          'إعداد معالجة اللغة الطبيعية',
+          'تحسين دقة المحرك الذكي'
+        ],
+        en: [
+          'Manage AI engine configurations',
+          'Generate intelligent recommendations',
+          'Analyze model performance',
+          'Configure NLP processing',
+          'Optimize AI engine accuracy'
         ]
       },
       'default': {
@@ -199,33 +331,33 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         // For general HR questions, use the AI core engine
         const { data, error } = await supabase.functions.invoke('ai-core-engine', {
           body: {
-            prompt: inputValue,
-            context: `You are AqlHR AI Assistant, an expert Saudi HR professional helping with the ${moduleContext} module. 
-            
-            User Question: ${inputValue}
-            Module Context: ${moduleContext}
-            Language: ${isArabic ? 'Arabic' : 'English'}
-            
-            You are a comprehensive HR expert who can help with:
-            • Employee registration and onboarding (Saudi and non-Saudi)
-            • Payroll processing and calculations
-            • GOSI contributions and compliance
-            • MOL (Ministry of Labor) requirements
-            • Qiwa platform procedures
-            • Nitaqat compliance
-            • Saudi labor law guidance
-            • WPS (Wage Protection System)
-            • End of service benefits
-            • Leave management
-            • Performance management
-            • HR policies and procedures
-            • Government integrations
-            
-            Provide detailed, actionable guidance. If asked about employee registration, explain the full process including required documents, government platforms, and compliance requirements.
-            
-            ${isArabic ? 'يرجى الإجابة باللغة العربية بشكل مفصل ومفيد.' : 'Please respond in English with detailed and helpful information.'}`,
-            max_tokens: 1000,
-            temperature: 0.7
+            query: inputValue,
+            context: {
+              module: moduleContext,
+              language: isArabic ? 'ar' : 'en',
+              company_id: companyId || 'demo-company',
+              user_context: `HRBP using ${moduleContext} module`,
+              expertise_areas: [
+                'employee_registration',
+                'payroll_processing', 
+                'government_compliance',
+                'saudi_labor_law',
+                'gosi_calculations',
+                'mol_procedures',
+                'qiwa_platform',
+                'nitaqat_system',
+                'wps_processing',
+                'end_of_service',
+                'leave_management',
+                'performance_management',
+                'hr_policies'
+              ]
+            },
+            conversation_history: messages.slice(-5).map(msg => ({
+              role: msg.type === 'user' ? 'user' : 'assistant',
+              content: msg.content
+            })),
+            tools: [] // No specific tools needed for general questions
           }
         });
         
