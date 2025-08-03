@@ -415,8 +415,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   };
 
   const baseClasses = position === 'fixed' 
-    ? 'fixed bottom-6 right-6 z-50 w-96 max-h-[600px]' 
-    : 'w-full max-w-md mx-auto';
+    ? 'fixed bottom-6 right-6 z-50 w-96 h-[600px] flex flex-col' 
+    : 'w-full max-w-md mx-auto h-[600px] flex flex-col';
 
   if (isMinimized) {
     return (
@@ -431,7 +431,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
 
   return (
     <Card className={`${baseClasses} ${className} ${isArabic ? 'rtl' : 'ltr'} shadow-2xl border-brand-primary/20 bg-background/95 backdrop-blur-md`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 flex-shrink-0">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg">
             <Brain className="h-5 w-5 text-brand-primary animate-pulse" />
@@ -471,9 +471,9 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         </div>
       </CardHeader>
       
-      <CardContent className="space-y-4">
-        {/* Chat Messages */}
-        <div className={`space-y-3 max-h-64 overflow-y-auto ${isExpanded ? 'max-h-96' : ''}`}>
+      <CardContent className="flex-1 flex flex-col space-y-4 min-h-0">
+        {/* Chat Messages - Scrollable */}
+        <div className="flex-1 space-y-3 overflow-y-auto min-h-0 pr-2">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -509,14 +509,16 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
 
         {/* Document Upload Section */}
         {showDocumentUpload && (
-          <DocumentUploadWidget 
-            moduleKey={moduleContext} 
-            compact={true}
-          />
+          <div className="flex-shrink-0">
+            <DocumentUploadWidget 
+              moduleKey={moduleContext} 
+              compact={true}
+            />
+          </div>
         )}
 
         {/* Quick Suggestions */}
-        <div className="space-y-2">
+        <div className="flex-shrink-0 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-muted-foreground">
               {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
@@ -532,14 +534,14 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
             </Button>
           </div>
           
-          <div className="flex flex-wrap gap-1">
-            {getContextualSuggestions()[isArabic ? 'ar' : 'en'].map((suggestion, index) => (
+          <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
+            {getContextualSuggestions()[isArabic ? 'ar' : 'en'].slice(0, 3).map((suggestion, index) => (
               <Button
                 key={index}
                 variant="outline"
                 size="sm"
                 onClick={() => setInputValue(suggestion)}
-                className="text-xs h-6 px-2"
+                className="text-xs h-6 px-2 flex-shrink-0"
               >
                 {suggestion}
               </Button>
@@ -553,8 +555,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           )}
         </div>
 
-        {/* Input Area */}
-        <div className="space-y-2">
+        {/* Input Area - Fixed at bottom */}
+        <div className="flex-shrink-0 space-y-2 border-t pt-2">
           <div className="relative">
             <Textarea
               value={inputValue}
@@ -568,18 +570,13 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
                 }
               }}
               placeholder={isArabic ? 'اكتب رسالتك لمساعد عقل HR...' : 'Type your message to AqlHR Assistant...'}
-              className={`pr-10 resize-none min-h-[40px] max-h-32 ${
+              className={`pr-10 resize-none min-h-[60px] max-h-24 ${
                 isArabic ? 'text-right' : 'text-left'
               }`}
               spellCheck={spellCheckEnabled}
               lang={isArabic ? 'ar' : 'en'}
               dir={isArabic ? 'rtl' : 'ltr'}
               rows={2}
-              onInput={(e) => {
-                if (spellCheckEnabled) {
-                  // Basic spell check would go here
-                }
-              }}
             />
           </div>
           <div className="flex justify-between items-center">
@@ -604,7 +601,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="text-center pt-2 border-t">
+        <div className="flex-shrink-0 text-center pt-2 border-t">
           <p className="text-xs text-muted-foreground">
             {isArabic ? 'مدعوم بذكاء عقل HR الاصطناعي' : 'Powered by AqlHR AI Intelligence'}
           </p>
