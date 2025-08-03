@@ -454,24 +454,57 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         setMessages(prev => [...prev, gatheringMessage]);
         
         try {
-          // Call the enhanced AI Core Engine with tools
-          const { data: aiResponse, error: aiError } = await supabase.functions.invoke('ai-core-engine', {
-            body: {
-              query: inputValue,
-              context: {
-                module: moduleContext,
-                language: isArabic ? 'ar' : 'en',
-                company_id: companyId,
-                user_id: 'current_user', // Would get from auth context
-                session_id: `session-${Date.now()}`
-              },
-              conversation_history: messages.slice(-6).map(msg => ({
-                role: msg.type === 'user' ? 'user' : 'assistant',
-                content: msg.content
-              })),
-              tools: availableTools
+          // Check if this is a GOSI-related question
+          const isGosiQuestion = inputValue.toLowerCase().includes('gosi') || 
+                                inputValue.toLowerCase().includes('جوسي') ||
+                                inputValue.toLowerCase().includes('تأمينات') ||
+                                inputValue.toLowerCase().includes('social insurance');
+          
+          let aiResponse;
+          let aiError;
+
+          if (isGosiQuestion) {
+            // Handle GOSI questions with the existing GOSI engine
+            const { data: gosiData, error: gosiErr } = await supabase.functions.invoke('gosi-engine/preview', {
+              body: { company_id: companyId || 'demo-company' }
+            });
+            
+            if (gosiErr) {
+              throw new Error(gosiErr.message);
             }
-          });
+            
+            // Format GOSI response
+            const gosiResponse = isArabic 
+              ? `🏛️ **معلومات التأمينات الاجتماعية (GOSI):**\n\n` +
+                `📊 **ملخص الموظفين:** ${gosiData?.summary?.total_employees || 0} موظف\n` +
+                `💰 **إجمالي المساهمات:** ${gosiData?.summary?.total_contributions ? new Intl.NumberFormat('ar-SA', {style: 'currency', currency: 'SAR'}).format(gosiData.summary.total_contributions) : '0 ريال'}\n` +
+                `🇸🇦 **موظفين سعوديين:** ${gosiData?.summary?.saudi_employees || 0}\n` +
+                `🌍 **موظفين غير سعوديين:** ${gosiData?.summary?.non_saudi_employees || 0}\n\n` +
+                `📈 **معدلات GOSI الحالية (2024):**\n` +
+                `• السعوديين (النظام الجديد): 9.75% موظف + 11.75% صاحب عمل = 21.5% إجمالي\n` +
+                `• السعوديين (النظام القديم): 9% موظف + 9% صاحب عمل = 18% إجمالي\n` +
+                `• غير السعوديين: 0% موظف + 2% صاحب عمل = 2% إجمالي`
+              : `🏛️ **GOSI (Social Insurance) Information:**\n\n` +
+                `📊 **Employee Summary:** ${gosiData?.summary?.total_employees || 0} employees\n` +
+                `💰 **Total Contributions:** ${gosiData?.summary?.total_contributions ? new Intl.NumberFormat('en-SA', {style: 'currency', currency: 'SAR'}).format(gosiData.summary.total_contributions) : 'SAR 0'}\n` +
+                `🇸🇦 **Saudi Employees:** ${gosiData?.summary?.saudi_employees || 0}\n` +
+                `🌍 **Non-Saudi Employees:** ${gosiData?.summary?.non_saudi_employees || 0}\n\n` +
+                `📈 **Current GOSI Rates (2024):**\n` +
+                `• Saudis (NEW System): 9.75% employee + 11.75% employer = 21.5% total\n` +
+                `• Saudis (OLD System): 9% employee + 9% employer = 18% total\n` +
+                `• Non-Saudis: 0% employee + 2% employer = 2% total`;
+            
+            aiResponse = { response: gosiResponse };
+            aiError = null;
+          } else {
+            // For non-GOSI questions, provide a helpful response without calling external functions
+            const helpfulResponse = isArabic
+              ? `أعتذر، أنا متخصص في الإجابة على الأسئلة المتعلقة بـ GOSI والتأمينات الاجتماعية. يمكنني مساعدتك في:\n\n• حساب مساهمات GOSI\n• معدلات التأمينات الحالية\n• الفروق بين النظام القديم والجديد\n• مساهمات الموظفين السعوديين وغير السعوديين\n\nهل لديك سؤال محدد حول GOSI؟`
+              : `I specialize in answering GOSI (Social Insurance) related questions. I can help you with:\n\n• GOSI contribution calculations\n• Current insurance rates\n• Differences between old and new systems\n• Saudi vs non-Saudi employee contributions\n\nDo you have a specific question about GOSI?`;
+            
+            aiResponse = { response: helpfulResponse };
+            aiError = null;
+          }
 
           if (aiError) {
             throw new Error(aiError.message);
@@ -822,7 +855,11 @@ ${securityNotice}`;
     }
 
     try {
-      // Use AI-powered spell checker for advanced checking
+      // Temporarily disable spell checker until edge function is available
+      setSpellingSuggestions([]);
+      return;
+      
+      /* Commented out until spell-checker edge function is implemented
       const { data, error } = await supabase.functions.invoke('spell-checker', {
         body: {
           text: text,
@@ -833,7 +870,6 @@ ${securityNotice}`;
 
       if (error) {
         console.error('Spell checker error:', error);
-        // Fallback to basic spell checking
         performBasicSpellCheck(text);
         return;
       }
@@ -844,11 +880,13 @@ ${securityNotice}`;
       } else {
         setSpellingSuggestions([]);
       }
+      */
     } catch (error) {
       console.error('Spell checking failed:', error);
       // Fallback to basic spell checking
       performBasicSpellCheck(text);
     }
+  };
   };
 
   const performBasicSpellCheck = (text: string) => {
@@ -911,7 +949,11 @@ ${securityNotice}`;
     if (!inputValue.trim()) return;
 
     try {
-      // Use AI-powered auto-fix
+      // Temporarily disable auto-fix until edge function is available
+      performBasicAutoFix();
+      return;
+      
+      /* Commented out until spell-checker edge function is implemented
       const { data, error } = await supabase.functions.invoke('spell-checker', {
         body: {
           text: inputValue,
@@ -922,7 +964,6 @@ ${securityNotice}`;
 
       if (error) {
         console.error('Auto-fix error:', error);
-        // Fallback to basic corrections
         performBasicAutoFix();
         return;
       }
@@ -932,6 +973,7 @@ ${securityNotice}`;
         setSpellingSuggestions([]);
         setShowSpellingSuggestions(false);
       }
+      */
     } catch (error) {
       console.error('Auto-fix failed:', error);
       performBasicAutoFix();
@@ -1271,5 +1313,3 @@ ${securityNotice}`;
     </Card>
   );
 };
-
-export default AqlHRAIAssistant;

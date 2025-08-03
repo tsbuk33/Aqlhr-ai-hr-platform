@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Shield, Users, Calculator, TrendingUp, FileSpreadsheet, CheckCircle, Building, Banknote } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { GOSICalculationTest } from "@/components/payroll/GOSICalculationTest";
 
 interface GOSIEmployee {
   employee_id: string;
@@ -415,12 +416,17 @@ const GOSIIntegration = () => {
         </Card>
       </div>
 
-      <Tabs defaultValue="employees" className="w-full">
+      <Tabs defaultValue="test" className="w-full">
         <TabsList>
+          <TabsTrigger value="test">Rate Calculator</TabsTrigger>
           <TabsTrigger value="employees">Employee Breakdown</TabsTrigger>
           <TabsTrigger value="schedule">Rate Schedule</TabsTrigger>
           <TabsTrigger value="compliance">Compliance</TabsTrigger>
         </TabsList>
+        
+        <TabsContent value="test" className="space-y-4">
+          <GOSICalculationTest />
+        </TabsContent>
         
         <TabsContent value="employees" className="space-y-4">
           <Card>
