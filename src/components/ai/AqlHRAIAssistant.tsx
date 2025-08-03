@@ -35,6 +35,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
 import { DocumentUploadWidget } from '@/components/DocumentUploadWidget';
 import { useAIAgentOrchestrator } from '@/hooks/useAIAgentOrchestrator';
+import { useToast } from '@/hooks/use-toast';
 
 interface AqlHRAIAssistantProps {
   moduleContext?: string;
@@ -59,6 +60,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   className = ''
 }) => {
   const { isArabic } = useSimpleLanguage();
+  const { toast } = useToast();
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -85,18 +87,16 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   
   // Initialize with welcome message based on module context
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeText = contextualGreetings[moduleContext] || contextualGreetings['default'];
-      const welcomeMessage: ChatMessage = {
-        id: 'welcome-message',
-        type: 'assistant',
-        content: welcomeText[isArabic ? 'ar' : 'en'],
-        timestamp: new Date(),
-        module: moduleContext
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, [moduleContext, isArabic, messages.length]);
+    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
+    const welcomeMessage: ChatMessage = {
+      id: 'welcome-message',
+      type: 'assistant',
+      content: welcomeText[isArabic ? 'ar' : 'en'],
+      timestamp: new Date(),
+      module: moduleContext
+    };
+    setMessages([welcomeMessage]);
+  }, [moduleContext, isArabic]);
 
   // Document-aware AI integration
   const { 
@@ -565,7 +565,13 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       }
 
       if (aiError) {
-        throw new Error(aiError.message);
+        console.error('Error sending message:', aiError);
+        toast({
+          title: isArabic ? "خطأ في الاتصال" : "Connection Error",
+          description: isArabic ? "يرجى المحاولة مرة أخرى" : "Please try again",
+          variant: "destructive",
+        });
+        throw new Error("Failed to send a request to the Edge Function");
       }
 
       combinedResponse = aiResponse.response;
@@ -585,6 +591,13 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     } catch (error) {
       console.error('Error sending message:', error);
       setIsGatheringIntelligence(false);
+      
+      // Show user-friendly error notification
+      toast({
+        title: isArabic ? "خطأ مؤقت" : "Temporary Error",
+        description: isArabic ? "سأقدم لك إجابة مفيدة من معرفتي" : "I'll provide a helpful response from my knowledge",
+        variant: "default",
+      });
       
       // Provide context-aware helpful responses based on the question and current page
       const getContextualResponse = () => {
