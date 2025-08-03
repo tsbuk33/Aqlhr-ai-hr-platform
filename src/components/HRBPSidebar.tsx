@@ -330,11 +330,11 @@ export function HRBPSidebar() {
       <div className="flex h-14 items-center border-b px-4">
         <div className="flex flex-col">
           <h2 className="font-bold text-lg text-primary">
-            {isArabic ? 'منصة أقل HR' : 'AqlHR Platform'}
+            {isArabic ? 'منصة أقل HR - HRBP' : 'AqlHR Platform - HRBP'}
           </h2>
           {state !== "collapsed" && (
             <p className="text-xs text-muted-foreground">
-              {isArabic ? 'لوحة تحكم شريك الموارد البشرية' : 'HRBP Dashboard'}
+              {isArabic ? 'لوحة تحكم شريك الموارد البشرية' : 'Human Resources Business Partner'}
             </p>
           )}
         </div>
