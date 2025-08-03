@@ -226,6 +226,9 @@ const WelfareConsultancy = lazy(() => import('../pages/WelfareConsultancy'));
 // ESG-HR module
 const EsgHrPage = lazy(() => import('../pages/esg-hr'));
 
+// Debug page for testing
+const DebugPage = lazy(() => import('../pages/debug'));
+
 export interface RouteConfig {
   path: string;
   element: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -243,6 +246,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/about', element: About },
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
+  { path: '/debug', element: DebugPage, auth: true },
   
   // AI Advanced Components Routes - auth required
   { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
