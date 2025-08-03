@@ -82,6 +82,22 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     availableProviders 
   } = useAIAgentOrchestrator();
   
+  
+  // Initialize with welcome message based on module context
+  useEffect(() => {
+    if (messages.length === 0) {
+      const welcomeText = contextualGreetings[moduleContext] || contextualGreetings['default'];
+      const welcomeMessage: ChatMessage = {
+        id: 'welcome-message',
+        type: 'assistant',
+        content: welcomeText[isArabic ? 'ar' : 'en'],
+        timestamp: new Date(),
+        module: moduleContext
+      };
+      setMessages([welcomeMessage]);
+    }
+  }, [moduleContext, isArabic, messages.length]);
+
   // Document-aware AI integration
   const { 
     queryWithDocuments, 
