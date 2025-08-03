@@ -14,8 +14,8 @@ export default async function handler(req: any, res: any) {
       properties: { test: true, timestamp: new Date().toISOString() }
     };
 
-    // Test 1: Insert test data
-    const { data: insertData, error: insertError } = await supabase
+    // Test 1: Insert test data using the client but with type assertion
+    const { data: insertData, error: insertError } = await (supabase as any)
       .from('analytics_events')
       .insert(testData)
       .select()
@@ -34,7 +34,7 @@ export default async function handler(req: any, res: any) {
     }
 
     // Test 2: Select the data back
-    const { data: selectData, error: selectError } = await supabase
+    const { data: selectData, error: selectError } = await (supabase as any)
       .from('analytics_events')
       .select('*')
       .eq('session_id', testData.session_id)
@@ -53,7 +53,7 @@ export default async function handler(req: any, res: any) {
     }
 
     // Test 3: Cleanup - delete the test data
-    const { error: deleteError } = await supabase
+    const { error: deleteError } = await (supabase as any)
       .from('analytics_events')
       .delete()
       .eq('session_id', testData.session_id);

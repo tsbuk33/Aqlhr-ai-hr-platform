@@ -479,6 +479,39 @@ export type Database = {
           },
         ]
       }
+      analytics_events: {
+        Row: {
+          company_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          module_name: string
+          properties: Json | null
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          module_name: string
+          properties?: Json | null
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          module_name?: string
+          properties?: Json | null
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       attendance: {
         Row: {
           actual_hours: number | null
