@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 console.log('🚀 Running AI Chat Embedder...\n');
 
 // Use spawnSync for better output streaming and error handling
-const result = spawnSync('npx', ['tsx', resolve(__dirname, 'scripts/fix-embed-ai-chat.ts')], {
+const result = spawnSync('npx', ['tsx', resolve(__dirname, 'scripts/advanced-ai-embedder.ts')], {
   stdio: 'inherit'
 });
 
