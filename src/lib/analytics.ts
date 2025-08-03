@@ -178,8 +178,8 @@ class AnalyticsTracker {
       const events = [...this.eventQueue];
       this.eventQueue = [];
 
-      await (supabase as any)
-        .from('analytics_events')
+      await supabase
+        .from('analytics_events' as any)
         .insert(events);
 
     } catch (error) {
@@ -232,11 +232,13 @@ class AnalyticsTracker {
 
     // Send errors immediately for high/critical severity
     if (error.severity === 'high' || error.severity === 'critical') {
-      (supabase as any)
-        .from('error_events')
-        .insert([error])
-        .then(() => {})
-        .catch(console.warn);
+      (async () => {
+        try {
+          await supabase.from('error_events' as any).insert([error]);
+        } catch (err) {
+          console.warn('Failed to log error:', err);
+        }
+      })();
     } else {
       // Queue for batch processing
       this.eventQueue.push({

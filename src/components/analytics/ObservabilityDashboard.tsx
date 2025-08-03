@@ -66,8 +66,8 @@ const ObservabilityDashboard: React.FC = () => {
         setSystemHealth(healthData);
 
         // Get live metrics - using type assertion for new tables
-        const { data: recentEvents } = await (supabase as any)
-          .from('analytics_events')
+        const { data: recentEvents } = await supabase
+          .from('analytics_events' as any)
           .select('*')
           .gte('timestamp', new Date(Date.now() - 5 * 60 * 1000).toISOString())
           .order('timestamp', { ascending: false });

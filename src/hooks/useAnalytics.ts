@@ -57,8 +57,8 @@ export const useAnalytics = (moduleName?: string) => {
           startDate.setDate(startDate.getDate() - 7);
       }
 
-      const { data: events, error: eventsError } = await (supabase as any)
-        .from('analytics_events')
+      const { data: events, error: eventsError } = await supabase
+        .from('analytics_events' as any)
         .select('*')
         .gte('timestamp', startDate.toISOString())
         .order('timestamp', { ascending: false });
@@ -66,13 +66,13 @@ export const useAnalytics = (moduleName?: string) => {
       if (eventsError) throw eventsError;
 
       // Process analytics data with type assertion
-      const processedData = processAnalyticsEvents((events as any[]) || []);
+      const processedData = processAnalyticsEvents(events || []);
       setAnalyticsData(processedData);
 
       // If specific module requested, get module stats
       if (moduleName) {
         const moduleEvents = events?.filter((e: any) => e.module_name === moduleName) || [];
-        const moduleStatsData = processModuleStats(moduleName, (moduleEvents as any[]) || []);
+        const moduleStatsData = processModuleStats(moduleName, moduleEvents || []);
         setModuleStats(moduleStatsData);
       }
 

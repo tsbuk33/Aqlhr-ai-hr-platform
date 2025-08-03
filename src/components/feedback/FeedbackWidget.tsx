@@ -161,8 +161,8 @@ const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({
         }
       };
 
-      const { error } = await (supabase as any)
-        .from('user_feedback')
+      const { error } = await supabase
+        .from('user_feedback' as any)
         .insert([feedbackRecord]);
 
       if (error) throw error;
