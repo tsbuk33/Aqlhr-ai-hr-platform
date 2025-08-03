@@ -125,6 +125,34 @@ class AIAgentOrchestrator {
       });
     }
 
+    // DeepSeek AI Provider
+    if (Deno.env.get('DEEPSEEK_API_KEY')) {
+      this.providers.set('deepseek', {
+        name: 'DeepSeek AI',
+        endpoint: 'https://api.deepseek.com/v1/chat/completions',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('DEEPSEEK_API_KEY')}`,
+          'Content-Type': 'application/json',
+        },
+        formatRequest: (query: string, context: any) => ({
+          model: 'deepseek-chat',
+          messages: [
+            {
+              role: 'system',
+              content: this.buildSystemPrompt(context)
+            },
+            {
+              role: 'user',
+              content: query
+            }
+          ],
+          temperature: 0.7,
+          max_tokens: 1500
+        }),
+        parseResponse: (response: any) => response.choices[0].message.content
+      });
+    }
+
     // Alibaba Qwen (Chinese AI)
     if (Deno.env.get('ALIBABA_API_KEY')) {
       this.providers.set('qwen', {
