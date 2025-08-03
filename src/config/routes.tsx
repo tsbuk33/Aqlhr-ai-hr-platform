@@ -17,6 +17,17 @@ const Strategic = lazy(() => import('../pages/Strategic'));
 const Consulting = lazy(() => import('../pages/Consulting'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 
+// Analytics sub-pages
+const KPIAnalytics = lazy(() => import('../pages/analytics/KPI'));
+const ExecutiveAnalytics = lazy(() => import('../pages/analytics/Executive'));
+const RealtimeAnalytics = lazy(() => import('../pages/analytics/Realtime'));
+
+// Admin pages
+const UsersPage = lazy(() => import('../pages/admin/Users'));
+
+// Reports pages  
+const ReportBuilder = lazy(() => import('../pages/reports/Builder'));
+
 // Core HR sub-modules
 const TimeAttendance = lazy(() => import('../pages/core-hr/TimeAttendance'));
 const PerformanceManagement = lazy(() => import('../pages/core-hr/PerformanceManagement'));
@@ -442,7 +453,9 @@ export const ROUTES: RouteConfig[] = [
   // Analytics Sub-routes
   { path: '/analytics/workforce', element: WorkforceAnalytics, auth: true },
   { path: '/analytics/predictive', element: PredictiveModeling, auth: true },
-  { path: '/analytics/realtime', element: RealtimeDashboards, auth: true },
+  { path: '/analytics/realtime', element: RealtimeAnalytics, auth: true },
+  { path: '/analytics/kpi', element: KPIAnalytics, auth: true },
+  { path: '/analytics/executive', element: ExecutiveAnalytics, auth: true },
   { path: '/analytics/cost', element: CostAnalytics, auth: true },
   { path: '/analytics/compliance', element: ComplianceReportingAnalytics, auth: true },
   { path: '/analytics/performance', element: PerformanceAnalytics, auth: true },
@@ -450,8 +463,13 @@ export const ROUTES: RouteConfig[] = [
   { path: '/analytics/benchmarking', element: BenchmarkingReports, auth: true },
   { path: '/analytics/custom', element: CustomReporting, auth: true },
   { path: '/analytics/visualization', element: DataVisualization, auth: true },
-  { path: '/analytics/executive', element: ExecutiveReporting, auth: true },
   { path: '/analytics/employee-reports', element: EmployeeReports, auth: true, adminOnly: true },
+  
+  // Admin routes
+  { path: '/admin/users', element: UsersPage, auth: true, adminOnly: true },
+  
+  // Reports routes
+  { path: '/reports/builder', element: ReportBuilder, auth: true },
   
   // LEO & GEO Advanced Modules - auth required
   { path: '/leo', element: LearningExperienceOptimization, auth: true },
