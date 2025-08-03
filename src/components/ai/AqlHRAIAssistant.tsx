@@ -69,6 +69,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [spellCheckEnabled, setSpellCheckEnabled] = useState(true);
   const [spellingSuggestions, setSpellingSuggestions] = useState<string[]>([]);
   const [showSpellingSuggestions, setShowSpellingSuggestions] = useState(false);
+  const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+  const [generatedContentType, setGeneratedContentType] = useState<string>('');
   
   // AI Agent Orchestrator integration
   const { 
@@ -281,6 +283,164 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       setMessages([welcomeMessage]);
     }
   }, [moduleContext, isArabic]);
+
+  // Multi-modal content generation functions
+  const handleMultiModalGeneration = async (contentType: string, prompt: string) => {
+    setIsGeneratingContent(true);
+    setGeneratedContentType(contentType);
+    
+    try {
+      let functionName = '';
+      let requestBody: any = {
+        prompt: prompt,
+        language: isArabic ? 'ar' : 'en',
+        companyName: 'AqlHR Company'
+      };
+
+      switch (contentType) {
+        case 'image':
+          functionName = 'manus-image-generator';
+          requestBody = {
+            ...requestBody,
+            style: 'professional',
+            format: 'png',
+            size: '1024x1024'
+          };
+          break;
+        case 'presentation':
+          functionName = 'manus-presentation-generator';
+          requestBody = {
+            ...requestBody,
+            presentationType: 'performance',
+            slideCount: 8
+          };
+          break;
+        case 'document':
+          functionName = 'manus-document-generator';
+          requestBody = {
+            ...requestBody,
+            documentType: 'policy'
+          };
+          break;
+        case 'visualization':
+          functionName = 'manus-visualization-generator';
+          requestBody = {
+            ...requestBody,
+            chartType: 'bar',
+            dataSource: 'sample'
+          };
+          break;
+        default:
+          throw new Error('Unknown content type');
+      }
+
+      const { data, error } = await supabase.functions.invoke(functionName, {
+        body: requestBody
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Create a response message with the generated content
+      const contentMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: formatGeneratedContent(data, contentType),
+        timestamp: new Date(),
+        module: moduleContext,
+        confidence: 95
+      };
+
+      setMessages(prev => [...prev, contentMessage]);
+      
+    } catch (error) {
+      console.error('Multi-modal generation error:', error);
+      
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'assistant',
+        content: isArabic 
+          ? `عذراً، واجهت مشكلة في إنشاء ${contentType}. يرجى المحاولة مرة أخرى.`
+          : `Sorry, I encountered an issue generating ${contentType}. Please try again.`,
+        timestamp: new Date(),
+        module: moduleContext,
+        confidence: 0
+      };
+      
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsGeneratingContent(false);
+      setGeneratedContentType('');
+    }
+  };
+
+  const formatGeneratedContent = (data: any, contentType: string) => {
+    const timestamp = new Date().toLocaleString(isArabic ? 'ar-SA' : 'en-US');
+    
+    switch (contentType) {
+      case 'image':
+        return isArabic
+          ? `🖼️ **تم إنشاء الصورة بنجاح!**\n\n` +
+            `${data.image ? `![Generated Image](${data.image})` : 'تم إنشاء الصورة ولكن لا يمكن عرضها في الوقت الحالي.'}\n\n` +
+            `**الوصف:** ${data.prompt}\n` +
+            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
+            `يمكنك الآن تنزيل هذه الصورة واستخدامها في التقارير والعروض التقديمية.`
+          : `🖼️ **Image Generated Successfully!**\n\n` +
+            `${data.image ? `![Generated Image](${data.image})` : 'Image was generated but cannot be displayed at the moment.'}\n\n` +
+            `**Description:** ${data.prompt}\n` +
+            `**Generated:** ${timestamp}\n\n` +
+            `You can now download this image and use it in reports and presentations.`;
+      
+      case 'presentation':
+        return isArabic
+          ? `📊 **تم إنشاء العرض التقديمي بنجاح!**\n\n` +
+            `**العنوان:** ${data.presentation?.data?.title || 'عرض تقديمي جديد'}\n` +
+            `**عدد الشرائح:** ${data.presentation?.slideCount || 1}\n` +
+            `**اللغة:** ${data.presentation?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
+            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
+            `تم إنشاء عرض تقديمي احترافي يمكنك تنزيله واستخدامه في اجتماعاتك.`
+          : `📊 **Presentation Generated Successfully!**\n\n` +
+            `**Title:** ${data.presentation?.data?.title || 'New Presentation'}\n` +
+            `**Slides:** ${data.presentation?.slideCount || 1}\n` +
+            `**Language:** ${data.presentation?.language === 'ar' ? 'Arabic' : 'English'}\n` +
+            `**Generated:** ${timestamp}\n\n` +
+            `A professional presentation has been created for you to download and use in your meetings.`;
+      
+      case 'document':
+        return isArabic
+          ? `📄 **تم إنشاء المستند بنجاح!**\n\n` +
+            `**نوع المستند:** ${data.document?.type || 'مستند'}\n` +
+            `**اللغة:** ${data.document?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
+            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
+            `**محتوى المستند:**\n${data.document?.content?.substring(0, 300)}...\n\n` +
+            `تم إنشاء مستند احترافي يمكنك تنزيله بصيغة HTML.`
+          : `📄 **Document Generated Successfully!**\n\n` +
+            `**Document Type:** ${data.document?.type || 'document'}\n` +
+            `**Language:** ${data.document?.language === 'ar' ? 'Arabic' : 'English'}\n` +
+            `**Generated:** ${timestamp}\n\n` +
+            `**Document Preview:**\n${data.document?.content?.substring(0, 300)}...\n\n` +
+            `A professional document has been created for you to download in HTML format.`;
+      
+      case 'visualization':
+        return isArabic
+          ? `📈 **تم إنشاء التصور البياني بنجاح!**\n\n` +
+            `**نوع المخطط:** ${data.visualization?.type || 'مخطط بياني'}\n` +
+            `**اللغة:** ${data.visualization?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
+            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
+            `تم إنشاء مخطط بياني تفاعلي يمكنك تنزيله واستخدامه في التقارير.`
+          : `📈 **Visualization Generated Successfully!**\n\n` +
+            `**Chart Type:** ${data.visualization?.type || 'chart'}\n` +
+            `**Language:** ${data.visualization?.language === 'ar' ? 'Arabic' : 'English'}\n` +
+            `**Generated:** ${timestamp}\n\n` +
+            `An interactive chart has been created for you to download and use in reports.`;
+      
+      default:
+        return isArabic
+          ? `✅ تم إنشاء المحتوى بنجاح في ${timestamp}`
+          : `✅ Content generated successfully at ${timestamp}`;
+    }
+  };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -754,7 +914,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء صورة تقرير للموظفين' : 'Generate employee report image')}
+                onClick={() => handleMultiModalGeneration('image', isArabic ? 'إنشاء صورة احترافية لتقرير الموظفين مع مخططات وإحصائيات' : 'Generate professional employee report image with charts and statistics')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <Image className="h-3 w-3" />
@@ -763,7 +924,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء عرض تقديمي للأداء' : 'Create performance presentation')}
+                onClick={() => handleMultiModalGeneration('presentation', isArabic ? 'إنشاء عرض تقديمي شامل عن أداء الموظفين وإنجازات الشركة' : 'Create comprehensive presentation about employee performance and company achievements')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <Presentation className="h-3 w-3" />
@@ -772,7 +934,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء جدول بيانات الرواتب' : 'Create payroll spreadsheet')}
+                onClick={() => handleMultiModalGeneration('visualization', isArabic ? 'إنشاء جدول بيانات تفاعلي للرواتب والمزايا' : 'Create interactive payroll and benefits spreadsheet')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <Table className="h-3 w-3" />
@@ -781,7 +944,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء تقرير مرئي للأداء' : 'Create performance visualization')}
+                onClick={() => handleMultiModalGeneration('visualization', isArabic ? 'إنشاء مخطط بياني لمؤشرات الأداء والإنتاجية' : 'Create performance and productivity KPI chart')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <BarChart className="h-3 w-3" />
@@ -790,7 +954,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء صفحة ويب لسياسات الموظفين' : 'Create employee policy webpage')}
+                onClick={() => handleMultiModalGeneration('document', isArabic ? 'إنشاء صفحة ويب تفاعلية لسياسات الموظفين والإجراءات' : 'Create interactive webpage for employee policies and procedures')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <Globe className="h-3 w-3" />
@@ -799,7 +964,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setInputValue(isArabic ? 'إنشاء مستند سياسة HR' : 'Create HR policy document')}
+                onClick={() => handleMultiModalGeneration('document', isArabic ? 'إنشاء مستند سياسة شاملة للموارد البشرية وفقاً للقوانين السعودية' : 'Create comprehensive HR policy document compliant with Saudi regulations')}
+                disabled={isGeneratingContent}
                 className="h-8 text-xs flex items-center gap-1"
               >
                 <FileText className="h-3 w-3" />
