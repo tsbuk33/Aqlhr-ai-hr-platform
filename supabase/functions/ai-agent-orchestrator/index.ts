@@ -257,10 +257,36 @@ class AIAgentOrchestrator {
     } catch (error) {
       console.error(`Error with ${aiProvider.name}:`, error);
       
-      // Try fallback provider
-      if (provider !== 'openai' && this.providers.has('openai')) {
-        console.log('Falling back to OpenAI...');
-        return this.queryAgent(query, context, 'openai');
+      const errorMessage = error.message.toLowerCase();
+      const isRegionalError = errorMessage.includes('unavailable') || 
+                             errorMessage.includes('region') || 
+                             errorMessage.includes('country') ||
+                             errorMessage.includes('blocked') ||
+                             error.status === 451; // HTTP status for unavailable for legal reasons
+      
+      if (isRegionalError) {
+        console.log(`Regional restriction detected for ${provider}, trying alternative providers...`);
+        
+        // Try alternative providers in order of global availability
+        const alternativeProviders = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie'];
+        
+        for (const altProvider of alternativeProviders) {
+          if (altProvider !== provider && this.providers.has(altProvider)) {
+            console.log(`Falling back to ${altProvider} for regional availability...`);
+            try {
+              return await this.queryAgent(query, context, altProvider);
+            } catch (altError) {
+              console.error(`Alternative provider ${altProvider} also failed:`, altError);
+              continue;
+            }
+          }
+        }
+      } else {
+        // Try OpenAI as general fallback for non-regional errors
+        if (provider !== 'openai' && this.providers.has('openai')) {
+          console.log('Falling back to OpenAI for general error...');
+          return this.queryAgent(query, context, 'openai');
+        }
       }
       
       throw error;
@@ -268,7 +294,11 @@ class AIAgentOrchestrator {
   }
 
   private selectBestProvider(context: any): string {
-    const { language, module } = context;
+    const { language, module, user_location } = context;
+    
+    // Region-aware provider selection for better global availability
+    const highAvailabilityProviders = ['openai', 'gemini', 'deepseek'];
+    const restrictedProviders = ['claude']; // Known to have regional restrictions
     
     // Prefer Chinese AI for Chinese contexts
     if (language === 'zh' || language === 'zh-CN') {
@@ -277,20 +307,27 @@ class AIAgentOrchestrator {
       if (this.providers.has('deepseek')) return 'deepseek';
     }
     
-    // For Arabic contexts, prefer models with good Arabic support
+    // For Arabic contexts, prefer globally available models first
     if (language === 'ar') {
-      if (this.providers.has('claude')) return 'claude';
-      if (this.providers.has('gpt-4')) return 'openai';
-    }
-    
-    // For performance and analytics modules, prefer advanced models
-    if (module?.includes('performance') || module?.includes('analytics')) {
-      if (this.providers.has('claude')) return 'claude';
+      // Try OpenAI first (better global availability)
       if (this.providers.has('openai')) return 'openai';
+      // Then Gemini (also globally available)
+      if (this.providers.has('gemini')) return 'gemini';
+      // Try Claude only as fallback
+      if (this.providers.has('claude')) return 'claude';
+      // Chinese providers often work globally
+      if (this.providers.has('deepseek')) return 'deepseek';
     }
     
-    // Default preference order
-    const preferenceOrder = ['openai', 'claude', 'gemini', 'qwen', 'deepseek', 'ernie'];
+    // For performance and analytics modules, prefer available advanced models
+    if (module?.includes('performance') || module?.includes('analytics')) {
+      if (this.providers.has('openai')) return 'openai';
+      if (this.providers.has('gemini')) return 'gemini';
+      if (this.providers.has('claude')) return 'claude';
+    }
+    
+    // Global availability preference order (most to least globally available)
+    const preferenceOrder = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie', 'claude'];
     
     for (const provider of preferenceOrder) {
       if (this.providers.has(provider)) {
