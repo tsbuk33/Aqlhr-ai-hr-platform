@@ -348,7 +348,6 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
           <DocumentUploadWidget 
             moduleKey={moduleContext} 
             compact={true}
-            onUploadComplete={() => setShowDocumentUpload(false)}
           />
         )}
 
