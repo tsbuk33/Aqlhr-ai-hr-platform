@@ -185,33 +185,6 @@ class AIAgentOrchestrator {
       });
     }
 
-    // DeepSeek (Chinese Open Source)
-    if (Deno.env.get('DEEPSEEK_API_KEY')) {
-      this.providers.set('deepseek', {
-        name: 'DeepSeek AI',
-        endpoint: 'https://api.deepseek.com/v1/chat/completions',
-        headers: {
-          'Authorization': `Bearer ${Deno.env.get('DEEPSEEK_API_KEY')}`,
-          'Content-Type': 'application/json',
-        },
-        formatRequest: (query: string, context: any) => ({
-          model: 'deepseek-chat',
-          messages: [
-            {
-              role: 'system',
-              content: this.buildSystemPrompt(context)
-            },
-            {
-              role: 'user',
-              content: query
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 1500
-        }),
-        parseResponse: (response: any) => response.choices[0].message.content
-      });
-    }
 
     console.log(`Initialized ${this.providers.size} AI providers:`, Array.from(this.providers.keys()));
   }
@@ -409,7 +382,7 @@ serve(async (req) => {
 
   try {
     const orchestrator = new AIAgentOrchestrator();
-    const { query, context, provider, action } = await req.json();
+    const { query, context = {}, provider, action } = await req.json();
 
     // Handle different actions
     if (action === 'status') {
@@ -428,8 +401,16 @@ serve(async (req) => {
       });
     }
 
-    // Process AI query
-    const result = await orchestrator.queryAgent(query, context || {}, provider);
+    // Ensure context has safe defaults to prevent errors
+    const safeContext = {
+      language: 'en',
+      module: 'general',
+      user_location: 'global',
+      ...context
+    };
+
+    // Process AI query with safe context
+    const result = await orchestrator.queryAgent(query, safeContext, provider);
 
     return new Response(JSON.stringify(result), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -440,9 +421,8 @@ serve(async (req) => {
     
     return new Response(JSON.stringify({ 
       error: error.message,
-      fallback_response: context?.language === 'ar' 
-        ? 'عذراً، واجهنا مشكلة تقنية. يرجى المحاولة مرة أخرى.'
-        : 'Sorry, we encountered a technical issue. Please try again.'
+      success: false,
+      fallback_response: 'Sorry, we encountered a technical issue. Please try again.'
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
