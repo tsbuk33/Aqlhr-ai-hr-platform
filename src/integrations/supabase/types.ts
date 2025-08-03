@@ -5575,6 +5575,96 @@ export type Database = {
           },
         ]
       }
+      saudi_compliance_logs: {
+        Row: {
+          ai_provider_used: string | null
+          company_id: string | null
+          compliance_status: string
+          created_at: string
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          query_hash: string | null
+          redacted_items_count: number | null
+          sensitive_data_detected: boolean | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          ai_provider_used?: string | null
+          company_id?: string | null
+          compliance_status: string
+          created_at?: string
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          query_hash?: string | null
+          redacted_items_count?: number | null
+          sensitive_data_detected?: boolean | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          ai_provider_used?: string | null
+          company_id?: string | null
+          compliance_status?: string
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          query_hash?: string | null
+          redacted_items_count?: number | null
+          sensitive_data_detected?: boolean | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      saudi_data_protection_config: {
+        Row: {
+          audit_level: string | null
+          company_id: string
+          compliance_officer_contact: string | null
+          created_at: string
+          cross_border_transfer_allowed: boolean | null
+          data_classification_level: string
+          encryption_required: boolean | null
+          id: string
+          last_compliance_review: string | null
+          next_compliance_review: string | null
+          retention_period_years: number | null
+          updated_at: string
+        }
+        Insert: {
+          audit_level?: string | null
+          company_id: string
+          compliance_officer_contact?: string | null
+          created_at?: string
+          cross_border_transfer_allowed?: boolean | null
+          data_classification_level?: string
+          encryption_required?: boolean | null
+          id?: string
+          last_compliance_review?: string | null
+          next_compliance_review?: string | null
+          retention_period_years?: number | null
+          updated_at?: string
+        }
+        Update: {
+          audit_level?: string | null
+          company_id?: string
+          compliance_officer_contact?: string | null
+          created_at?: string
+          cross_border_transfer_allowed?: boolean | null
+          data_classification_level?: string
+          encryption_required?: boolean | null
+          id?: string
+          last_compliance_review?: string | null
+          next_compliance_review?: string | null
+          retention_period_years?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       saudi_departments: {
         Row: {
           cost_center: string | null
@@ -7715,6 +7805,10 @@ export type Database = {
           p_break_duration?: number
         }
         Returns: number
+      }
+      cleanup_old_compliance_logs: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       cosine_similarity: {
         Args: { a: number[]; b: number[] }
