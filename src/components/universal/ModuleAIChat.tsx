@@ -118,7 +118,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
     setMessages(prev => [...prev, typingMessage]);
 
     try {
-      const { data, error } = await supabase.functions.invoke('ai-core-engine', {
+      const { data, error } = await supabase.functions.invoke('ai-agent-orchestrator', {
         body: {
           query: inputValue.trim(),
           context: {
@@ -126,7 +126,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
             language,
             ...context,
           },
-          conversation_history: messages.slice(-10), // Last 10 messages for context
+          action: 'query',
         },
       });
 
