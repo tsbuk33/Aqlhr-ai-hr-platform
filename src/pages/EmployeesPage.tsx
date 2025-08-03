@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Search, Filter, Users, Building, MapPin, Mail, Phone, Calendar, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 interface Employee {
   id: string;
@@ -328,6 +329,8 @@ const EmployeesPage: React.FC = () => {
           )}
         </div>
       )}
+      
+      <AqlHRAIAssistant moduleContext="employees.management" />
     </div>
   );
 };
