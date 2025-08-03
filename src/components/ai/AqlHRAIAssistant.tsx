@@ -420,9 +420,73 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               `• Monitor any payment delays`;
         }
         
-        // Check if asking about how to use current page
-        if (query.includes('how to use') || query.includes('explain') || query.includes('page') || query.includes('guide')) {
-          const currentModule = moduleContext || 'payroll';
+        // Check if asking about how to use current page or looking for help
+        if (query.includes('how') || query.includes('use') || query.includes('new') || query.includes('help') || 
+            query.includes('explain') || query.includes('page') || query.includes('guide') || 
+            query.includes('كيف') || query.includes('استخدم') || query.includes('جديد') || query.includes('مساعدة')) {
+          
+          const currentModule = moduleContext || 'default';
+          
+          // Performance Strategy page specific guidance
+          if (currentModule.includes('performance') || currentModule.includes('strategic')) {
+            return isArabic
+              ? `🎯 **مرحباً بك في صفحة استراتيجية الأداء!**\n\n` +
+                `**فهم مؤشرات الأداء الحالية:**\n\n` +
+                `🏆 **الموظفون المتميزون (567):**\n` +
+                `• هؤلاء الموظفون الذين حققوا أداءً استثنائياً\n` +
+                `• يمكن استخدامهم كقدوة للآخرين\n` +
+                `• قم بدراسة ممارساتهم لتطبيقها على الفرق الأخرى\n\n` +
+                `⭐ **متوسط التقييم (4.2/5):**\n` +
+                `• مؤشر جيد يعكس الأداء العام\n` +
+                `• هدف تحسينه للوصول إلى 4.5+\n` +
+                `• راجع التقييمات المنخفضة لتحديد نقاط التحسين\n\n` +
+                `🎯 **تحقيق الأهداف (89%):**\n` +
+                `• نسبة ممتازة تقترب من الهدف المثالي 95%\n` +
+                `• حدد الأهداف غير المحققة (11%) لوضع خطط محددة\n` +
+                `• ضع استراتيجيات لتحسين الـ 6% المتبقية\n\n` +
+                `💰 **عائد الاستثمار في الأداء (23%):**\n` +
+                `• عائد ممتاز يفوق المعدل الصناعي (15-20%)\n` +
+                `• استمر في الاستثمار في برامج التطوير\n` +
+                `• قم بقياس ROI لكل برنامج منفصلاً\n\n` +
+                `**خطوات للبدء:**\n` +
+                `1. **راجع الأرقام أعلاه** وحدد نقاط القوة والضعف\n` +
+                `2. **استخدم أداة رفع الوثائق** لإضافة تقارير الأداء\n` +
+                `3. **اسأل المساعد الذكي** عن استراتيجيات محددة\n` +
+                `4. **ضع خطة تحسين** بناءً على البيانات\n\n` +
+                `💡 **نصائح متقدمة:**\n` +
+                `• قارن الأداء بين الأقسام المختلفة\n` +
+                `• حدد الموظفين الذين يحتاجون دعماً إضافياً\n` +
+                `• ضع برامج تطوير مخصصة لكل مستوى أداء\n` +
+                `• اربط الأداء بأهداف الشركة الاستراتيجية`
+              : `🎯 **Welcome to Performance Strategy Page!**\n\n` +
+                `**Understanding Your Current Performance Metrics:**\n\n` +
+                `🏆 **High Performers (567):**\n` +
+                `• These are your top-performing employees\n` +
+                `• Use them as mentors and role models\n` +
+                `• Study their best practices to replicate across teams\n\n` +
+                `⭐ **Average Rating (4.2/5):**\n` +
+                `• Good overall performance indicator\n` +
+                `• Target improvement to reach 4.5+\n` +
+                `• Review lower ratings to identify improvement areas\n\n` +
+                `🎯 **Goal Achievement (89%):**\n` +
+                `• Excellent rate approaching the ideal 95%\n` +
+                `• Identify the unmet goals (11%) for targeted planning\n` +
+                `• Develop strategies to improve the remaining 6%\n\n` +
+                `💰 **Performance ROI (23%):**\n` +
+                `• Excellent return exceeding industry average (15-20%)\n` +
+                `• Continue investing in development programs\n` +
+                `• Measure ROI for each program separately\n\n` +
+                `**Getting Started Steps:**\n` +
+                `1. **Review the numbers above** and identify strengths/weaknesses\n` +
+                `2. **Use the document uploader** to add performance reports\n` +
+                `3. **Ask the AI assistant** about specific strategies\n` +
+                `4. **Create improvement plan** based on the data\n\n` +
+                `💡 **Advanced Tips:**\n` +
+                `• Compare performance across departments\n` +
+                `• Identify employees needing additional support\n` +
+                `• Create customized development programs for each performance level\n` +
+                `• Link performance to strategic company objectives`;
+          }
           
           switch (currentModule) {
             case 'payroll':
