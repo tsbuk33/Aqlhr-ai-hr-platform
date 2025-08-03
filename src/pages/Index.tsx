@@ -47,6 +47,7 @@ import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
 import { useState } from "react";
 import { useAIDashboard } from "@/hooks/useAIDashboard";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 const Index = () => {
   const { isArabic } = useSimpleLanguage();
@@ -1839,6 +1840,13 @@ const Index = () => {
       
       {/* Virtual Assistant */}
       <VirtualAssistant />
+      
+      {/* Super-Intelligent AI Agent */}
+      <AqlHRAIAssistant 
+        moduleContext="dashboard.executive" 
+        position="fixed"
+        className="dashboard-ai-agent"
+      />
     </div>
   );
 };

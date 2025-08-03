@@ -1,4 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
 
 // Executive Intelligence Center - CENTERED
 const ExecutiveIntelligenceCenter = () => {
@@ -44,6 +45,12 @@ const ExecutiveIntelligenceCenter = () => {
           </div>
         </div>
       </div>
+      
+      <AqlHRAIAssistant 
+        moduleContext="executive.intelligence" 
+        position="fixed"
+        className="executive-ai-assistant"
+      />
     </div>
   );
 };
