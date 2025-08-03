@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle } from 'lucide-react';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const stats = [
   {
@@ -159,6 +160,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Assistant */}
+      <AqlHRAIAssistant moduleContext="dashboard.overview" />
     </div>
   );
 }
