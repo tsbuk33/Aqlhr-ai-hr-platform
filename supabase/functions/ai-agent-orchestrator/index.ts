@@ -57,6 +57,34 @@ class AIAgentOrchestrator {
     }
 
 
+    // Julius Provider
+    if (Deno.env.get('JULIUS_API_KEY')) {
+      this.providers.set('julius', {
+        name: 'Julius AI',
+        endpoint: 'https://api.julius.ai/v1/chat/completions',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get('JULIUS_API_KEY')}`,
+          'Content-Type': 'application/json'
+        },
+        formatRequest: (query: string, context: any) => ({
+          model: 'julius-chat',
+          messages: [
+            {
+              role: 'system',
+              content: this.buildSystemPrompt(context)
+            },
+            {
+              role: 'user',
+              content: query
+            }
+          ],
+          max_tokens: 1500,
+          temperature: 0.7
+        }),
+        parseResponse: (response: any) => response.choices[0].message.content
+      });
+    }
+
     // Google Gemini Provider
     if (Deno.env.get('GOOGLE_AI_API_KEY')) {
       this.providers.set('gemini', {
@@ -275,7 +303,7 @@ class AIAgentOrchestrator {
     const { language, module, user_location } = context;
     
     // Region-aware provider selection for better global availability
-    const highAvailabilityProviders = ['openai', 'gemini', 'deepseek'];
+    const highAvailabilityProviders = ['openai', 'gemini', 'deepseek', 'julius'];
     
     // Prefer Chinese AI for Chinese contexts
     if (language === 'zh' || language === 'zh-CN') {
@@ -302,7 +330,7 @@ class AIAgentOrchestrator {
     }
     
     // Global availability preference order (most to least globally available)
-    const preferenceOrder = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie'];
+    const preferenceOrder = ['openai', 'gemini', 'julius', 'deepseek', 'qwen', 'ernie'];
     
     for (const provider of preferenceOrder) {
       if (this.providers.has(provider)) {

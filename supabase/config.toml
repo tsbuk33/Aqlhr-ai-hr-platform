@@ -23,3 +23,12 @@ verify_jwt = false
 
 [functions.hf-document-processor]
 verify_jwt = false
+
+[functions.ai-agent-orchestrator]
+verify_jwt = false
+
+[functions.enhanced-aqlhr-ai]
+verify_jwt = false
+
+[functions.manus-image-generator]
+verify_jwt = false
