@@ -71,6 +71,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [showSpellingSuggestions, setShowSpellingSuggestions] = useState(false);
   const [isGeneratingContent, setIsGeneratingContent] = useState(false);
   const [generatedContentType, setGeneratedContentType] = useState<string>('');
+  const [isScrapingKnowledge, setIsScrapingKnowledge] = useState(false);
+  const [knowledgeBaseStatus, setKnowledgeBaseStatus] = useState<string>('');
   
   // AI Agent Orchestrator integration
   const { 
@@ -504,36 +506,42 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         aiResponse = { response: gosiResponse };
         aiError = null;
       } else {
-        // Use the new AI orchestrator for all HR questions
+        // Use the enhanced AqlHR AI with knowledge base
         try {
-          aiResponse = await getBestResponse(inputValue, {
-            module: moduleContext,
-            context: {
-              company_id: companyId || 'demo-company',
-              language: isArabic ? 'ar' : 'en',
-              user_context: `HR Professional using ${moduleContext} module`,
-              conversation_history: messages.slice(-5).map(msg => ({
-                role: msg.type === 'user' ? 'user' : 'assistant',
-                content: msg.content
-              })),
-              expertise_areas: [
-                'employee_registration',
-                'payroll_processing', 
-                'government_compliance',
-                'saudi_labor_law',
-                'gosi_calculations',
-                'mol_procedures',
-                'qiwa_platform',
-                'nitaqat_system',
-                'wps_processing',
-                'end_of_service',
-                'leave_management',
-                'performance_management',
-                'hr_policies'
-              ]
+          const { data, error } = await supabase.functions.invoke('enhanced-aqlhr-ai', {
+            body: {
+              query: inputValue,
+              context: {
+                module: moduleContext,
+                language: isArabic ? 'ar' : 'en',
+                company_id: companyId || 'demo-company',
+                user_context: `HR Professional using ${moduleContext} module`,
+                conversation_history: messages.slice(-5).map(msg => ({
+                  role: msg.type === 'user' ? 'user' : 'assistant',
+                  content: msg.content
+                })),
+                expertise_areas: [
+                  'aqlhr_platform_usage',
+                  'employee_registration',
+                  'payroll_processing', 
+                  'government_compliance',
+                  'saudi_labor_law',
+                  'gosi_calculations',
+                  'mol_procedures',
+                  'qiwa_platform',
+                  'nitaqat_system',
+                  'wps_processing',
+                  'end_of_service',
+                  'leave_management',
+                  'performance_management',
+                  'hr_policies'
+                ]
+              }
             }
           });
-          aiError = null;
+          
+          aiResponse = data;
+          aiError = error;
         } catch (error) {
           aiError = error;
           aiResponse = null;
