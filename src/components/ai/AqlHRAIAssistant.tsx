@@ -84,27 +84,6 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     availableProviders 
   } = useAIAgentOrchestrator();
   
-  
-  // Initialize with welcome message based on module context
-  useEffect(() => {
-    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
-    const welcomeMessage: ChatMessage = {
-      id: 'welcome-message',
-      type: 'assistant',
-      content: welcomeText[isArabic ? 'ar' : 'en'],
-      timestamp: new Date(),
-      module: moduleContext
-    };
-    setMessages([welcomeMessage]);
-  }, [moduleContext, isArabic]);
-
-  // Document-aware AI integration
-  const { 
-    queryWithDocuments, 
-    documents, 
-    moduleDocuments 
-  } = useDocumentAwareAI(moduleContext);
-
   // Contextual greetings with comprehensive HR expertise for ALL modules
   const contextualGreetings = {
     'executive': {
@@ -127,31 +106,48 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       ar: 'مرحباً! أنا مساعدك الذكي للتحليلات والذكاء الاصطناعي في عقل HR. يمكنني مساعدتك في تحليل البيانات، إنشاء التقارير، والرؤى الذكية.',
       en: 'Hello! I\'m your AI assistant for Analytics & AI Intelligence in AqlHR. I can help you analyze data, generate reports, and provide intelligent insights.'
     },
-    'core-hr': {
-      ar: 'مرحباً! أنا مساعدك الذكي لوحدات الموارد البشرية الأساسية في عقل HR. يمكنني مساعدتك في إدارة الموظفين، الحضور، الإجازات، والأداء.',
-      en: 'Hello! I\'m your AI assistant for Core HR modules in AqlHR. I can help you with employee management, attendance, leave management, and performance.'
+    'dashboard.overview': {
+      ar: 'مرحباً! أنا مساعدك الذكي في لوحة التحكم الرئيسية لعقل HR. يمكنني مساعدتك في فهم البيانات، التحليلات، وإدارة النظام بشكل عام.',
+      en: 'Hello! I\'m your AI assistant for the main Dashboard in AqlHR. I can help you understand data, analytics, and general system management.'
     },
-    'health-safety': {
-      ar: 'مرحباً! أنا مساعدك الذكي لنظام الصحة والسلامة المهنية في عقل HR. 🛡️ يمكنني مساعدتك في تحليل المخاطر، إدارة الحوادث، التدريب الأمني، والامتثال لمعايير السلامة السعودية.',
-      en: 'Hello! I\'m your AI assistant for Health & Safety Management in AqlHR. 🛡️ I can help you with risk assessment, incident management, safety training, and compliance with Saudi safety standards.'
+    'debug.testing': {
+      ar: 'مرحباً! أنا مساعدك الذكي في صفحة الاختبارات والتطوير. يمكنني مساعدتك في فهم النظام، اختبار الميزات، وحل المشاكل التقنية.',
+      en: 'Hello! I\'m your AI assistant for the Debug & Testing page. I can help you understand the system, test features, and solve technical issues.'
     },
-    'ai-features': {
-      ar: 'مرحباً! أنا مساعدك الذكي لميزات الذكاء الاصطناعي والأتمتة في عقل HR. 🤖 يمكنني مساعدتك في إدارة محركات الذكاء الاصطناعي، التوصيات الذكية، التحليلات المتقدمة، ومعالجة اللغات الطبيعية.',
-      en: 'Hello! I\'m your AI assistant for AI Features & Automation in AqlHR. 🤖 I can help you with AI engine management, intelligent recommendations, advanced analytics, and natural language processing.'
+    'systemEngineer.dashboard': {
+      ar: 'مرحباً! أنا مساعدك الذكي في لوحة مهندس النظام. يمكنني مساعدتك في إدارة النظام، المراقبة، والتحليلات المتقدمة.',
+      en: 'Hello! I\'m your AI assistant for the System Engineer Dashboard. I can help you with system management, monitoring, and advanced analytics.'
     },
-    'consulting': {
-      ar: 'مرحباً! أنا مساعدك الذكي لخدمات الاستشارات المتخصصة في عقل HR. يمكنني مساعدتك في التخطيط الاستراتيجي، تحسين العمليات، والاستشارات التنظيمية.',
-      en: 'Hello! I\'m your AI assistant for Consulting Services in AqlHR. I can help you with strategic planning, process improvement, and organizational consulting.'
-    },
-    'compliance': {
-      ar: 'مرحباً! أنا مساعدك الذكي للامتثال والحوكمة في عقل HR. يمكنني مساعدتك في مراجعة السياسات، الامتثال للقوانين، وإدارة المخاطر.',
-      en: 'Hello! I\'m your AI assistant for Compliance & Governance in AqlHR. I can help you with policy review, legal compliance, and risk management.'
+    'testHarness.validation': {
+      ar: 'مرحباً! أنا مساعدك الذكي في نظام التحقق من صحة البيانات. يمكنني مساعدتك في اختبار النظام، التحقق من البيانات، وضمان الجودة.',
+      en: 'Hello! I\'m your AI assistant for the Test Harness validation system. I can help you with system testing, data validation, and quality assurance.'
     },
     'default': {
       ar: 'مرحباً! أنا مساعدك الذكي المتخصص في الموارد البشرية في منصة عقل HR. يمكنني مساعدتك في جميع جوانب إدارة الموارد البشرية من التوظيف إلى الامتثال الحكومي.',
       en: 'Hello! I\'m your specialized HR AI assistant for AqlHR platform. I can help you with all aspects of HR management from recruitment to government compliance.'
     }
   };
+  
+  // Initialize with welcome message based on module context
+  useEffect(() => {
+    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
+    const welcomeMessage: ChatMessage = {
+      id: 'welcome-message',
+      type: 'assistant',
+      content: welcomeText[isArabic ? 'ar' : 'en'],
+      timestamp: new Date(),
+      module: moduleContext
+    };
+    setMessages([welcomeMessage]);
+  }, [moduleContext, isArabic]);
+
+  // Document-aware AI integration
+  const { 
+    queryWithDocuments, 
+    documents, 
+    moduleDocuments 
+  } = useDocumentAwareAI(moduleContext);
+
 
   // Comprehensive AI suggestions for ALL modules
   const getContextualSuggestions = () => {
@@ -566,12 +562,45 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
 
       if (aiError) {
         console.error('Error sending message:', aiError);
-        toast({
-          title: isArabic ? "خطأ في الاتصال" : "Connection Error",
-          description: isArabic ? "يرجى المحاولة مرة أخرى" : "Please try again",
-          variant: "destructive",
-        });
-        throw new Error("Failed to send a request to the Edge Function");
+        setIsGatheringIntelligence(false);
+        
+        // Show specific error based on the actual error
+        const errorMessage = aiError.message || 'Unknown error';
+        
+        if (errorMessage.includes('OPENAI_API_KEY')) {
+          toast({
+            title: isArabic ? "مفتاح API غير موجود" : "API Key Missing",
+            description: isArabic ? "يرجى إعداد مفتاح OpenAI API في إعدادات المشروع" : "Please configure OpenAI API key in project settings",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: isArabic ? "خطأ في الاتصال" : "Connection Error", 
+            description: isArabic ? "يرجى المحاولة مرة أخرى" : "Please try again",
+            variant: "destructive",
+          });
+        }
+        
+        // Provide fallback response with contextual help
+        const fallbackResponse = isArabic
+          ? `عذراً، حدث خطأ مؤقت في الاتصال. يمكنني مساعدتك من خلال معرفتي المحفوظة:\n\n` +
+            `**الوحدة الحالية: ${moduleContext}**\n` +
+            `يمكنني مساعدتك في جميع جوانب إدارة الموارد البشرية. اسألني عن أي شيء تحتاج إليه!`
+          : `Sorry, there was a temporary connection error. I can help you with my stored knowledge:\n\n` +
+            `**Current Module: ${moduleContext}**\n` +
+            `I can assist you with all aspects of HR management. Ask me anything you need!`;
+            
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          type: 'assistant',
+          content: fallbackResponse,
+          timestamp: new Date(),
+          module: moduleContext,
+          confidence: 80
+        };
+        
+        setMessages(prev => [...prev, assistantMessage]);
+        return;
       }
 
       combinedResponse = aiResponse.response;
