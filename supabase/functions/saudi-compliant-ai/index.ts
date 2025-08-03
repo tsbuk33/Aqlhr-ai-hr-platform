@@ -11,51 +11,127 @@ const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Saudi Data Protection Compliance Configuration
-const SAUDI_COMPLIANCE_CONFIG = {
-  // Sensitive data patterns that must NOT leave the platform
-  SENSITIVE_PATTERNS: [
-    /\b\d{10}\b/g, // Saudi National ID (10 digits)
-    /\b\d{9,10}\b/g, // Iqama numbers
-    /\b[A-Z]\d{8}\b/g, // Passport patterns
-    /\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b/g, // Credit card patterns
-    /\b\d{9}\b/g, // GOSI numbers
-    /\b\+966\s?\d{1,2}\s?\d{3}\s?\d{4}\b/g, // Saudi phone numbers
-    /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g, // Date patterns that might contain sensitive info
-    /\bSAR\s?\d+/g, // Salary information
-    /\bريال\s?\d+/g, // Arabic salary info
-  ],
-  
-  // Data that should be anonymized before AI processing
-  ANONYMIZATION_RULES: {
-    employee_ids: '[EMPLOYEE_ID]',
-    saudi_ids: '[SAUDI_ID]',
-    iqama_numbers: '[IQAMA]',
-    passport_numbers: '[PASSPORT]',
-    phone_numbers: '[PHONE]',
-    salaries: '[SALARY_AMOUNT]',
-    gosi_numbers: '[GOSI_ID]',
-    addresses: '[ADDRESS]',
-    bank_accounts: '[BANK_INFO]',
+// Multi-Level Compliance Configuration for Different Company Types
+const COMPLIANCE_LEVELS = {
+  // Saudi companies: Strictest compliance - no data leaves platform
+  SAUDI_STRICT: {
+    name: 'Saudi Strict Compliance',
+    SENSITIVE_PATTERNS: [
+      /\b\d{10}\b/g, // Saudi National ID (10 digits)
+      /\b\d{9,10}\b/g, // Iqama numbers
+      /\b[A-Z]\d{8}\b/g, // Passport patterns
+      /\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b/g, // Credit card patterns
+      /\b\d{9}\b/g, // GOSI numbers
+      /\b\+966\s?\d{1,2}\s?\d{3}\s?\d{4}\b/g, // Saudi phone numbers
+      /\bSAR\s?\d+/g, // Salary information
+      /\bريال\s?\d+/g, // Arabic salary info
+      /\b\d{1,2}\/\d{1,2}\/\d{4}\b/g, // Date patterns
+    ],
+    ANONYMIZATION_RULES: {
+      employee_ids: '[EMPLOYEE_ID]',
+      saudi_ids: '[SAUDI_ID]',
+      iqama_numbers: '[IQAMA]',
+      passport_numbers: '[PASSPORT]',
+      phone_numbers: '[PHONE]',
+      salaries: '[SALARY_AMOUNT]',
+      gosi_numbers: '[GOSI_ID]',
+      addresses: '[ADDRESS]',
+      bank_accounts: '[BANK_INFO]',
+    },
+    DATA_RESIDENCY: {
+      allowExternalAI: false, // NO external AI for Saudi companies
+      localProcessingOnly: true,
+      require_encryption: true,
+      require_audit_log: true,
+      allowed_regions: ['saudi-arabia'],
+      prohibited_regions: ['*'], // All external regions prohibited
+    }
   },
   
-  // Data sovereignty requirements
-  DATA_RESIDENCY: {
-    allowed_regions: ['middle-east', 'gcc', 'saudi-arabia'],
-    prohibited_regions: ['china', 'russia', 'iran'],
-    require_encryption: true,
-    require_audit_log: true,
+  // International companies in Saudi: Moderate compliance 
+  INTERNATIONAL_SAUDI: {
+    name: 'International Saudi Compliance',
+    SENSITIVE_PATTERNS: [
+      /\b\d{10}\b/g, // National IDs
+      /\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b/g, // Credit card patterns
+      /\b\+966\s?\d{1,2}\s?\d{3}\s?\d{4}\b/g, // Saudi phone numbers
+      /\bSAR\s?\d+/g, // Salary information
+    ],
+    ANONYMIZATION_RULES: {
+      employee_ids: '[EMPLOYEE_ID]',
+      national_ids: '[NATIONAL_ID]',
+      phone_numbers: '[PHONE]',
+      salaries: '[SALARY_AMOUNT]',
+      addresses: '[ADDRESS]',
+    },
+    DATA_RESIDENCY: {
+      allowExternalAI: true, // External AI allowed with sanitization
+      localProcessingOnly: false,
+      require_encryption: true,
+      require_audit_log: true,
+      allowed_regions: ['middle-east', 'gcc', 'eu', 'us'],
+      prohibited_regions: ['china', 'russia', 'iran'],
+    }
+  },
+  
+  // Global standard: Minimal compliance for MNCs
+  GLOBAL_STANDARD: {
+    name: 'Global Standard Compliance',
+    SENSITIVE_PATTERNS: [
+      /\b\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\b/g, // Credit card patterns
+      /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi, // Email patterns in some contexts
+    ],
+    ANONYMIZATION_RULES: {
+      credit_cards: '[CREDIT_CARD]',
+      emails: '[EMAIL]',
+    },
+    DATA_RESIDENCY: {
+      allowExternalAI: true,
+      localProcessingOnly: false,
+      require_encryption: false,
+      require_audit_log: true,
+      allowed_regions: ['*'], // All regions allowed
+      prohibited_regions: [],
+    }
   }
 };
 
 class SaudiDataProtection {
-  static sanitizeForAI(text: string, context: any = {}): { sanitized: string, containsSensitiveData: boolean, redactedItems: string[] } {
+  static async getCompanyComplianceLevel(companyId: string): Promise<keyof typeof COMPLIANCE_LEVELS> {
+    try {
+      // Check if company has specific compliance config
+      const { data: complianceConfig } = await supabase
+        .from('saudi_data_protection_config')
+        .select('data_classification_level, cross_border_transfer_allowed')
+        .eq('company_id', companyId)
+        .single();
+
+      if (complianceConfig) {
+        if (!complianceConfig.cross_border_transfer_allowed) {
+          return 'SAUDI_STRICT';
+        } else if (complianceConfig.data_classification_level === 'highly_confidential') {
+          return 'INTERNATIONAL_SAUDI';
+        } else {
+          return 'GLOBAL_STANDARD';
+        }
+      }
+
+      // Default to Saudi strict for companies in Saudi
+      return 'SAUDI_STRICT';
+    } catch (error) {
+      console.log('Using default Saudi strict compliance due to error:', error);
+      return 'SAUDI_STRICT';
+    }
+  }
+
+  static sanitizeForAI(text: string, context: any = {}, complianceLevel: keyof typeof COMPLIANCE_LEVELS = 'SAUDI_STRICT'): { sanitized: string, containsSensitiveData: boolean, redactedItems: string[], complianceLevel: string } {
     let sanitized = text;
     let containsSensitiveData = false;
     const redactedItems: string[] = [];
+    const config = COMPLIANCE_LEVELS[complianceLevel];
     
-    // Check for sensitive patterns
-    SAUDI_COMPLIANCE_CONFIG.SENSITIVE_PATTERNS.forEach((pattern, index) => {
+    // Check for sensitive patterns based on compliance level
+    config.SENSITIVE_PATTERNS.forEach((pattern, index) => {
       if (pattern.test(sanitized)) {
         containsSensitiveData = true;
         const matches = sanitized.match(pattern) || [];
@@ -73,7 +149,7 @@ class SaudiDataProtection {
       sanitized = sanitized.replace(new RegExp(context.user_id, 'g'), '[USER_ID]');
     }
     
-    return { sanitized, containsSensitiveData, redactedItems };
+    return { sanitized, containsSensitiveData, redactedItems, complianceLevel: config.name };
   }
   
   static async logComplianceEvent(event: any) {
@@ -125,7 +201,15 @@ serve(async (req) => {
   try {
     const { query, context = {} } = await req.json();
     
-    console.log('Saudi Compliant AI - Processing query with data protection');
+    console.log('Saudi Compliant AI - Processing query with adaptive compliance protection');
+    
+    // Step 0: Determine company compliance level
+    const complianceLevel = context.company_id 
+      ? await SaudiDataProtection.getCompanyComplianceLevel(context.company_id)
+      : 'SAUDI_STRICT'; // Default to strictest
+    
+    const complianceConfig = COMPLIANCE_LEVELS[complianceLevel];
+    console.log(`Using compliance level: ${complianceConfig.name} for company: ${context.company_id}`);
     
     // Step 1: Validate query is appropriate for AI processing
     const validation = SaudiDataProtection.validateQuery(query, context);
@@ -133,6 +217,7 @@ serve(async (req) => {
       return new Response(JSON.stringify({
         error: validation.reason,
         compliance_blocked: true,
+        compliance_level: complianceConfig.name,
         response: context?.language === 'ar' 
           ? 'عذراً، لا يمكن معالجة هذا الاستعلام لأنه يتضمن طلب بيانات شخصية حساسة. يرجى إعادة صياغة استعلامك.'
           : 'Sorry, this query cannot be processed as it involves sensitive personal data. Please rephrase your query.'
@@ -142,8 +227,8 @@ serve(async (req) => {
       });
     }
     
-    // Step 2: Sanitize input for AI processing
-    const { sanitized, containsSensitiveData, redactedItems } = SaudiDataProtection.sanitizeForAI(query, context);
+    // Step 2: Sanitize input for AI processing based on compliance level
+    const { sanitized, containsSensitiveData, redactedItems, complianceLevel: appliedLevel } = SaudiDataProtection.sanitizeForAI(query, context, complianceLevel);
     
     if (containsSensitiveData) {
       console.log(`Sensitive data detected and redacted: ${redactedItems.length} items`);
@@ -193,19 +278,39 @@ serve(async (req) => {
       });
     }
     
-    // Step 5: If external AI is needed, use sanitized query only
+    // Step 5: Handle external AI based on compliance level
+    if (!complianceConfig.DATA_RESIDENCY.allowExternalAI) {
+      // For Saudi strict compliance - NO external AI allowed
+      return new Response(JSON.stringify({
+        response: context?.language === 'ar' 
+          ? 'عذراً، لا يمكن استخدام الذكاء الاصطناعي الخارجي مع هذا المستوى من الامتثال. يرجى استخدام قاعدة المعرفة المحلية فقط.'
+          : 'Sorry, external AI cannot be used with this compliance level. Please use local knowledge base only.',
+        source: 'compliance_restriction',
+        saudi_compliant: true,
+        compliance_level: appliedLevel,
+        external_ai_blocked: true,
+        reason: 'Saudi strict compliance requires local processing only'
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+    
+    // For international/global companies - external AI allowed with sanitization
     const enhancedContext = {
       ...context,
-      saudi_compliance_notice: `IMPORTANT: This query has been sanitized for Saudi data protection compliance. Any response must comply with Saudi data protection regulations and not contain real personal identifiable information.`,
+      compliance_notice: `IMPORTANT: This query has been sanitized for ${appliedLevel}. Any response must comply with applicable data protection regulations.`,
+      compliance_level: appliedLevel,
       sanitized: true,
-      original_contained_sensitive: containsSensitiveData
+      original_contained_sensitive: containsSensitiveData,
+      allowed_regions: complianceConfig.DATA_RESIDENCY.allowed_regions,
+      prohibited_regions: complianceConfig.DATA_RESIDENCY.prohibited_regions
     };
     
     const { data: aiData, error: aiError } = await supabase.functions.invoke('ai-agent-orchestrator', {
       body: {
         query: sanitized,
         context: enhancedContext,
-        provider: 'openai' // Prefer OpenAI as it has better compliance standards
+        provider: 'openai' // Prefer OpenAI for better compliance standards
       }
     });
 
