@@ -790,8 +790,8 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   };
 
   const baseClasses = position === 'fixed' 
-    ? 'fixed bottom-6 right-6 z-50 w-[480px] h-[700px] flex flex-col' 
-    : 'w-full max-w-2xl mx-auto h-[700px] flex flex-col';
+    ? 'fixed bottom-6 right-6 z-50 w-[420px] h-[550px] flex flex-col' 
+    : 'w-full max-w-xl mx-auto h-[550px] flex flex-col';
 
   if (isMinimized) {
     return (
