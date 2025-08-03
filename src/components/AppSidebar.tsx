@@ -203,7 +203,8 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
   const platformModules = getPlatformModules(isArabic);
-  const showHRBPSidebar = useHRBPMode();
+  const isHRBP = useHRBPMode();
+  const showHRBPSidebar = isHRBP;
   
   // Show HRBP sidebar for analytics and core HR sections
   if (showHRBPSidebar) {
@@ -250,7 +251,7 @@ export function AppSidebar() {
             {state !== "collapsed" && (
               <div className={`min-w-0 flex-1 ${isArabic ? 'text-right' : 'text-left'}`}>
                 <h1 className="text-sm font-bold text-sidebar-primary-foreground leading-tight">
-                  {isArabic ? 'عقل HR' : 'AqlHR'}
+                  {isArabic ? 'عقل HR' : 'AqlHR'}{isHRBP ? (isArabic ? ' - HRBP' : ' - HRBP') : ''}
                 </h1>
                 <p className="text-xs text-sidebar-foreground/70 leading-tight mt-1 truncate">
                   {isArabic ? 'منصة الموارد البشرية الذكية' : 'Smart HR Platform'}
