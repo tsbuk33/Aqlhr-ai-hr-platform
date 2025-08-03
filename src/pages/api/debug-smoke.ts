@@ -11,7 +11,7 @@ export default async function handler(req: any, res: any) {
       module_name: 'debug_api',
       session_id: `smoke_${Date.now()}`,
       user_id: null,
-      event_data: { test: true, timestamp: new Date().toISOString() }
+      properties: { test: true, timestamp: new Date().toISOString() }
     };
 
     // Test 1: Insert test data
