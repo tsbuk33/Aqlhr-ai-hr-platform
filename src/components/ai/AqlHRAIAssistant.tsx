@@ -27,6 +27,7 @@ import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
 import { DocumentUploadWidget } from '@/components/DocumentUploadWidget';
+import { useAIAgentOrchestrator } from '@/hooks/useAIAgentOrchestrator';
 
 interface AqlHRAIAssistantProps {
   moduleContext?: string;
@@ -61,6 +62,14 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [spellCheckEnabled, setSpellCheckEnabled] = useState(true);
   const [spellingSuggestions, setSpellingSuggestions] = useState<string[]>([]);
   const [showSpellingSuggestions, setShowSpellingSuggestions] = useState(false);
+  
+  // AI Agent Orchestrator integration
+  const { 
+    queryAIAgent, 
+    getBestResponse, 
+    isLoading: aiOrchestratorLoading,
+    availableProviders 
+  } = useAIAgentOrchestrator();
   
   // Document-aware AI integration
   const { 
@@ -328,15 +337,18 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         aiResponse = { response: gosiResponse };
         aiError = null;
       } else {
-        // For general HR questions, use the AI core engine
-        const { data, error } = await supabase.functions.invoke('ai-core-engine', {
-          body: {
-            query: inputValue,
+        // Use the new AI orchestrator for all HR questions
+        try {
+          aiResponse = await getBestResponse(inputValue, {
+            module: moduleContext,
             context: {
-              module: moduleContext,
-              language: isArabic ? 'ar' : 'en',
               company_id: companyId || 'demo-company',
-              user_context: `HRBP using ${moduleContext} module`,
+              language: isArabic ? 'ar' : 'en',
+              user_context: `HR Professional using ${moduleContext} module`,
+              conversation_history: messages.slice(-5).map(msg => ({
+                role: msg.type === 'user' ? 'user' : 'assistant',
+                content: msg.content
+              })),
               expertise_areas: [
                 'employee_registration',
                 'payroll_processing', 
@@ -352,17 +364,13 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
                 'performance_management',
                 'hr_policies'
               ]
-            },
-            conversation_history: messages.slice(-5).map(msg => ({
-              role: msg.type === 'user' ? 'user' : 'assistant',
-              content: msg.content
-            })),
-            tools: [] // No specific tools needed for general questions
-          }
-        });
-        
-        aiResponse = data;
-        aiError = error;
+            }
+          });
+          aiError = null;
+        } catch (error) {
+          aiError = error;
+          aiResponse = null;
+        }
       }
 
       if (aiError) {
