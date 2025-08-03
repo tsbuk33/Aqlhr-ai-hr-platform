@@ -11,6 +11,7 @@ import {
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar,
 } from "@/components/ui/sidebar";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
+import { HRBPSidebar } from "./HRBPSidebar";
 import LanguageToggle from "@/components/LanguageToggle";
 import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
 
@@ -180,6 +181,18 @@ const getPlatformModules = (isArabic: boolean) => [
   { title: isArabic ? "المساعدة التفاعلية" : "Interactive Help", url: "/help", icon: HelpCircle, badge: "40", color: "blue" },
 ];
 
+// Check if we should show HRBP sidebar
+const useHRBPMode = () => {
+  const location = useLocation();
+  // Enable HRBP mode for analytics and key HR sections
+  return location.pathname.includes('/analytics') || 
+         location.pathname.includes('/employees') ||
+         location.pathname.includes('/payroll') ||
+         location.pathname.includes('/core-hr') ||
+         location.pathname.includes('/strategic') ||
+         location.pathname.includes('/government');
+};
+
 export function AppSidebar() {
   const { state } = useSidebar();
   const { isArabic } = useSimpleLanguage();
@@ -187,6 +200,12 @@ export function AppSidebar() {
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
   const platformModules = getPlatformModules(isArabic);
+  const showHRBPSidebar = useHRBPMode();
+  
+  // Show HRBP sidebar for analytics and core HR sections
+  if (showHRBPSidebar) {
+    return <HRBPSidebar />;
+  }
   
   const isActive = (path: string) => currentPath === path;
   const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
