@@ -21,7 +21,14 @@ import {
   Upload,
   SpellCheck,
   CheckCircle,
-  AlertTriangle
+  AlertTriangle,
+  Image,
+  FileText,
+  BarChart,
+  Presentation,
+  Table,
+  Mic,
+  Paperclip
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -737,6 +744,88 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               📚 {moduleDocuments.length} {isArabic ? 'مستندات جاهزة للتحليل' : 'documents ready for analysis'}
             </div>
           )}
+
+          {/* Manus-style Multi-Modal Tools */}
+          <div className="space-y-2 border-t pt-2">
+            <div className="text-xs font-medium text-muted-foreground">
+              {isArabic ? 'أدوات متعددة الوسائط:' : 'Multi-Modal Tools:'}
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء صورة تقرير للموظفين' : 'Generate employee report image')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <Image className="h-3 w-3" />
+                {isArabic ? 'صورة' : 'Image'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء عرض تقديمي للأداء' : 'Create performance presentation')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <Presentation className="h-3 w-3" />
+                {isArabic ? 'عرض' : 'Slides'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء جدول بيانات الرواتب' : 'Create payroll spreadsheet')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <Table className="h-3 w-3" />
+                {isArabic ? 'جدول' : 'Sheet'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء تقرير مرئي للأداء' : 'Create performance visualization')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <BarChart className="h-3 w-3" />
+                {isArabic ? 'تمثيل مرئي' : 'Chart'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء صفحة ويب لسياسات الموظفين' : 'Create employee policy webpage')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <Globe className="h-3 w-3" />
+                {isArabic ? 'صفحة' : 'Page'}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setInputValue(isArabic ? 'إنشاء مستند سياسة HR' : 'Create HR policy document')}
+                className="h-8 text-xs flex items-center gap-1"
+              >
+                <FileText className="h-3 w-3" />
+                {isArabic ? 'مستند' : 'Doc'}
+              </Button>
+            </div>
+            
+            {/* Quality Settings & Provider Status */}
+            <div className="flex items-center justify-between text-xs pt-2">
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground flex items-center gap-1">
+                  <TrendingUp className="h-3 w-3" />
+                  {isArabic ? 'الجودة:' : 'Quality:'}
+                </span>
+                <Badge variant="outline" className="text-xs">
+                  {isArabic ? 'عالية' : 'High'}
+                </Badge>
+              </div>
+              {availableProviders.length > 0 && (
+                <div className="text-muted-foreground flex items-center gap-1">
+                  <CheckCircle className="h-3 w-3 text-green-500" />
+                  {availableProviders.length} {isArabic ? 'مزودين' : 'providers'}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Input Area - Fixed at bottom */}
