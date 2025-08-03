@@ -86,30 +86,34 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     const suggestions = {
       'payroll': {
         ar: [
+          'كيف أسجل موظف سعودي جديد؟',
+          'ما هي المتطلبات الحكومية للتوظيف؟',
           'ما هي معدلات GOSI الحالية؟',
-          'كيف أحسب مساهمات التأمينات للسعوديين؟',
-          'ما الفرق بين النظام القديم والجديد لـ GOSI؟',
-          'كم مساهمة غير السعوديين في GOSI؟'
+          'كيف أحسب مزايا نهاية الخدمة؟',
+          'شرح نظام حماية الأجور WPS'
         ],
         en: [
+          'How to register a new Saudi employee?',
+          'What are the government requirements for hiring?',
           'What are the current GOSI rates?',
-          'How do I calculate Saudi insurance contributions?',
-          'What\'s the difference between old and new GOSI system?',
-          'What is the non-Saudi GOSI contribution?'
+          'How to calculate end of service benefits?',
+          'Explain Wage Protection System (WPS)'
         ]
       },
       'default': {
         ar: [
-          'كيف يمكنني البدء؟',
-          'ما هي الميزات المتاحة؟',
-          'اعرض النظرة العامة',
-          'مساعدة في الإعدادات'
+          'كيف أسجل موظف جديد؟',
+          'ما هي متطلبات وزارة العمل؟',
+          'شرح نظام نطاقات',
+          'كيف أستخدم منصة قوى؟',
+          'ما هي قوانين العمل السعودية؟'
         ],
         en: [
-          'How can I get started?',
-          'What features are available?',
-          'Show me the overview',
-          'Help with settings'
+          'How to register a new employee?',
+          'What are MOL requirements?',
+          'Explain Nitaqat system',
+          'How to use Qiwa platform?',
+          'What are Saudi labor laws?'
         ]
       }
     };
@@ -192,13 +196,41 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         aiResponse = { response: gosiResponse };
         aiError = null;
       } else {
-        // For non-GOSI questions, provide a helpful response without calling external functions
-        const helpfulResponse = isArabic
-          ? `أعتذر، أنا متخصص في الإجابة على الأسئلة المتعلقة بـ GOSI والتأمينات الاجتماعية. يمكنني مساعدتك في:\n\n• حساب مساهمات GOSI\n• معدلات التأمينات الحالية\n• الفروق بين النظام القديم والجديد\n• مساهمات الموظفين السعوديين وغير السعوديين\n\nهل لديك سؤال محدد حول GOSI؟`
-          : `I specialize in answering GOSI (Social Insurance) related questions. I can help you with:\n\n• GOSI contribution calculations\n• Current insurance rates\n• Differences between old and new systems\n• Saudi vs non-Saudi employee contributions\n\nDo you have a specific question about GOSI?`;
+        // For general HR questions, use the AI core engine
+        const { data, error } = await supabase.functions.invoke('ai-core-engine', {
+          body: {
+            prompt: inputValue,
+            context: `You are AqlHR AI Assistant, an expert Saudi HR professional helping with the ${moduleContext} module. 
+            
+            User Question: ${inputValue}
+            Module Context: ${moduleContext}
+            Language: ${isArabic ? 'Arabic' : 'English'}
+            
+            You are a comprehensive HR expert who can help with:
+            • Employee registration and onboarding (Saudi and non-Saudi)
+            • Payroll processing and calculations
+            • GOSI contributions and compliance
+            • MOL (Ministry of Labor) requirements
+            • Qiwa platform procedures
+            • Nitaqat compliance
+            • Saudi labor law guidance
+            • WPS (Wage Protection System)
+            • End of service benefits
+            • Leave management
+            • Performance management
+            • HR policies and procedures
+            • Government integrations
+            
+            Provide detailed, actionable guidance. If asked about employee registration, explain the full process including required documents, government platforms, and compliance requirements.
+            
+            ${isArabic ? 'يرجى الإجابة باللغة العربية بشكل مفصل ومفيد.' : 'Please respond in English with detailed and helpful information.'}`,
+            max_tokens: 1000,
+            temperature: 0.7
+          }
+        });
         
-        aiResponse = { response: helpfulResponse };
-        aiError = null;
+        aiResponse = data;
+        aiError = error;
       }
 
       if (aiError) {
