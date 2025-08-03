@@ -387,36 +387,118 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
       console.error('Error sending message:', error);
       setIsGatheringIntelligence(false);
       
-      // Provide a helpful fallback response instead of generic error
-      const fallbackResponse = inputValue.toLowerCase().includes('wps') || inputValue.toLowerCase().includes('wage protection')
-        ? (isArabic 
-          ? `🏛️ **نظام حماية الأجور (WPS):**\n\n` +
-            `نظام حماية الأجور هو آلية إلكترونية أطلقتها وزارة الموارد البشرية والتنمية الاجتماعية لحماية حقوق العمال في المملكة.\n\n` +
-            `**الأهداف الرئيسية:**\n` +
-            `• ضمان دفع الرواتب في المواعيد المحددة\n` +
-            `• حماية حقوق العمال المالية\n` +
-            `• تعزيز الشفافية في علاقات العمل\n` +
-            `• مراقبة التزام أصحاب العمل\n\n` +
-            `**كيفية العمل:**\n` +
-            `• يتم ربط النظام مع البنوك السعودية\n` +
-            `• تسجيل جميع المدفوعات إلكترونياً\n` +
-            `• إرسال تقارير شهرية لوزارة العمل\n` +
-            `• متابعة أي تأخير في الدفع`
-          : `🏛️ **Wage Protection System (WPS):**\n\n` +
-            `The Wage Protection System is an electronic mechanism launched by the Ministry of Human Resources and Social Development to protect workers' rights in Saudi Arabia.\n\n` +
-            `**Main Objectives:**\n` +
-            `• Ensure timely salary payments\n` +
-            `• Protect workers' financial rights\n` +
-            `• Enhance transparency in employment relations\n` +
-            `• Monitor employer compliance\n\n` +
-            `**How it Works:**\n` +
-            `• Connected with Saudi banks\n` +
-            `• All payments recorded electronically\n` +
-            `• Monthly reports sent to MOL\n` +
-            `• Monitor any payment delays`)
-        : (isArabic
+      // Provide context-aware helpful responses based on the question and current page
+      const getContextualResponse = () => {
+        const query = inputValue.toLowerCase();
+        
+        // Check if asking about WPS
+        if (query.includes('wps') || query.includes('wage protection')) {
+          return isArabic 
+            ? `🏛️ **نظام حماية الأجور (WPS):**\n\n` +
+              `نظام حماية الأجور هو آلية إلكترونية أطلقتها وزارة الموارد البشرية والتنمية الاجتماعية لحماية حقوق العمال في المملكة.\n\n` +
+              `**الأهداف الرئيسية:**\n` +
+              `• ضمان دفع الرواتب في المواعيد المحددة\n` +
+              `• حماية حقوق العمال المالية\n` +
+              `• تعزيز الشفافية في علاقات العمل\n` +
+              `• مراقبة التزام أصحاب العمل\n\n` +
+              `**كيفية العمل:**\n` +
+              `• يتم ربط النظام مع البنوك السعودية\n` +
+              `• تسجيل جميع المدفوعات إلكترونياً\n` +
+              `• إرسال تقارير شهرية لوزارة العمل\n` +
+              `• متابعة أي تأخير في الدفع`
+            : `🏛️ **Wage Protection System (WPS):**\n\n` +
+              `The Wage Protection System is an electronic mechanism launched by the Ministry of Human Resources and Social Development to protect workers' rights in Saudi Arabia.\n\n` +
+              `**Main Objectives:**\n` +
+              `• Ensure timely salary payments\n` +
+              `• Protect workers' financial rights\n` +
+              `• Enhance transparency in employment relations\n` +
+              `• Monitor employer compliance\n\n` +
+              `**How it Works:**\n` +
+              `• Connected with Saudi banks\n` +
+              `• All payments recorded electronically\n` +
+              `• Monthly reports sent to MOL\n` +
+              `• Monitor any payment delays`;
+        }
+        
+        // Check if asking about how to use current page
+        if (query.includes('how to use') || query.includes('explain') || query.includes('page') || query.includes('guide')) {
+          const currentModule = moduleContext || 'payroll';
+          
+          switch (currentModule) {
+            case 'payroll':
+              return isArabic
+                ? `📊 **دليل استخدام صفحة الرواتب:**\n\n` +
+                  `**الميزات الرئيسية:**\n` +
+                  `• **نظرة عامة على الرواتب:** عرض إجمالي الرواتب والتكاليف الشهرية\n` +
+                  `• **معلومات GOSI:** متابعة اشتراكات التأمينات الاجتماعية\n` +
+                  `• **نظام WPS:** مراقبة نظام حماية الأجور والامتثال\n` +
+                  `• **التقارير المالية:** إنشاء تقارير مفصلة للرواتب\n\n` +
+                  `**كيفية الاستخدام:**\n` +
+                  `• استعرض البيانات في الأقسام المختلفة\n` +
+                  `• استخدم المرشحات لتصفية المعلومات\n` +
+                  `• اضغط على "إنشاء تقرير" للحصول على تقارير مفصلة\n` +
+                  `• راجع حالة WPS للتأكد من الامتثال\n\n` +
+                  `**نصائح مهمة:**\n` +
+                  `• تأكد من تحديث بيانات الموظفين قبل معالجة الرواتب\n` +
+                  `• راجع حسابات GOSI بانتظام للامتثال\n` +
+                  `• استخدم التقارير لمتابعة الأداء المالي`
+                : `📊 **Payroll Page Usage Guide:**\n\n` +
+                  `**Main Features:**\n` +
+                  `• **Payroll Overview:** View total salaries and monthly costs\n` +
+                  `• **GOSI Information:** Track social insurance contributions\n` +
+                  `• **WPS System:** Monitor Wage Protection System compliance\n` +
+                  `• **Financial Reports:** Generate detailed payroll reports\n\n` +
+                  `**How to Use:**\n` +
+                  `• Browse data in different sections\n` +
+                  `• Use filters to refine information\n` +
+                  `• Click "Generate Report" for detailed reports\n` +
+                  `• Review WPS status to ensure compliance\n\n` +
+                  `**Important Tips:**\n` +
+                  `• Update employee data before processing payroll\n` +
+                  `• Review GOSI calculations regularly for compliance\n` +
+                  `• Use reports to track financial performance`;
+            
+            case 'employees':
+              return isArabic
+                ? `👥 **دليل استخدام إدارة الموظفين:**\n\n` +
+                  `• إضافة موظفين جدد وإدارة بياناتهم\n` +
+                  `• تتبع الحضور والانصراف\n` +
+                  `• إدارة الإجازات والعطل\n` +
+                  `• متابعة الأداء والتقييمات`
+                : `👥 **Employee Management Guide:**\n\n` +
+                  `• Add new employees and manage their data\n` +
+                  `• Track attendance and time records\n` +
+                  `• Manage leaves and holidays\n` +
+                  `• Monitor performance and evaluations`;
+            
+            default:
+              return isArabic
+                ? `🏢 **مرحباً بك في منصة AqlHR:**\n\n` +
+                  `منصة شاملة لإدارة الموارد البشرية تتوافق مع القوانين السعودية.\n\n` +
+                  `**الميزات المتاحة:**\n` +
+                  `• إدارة الموظفين والرواتب\n` +
+                  `• نظام حماية الأجور (WPS)\n` +
+                  `• حسابات GOSI والامتثال\n` +
+                  `• التكامل مع الأنظمة الحكومية\n` +
+                  `• التحليلات والتقارير المتقدمة`
+                : `🏢 **Welcome to AqlHR Platform:**\n\n` +
+                  `A comprehensive HR management platform compliant with Saudi regulations.\n\n` +
+                  `**Available Features:**\n` +
+                  `• Employee and payroll management\n` +
+                  `• Wage Protection System (WPS)\n` +
+                  `• GOSI calculations and compliance\n` +
+                  `• Government systems integration\n` +
+                  `• Advanced analytics and reporting`;
+          }
+        }
+        
+        // Generic fallback
+        return isArabic
           ? `أعتذر عن المشكلة التقنية. أنا مساعدك الذكي المتخصص في الموارد البشرية ويمكنني مساعدتك في:\n\n• تسجيل الموظفين الجدد\n• حسابات الرواتب و GOSI\n• الامتثال الحكومي\n• قوانين العمل السعودية\n• نظام حماية الأجور\n• منصة قوى ونطاقات\n\nيرجى إعادة صياغة سؤالك وسأكون سعيداً لمساعدتك.`
-          : `Sorry for the technical issue. I'm your specialized HR AI assistant and I can help you with:\n\n• New employee registration\n• Payroll and GOSI calculations\n• Government compliance\n• Saudi labor laws\n• Wage Protection System\n• Qiwa platform and Nitaqat\n\nPlease rephrase your question and I'll be happy to help you.`);
+          : `Sorry for the technical issue. I'm your specialized HR AI assistant and I can help you with:\n\n• New employee registration\n• Payroll and GOSI calculations\n• Government compliance\n• Saudi labor laws\n• Wage Protection System\n• Qiwa platform and Nitaqat\n\nPlease rephrase your question and I'll be happy to help you.`;
+      };
+      
+      const fallbackResponse = getContextualResponse();
       
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
