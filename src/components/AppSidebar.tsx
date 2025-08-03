@@ -160,6 +160,18 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
     ]
   },
+  // Test & Validation
+  { 
+    title: isArabic ? "الاختبار والتحقق" : "Test & Validation", 
+    url: "/demo/test-page", 
+    icon: FileCheck, 
+    badge: "AI", 
+    color: "orange",
+    subItems: [
+      { title: isArabic ? "تحقق نظام الذكاء الاصطناعي" : "AI System Validation", url: "/demo/test-page" },
+      { title: isArabic ? "مجموعة الاختبار الكامل" : "Full Test Suite", url: "/demo/test-page" },
+    ]
+  },
   // Operations & Forms
   { title: isArabic ? "العمليات والنماذج" : "Processes & Forms", url: "/processes-forms", icon: FileCheck, badge: "AI", color: "slate" },
   // Tools & Integrations
