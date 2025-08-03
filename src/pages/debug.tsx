@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SmokeTestResult {
   success: boolean;
@@ -17,39 +18,102 @@ export default function DebugPage() {
   const [result, setResult] = useState<SmokeTestResult | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const runSmokeTest = async () => {
-      try {
-        const response = await fetch('/api/debug-smoke');
-        const data = await response.json();
-        setResult(data);
-      } catch (error) {
-        setResult({
+  const runSmokeTest = async (): Promise<SmokeTestResult> => {
+    try {
+      const testData = {
+        event_type: 'smoke_test',
+        module_name: 'debug_frontend',
+        session_id: `smoke_${Date.now()}`,
+        user_id: null,
+        properties: { test: true, timestamp: new Date().toISOString() }
+      };
+
+      // Test 1: Insert test data
+      const { data: insertData, error: insertError } = await (supabase as any)
+        .from('analytics_events')
+        .insert(testData)
+        .select()
+        .single();
+
+      if (insertError) {
+        return {
           success: false,
-          error: 'Failed to run smoke test',
-          details: error instanceof Error ? error.message : 'Unknown error'
-        });
+          error: 'Insert failed',
+          details: insertError.message,
+          tests: {
+            insert: { passed: false, error: insertError.message },
+            select: { passed: false, error: 'Skipped due to insert failure' }
+          }
+        };
+      }
+
+      // Test 2: Select the data back
+      const { data: selectData, error: selectError } = await (supabase as any)
+        .from('analytics_events')
+        .select('*')
+        .eq('session_id', testData.session_id)
+        .single();
+
+      if (selectError) {
+        return {
+          success: false,
+          error: 'Select failed',
+          details: selectError.message,
+          tests: {
+            insert: { passed: true, data: insertData },
+            select: { passed: false, error: selectError.message }
+          }
+        };
+      }
+
+      // Test 3: Cleanup - delete the test data
+      const { error: deleteError } = await (supabase as any)
+        .from('analytics_events')
+        .delete()
+        .eq('session_id', testData.session_id);
+
+      return {
+        success: true,
+        message: 'All tests passed',
+        tests: {
+          insert: { passed: true, data: insertData },
+          select: { passed: true, data: selectData },
+          cleanup: { passed: !deleteError, error: deleteError?.message }
+        }
+      };
+
+    } catch (error) {
+      return {
+        success: false,
+        error: 'Unexpected error',
+        details: error instanceof Error ? error.message : 'Unknown error',
+        tests: {
+          insert: { passed: false, error: 'Exception thrown' },
+          select: { passed: false, error: 'Exception thrown' }
+        }
+      };
+    }
+  };
+
+  useEffect(() => {
+    const runTest = async () => {
+      try {
+        const testResult = await runSmokeTest();
+        setResult(testResult);
       } finally {
         setLoading(false);
       }
     };
 
-    runSmokeTest();
+    runTest();
   }, []);
 
-  const runTest = async () => {
+  const handleRunTest = async () => {
     setLoading(true);
     setResult(null);
     try {
-      const response = await fetch('/api/debug-smoke');
-      const data = await response.json();
-      setResult(data);
-    } catch (error) {
-      setResult({
-        success: false,
-        error: 'Failed to run smoke test',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
+      const testResult = await runSmokeTest();
+      setResult(testResult);
     } finally {
       setLoading(false);
     }
@@ -66,7 +130,7 @@ export default function DebugPage() {
             This page runs smoke tests against the analytics database to verify functionality.
           </p>
           <button 
-            onClick={runTest}
+            onClick={handleRunTest}
             disabled={loading}
             className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50"
           >
