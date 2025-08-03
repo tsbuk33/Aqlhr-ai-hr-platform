@@ -56,29 +56,6 @@ class AIAgentOrchestrator {
       });
     }
 
-    // Anthropic Claude Provider
-    if (Deno.env.get('ANTHROPIC_API_KEY')) {
-      this.providers.set('claude', {
-        name: 'Anthropic Claude',
-        endpoint: 'https://api.anthropic.com/v1/messages',
-        headers: {
-          'x-api-key': Deno.env.get('ANTHROPIC_API_KEY')!,
-          'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01'
-        },
-        formatRequest: (query: string, context: any) => ({
-          model: 'claude-3-5-sonnet-20241022',
-          max_tokens: 1500,
-          messages: [
-            {
-              role: 'user',
-              content: `${this.buildSystemPrompt(context)}\n\nUser Query: ${query}`
-            }
-          ]
-        }),
-        parseResponse: (response: any) => response.content[0].text
-      });
-    }
 
     // Google Gemini Provider
     if (Deno.env.get('GOOGLE_AI_API_KEY')) {
@@ -299,7 +276,6 @@ class AIAgentOrchestrator {
     
     // Region-aware provider selection for better global availability
     const highAvailabilityProviders = ['openai', 'gemini', 'deepseek'];
-    const restrictedProviders = ['claude']; // Known to have regional restrictions
     
     // Prefer Chinese AI for Chinese contexts
     if (language === 'zh' || language === 'zh-CN') {
@@ -314,8 +290,6 @@ class AIAgentOrchestrator {
       if (this.providers.has('openai')) return 'openai';
       // Then Gemini (also globally available)
       if (this.providers.has('gemini')) return 'gemini';
-      // Try Claude only as fallback
-      if (this.providers.has('claude')) return 'claude';
       // Chinese providers often work globally
       if (this.providers.has('deepseek')) return 'deepseek';
     }
@@ -324,11 +298,11 @@ class AIAgentOrchestrator {
     if (module?.includes('performance') || module?.includes('analytics')) {
       if (this.providers.has('openai')) return 'openai';
       if (this.providers.has('gemini')) return 'gemini';
-      if (this.providers.has('claude')) return 'claude';
+      if (this.providers.has('deepseek')) return 'deepseek';
     }
     
     // Global availability preference order (most to least globally available)
-    const preferenceOrder = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie', 'claude'];
+    const preferenceOrder = ['openai', 'gemini', 'deepseek', 'qwen', 'ernie'];
     
     for (const provider of preferenceOrder) {
       if (this.providers.has(provider)) {
