@@ -99,24 +99,18 @@ const COMPLIANCE_LEVELS = {
 class SaudiDataProtection {
   static async getCompanyComplianceLevel(companyId: string): Promise<keyof typeof COMPLIANCE_LEVELS> {
     try {
-      // Check if company has specific compliance config
-      const { data: complianceConfig } = await supabase
-        .from('saudi_data_protection_config')
-        .select('data_classification_level, cross_border_transfer_allowed')
+      // Check company compliance settings
+      const { data: complianceSettings } = await supabase
+        .from('company_compliance_settings')
+        .select('compliance_level, allow_external_ai, allow_cross_border_transfer')
         .eq('company_id', companyId)
-        .single();
+        .maybeSingle();
 
-      if (complianceConfig) {
-        if (!complianceConfig.cross_border_transfer_allowed) {
-          return 'SAUDI_STRICT';
-        } else if (complianceConfig.data_classification_level === 'highly_confidential') {
-          return 'INTERNATIONAL_SAUDI';
-        } else {
-          return 'GLOBAL_STANDARD';
-        }
+      if (complianceSettings) {
+        return complianceSettings.compliance_level as keyof typeof COMPLIANCE_LEVELS;
       }
 
-      // Default to Saudi strict for companies in Saudi
+      // Default to Saudi strict for companies without specific settings
       return 'SAUDI_STRICT';
     } catch (error) {
       console.log('Using default Saudi strict compliance due to error:', error);

@@ -1215,6 +1215,60 @@ export type Database = {
           },
         ]
       }
+      company_compliance_settings: {
+        Row: {
+          allow_cross_border_transfer: boolean | null
+          allow_external_ai: boolean | null
+          audit_requirements: string | null
+          company_id: string
+          company_type: string
+          compliance_level: string
+          compliance_officer_email: string | null
+          compliance_officer_name: string | null
+          created_at: string
+          data_classification: string | null
+          id: string
+          last_compliance_review: string | null
+          next_compliance_review: string | null
+          regulatory_framework: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          allow_cross_border_transfer?: boolean | null
+          allow_external_ai?: boolean | null
+          audit_requirements?: string | null
+          company_id: string
+          company_type?: string
+          compliance_level?: string
+          compliance_officer_email?: string | null
+          compliance_officer_name?: string | null
+          created_at?: string
+          data_classification?: string | null
+          id?: string
+          last_compliance_review?: string | null
+          next_compliance_review?: string | null
+          regulatory_framework?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          allow_cross_border_transfer?: boolean | null
+          allow_external_ai?: boolean | null
+          audit_requirements?: string | null
+          company_id?: string
+          company_type?: string
+          compliance_level?: string
+          compliance_officer_email?: string | null
+          compliance_officer_name?: string | null
+          created_at?: string
+          data_classification?: string | null
+          id?: string
+          last_compliance_review?: string | null
+          next_compliance_review?: string | null
+          regulatory_framework?: string[] | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       company_intelligence: {
         Row: {
           company_id: string
