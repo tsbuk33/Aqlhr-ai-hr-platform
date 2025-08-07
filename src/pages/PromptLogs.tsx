@@ -10,6 +10,7 @@ import { Download, Eye, Edit, Search, Trash2 } from 'lucide-react';
 import { usePromptLogs, type PromptLogFilters } from '@/hooks/usePromptLogs';
 import { PageSection } from '@/components/layout/PageLayout';
 import { useToast } from '@/hooks/use-toast';
+import { CreatePromptLogDialog } from '@/components/CreatePromptLogDialog';
 
 const statusColors = {
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -118,9 +119,12 @@ const PromptLogs: React.FC = () => {
 
   return (
     <PageSection className="space-y-6" data-testid="prompt-logs-page">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Prompt Logs</h1>
-        <p className="text-muted-foreground">Track and manage AI prompt interactions and implementation status</p>
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">Prompt Logs</h1>
+          <p className="text-muted-foreground">Track and manage AI prompt interactions and implementation status</p>
+        </div>
+        <CreatePromptLogDialog />
       </div>
 
       {/* Status Summary Cards */}
