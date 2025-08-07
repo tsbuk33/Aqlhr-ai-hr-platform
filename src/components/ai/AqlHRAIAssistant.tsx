@@ -609,9 +609,9 @@ I provide comprehensive services in:
         aiResponse = { response: gosiResponse };
         aiError = null;
       } else {
-        // Use the AI core engine with proper context
+        // Use the AI Agent Orchestrator with proper context
         try {
-          const { data, error } = await supabase.functions.invoke('ai-core-engine', {
+          const { data, error } = await supabase.functions.invoke('ai-agent-orchestrator', {
             body: {
               query: inputValue,
               context: {
@@ -623,12 +623,7 @@ I provide comprehensive services in:
                   role: msg.type === 'user' ? 'user' : 'assistant',
                   content: msg.content
                 }))
-              },
-              conversation_history: messages.slice(-5).map(msg => ({
-                role: msg.type === 'user' ? 'user' : 'assistant',
-                content: msg.content
-              })),
-              tools: []
+              }
             }
           });
           
