@@ -38,7 +38,7 @@ class AIAgentOrchestrator {
           'Content-Type': 'application/json',
         },
         formatRequest: (query: string, context: any) => ({
-          model: 'gpt-4o-mini',
+          model: 'gpt-4.1-2025-04-14',
           messages: [
             {
               role: 'system',
