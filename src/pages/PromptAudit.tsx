@@ -212,6 +212,41 @@ export default function PromptAudit() {
     URL.revokeObjectURL(url);
   };
 
+  const exportPromptHistory = async (format: 'json' | 'csv') => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) throw new Error('Not authenticated')
+
+      const response = await supabase.functions.invoke('prompt-history-api', {
+        body: { format },
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      if (response.error) throw response.error
+
+      // Create download link
+      const blob = format === 'csv' 
+        ? new Blob([response.data], { type: 'text/csv' })
+        : new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' })
+      
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `prompt_history.${format}`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+
+      console.log(`Prompt history exported as ${format.toUpperCase()}`)
+    } catch (error) {
+      console.error('Export error:', error)
+      alert(`Failed to export prompt history: ${error.message}`)
+    }
+  }
+
   const completedCount = auditData.filter(item => item.status === 'completed').length;
   const totalCount = auditData.length;
   const completionRate = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;

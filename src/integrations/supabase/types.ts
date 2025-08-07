@@ -5557,6 +5557,7 @@ export type Database = {
           commit_hash: string | null
           company_id: string
           created_at: string
+          git_commit_hash: string | null
           id: string
           implementation_notes: string | null
           priority: string
@@ -5572,6 +5573,7 @@ export type Database = {
           commit_hash?: string | null
           company_id?: string
           created_at?: string
+          git_commit_hash?: string | null
           id?: string
           implementation_notes?: string | null
           priority?: string
@@ -5587,6 +5589,7 @@ export type Database = {
           commit_hash?: string | null
           company_id?: string
           created_at?: string
+          git_commit_hash?: string | null
           id?: string
           implementation_notes?: string | null
           priority?: string
