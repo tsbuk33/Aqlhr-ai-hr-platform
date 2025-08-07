@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, Clock, AlertTriangle, FileText, Download } from 'lucide-react';
+import { CheckCircle, Clock, AlertTriangle, FileText, Download, Check } from 'lucide-react';
 import { PageSection } from '@/components/layout/PageLayout';
 import { usePromptLogs } from '@/hooks/usePromptLogs';
 import { supabase } from '@/integrations/supabase/client';
@@ -212,7 +212,7 @@ export default function PromptAudit() {
     URL.revokeObjectURL(url);
   };
 
-  const exportPromptHistory = async (format: 'json' | 'csv') => {
+const exportPromptHistory = async (format: 'json' | 'csv') => {
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session) throw new Error('Not authenticated')
@@ -247,6 +247,27 @@ export default function PromptAudit() {
     }
   }
 
+  const runPromptEnforcement = async () => {
+    try {
+      console.log('🚀 Running prompt enforcement...')
+      const response = await fetch('/api/enforce-prompts', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+      
+      if (!response.ok) throw new Error('Enforcement failed')
+      
+      const result = await response.text()
+      console.log('✅ Enforcement complete:', result)
+      
+      // Refresh audit data
+      window.location.reload()
+    } catch (error) {
+      console.error('❌ Enforcement error:', error)
+      alert(`Enforcement failed: ${error.message}`)
+    }
+  }
+
   const completedCount = auditData.filter(item => item.status === 'completed').length;
   const totalCount = auditData.length;
   const completionRate = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
@@ -277,6 +298,21 @@ export default function PromptAudit() {
         <div className="flex gap-2">
           <Button onClick={populateDatabase} disabled={isPopulating} variant="outline">
             {isPopulating ? 'Backfilling...' : 'Backfill Conversation History'}
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => exportPromptHistory('csv')}
+            className="flex items-center gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Export CSV
+          </Button>
+          <Button 
+            onClick={runPromptEnforcement}
+            className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Check className="h-4 w-4" />
+            Enforce All Prompts
           </Button>
           <Button onClick={generateReport}>
             <Download className="w-4 h-4 mr-2" />
