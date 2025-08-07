@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Brain, Zap, Bot, TrendingUp, Shield, Users } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const AIPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -78,6 +79,8 @@ const AIPage: React.FC = () => {
           </Card>
         ))}
       </div>
+      
+      <AqlHRAIAssistant moduleContext="ai.platform" />
     </div>
   );
 };

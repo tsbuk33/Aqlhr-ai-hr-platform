@@ -267,8 +267,8 @@ export const ROUTES: RouteConfig[] = [
   // New main pages
   { path: '/ai', element: lazy(() => import('../pages/AIPage')), auth: true },
   { path: '/recruitment', element: lazy(() => import('../pages/RecruitmentPage')), auth: true },
-  { path: '/company', element: lazy(() => import('../pages/CompanyPage')), auth: true },
-  { path: '/settings', element: lazy(() => import('../pages/SettingsPage')), auth: true },
+  { path: '/company', element: lazy(() => import('../pages/Company')), auth: true },
+  { path: '/settings', element: lazy(() => import('../pages/Settings')), auth: true },
   
   // AI Advanced Components Routes - auth required
   { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
