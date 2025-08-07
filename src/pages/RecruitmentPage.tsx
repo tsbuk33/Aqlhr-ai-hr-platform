@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Users, Search, Calendar, FileText, CheckCircle, TrendingUp } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 const RecruitmentPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -110,6 +111,8 @@ const RecruitmentPage: React.FC = () => {
           </Card>
         ))}
       </div>
+      
+      <AqlHRAIAssistant moduleContext="recruitment.management" />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Users, DollarSign, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
+import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
 
 interface Employee {
   id: string;
@@ -435,6 +436,8 @@ const AnalyticsPage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <AqlHRAIAssistant moduleContext="analytics.dashboard" />
     </div>
   );
 };
