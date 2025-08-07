@@ -154,9 +154,7 @@ serve(async (req) => {
       JSON.stringify({ 
         error: 'Internal server error',
         message: error.message,
-        response: context?.language === 'ar' 
-          ? 'حدث خطأ في النظام. يرجى المحاولة مرة أخرى.'
-          : 'A system error occurred. Please try again.'
+        response: 'A system error occurred. Please try again.'
       }),
       { 
         status: 500,
