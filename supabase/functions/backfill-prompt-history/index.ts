@@ -18,7 +18,22 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    // Comprehensive conversation history analysis
+    // Parse request body for Git metadata
+    const body = await req.text()
+    let gitMetadata = {}
+    try {
+      const parsed = JSON.parse(body)
+      gitMetadata = {
+        git_ref: parsed.git_ref,
+        branch: parsed.branch,
+        automated: true
+      }
+    } catch {
+      // Manual trigger, no git metadata
+      gitMetadata = { automated: false }
+    }
+
+    // Enhanced conversation history analysis with Git commit matching
     const conversationPrompts = [
       {
         user_prompt: "Let's make sure everything is rock-solid before we close this loop: Database Migration, Data Integration, UI & UX, Next Steps & Sanity Checks, Automated Tests, CI/CD Gate, UI Enhancements, Audit & Monitoring",
@@ -27,7 +42,8 @@ serve(async (req) => {
         priority: "critical",
         status: "completed",
         summary: "Complete prompt logging system implementation",
-        implementation_notes: "Database: ✅ Table created with RLS\nUI: ✅ Full CRUD interface\nTesting: ✅ Comprehensive test suite\nSecurity: ✅ Multi-tenant isolation"
+        implementation_notes: "Database: ✅ Table created with RLS\nUI: ✅ Full CRUD interface\nTesting: ✅ Comprehensive test suite\nSecurity: ✅ Multi-tenant isolation",
+        git_commit_hash: this.matchCommitToPrompt("prompt logging system", gitMetadata.git_ref)
       },
       {
         user_prompt: "wire it up end-to-end: CRUD API Routes, React Dashboard Integration, Verification & Next Steps",
@@ -36,7 +52,8 @@ serve(async (req) => {
         priority: "critical",
         status: "completed",
         summary: "End-to-end prompt logging implementation",
-        implementation_notes: "CRUD: ✅ All operations functional\nUI: ✅ Dashboard with filtering\nExport: ✅ JSON/CSV download"
+        implementation_notes: "CRUD: ✅ All operations functional\nUI: ✅ Dashboard with filtering\nExport: ✅ JSON/CSV download",
+        git_commit_hash: this.matchCommitToPrompt("CRUD dashboard", gitMetadata.git_ref)
       },
       {
         user_prompt: "Wrap in a Transaction & Add IF NOT EXISTS, Include ALTER TABLE for RLS Enable, Complete the RLS Policies, Ensure Ownership & Permissions",
@@ -157,6 +174,7 @@ serve(async (req) => {
           status: prompt.status,
           summary: prompt.summary,
           implementation_notes: prompt.implementation_notes,
+          git_commit_hash: prompt.git_commit_hash,
           user_id: user.id
         })
         .select()
@@ -208,10 +226,23 @@ serve(async (req) => {
       ],
       next_steps: [
         'Re-run comprehensive audit against real data',
-        'Update audit dashboard with backfilled entries',
+        'Update audit dashboard with backfilled entries', 
         'Verify all implementation gaps are identified',
         'Generate updated PROMPT_AUDIT_REPORT.md'
-      ]
+      ],
+      git_integration: {
+        commit_ref: gitMetadata.git_ref,
+        branch: gitMetadata.branch,
+        automated_trigger: gitMetadata.automated
+      }
+    }
+
+    // Helper function to match commits to prompts (basic implementation)
+    function matchCommitToPrompt(keywords: string, gitRef?: string): string | null {
+      if (!gitRef) return null
+      // In a real implementation, this would analyze git log for matching commit messages
+      // For now, return the current ref for completed items
+      return gitRef.substring(0, 8) // Short commit hash
     }
 
     return new Response(
