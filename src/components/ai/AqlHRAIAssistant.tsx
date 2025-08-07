@@ -87,58 +87,160 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   // Contextual greetings with comprehensive HR expertise for ALL modules
   const contextualGreetings = {
     'executive': {
-      ar: 'مرحباً! أنا مساعدك الذكي في مركز الذكاء التنفيذي عقل HR. يمكنني مساعدتك في اتخاذ القرارات الاستراتيجية، تحليل البيانات التنفيذية، والرؤى الذكية لإدارة الموارد البشرية.',
-      en: 'Hello! I\'m your AI assistant for AqlHR Executive Intelligence Center. I can help you make strategic decisions, analyze executive data, and provide intelligent HR insights.'
+      ar: `🎯 **مرحباً! أنا مساعدك الذكي في مركز الذكاء التنفيذي عقل HR**
+
+يمكنني مساعدتك في:
+• اتخاذ القرارات الاستراتيجية
+• تحليل البيانات التنفيذية  
+• الرؤى الذكية لإدارة الموارد البشرية
+• مراقبة مؤشرات الأداء الرئيسية
+
+**كيف يمكنني مساعدتك اليوم؟**`,
+      en: `🎯 **Hello! I'm your AI assistant for AqlHR Executive Intelligence Center**
+
+I can help you with:
+• Strategic decision making
+• Executive data analysis
+• Intelligent HR insights
+• Key performance indicators monitoring
+
+**How can I help you today?**`
     },
     'employees': {
-      ar: 'مرحباً! أنا مساعدك الذكي في إدارة بيانات الموظفين. يمكنني مساعدتك في التوظيف، إدارة السجلات، التقييم، والامتثال للقوانين السعودية.',
-      en: 'Hello! I\'m your AI assistant for Employee Management. I can help you with recruitment, record management, performance evaluation, and Saudi compliance.'
+      ar: `👥 **مرحباً! أنا مساعدك الذكي في إدارة بيانات الموظفين**
+
+يمكنني مساعدتك في:
+• التوظيف وإدارة السجلات
+• التقييم والأداء
+• الامتثال للقوانين السعودية
+• إدارة بيانات الموظفين
+
+**ما الذي تحتاج مساعدة به؟**`,
+      en: `👥 **Hello! I'm your AI assistant for Employee Management**
+
+I can help you with:
+• Recruitment and record management
+• Performance evaluation
+• Saudi compliance
+• Employee data management
+
+**What do you need help with?**`
     },
     'payroll': {
-      ar: 'أهلاً! أنا مساعدك الذكي المتخصص في الرواتب والشؤون المالية في عقل HR. يمكنني مساعدتك في معالجة الرواتب، حسابات GOSI، نظام حماية الأجور، وجميع الأمور المالية للموظفين.',
-      en: 'Hi! I\'m your AI assistant specialized in Payroll & Financial in AqlHR. I can help you with payroll processing, GOSI calculations, WPS, and all employee financial matters.'
+      ar: `💰 **أهلاً! أنا مساعدك الذكي المتخصص في الرواتب والشؤون المالية**
+
+خبرتي تشمل:
+• معالجة الرواتب وحسابات GOSI
+• نظام حماية الأجور WPS
+• جميع الأمور المالية للموظفين
+• الامتثال المالي والحكومي
+
+**كيف يمكنني مساعدتك؟**`,
+      en: `💰 **Hi! I'm your AI assistant specialized in Payroll & Financial**
+
+My expertise includes:
+• Payroll processing and GOSI calculations
+• Wage Protection System (WPS)
+• All employee financial matters
+• Financial and government compliance
+
+**How can I assist you?**`
     },
     'government': {
-      ar: 'مرحباً! أنا مساعدك الذكي للتكامل الحكومي في عقل HR. يمكنني مساعدتك في منصة قوى، وزارة العمل، التأمينات الاجتماعية، ونطاقات.',
-      en: 'Hello! I\'m your AI assistant for Government Integrations in AqlHR. I can help you with Qiwa platform, MOL, GOSI, and Nitaqat.'
+      ar: `🏛️ **مرحباً! أنا مساعدك الذكي للتكامل الحكومي**
+
+أتخصص في:
+• منصة قوى والخدمات الحكومية
+• وزارة العمل والتأمينات الاجتماعية
+• نظام نطاقات والامتثال
+• الإجراءات الحكومية
+
+**ما الخدمة الحكومية التي تحتاج مساعدة بها؟**`,
+      en: `🏛️ **Hello! I'm your AI assistant for Government Integrations**
+
+I specialize in:
+• Qiwa platform and government services
+• Ministry of Labor and GOSI
+• Nitaqat system and compliance
+• Government procedures
+
+**Which government service do you need help with?**`
     },
     'analytics': {
-      ar: 'مرحباً! أنا مساعدك الذكي للتحليلات والذكاء الاصطناعي في عقل HR. يمكنني مساعدتك في تحليل البيانات، إنشاء التقارير، والرؤى الذكية.',
-      en: 'Hello! I\'m your AI assistant for Analytics & AI Intelligence in AqlHR. I can help you analyze data, generate reports, and provide intelligent insights.'
+      ar: `📊 **مرحباً! أنا مساعدك الذكي للتحليلات والذكاء الاصطناعي**
+
+يمكنني:
+• تحليل البيانات وإنشاء التقارير
+• توليد الرؤى الذكية
+• تحليل الأداء والاتجاهات
+• التنبؤ بالنتائج
+
+**أي تحليل تريد أن نعمل عليه؟**`,
+      en: `📊 **Hello! I'm your AI assistant for Analytics & AI Intelligence**
+
+I can:
+• Analyze data and generate reports
+• Generate intelligent insights
+• Analyze performance and trends
+• Predict outcomes
+
+**What analysis would you like to work on?**`
     },
-    'dashboard.overview': {
-      ar: 'مرحباً! أنا مساعدك الذكي في لوحة التحكم الرئيسية لعقل HR. يمكنني مساعدتك في فهم البيانات، التحليلات، وإدارة النظام بشكل عام.',
-      en: 'Hello! I\'m your AI assistant for the main Dashboard in AqlHR. I can help you understand data, analytics, and general system management.'
-    },
-    'debug.testing': {
-      ar: 'مرحباً! أنا مساعدك الذكي في صفحة الاختبارات والتطوير. يمكنني مساعدتك في فهم النظام، اختبار الميزات، وحل المشاكل التقنية.',
-      en: 'Hello! I\'m your AI assistant for the Debug & Testing page. I can help you understand the system, test features, and solve technical issues.'
-    },
-    'systemEngineer.dashboard': {
-      ar: 'مرحباً! أنا مساعدك الذكي في لوحة مهندس النظام. يمكنني مساعدتك في إدارة النظام، المراقبة، والتحليلات المتقدمة.',
-      en: 'Hello! I\'m your AI assistant for the System Engineer Dashboard. I can help you with system management, monitoring, and advanced analytics.'
-    },
-    'testHarness.validation': {
-      ar: 'مرحباً! أنا مساعدك الذكي في نظام التحقق من صحة البيانات. يمكنني مساعدتك في اختبار النظام، التحقق من البيانات، وضمان الجودة.',
-      en: 'Hello! I\'m your AI assistant for the Test Harness validation system. I can help you with system testing, data validation, and quality assurance.'
+    'health-safety': {
+      ar: `⛑️ **مرحباً! أنا مساعدك الذكي للصحة والسلامة المهنية**
+
+أساعدك في:
+• تحليل مخاطر مكان العمل
+• إنشاء تقارير الحوادث
+• جدولة التدريب الأمني
+• مراجعة معايير السلامة
+
+**كيف يمكنني مساعدتك في تحسين السلامة؟**`,
+      en: `⛑️ **Hello! I'm your AI assistant for Health & Safety**
+
+I help you with:
+• Workplace risk analysis
+• Incident report creation
+• Safety training scheduling
+• Safety standards review
+
+**How can I help you improve safety?**`
     },
     'default': {
-      ar: 'مرحباً! أنا مساعدك الذكي المتخصص في الموارد البشرية في منصة عقل HR. يمكنني مساعدتك في جميع جوانب إدارة الموارد البشرية من التوظيف إلى الامتثال الحكومي.',
-      en: 'Hello! I\'m your specialized HR AI assistant for AqlHR platform. I can help you with all aspects of HR management from recruitment to government compliance.'
+      ar: `🤖 **مرحباً! أنا مساعدك الذكي المتخصص في منصة عقل HR**
+
+أقدم خدمات شاملة في:
+• إدارة الموظفين والتوظيف
+• الرواتب والأمور المالية
+• التكامل الحكومي والامتثال
+• التحليلات والتقارير الذكية
+
+**كيف يمكنني مساعدتك اليوم؟**`,
+      en: `🤖 **Hello! I'm your specialized HR AI assistant for AqlHR platform**
+
+I provide comprehensive services in:
+• Employee management and recruitment
+• Payroll and financial matters
+• Government integration and compliance
+• Analytics and intelligent reporting
+
+**How can I help you today?**`
     }
   };
   
   // Initialize with welcome message based on module context
   useEffect(() => {
-    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
-    const welcomeMessage: ChatMessage = {
-      id: 'welcome-message',
-      type: 'assistant',
-      content: welcomeText[isArabic ? 'ar' : 'en'],
-      timestamp: new Date(),
-      module: moduleContext
-    };
-    setMessages([welcomeMessage]);
+    if (messages.length === 0) {
+      const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
+      const welcomeMessage: ChatMessage = {
+        id: 'welcome-message',
+        type: 'assistant',
+        content: welcomeText[isArabic ? 'ar' : 'en'],
+        timestamp: new Date(),
+        module: moduleContext
+      };
+      setMessages([welcomeMessage]);
+    }
   }, [moduleContext, isArabic]);
 
   // Document-aware AI integration
@@ -285,18 +387,7 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     return suggestions[moduleContext as keyof typeof suggestions] || suggestions.default;
   };
 
-  useEffect(() => {
-    if (messages.length === 0) {
-      const greeting = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings.default;
-      const welcomeMessage: ChatMessage = {
-        id: 'welcome',
-        type: 'assistant',
-        content: greeting[isArabic ? 'ar' : 'en'],
-        timestamp: new Date()
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, [moduleContext, isArabic]);
+  // Remove duplicate useEffect - welcome message is handled above
 
   // Multi-modal content generation functions
   const handleMultiModalGeneration = async (contentType: string, prompt: string) => {
@@ -518,9 +609,9 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
         aiResponse = { response: gosiResponse };
         aiError = null;
       } else {
-        // Use the enhanced AqlHR AI with knowledge base
+        // Use the AI core engine with proper context
         try {
-          const { data, error } = await supabase.functions.invoke('enhanced-aqlhr-ai', {
+          const { data, error } = await supabase.functions.invoke('ai-core-engine', {
             body: {
               query: inputValue,
               context: {
@@ -531,24 +622,13 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
                 conversation_history: messages.slice(-5).map(msg => ({
                   role: msg.type === 'user' ? 'user' : 'assistant',
                   content: msg.content
-                })),
-                expertise_areas: [
-                  'aqlhr_platform_usage',
-                  'employee_registration',
-                  'payroll_processing', 
-                  'government_compliance',
-                  'saudi_labor_law',
-                  'gosi_calculations',
-                  'mol_procedures',
-                  'qiwa_platform',
-                  'nitaqat_system',
-                  'wps_processing',
-                  'end_of_service',
-                  'leave_management',
-                  'performance_management',
-                  'hr_policies'
-                ]
-              }
+                }))
+              },
+              conversation_history: messages.slice(-5).map(msg => ({
+                role: msg.type === 'user' ? 'user' : 'assistant',
+                content: msg.content
+              })),
+              tools: []
             }
           });
           
@@ -897,13 +977,19 @@ export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
               className={`flex ${message.type === 'user' ? (isArabic ? 'justify-start' : 'justify-end') : (isArabic ? 'justify-end' : 'justify-start')}`}
             >
               <div
-                className={`max-w-[80%] p-3 rounded-lg text-sm whitespace-pre-wrap ${
+                className={`max-w-[80%] p-3 rounded-lg text-sm whitespace-pre-wrap leading-relaxed ${
                   message.type === 'user'
                     ? 'bg-brand-primary text-white'
                     : 'bg-muted text-foreground border'
                 }`}
               >
-                {message.content}
+                <div className="space-y-2">
+                  {message.content.split('\n').map((line, idx) => (
+                    <div key={idx} className={line.trim() === '' ? 'h-2' : ''}>
+                      {line || ''}
+                    </div>
+                  ))}
+                </div>
                 {message.confidence && (
                   <div className="text-xs opacity-70 mt-1">
                     {message.confidence}% {isArabic ? 'دقة' : 'accuracy'}
