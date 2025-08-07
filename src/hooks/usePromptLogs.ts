@@ -3,6 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 export interface PromptLog {
   id: string;
+  user_id: string;
+  company_id: string;
   user_prompt: string;
   ai_response: string;
   category: string;
@@ -13,8 +15,6 @@ export interface PromptLog {
   implementation_notes?: string;
   created_at: string;
   updated_at: string;
-  user_id?: string;
-  company_id?: string;
 }
 
 export interface PromptLogFilters {
@@ -23,7 +23,7 @@ export interface PromptLogFilters {
   priority?: string;
 }
 
-export const usePromptLogs = () => {
+export function usePromptLogs() {
   const [logs, setLogs] = useState<PromptLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,108 +31,168 @@ export const usePromptLogs = () => {
   const fetchLogs = async (filters?: PromptLogFilters) => {
     try {
       setLoading(true);
-      // Mock data for now since table doesn't exist yet
-      const mockData: PromptLog[] = [
-        {
-          id: '1',
-          user_prompt: 'Create a dashboard for HR analytics',
-          ai_response: 'I will create a comprehensive HR analytics dashboard...',
-          category: 'feature_request',
-          priority: 'high',
-          status: 'completed',
-          summary: 'HR Analytics Dashboard',
-          commit_hash: 'abc123',
-          implementation_notes: 'Successfully implemented with charts and filters',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        },
-        {
-          id: '2',
-          user_prompt: 'Fix authentication bug in login flow',
-          ai_response: 'Fixed the authentication issue by updating the auth provider...',
-          category: 'bug_fix',
-          priority: 'critical',
-          status: 'completed',
-          summary: 'Authentication Bug Fix',
-          commit_hash: 'def456',
-          implementation_notes: 'Bug resolved, testing completed',
-          created_at: new Date(Date.now() - 86400000).toISOString(),
-          updated_at: new Date(Date.now() - 86400000).toISOString()
-        }
-      ];
+      setError(null);
       
-      let filteredData = mockData;
+      let query = supabase
+        .from('prompt_logs')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      // Apply filters if provided
       if (filters?.status && filters.status !== 'all') {
-        filteredData = filteredData.filter(log => log.status === filters.status);
+        query = query.eq('status', filters.status);
       }
       if (filters?.category && filters.category !== 'all') {
-        filteredData = filteredData.filter(log => log.category === filters.category);
+        query = query.eq('category', filters.category);
       }
       if (filters?.priority && filters.priority !== 'all') {
-        filteredData = filteredData.filter(log => log.priority === filters.priority);
+        query = query.eq('priority', filters.priority);
+      }
+
+      const { data, error: fetchError } = await query;
+
+      if (fetchError) {
+        throw fetchError;
       }
       
-      setLogs(filteredData);
+      setLogs((data as PromptLog[]) || []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch logs');
+      setError('Failed to fetch prompt logs');
+      console.error('Error fetching logs:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const createLog = async (logData: Omit<PromptLog, 'id' | 'created_at' | 'updated_at'>) => {
+  const createLog = async (logData: Omit<PromptLog, 'id' | 'user_id' | 'company_id' | 'created_at' | 'updated_at'>) => {
     try {
-      // Mock creation for now
-      const newLog: PromptLog = {
-        ...logData,
-        id: Math.random().toString(36).substr(2, 9),
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
+      const { data, error: insertError } = await supabase
+        .from('prompt_logs')
+        .insert(logData)
+        .select()
+        .single();
+
+      if (insertError) {
+        throw insertError;
+      }
       
-      setLogs(prev => [newLog, ...prev]);
-      return newLog;
+      setLogs(prev => [data as PromptLog, ...prev]);
+      return { data, error: null };
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create log');
-      throw err;
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create log';
+      return { data: null, error: errorMessage };
     }
   };
 
   const updateLog = async (id: string, updates: Partial<PromptLog>) => {
     try {
-      // Mock update for now
+      // Remove fields that shouldn't be updated directly
+      const { id: _, user_id, company_id, created_at, ...allowedUpdates } = updates;
+
+      const { data, error: updateError } = await supabase
+        .from('prompt_logs')
+        .update(allowedUpdates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (updateError) {
+        throw updateError;
+      }
+      
       setLogs(prev => prev.map(log => 
-        log.id === id 
-          ? { ...log, ...updates, updated_at: new Date().toISOString() }
-          : log
+        log.id === id ? (data as PromptLog) : log
       ));
+      return { error: null };
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update log');
-      throw err;
+      const errorMessage = err instanceof Error ? err.message : 'Failed to update log';
+      return { error: errorMessage };
+    }
+  };
+
+  const deleteLog = async (id: string) => {
+    try {
+      const { error: deleteError } = await supabase
+        .from('prompt_logs')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+      
+      setLogs(prev => prev.filter(log => log.id !== id));
+      return { error: null };
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to delete log';
+      return { error: errorMessage };
     }
   };
 
   const exportLogs = async (format: 'json' | 'csv' = 'json') => {
     try {
-      const { data, error } = await supabase.functions.invoke('prompt-log-export', {
-        body: { format }
-      });
+      // Fetch all logs for export
+      const { data, error: fetchError } = await supabase
+        .from('prompt_logs')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      if (format === 'csv') {
+        // Convert to CSV
+        const headers = ['ID', 'User Prompt', 'AI Response', 'Category', 'Priority', 'Status', 'Summary', 'Commit Hash', 'Implementation Notes', 'Created At', 'Updated At'];
+        const csvRows = [
+          headers.join(','),
+          ...(data || []).map(log => [
+            log.id,
+            `"${log.user_prompt.replace(/"/g, '""')}"`,
+            `"${log.ai_response.replace(/"/g, '""')}"`,
+            log.category,
+            log.priority,
+            log.status,
+            log.summary ? `"${log.summary.replace(/"/g, '""')}"` : '',
+            log.commit_hash || '',
+            log.implementation_notes ? `"${log.implementation_notes.replace(/"/g, '""')}"` : '',
+            log.created_at,
+            log.updated_at
+          ].join(','))
+        ];
+
+        const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `prompt-logs-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } else {
+        // Default to JSON
+        const exportData = {
+          exported_at: new Date().toISOString(),
+          total_logs: (data || []).length,
+          logs: data
+        };
+        
+        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `prompt-logs-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
       
-      const blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: format === 'json' ? 'application/json' : 'text/csv'
-      });
-      
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `prompt-logs-${new Date().toISOString().split('T')[0]}.${format}`;
-      a.click();
-      URL.revokeObjectURL(url);
+      return { error: null };
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to export logs');
-      throw err;
+      const errorMessage = err instanceof Error ? err.message : 'Failed to export logs';
+      return { error: errorMessage };
     }
   };
 
@@ -147,6 +207,7 @@ export const usePromptLogs = () => {
     fetchLogs,
     createLog,
     updateLog,
+    deleteLog,
     exportLogs
   };
-};
+}

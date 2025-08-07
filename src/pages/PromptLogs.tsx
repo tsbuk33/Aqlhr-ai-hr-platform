@@ -6,8 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Download, Eye, Edit, Plus, Search } from 'lucide-react';
-import { usePromptLogs, PromptLogFilters } from '@/hooks/usePromptLogs';
+import { Download, Eye, Edit, Search, Trash2 } from 'lucide-react';
+import { usePromptLogs, type PromptLogFilters } from '@/hooks/usePromptLogs';
 import { PageSection } from '@/components/layout/PageLayout';
 import { useToast } from '@/hooks/use-toast';
 
@@ -26,7 +26,7 @@ const priorityColors = {
 };
 
 const PromptLogs: React.FC = () => {
-  const { logs, loading, fetchLogs, updateLog, exportLogs } = usePromptLogs();
+  const { logs, loading, fetchLogs, updateLog, deleteLog, exportLogs } = usePromptLogs();
   const [filters, setFilters] = useState<PromptLogFilters>({});
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLog, setSelectedLog] = useState<any>(null);
@@ -40,34 +40,52 @@ const PromptLogs: React.FC = () => {
   };
 
   const handleUpdateLog = async (id: string, updates: any) => {
-    try {
-      await updateLog(id, updates);
+    const { error } = await updateLog(id, updates);
+    if (error) {
       toast({
-        title: 'Log Updated',
-        description: 'The prompt log has been successfully updated.',
+        title: "Error",
+        description: error,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: "Log updated successfully",
       });
       setIsEditDialogOpen(false);
-    } catch (error) {
+    }
+  };
+
+  const handleDeleteLog = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this log?')) return;
+    
+    const { error } = await deleteLog(id);
+    if (error) {
       toast({
-        title: 'Update Failed',
-        description: 'Failed to update the log. Please try again.',
-        variant: 'destructive',
+        title: "Error",
+        description: error,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: "Log deleted successfully",
       });
     }
   };
 
-  const handleExport = async () => {
-    try {
-      await exportLogs('json');
+  const handleExport = async (format: 'json' | 'csv') => {
+    const { error } = await exportLogs(format);
+    if (error) {
       toast({
-        title: 'Export Complete',
-        description: 'Logs have been exported successfully.',
+        title: "Error",
+        description: error,
+        variant: "destructive",
       });
-    } catch (error) {
+    } else {
       toast({
-        title: 'Export Failed',
-        description: 'Failed to export logs. Please try again.',
-        variant: 'destructive',
+        title: "Success",
+        description: `Logs exported as ${format.toUpperCase()}`,
       });
     }
   };
@@ -131,10 +149,16 @@ const PromptLogs: React.FC = () => {
         <CardHeader>
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <CardTitle>Filter & Search</CardTitle>
-            <Button onClick={handleExport} variant="outline" size="sm">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => handleExport('json')} variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Export JSON
+              </Button>
+              <Button onClick={() => handleExport('csv')} variant="outline" size="sm">
+                <Download className="w-4 h-4 mr-2" />
+                Export CSV
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -283,6 +307,16 @@ const PromptLogs: React.FC = () => {
                       {selectedLog && <EditLogForm log={selectedLog} onSave={handleUpdateLog} />}
                     </DialogContent>
                   </Dialog>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDeleteLog(log.id)}
+                    className="text-destructive hover:text-destructive"
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Delete
+                  </Button>
                 </div>
               </div>
             </CardContent>
