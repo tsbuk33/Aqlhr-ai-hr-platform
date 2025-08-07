@@ -5550,6 +5550,54 @@ export type Database = {
         }
         Relationships: []
       }
+      prompt_logs: {
+        Row: {
+          ai_response: string
+          category: string
+          commit_hash: string | null
+          company_id: string
+          created_at: string
+          id: string
+          implementation_notes: string | null
+          priority: string
+          status: string
+          summary: string | null
+          updated_at: string
+          user_id: string
+          user_prompt: string
+        }
+        Insert: {
+          ai_response: string
+          category?: string
+          commit_hash?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          implementation_notes?: string | null
+          priority?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string
+          user_prompt: string
+        }
+        Update: {
+          ai_response?: string
+          category?: string
+          commit_hash?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          implementation_notes?: string | null
+          priority?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+          user_id?: string
+          user_prompt?: string
+        }
+        Relationships: []
+      }
       saudi_activities: {
         Row: {
           classification_code: string
