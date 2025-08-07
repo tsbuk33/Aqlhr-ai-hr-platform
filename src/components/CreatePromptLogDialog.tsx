@@ -90,6 +90,7 @@ export function CreatePromptLogDialog() {
               onChange={(e) => setFormData(prev => ({ ...prev, user_prompt: e.target.value }))}
               placeholder="Enter the user prompt..."
               className="min-h-[100px]"
+              data-testid="user-prompt-input"
               required
             />
           </div>
@@ -102,6 +103,7 @@ export function CreatePromptLogDialog() {
               onChange={(e) => setFormData(prev => ({ ...prev, ai_response: e.target.value }))}
               placeholder="Enter the AI response..."
               className="min-h-[100px]"
+              data-testid="ai-response-input"
               required
             />
           </div>
@@ -110,7 +112,7 @@ export function CreatePromptLogDialog() {
             <div className="space-y-2">
               <Label htmlFor="category">Category</Label>
               <Select value={formData.category} onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="category-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -128,7 +130,7 @@ export function CreatePromptLogDialog() {
             <div className="space-y-2">
               <Label htmlFor="priority">Priority</Label>
               <Select value={formData.priority} onValueChange={(value: 'low' | 'medium' | 'high' | 'critical') => setFormData(prev => ({ ...prev, priority: value }))}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="priority-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -176,6 +178,7 @@ export function CreatePromptLogDialog() {
               onChange={(e) => setFormData(prev => ({ ...prev, implementation_notes: e.target.value }))}
               placeholder="Add any implementation notes..."
               className="min-h-[80px]"
+              data-testid="implementation-notes"
             />
           </div>
           

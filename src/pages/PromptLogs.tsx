@@ -117,7 +117,7 @@ const PromptLogs: React.FC = () => {
   }
 
   return (
-    <PageSection className="space-y-6">
+    <PageSection className="space-y-6" data-testid="prompt-logs-page">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight">Prompt Logs</h1>
         <p className="text-muted-foreground">Track and manage AI prompt interactions and implementation status</p>
@@ -210,6 +210,7 @@ const PromptLogs: React.FC = () => {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-8"
+                data-testid="search-input"
               />
             </div>
           </div>
@@ -219,7 +220,7 @@ const PromptLogs: React.FC = () => {
       {/* Logs List */}
       <div className="space-y-4">
         {filteredLogs.map((log) => (
-          <Card key={log.id} className="hover:shadow-sm transition-shadow">
+          <Card key={log.id} className="hover:shadow-sm transition-shadow" data-testid="log-item">
             <CardContent className="p-6">
               <div className="flex flex-col lg:flex-row gap-4">
                 <div className="flex-1 space-y-3">
