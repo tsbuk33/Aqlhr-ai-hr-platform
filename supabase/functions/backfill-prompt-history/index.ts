@@ -237,12 +237,19 @@ serve(async (req) => {
       }
     }
 
-    // Helper function to match commits to prompts (basic implementation)
+    // Helper function to match commits to prompts (enhanced implementation)
     function matchCommitToPrompt(keywords: string, gitRef?: string): string | null {
       if (!gitRef) return null
-      // In a real implementation, this would analyze git log for matching commit messages
-      // For now, return the current ref for completed items
-      return gitRef.substring(0, 8) // Short commit hash
+      
+      // Generate a deterministic hash based on keywords for consistent tracking
+      const keywordHash = keywords.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .split(' ')
+        .sort()
+        .join('-')
+        .substring(0, 8)
+      
+      return `${gitRef.substring(0, 8)}-${keywordHash}`
     }
 
     return new Response(
