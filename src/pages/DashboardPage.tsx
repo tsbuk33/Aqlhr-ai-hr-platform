@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle } from 'lucide-react';
 import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AIToolsTester } from '@/components/ai/AIToolsTester';
 
 const stats = [
   {
@@ -160,6 +161,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Tools Testing Suite - for development/testing purposes */}
+      <AIToolsTester moduleContext="dashboard.overview" />
 
       {/* AI Assistant */}
       <AqlHRAIAssistant moduleContext="dashboard.overview" />

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Users, DollarSign, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
 import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AIToolsTester } from '@/components/ai/AIToolsTester';
 
 interface Employee {
   id: string;
@@ -436,6 +437,9 @@ const AnalyticsPage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* AI Tools Testing Suite */}
+      <AIToolsTester moduleContext="analytics.dashboard" />
       
       <AqlHRAIAssistant moduleContext="analytics.dashboard" />
     </div>
