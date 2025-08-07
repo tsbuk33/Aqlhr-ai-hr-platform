@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // Core modules
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const PromptLogs = lazy(() => import('../pages/PromptLogs'));
+const PromptAudit = lazy(() => import('../pages/PromptAudit'));
 const EmployeesPage = lazy(() => import('../pages/EmployeesPage'));
 const AnalyticsPage = lazy(() => import('../pages/AnalyticsPage'));
 const About = lazy(() => import('../pages/About'));
@@ -255,6 +256,7 @@ export const ROUTES: RouteConfig[] = [
   // Core routes - no auth required
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
   { path: '/prompt-logs', element: PromptLogs, auth: true },
+  { path: '/prompt-audit', element: PromptAudit, auth: true },
   { path: '/', element: DashboardPage, auth: true },
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/analytics', element: AnalyticsPage, auth: true },
