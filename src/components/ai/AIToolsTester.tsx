@@ -39,7 +39,7 @@ interface AIToolsTesterProps {
   className?: string;
 }
 
-export const AIToolsTester: React.FC<AIToolsTesterProps> = ({ 
+const AIToolsTester: React.FC<AIToolsTesterProps> = ({ 
   moduleContext,
   className = ''
 }) => {
@@ -391,3 +391,5 @@ export const AIToolsTester: React.FC<AIToolsTesterProps> = ({
     </Card>
   );
 };
+
+export { AIToolsTester };
