@@ -14,7 +14,7 @@ const SmartRecommendations = () => {
     ar: {
       smart_recommendations: "التوصيات الذكية",
       smart_recommendations_desc: "منصة ذكية مدعومة بالذكاء الاصطناعي لاكتشاف المواهب وتطويرها وإدارتها بفعالية",
-      how_sanadhr_creates: "كيف يخلق سند للموارد البشرية التوصيات",
+      how_sanadhr_creates: "كيف ينشئ عقل للموارد البشرية التوصيات",
       advanced_ml_desc: "خوارزميات التعلم الآلي المتقدمة لديها تحليل شامل للبيانات وتوليد توصيات مخصصة",
       data_collection: "جمع البيانات",
       data_collection_desc: "تحليل البيانات الشاملة من مصادر متعددة",
@@ -30,7 +30,7 @@ const SmartRecommendations = () => {
     en: {
       smart_recommendations: "Smart Recommendations",
       smart_recommendations_desc: "AI-powered intelligent platform for effective talent discovery, development and management",
-      how_sanadhr_creates: "How SanadHR Creates Recommendations",
+      how_sanadhr_creates: "How AqlHR Creates Recommendations",
       advanced_ml_desc: "Advanced machine learning algorithms provide comprehensive data analysis and generate personalized recommendations",
       data_collection: "Data Collection",
       data_collection_desc: "Comprehensive data analysis from multiple sources",
