@@ -276,6 +276,7 @@ export const ROUTES: RouteConfig[] = [
   
   // AI Advanced Components Routes - auth required
   { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
+  { path: '/ai-automation/workflow-automation', element: AutomationWorkflowEngine, auth: true },
   { path: '/cross-module-intelligence', element: CrossModuleIntelligence, auth: true },
   { path: '/mobile-ai-assistant', element: MobileAIAssistant, auth: true },
   { path: '/government-ai-integration', element: GovernmentAIIntegration, auth: true },
