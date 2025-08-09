@@ -57,11 +57,11 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       description: 'AI-powered professional image creation with charts and graphics',
       descriptionAr: 'إنشاء صور احترافية بالذكاء الاصطناعي مع المخططات والرسوم البيانية',
       testFunction: async () => {
-        const { data, error } = await supabase.functions.invoke('local-image-generator', {
+        const { data, error } = await supabase.functions.invoke('replicate-image-generator', {
           body: {
             prompt: 'Professional HR dashboard with charts',
             style: 'professional',
-            format: 'png',
+            format: 'webp',
             size: '1024x1024'
           }
         });
@@ -172,8 +172,11 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       description: 'Saudi social insurance calculations and compliance',
       descriptionAr: 'حسابات التأمينات الاجتماعية السعودية والامتثال',
       testFunction: async () => {
-        const { data, error } = await supabase.functions.invoke('gosi-engine/preview', {
-          body: { company_id: 'a5829c01-7f0d-4583-b4b6-9a7a8baddbb2' }
+        const { data, error } = await supabase.functions.invoke('gosi-engine', {
+          body: { 
+            action: 'preview',
+            company_id: 'a5829c01-7f0d-4583-b4b6-9a7a8baddbb2' 
+          }
         });
         return !error && data;
       },
