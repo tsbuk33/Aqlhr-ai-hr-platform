@@ -1198,3 +1198,4 @@ I provide comprehensive services in:
 };
 
 export default AqlHRAIAssistant;
+export { AqlHRAIAssistant };

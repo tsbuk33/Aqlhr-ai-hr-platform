@@ -1,7 +1,7 @@
 import React from 'react';
 import { PartnerLogo } from '@/components/PartnerLogo';
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const About = () => {

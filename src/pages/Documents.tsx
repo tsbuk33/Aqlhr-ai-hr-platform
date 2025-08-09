@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { FileText, Shield, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
 
 const Documents = () => {
   const { language } = useLanguage();

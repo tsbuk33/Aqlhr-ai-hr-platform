@@ -9,7 +9,7 @@ import { useAIRecommendations } from "@/hooks/useAIRecommendations";
 import EduBox from "@/components/EduBox";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { ModuleAIChat, ModuleDocumentUploader } from '@/components/universal';
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
 
 const AIFeatures = () => {
   const { language } = useLanguage();

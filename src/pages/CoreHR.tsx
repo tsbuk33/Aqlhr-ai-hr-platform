@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, 
