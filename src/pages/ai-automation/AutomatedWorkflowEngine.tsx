@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, Bot, CheckCircle, Clock, AlertTriangle, Zap, Users, FileText, Settings, TrendingUp, Brain, Activity, Workflow, Play, Pause, BarChart3, Target, Gauge } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 // Embedded translations

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";

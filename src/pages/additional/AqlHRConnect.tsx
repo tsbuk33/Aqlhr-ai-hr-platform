@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const AqlHRConnect = () => {
   const { t } = useAPITranslations();

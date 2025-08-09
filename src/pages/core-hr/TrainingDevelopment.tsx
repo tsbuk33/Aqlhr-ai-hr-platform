@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload, BookOpen, Trophy, Users, Target } from "lucide-react";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const TrainingDevelopment = () => {
   const { isRTL, language } = useLanguage();

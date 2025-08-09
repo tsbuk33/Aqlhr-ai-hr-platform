@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle } from 'lucide-react';
-import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 
 const stats = [

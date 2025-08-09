@@ -18,7 +18,7 @@ import {
   ArrowRight, Plus, FileText, Download, Upload, Calculator,
   Eye, Edit, Trash2, Clock3, Coffee, Plane, Hospital, Building
 } from 'lucide-react';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 
 interface Employee {

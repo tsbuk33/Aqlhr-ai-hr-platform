@@ -1,5 +1,5 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 // Executive Intelligence Center - CENTERED
 const ExecutiveIntelligenceCenter = () => {

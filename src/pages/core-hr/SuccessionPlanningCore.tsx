@@ -9,7 +9,7 @@ import { Upload, User, Star, TrendingUp, AlertCircle, Calendar, Camera } from "l
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const SuccessionPlanningCore = () => {
   const { language } = useLanguage();

@@ -6,7 +6,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Brain, Target, BarChart3, Trophy, Lightbulb, ArrowRight, Star, Users, Building, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const Consulting = () => {

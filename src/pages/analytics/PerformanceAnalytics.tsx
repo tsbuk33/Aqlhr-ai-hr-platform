@@ -7,7 +7,7 @@ import { useToast } from "@/hooks/use-toast";
 import { TrendingUp, Target, Users, BarChart3, Clock, Award, FileText, Download, Filter, RefreshCw } from "lucide-react";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import EnhancedModuleAIChat from '@/components/universal/EnhancedModuleAIChat';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const PerformanceAnalytics = () => {
   const { isRTL, language } = useLanguage();

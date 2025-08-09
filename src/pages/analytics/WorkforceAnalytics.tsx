@@ -26,7 +26,7 @@ import HowToUsePanel from '@/components/universal/HowToUsePanel';
 import ModuleDiagnosticPanel from '@/components/universal/ModuleDiagnosticPanel';
 import ModuleAIChat from '@/components/universal/ModuleAIChat';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const WorkforceAnalytics = () => {
   const { language } = useLanguage();

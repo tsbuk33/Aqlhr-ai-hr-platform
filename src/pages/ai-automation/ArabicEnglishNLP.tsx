@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Languages, MessageSquare, Brain, Target, BarChart3, Globe, Zap, CheckCircle, ArrowRightLeft, Eye, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const ArabicEnglishNLP = () => {

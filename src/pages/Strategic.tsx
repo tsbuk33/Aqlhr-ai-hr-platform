@@ -16,7 +16,7 @@ import {
   Briefcase,
   Globe
 } from "lucide-react";
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const Strategic = () => {
   const { t, language } = useLanguage();

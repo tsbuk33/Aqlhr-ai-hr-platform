@@ -6,7 +6,7 @@ import { Heart, TrendingUp, MessageSquare, Users, Brain, BarChart3 } from "lucid
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const SentimentAnalyzer = () => {
   const { t } = useLanguage();

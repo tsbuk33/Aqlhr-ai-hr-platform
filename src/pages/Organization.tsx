@@ -7,7 +7,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { supabase } from "@/integrations/supabase/client";
 import { Building2, GitBranch, Layers, Network, Pyramid, Users, Upload, FileText, CheckCircle2, HelpCircle, Sparkles, Brain, TrendingUp } from "lucide-react";
 import { useState } from "react";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 
 const Organization = () => {

@@ -6,7 +6,7 @@ import { MessageCircle, Users, Clock, TrendingUp, Bot, CheckCircle } from "lucid
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const OnboardingAssistant = () => {
   const { t } = useLanguage();

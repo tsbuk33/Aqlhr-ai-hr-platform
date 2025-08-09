@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Upload, TrendingUp, Target, Users } from "lucide-react";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const PerformanceManagement = () => {
   const { isRTL, language } = useLanguage();

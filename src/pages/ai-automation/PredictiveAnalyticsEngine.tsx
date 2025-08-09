@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Brain, TrendingUp, AlertTriangle, Star, BarChart3, Target, Users, Activity } from "lucide-react";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const PredictiveAnalyticsEngine = () => {
   const { language } = useLanguage();

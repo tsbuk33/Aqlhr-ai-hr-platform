@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import TestHarness from '@/components/TestHarness';
 import AISystemValidator from '@/components/AISystemValidator';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const TestHarnessPage = () => {

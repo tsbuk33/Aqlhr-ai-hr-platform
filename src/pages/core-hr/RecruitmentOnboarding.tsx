@@ -30,7 +30,7 @@ import {
 } from "lucide-react";
 import { JobOfferManagement } from "@/components/job-offer/JobOfferManagement";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const RecruitmentOnboarding = () => {
   const { language } = useLanguage();

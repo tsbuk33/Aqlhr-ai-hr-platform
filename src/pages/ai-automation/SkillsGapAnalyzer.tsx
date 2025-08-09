@@ -6,7 +6,7 @@ import { Target, BookOpen, TrendingUp, Users, Brain, AlertTriangle } from "lucid
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const SkillsGapAnalyzer = () => {
   const { t } = useLanguage();

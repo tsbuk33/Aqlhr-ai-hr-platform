@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AIRecommendationCenter from "@/components/ai/AIRecommendationCenter";

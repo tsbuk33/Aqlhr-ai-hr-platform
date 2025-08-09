@@ -47,7 +47,7 @@ import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
 import { useState } from "react";
 import { useAIDashboard } from "@/hooks/useAIDashboard";
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const Index = () => {
   const { isArabic } = useSimpleLanguage();

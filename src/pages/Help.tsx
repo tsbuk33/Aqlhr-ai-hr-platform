@@ -43,7 +43,7 @@ import {
 } from 'lucide-react';
 
 import { PageLayout, PageSection, PageCard } from '@/components/layout/PageLayout';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const Help = () => {

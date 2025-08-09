@@ -18,7 +18,7 @@ import {
   Share2
 } from 'lucide-react';
 import ToolIntegrationManager from '@/components/tools/ToolIntegrationManager';
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const Tools = () => {
   const { t, isRTL } = useLanguage();

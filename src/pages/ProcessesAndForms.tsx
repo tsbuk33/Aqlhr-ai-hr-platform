@@ -42,7 +42,7 @@ import {
 } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 // Module discovery configuration for all 14 core modules
 const HR_MODULES = [

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Settings2, User, Shield, Bell, Globe, Database, Palette, Key } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const Settings: React.FC = () => {
   const { isArabic } = useSimpleLanguage();

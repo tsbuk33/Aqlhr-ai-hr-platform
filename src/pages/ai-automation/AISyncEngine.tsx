@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight, RefreshCw, Database, Zap, CheckCircle, Clock, Network, Activity, Shield } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const AISyncEngine = () => {
   const { language, isRTL } = useLanguage();

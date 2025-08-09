@@ -34,7 +34,7 @@ import { AIDecisionEngine } from '@/components/ai-ecosystem/AIDecisionEngine';
 import { LearningEngine } from '@/components/ai-ecosystem/LearningEngine';
 import { IntelligenceGatherer } from '@/components/ai-ecosystem/IntelligenceGatherer';
 import { AdvancedPredictiveAnalytics } from '@/components/executive/AdvancedPredictiveAnalytics';
-import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import useAqlHRLocalization from '@/hooks/useAqlHRLocalization';
 
 const ExecutiveCenter: React.FC = () => {

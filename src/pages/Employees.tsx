@@ -6,7 +6,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const Employees = () => {
   const { language } = useLanguage();

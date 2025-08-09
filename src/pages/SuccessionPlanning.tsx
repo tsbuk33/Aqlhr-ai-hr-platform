@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { 
   Users, 
   TrendingUp, 

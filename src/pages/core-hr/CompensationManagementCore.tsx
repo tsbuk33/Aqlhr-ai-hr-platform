@@ -11,7 +11,7 @@ import { SalarySearchEngine } from "@/components/salary/SalarySearchEngine";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { useToast } from "@/hooks/use-toast";
 import { Upload } from "lucide-react";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const CompensationManagementCore = () => {
   const { language } = useLanguage();

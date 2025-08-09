@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SkillMatrixDashboard } from '@/components/skills/SkillMatrixDashboard';
 import { JobAnalysisWorkspace } from '@/components/skills/JobAnalysisWorkspace';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
 import { 

@@ -10,7 +10,7 @@ import ModuleTooltip from '@/components/universal/ModuleTooltip';
 import HowToUsePanel from '@/components/universal/HowToUsePanel';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import ModuleAIChat from '@/components/universal/ModuleAIChat';
-import AqlHRAIAssistant from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDiagnosticPanel from '@/components/universal/ModuleDiagnosticPanel';
 import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 import CenteredLayout from '@/components/layout/CenteredLayout';

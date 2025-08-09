@@ -34,7 +34,7 @@ import {
   Send,
   Eye
 } from "lucide-react";
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const SelfService = () => {
   const { t, language, isRTL } = useLanguage();

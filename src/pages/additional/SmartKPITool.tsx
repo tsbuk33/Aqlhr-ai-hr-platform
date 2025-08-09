@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { KPIOverviewCard } from "@/components/smart-kpi/KPIOverviewCard";

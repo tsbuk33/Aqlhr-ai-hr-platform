@@ -5,7 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { Shield, AlertTriangle, TrendingDown, CheckCircle, Brain, Activity } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import EduBox from "@/components/EduBox";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const CompliancePredictor = () => {

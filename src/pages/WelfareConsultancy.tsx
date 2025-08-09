@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Brain, Heart, Shield, TrendingUp, Users, Award, Zap, Target } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const WelfareConsultancy = () => {
   const { isArabic } = useSimpleLanguage();

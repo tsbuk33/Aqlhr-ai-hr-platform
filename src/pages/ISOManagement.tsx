@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocalization } from '@/hooks/useLocalization';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

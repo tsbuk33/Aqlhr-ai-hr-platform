@@ -85,7 +85,7 @@ import {
   Copy,
   Scissors
 } from 'lucide-react';
-import { AqlHRAIAssistant } from "@/components/ai/AqlHRAIAssistant";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const LegalConsultant: React.FC = () => {
   const { isArabic } = useSimpleLanguage();

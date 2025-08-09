@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleTooltip from '@/components/universal/ModuleTooltip';
 import HowToUsePanel from '@/components/universal/HowToUsePanel';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';

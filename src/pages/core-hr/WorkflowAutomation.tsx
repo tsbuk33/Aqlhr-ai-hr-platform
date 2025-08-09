@@ -5,7 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Upload } from "lucide-react";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const WorkflowAutomation = () => {
   const { t } = useLanguage();

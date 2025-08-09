@@ -4,7 +4,7 @@ import { EnhancedFileUpload } from "@/components/enhanced/EnhancedFileUpload";
 import { FileText, Zap, Clock, Globe, Upload, BarChart3, CheckCircle, Eye, Brain } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const DocumentIntelligence = () => {
