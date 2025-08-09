@@ -57,14 +57,15 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       description: 'AI-powered professional image creation with charts and graphics',
       descriptionAr: 'إنشاء صور احترافية بالذكاء الاصطناعي مع المخططات والرسوم البيانية',
       testFunction: async () => {
-        const { data, error } = await supabase.functions.invoke('manus-image-generator', {
+        const { data, error } = await supabase.functions.invoke('local-image-generator', {
           body: {
             prompt: 'Professional HR dashboard with charts',
-            language: isArabic ? 'ar' : 'en',
-            style: 'professional'
+            style: 'professional',
+            format: 'png',
+            size: '1024x1024'
           }
         });
-        return !error && data;
+        return !error && data?.success;
       },
       status: 'pending'
     },
@@ -172,7 +173,7 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       descriptionAr: 'حسابات التأمينات الاجتماعية السعودية والامتثال',
       testFunction: async () => {
         const { data, error } = await supabase.functions.invoke('gosi-engine/preview', {
-          body: { company_id: 'demo-company' }
+          body: { company_id: 'a5829c01-7f0d-4583-b4b6-9a7a8baddbb2' }
         });
         return !error && data;
       },
