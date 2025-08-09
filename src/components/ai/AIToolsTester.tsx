@@ -57,11 +57,11 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       description: 'AI-powered professional image creation with charts and graphics',
       descriptionAr: 'إنشاء صور احترافية بالذكاء الاصطناعي مع المخططات والرسوم البيانية',
       testFunction: async () => {
-        const { data, error } = await supabase.functions.invoke('replicate-image-generator', {
+        const { data, error } = await supabase.functions.invoke('local-image-generator', {
           body: {
             prompt: 'Professional HR dashboard with charts',
             style: 'professional',
-            format: 'webp',
+            format: 'png',
             size: '1024x1024'
           }
         });
