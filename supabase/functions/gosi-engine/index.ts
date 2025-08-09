@@ -126,7 +126,19 @@ async function calculateGOSIContribution(req: Request, supabase: any) {
 }
 
 async function previewGOSICalculation(req: Request, supabase: any) {
-  const { company_id } = await req.json();
+  const requestBody = await req.json();
+  const company_id = requestBody.company_id;
+  
+  // Validate company_id is a valid UUID
+  if (!company_id || typeof company_id !== 'string') {
+    throw new Error('Valid company_id is required');
+  }
+  
+  // Validate UUID format
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(company_id)) {
+    throw new Error('company_id must be a valid UUID format');
+  }
 
   // Get all employees with their GOSI configurations
   const { data: employees, error: empError } = await supabase

@@ -29,11 +29,10 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-image-1',
+        model: 'dall-e-3',
         prompt: enhancedPrompt,
-        size: size,
-        quality: 'high',
-        output_format: format,
+        size: size === '1024x1024' ? '1024x1024' : '1024x1024',
+        quality: 'hd',
         style: style === 'corporate' ? 'natural' : 'vivid',
         n: 1
       }),
@@ -48,7 +47,7 @@ serve(async (req) => {
     
     return new Response(JSON.stringify({
       success: true,
-      image: data.data[0].b64_json ? `data:image/${format};base64,${data.data[0].b64_json}` : data.data[0].url,
+      image: data.data[0].url,
       prompt: enhancedPrompt,
       timestamp: new Date().toISOString()
     }), {
