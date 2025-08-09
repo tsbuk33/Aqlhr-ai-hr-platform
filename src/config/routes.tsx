@@ -247,7 +247,7 @@ const TestPage = lazy(() => import('../pages/TestHarness'));
 
 export interface RouteConfig {
   path: string;
-  element: React.LazyExoticComponent<React.ComponentType<any>>;
+  element: React.LazyExoticComponent<React.ComponentType<any>> | React.ComponentType<any>;
   auth?: boolean;
   adminOnly?: boolean;
 }
@@ -270,6 +270,7 @@ export const ROUTES: RouteConfig[] = [
   
   // New main pages
   { path: '/ai', element: lazy(() => import('../pages/AIPage')), auth: true },
+  { path: '/chat', element: lazy(() => import('../pages/ChatPage')), auth: true },
   { path: '/recruitment', element: lazy(() => import('../pages/RecruitmentPage')), auth: true },
   { path: '/company', element: lazy(() => import('../pages/Company')), auth: true },
   { path: '/settings', element: lazy(() => import('../pages/Settings')), auth: true },
