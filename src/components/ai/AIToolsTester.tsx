@@ -57,15 +57,27 @@ const AIToolsTester: React.FC<AIToolsTesterProps> = ({
       description: 'AI-powered professional image creation with charts and graphics',
       descriptionAr: 'إنشاء صور احترافية بالذكاء الاصطناعي مع المخططات والرسوم البيانية',
       testFunction: async () => {
-        const { data, error } = await supabase.functions.invoke('local-image-generator', {
-          body: {
-            prompt: 'Professional HR dashboard with charts',
-            style: 'professional',
-            format: 'png',
-            size: '1024x1024'
+        try {
+          const { data, error } = await supabase.functions.invoke('local-image-generator', {
+            body: {
+              prompt: 'Professional HR dashboard with charts',
+              style: 'professional',
+              format: 'png',
+              size: '1024x1024'
+            }
+          });
+          
+          if (error) {
+            console.error('Image generation error:', error);
+            return false;
           }
-        });
-        return !error && data?.success;
+          
+          // The function should always return success:true due to fallbacks
+          return data && data.success === true;
+        } catch (err) {
+          console.error('Test function error:', err);
+          return false;
+        }
       },
       status: 'pending'
     },
