@@ -53,7 +53,7 @@ interface ChatMessage {
   confidence?: number;
 }
 
-export const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({ 
+const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({ 
   moduleContext = 'default',
   companyId,
   position = 'fixed',

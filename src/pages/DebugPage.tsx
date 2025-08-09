@@ -2,7 +2,7 @@ import React from 'react';
 import ObservabilityDashboard from '@/components/analytics/ObservabilityDashboard';
 import FeedbackWidget from '@/components/feedback/FeedbackWidget';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
 
 const DebugPage: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import SystemEngineerDashboard from '@/components/SystemEngineerDashboard';
-import { AqlHRAIAssistant } from '@/components/ai/AqlHRAIAssistant';
+import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
 
 const SystemEngineerPage = () => {
   useEffect(() => {
