@@ -24,18 +24,10 @@ export const AppRoutes: React.FC = () => {
         const Component = route.element;
         const element = route.auth ? (
           <RequireAuth adminOnly={route.adminOnly}>
-            <React.Suspense fallback={<div className="flex items-center justify-center min-h-screen">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-            </div>}>
-              <Component />
-            </React.Suspense>
+            <Component />
           </RequireAuth>
         ) : (
-          <React.Suspense fallback={<div className="flex items-center justify-center min-h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-          </div>}>
-            <Component />
-          </React.Suspense>
+          <Component />
         );
 
         return (
