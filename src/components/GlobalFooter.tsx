@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { PartnerLogo } from './PartnerLogo';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
@@ -35,10 +36,10 @@ export const GlobalFooter: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-sidebar-foreground mb-4 font-saudi-heading">{isArabic ? 'روابط سريعة' : 'Quick Links'}</h4>
             <ul className="space-y-2 text-sm text-sidebar-foreground/80">
-              <li><a href="/core-hr" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</a></li>
-              <li><a href="/payroll" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الرواتب' : 'Payroll'}</a></li>
-              <li><a href="/ai-automation" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الأتمتة بالذكاء الاصطناعي' : 'AI Automation'}</a></li>
-              <li><a href="/government" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'التكاملات الحكومية' : 'Government'}</a></li>
+              <li><Link to="/employees" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</Link></li>
+              <li><Link to="/payroll" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الرواتب' : 'Payroll'}</Link></li>
+              <li><Link to="/ai" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الأتمتة بالذكاء الاصطناعي' : 'AI Automation'}</Link></li>
+              <li><Link to="/company" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'التكاملات الحكومية' : 'Government'}</Link></li>
             </ul>
           </div>
           

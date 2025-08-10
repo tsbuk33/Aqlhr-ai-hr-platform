@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
@@ -36,6 +37,7 @@ import {
 } from "lucide-react";
 
 const Analytics = () => {
+  const navigate = useNavigate();
   const { language } = useLanguage();
   const { t } = useAPITranslations();
   const isArabic = language === 'ar';
@@ -78,7 +80,7 @@ const Analytics = () => {
       description: language === 'ar' ? 'رؤى استراتيجية متقدمة وتحليلات للقيادة' : 'Advanced strategic insights and analytics for leadership',
       icon: Target,
       color: "bg-gradient-to-r from-yellow-500 to-amber-500",
-      onClick: () => window.location.href = '/executive-center'
+      onClick: () => navigate('/executive-center')
     },
     {
       title: language === 'ar' ? 'تحليل السعودة' : 'Saudization Analytics',
