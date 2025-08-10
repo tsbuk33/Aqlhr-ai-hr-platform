@@ -237,23 +237,28 @@ const AnalyticsPage: React.FC = () => {
                 <CardDescription>Employee count by department</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={350}>
                   <PieChart>
                     <Pie
                       data={analytics.departmentChart}
                       cx="50%"
                       cy="50%"
-                      labelLine={false}
-                      label={({ name, percentage }) => `${name} (${percentage}%)`}
-                      outerRadius={80}
+                      labelLine={true}
+                      label={({ name, percentage }) => `${name}: ${percentage}%`}
+                      outerRadius={90}
+                      innerRadius={30}
                       fill="#8884d8"
                       dataKey="value"
+                      fontSize={12}
                     >
                       {analytics.departmentChart.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip 
+                      formatter={(value, name) => [value, 'Employees']}
+                      labelFormatter={(label) => `Department: ${label}`}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </CardContent>
