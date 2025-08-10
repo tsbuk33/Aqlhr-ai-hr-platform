@@ -242,22 +242,24 @@ const AnalyticsPage: React.FC = () => {
                     <Pie
                       data={analytics.departmentChart}
                       cx="50%"
-                      cy="50%"
-                      labelLine={true}
-                      label={({ name, percentage }) => `${name}: ${percentage}%`}
-                      outerRadius={90}
-                      innerRadius={30}
+                      cy="45%"
+                      outerRadius={100}
+                      innerRadius={40}
                       fill="#8884d8"
                       dataKey="value"
-                      fontSize={12}
                     >
                       {analytics.departmentChart.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
                     <Tooltip 
-                      formatter={(value, name) => [value, 'Employees']}
-                      labelFormatter={(label) => `Department: ${label}`}
+                      formatter={(value, name) => [`${value} employees (${((value as number / analytics.overview.totalEmployees) * 100).toFixed(1)}%)`, 'Count']}
+                      labelFormatter={(label) => `${label} Department`}
+                    />
+                    <Legend 
+                      verticalAlign="bottom" 
+                      height={36}
+                      formatter={(value, entry) => `${value} (${((entry.payload.value / analytics.overview.totalEmployees) * 100).toFixed(1)}%)`}
                     />
                   </PieChart>
                 </ResponsiveContainer>
