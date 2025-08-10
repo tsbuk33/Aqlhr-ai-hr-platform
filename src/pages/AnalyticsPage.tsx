@@ -134,7 +134,7 @@ const AnalyticsPage: React.FC = () => {
     }).format(amount);
   };
 
-  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'];
+  const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#14b8a6'];
 
   if (isLoading) {
     return (
@@ -237,31 +237,29 @@ const AnalyticsPage: React.FC = () => {
                 <CardDescription>Employee count by department</CardDescription>
               </CardHeader>
               <CardContent>
-                <ResponsiveContainer width="100%" height={350}>
-                  <PieChart>
-                    <Pie
-                      data={analytics.departmentChart}
-                      cx="50%"
-                      cy="45%"
-                      outerRadius={100}
-                      innerRadius={40}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart 
+                    data={analytics.departmentChart} 
+                    layout="horizontal"
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" />
+                    <YAxis 
+                      type="category" 
+                      dataKey="name" 
+                      width={100}
+                      tick={{ fontSize: 12 }}
+                    />
+                    <Tooltip 
+                      formatter={(value, name) => [`${value} employees (${((value as number / analytics.overview.totalEmployees) * 100).toFixed(1)}%)`, 'Count']}
+                    />
+                    <Bar dataKey="value">
                       {analytics.departmentChart.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
-                    </Pie>
-                    <Tooltip 
-                      formatter={(value, name) => [`${value} employees (${((value as number / analytics.overview.totalEmployees) * 100).toFixed(1)}%)`, 'Count']}
-                      labelFormatter={(label) => `${label} Department`}
-                    />
-                    <Legend 
-                      verticalAlign="bottom" 
-                      height={36}
-                      formatter={(value, entry) => `${value} (${((entry.payload.value / analytics.overview.totalEmployees) * 100).toFixed(1)}%)`}
-                    />
-                  </PieChart>
+                    </Bar>
+                  </BarChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
