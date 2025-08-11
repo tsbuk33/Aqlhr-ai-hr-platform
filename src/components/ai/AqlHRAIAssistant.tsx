@@ -31,6 +31,7 @@ import {
   Paperclip
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
 import { DocumentUploadWidget } from '@/components/DocumentUploadWidget';
@@ -61,6 +62,28 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
 }) => {
   const { isArabic } = useSimpleLanguage();
   const { toast } = useToast();
+  const location = useLocation();
+  
+  // Auto-detect module context from current route
+  const getModuleFromRoute = (pathname: string): string => {
+    if (pathname.includes('/employees')) return 'employees';
+    if (pathname.includes('/payroll')) return 'payroll';
+    if (pathname.includes('/government')) return 'government';
+    if (pathname.includes('/analytics')) return 'analytics';
+    if (pathname.includes('/executive')) return 'executive';
+    if (pathname.includes('/core-hr')) return 'core-hr';
+    if (pathname.includes('/strategic')) return 'strategic';
+    if (pathname.includes('/consulting')) return 'consulting';
+    if (pathname.includes('/compliance')) return 'compliance';
+    if (pathname.includes('/welfare-safety')) return 'welfare-safety';
+    if (pathname.includes('/ai-features')) return 'ai-features';
+    if (pathname.includes('/organization')) return 'organization';
+    if (pathname.includes('/self-service')) return 'self-service';
+    if (pathname.includes('/documents')) return 'documents';
+    return moduleContext || 'default';
+  };
+  
+  const currentModule = getModuleFromRoute(location.pathname);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -77,47 +100,59 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
     availableProviders 
   } = useAIAgentOrchestrator();
   
-  // Contextual greetings with comprehensive HR expertise for ALL modules
+  // Enhanced contextual greetings with page-specific expertise
   const contextualGreetings = {
     'executive': {
       ar: `🎯 **مرحباً! أنا مساعدك الذكي في مركز الذكاء التنفيذي عقل HR**
 
 يمكنني مساعدتك في:
-• اتخاذ القرارات الاستراتيجية
-• تحليل البيانات التنفيذية  
+• اتخاذ القرارات الاستراتيجية المبنية على البيانات
+• تحليل البيانات التنفيذية المتقدمة
 • الرؤى الذكية لإدارة الموارد البشرية
-• مراقبة مؤشرات الأداء الرئيسية
+• مراقبة مؤشرات الأداء الرئيسية KPIs
+• إدارة المواهب والتخطيط الاستراتيجي
+• توقعات المخاطر والفرص
 
 **كيف يمكنني مساعدتك اليوم؟**`,
-      en: `🎯 **Hello! I'm your AI assistant for AqlHR Executive Intelligence Center**
+      en: `🎯 **Hello! I'm your Executive AI Intelligence Assistant for AqlHR**
 
 I can help you with:
-• Strategic decision making
-• Executive data analysis
-• Intelligent HR insights
-• Key performance indicators monitoring
+• Data-driven strategic decision making
+• Advanced executive analytics and reporting
+• Intelligent HR insights and predictions
+• Key performance indicators (KPIs) monitoring
+• Talent management and strategic planning
+• Risk assessment and opportunity forecasting
 
 **How can I help you today?**`
     },
     'employees': {
-      ar: `👥 **مرحباً! أنا مساعدك الذكي في إدارة بيانات الموظفين**
+      ar: `👥 **مرحباً! أنا خبيرك الذكي في إدارة شؤون الموظفين**
 
-يمكنني مساعدتك في:
-• التوظيف وإدارة السجلات
-• التقييم والأداء
-• الامتثال للقوانين السعودية
-• إدارة بيانات الموظفين
+خبرتي الشاملة تتضمن:
+• التوظيف: من الإعلان للتعيين (إقامات، تأشيرات، عقود)
+• إدارة السجلات: البيانات الشخصية والوظيفية
+• التقييم والأداء: أنظمة التقييم والتطوير
+• الامتثال للقوانين السعودية (نظام العمل، وزارة العمل)
+• إدارة الحضور والانصراف ومراقبة المواعيد
+• التدريب والتطوير المهني
+• إجراءات إنهاء الخدمة ومستحقاتها
+• السعودة ونطاقات الشركات
 
-**ما الذي تحتاج مساعدة به؟**`,
-      en: `👥 **Hello! I'm your AI assistant for Employee Management**
+**ما الإجراء الذي تحتاج مساعدة به؟**`,
+      en: `👥 **Hello! I'm your Employee Management Expert AI Assistant**
 
-I can help you with:
-• Recruitment and record management
-• Performance evaluation
-• Saudi compliance
-• Employee data management
+My comprehensive expertise includes:
+• Recruitment: From job posting to hiring (visas, permits, contracts)
+• Record management: Personal and professional data
+• Performance evaluation: Review systems and development
+• Saudi compliance (Labor Law, MOL requirements)
+• Attendance management and time tracking
+• Training and professional development
+• Termination procedures and end-of-service benefits
+• Saudization and company Nitaqat categories
 
-**What do you need help with?**`
+**Which procedure do you need help with?**`
     },
     'payroll': {
       ar: `💰 **أهلاً! أنا مساعدك الذكي المتخصص في الرواتب والشؤون المالية**
@@ -179,49 +214,213 @@ I can:
 
 **What analysis would you like to work on?**`
     },
-    'default': {
-      ar: `🤖 **مرحباً! أنا مساعدك الذكي المتخصص في منصة عقل HR**
+      'core-hr': {
+        ar: `🏢 **مرحباً! أنا مساعدك الذكي في أنظمة الموارد البشرية الأساسية**
+
+أتخصص في:
+• إدارة الحضور والانصراف والإجازات
+• أنظمة إدارة الأداء والتقييم
+• التدريب والتطوير المهني
+• التوظيف والإعداد للعمل
+• إدارة المزايا والتعويضات
+• أتمتة سير العمل
+
+**أي نظام HR تحتاج مساعدة به؟**`,
+        en: `🏢 **Hello! I'm your Core HR Systems AI Assistant**
+
+I specialize in:
+• Time, attendance, and leave management
+• Performance management and evaluation systems
+• Training and professional development
+• Recruitment and onboarding processes
+• Benefits and compensation management
+• Workflow automation
+
+**Which HR system do you need help with?**`
+      },
+      'strategic': {
+        ar: `🎯 **مرحباً! أنا مساعدك الذكي في الموارد البشرية الاستراتيجية**
+
+أركز على:
+• التخطيط الاستراتيجي للموارد البشرية
+• إدارة المواهب والتطوير القيادي
+• تخطيط التعاقب الوظيفي
+• تحليل الاحتفاظ بالموظفين
+• استراتيجيات التحفيز والمشاركة
+• قياس عائد الاستثمار في الموارد البشرية
+
+**أي استراتيجية HR تريد تطويرها؟**`,
+        en: `🎯 **Hello! I'm your Strategic HR AI Assistant**
+
+I focus on:
+• Strategic HR planning and workforce planning
+• Talent management and leadership development
+• Succession planning and career pathing
+• Employee retention analysis
+• Engagement and motivation strategies
+• HR ROI measurement and analytics
+
+**Which HR strategy would you like to develop?**`
+      },
+      'consulting': {
+        ar: `💼 **مرحباً! أنا مساعدك الذكي في الاستشارات المتخصصة**
+
+أقدم استشارات في:
+• تقييم النضج المؤسسي للموارد البشرية
+• تصميم الهياكل التنظيمية
+• تطوير السياسات والإجراءات
+• تحسين العمليات وزيادة الكفاءة
+• استراتيجيات التغيير والتطوير
+• معايير الجودة والامتثال
+
+**أي استشارة متخصصة تحتاجها؟**`,
+        en: `💼 **Hello! I'm your Specialized HR Consulting AI Assistant**
+
+I provide consulting on:
+• HR organizational maturity assessment
+• Organizational structure design
+• Policy and procedure development
+• Process optimization and efficiency
+• Change management strategies
+• Quality standards and compliance
+
+**Which specialized consultation do you need?**`
+      },
+      'compliance': {
+        ar: `⚖️ **مرحباً! أنا خبيرك الذكي في الامتثال والمطابقة**
+
+أتخصص في:
+• قوانين العمل السعودية ولوائحها التنفيذية
+• نظام نطاقات والسعودة
+• لوائح وزارة العمل والتأمينات الاجتماعية
+• معايير الصحة والسلامة المهنية
+• سياسات مكافحة التحرش والتمييز
+• تدقيق الامتثال والمراجعة الداخلية
+
+**أي موضوع امتثال تحتاج توضيحاً له؟**`,
+        en: `⚖️ **Hello! I'm your Compliance and Legal AI Expert**
+
+I specialize in:
+• Saudi Labor Law and executive regulations
+• Nitaqat system and Saudization compliance
+• MOL and GOSI regulatory requirements
+• Occupational health and safety standards
+• Anti-harassment and discrimination policies
+• Compliance auditing and internal review
+
+**Which compliance topic needs clarification?**`
+      },
+      'welfare-safety': {
+        ar: `🛡️ **مرحباً! أنا مساعدك الذكي في الرفاه والسلامة المهنية**
+
+أغطي:
+• برامج الصحة والسلامة المهنية
+• إدارة المزايا الإضافية والرفاه
+• خدمات الطعام والإسكان والنقل
+• التأمين الطبي والصحي
+• برامج اللياقة والعافية
+• إدارة حالات الطوارئ والإسعافات
+
+**أي خدمة رفاه أو سلامة تحتاج مساعدة بها؟**`,
+        en: `🛡️ **Hello! I'm your Employee Welfare & Safety AI Assistant**
+
+I cover:
+• Occupational health and safety programs
+• Additional benefits and welfare management
+• Food, housing, and transportation services
+• Medical and health insurance
+• Fitness and wellness programs
+• Emergency management and first aid
+
+**Which welfare or safety service do you need help with?**`
+      },
+      'ai-features': {
+        ar: `🤖 **مرحباً! أنا مساعدك الذكي في الميزات المدعومة بالذكاء الاصطناعي**
+
+أساعدك في:
+• الذكاء الاصطناعي في التوظيف والفرز
+• تحليل البيانات التنبؤي للموارد البشرية
+• أتمتة المهام الروتينية
+• معالجة اللغة الطبيعية للمستندات
+• التعلم الآلي لتحسين العمليات
+• الرؤى الذكية والتوصيات
+
+**أي ميزة ذكية تريد استكشافها؟**`,
+        en: `🤖 **Hello! I'm your AI-Powered Features Assistant**
+
+I help you with:
+• AI in recruitment and candidate screening
+• Predictive analytics for HR data
+• Automation of routine tasks
+• Natural language processing for documents
+• Machine learning for process optimization
+• Intelligent insights and recommendations
+
+**Which AI feature would you like to explore?**`
+      },
+      'default': {
+        ar: `🤖 **مرحباً! أنا مساعدك الذكي المتخصص في منصة عقل HR**
 
 أقدم خدمات شاملة في:
-• إدارة الموظفين والتوظيف
-• الرواتب والأمور المالية
-• التكامل الحكومي والامتثال
-• التحليلات والتقارير الذكية
+• إدارة الموظفين والتوظيف (مع الامتثال الكامل للقوانين السعودية)
+• الرواتب والأمور المالية (GOSI، WPS، حسابات متقدمة)
+• التكامل الحكومي والامتثال (قوى، وزارة العمل، نطاقات)
+• التحليلات والتقارير الذكية (BI، التنبؤات، KPIs)
+• الاستشارات المتخصصة والتطوير التنظيمي
 
 **كيف يمكنني مساعدتك اليوم؟**`,
-      en: `🤖 **Hello! I'm your specialized HR AI assistant for AqlHR platform**
+        en: `🤖 **Hello! I'm your specialized HR AI assistant for AqlHR platform**
 
 I provide comprehensive services in:
-• Employee management and recruitment
-• Payroll and financial matters
-• Government integration and compliance
-• Analytics and intelligent reporting
+• Employee management and recruitment (Full Saudi compliance)
+• Payroll and financial matters (GOSI, WPS, advanced calculations)
+• Government integration and compliance (Qiwa, MOL, Nitaqat)
+• Analytics and intelligent reporting (BI, predictions, KPIs)
+• Specialized consulting and organizational development
 
 **How can I help you today?**`
-    }
+      }
   };
   
-  // Initialize with welcome message based on module context
+  // Initialize with welcome message based on current route/module context
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
-      const welcomeMessage: ChatMessage = {
-        id: 'welcome-message',
-        type: 'assistant',
-        content: welcomeText[isArabic ? 'ar' : 'en'],
-        timestamp: new Date(),
-        module: moduleContext
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, [moduleContext, isArabic]);
+    const effectiveModule = currentModule;
+    const welcomeText = contextualGreetings[effectiveModule as keyof typeof contextualGreetings] || contextualGreetings['default'];
+    const welcomeMessage: ChatMessage = {
+      id: `welcome-message-${effectiveModule}-${Date.now()}`,
+      type: 'assistant',
+      content: welcomeText[isArabic ? 'ar' : 'en'],
+      timestamp: new Date(),
+      module: effectiveModule
+    };
+    setMessages([welcomeMessage]);
+  }, [currentModule, isArabic, location.pathname]);
 
-  // Document-aware AI integration
+  // Document-aware AI integration with current module
   const { 
     queryWithDocuments, 
     documents, 
     moduleDocuments 
-  } = useDocumentAwareAI(moduleContext);
+  } = useDocumentAwareAI(currentModule);
+  
+  // Get page-specific expertise
+  const getPageExpertise = (module: string): string => {
+    const expertiseMap: Record<string, string> = {
+      'employees': 'Employee lifecycle management, Saudi labor law compliance, visa/permit processing, performance management, Saudization requirements',
+      'payroll': 'Payroll processing, GOSI calculations, WPS compliance, salary structures, end-of-service benefits, tax calculations',
+      'government': 'Qiwa platform integration, MOL procedures, GOSI services, work permit renewals, labor office procedures',
+      'analytics': 'HR data analysis, predictive insights, dashboard creation, KPI monitoring, workforce analytics',
+      'executive': 'Strategic decision support, executive reporting, business intelligence, organizational insights',
+      'core-hr': 'Time attendance, leave management, performance systems, recruitment processes, benefits administration',
+      'strategic': 'Strategic planning, talent management, succession planning, organizational development',
+      'consulting': 'HR maturity assessment, organizational design, policy development, change management',
+      'compliance': 'Legal compliance, audit requirements, policy adherence, risk management',
+      'welfare-safety': 'Employee welfare programs, safety compliance, health benefits, emergency procedures',
+      'ai-features': 'AI-powered automation, intelligent insights, process optimization, predictive analytics',
+      'default': 'Comprehensive HR expertise across all domains with Saudi market specialization'
+    };
+    return expertiseMap[module] || expertiseMap['default'];
+  };
 
   // Language detection helper
   const detectQueryLanguage = (query: string): 'ar' | 'en' => {
@@ -442,7 +641,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       }
     };
     
-    return suggestions[moduleContext as keyof typeof suggestions] || suggestions.default;
+    return suggestions[currentModule as keyof typeof suggestions] || suggestions.default;
   };
 
   const handleSendMessage = async () => {
@@ -453,7 +652,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       type: 'user',
       content: inputValue.trim(),
       timestamp: new Date(),
-      module: moduleContext
+      module: currentModule
     };
 
     setMessages(prev => [...prev, userMessage]);
@@ -466,14 +665,16 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       // Detect query language first
       const queryLanguage = detectQueryLanguage(currentQuery);
       
-      // Enhanced context for better AI responses - use detected language
+      // Enhanced context for better AI responses - use detected language and current route
       const aiContext = {
-        module: moduleContext,
+        module: currentModule,
+        current_page: location.pathname,
         language: queryLanguage,
         company_id: companyId || 'demo-company',
-        user_context: `HR Professional using ${moduleContext} module`,
+        user_context: `HR Professional using ${currentModule} module on ${location.pathname} page`,
         user_location: 'saudi_arabia',
-        specialization: 'immigration_hr_expert'
+        specialization: 'comprehensive_hr_expert',
+        page_expertise: getPageExpertise(currentModule)
       };
 
       let response;
@@ -489,14 +690,14 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
           // Use AI Agent Orchestrator with the enhanced context
           response = await queryAIAgent(currentQuery, {
             provider: 'gemini',
-            module: moduleContext,
+            module: currentModule,
             context: contextWithLanguage
           });
         } catch (aiAgentError) {
           console.log('AI Agent failed, trying next option:', aiAgentError);
           // Try without specific provider
           response = await queryAIAgent(currentQuery, {
-            module: moduleContext,
+            module: currentModule,
             context: contextWithLanguage
           });
         }
@@ -516,7 +717,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
           
           // Final fallback: Local response generation
           response = {
-            response: generateLocalFallbackResponse(currentQuery, isArabic, moduleContext),
+            response: generateLocalFallbackResponse(currentQuery, isArabic, currentModule),
             provider: 'AqlHR Local Fallback',
             confidence: 75
           };
@@ -525,14 +726,14 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       }
 
       // Ensure we have a valid response
-      const responseText = response?.response || response?.answer || generateLocalFallbackResponse(currentQuery, isArabic, moduleContext);
+      const responseText = response?.response || response?.answer || generateLocalFallbackResponse(currentQuery, isArabic, currentModule);
 
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
         content: responseText,
         timestamp: new Date(),
-        module: moduleContext,
+        module: currentModule,
         confidence: response?.confidence || 75
       };
 
@@ -549,14 +750,14 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       console.error('AI query error:', error);
       
       // Provide helpful fallback response even in error case
-      const fallbackResponse = generateLocalFallbackResponse(currentQuery, isArabic, moduleContext);
+      const fallbackResponse = generateLocalFallbackResponse(currentQuery, isArabic, currentModule);
       
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
         content: fallbackResponse,
         timestamp: new Date(),
-        module: moduleContext,
+        module: currentModule,
         confidence: 50
       };
       
@@ -582,13 +783,13 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
   const clearChat = () => {
     setMessages([]);
     // Re-initialize with welcome message
-    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
+    const welcomeText = contextualGreetings[currentModule as keyof typeof contextualGreetings] || contextualGreetings['default'];
     const welcomeMessage: ChatMessage = {
       id: 'welcome-message-' + Date.now(),
       type: 'assistant',
       content: welcomeText[isArabic ? 'ar' : 'en'],
       timestamp: new Date(),
-      module: moduleContext
+      module: currentModule
     };
     setMessages([welcomeMessage]);
   };
@@ -759,7 +960,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
             </CardTitle>
           </div>
           <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
-            {moduleContext}
+            {currentModule}
           </Badge>
         </div>
       </CardHeader>
