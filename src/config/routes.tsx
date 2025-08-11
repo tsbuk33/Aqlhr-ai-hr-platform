@@ -196,8 +196,8 @@ const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
 const StrategicPresentationCenter = lazy(() => import('../pages/executive/StrategicPresentationCenter'));
-const SuperAdminDashboard = lazy(() => import('../pages/executive/SuperAdminDashboard'));
 const ExecutiveMobileApp = lazy(() => import('../pages/executive/ExecutiveMobileApp'));
+const SuperAdminDashboard = lazy(() => import('../pages/SuperAdminDashboard'));
 const AIEnhancedExecutiveIntelligence = lazy(() => import('../pages/ai/AIEnhancedExecutiveIntelligence'));
 const AutomationWorkflowEngine = lazy(() => import('../components/ai/AutomationWorkflowEngine'));
 const CrossModuleIntelligence = lazy(() => import('../components/ai/CrossModuleIntelligence'));
@@ -386,6 +386,9 @@ export const ROUTES: RouteConfig[] = [
   { path: '/additional/smart-kpi', element: SmartKPITool, auth: true }, // Alternative route
   { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
   { path: '/test-harness', element: TestHarness, auth: true, adminOnly: true },
+  
+  // Super Admin Dashboard
+  { path: '/super-admin', element: SuperAdminDashboard, auth: true, adminOnly: true },
   
   // Government Integration Sub-routes
   { path: '/government/qiwa', element: QiwaIntegration, auth: true },
