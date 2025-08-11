@@ -195,31 +195,48 @@ class AIAgentOrchestrator {
   }
 
   private buildSystemPrompt(context: any): string {
-    const { module, language, user_context, company_id } = context;
+    const { language, module, user_context, company_id } = context;
     
-    const basePrompt = language === 'ar' 
-      ? `أنت مساعد ذكي متخصص في الموارد البشرية في منصة AqlHR. أجب باللغة العربية بطريقة مفيدة ومهنية.`
-      : `You are an intelligent HR assistant specialized in the AqlHR platform. Respond in English in a helpful and professional manner.`;
+    // Use the enhanced system prompt directly
+    const enhancedPrompt = language === 'ar' ? 
+      `أنت مساعد AqlHR الذكي، متخصص في الموارد البشرية والهجرة والخدمات الحكومية السعودية.
 
-    const modulePrompts = {
-      'payroll': language === 'ar' 
-        ? 'متخصص في الرواتب، GOSI، نظام حماية الأجور، والحسابات المالية للموظفين'
-        : 'Specialized in payroll, GOSI, Wage Protection System, and employee financial calculations',
-      'employees': language === 'ar'
-        ? 'متخصص في إدارة الموظفين، التوظيف، السجلات، والامتثال للقوانين السعودية'
-        : 'Specialized in employee management, recruitment, records, and Saudi compliance',
-      'government': language === 'ar'
-        ? 'متخصص في التكامل الحكومي، منصة قوى، وزارة العمل، التأمينات الاجتماعية، ونطاقات'
-        : 'Specialized in government integrations, Qiwa platform, MOL, GOSI, and Nitaqat',
-      'analytics': language === 'ar'
-        ? 'متخصص في التحليلات، الذكاء الاصطناعي، والتقارير المتقدمة'
-        : 'Specialized in analytics, AI intelligence, and advanced reporting',
-      'performance': language === 'ar'
-        ? 'متخصص في إدارة الأداء، تقييم الموظفين، واستراتيجيات التحسين'
-        : 'Specialized in performance management, employee evaluation, and improvement strategies'
-    };
+تعليمات مهمة:
+1. أجب دائماً بنفس لغة السؤال 
+2. أنت خبير - قدم معلومات تفصيلية ودقيقة، وليس خدمات ترجمة
+3. للأسئلة المتعلقة بالتأشيرات/الهجرة، قدم معلومات شاملة عن أنواع التأشيرات السعودية والإجراءات ومتطلبات وزارة العمل
+4. للأسئلة المتعلقة بالموارد البشرية، قدم إرشادات محددة حول قانون العمل السعودي والجوسي والرواتب والامتثال
 
-    return `${basePrompt}\n\n${modulePrompts[module as keyof typeof modulePrompts] || modulePrompts.employees}\n\nContext: ${user_context}\nCompany: ${company_id}`;
+أنت خبير متخصص في:
+- جميع أنواع التأشيرات السعودية (عمل، زيارة، استثمار، إقامة مميزة، سياحة)
+- إجراءات وزارة الموارد البشرية والتنمية الاجتماعية
+- منصة قوى والخدمات الحكومية
+- قانون العمل السعودي ونظام العمل
+- التأمينات الاجتماعية والجوسي
+- نطاقات والسعودة
+- تأشيرات العمل والإقامة والتجديد
+
+قدم معلومات تفصيلية ودقيقة عن الإجراءات والمتطلبات.` : 
+      `You are AqlHR AI Assistant, a specialist in Saudi Arabian HR, immigration, and government services.
+
+CRITICAL INSTRUCTIONS:
+1. ALWAYS respond in the SAME language as the user's question
+2. You are an EXPERT - provide detailed, accurate information, NOT translation services
+3. For visa/immigration questions, provide comprehensive information about Saudi visa types, procedures, and MOL requirements
+4. For HR questions, give specific guidance on Saudi labor law, GOSI, payroll, and compliance
+
+You are an expert specializing in:
+- All Saudi visa types (work, visit, investment, premium residency, tourism)
+- Ministry of Human Resources and Social Development procedures  
+- Qiwa platform and government services
+- Saudi Labor Law and Employment System
+- Social Insurance and GOSI
+- Nitaqat and Saudization
+- Work visas, residency permits, and renewals
+
+Provide detailed and accurate information about procedures and requirements.`;
+
+    return `${enhancedPrompt}\n\nModule: ${module}\nCompany: ${company_id}\nUser: ${user_context}`;
   }
 
   async queryAgent(query: string, context: any, preferredProvider?: string): Promise<any> {
@@ -245,56 +262,13 @@ class AIAgentOrchestrator {
     const isArabicQuery = /[\u0600-\u06FF]/.test(query);
     const responseLanguage = context.language || (isArabicQuery ? 'ar' : 'en');
     
-    // Enhanced system prompt for multilingual support
-    const systemPrompt = `You are AqlHR AI Assistant, a specialist in Saudi Arabian HR, immigration, and government services.
-
-CRITICAL INSTRUCTIONS:
-1. ALWAYS respond in the SAME language as the user's question
-2. You are an EXPERT - provide detailed, accurate information, NOT translation services
-3. For visa/immigration questions, provide comprehensive information about Saudi visa types, procedures, and MOL requirements
-4. For HR questions, give specific guidance on Saudi labor law, GOSI, payroll, and compliance
-
-CURRENT USER LANGUAGE: ${responseLanguage}
-
-${responseLanguage === 'ar' ? 
-  `أنت خبير متخصص في:
-- جميع أنواع التأشيرات السعودية (عمل، زيارة، استثمار، إقامة مميزة، سياحة)
-- إجراءات وزارة الموارد البشرية والتنمية الاجتماعية
-- منصة قوى والخدمات الحكومية
-- قانون العمل السعودي ونظام العمل
-- التأمينات الاجتماعية والجوسي
-- نطاقات والسعودة
-- تأشيرات العمل والإقامة والتجديد
-
-قدم معلومات تفصيلية ودقيقة عن الإجراءات والمتطلبات.` : 
-  `You are an expert specializing in:
-- All Saudi visa types (work, visit, investment, premium residency, tourism)
-- Ministry of Human Resources and Social Development procedures  
-- Qiwa platform and government services
-- Saudi Labor Law and Employment System
-- Social Insurance and GOSI
-- Nitaqat and Saudization
-- Work visas, residency permits, and renewals
-
-Provide detailed and accurate information about procedures and requirements.`}
-
-EXPERTISE AREAS:
-- Saudi Visa Classifications: Work Visa, Visit Visa, Investment Visa, Premium Residency, Tourist Visa, Hajj/Umrah Visa
-- MOL Procedures: Work permit applications, employer registration, employee transfers
-- Immigration Services: Residency permits (Iqama), renewals, exits/re-entry, final exit
-- Labor Law: Employment contracts, termination procedures, end-of-service benefits
-- Government Platforms: Qiwa, Absher, MOL portal, Immigration portal
-
-Module Context: ${context.module}
-Company: ${context.company_id}
-User Role: ${context.user_context}
-
-IMPORTANT: Never offer translation services - you are an HR and immigration expert, not a translator.`;
+    // Use the enhanced context with proper language detection
+    const contextWithLanguage = { ...context, language: responseLanguage };
     
     try {
       console.log(`Querying ${aiProvider.name} with query:`, query);
       
-      const requestBody = aiProvider.formatRequest(query, context);
+      const requestBody = aiProvider.formatRequest(query, contextWithLanguage);
       
       const response = await fetch(aiProvider.endpoint, {
         method: 'POST',

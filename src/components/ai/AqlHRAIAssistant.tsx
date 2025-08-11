@@ -481,35 +481,21 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       
       // Try multiple AI sources with proper fallback
       try {
-        // Detect the query language
-        const queryLanguage = detectQueryLanguage(currentQuery);
-        
-        // Update context with detected language
-        const contextWithLanguage = {
-          ...aiContext,
-          language: queryLanguage
-        };
+        // Use the AI context with already detected language
+        const contextWithLanguage = aiContext;
 
-        // Check if this is a translation request and handle it specially
-        if (isTranslationRequest(currentQuery)) {
-          // For translation requests, provide helpful guidance
-          if (queryLanguage === 'ar') {
-            response = {
-              response: `🌐 **خدمة الترجمة:**\n\nيمكنني مساعدتك في الترجمة. يرجى تحديد النص الذي تريد ترجمته أو اسأل عن مصطلحات محددة في إدارة الموارد البشرية.\n\nمثال: "ما معنى Performance Review بالعربية؟"`,
-              provider: 'Translation Service',
-              confidence: 95
-            };
-          } else {
-            response = {
-              response: `🌐 **Translation Service:**\n\nI can help you with translations. Please specify the text you want translated or ask about specific HR terminology.\n\nExample: "What does 'كشف الراتب' mean in English?"`,
-              provider: 'Translation Service',
-              confidence: 95
-            };
-          }
-        } else {
-          // First try: AI Agent Orchestrator (most comprehensive)
+        // Always use AI orchestrator for all queries - no more translation handling
+        try {
+          // Use AI Agent Orchestrator with the enhanced context
           response = await queryAIAgent(currentQuery, {
             provider: 'gemini',
+            module: moduleContext,
+            context: contextWithLanguage
+          });
+        } catch (aiAgentError) {
+          console.log('AI Agent failed, trying next option:', aiAgentError);
+          // Try without specific provider
+          response = await queryAIAgent(currentQuery, {
             module: moduleContext,
             context: contextWithLanguage
           });
