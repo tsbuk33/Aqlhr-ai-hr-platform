@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -14,13 +15,94 @@ import {
   Globe,
   CheckCircle,
   AlertTriangle,
-  Activity
+  Activity,
+  Brain,
+  Bot,
+  Building,
+  TrendingUp,
+  FileText,
+  AlertCircle,
+  Heart,
+  Wrench,
+  Target,
+  Layers
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 
 const SuperAdminDashboard: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
+  const navigate = useNavigate();
+
+  const interfaceCategories = [
+    {
+      category: isArabic ? 'الوحدات الأساسية' : 'Core Modules',
+      count: 8,
+      icon: Layers,
+      routes: ['/hr', '/payroll', '/employee', '/attendance']
+    },
+    {
+      category: isArabic ? 'الذكاء الاصطناعي' : 'AI & Automation',
+      count: 15,
+      icon: Brain,
+      routes: ['/ai-command-center', '/ai-decision-engine', '/aql-mind-core', '/learning-engine', '/intelligence-gatherer']
+    },
+    {
+      category: isArabic ? 'التكامل الحكومي' : 'Government Integration',
+      count: 20,
+      icon: Building,
+      routes: ['/government', '/compliance', '/legal']
+    },
+    {
+      category: isArabic ? 'الموارد البشرية الاستراتيجية' : 'Strategic HR',
+      count: 12,
+      icon: TrendingUp,
+      routes: ['/hr-analytics', '/workforce-planning', '/talent-management']
+    },
+    {
+      category: isArabic ? 'التحليلات والتقارير' : 'Analytics & Reporting',
+      count: 12,
+      icon: BarChart3,
+      routes: ['/analytics', '/reports', '/dashboard']
+    },
+    {
+      category: isArabic ? 'الامتثال والمخاطر' : 'Compliance & Risk',
+      count: 11,
+      icon: AlertCircle,
+      routes: ['/compliance', '/risk-management', '/audit']
+    },
+    {
+      category: isArabic ? 'الرفاهية والأمان' : 'Welfare & Safety',
+      count: 8,
+      icon: Heart,
+      routes: ['/employee-welfare', '/safety', '/health']
+    },
+    {
+      category: isArabic ? 'الأدوات المتخصصة' : 'Specialized Tools',
+      count: 15,
+      icon: Wrench,
+      routes: ['/tools', '/utilities', '/integrations']
+    },
+    {
+      category: isArabic ? 'ذكاء المديرين التنفيذيين' : 'Executive Intelligence',
+      count: 5,
+      icon: Target,
+      routes: ['/executive-dashboard', '/strategic-insights']
+    },
+    {
+      category: isArabic ? 'ميزات المنصة' : 'Platform Features',
+      count: 10,
+      icon: Globe,
+      routes: ['/settings', '/system-engineer', '/chat']
+    }
+  ];
+
+  const handleInterfaceClick = (category: any) => {
+    // Navigate to the first available route for the category
+    if (category.routes && category.routes.length > 0) {
+      navigate(category.routes[0]);
+    }
+  };
 
   const adminStats = [
     { 
@@ -248,22 +330,18 @@ const SuperAdminDashboard: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {[
-                  { category: isArabic ? 'الوحدات الأساسية' : 'Core Modules', count: 8 },
-                  { category: isArabic ? 'الذكاء الاصطناعي' : 'AI & Automation', count: 15 },
-                  { category: isArabic ? 'التكامل الحكومي' : 'Government Integration', count: 20 },
-                  { category: isArabic ? 'الموارد البشرية الاستراتيجية' : 'Strategic HR', count: 12 },
-                  { category: isArabic ? 'التحليلات والتقارير' : 'Analytics & Reporting', count: 12 },
-                  { category: isArabic ? 'الامتثال والمخاطر' : 'Compliance & Risk', count: 11 },
-                  { category: isArabic ? 'الرفاهية والأمان' : 'Welfare & Safety', count: 8 },
-                  { category: isArabic ? 'الأدوات المتخصصة' : 'Specialized Tools', count: 15 },
-                  { category: isArabic ? 'ذكاء المديرين التنفيذيين' : 'Executive Intelligence', count: 5 },
-                  { category: isArabic ? 'ميزات المنصة' : 'Platform Features', count: 10 }
-                ].map((item, index) => (
-                  <div key={index} className="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{item.category}</span>
+                {interfaceCategories.map((item, index) => (
+                  <div 
+                    key={index} 
+                    className="p-4 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer hover:shadow-md transform hover:scale-105"
+                    onClick={() => handleInterfaceClick(item)}
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <item.icon className="h-6 w-6 text-primary" />
                       <Badge variant="secondary">{item.count}</Badge>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-sm">{item.category}</span>
                     </div>
                   </div>
                 ))}
