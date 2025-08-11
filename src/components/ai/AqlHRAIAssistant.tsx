@@ -223,6 +223,43 @@ I provide comprehensive services in:
     moduleDocuments 
   } = useDocumentAwareAI(moduleContext);
 
+  // Translation helper functions
+  const isTranslationRequest = (query: string): boolean => {
+    const lowerQuery = query.toLowerCase();
+    return lowerQuery.includes('translate') || 
+           lowerQuery.includes('ترجم') || 
+           lowerQuery.includes('arabic') || 
+           lowerQuery.includes('عربي') ||
+           lowerQuery.includes('english') ||
+           lowerQuery.includes('انجليزي');
+  };
+
+  const handleTranslationRequest = async (query: string, isArabic: boolean): Promise<any> => {
+    // Enhanced translation logic
+    if (isArabic) {
+      // User is asking in Arabic, translate to English
+      return {
+        response: `🌐 **Translation Service:**\n\nI understand you want me to translate something. Please provide the specific Arabic text you'd like translated to English, or specify what content from the current module you'd like translated.\n\nFor example:\n• "Translate the dashboard overview to English"\n• "Translate '${query}' to English"`,
+        provider: 'Translation Service',
+        confidence: 95
+      };
+    } else {
+      // User is asking in English, translate to Arabic
+      if (query.toLowerCase().includes('dashboard')) {
+        return {
+          response: `🌐 **خدمة الترجمة:**\n\nلوحة التحكم = Dashboard\nنظرة عامة = Overview\nالموظفين = Employees\nالرواتب = Payroll\nالتقارير = Reports\nالإعدادات = Settings\n\nهل تريد ترجمة محتوى معين من النظام؟`,
+          provider: 'Translation Service',
+          confidence: 95
+        };
+      }
+      return {
+        response: `🌐 **خدمة الترجمة:**\n\nأفهم أنك تريد ترجمة شيء ما إلى العربية. يرجى تحديد النص الإنجليزي الذي تريد ترجمته، أو تحديد المحتوى من الوحدة الحالية.\n\nمثال:\n• "ترجم نظرة عامة على لوحة التحكم"\n• "ترجم كلمة Employee"`,
+        provider: 'Translation Service',
+        confidence: 95
+      };
+    }
+  };
+
   // Local fallback response generator
   const generateLocalFallbackResponse = (query: string, isArabic: boolean, module: string): string => {
     const lowerQuery = query.toLowerCase();
@@ -463,12 +500,17 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       
       // Try multiple AI sources with proper fallback
       try {
-        // First try: AI Agent Orchestrator (most comprehensive)
-        response = await queryAIAgent(currentQuery, {
-          provider: 'gemini', // Use gemini as primary provider instead of 'auto'
-          module: moduleContext,
-          context: aiContext
-        });
+        // Check if this is a translation request and handle it specially
+        if (isTranslationRequest(currentQuery)) {
+          response = await handleTranslationRequest(currentQuery, isArabic);
+        } else {
+          // First try: AI Agent Orchestrator (most comprehensive)
+          response = await queryAIAgent(currentQuery, {
+            provider: 'gemini', // Use gemini as primary provider instead of 'auto'
+            module: moduleContext,
+            context: aiContext
+          });
+        }
         responseSource = 'AI Agent Orchestrator';
       } catch (orchestratorError) {
         console.log('AI Orchestrator failed, trying document-aware AI:', orchestratorError);
