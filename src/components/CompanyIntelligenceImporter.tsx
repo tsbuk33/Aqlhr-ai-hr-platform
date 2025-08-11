@@ -44,7 +44,7 @@ export const CompanyIntelligenceImporter = () => {
           Company Intelligence
         </CardTitle>
         <CardDescription>
-          Import sample Saudi company data for testing and development
+          Import Almalaz company intelligence data for testing and development
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -66,7 +66,7 @@ export const CompanyIntelligenceImporter = () => {
           )}
         </Button>
         <p className="text-xs text-muted-foreground mt-2">
-          Includes data for Aramco, Al Rajhi Bank, SNB, Ma'aden, and STC
+          Includes Almalaz Real Estate, Construction, Facilities, Hospitality, and Retail divisions
         </p>
       </CardContent>
     </Card>
