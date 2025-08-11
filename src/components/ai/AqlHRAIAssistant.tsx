@@ -223,6 +223,12 @@ I provide comprehensive services in:
     moduleDocuments 
   } = useDocumentAwareAI(moduleContext);
 
+  // Language detection helper
+  const detectQueryLanguage = (query: string): 'ar' | 'en' => {
+    // Check if query contains Arabic characters
+    return /[\u0600-\u06FF]/.test(query) ? 'ar' : 'en';
+  };
+
   // Translation helper functions
   const isTranslationRequest = (query: string): boolean => {
     const lowerQuery = query.toLowerCase();
@@ -232,32 +238,6 @@ I provide comprehensive services in:
            lowerQuery.includes('عربي') ||
            lowerQuery.includes('english') ||
            lowerQuery.includes('انجليزي');
-  };
-
-  const handleTranslationRequest = async (query: string, isArabic: boolean): Promise<any> => {
-    // Enhanced translation logic
-    if (isArabic) {
-      // User is asking in Arabic, translate to English
-      return {
-        response: `🌐 **Translation Service:**\n\nI understand you want me to translate something. Please provide the specific Arabic text you'd like translated to English, or specify what content from the current module you'd like translated.\n\nFor example:\n• "Translate the dashboard overview to English"\n• "Translate '${query}' to English"`,
-        provider: 'Translation Service',
-        confidence: 95
-      };
-    } else {
-      // User is asking in English, translate to Arabic
-      if (query.toLowerCase().includes('dashboard')) {
-        return {
-          response: `🌐 **خدمة الترجمة:**\n\nلوحة التحكم = Dashboard\nنظرة عامة = Overview\nالموظفين = Employees\nالرواتب = Payroll\nالتقارير = Reports\nالإعدادات = Settings\n\nهل تريد ترجمة محتوى معين من النظام؟`,
-          provider: 'Translation Service',
-          confidence: 95
-        };
-      }
-      return {
-        response: `🌐 **خدمة الترجمة:**\n\nأفهم أنك تريد ترجمة شيء ما إلى العربية. يرجى تحديد النص الإنجليزي الذي تريد ترجمته، أو تحديد المحتوى من الوحدة الحالية.\n\nمثال:\n• "ترجم نظرة عامة على لوحة التحكم"\n• "ترجم كلمة Employee"`,
-        provider: 'Translation Service',
-        confidence: 95
-      };
-    }
   };
 
   // Local fallback response generator
@@ -500,15 +480,37 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       
       // Try multiple AI sources with proper fallback
       try {
+        // Detect the query language
+        const queryLanguage = detectQueryLanguage(currentQuery);
+        
+        // Update context with detected language
+        const contextWithLanguage = {
+          ...aiContext,
+          language: queryLanguage
+        };
+
         // Check if this is a translation request and handle it specially
         if (isTranslationRequest(currentQuery)) {
-          response = await handleTranslationRequest(currentQuery, isArabic);
+          // For translation requests, provide helpful guidance
+          if (queryLanguage === 'ar') {
+            response = {
+              response: `🌐 **خدمة الترجمة:**\n\nيمكنني مساعدتك في الترجمة. يرجى تحديد النص الذي تريد ترجمته أو اسأل عن مصطلحات محددة في إدارة الموارد البشرية.\n\nمثال: "ما معنى Performance Review بالعربية؟"`,
+              provider: 'Translation Service',
+              confidence: 95
+            };
+          } else {
+            response = {
+              response: `🌐 **Translation Service:**\n\nI can help you with translations. Please specify the text you want translated or ask about specific HR terminology.\n\nExample: "What does 'كشف الراتب' mean in English?"`,
+              provider: 'Translation Service',
+              confidence: 95
+            };
+          }
         } else {
           // First try: AI Agent Orchestrator (most comprehensive)
           response = await queryAIAgent(currentQuery, {
-            provider: 'gemini', // Use gemini as primary provider instead of 'auto'
+            provider: 'gemini',
             module: moduleContext,
-            context: aiContext
+            context: contextWithLanguage
           });
         }
         responseSource = 'AI Agent Orchestrator';

@@ -241,27 +241,42 @@ class AIAgentOrchestrator {
 
     const aiProvider = this.providers.get(provider)!;
     
-    // Enhanced system prompt for Arabic translation and multilingual support
-    const systemPrompt = `You are AqlHR AI Assistant, an expert in Saudi Arabian HR systems and Arabic-English translations.
+    // Detect query language
+    const isArabicQuery = /[\u0600-\u06FF]/.test(query);
+    const responseLanguage = context.language || (isArabicQuery ? 'ar' : 'en');
+    
+    // Enhanced system prompt for multilingual support
+    const systemPrompt = `You are AqlHR AI Assistant, an expert in Saudi Arabian HR systems and multilingual support.
 
-CRITICAL TRANSLATION RULES:
-1. When user asks to "translate to Arabic" or similar, ALWAYS provide direct Arabic translations
-2. For HR terms, use official Saudi terminology and government-approved translations
-3. Maintain professional Arabic business language (Modern Standard Arabic)
-4. Include both Arabic and English for technical terms when helpful
+CRITICAL LANGUAGE RULES:
+1. ALWAYS respond in the SAME language as the user's question
+2. If user asks in Arabic (العربية), respond completely in Arabic
+3. If user asks in English, respond in English
+4. For HR terms, use official Saudi terminology when responding in Arabic
 
-ARABIC TRANSLATION EXPERTISE:
-- Employee = موظف
-- Payroll = كشف الراتب  
-- Dashboard = لوحة التحكم
-- Overview = نظرة عامة
-- GOSI = التأمينات الاجتماعية
-- Ministry of Labor = وزارة الموارد البشرية والتنمية الاجتماعية
-- Saudization = السعودة
-- Contract = العقد
-- Performance = الأداء
+CURRENT USER LANGUAGE: ${responseLanguage}
+${responseLanguage === 'ar' ? 
+  `- استجب باللغة العربية الفصحى المهنية
+- استخدم المصطلحات الرسمية السعودية لإدارة الموارد البشرية
+- كن مفيداً ومهنياً في إجاباتك` : 
+  `- Respond in professional English
+- Use clear, concise explanations
+- Be helpful and professional`}
 
-Context: ${JSON.stringify(context)}`;
+HR TERMINOLOGY (Arabic/English):
+- موظف / Employee
+- كشف الراتب / Payroll  
+- لوحة التحكم / Dashboard
+- نظرة عامة / Overview
+- التأمينات الاجتماعية / GOSI
+- وزارة الموارد البشرية والتنمية الاجتماعية / Ministry of Labor
+- السعودة / Saudization
+- العقد / Contract
+- الأداء / Performance
+
+Module Context: ${context.module}
+Company: ${context.company_id}
+User Role: ${context.user_context}`;
     
     try {
       console.log(`Querying ${aiProvider.name} with query:`, query);
