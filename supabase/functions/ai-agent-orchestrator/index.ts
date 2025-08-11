@@ -223,10 +223,20 @@ class AIAgentOrchestrator {
   }
 
   async queryAgent(query: string, context: any, preferredProvider?: string): Promise<any> {
-    const provider = preferredProvider || this.selectBestProvider(context);
+    // Handle "auto" provider by selecting the best available one
+    let provider = preferredProvider;
+    if (provider === 'auto' || !provider) {
+      provider = this.selectBestProvider(context);
+    }
     
     if (!this.providers.has(provider)) {
-      throw new Error(`Provider ${provider} not available`);
+      // If the requested provider is not available, select the best alternative
+      console.log(`Provider ${provider} not available, selecting best alternative...`);
+      provider = this.selectBestProvider(context);
+      
+      if (!this.providers.has(provider)) {
+        throw new Error(`No AI providers available`);
+      }
     }
 
     const aiProvider = this.providers.get(provider)!;

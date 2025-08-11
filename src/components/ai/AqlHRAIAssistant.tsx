@@ -465,7 +465,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       try {
         // First try: AI Agent Orchestrator (most comprehensive)
         response = await queryAIAgent(currentQuery, {
-          provider: 'auto',
+          provider: 'gemini', // Use gemini as primary provider instead of 'auto'
           module: moduleContext,
           context: aiContext
         });
