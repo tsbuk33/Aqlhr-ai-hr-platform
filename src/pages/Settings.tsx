@@ -1,9 +1,11 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Settings2, User, Shield, Bell, Globe, Database, Palette, Key } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Settings2, User, Shield, Bell, Globe, Database, Palette, Key, Users, UserCheck } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { RoleBasedAccessMatrix } from '@/components/RoleBasedAccessMatrix';
 
 const Settings: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -80,6 +82,20 @@ const Settings: React.FC = () => {
         </p>
       </div>
 
+      <Tabs defaultValue="general" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="general" className="flex items-center gap-2">
+            <Settings2 className="h-4 w-4" />
+            {isArabic ? 'الإعدادات العامة' : 'General Settings'}
+          </TabsTrigger>
+          <TabsTrigger value="roles" className="flex items-center gap-2">
+            <UserCheck className="h-4 w-4" />
+            {isArabic ? 'أدوار المستخدمين' : 'User Roles & Access'}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="general" className="space-y-6 mt-6">
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
@@ -112,9 +128,15 @@ const Settings: React.FC = () => {
             </CardContent>
           </Card>
         ))}
-      </div>
-      
-      <AqlHRAIAssistant moduleContext="settings.management" />
+        </div>
+        
+        <AqlHRAIAssistant moduleContext="settings.management" />
+        </TabsContent>
+
+        <TabsContent value="roles" className="mt-6">
+          <RoleBasedAccessMatrix />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
