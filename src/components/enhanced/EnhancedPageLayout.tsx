@@ -199,9 +199,9 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
                   <div className={`p-3 rounded-lg ${action.color} text-white shadow-sm`}>
                     <action.icon className="h-8 w-8" />
                   </div>
-                  <div className="text-center space-y-1">
-                    <p className="font-semibold text-sm leading-tight">{action.title}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed">{action.description}</p>
+                  <div className="text-center space-y-1 w-full">
+                    <p className="font-semibold text-sm leading-tight line-clamp-2">{action.title}</p>
+                    <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3 break-words">{action.description}</p>
                   </div>
                 </Button>
               ))}
