@@ -1,5 +1,6 @@
 import React from 'react';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { EnhancedAIShowcase } from '@/components/ai/EnhancedAIShowcase';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const ChatPage: React.FC = () => {
@@ -19,6 +20,8 @@ const ChatPage: React.FC = () => {
         </p>
       </div>
 
+      <EnhancedAIShowcase />
+      
       <AqlHRAIAssistant moduleContext="chat.assistant" />
     </div>
   );

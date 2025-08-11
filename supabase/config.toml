@@ -32,3 +32,9 @@ verify_jwt = false
 
 [functions.manus-image-generator]
 verify_jwt = false
+
+[functions.manus-ai-integration]
+verify_jwt = false
+
+[functions.gpt-oss-integration]
+verify_jwt = false

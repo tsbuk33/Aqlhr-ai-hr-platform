@@ -5,41 +5,106 @@ class LocalAIEngine {
   private classifier: any = null;
   private embedder: any = null;
   private summarizer: any = null;
+  private conversationalAI: any = null;
+  private codeGenerator: any = null;
+  private questionAnswering: any = null;
+  private modelPool: Map<string, any> = new Map();
 
   async initializeModels() {
     try {
-      // Initialize text generation pipeline
+      console.log('🚀 Loading Enhanced Open-Source AI Models...');
+      
+      // Enhanced text generation with better model
+      this.textGenerator = await pipeline(
+        'text-generation', 
+        'microsoft/DialoGPT-medium', // Upgraded from small
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('text-generation', this.textGenerator);
+
+      // Advanced conversational AI
+      this.conversationalAI = await pipeline(
+        'text-generation',
+        'microsoft/DialoGPT-large', // Large model for complex conversations
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('conversational', this.conversationalAI);
+
+      // Question answering system
+      this.questionAnswering = await pipeline(
+        'question-answering',
+        'deepset/roberta-base-squad2', // Better Q&A model
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('qa', this.questionAnswering);
+
+      // Enhanced text classification
+      this.classifier = await pipeline(
+        'text-classification',
+        'cardiffnlp/twitter-roberta-base-sentiment-latest',
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('classification', this.classifier);
+
+      // Better embeddings model
+      this.embedder = await pipeline(
+        'feature-extraction',
+        'sentence-transformers/all-MiniLM-L6-v2', // Better embeddings
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('embeddings', this.embedder);
+
+      // Enhanced summarization
+      this.summarizer = await pipeline(
+        'summarization',
+        'facebook/bart-large-cnn',
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('summarization', this.summarizer);
+
+      // Code generation capability
+      this.codeGenerator = await pipeline(
+        'text-generation',
+        'microsoft/CodeGPT-small-py', // Code generation
+        { device: 'webgpu' }
+      );
+      this.modelPool.set('code-generation', this.codeGenerator);
+
+      console.log('✅ Enhanced Open-Source AI Models loaded successfully');
+      console.log(`📊 Model Pool: ${this.modelPool.size} models ready`);
+      return true;
+    } catch (error) {
+      console.error('❌ Error loading AI models:', error);
+      console.log('🔄 Falling back to lighter models...');
+      return await this.initializeLightweightModels();
+    }
+  }
+
+  async initializeLightweightModels() {
+    try {
+      // Fallback to smaller, faster models
       this.textGenerator = await pipeline(
         'text-generation', 
         'microsoft/DialoGPT-small',
         { device: 'webgpu' }
       );
-
-      // Initialize text classification
+      
       this.classifier = await pipeline(
         'text-classification',
         'cardiffnlp/twitter-roberta-base-sentiment-latest',
         { device: 'webgpu' }
       );
 
-      // Initialize embeddings
       this.embedder = await pipeline(
         'feature-extraction',
         'mixedbread-ai/mxbai-embed-xsmall-v1',
         { device: 'webgpu' }
       );
 
-      // Initialize summarization
-      this.summarizer = await pipeline(
-        'summarization',
-        'facebook/bart-large-cnn',
-        { device: 'webgpu' }
-      );
-
-      console.log('✅ All open-source AI models loaded successfully');
+      console.log('✅ Lightweight models loaded successfully');
       return true;
     } catch (error) {
-      console.error('❌ Error loading AI models:', error);
+      console.error('❌ Failed to load even lightweight models:', error);
       return false;
     }
   }
@@ -141,6 +206,143 @@ class LocalAIEngine {
       console.error('Summarization error:', error);
       return { success: false, error: error.message };
     }
+  }
+
+  async answerQuestion(question: string, context: string) {
+    if (!this.questionAnswering) {
+      await this.initializeModels();
+    }
+
+    try {
+      const answer = await this.questionAnswering({
+        question: question,
+        context: context
+      });
+
+      return {
+        success: true,
+        answer: answer.answer,
+        confidence: answer.score,
+        model: 'deepset/roberta-base-squad2 (open-source)',
+        context_used: context.length > 100 ? context.substring(0, 100) + '...' : context
+      };
+    } catch (error) {
+      console.error('Question answering error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async generateConversation(prompt: string, conversationHistory: string[] = []) {
+    const model = this.conversationalAI || this.textGenerator;
+    if (!model) {
+      await this.initializeModels();
+    }
+
+    try {
+      const context = conversationHistory.length > 0 
+        ? conversationHistory.join('\n') + '\n' + prompt
+        : prompt;
+
+      const result = await (this.conversationalAI || this.textGenerator)(context, {
+        max_new_tokens: 300,
+        temperature: 0.8,
+        do_sample: true,
+        top_p: 0.9,
+        pad_token_id: 50256
+      });
+
+      return {
+        success: true,
+        response: result[0].generated_text.split(prompt)[1]?.trim() || result[0].generated_text,
+        model: this.conversationalAI ? 'microsoft/DialoGPT-large (open-source)' : 'microsoft/DialoGPT-medium (open-source)',
+        conversation_length: conversationHistory.length
+      };
+    } catch (error) {
+      console.error('Conversation generation error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async generateCode(description: string, language: string = 'python') {
+    if (!this.codeGenerator) {
+      await this.initializeModels();
+    }
+
+    try {
+      const prompt = `# ${language} code for: ${description}\n`;
+      const result = await this.codeGenerator(prompt, {
+        max_new_tokens: 200,
+        temperature: 0.3,
+        do_sample: true,
+        top_p: 0.9
+      });
+
+      return {
+        success: true,
+        code: result[0].generated_text.split(prompt)[1]?.trim() || result[0].generated_text,
+        language: language,
+        model: 'microsoft/CodeGPT-small-py (open-source)',
+        description: description
+      };
+    } catch (error) {
+      console.error('Code generation error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  async getModelStatus() {
+    return {
+      loaded_models: this.modelPool.size,
+      available_models: Array.from(this.modelPool.keys()),
+      capabilities: {
+        text_generation: !!this.textGenerator,
+        conversation: !!this.conversationalAI,
+        question_answering: !!this.questionAnswering,
+        classification: !!this.classifier,
+        embeddings: !!this.embedder,
+        summarization: !!this.summarizer,
+        code_generation: !!this.codeGenerator
+      },
+      performance: {
+        device: 'webgpu',
+        ready: this.modelPool.size > 0
+      }
+    };
+  }
+
+  // Future: GPT-OSS 120B Integration placeholder
+  async loadGPTOSS120B() {
+    console.log('🚀 Preparing for GPT-OSS-120B integration...');
+    
+    try {
+      // This will be implemented when the model is available
+      // const gptOSS = await pipeline(
+      //   'text-generation',
+      //   'openai/gpt-oss-120b',
+      //   { device: 'webgpu', dtype: 'fp16' }
+      // );
+      
+      console.log('📋 GPT-OSS-120B integration coming soon!');
+      return {
+        success: false,
+        message: 'GPT-OSS-120B not yet available in browser environment',
+        alternative: 'Using enhanced DialoGPT-large for now'
+      };
+    } catch (error) {
+      console.error('GPT-OSS-120B loading error:', error);
+      return { success: false, error: error.message };
+    }
+  }
+
+  // Manus.im integration placeholder
+  async integrateManus() {
+    console.log('🚀 Preparing for Manus.im integration...');
+    
+    return {
+      success: false,
+      message: 'Manus.im integration requires API setup',
+      suggestion: 'Consider creating an edge function for Manus.im API calls'
+    };
   }
 
   private getContextPrompt(type: string): string {
