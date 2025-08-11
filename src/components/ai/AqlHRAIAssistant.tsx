@@ -463,16 +463,17 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
     setIsGatheringIntelligence(true);
 
     try {
-      // Enhanced context for better AI responses
+      // Detect query language first
+      const queryLanguage = detectQueryLanguage(currentQuery);
+      
+      // Enhanced context for better AI responses - use detected language
       const aiContext = {
         module: moduleContext,
-        language: isArabic ? 'ar' : 'en',
+        language: queryLanguage,
         company_id: companyId || 'demo-company',
         user_context: `HR Professional using ${moduleContext} module`,
-        conversation_history: messages.slice(-5).map(msg => ({
-          role: msg.type === 'user' ? 'user' : 'assistant',
-          content: msg.content
-        }))
+        user_location: 'saudi_arabia',
+        specialization: 'immigration_hr_expert'
       };
 
       let response;
