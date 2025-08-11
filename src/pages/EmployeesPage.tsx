@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Search, Filter, Users, Building, MapPin, Mail, Phone, Calendar, DollarSign } from 'lucide-react';
 import { toast } from 'sonner';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { AITestDemo } from '@/components/AITestDemo';
 
 interface Employee {
   id: string;
@@ -105,6 +106,9 @@ const EmployeesPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* AI Context-Awareness Test Demo */}
+      <AITestDemo />
+      
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
