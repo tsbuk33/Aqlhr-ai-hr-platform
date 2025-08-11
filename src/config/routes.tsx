@@ -275,6 +275,11 @@ export const ROUTES: RouteConfig[] = [
   { path: '/company', element: lazy(() => import('../pages/Company')), auth: true },
   { path: '/settings', element: lazy(() => import('../pages/Settings')), auth: true },
   
+  // Core module pages
+  { path: '/hr', element: lazy(() => import('../pages/HRPage')), auth: true },
+  { path: '/employee', element: lazy(() => import('../pages/EmployeePage')), auth: true },
+  { path: '/attendance', element: lazy(() => import('../pages/AttendancePage')), auth: true },
+  
   // AI Advanced Components Routes - auth required
   { path: '/automation-workflows', element: AutomationWorkflowEngine, auth: true },
   { path: '/ai-automation/workflow-automation', element: AutomationWorkflowEngine, auth: true },
