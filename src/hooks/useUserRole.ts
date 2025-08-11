@@ -18,9 +18,28 @@ export const useUserRole = () => {
       }
 
       try {
-        // For now, return default role since table might not exist yet
-        setUserRole('super_admin'); // Default to super_admin for testing
-        setCompanyId(null);
+        // Get user role from user_roles table
+        const { data: roleData, error: roleError } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .single();
+        
+        if (roleError || !roleData) {
+          console.log('No role found, defaulting to employee');
+          setUserRole('employee');
+        } else {
+          setUserRole(roleData.role as UserRole);
+        }
+        
+        // Get company ID from profiles
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('company_id')
+          .eq('user_id', user.id)
+          .single();
+          
+        setCompanyId(profile?.company_id || null);
       } catch (error) {
         console.error('Error fetching user role:', error);
         setUserRole('employee');
