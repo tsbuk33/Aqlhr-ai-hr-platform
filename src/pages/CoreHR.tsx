@@ -4,6 +4,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { AITestDemo } from '@/components/AITestDemo';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, 
@@ -267,6 +268,8 @@ const CoreHR = () => {
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6 p-4 sm:p-6">
+      <AITestDemo />
+      
       <EnhancedPageLayout
         title={language === 'ar' ? 'وحدات الموارد البشرية الأساسية' : 'Core HR Modules'}
         description={language === 'ar' ? 'الإدارة الشاملة لجميع عمليات الموارد البشرية' : 'Comprehensive management of all HR processes'}

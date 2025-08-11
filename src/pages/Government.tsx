@@ -7,6 +7,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { AITestDemo } from '@/components/AITestDemo';
 import { 
   useRegions, 
   useCities, 
@@ -366,6 +367,8 @@ const Government = () => {
 
   return (
     <div className="space-y-6">
+      <AITestDemo />
+      
       <AIInsightCard 
         moduleContext="government"
         companyId="demo-company"

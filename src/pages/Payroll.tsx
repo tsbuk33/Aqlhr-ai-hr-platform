@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { AITestDemo } from '@/components/AITestDemo';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AIRecommendationCenter from "@/components/ai/AIRecommendationCenter";
@@ -142,6 +143,8 @@ const Payroll = () => {
           {isArabic ? 'نظام شامل لمعالجة الرواتب والتأمينات الاجتماعية مع أدوات الذكاء الاصطناعي المتقدمة' : 'Comprehensive payroll and GOSI processing system with advanced AI tools'}
         </p>
       </div>
+
+      <AITestDemo />
 
       <Tabs defaultValue="dashboard" className="w-full">
         <TabsList className="grid w-full grid-cols-6">

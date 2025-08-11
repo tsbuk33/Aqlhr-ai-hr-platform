@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Users, DollarSign, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { AITestDemo } from '@/components/AITestDemo';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 
 interface Employee {
@@ -164,6 +165,8 @@ const AnalyticsPage: React.FC = () => {
           Comprehensive workforce analytics for Almalz Contracting Company
         </p>
       </div>
+
+      <AITestDemo />
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
         <TabsList className="grid grid-cols-4 w-full max-w-md">
