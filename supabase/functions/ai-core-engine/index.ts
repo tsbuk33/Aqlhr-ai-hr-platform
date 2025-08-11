@@ -73,6 +73,34 @@ serve(async (req) => {
     });
 
     if (!openAIResponse.ok) {
+      const errorText = await openAIResponse.text();
+      console.error('OpenAI API error:', openAIResponse.status, errorText);
+      
+      // Handle rate limiting and provide fallback response
+      if (openAIResponse.status === 429) {
+        const fallbackResponse = context?.language === 'ar' 
+          ? buildArabicFallbackResponse(query, context)
+          : buildEnglishFallbackResponse(query, context);
+          
+        return new Response(
+          JSON.stringify({ 
+            response: fallbackResponse,
+            timestamp: new Date().toISOString(),
+            module: context?.module || 'unknown',
+            tool_calls: [],
+            language: context?.language || 'en',
+            fallback: true,
+            provider: 'AqlHR Fallback System'
+          }),
+          { 
+            headers: { 
+              ...corsHeaders, 
+              'Content-Type': 'application/json' 
+            } 
+          }
+        );
+      }
+      
       throw new Error(`OpenAI API error: ${openAIResponse.status}`);
     }
 
@@ -150,14 +178,28 @@ serve(async (req) => {
   } catch (error) {
     console.error('AI Core Engine error:', error);
     
+    // Get request data for fallback
+    const requestData = await req.clone().json().catch(() => ({ query: '', context: {} }));
+    const { query: fallbackQuery, context: fallbackContext } = requestData;
+    
+    // Provide contextual fallback response instead of generic error
+    const fallbackResponse = fallbackContext?.language === 'ar' 
+      ? buildArabicFallbackResponse(fallbackQuery, fallbackContext)
+      : buildEnglishFallbackResponse(fallbackQuery, fallbackContext);
+    
     return new Response(
       JSON.stringify({ 
-        error: 'Internal server error',
-        message: error.message,
-        response: 'A system error occurred. Please try again.'
+        response: fallbackResponse,
+        timestamp: new Date().toISOString(),
+        module: fallbackContext?.module || 'unknown',
+        tool_calls: [],
+        language: fallbackContext?.language || 'en',
+        fallback: true,
+        provider: 'AqlHR Fallback System',
+        error: error.message
       }),
       { 
-        status: 500,
+        status: 200, // Return 200 so the client can display the fallback response
         headers: { 
           ...corsHeaders, 
           'Content-Type': 'application/json' 
@@ -472,6 +514,92 @@ async function searchDocuments(args: any, context: any) {
       details: error.message
     };
   }
+}
+
+function buildArabicFallbackResponse(query: string, context: any): string {
+  const module = context?.module || 'default';
+  
+  if (query.toLowerCase().includes('gosi') || query.includes('جوسي') || query.includes('تأمينات')) {
+    return `🏛️ **معلومات التأمينات الاجتماعية (GOSI):**
+
+معدلات GOSI الحالية (2024):
+• السعوديين (النظام الجديد): 9.75% موظف + 11.75% صاحب عمل = 21.5% إجمالي
+• السعوديين (النظام القديم): 9% موظف + 9% صاحب عمل = 18% إجمالي  
+• غير السعوديين: 0% موظف + 2% صاحب عمل = 2% إجمالي
+
+للمزيد من المعلومات، يرجى زيارة موقع التأمينات الاجتماعية الرسمي.`;
+  }
+  
+  if (query.toLowerCase().includes('employee') || query.toLowerCase().includes('موظف') || query.includes('تسجيل')) {
+    return `👥 **إدارة الموظفين:**
+
+لتسجيل موظف جديد:
+1. انتقل إلى قسم "الموظفين"
+2. اضغط على "إضافة موظف جديد"
+3. املأ البيانات الشخصية (الاسم، الهوية، الجنسية)
+4. أدخل تفاصيل الوظيفة (المسمى، القسم، الراتب)
+5. ارفع المستندات المطلوبة (الهوية، جواز السفر)
+6. احفظ البيانات
+
+المتطلبات الحكومية:
+• رقم الهوية/الإقامة
+• تصريح العمل للوافدين
+• العقد الموحد في منصة قوى`;
+  }
+  
+  return `🤖 **مساعد عقل HR:**
+
+يمكنني مساعدتك في:
+• إدارة الموظفين والتوظيف
+• معالجة الرواتب وحسابات GOSI  
+• التكامل الحكومي (قوى، وزارة العمل)
+• التحليلات والتقارير
+• الامتثال للقوانين السعودية
+
+يرجى تحديد ما تحتاج مساعدة به بالضبط.`;
+}
+
+function buildEnglishFallbackResponse(query: string, context: any): string {
+  const module = context?.module || 'default';
+  
+  if (query.toLowerCase().includes('gosi') || query.toLowerCase().includes('social insurance')) {
+    return `🏛️ **GOSI (Social Insurance) Information:**
+
+Current GOSI Rates (2024):
+• Saudis (NEW System): 9.75% employee + 11.75% employer = 21.5% total
+• Saudis (OLD System): 9% employee + 9% employer = 18% total  
+• Non-Saudis: 0% employee + 2% employer = 2% total
+
+For more information, please visit the official GOSI website.`;
+  }
+  
+  if (query.toLowerCase().includes('register') || query.toLowerCase().includes('employee') || query.toLowerCase().includes('new hire')) {
+    return `👥 **Employee Registration:**
+
+To register a new employee:
+1. Navigate to the "Employees" section
+2. Click "Add New Employee"
+3. Fill personal information (Name, ID, Nationality)
+4. Enter job details (Title, Department, Salary)
+5. Upload required documents (ID, Passport)
+6. Save the data
+
+Government Requirements:
+• National ID/Iqama number
+• Work permit for expatriates
+• Unified contract in Qiwa platform`;
+  }
+  
+  return `🤖 **AqlHR Assistant:**
+
+I can help you with:
+• Employee management and recruitment
+• Payroll processing and GOSI calculations
+• Government integration (Qiwa, MOL)
+• Analytics and reporting
+• Saudi compliance requirements
+
+Please specify what you need help with.`;
 }
 
 async function logInteraction(query: string, response: string, context: any, toolCalls: any[]) {

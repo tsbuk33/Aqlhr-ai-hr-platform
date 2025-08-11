@@ -68,13 +68,6 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isGatheringIntelligence, setIsGatheringIntelligence] = useState(false);
   const [showDocumentUpload, setShowDocumentUpload] = useState(false);
-  const [spellCheckEnabled, setSpellCheckEnabled] = useState(true);
-  const [spellingSuggestions, setSpellingSuggestions] = useState<string[]>([]);
-  const [showSpellingSuggestions, setShowSpellingSuggestions] = useState(false);
-  const [isGeneratingContent, setIsGeneratingContent] = useState(false);
-  const [generatedContentType, setGeneratedContentType] = useState<string>('');
-  const [isScrapingKnowledge, setIsScrapingKnowledge] = useState(false);
-  const [knowledgeBaseStatus, setKnowledgeBaseStatus] = useState<string>('');
   
   // AI Agent Orchestrator integration
   const { 
@@ -186,26 +179,6 @@ I can:
 
 **What analysis would you like to work on?**`
     },
-    'health-safety': {
-      ar: `⛑️ **مرحباً! أنا مساعدك الذكي للصحة والسلامة المهنية**
-
-أساعدك في:
-• تحليل مخاطر مكان العمل
-• إنشاء تقارير الحوادث
-• جدولة التدريب الأمني
-• مراجعة معايير السلامة
-
-**كيف يمكنني مساعدتك في تحسين السلامة؟**`,
-      en: `⛑️ **Hello! I'm your AI assistant for Health & Safety**
-
-I help you with:
-• Workplace risk analysis
-• Incident report creation
-• Safety training scheduling
-• Safety standards review
-
-**How can I help you improve safety?**`
-    },
     'default': {
       ar: `🤖 **مرحباً! أنا مساعدك الذكي المتخصص في منصة عقل HR**
 
@@ -250,6 +223,106 @@ I provide comprehensive services in:
     moduleDocuments 
   } = useDocumentAwareAI(moduleContext);
 
+  // Local fallback response generator
+  const generateLocalFallbackResponse = (query: string, isArabic: boolean, module: string): string => {
+    const lowerQuery = query.toLowerCase();
+    
+    // GOSI/Social Insurance queries
+    if (lowerQuery.includes('gosi') || lowerQuery.includes('جوسي') || lowerQuery.includes('تأمينات') || lowerQuery.includes('social insurance')) {
+      return isArabic 
+        ? `🏛️ **معلومات التأمينات الاجتماعية (GOSI):**
+
+معدلات GOSI الحالية (2024):
+• السعوديين (النظام الجديد): 9.75% موظف + 11.75% صاحب عمل = 21.5% إجمالي
+• السعوديين (النظام القديم): 9% موظف + 9% صاحب عمل = 18% إجمالي  
+• غير السعوديين: 0% موظف + 2% صاحب عمل = 2% إجمالي
+
+للمزيد من المعلومات، يرجى زيارة موقع التأمينات الاجتماعية الرسمي.`
+        : `🏛️ **GOSI (Social Insurance) Information:**
+
+Current GOSI Rates (2024):
+• Saudis (NEW System): 9.75% employee + 11.75% employer = 21.5% total
+• Saudis (OLD System): 9% employee + 9% employer = 18% total  
+• Non-Saudis: 0% employee + 2% employer = 2% total
+
+For more information, please visit the official GOSI website.`;
+    }
+    
+    // Employee registration queries
+    if (lowerQuery.includes('register') || lowerQuery.includes('employee') || lowerQuery.includes('تسجيل') || lowerQuery.includes('موظف')) {
+      return isArabic
+        ? `👥 **تسجيل موظف جديد:**
+
+خطوات التسجيل:
+1. انتقل إلى قسم "الموظفين"
+2. اضغط على "إضافة موظف جديد"
+3. املأ البيانات الشخصية (الاسم، الهوية، الجنسية)
+4. أدخل تفاصيل الوظيفة (المسمى، القسم، الراتب)
+5. ارفع المستندات المطلوبة
+6. احفظ البيانات
+
+المتطلبات:
+• رقم الهوية/الإقامة
+• تصريح العمل للوافدين
+• العقد الموحد في منصة قوى`
+        : `👥 **Employee Registration:**
+
+Registration Steps:
+1. Navigate to "Employees" section
+2. Click "Add New Employee"
+3. Fill personal information (Name, ID, Nationality)
+4. Enter job details (Title, Department, Salary)
+5. Upload required documents
+6. Save the data
+
+Requirements:
+• National ID/Iqama number
+• Work permit for expatriates
+• Unified contract in Qiwa platform`;
+    }
+    
+    // Saudization queries
+    if (lowerQuery.includes('saudization') || lowerQuery.includes('سعودة') || lowerQuery.includes('nitaqat') || lowerQuery.includes('نطاقات')) {
+      return isArabic
+        ? `🇸🇦 **معلومات السعودة:**
+
+نطاقات الشركات:
+• النطاق البلاتيني: 40% فأكثر
+• النطاق الأخضر: 25% - 39%
+• النطاق الأصفر: 10% - 24%
+• النطاق الأحمر: أقل من 10%
+
+لحساب نسبة السعودة:
+النسبة = (عدد السعوديين ÷ إجمالي الموظفين) × 100`
+        : `🇸🇦 **Saudization Information:**
+
+Company Categories:
+• Platinum: 40% and above
+• Green: 25% - 39%
+• Yellow: 10% - 24%
+• Red: Less than 10%
+
+To calculate Saudization rate:
+Rate = (Saudi Employees ÷ Total Employees) × 100`;
+    }
+    
+    // General module-specific responses
+    const moduleResponses = {
+      payroll: isArabic 
+        ? `💰 **مساعد الرواتب:**\n\nيمكنني مساعدتك في:\n• معالجة الرواتب\n• حسابات GOSI\n• نظام حماية الأجور WPS\n• الاستقطاعات والمزايا\n\nما الذي تحتاج مساعدة به بالضبط؟`
+        : `💰 **Payroll Assistant:**\n\nI can help you with:\n• Payroll processing\n• GOSI calculations\n• WPS system\n• Deductions and benefits\n\nWhat specifically do you need help with?`,
+      employees: isArabic
+        ? `👥 **مساعد إدارة الموظفين:**\n\nيمكنني مساعدتك في:\n• تسجيل الموظفين\n• إدارة البيانات\n• التقييم والأداء\n• الامتثال للقوانين\n\nكيف يمكنني مساعدتك؟`
+        : `👥 **Employee Management Assistant:**\n\nI can help you with:\n• Employee registration\n• Data management\n• Performance evaluation\n• Compliance\n\nHow can I assist you?`,
+      government: isArabic
+        ? `🏛️ **مساعد التكامل الحكومي:**\n\nيمكنني مساعدتك في:\n• منصة قوى\n• وزارة العمل\n• التأمينات الاجتماعية\n• الإجراءات الحكومية\n\nأي خدمة حكومية تحتاج مساعدة بها؟`
+        : `🏛️ **Government Integration Assistant:**\n\nI can help you with:\n• Qiwa platform\n• Ministry of Labor\n• GOSI\n• Government procedures\n\nWhich government service do you need help with?`
+    };
+    
+    return moduleResponses[module as keyof typeof moduleResponses] || (isArabic
+      ? `🤖 **مساعد عقل HR:**\n\nيمكنني مساعدتك في جميع أنواع استفسارات الموارد البشرية. يرجى تحديد ما تحتاج مساعدة به بالضبط.`
+      : `🤖 **AqlHR Assistant:**\n\nI can help you with all types of HR inquiries. Please specify what you need help with.`);
+  };
 
   // Comprehensive AI suggestions for ALL modules
   const getContextualSuggestions = () => {
@@ -334,38 +407,6 @@ I provide comprehensive services in:
           'Cost analysis'
         ]
       },
-      'health-safety': {
-        ar: [
-          'تحليل المخاطر في مكان العمل',
-          'إنشاء تقرير حادث جديد',
-          'جدولة التدريب الأمني',
-          'مراجعة معايير السلامة',
-          'تقييم معدات الحماية'
-        ],
-        en: [
-          'Analyze workplace safety risks',
-          'Create new incident report',
-          'Schedule safety training',
-          'Review safety standards',
-          'Evaluate protective equipment'
-        ]
-      },
-      'ai-features': {
-        ar: [
-          'إدارة محركات الذكاء الاصطناعي',
-          'إنشاء توصيات ذكية',
-          'تحليل أداء النماذج',
-          'إعداد معالجة اللغة الطبيعية',
-          'تحسين دقة المحرك الذكي'
-        ],
-        en: [
-          'Manage AI engine configurations',
-          'Generate intelligent recommendations',
-          'Analyze model performance',
-          'Configure NLP processing',
-          'Optimize AI engine accuracy'
-        ]
-      },
       'default': {
         ar: [
           'كيف أسجل موظف جديد؟',
@@ -387,498 +428,97 @@ I provide comprehensive services in:
     return suggestions[moduleContext as keyof typeof suggestions] || suggestions.default;
   };
 
-  // Remove duplicate useEffect - welcome message is handled above
-
-  // Multi-modal content generation functions
-  const handleMultiModalGeneration = async (contentType: string, prompt: string) => {
-    setIsGeneratingContent(true);
-    setGeneratedContentType(contentType);
-    
-    try {
-      let functionName = '';
-      let requestBody: any = {
-        prompt: prompt,
-        language: isArabic ? 'ar' : 'en',
-        companyName: 'AqlHR Company'
-      };
-
-      switch (contentType) {
-        case 'image':
-          functionName = 'manus-image-generator';
-          requestBody = {
-            ...requestBody,
-            style: 'professional',
-            format: 'png',
-            size: '1024x1024'
-          };
-          break;
-        case 'presentation':
-          functionName = 'manus-presentation-generator';
-          requestBody = {
-            ...requestBody,
-            presentationType: 'performance',
-            slideCount: 8
-          };
-          break;
-        case 'document':
-          functionName = 'manus-document-generator';
-          requestBody = {
-            ...requestBody,
-            documentType: 'policy'
-          };
-          break;
-        case 'visualization':
-          functionName = 'manus-visualization-generator';
-          requestBody = {
-            ...requestBody,
-            chartType: 'bar',
-            dataSource: 'sample'
-          };
-          break;
-        default:
-          throw new Error('Unknown content type');
-      }
-
-      const { data, error } = await supabase.functions.invoke(functionName, {
-        body: requestBody
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      // Create a response message with the generated content
-      const contentMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'assistant',
-        content: formatGeneratedContent(data, contentType),
-        timestamp: new Date(),
-        module: moduleContext,
-        confidence: 95
-      };
-
-      setMessages(prev => [...prev, contentMessage]);
-      
-    } catch (error) {
-      console.error('Multi-modal generation error:', error);
-      
-      const errorMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'assistant',
-        content: isArabic 
-          ? `عذراً، واجهت مشكلة في إنشاء ${contentType}. يرجى المحاولة مرة أخرى.`
-          : `Sorry, I encountered an issue generating ${contentType}. Please try again.`,
-        timestamp: new Date(),
-        module: moduleContext,
-        confidence: 0
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsGeneratingContent(false);
-      setGeneratedContentType('');
-    }
-  };
-
-  const formatGeneratedContent = (data: any, contentType: string) => {
-    const timestamp = new Date().toLocaleString(isArabic ? 'ar-SA' : 'en-US');
-    
-    switch (contentType) {
-      case 'image':
-        return isArabic
-          ? `🖼️ **تم إنشاء الصورة بنجاح!**\n\n` +
-            `${data.image ? `![Generated Image](${data.image})` : 'تم إنشاء الصورة ولكن لا يمكن عرضها في الوقت الحالي.'}\n\n` +
-            `**الوصف:** ${data.prompt}\n` +
-            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
-            `يمكنك الآن تنزيل هذه الصورة واستخدامها في التقارير والعروض التقديمية.`
-          : `🖼️ **Image Generated Successfully!**\n\n` +
-            `${data.image ? `![Generated Image](${data.image})` : 'Image was generated but cannot be displayed at the moment.'}\n\n` +
-            `**Description:** ${data.prompt}\n` +
-            `**Generated:** ${timestamp}\n\n` +
-            `You can now download this image and use it in reports and presentations.`;
-      
-      case 'presentation':
-        return isArabic
-          ? `📊 **تم إنشاء العرض التقديمي بنجاح!**\n\n` +
-            `**العنوان:** ${data.presentation?.data?.title || 'عرض تقديمي جديد'}\n` +
-            `**عدد الشرائح:** ${data.presentation?.slideCount || 1}\n` +
-            `**اللغة:** ${data.presentation?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
-            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
-            `تم إنشاء عرض تقديمي احترافي يمكنك تنزيله واستخدامه في اجتماعاتك.`
-          : `📊 **Presentation Generated Successfully!**\n\n` +
-            `**Title:** ${data.presentation?.data?.title || 'New Presentation'}\n` +
-            `**Slides:** ${data.presentation?.slideCount || 1}\n` +
-            `**Language:** ${data.presentation?.language === 'ar' ? 'Arabic' : 'English'}\n` +
-            `**Generated:** ${timestamp}\n\n` +
-            `A professional presentation has been created for you to download and use in your meetings.`;
-      
-      case 'document':
-        return isArabic
-          ? `📄 **تم إنشاء المستند بنجاح!**\n\n` +
-            `**نوع المستند:** ${data.document?.type || 'مستند'}\n` +
-            `**اللغة:** ${data.document?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
-            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
-            `**محتوى المستند:**\n${data.document?.content?.substring(0, 300)}...\n\n` +
-            `تم إنشاء مستند احترافي يمكنك تنزيله بصيغة HTML.`
-          : `📄 **Document Generated Successfully!**\n\n` +
-            `**Document Type:** ${data.document?.type || 'document'}\n` +
-            `**Language:** ${data.document?.language === 'ar' ? 'Arabic' : 'English'}\n` +
-            `**Generated:** ${timestamp}\n\n` +
-            `**Document Preview:**\n${data.document?.content?.substring(0, 300)}...\n\n` +
-            `A professional document has been created for you to download in HTML format.`;
-      
-      case 'visualization':
-        return isArabic
-          ? `📈 **تم إنشاء التصور البياني بنجاح!**\n\n` +
-            `**نوع المخطط:** ${data.visualization?.type || 'مخطط بياني'}\n` +
-            `**اللغة:** ${data.visualization?.language === 'ar' ? 'العربية' : 'الإنجليزية'}\n` +
-            `**تاريخ الإنشاء:** ${timestamp}\n\n` +
-            `تم إنشاء مخطط بياني تفاعلي يمكنك تنزيله واستخدامه في التقارير.`
-          : `📈 **Visualization Generated Successfully!**\n\n` +
-            `**Chart Type:** ${data.visualization?.type || 'chart'}\n` +
-            `**Language:** ${data.visualization?.language === 'ar' ? 'Arabic' : 'English'}\n` +
-            `**Generated:** ${timestamp}\n\n` +
-            `An interactive chart has been created for you to download and use in reports.`;
-      
-      default:
-        return isArabic
-          ? `✅ تم إنشاء المحتوى بنجاح في ${timestamp}`
-          : `✅ Content generated successfully at ${timestamp}`;
-    }
-  };
-
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
-    
+
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       type: 'user',
-      content: inputValue,
+      content: inputValue.trim(),
       timestamp: new Date(),
       module: moduleContext
     };
-    
+
     setMessages(prev => [...prev, userMessage]);
+    const currentQuery = inputValue.trim();
     setInputValue('');
     setIsLoading(true);
     setIsGatheringIntelligence(true);
-    
+
     try {
-      let combinedResponse = '';
-      
-      // Check if this is a GOSI-related question
-      const isGosiQuestion = inputValue.toLowerCase().includes('gosi') || 
-                            inputValue.toLowerCase().includes('جوسي') ||
-                            inputValue.toLowerCase().includes('تأمينات') ||
-                            inputValue.toLowerCase().includes('social insurance');
-      
-      let aiResponse;
-      let aiError;
+      // Enhanced context for better AI responses
+      const aiContext = {
+        module: moduleContext,
+        language: isArabic ? 'ar' : 'en',
+        company_id: companyId || 'demo-company',
+        user_context: `HR Professional using ${moduleContext} module`,
+        conversation_history: messages.slice(-5).map(msg => ({
+          role: msg.type === 'user' ? 'user' : 'assistant',
+          content: msg.content
+        }))
+      };
 
-      if (isGosiQuestion) {
-        // Handle GOSI questions with the existing GOSI engine
-        const { data: gosiData, error: gosiErr } = await supabase.functions.invoke('gosi-engine/preview', {
-          body: { company_id: companyId || 'demo-company' }
-        });
-        
-        if (gosiErr) {
-          throw new Error(gosiErr.message);
-        }
-        
-        // Format GOSI response
-        const gosiResponse = isArabic 
-          ? `🏛️ **معلومات التأمينات الاجتماعية (GOSI):**\n\n` +
-            `📊 **ملخص الموظفين:** ${gosiData?.summary?.total_employees || 0} موظف\n` +
-            `💰 **إجمالي المساهمات:** ${gosiData?.summary?.total_contributions ? new Intl.NumberFormat('ar-SA', {style: 'currency', currency: 'SAR'}).format(gosiData.summary.total_contributions) : '0 ريال'}\n` +
-            `🇸🇦 **موظفين سعوديين:** ${gosiData?.summary?.saudi_employees || 0}\n` +
-            `🌍 **موظفين غير سعوديين:** ${gosiData?.summary?.non_saudi_employees || 0}\n\n` +
-            `📈 **معدلات GOSI الحالية (2024):**\n` +
-            `• السعوديين (النظام الجديد): 9.75% موظف + 11.75% صاحب عمل = 21.5% إجمالي\n` +
-            `• السعوديين (النظام القديم): 9% موظف + 9% صاحب عمل = 18% إجمالي\n` +
-            `• غير السعوديين: 0% موظف + 2% صاحب عمل = 2% إجمالي`
-          : `🏛️ **GOSI (Social Insurance) Information:**\n\n` +
-            `📊 **Employee Summary:** ${gosiData?.summary?.total_employees || 0} employees\n` +
-            `💰 **Total Contributions:** ${gosiData?.summary?.total_contributions ? new Intl.NumberFormat('en-SA', {style: 'currency', currency: 'SAR'}).format(gosiData.summary.total_contributions) : 'SAR 0'}\n` +
-            `🇸🇦 **Saudi Employees:** ${gosiData?.summary?.saudi_employees || 0}\n` +
-            `🌍 **Non-Saudi Employees:** ${gosiData?.summary?.non_saudi_employees || 0}\n\n` +
-            `📈 **Current GOSI Rates (2024):**\n` +
-            `• Saudis (NEW System): 9.75% employee + 11.75% employer = 21.5% total\n` +
-            `• Saudis (OLD System): 9% employee + 9% employer = 18% total\n` +
-            `• Non-Saudis: 0% employee + 2% employer = 2% total`;
-        
-        aiResponse = { response: gosiResponse };
-        aiError = null;
-      } else {
-        // Use the AI Agent Orchestrator with proper context
-        try {
-          const { data, error } = await supabase.functions.invoke('ai-agent-orchestrator', {
-            body: {
-              query: inputValue,
-              context: {
-                module: moduleContext,
-                language: isArabic ? 'ar' : 'en',
-                company_id: companyId || 'demo-company',
-                user_context: `HR Professional using ${moduleContext} module`,
-                conversation_history: messages.slice(-5).map(msg => ({
-                  role: msg.type === 'user' ? 'user' : 'assistant',
-                  content: msg.content
-                }))
-              }
-            }
-          });
-          
-          aiResponse = data;
-          aiError = error;
-        } catch (error) {
-          aiError = error;
-          aiResponse = null;
-        }
-      }
-
-      if (aiError) {
-        console.error('Error sending message:', aiError);
-        setIsGatheringIntelligence(false);
-        
-        // Show specific error based on the actual error
-        const errorMessage = aiError.message || 'Unknown error';
-        
-        if (errorMessage.includes('OPENAI_API_KEY')) {
-          toast({
-            title: isArabic ? "مفتاح API غير موجود" : "API Key Missing",
-            description: isArabic ? "يرجى إعداد مفتاح OpenAI API في إعدادات المشروع" : "Please configure OpenAI API key in project settings",
-            variant: "destructive",
-          });
-        } else {
-          toast({
-            title: isArabic ? "خطأ في الاتصال" : "Connection Error", 
-            description: isArabic ? "يرجى المحاولة مرة أخرى" : "Please try again",
-            variant: "destructive",
-          });
-        }
-        
-        // Provide fallback response with contextual help
-        const fallbackResponse = isArabic
-          ? `عذراً، حدث خطأ مؤقت في الاتصال. يمكنني مساعدتك من خلال معرفتي المحفوظة:\n\n` +
-            `**الوحدة الحالية: ${moduleContext}**\n` +
-            `يمكنني مساعدتك في جميع جوانب إدارة الموارد البشرية. اسألني عن أي شيء تحتاج إليه!`
-          : `Sorry, there was a temporary connection error. I can help you with my stored knowledge:\n\n` +
-            `**Current Module: ${moduleContext}**\n` +
-            `I can assist you with all aspects of HR management. Ask me anything you need!`;
-            
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'assistant',
-          content: fallbackResponse,
-          timestamp: new Date(),
+      let response;
+      let responseSource = '';
+      
+      // Try multiple AI sources with proper fallback
+      try {
+        // First try: AI Agent Orchestrator (most comprehensive)
+        response = await queryAIAgent(currentQuery, {
+          provider: 'auto',
           module: moduleContext,
-          confidence: 80
-        };
+          context: aiContext
+        });
+        responseSource = 'AI Agent Orchestrator';
+      } catch (orchestratorError) {
+        console.log('AI Orchestrator failed, trying document-aware AI:', orchestratorError);
         
-        setMessages(prev => [...prev, assistantMessage]);
-        return;
+        try {
+          // Second try: Document-aware AI
+          response = await queryWithDocuments(currentQuery, {
+            includeAllDocs: true,
+            language: isArabic ? 'ar' : 'en'
+          });
+          responseSource = 'Document-aware AI';
+        } catch (documentAIError) {
+          console.log('Document-aware AI failed, using local fallback:', documentAIError);
+          
+          // Final fallback: Local response generation
+          response = {
+            response: generateLocalFallbackResponse(currentQuery, isArabic, moduleContext),
+            provider: 'AqlHR Local Fallback',
+            confidence: 75
+          };
+          responseSource = 'Local Fallback';
+        }
       }
 
-      combinedResponse = aiResponse.response;
-      
-      setIsGatheringIntelligence(false);
-      
+      // Ensure we have a valid response
+      const responseText = response?.response || response?.answer || generateLocalFallbackResponse(currentQuery, isArabic, moduleContext);
+
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         type: 'assistant',
-        content: combinedResponse,
+        content: responseText,
         timestamp: new Date(),
         module: moduleContext,
-        confidence: 95
+        confidence: response?.confidence || 75
       };
-      
+
       setMessages(prev => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setIsGatheringIntelligence(false);
       
-      // Show user-friendly error notification
+      // Show success toast
       toast({
-        title: isArabic ? "خطأ مؤقت" : "Temporary Error",
-        description: isArabic ? "سأقدم لك إجابة مفيدة من معرفتي" : "I'll provide a helpful response from my knowledge",
-        variant: "default",
+        title: isArabic ? "تم الإرسال بنجاح" : "Message sent successfully",
+        description: isArabic ? `تم استلام الرد من ${responseSource}` : `Response received from ${responseSource}`,
+        duration: 2000,
       });
+
+    } catch (error) {
+      console.error('AI query error:', error);
       
-      // Provide context-aware helpful responses based on the question and current page
-      const getContextualResponse = () => {
-        const query = inputValue.toLowerCase();
-        
-        // Check if asking about WPS
-        if (query.includes('wps') || query.includes('wage protection')) {
-          return isArabic 
-            ? `🏛️ **نظام حماية الأجور (WPS):**\n\n` +
-              `نظام حماية الأجور هو آلية إلكترونية أطلقتها وزارة الموارد البشرية والتنمية الاجتماعية لحماية حقوق العمال في المملكة.\n\n` +
-              `**الأهداف الرئيسية:**\n` +
-              `• ضمان دفع الرواتب في المواعيد المحددة\n` +
-              `• حماية حقوق العمال المالية\n` +
-              `• تعزيز الشفافية في علاقات العمل\n` +
-              `• مراقبة التزام أصحاب العمل\n\n` +
-              `**كيفية العمل:**\n` +
-              `• يتم ربط النظام مع البنوك السعودية\n` +
-              `• تسجيل جميع المدفوعات إلكترونياً\n` +
-              `• إرسال تقارير شهرية لوزارة العمل\n` +
-              `• متابعة أي تأخير في الدفع`
-            : `🏛️ **Wage Protection System (WPS):**\n\n` +
-              `The Wage Protection System is an electronic mechanism launched by the Ministry of Human Resources and Social Development to protect workers' rights in Saudi Arabia.\n\n` +
-              `**Main Objectives:**\n` +
-              `• Ensure timely salary payments\n` +
-              `• Protect workers' financial rights\n` +
-              `• Enhance transparency in employment relations\n` +
-              `• Monitor employer compliance\n\n` +
-              `**How it Works:**\n` +
-              `• Connected with Saudi banks\n` +
-              `• All payments recorded electronically\n` +
-              `• Monthly reports sent to MOL\n` +
-              `• Monitor any payment delays`;
-        }
-        
-        // Check if asking about how to use current page or looking for help
-        if (query.includes('how') || query.includes('use') || query.includes('new') || query.includes('help') || 
-            query.includes('explain') || query.includes('page') || query.includes('guide') || 
-            query.includes('كيف') || query.includes('استخدم') || query.includes('جديد') || query.includes('مساعدة')) {
-          
-          const currentModule = moduleContext || 'default';
-          
-          // Performance Strategy page specific guidance
-          if (currentModule.includes('performance') || currentModule.includes('strategic')) {
-            return isArabic
-              ? `🎯 **مرحباً بك في صفحة استراتيجية الأداء!**\n\n` +
-                `**فهم مؤشرات الأداء الحالية:**\n\n` +
-                `🏆 **الموظفون المتميزون (567):**\n` +
-                `• هؤلاء الموظفون الذين حققوا أداءً استثنائياً\n` +
-                `• يمكن استخدامهم كقدوة للآخرين\n` +
-                `• قم بدراسة ممارساتهم لتطبيقها على الفرق الأخرى\n\n` +
-                `⭐ **متوسط التقييم (4.2/5):**\n` +
-                `• مؤشر جيد يعكس الأداء العام\n` +
-                `• هدف تحسينه للوصول إلى 4.5+\n` +
-                `• راجع التقييمات المنخفضة لتحديد نقاط التحسين\n\n` +
-                `🎯 **تحقيق الأهداف (89%):**\n` +
-                `• نسبة ممتازة تقترب من الهدف المثالي 95%\n` +
-                `• حدد الأهداف غير المحققة (11%) لوضع خطط محددة\n` +
-                `• ضع استراتيجيات لتحسين الـ 6% المتبقية\n\n` +
-                `💰 **عائد الاستثمار في الأداء (23%):**\n` +
-                `• عائد ممتاز يفوق المعدل الصناعي (15-20%)\n` +
-                `• استمر في الاستثمار في برامج التطوير\n` +
-                `• قم بقياس ROI لكل برنامج منفصلاً\n\n` +
-                `**خطوات للبدء:**\n` +
-                `1. **راجع الأرقام أعلاه** وحدد نقاط القوة والضعف\n` +
-                `2. **استخدم أداة رفع الوثائق** لإضافة تقارير الأداء\n` +
-                `3. **اسأل المساعد الذكي** عن استراتيجيات محددة\n` +
-                `4. **ضع خطة تحسين** بناءً على البيانات\n\n` +
-                `💡 **نصائح متقدمة:**\n` +
-                `• قارن الأداء بين الأقسام المختلفة\n` +
-                `• حدد الموظفين الذين يحتاجون دعماً إضافياً\n` +
-                `• ضع برامج تطوير مخصصة لكل مستوى أداء\n` +
-                `• اربط الأداء بأهداف الشركة الاستراتيجية`
-              : `🎯 **Welcome to Performance Strategy Page!**\n\n` +
-                `**Understanding Your Current Performance Metrics:**\n\n` +
-                `🏆 **High Performers (567):**\n` +
-                `• These are your top-performing employees\n` +
-                `• Use them as mentors and role models\n` +
-                `• Study their best practices to replicate across teams\n\n` +
-                `⭐ **Average Rating (4.2/5):**\n` +
-                `• Good overall performance indicator\n` +
-                `• Target improvement to reach 4.5+\n` +
-                `• Review lower ratings to identify improvement areas\n\n` +
-                `🎯 **Goal Achievement (89%):**\n` +
-                `• Excellent rate approaching the ideal 95%\n` +
-                `• Identify the unmet goals (11%) for targeted planning\n` +
-                `• Develop strategies to improve the remaining 6%\n\n` +
-                `💰 **Performance ROI (23%):**\n` +
-                `• Excellent return exceeding industry average (15-20%)\n` +
-                `• Continue investing in development programs\n` +
-                `• Measure ROI for each program separately\n\n` +
-                `**Getting Started Steps:**\n` +
-                `1. **Review the numbers above** and identify strengths/weaknesses\n` +
-                `2. **Use the document uploader** to add performance reports\n` +
-                `3. **Ask the AI assistant** about specific strategies\n` +
-                `4. **Create improvement plan** based on the data\n\n` +
-                `💡 **Advanced Tips:**\n` +
-                `• Compare performance across departments\n` +
-                `• Identify employees needing additional support\n` +
-                `• Create customized development programs for each performance level\n` +
-                `• Link performance to strategic company objectives`;
-          }
-          
-          switch (currentModule) {
-            case 'payroll':
-              return isArabic
-                ? `📊 **دليل استخدام صفحة الرواتب:**\n\n` +
-                  `**الميزات الرئيسية:**\n` +
-                  `• **نظرة عامة على الرواتب:** عرض إجمالي الرواتب والتكاليف الشهرية\n` +
-                  `• **معلومات GOSI:** متابعة اشتراكات التأمينات الاجتماعية\n` +
-                  `• **نظام WPS:** مراقبة نظام حماية الأجور والامتثال\n` +
-                  `• **التقارير المالية:** إنشاء تقارير مفصلة للرواتب\n\n` +
-                  `**كيفية الاستخدام:**\n` +
-                  `• استعرض البيانات في الأقسام المختلفة\n` +
-                  `• استخدم المرشحات لتصفية المعلومات\n` +
-                  `• اضغط على "إنشاء تقرير" للحصول على تقارير مفصلة\n` +
-                  `• راجع حالة WPS للتأكد من الامتثال\n\n` +
-                  `**نصائح مهمة:**\n` +
-                  `• تأكد من تحديث بيانات الموظفين قبل معالجة الرواتب\n` +
-                  `• راجع حسابات GOSI بانتظام للامتثال\n` +
-                  `• استخدم التقارير لمتابعة الأداء المالي`
-                : `📊 **Payroll Page Usage Guide:**\n\n` +
-                  `**Main Features:**\n` +
-                  `• **Payroll Overview:** View total salaries and monthly costs\n` +
-                  `• **GOSI Information:** Track social insurance contributions\n` +
-                  `• **WPS System:** Monitor Wage Protection System compliance\n` +
-                  `• **Financial Reports:** Generate detailed payroll reports\n\n` +
-                  `**How to Use:**\n` +
-                  `• Browse data in different sections\n` +
-                  `• Use filters to refine information\n` +
-                  `• Click "Generate Report" for detailed reports\n` +
-                  `• Review WPS status to ensure compliance\n\n` +
-                  `**Important Tips:**\n` +
-                  `• Update employee data before processing payroll\n` +
-                  `• Review GOSI calculations regularly for compliance\n` +
-                  `• Use reports to track financial performance`;
-            
-            case 'employees':
-              return isArabic
-                ? `👥 **دليل استخدام إدارة الموظفين:**\n\n` +
-                  `• إضافة موظفين جدد وإدارة بياناتهم\n` +
-                  `• تتبع الحضور والانصراف\n` +
-                  `• إدارة الإجازات والعطل\n` +
-                  `• متابعة الأداء والتقييمات`
-                : `👥 **Employee Management Guide:**\n\n` +
-                  `• Add new employees and manage their data\n` +
-                  `• Track attendance and time records\n` +
-                  `• Manage leaves and holidays\n` +
-                  `• Monitor performance and evaluations`;
-            
-            default:
-              return isArabic
-                ? `🏢 **مرحباً بك في منصة AqlHR:**\n\n` +
-                  `منصة شاملة لإدارة الموارد البشرية تتوافق مع القوانين السعودية.\n\n` +
-                  `**الميزات المتاحة:**\n` +
-                  `• إدارة الموظفين والرواتب\n` +
-                  `• نظام حماية الأجور (WPS)\n` +
-                  `• حسابات GOSI والامتثال\n` +
-                  `• التكامل مع الأنظمة الحكومية\n` +
-                  `• التحليلات والتقارير المتقدمة`
-                : `🏢 **Welcome to AqlHR Platform:**\n\n` +
-                  `A comprehensive HR management platform compliant with Saudi regulations.\n\n` +
-                  `**Available Features:**\n` +
-                  `• Employee and payroll management\n` +
-                  `• Wage Protection System (WPS)\n` +
-                  `• GOSI calculations and compliance\n` +
-                  `• Government systems integration\n` +
-                  `• Advanced analytics and reporting`;
-          }
-        }
-        
-        // Generic fallback
-        return isArabic
-          ? `أعتذر عن المشكلة التقنية. أنا مساعدك الذكي المتخصص في الموارد البشرية ويمكنني مساعدتك في:\n\n• تسجيل الموظفين الجدد\n• حسابات الرواتب و GOSI\n• الامتثال الحكومي\n• قوانين العمل السعودية\n• نظام حماية الأجور\n• منصة قوى ونطاقات\n\nيرجى إعادة صياغة سؤالك وسأكون سعيداً لمساعدتك.`
-          : `Sorry for the technical issue. I'm your specialized HR AI assistant and I can help you with:\n\n• New employee registration\n• Payroll and GOSI calculations\n• Government compliance\n• Saudi labor laws\n• Wage Protection System\n• Qiwa platform and Nitaqat\n\nPlease rephrase your question and I'll be happy to help you.`;
-      };
-      
-      const fallbackResponse = getContextualResponse();
+      // Provide helpful fallback response even in error case
+      const fallbackResponse = generateLocalFallbackResponse(currentQuery, isArabic, moduleContext);
       
       const errorMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -886,311 +526,307 @@ I provide comprehensive services in:
         content: fallbackResponse,
         timestamp: new Date(),
         module: moduleContext,
-        confidence: 90
+        confidence: 50
       };
       
       setMessages(prev => [...prev, errorMessage]);
+      
+      // Show error toast
+      toast({
+        title: isArabic ? "استخدام النظام البديل" : "Using fallback system",
+        description: isArabic ? "تم تقديم إجابة من النظام المحلي" : "Provided response from local system",
+        variant: "default",
+        duration: 3000,
+      });
     } finally {
       setIsLoading(false);
+      setIsGatheringIntelligence(false);
     }
   };
 
-  const handleClearChat = () => {
-    const greeting = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings.default;
+  const handleSuggestionClick = (suggestion: string) => {
+    setInputValue(suggestion);
+  };
+
+  const clearChat = () => {
+    setMessages([]);
+    // Re-initialize with welcome message
+    const welcomeText = contextualGreetings[moduleContext as keyof typeof contextualGreetings] || contextualGreetings['default'];
     const welcomeMessage: ChatMessage = {
-      id: 'welcome',
+      id: 'welcome-message-' + Date.now(),
       type: 'assistant',
-      content: greeting[isArabic ? 'ar' : 'en'],
-      timestamp: new Date()
+      content: welcomeText[isArabic ? 'ar' : 'en'],
+      timestamp: new Date(),
+      module: moduleContext
     };
     setMessages([welcomeMessage]);
   };
 
-  const baseClasses = position === 'fixed' 
-    ? 'fixed bottom-6 right-6 z-50 w-[420px] h-[550px] flex flex-col' 
-    : 'w-full max-w-xl mx-auto h-[550px] flex flex-col';
+  const suggestions = getContextualSuggestions();
+  const currentSuggestions = suggestions[isArabic ? 'ar' : 'en'];
 
-  if (isMinimized) {
+  if (position === 'fixed') {
+    // Fixed position version (original chat widget)
+    if (isMinimized) {
+      return (
+        <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+          <Button
+            onClick={() => setIsMinimized(false)}
+            className="rounded-full w-14 h-14 bg-primary shadow-lg hover:bg-primary/90"
+          >
+            <MessageCircle className="h-6 w-6" />
+          </Button>
+        </div>
+      );
+    }
+
     return (
-      <Button
-        onClick={() => setIsMinimized(false)}
-        className={`${position === 'fixed' ? 'fixed bottom-6 right-6 z-50' : ''} ${className} bg-gradient-to-r from-brand-primary to-brand-accent text-white shadow-lg hover:shadow-xl transition-all duration-200 rounded-full w-16 h-16 p-0`}
-      >
-        <Bot className="h-8 w-8" />
-      </Button>
+      <div className={`fixed bottom-4 right-4 z-50 ${className}`}>
+        <Card className={`w-96 h-[600px] bg-background border shadow-xl ${isExpanded ? 'w-[800px] h-[700px]' : ''}`}>
+          <CardHeader className="pb-2 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bot className="h-5 w-5" />
+                <CardTitle className="text-sm font-medium">
+                  {isArabic ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
+                </CardTitle>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="h-8 w-8 p-0 hover:bg-primary-foreground/20"
+                >
+                  {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsMinimized(true)}
+                  className="h-8 w-8 p-0 hover:bg-primary-foreground/20"
+                >
+                  <Minimize2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+          
+          <CardContent className="p-0 flex flex-col h-[calc(100%-60px)]">
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[80%] p-3 rounded-lg ${
+                      message.type === 'user'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-foreground border'
+                    }`}
+                  >
+                    <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                    {message.confidence && (
+                      <div className="text-xs opacity-70 mt-1">
+                        {isArabic ? `الثقة: ${message.confidence}%` : `Confidence: ${message.confidence}%`}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-muted text-foreground p-3 rounded-lg border">
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      <span className="text-sm">
+                        {isGatheringIntelligence 
+                          ? (isArabic ? 'جمع المعلومات...' : 'Gathering intelligence...') 
+                          : (isArabic ? 'جاري التفكير...' : 'Thinking...')
+                        }
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Quick Suggestions */}
+            {!isLoading && messages.length <= 1 && (
+              <div className="p-4 border-t">
+                <div className="text-sm font-medium mb-2 text-muted-foreground">
+                  {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {currentSuggestions.slice(0, 3).map((suggestion, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="text-xs h-8"
+                    >
+                      {suggestion}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Input Area */}
+            <div className="p-4 border-t">
+              <div className="flex gap-2">
+                <Textarea
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...'}
+                  className="min-h-[80px] resize-none"
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }
+                  }}
+                />
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={handleSendMessage}
+                    disabled={!inputValue.trim() || isLoading}
+                    size="sm"
+                    className="h-10 w-10 p-0"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    onClick={clearChat}
+                    variant="outline"
+                    size="sm"
+                    className="h-10 w-10 p-0"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
+  // Static version for embedding in pages
   return (
-    <Card className={`${baseClasses} ${className} ${isArabic ? 'rtl' : 'ltr'} shadow-2xl border-brand-primary/20 bg-background/95 backdrop-blur-md`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <CardHeader className="pb-3 flex-shrink-0">
+    <Card className={`w-full max-w-4xl mx-auto ${className}`}>
+      <CardHeader className="bg-primary text-primary-foreground">
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Brain className="h-5 w-5 text-brand-primary animate-pulse" />
-            {isArabic ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
-          </CardTitle>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1 h-8 w-8"
-            >
-              {isExpanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsMinimized(true)}
-              className="p-1 h-8 w-8"
-            >
-              <Minimize2 className="h-4 w-4" />
-            </Button>
+          <div className="flex items-center gap-2">
+            <Bot className="h-6 w-6" />
+            <CardTitle>
+              {isArabic ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
+            </CardTitle>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Badge variant="secondary" className="bg-brand-success/10 text-brand-success text-xs">
-            <div className="w-2 h-2 bg-brand-success rounded-full mr-1 animate-pulse"></div>
-            {isArabic ? 'متصل بعقل HR' : 'Connected to AqlHR'}
-          </Badge>
-          <Badge variant="outline" className="text-xs flex items-center gap-1">
-            <Shield className="h-3 w-3" />
-            {isArabic ? 'محمي + ذكاء خارجي' : 'Secure + External Intelligence'}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {moduleContext === 'default' ? (isArabic ? 'عام' : 'General') : moduleContext}
+          <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground">
+            {moduleContext}
           </Badge>
         </div>
       </CardHeader>
       
-      <CardContent className="flex-1 flex flex-col space-y-4 min-h-0">
-        {/* Chat Messages - Scrollable */}
-        <div className="flex-1 space-y-3 overflow-y-auto min-h-0 pr-2">
+      <CardContent className="p-0">
+        {/* Messages Area */}
+        <div className="h-96 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.type === 'user' ? (isArabic ? 'justify-start' : 'justify-end') : (isArabic ? 'justify-end' : 'justify-start')}`}
+              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
-                className={`max-w-[80%] p-3 rounded-lg text-sm whitespace-pre-wrap leading-relaxed ${
+                className={`max-w-[80%] p-3 rounded-lg ${
                   message.type === 'user'
-                    ? 'bg-brand-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-muted text-foreground border'
                 }`}
               >
-                <div className="space-y-2">
-                  {message.content.split('\n').map((line, idx) => (
-                    <div key={idx} className={line.trim() === '' ? 'h-2' : ''}>
-                      {line || ''}
-                    </div>
-                  ))}
-                </div>
+                <div className="text-sm whitespace-pre-wrap">{message.content}</div>
                 {message.confidence && (
                   <div className="text-xs opacity-70 mt-1">
-                    {message.confidence}% {isArabic ? 'دقة' : 'accuracy'}
+                    {isArabic ? `الثقة: ${message.confidence}%` : `Confidence: ${message.confidence}%`}
                   </div>
                 )}
               </div>
             </div>
           ))}
-          
-          {/* Intelligence Gathering Indicator */}
-          {isGatheringIntelligence && (
-            <div className="flex justify-center">
-              <div className="bg-muted p-3 rounded-lg text-sm text-muted-foreground flex items-center gap-2">
-                <RefreshCw className="h-4 w-4 animate-spin" />
-                {isArabic ? 'جاري جمع الذكاء الخارجي...' : 'Gathering external intelligence...'}
+          {isLoading && (
+            <div className="flex justify-start">
+              <div className="bg-muted text-foreground p-3 rounded-lg border">
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                  <span className="text-sm">
+                    {isGatheringIntelligence 
+                      ? (isArabic ? 'جمع المعلومات...' : 'Gathering intelligence...') 
+                      : (isArabic ? 'جاري التفكير...' : 'Thinking...')
+                    }
+                  </span>
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Document Upload Section */}
-        {showDocumentUpload && (
-          <div className="flex-shrink-0">
-            <DocumentUploadWidget 
-              moduleKey={moduleContext} 
-              compact={true}
-            />
+        {/* Quick Suggestions */}
+        {!isLoading && messages.length <= 1 && (
+          <div className="p-4 border-t">
+            <div className="text-sm font-medium mb-3 text-muted-foreground">
+              {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              {currentSuggestions.map((suggestion, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="text-left justify-start h-auto p-3 text-sm"
+                >
+                  {suggestion}
+                </Button>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Quick Suggestions */}
-        <div className="flex-shrink-0 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">
-              {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowDocumentUpload(!showDocumentUpload)}
-              className="text-xs h-6 px-2"
-            >
-              <Upload className="h-3 w-3 mr-1" />
-              {isArabic ? 'رفع مستند' : 'Upload'}
-            </Button>
-          </div>
-          
-          <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
-            {getContextualSuggestions()[isArabic ? 'ar' : 'en'].slice(0, 3).map((suggestion, index) => (
-              <Button
-                key={index}
-                variant="outline"
-                size="sm"
-                onClick={() => setInputValue(suggestion)}
-                className="text-xs h-6 px-2 flex-shrink-0"
-              >
-                {suggestion}
-              </Button>
-            ))}
-          </div>
-          
-          {moduleDocuments.length > 0 && (
-            <div className="text-xs text-muted-foreground">
-              📚 {moduleDocuments.length} {isArabic ? 'مستندات جاهزة للتحليل' : 'documents ready for analysis'}
-            </div>
-          )}
-
-          {/* Manus-style Multi-Modal Tools */}
-          <div className="space-y-2 border-t pt-2">
-            <div className="text-xs font-medium text-muted-foreground">
-              {isArabic ? 'أدوات متعددة الوسائط:' : 'Multi-Modal Tools:'}
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('image', isArabic ? 'إنشاء صورة احترافية لتقرير الموظفين مع مخططات وإحصائيات' : 'Generate professional employee report image with charts and statistics')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <Image className="h-3 w-3" />
-                {isArabic ? 'صورة' : 'Image'}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('presentation', isArabic ? 'إنشاء عرض تقديمي شامل عن أداء الموظفين وإنجازات الشركة' : 'Create comprehensive presentation about employee performance and company achievements')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <Presentation className="h-3 w-3" />
-                {isArabic ? 'عرض' : 'Slides'}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('visualization', isArabic ? 'إنشاء جدول بيانات تفاعلي للرواتب والمزايا' : 'Create interactive payroll and benefits spreadsheet')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <Table className="h-3 w-3" />
-                {isArabic ? 'جدول' : 'Sheet'}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('visualization', isArabic ? 'إنشاء مخطط بياني لمؤشرات الأداء والإنتاجية' : 'Create performance and productivity KPI chart')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <BarChart className="h-3 w-3" />
-                {isArabic ? 'تمثيل مرئي' : 'Chart'}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('document', isArabic ? 'إنشاء صفحة ويب تفاعلية لسياسات الموظفين والإجراءات' : 'Create interactive webpage for employee policies and procedures')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <Globe className="h-3 w-3" />
-                {isArabic ? 'صفحة' : 'Page'}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => handleMultiModalGeneration('document', isArabic ? 'إنشاء مستند سياسة شاملة للموارد البشرية وفقاً للقوانين السعودية' : 'Create comprehensive HR policy document compliant with Saudi regulations')}
-                disabled={isGeneratingContent}
-                className="h-8 text-xs flex items-center gap-1"
-              >
-                <FileText className="h-3 w-3" />
-                {isArabic ? 'مستند' : 'Doc'}
-              </Button>
-            </div>
-            
-            {/* Quality Settings & Provider Status */}
-            <div className="flex items-center justify-between text-xs pt-2">
-              <div className="flex items-center gap-2">
-                <span className="text-muted-foreground flex items-center gap-1">
-                  <TrendingUp className="h-3 w-3" />
-                  {isArabic ? 'الجودة:' : 'Quality:'}
-                </span>
-                <Badge variant="outline" className="text-xs">
-                  {isArabic ? 'عالية' : 'High'}
-                </Badge>
-              </div>
-              {availableProviders.length > 0 && (
-                <div className="text-muted-foreground flex items-center gap-1">
-                  <CheckCircle className="h-3 w-3 text-green-500" />
-                  {availableProviders.length} {isArabic ? 'مزودين' : 'providers'}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Input Area - Fixed at bottom */}
-        <div className="flex-shrink-0 space-y-2 border-t pt-2">
-          <div className="relative">
+        {/* Input Area */}
+        <div className="p-4 border-t">
+          <div className="flex gap-2">
             <Textarea
               value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-              }}
-              onKeyDown={(e) => {
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...'}
+              className="min-h-[100px] resize-none"
+              onKeyPress={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSendMessage();
                 }
               }}
-              placeholder={isArabic ? 'اكتب رسالتك لمساعد عقل HR...' : 'Type your message to AqlHR Assistant...'}
-              className={`pr-10 resize-none min-h-[60px] max-h-24 ${
-                isArabic ? 'text-right' : 'text-left'
-              }`}
-              spellCheck={spellCheckEnabled}
-              lang={isArabic ? 'ar' : 'en'}
-              dir={isArabic ? 'rtl' : 'ltr'}
-              rows={2}
             />
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={handleSendMessage}
+                disabled={!inputValue.trim() || isLoading}
+                className="h-12 w-12 p-0"
+              >
+                <Send className="h-5 w-5" />
+              </Button>
+              <Button
+                onClick={clearChat}
+                variant="outline"
+                className="h-12 w-12 p-0"
+              >
+                <Trash2 className="h-5 w-5" />
+              </Button>
+            </div>
           </div>
-          <div className="flex justify-between items-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleClearChat}
-              className="text-xs px-2 h-7"
-            >
-              <Trash2 className="h-3 w-3 mr-1" />
-              {isArabic ? 'مسح المحادثة' : 'Clear Chat'}
-            </Button>
-            <Button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || isLoading}
-              className="bg-brand-primary hover:bg-brand-primary/90 text-white px-3 h-7"
-            >
-              <Send className="h-3 w-3 mr-1" />
-              {isArabic ? 'إرسال' : 'Send'}
-            </Button>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="flex-shrink-0 text-center pt-2 border-t">
-          <p className="text-xs text-muted-foreground">
-            {isArabic ? 'مدعوم بذكاء عقل HR الاصطناعي' : 'Powered by AqlHR AI Intelligence'}
-          </p>
         </div>
       </CardContent>
     </Card>
@@ -1198,4 +834,3 @@ I provide comprehensive services in:
 };
 
 export default AqlHRAIAssistant;
-export { AqlHRAIAssistant };
