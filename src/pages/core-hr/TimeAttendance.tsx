@@ -173,476 +173,6 @@ const TimeAttendance = () => {
     }
   ];
 
-  const leaveTypes = [
-    { key: 'annual', name: language === 'ar' ? 'إجازة سنوية' : 'Annual Leave', icon: CalendarDays },
-    { key: 'sick', name: language === 'ar' ? 'إجازة مرضية' : 'Sick Leave', icon: Hospital },
-    { key: 'short', name: language === 'ar' ? 'إجازة قصيرة' : 'Short Leave', icon: Clock3 },
-    { key: 'emergency', name: language === 'ar' ? 'إجازة طارئة' : 'Emergency Leave', icon: AlertTriangle },
-    { key: 'unpaid', name: language === 'ar' ? 'إجازة بدون راتب' : 'Unpaid Leave', icon: XCircle },
-    { key: 'hospital_visit', name: language === 'ar' ? 'زيارة مستشفى' : 'Hospital Visit', icon: Hospital },
-    { key: 'site_visit', name: language === 'ar' ? 'زيارة موقع' : 'Site Visit', icon: Building },
-    { key: 'meeting', name: language === 'ar' ? 'اجتماع خارجي' : 'Outside Meeting', icon: Users }
-  ];
-
-  const TimesheetTab = () => (
-    <div className="space-y-6">
-      {/* Timesheet Header */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Clock className="h-5 w-5" />
-            {language === 'ar' ? 'جدول الحضور الأسبوعي' : 'Weekly Timesheet'}
-          </CardTitle>
-          <CardDescription>
-            {language === 'ar' 
-              ? 'أسبوع العمل: الأحد - الخميس | ساعات العمل: 8 ساعات يومياً | 40 ساعة أسبوعياً'
-              : 'Work Week: Sunday - Thursday | Work Hours: 8 hours daily | 40 hours weekly'
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-              <Label>{language === 'ar' ? 'اختر الموظف' : 'Select Employee'}</Label>
-              <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
-                <SelectTrigger>
-                  <SelectValue placeholder={language === 'ar' ? 'اختر الموظف' : 'Select Employee'} />
-                </SelectTrigger>
-                <SelectContent>
-                  {employees.map((employee) => (
-                    <SelectItem key={employee.id} value={employee.id}>
-                      {employee.employee_number} - {language === 'ar' 
-                        ? `${employee.first_name_ar || employee.first_name} ${employee.last_name_ar || employee.last_name}`
-                        : `${employee.first_name} ${employee.last_name}`
-                      }
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label>{language === 'ar' ? 'اختر التاريخ' : 'Select Date'}</Label>
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={(date) => date && setSelectedDate(date)}
-                className="rounded-md border"
-              />
-            </div>
-          </div>
-
-          {/* Weekly Timesheet Grid */}
-          <div className="border rounded-lg overflow-hidden">
-            <div className="grid grid-cols-8 bg-muted">
-              <div className="p-3 font-medium">{language === 'ar' ? 'التفاصيل' : 'Details'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الأحد' : 'Sun'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الإثنين' : 'Mon'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الثلاثاء' : 'Tue'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الأربعاء' : 'Wed'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الخميس' : 'Thu'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'المجموع' : 'Total'}</div>
-              <div className="p-3 font-medium text-center">{language === 'ar' ? 'الإجراءات' : 'Actions'}</div>
-            </div>
-            
-            {/* Check In Row */}
-            <div className="grid grid-cols-8 border-t">
-              <div className="p-3 font-medium">{language === 'ar' ? 'تسجيل الدخول' : 'Check In'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">08:00</div>
-              ))}
-              <div className="p-3 text-center text-sm font-medium">40:00</div>
-              <div className="p-3 text-center">
-                <Button size="sm" variant="outline">
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Check Out Row */}
-            <div className="grid grid-cols-8 border-t">
-              <div className="p-3 font-medium">{language === 'ar' ? 'تسجيل الخروج' : 'Check Out'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">17:00</div>
-              ))}
-              <div className="p-3 text-center text-sm font-medium">40:00</div>
-              <div className="p-3 text-center">
-                <Button size="sm" variant="outline">
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Working Hours Row */}
-            <div className="grid grid-cols-8 border-t bg-green-50">
-              <div className="p-3 font-medium">{language === 'ar' ? 'ساعات العمل' : 'Working Hours'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm font-medium">8.0</div>
-              ))}
-              <div className="p-3 text-center text-sm font-bold">40.0</div>
-              <div className="p-3 text-center">
-                <Badge variant="outline" className="text-green-600">
-                  {language === 'ar' ? 'مكتمل' : 'Complete'}
-                </Badge>
-              </div>
-            </div>
-
-            {/* Flex Hours Row */}
-            <div className="grid grid-cols-8 border-t bg-blue-50">
-              <div className="p-3 font-medium">{language === 'ar' ? 'الساعات المرنة' : 'Flex Hours'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">
-                  <Select>
-                    <SelectTrigger className="w-20 h-8 text-xs">
-                      <SelectValue placeholder="--" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">--</SelectItem>
-                      <SelectItem value="early">06:00-14:00</SelectItem>
-                      <SelectItem value="standard">08:00-16:00</SelectItem>
-                      <SelectItem value="late">10:00-18:00</SelectItem>
-                      <SelectItem value="custom">{language === 'ar' ? 'مخصص' : 'Custom'}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              ))}
-              <div className="p-3 text-center text-sm font-medium text-blue-600">
-                {language === 'ar' ? 'مرن' : 'Flexible'}
-              </div>
-              <div className="p-3 text-center">
-                <Button size="sm" variant="outline">
-                  <Clock className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Overtime Row */}
-            <div className="grid grid-cols-8 border-t bg-yellow-50">
-              <div className="p-3 font-medium">{language === 'ar' ? 'الوقت الإضافي (150%)' : 'Overtime (150%)'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">﷼0.0</div>
-              ))}
-              <div className="p-3 text-center text-sm font-bold">﷼0.0</div>
-              <div className="p-3 text-center">
-                <Button size="sm" variant="outline">
-                  <Calculator className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            {/* Deductions Row */}
-            <div className="grid grid-cols-8 border-t bg-red-50">
-              <div className="p-3 font-medium">{language === 'ar' ? 'الخصومات' : 'Deductions'}</div>
-              {[0,1,2,3,4].map(day => (
-                <div key={day} className="p-3 text-center text-sm">﷼0.0</div>
-              ))}
-              <div className="p-3 text-center text-sm font-bold">﷼0.0</div>
-              <div className="p-3 text-center">
-                <Button size="sm" variant="outline">
-                  <Eye className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-
-  const LeaveManagementTab = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {leaveTypes.map((type) => (
-          <Card key={type.key}>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2">
-                <type.icon className="h-4 w-4" />
-                {type.name}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {leaveBalances.filter(b => b.leave_type === type.key).length}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {language === 'ar' ? 'طلبات نشطة' : 'Active Requests'}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      {/* Vacation Balance Calculator */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{language === 'ar' ? 'حاسبة رصيد الإجازات' : 'Vacation Balance Calculator'}</CardTitle>
-          <CardDescription>
-            {language === 'ar' 
-              ? 'حسب قانون العمل السعودي: 21 يوم (1-5 سنوات خدمة) | 30 يوم (5+ سنوات)'
-              : 'Per Saudi Labor Law: 21 days (1-5 years service) | 30 days (5+ years)'
-            }
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {selectedEmployee && employees.find(e => e.id === selectedEmployee) && (
-            <div className="space-y-4">
-              {(() => {
-                const employee = employees.find(e => e.id === selectedEmployee);
-                const vacationBalance = calculateVacationBalance(selectedEmployee, employee?.hire_date || '');
-                return (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 bg-blue-50 rounded-lg">
-                      <div className="text-sm font-medium text-blue-600">
-                        {language === 'ar' ? 'الاستحقاق السنوي' : 'Annual Entitlement'}
-                      </div>
-                      <div className="text-2xl font-bold text-blue-700">
-                        {vacationBalance.entitlement}
-                      </div>
-                      <div className="text-xs text-blue-600">
-                        {language === 'ar' ? 'يوم' : 'days'}
-                      </div>
-                    </div>
-                    <div className="p-4 bg-yellow-50 rounded-lg">
-                      <div className="text-sm font-medium text-yellow-600">
-                        {language === 'ar' ? 'المستخدم' : 'Used'}
-                      </div>
-                      <div className="text-2xl font-bold text-yellow-700">
-                        {vacationBalance.used}
-                      </div>
-                      <div className="text-xs text-yellow-600">
-                        {language === 'ar' ? 'يوم' : 'days'}
-                      </div>
-                    </div>
-                    <div className="p-4 bg-green-50 rounded-lg">
-                      <div className="text-sm font-medium text-green-600">
-                        {language === 'ar' ? 'الرصيد المتبقي' : 'Remaining Balance'}
-                      </div>
-                      <div className="text-2xl font-bold text-green-700">
-                        {vacationBalance.remaining}
-                      </div>
-                      <div className="text-xs text-green-600">
-                        {language === 'ar' ? 'يوم' : 'days'}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
-
-  const MobileAttendanceTab = () => (
-    <div className="space-y-6">
-      <Alert>
-        <Smartphone className="h-4 w-4" />
-        <AlertDescription>
-          {language === 'ar' 
-            ? 'تطبيق الحضور المحمول متاح مع التحقق من الموقع الجغرافي والتصوير'
-            : 'Mobile attendance app available with GPS verification and photo capture'
-          }
-        </AlertDescription>
-      </Alert>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{language === 'ar' ? 'تسجيل الحضور السريع' : 'Quick Punch'}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button className="w-full" size="lg">
-              <CheckCircle className="h-5 w-5 mr-2" />
-              {language === 'ar' ? 'تسجيل دخول' : 'Check In'}
-            </Button>
-            <Button variant="outline" className="w-full" size="lg">
-              <XCircle className="h-5 w-5 mr-2" />
-              {language === 'ar' ? 'تسجيل خروج' : 'Check Out'}
-            </Button>
-            <Button variant="secondary" className="w-full">
-              <Coffee className="h-5 w-5 mr-2" />
-              {language === 'ar' ? 'استراحة' : 'Break'}
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>{language === 'ar' ? 'معلومات الموقع' : 'Location Info'}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-green-600" />
-                <span className="text-sm">
-                  {language === 'ar' ? 'المكتب الرئيسي - الرياض' : 'Main Office - Riyadh'}
-                </span>
-              </div>
-              <div className="text-xs text-muted-foreground">
-                {language === 'ar' ? 'ضمن النطاق المسموح (50 متر)' : 'Within allowed range (50m)'}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-
-  const AnalyticsTab = () => (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <TrendingUp className="h-4 w-4 text-green-600" />
-              {language === 'ar' ? 'معدل الحضور' : 'Attendance Rate'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">96.5%</div>
-            <p className="text-xs text-muted-foreground">
-              {language === 'ar' ? 'آخر 30 يوم' : 'Last 30 days'}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Clock className="h-4 w-4 text-blue-600" />
-              {language === 'ar' ? 'متوسط ساعات العمل' : 'Avg Work Hours'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-blue-600">8.2</div>
-            <p className="text-xs text-muted-foreground">
-              {language === 'ar' ? 'ساعة يومياً' : 'hours daily'}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Timer className="h-4 w-4 text-yellow-600" />
-              {language === 'ar' ? 'الوقت الإضافي' : 'Overtime'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-yellow-600">142</div>
-            <p className="text-xs text-muted-foreground">
-              {language === 'ar' ? 'ساعة هذا الشهر' : 'hours this month'}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <BarChart3 className="h-5 w-5" />
-            {language === 'ar' ? 'تحليلات الذكاء الاصطناعي' : 'AI Analytics'}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <Alert>
-              <TrendingUp className="h-4 w-4" />
-              <AlertDescription>
-                {language === 'ar' 
-                  ? 'اكتشاف نمط: زيادة في التأخير أيام الأحد والإثنين بنسبة 15%'
-                  : 'Pattern detected: 15% increase in late arrivals on Sundays and Mondays'
-                }
-              </AlertDescription>
-            </Alert>
-            
-            <Alert>
-              <TrendingDown className="h-4 w-4" />
-              <AlertDescription>
-                {language === 'ar' 
-                  ? 'توصية: تنفيذ جدول عمل مرن أيام بداية الأسبوع'
-                  : 'Recommendation: Implement flexible schedule for week start days'
-                }
-              </AlertDescription>
-            </Alert>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-
-  const WorkplaceTransferTab = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>{language === 'ar' ? 'طلب نقل موظف' : 'Employee Transfer Request'}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Label>{language === 'ar' ? 'الموظف' : 'Employee'}</Label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder={language === 'ar' ? 'اختر الموظف' : 'Select Employee'} />
-                </SelectTrigger>
-                <SelectContent>
-                  {employees.map((employee) => (
-                    <SelectItem key={employee.id} value={employee.id}>
-                      {employee.employee_number} - {language === 'ar' 
-                        ? `${employee.first_name_ar || employee.first_name} ${employee.last_name_ar || employee.last_name}`
-                        : `${employee.first_name} ${employee.last_name}`
-                      }
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label>{language === 'ar' ? 'من موقع' : 'From Location'}</Label>
-              <Input placeholder={language === 'ar' ? 'الموقع الحالي' : 'Current Location'} />
-            </div>
-            <div>
-              <Label>{language === 'ar' ? 'إلى موقع' : 'To Location'}</Label>
-              <Input placeholder={language === 'ar' ? 'الموقع الجديد' : 'New Location'} />
-            </div>
-            <div>
-              <Label>{language === 'ar' ? 'تاريخ النقل' : 'Transfer Date'}</Label>
-              <Input type="date" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <Button>
-              <ArrowRight className="h-4 w-4 mr-2" />
-              {language === 'ar' ? 'إرسال طلب النقل' : 'Submit Transfer Request'}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Transfers */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{language === 'ar' ? 'عمليات النقل الأخيرة' : 'Recent Transfers'}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between p-2 border rounded">
-              <div>
-                <div className="font-medium">Ahmed Al-Saudi</div>
-                <div className="text-sm text-muted-foreground">
-                  {language === 'ar' ? 'الرياض → جدة' : 'Riyadh → Jeddah'}
-                </div>
-              </div>
-              <Badge variant="outline">
-                {language === 'ar' ? 'معلق' : 'Pending'}
-              </Badge>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -702,63 +232,200 @@ const TimeAttendance = () => {
         ))}
       </div>
 
-      {/* Main Content Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="timesheet">
-            {language === 'ar' ? 'جدول الحضور' : 'Timesheet'}
-          </TabsTrigger>
-          <TabsTrigger value="leave">
-            {language === 'ar' ? 'الإجازات' : 'Leave'}
-          </TabsTrigger>
-          <TabsTrigger value="mobile">
-            {language === 'ar' ? 'التطبيق المحمول' : 'Mobile App'}
-          </TabsTrigger>
-          <TabsTrigger value="analytics">
-            {language === 'ar' ? 'التحليلات' : 'Analytics'}
-          </TabsTrigger>
-          <TabsTrigger value="transfer">
-            {language === 'ar' ? 'النقل' : 'Transfer'}
-          </TabsTrigger>
-          <TabsTrigger value="documents">
-            {language === 'ar' ? 'المستندات' : 'Documents'}
-          </TabsTrigger>
-        </TabsList>
+      {/* Main Content */}
+      <Card>
+        <CardHeader>
+          <CardTitle>{language === 'ar' ? 'نظام الحضور والانصراف' : 'Attendance Management System'}</CardTitle>
+          <CardDescription>
+            {language === 'ar' 
+              ? 'إدارة شاملة للحضور والوقت مع التحقق من الموقع والامتثال لقوانين العمل'
+              : 'Comprehensive time and attendance management with location verification and labor law compliance'
+            }
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="overview" className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">{language === 'ar' ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+              <TabsTrigger value="timesheet">{language === 'ar' ? 'جدول الحضور' : 'Timesheet'}</TabsTrigger>
+              <TabsTrigger value="leave">{language === 'ar' ? 'الإجازات' : 'Leave'}</TabsTrigger>
+              <TabsTrigger value="analytics">{language === 'ar' ? 'التحليلات' : 'Analytics'}</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Clock className="h-5 w-5" />
+                      {language === 'ar' ? 'تسجيل الحضور السريع' : 'Quick Clock In/Out'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <Button className="w-full" size="lg">
+                      <CheckCircle className="h-5 w-5 mr-2" />
+                      {language === 'ar' ? 'تسجيل دخول' : 'Clock In'}
+                    </Button>
+                    <Button variant="outline" className="w-full" size="lg">
+                      <XCircle className="h-5 w-5 mr-2" />
+                      {language === 'ar' ? 'تسجيل خروج' : 'Clock Out'}
+                    </Button>
+                  </CardContent>
+                </Card>
 
-        <TabsContent value="timesheet">
-          <TimesheetTab />
-        </TabsContent>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <MapPin className="h-5 w-5" />
+                      {language === 'ar' ? 'معلومات الموقع' : 'Location Info'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <span className="text-sm">
+                          {language === 'ar' ? 'المكتب الرئيسي - الرياض' : 'Main Office - Riyadh'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {language === 'ar' ? 'ضمن النطاق المسموح' : 'Within allowed range'}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
 
-        <TabsContent value="leave">
-          <LeaveManagementTab />
-        </TabsContent>
+            <TabsContent value="timesheet" className="space-y-4">
+              <Alert>
+                <Clock className="h-4 w-4" />
+                <AlertDescription>
+                  {language === 'ar' 
+                    ? 'يتم حفظ جدول الحضور تلقائياً وحساب الوقت الإضافي حسب قانون العمل السعودي'
+                    : 'Timesheet is saved automatically and overtime is calculated according to Saudi labor law'
+                  }
+                </AlertDescription>
+              </Alert>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>{language === 'ar' ? 'اختر الموظف' : 'Select Employee'}</Label>
+                  <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={language === 'ar' ? 'اختر الموظف' : 'Select Employee'} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {employees.map((employee) => (
+                        <SelectItem key={employee.id} value={employee.id}>
+                          {employee.employee_number} - {language === 'ar' 
+                            ? `${employee.first_name_ar || employee.first_name} ${employee.last_name_ar || employee.last_name}`
+                            : `${employee.first_name} ${employee.last_name}`
+                          }
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>{language === 'ar' ? 'اختر التاريخ' : 'Select Date'}</Label>
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={(date) => date && setSelectedDate(date)}
+                    className="rounded-md border"
+                  />
+                </div>
+              </div>
+            </TabsContent>
 
-        <TabsContent value="mobile">
-          <MobileAttendanceTab />
-        </TabsContent>
+            <TabsContent value="leave" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">{language === 'ar' ? 'الإجازة السنوية' : 'Annual Leave'}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">21</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'يوم متبقي' : 'days remaining'}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">{language === 'ar' ? 'الإجازة المرضية' : 'Sick Leave'}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">30</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'يوم متبقي' : 'days remaining'}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">{language === 'ar' ? 'الإجازة الطارئة' : 'Emergency Leave'}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">5</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'يوم متبقي' : 'days remaining'}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
 
-        <TabsContent value="analytics">
-          <AnalyticsTab />
-        </TabsContent>
-
-        <TabsContent value="transfer">
-          <WorkplaceTransferTab />
-        </TabsContent>
-
-        <TabsContent value="documents">
-          <UniversalDocumentManager
-            moduleName="Time & Attendance"
-            moduleNameAr="الحضور والوقت"
-            description="Upload attendance records, timesheets, leave applications, overtime approvals, and workforce scheduling documents"
-            descriptionAr="رفع سجلات الحضور وجداول العمل وطلبات الإجازات وموافقات الوقت الإضافي ومستندات جدولة القوى العاملة"
-            platform="time-attendance"
-            moduleType="hr"
-            acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.xls', '.csv', '.jpg', '.png']}
-            maxFileSize={20 * 1024 * 1024}
-            maxFiles={30}
-          />
-        </TabsContent>
-      </Tabs>
+            <TabsContent value="analytics" className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-green-600" />
+                      {language === 'ar' ? 'معدل الحضور' : 'Attendance Rate'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-green-600">96.5%</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'آخر 30 يوم' : 'Last 30 days'}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <Timer className="h-4 w-4 text-blue-600" />
+                      {language === 'ar' ? 'متوسط ساعات العمل' : 'Avg Work Hours'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-blue-600">8.2</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'ساعة يومياً' : 'hours daily'}
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm flex items-center gap-2">
+                      <BarChart3 className="h-4 w-4 text-purple-600" />
+                      {language === 'ar' ? 'الوقت الإضافي' : 'Overtime Hours'}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold text-purple-600">142</div>
+                    <p className="text-xs text-muted-foreground">
+                      {language === 'ar' ? 'ساعة هذا الشهر' : 'hours this month'}
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
 
       <AqlHRAIAssistant moduleContext="core-hr.timeAttendance" />
     </div>
