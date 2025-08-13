@@ -25,6 +25,7 @@ const ExecutiveAnalytics = lazy(() => import('../pages/analytics/Executive'));
 const RealtimeAnalytics = lazy(() => import('../pages/analytics/Realtime'));
 
 // Admin pages
+const AdminOverview = lazy(() => import('../pages/admin/AdminOverview'));
 const UsersPage = lazy(() => import('../pages/admin/Users'));
 
 // Reports pages  
@@ -258,6 +259,10 @@ export const ROUTES: RouteConfig[] = [
   { path: '/prompt-logs', element: PromptLogs, auth: true },
   { path: '/prompt-audit', element: PromptAudit, auth: true },
   { path: '/', element: DashboardPage, auth: true },
+  
+  // Admin routes
+  { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },
+  { path: '/admin/users', element: UsersPage, auth: true, adminOnly: true },
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/analytics', element: AnalyticsPage, auth: true },
   { path: '/attendance', element: TimeAttendance, auth: true },
