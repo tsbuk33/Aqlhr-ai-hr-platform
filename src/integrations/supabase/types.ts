@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -981,6 +981,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      auth_security_config: {
+        Row: {
+          compliant: boolean
+          config_name: string
+          config_value: string
+          description: string
+          id: string
+          last_updated: string
+          recommended_value: string
+          severity: string
+          updated_by: string | null
+        }
+        Insert: {
+          compliant?: boolean
+          config_name: string
+          config_value: string
+          description: string
+          id?: string
+          last_updated?: string
+          recommended_value: string
+          severity: string
+          updated_by?: string | null
+        }
+        Update: {
+          compliant?: boolean
+          config_name?: string
+          config_value?: string
+          description?: string
+          id?: string
+          last_updated?: string
+          recommended_value?: string
+          severity?: string
+          updated_by?: string | null
+        }
+        Relationships: []
       }
       benefit_plans: {
         Row: {
@@ -7864,19 +7900,19 @@ export type Database = {
     Functions: {
       apply_translation_patch: {
         Args: {
+          p_confidence?: number
           p_key: string
           p_language: string
           p_text: string
-          p_confidence?: number
         }
         Returns: string
       }
       audit_rls_policies: {
         Args: Record<PropertyKey, never>
         Returns: {
-          table_name: string
           policy_count: number
           rls_enabled: boolean
+          table_name: string
         }[]
       }
       auto_classify_employee_gosi: {
@@ -7884,11 +7920,11 @@ export type Database = {
         Returns: undefined
       }
       calculate_annual_leave_entitlement: {
-        Args: { p_hire_date: string; p_current_date?: string }
+        Args: { p_current_date?: string; p_hire_date: string }
         Returns: number
       }
       calculate_gosi_rates: {
-        Args: { p_employee_id: string; p_as_of_date?: string }
+        Args: { p_as_of_date?: string; p_employee_id: string }
         Returns: {
           employee_rate: number
           employer_rate: number
@@ -7905,9 +7941,9 @@ export type Database = {
       }
       calculate_working_hours: {
         Args: {
+          p_break_duration?: number
           p_check_in: string
           p_check_out: string
-          p_break_duration?: number
         }
         Returns: number
       }
@@ -7921,20 +7957,20 @@ export type Database = {
       }
       find_similar_chunks: {
         Args: {
+          max_results?: number
           query_embedding: number[]
           similarity_threshold?: number
-          max_results?: number
           target_company_id?: string
           target_module_key?: string
         }
         Returns: {
           chunk_id: string
-          document_id: string
+          chunk_index: number
           content: string
-          similarity_score: number
+          document_id: string
           file_name: string
           module_key: string
-          chunk_index: number
+          similarity_score: number
         }[]
       }
       generate_comprehensive_employee_report: {
@@ -7944,19 +7980,19 @@ export type Database = {
       get_activities_by_sector: {
         Args: { sector_code: string }
         Returns: {
-          id: string
           classification_code: string
-          name_en: string
+          id: string
           name_ar: string
+          name_en: string
         }[]
       }
       get_cities_by_region: {
         Args: { region_code: string }
         Returns: {
-          id: string
           code: string
-          name_en: string
+          id: string
           name_ar: string
+          name_en: string
           timezone: string
         }[]
       }
@@ -7966,45 +8002,49 @@ export type Database = {
       }
       has_role: {
         Args: {
-          _user_id: string
           _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
         }
         Returns: boolean
       }
       is_pilot_user: {
-        Args: { user_uuid: string; feature_name?: string }
+        Args: { feature_name?: string; user_uuid: string }
         Returns: boolean
       }
       register_discovered_module: {
         Args: {
+          p_metadata?: Json
+          p_module_category: string
           p_module_name: string
           p_module_path: string
-          p_module_category: string
-          p_metadata?: Json
         }
         Returns: string
       }
       register_translation_key: {
         Args: {
+          p_arabic_text?: string
+          p_context?: string
+          p_english_text?: string
           p_key: string
           p_source_file: string
           p_source_line?: number
-          p_context?: string
-          p_english_text?: string
-          p_arabic_text?: string
         }
         Returns: string
       }
       sync_tool_integration: {
-        Args: { p_company_id: string; p_tool_name: string; p_action?: string }
+        Args: { p_action?: string; p_company_id: string; p_tool_name: string }
+        Returns: undefined
+      }
+      update_auth_security_compliance: {
+        Args: Record<PropertyKey, never>
         Returns: undefined
       }
       validate_user_isolation: {
         Args: Record<PropertyKey, never>
         Returns: {
-          user_id: string
           company_id: string
           has_access: boolean
+          user_id: string
         }[]
       }
     }
