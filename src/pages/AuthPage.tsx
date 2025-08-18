@@ -7,10 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Eye, EyeOff } from 'lucide-react';
 
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showSignInPassword, setShowSignInPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -57,7 +61,7 @@ const AuthPage = () => {
     } else {
       toast({
         title: "Account created successfully",
-        description: "Please check your email to verify your account.",
+        description: "Please check your email to verify your account. If you don't receive an email, you can still sign in directly.",
       });
     }
   };
@@ -116,14 +120,21 @@ const AuthPage = () => {
                     disabled={isLoading}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <Input
                     name="password"
-                    type="password"
+                    type={showSignInPassword ? "text" : "password"}
                     placeholder="Password"
                     required
                     disabled={isLoading}
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowSignInPassword(!showSignInPassword)}
+                  >
+                    {showSignInPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
                 {error && (
                   <Alert variant="destructive">
@@ -147,25 +158,39 @@ const AuthPage = () => {
                     disabled={isLoading}
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <Input
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     required
                     disabled={isLoading}
                     minLength={6}
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                   <Input
                     name="confirmPassword"
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm Password"
                     required
                     disabled={isLoading}
                     minLength={6}
                   />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
                 {error && (
                   <Alert variant="destructive">
