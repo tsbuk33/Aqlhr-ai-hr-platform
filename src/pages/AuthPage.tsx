@@ -103,16 +103,32 @@ const AuthPage = () => {
       toast({ title: 'Enter your email', description: 'Please type your email then click resend.' });
       return;
     }
-    const redirectUrl = `${window.location.origin}/`;
-    const { error } = await supabase.auth.resend({
-      type: 'signup',
-      email,
-      options: { emailRedirectTo: redirectUrl },
-    });
-    if (error) {
-      setError(error.message);
-    } else {
-      toast({ title: 'Verification email sent', description: `Sent to ${email}.` });
+
+    setIsLoading(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('resend-verification', {
+        body: { email }
+      });
+
+      if (error) {
+        console.error('Edge function error:', error);
+        setError('Failed to send verification email. Please try again.');
+      } else if (data?.error) {
+        console.error('Server error:', data.error);
+        setError(data.error);
+      } else {
+        toast({ 
+          title: 'Verification email sent!', 
+          description: `Check your inbox at ${email}. The email should arrive within a few minutes.` 
+        });
+        setError(null);
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
