@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from './DashboardLayout';
-
+import { Button } from '@/components/ui/button';
 interface LayoutShellProps {
   children: React.ReactNode;
 }
@@ -23,9 +24,16 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl font-bold">Welcome to AqlHR Platform</h1>
-          <p className="text-muted-foreground">Please sign in to access your HR dashboard</p>
+        <div className="text-center space-y-6">
+          <div>
+            <h1 className="text-4xl font-bold">Welcome to AqlHR Platform</h1>
+            <p className="text-muted-foreground mt-2">Please sign in to access your HR dashboard</p>
+          </div>
+          <div>
+            <Button asChild>
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          </div>
         </div>
       </div>
     );
