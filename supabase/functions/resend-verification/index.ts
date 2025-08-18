@@ -35,7 +35,17 @@ serve(async (req: Request) => {
 
     const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
-    console.log("Generating verification link for:", email);
+    // Determine a safe redirect URL
+    const headerOrigin = req.headers.get("origin") || undefined;
+    const referer = req.headers.get("referer") || undefined;
+    let refererOrigin: string | undefined;
+    try { refererOrigin = referer ? new URL(referer).origin : undefined; } catch {}
+
+    const finalRedirect = (redirectUrl && redirectUrl.trim().length > 0)
+      ? redirectUrl
+      : headerOrigin || refererOrigin || "https://aqlhr.com/";
+
+    console.log("Generating verification link for:", email, "redirect:", finalRedirect);
 
     // Try to generate a signup verification link first
     let link: string | null = null;
@@ -44,20 +54,16 @@ serve(async (req: Request) => {
     const { data: signupData, error: signupError } = await supabaseAdmin.auth.admin.generateLink({
       type: "signup",
       email,
-      options: {
-        redirectTo: redirectUrl,
-      },
+      options: { redirectTo: finalRedirect },
     });
 
     if (signupError) {
-      console.error("Signup link error:", signupError);
+      console.warn("Signup link error:", signupError?.message || signupError);
       // If user already exists, fall back to a magic link (which also verifies the email on click)
       const { data: magicData, error: magicError } = await supabaseAdmin.auth.admin.generateLink({
         type: "magiclink",
         email,
-        options: {
-          redirectTo: redirectUrl,
-        },
+        options: { redirectTo: finalRedirect },
       });
 
       if (magicError) {
@@ -85,10 +91,7 @@ serve(async (req: Request) => {
 
     console.log(`Sending ${mode} email via Resend to`, email);
 
-    const isSignup = mode === "signup";
-    const subject = isSignup
-      ? "Verify your AqlHR account"
-      : "Your secure AqlHR sign-in link";
+    const subject = mode === "signup" ? "Verify your AqlHR account" : "Your secure AqlHR sign-in link";
 
     const html = `
       <!DOCTYPE html>
@@ -100,13 +103,13 @@ serve(async (req: Request) => {
       </head>
       <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">${isSignup ? "Welcome to AqlHR!" : "Sign in to AqlHR"}</h1>
+          <h1 style="color: white; margin: 0; font-size: 28px;">${mode === "signup" ? "Welcome to AqlHR!" : "Sign in to AqlHR"}</h1>
         </div>
         
         <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
-          <h2 style="color: #333; margin-top: 0;">${isSignup ? "Verify your email address" : "Use your secure sign-in link"}</h2>
+          <h2 style="color: #333; margin-top: 0;">${mode === "signup" ? "Verify your email address" : "Use your secure sign-in link"}</h2>
           
-          <p>${isSignup 
+          <p>${mode === "signup" 
             ? "Thanks for signing up! Click the button below to verify your email and activate your account." 
             : "Click the button below to sign in securely. This also confirms your email address."}</p>
           
@@ -119,7 +122,7 @@ serve(async (req: Request) => {
                       border-radius: 5px; 
                       font-weight: bold; 
                       display: inline-block;">
-              ${isSignup ? "Verify Email Address" : "Sign In"}
+              ${mode === "signup" ? "Verify Email Address" : "Sign In"}
             </a>
           </div>
           
@@ -139,7 +142,7 @@ serve(async (req: Request) => {
     `;
 
     const emailResponse = await resend.emails.send({
-      from: "AqlHR <noreply@resend.dev>",
+      from: "AqlHR <onboarding@resend.dev>",
       to: [email],
       subject,
       html,

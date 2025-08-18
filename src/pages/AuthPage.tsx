@@ -48,7 +48,7 @@ const AuthPage = () => {
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl
+        emailRedirectTo: `${window.location.origin}/`
       }
     });
 
@@ -105,10 +105,11 @@ const AuthPage = () => {
     }
 
     setIsLoading(true);
-    
+
     try {
+      const redirectUrl = `${window.location.origin}/`;
       const { data, error } = await supabase.functions.invoke('resend-verification', {
-        body: { email }
+        body: { email, redirectUrl }
       });
 
       if (error) {
@@ -118,9 +119,9 @@ const AuthPage = () => {
         console.error('Server error:', data.error);
         setError(data.error);
       } else {
-        toast({ 
-          title: 'Verification email sent!', 
-          description: `Check your inbox at ${email}. The email should arrive within a few minutes.` 
+        toast({
+          title: 'Verification email sent!',
+          description: `Check your inbox at ${email}. The email should arrive within a few minutes.`
         });
         setError(null);
       }
