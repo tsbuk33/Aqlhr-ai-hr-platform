@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +15,8 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [showSignInPassword, setShowSignInPassword] = useState(false);
+  const signupEmailRef = useRef<HTMLInputElement>(null);
+  const signinEmailRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -85,11 +87,32 @@ const AuthPage = () => {
     if (error) {
       if (error.message.includes('Invalid login credentials')) {
         setError('Invalid email or password. Please check your credentials and try again.');
+      } else if (error.message.toLowerCase().includes('email not confirmed')) {
+        setError('Email not confirmed. Please check your inbox or resend the verification email.');
       } else {
         setError(error.message);
       }
     } else {
       navigate('/');
+    }
+  };
+
+  const handleResendVerification = async (source: 'signin' | 'signup') => {
+    const email = source === 'signup' ? signupEmailRef.current?.value : signinEmailRef.current?.value;
+    if (!email) {
+      toast({ title: 'Enter your email', description: 'Please type your email then click resend.' });
+      return;
+    }
+    const redirectUrl = `${window.location.origin}/`;
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: redirectUrl },
+    });
+    if (error) {
+      setError(error.message);
+    } else {
+      toast({ title: 'Verification email sent', description: `Sent to ${email}.` });
     }
   };
 
@@ -118,6 +141,7 @@ const AuthPage = () => {
                     placeholder="Email"
                     required
                     disabled={isLoading}
+                    ref={signinEmailRef}
                   />
                 </div>
                 <div className="space-y-2 relative">
@@ -144,6 +168,9 @@ const AuthPage = () => {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
+                <Button type="button" variant="link" className="w-full" onClick={() => handleResendVerification('signin')}>
+                  Didn't get the email? Resend verification
+                </Button>
               </form>
             </TabsContent>
             
@@ -156,6 +183,7 @@ const AuthPage = () => {
                     placeholder="Email"
                     required
                     disabled={isLoading}
+                    ref={signupEmailRef}
                   />
                 </div>
                 <div className="space-y-2 relative">
@@ -199,6 +227,9 @@ const AuthPage = () => {
                 )}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Creating account...' : 'Create Account'}
+                </Button>
+                <Button type="button" variant="link" className="w-full" onClick={() => handleResendVerification('signup')}>
+                  Didn't get the email? Resend verification
                 </Button>
               </form>
             </TabsContent>
