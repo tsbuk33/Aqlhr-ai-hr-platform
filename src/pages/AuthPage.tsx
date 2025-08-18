@@ -129,10 +129,15 @@ const AuthPage = () => {
     setIsLoading(false);
 
     if (error) {
-      if (error.message.includes('Invalid login credentials')) {
-        setError('Invalid email or password. Please check your credentials and try again.');
-      } else if (error.message.toLowerCase().includes('email not confirmed')) {
-        setError('Email not confirmed. Please check your inbox or resend the verification email.');
+      const msg = error.message.toLowerCase();
+      if (msg.includes('invalid login credentials') || msg.includes('email not confirmed')) {
+        // Fall back to passwordless magic link for a smoother UX
+        await handleResendVerification('signin');
+        toast({
+          title: 'Check your email',
+          description: 'We sent you a secure sign-in link. Use it to access your account instantly.',
+        });
+        setError(null);
       } else {
         setError(error.message);
       }
