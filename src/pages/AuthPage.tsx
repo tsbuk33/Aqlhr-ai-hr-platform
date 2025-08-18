@@ -30,22 +30,32 @@ const AuthPage = () => {
   const sendAuthLink = async (email: string, mode: 'signup' | 'magic'): Promise<boolean> => {
     try {
       const { data, error } = await supabase.functions.invoke('send-auth-link', {
-        body: { 
-          email, 
-          mode, 
-          redirectTo: `${window.location.origin}/auth/callback` 
-        }
+        body: {
+          email,
+          mode,
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
 
-      if (error || data?.error) {
-        console.error('Send auth link error:', error || data?.error);
-        throw new Error(error?.message || data?.error || 'Failed to send email');
+      if (error || (data as any)?.error) {
+        throw new Error(error?.message || (data as any)?.error || 'Failed to send email');
       }
 
       return true;
     } catch (err: any) {
-      console.error('Auth link network error:', err);
-      throw err;
+      console.error('Auth link invoke failed, falling back to OTP:', err);
+      // Fallback to Supabase magic link to keep user moving if function/network fails
+      try {
+        const { error: otpError } = await supabase.auth.signInWithOtp({
+          email,
+          options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        });
+        if (otpError) throw otpError;
+        return true;
+      } catch (fallbackErr: any) {
+        console.error('Fallback OTP also failed:', fallbackErr);
+        throw new Error('We could not send the email right now. Please try again.');
+      }
     }
   };
 
