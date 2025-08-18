@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 
 const superAdminItems = [
+  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'Super Admin Dashboard', url: '/super-admin', icon: LayoutDashboard },
   { title: 'System Management', url: '/system-management', icon: Settings },
   { title: 'Company Management', url: '/company-management', icon: Building2 },

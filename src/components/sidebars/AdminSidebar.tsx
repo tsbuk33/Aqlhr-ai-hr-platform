@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 
 const adminItems = [
+  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'Admin Dashboard', url: '/admin', icon: LayoutDashboard },
   { title: 'Employee Management', url: '/employees', icon: Users },
   { title: 'Attendance & Time', url: '/attendance', icon: Calendar },

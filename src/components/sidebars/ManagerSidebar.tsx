@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 const managerItems = [
+  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'Manager Dashboard', url: '/manager-dashboard', icon: LayoutDashboard },
   { title: 'My Team', url: '/my-team', icon: Users },
   { title: 'Team Attendance', url: '/team-attendance', icon: Calendar },

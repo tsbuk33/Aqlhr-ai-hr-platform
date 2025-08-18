@@ -1,6 +1,6 @@
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { Header } from './Header';
+import { DashboardHeader } from '../DashboardHeader';
 import { useUserRole } from '@/hooks/useUserRole';
 import { SuperAdminSidebar } from '@/components/sidebars/SuperAdminSidebar';
 import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
@@ -40,7 +40,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
       <div className="min-h-screen w-full flex bg-background">
         <RoleBasedSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header />
+          <DashboardHeader />
           <main className="flex-1 overflow-auto">
             <div className="p-6">
               {children}

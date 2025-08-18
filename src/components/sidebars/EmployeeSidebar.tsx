@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 const employeeItems = [
+  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'My Dashboard', url: '/employee-dashboard', icon: LayoutDashboard },
   { title: 'My Profile', url: '/my-profile', icon: User },
   { title: 'Time & Attendance', url: '/my-attendance', icon: Clock },

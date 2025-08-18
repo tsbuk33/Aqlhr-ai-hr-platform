@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 
 const hrManagerItems = [
+  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'HR Dashboard', url: '/hr-dashboard', icon: LayoutDashboard },
   { title: 'Employee Directory', url: '/employee-directory', icon: Users },
   { title: 'Recruitment', url: '/recruitment', icon: UserPlus },
