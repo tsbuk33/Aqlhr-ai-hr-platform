@@ -53,13 +53,34 @@ const AuthPage = () => {
     });
 
     if (error) {
-      if (error.message.includes('already registered')) {
-        setError('This email is already registered. Please sign in instead.');
+      if (error.message.toLowerCase().includes('already registered')) {
+        // User exists but may be unconfirmed — automatically send magic link/verification
+        try {
+          const { data: emailData, error: emailError } = await supabase.functions.invoke('resend-verification', {
+            body: { email, redirectUrl: `${window.location.origin}/` }
+          });
+
+          if (emailError || emailData?.error) {
+            console.error('Email sending error:', emailError || emailData?.error);
+            setError('This email is already registered. We could not send a new verification email automatically. Please try the Resend button.');
+          } else {
+            toast({
+              title: 'Verification email re-sent',
+              description: `We sent a fresh link to ${email}. Please check your inbox or spam folder.`,
+            });
+            setError(null);
+          }
+        } catch (emailErr) {
+          console.error('Email network error:', emailErr);
+          setError('Could not send verification email automatically. Please try again.');
+        }
+        setIsLoading(false);
+        return;
       } else {
         setError(error.message);
+        setIsLoading(false);
+        return;
       }
-      setIsLoading(false);
-      return;
     }
 
     // Automatically send verification email via our reliable Resend system
@@ -71,22 +92,24 @@ const AuthPage = () => {
       if (emailError || emailData?.error) {
         console.error('Email sending error:', emailError || emailData?.error);
         toast({
-          title: "Account created successfully",
+          title: 'Account created successfully',
           description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
         });
       } else {
         toast({
-          title: "Account created successfully",
-          description: "Please check your email to verify your account. The verification email should arrive within a few minutes.",
+          title: 'Account created successfully',
+          description: 'Please check your email to verify your account. The verification email should arrive within a few minutes.',
         });
       }
     } catch (emailErr) {
       console.error('Email network error:', emailErr);
       toast({
-        title: "Account created successfully",
+        title: 'Account created successfully',
         description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
       });
     }
+
+    setIsLoading(false);
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
