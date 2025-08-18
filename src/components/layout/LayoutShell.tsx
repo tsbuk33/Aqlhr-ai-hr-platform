@@ -22,7 +22,7 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
     );
   }
 
-  // Allow auth route to render without the dashboard shell
+  // Allow auth routes to render without the dashboard shell
   if (location.pathname.startsWith('/auth')) {
     return <>{children}</>;
   }

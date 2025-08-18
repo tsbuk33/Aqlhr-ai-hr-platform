@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Mail } from 'lucide-react';
 
 const AuthPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +19,35 @@ const AuthPage = () => {
   const signinEmailRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const maskEmail = (email: string): string => {
+    const [username, domain] = email.split('@');
+    if (username.length <= 2) return email;
+    const maskedUsername = username[0] + '*'.repeat(username.length - 2) + username[username.length - 1];
+    return `${maskedUsername}@${domain}`;
+  };
+
+  const sendAuthLink = async (email: string, mode: 'signup' | 'magic'): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-auth-link', {
+        body: { 
+          email, 
+          mode, 
+          redirectTo: `${window.location.origin}/auth/callback` 
+        }
+      });
+
+      if (error || data?.error) {
+        console.error('Send auth link error:', error || data?.error);
+        throw new Error(error?.message || data?.error || 'Failed to send email');
+      }
+
+      return true;
+    } catch (err: any) {
+      console.error('Auth link network error:', err);
+      throw err;
+    }
+  };
 
   const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,74 +71,41 @@ const AuthPage = () => {
       return;
     }
 
-    const redirectUrl = `${window.location.origin}/`;
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/`
-      }
-    });
-
-    if (error) {
-      if (error.message.toLowerCase().includes('already registered')) {
-        // User exists but may be unconfirmed — automatically send magic link/verification
-        try {
-          const { data: emailData, error: emailError } = await supabase.functions.invoke('resend-verification', {
-            body: { email, redirectUrl: `${window.location.origin}/` }
-          });
-
-          if (emailError || emailData?.error) {
-            console.error('Email sending error:', emailError || emailData?.error);
-            setError('This email is already registered. We could not send a new verification email automatically. Please try the Resend button.');
-          } else {
-            toast({
-              title: 'Verification email re-sent',
-              description: `We sent a fresh link to ${email}. Please check your inbox or spam folder.`,
-            });
-            setError(null);
-          }
-        } catch (emailErr) {
-          console.error('Email network error:', emailErr);
-          setError('Could not send verification email automatically. Please try again.');
-        }
-        setIsLoading(false);
-        return;
-      } else {
-        setError(error.message);
-        setIsLoading(false);
-        return;
-      }
-    }
-
-    // Automatically send verification email via our reliable Resend system
     try {
-      const { data: emailData, error: emailError } = await supabase.functions.invoke('resend-verification', {
-        body: { email, redirectUrl: `${window.location.origin}/` }
+      // First try to sign up with Supabase
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`
+        }
       });
 
-      if (emailError || emailData?.error) {
-        console.error('Email sending error:', emailError || emailData?.error);
+      if (error && error.message.toLowerCase().includes('already registered')) {
+        // User exists - send magic link instead
+        await sendAuthLink(email, 'magic');
         toast({
-          title: 'Account created successfully',
-          description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
+          title: 'Check your email',
+          description: `We sent a secure sign-in link to ${maskEmail(email)}. Click it to access your AqlHR account.`,
         });
+      } else if (error) {
+        setError(error.message);
       } else {
+        // New user signup - always send verification via our reliable system
+        await sendAuthLink(email, 'signup');
         toast({
-          title: 'Account created successfully',
-          description: 'Please check your email to verify your account. The verification email should arrive within a few minutes.',
+          title: 'Check your email',
+          description: `We've sent a confirmation email to ${maskEmail(email)}. Open it to activate your AqlHR account.`,
         });
       }
-    } catch (emailErr) {
-      console.error('Email network error:', emailErr);
-      toast({
-        title: 'Account created successfully',
-        description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
-      });
+      
+      setError(null);
+    } catch (err: any) {
+      console.error('Signup error:', err);
+      setError(err.message || 'Failed to create account. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -121,66 +117,61 @@ const AuthPage = () => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setIsLoading(false);
-
-    if (error) {
-      const msg = error.message.toLowerCase();
-      if (msg.includes('invalid login credentials') || msg.includes('email not confirmed')) {
-        // Fall back to passwordless magic link for a smoother UX
-        await handleResendVerification('signin');
-        toast({
-          title: 'Check your email',
-          description: 'We sent you a secure sign-in link. Use it to access your account instantly.',
-        });
-        setError(null);
-      } else {
-        setError(error.message);
-      }
-    } else {
-      navigate('/');
-    }
-  };
-
-  const handleResendVerification = async (source: 'signin' | 'signup') => {
-    const email = source === 'signup' ? signupEmailRef.current?.value : signinEmailRef.current?.value;
-    if (!email) {
-      toast({ title: 'Enter your email', description: 'Please type your email then click resend.' });
-      return;
-    }
-
-    setIsLoading(true);
-
     try {
-      const redirectUrl = `${window.location.origin}/`;
-      const { data, error } = await supabase.functions.invoke('resend-verification', {
-        body: { email, redirectUrl }
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
       if (error) {
-        console.error('Edge function error:', error);
-        setError('Failed to send verification email. Please try again.');
-      } else if (data?.error) {
-        console.error('Server error:', data.error);
-        setError(data.error);
+        const msg = error.message.toLowerCase();
+        if (msg.includes('invalid') || msg.includes('credentials') || msg.includes('not confirmed')) {
+          // Auto-send magic link for smoother UX
+          await sendAuthLink(email, 'magic');
+          toast({
+            title: 'Check your email',
+            description: `We emailed you a secure sign-in link at ${maskEmail(email)}. Check your inbox to continue.`,
+          });
+          setError(null);
+        } else {
+          setError(error.message);
+        }
       } else {
-        toast({
-          title: 'Verification email sent!',
-          description: `Check your inbox at ${email}. The email should arrive within a few minutes.`
-        });
-        setError(null);
+        // Success - redirect to dashboard
+        navigate('/');
       }
-    } catch (err) {
-      console.error('Network error:', err);
-      setError('Network error. Please check your connection and try again.');
+    } catch (err: any) {
+      console.error('Sign in error:', err);
+      setError(err.message || 'Failed to sign in. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handlePasswordlessSignIn = async () => {
+    const email = signinEmailRef.current?.value;
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await sendAuthLink(email, 'magic');
+      toast({
+        title: 'Check your email',
+        description: `We emailed you a secure sign-in link at ${maskEmail(email)}. Click it to access your AqlHR account.`,
+      });
+    } catch (err: any) {
+      console.error('Passwordless sign in error:', err);
+      setError(err.message || 'Failed to send sign-in link. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -222,6 +213,7 @@ const AuthPage = () => {
                     type="button"
                     className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowSignInPassword(!showSignInPassword)}
+                    aria-label="Toggle password visibility"
                   >
                     {showSignInPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -234,8 +226,15 @@ const AuthPage = () => {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
-                <Button type="button" variant="link" className="w-full" onClick={() => handleResendVerification('signin')}>
-                  Didn't get the email? Resend verification
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handlePasswordlessSignIn}
+                  disabled={isLoading}
+                >
+                  <Mail className="mr-2 h-4 w-4" />
+                  Email me a link
                 </Button>
               </form>
             </TabsContent>
@@ -265,6 +264,7 @@ const AuthPage = () => {
                     type="button"
                     className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label="Toggle password visibility"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -282,6 +282,7 @@ const AuthPage = () => {
                     type="button"
                     className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label="Toggle password visibility"
                   >
                     {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -293,9 +294,6 @@ const AuthPage = () => {
                 )}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Creating account...' : 'Create Account'}
-                </Button>
-                <Button type="button" variant="link" className="w-full" onClick={() => handleResendVerification('signup')}>
-                  Didn't get the email? Resend verification
                 </Button>
               </form>
             </TabsContent>

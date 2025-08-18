@@ -982,6 +982,42 @@ export type Database = {
           },
         ]
       }
+      auth_email_events: {
+        Row: {
+          created_at: string
+          email: string
+          error_message: string | null
+          id: string
+          ip_address: unknown | null
+          mode: string
+          sent_at: string
+          success: boolean | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown | null
+          mode: string
+          sent_at?: string
+          success?: boolean | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          error_message?: string | null
+          id?: string
+          ip_address?: unknown | null
+          mode?: string
+          sent_at?: string
+          success?: boolean | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       auth_security_config: {
         Row: {
           compliant: boolean

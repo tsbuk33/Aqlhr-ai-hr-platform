@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { ROUTES } from '@/config/routes';
 import NotFound from '@/pages/NotFound';
 import AuthPage from '@/pages/AuthPage';
+import AuthCallback from '@/pages/auth/AuthCallback';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 const RequireAuth: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({ 
@@ -20,6 +21,7 @@ export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
       {ROUTES.map((route) => {
         const Component = route.element;
         const element = route.auth ? (
