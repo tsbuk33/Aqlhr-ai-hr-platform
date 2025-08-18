@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardLayout } from './DashboardLayout';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ interface LayoutShellProps {
 
 export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   const { user, isLoading } = useAuth();
+  const location = useLocation();
 
   if (isLoading) {
     return (
@@ -19,6 +20,11 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
         </div>
       </div>
     );
+  }
+
+  // Allow auth route to render without the dashboard shell
+  if (location.pathname.startsWith('/auth')) {
+    return <>{children}</>;
   }
 
   if (!user) {
