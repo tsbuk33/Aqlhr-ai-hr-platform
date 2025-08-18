@@ -52,18 +52,39 @@ const AuthPage = () => {
       }
     });
 
-    setIsLoading(false);
-
     if (error) {
       if (error.message.includes('already registered')) {
         setError('This email is already registered. Please sign in instead.');
       } else {
         setError(error.message);
       }
-    } else {
+      setIsLoading(false);
+      return;
+    }
+
+    // Automatically send verification email via our reliable Resend system
+    try {
+      const { data: emailData, error: emailError } = await supabase.functions.invoke('resend-verification', {
+        body: { email, redirectUrl: `${window.location.origin}/` }
+      });
+
+      if (emailError || emailData?.error) {
+        console.error('Email sending error:', emailError || emailData?.error);
+        toast({
+          title: "Account created successfully",
+          description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
+        });
+      } else {
+        toast({
+          title: "Account created successfully",
+          description: "Please check your email to verify your account. The verification email should arrive within a few minutes.",
+        });
+      }
+    } catch (emailErr) {
+      console.error('Email network error:', emailErr);
       toast({
         title: "Account created successfully",
-        description: "Please check your email to verify your account. If you don't receive an email, you can still sign in directly.",
+        description: "Account created, but there was an issue sending the verification email. You can use the 'Resend verification' button below.",
       });
     }
   };
