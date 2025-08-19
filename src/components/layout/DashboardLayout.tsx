@@ -1,44 +1,13 @@
 import React from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { DashboardHeader } from '../DashboardHeader';
-import { useUserRole } from '@/hooks/useUserRole';
 import { SuperAdminSidebar } from '@/components/sidebars/SuperAdminSidebar';
-import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
-import { HRManagerSidebar } from '@/components/sidebars/HRManagerSidebar';
-import { ManagerSidebar } from '@/components/sidebars/ManagerSidebar';
-import { EmployeeSidebar } from '@/components/sidebars/EmployeeSidebar';
-import { useLocation } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
 
 const RoleBasedSidebar: React.FC = () => {
-  const { user } = useAuth();
-  const { userRole, isLoading } = useUserRole();
-
-  if (isLoading) {
-    return <div className="w-14 bg-sidebar border-r" />;
-  }
-
-  // Preview/dev: if no authenticated user, show Super Admin to access all modules
-  if (!user) {
-    return <SuperAdminSidebar />;
-  }
-
-  switch (userRole) {
-    case 'super_admin':
-      return <SuperAdminSidebar />;
-    case 'admin':
-      return <AdminSidebar />;
-    case 'hr_manager':
-      return <HRManagerSidebar />;
-    case 'manager':
-      return <ManagerSidebar />;
-    case 'employee':
-    default:
-      return <EmployeeSidebar />;
-  }
+  return <SuperAdminSidebar />;
 };
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {

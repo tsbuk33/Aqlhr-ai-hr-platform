@@ -27,36 +27,8 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
     return <>{children}</>;
   }
 
-  // Public routes allowed without authentication (for development/preview)
-  const PUBLIC_ROUTES = ['/', '/dashboard'];
-  const isPublicRoute = PUBLIC_ROUTES.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
-
-  if (!user && !isPublicRoute) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-muted/30">
-        <div className="text-center space-y-6 max-w-md mx-auto p-6">
-          <div className="space-y-3">
-            <h1 className="text-4xl font-bold text-foreground">Welcome to AqlHR Platform</h1>
-            <p className="text-muted-foreground text-lg">Please sign in to access your HR dashboard</p>
-          </div>
-          <div className="space-y-4">
-            <Button 
-              asChild 
-              size="lg" 
-              className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white"
-            >
-              <Link to="/auth" className="inline-flex items-center justify-center">
-                Sign In to Dashboard
-              </Link>
-            </Button>
-            <p className="text-sm text-muted-foreground">
-              New to AqlHR? You can create an account on the next page.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Authentication gating disabled: all routes are accessible
+  // regardless of authentication status.
 
   return (
     <DashboardLayout>
