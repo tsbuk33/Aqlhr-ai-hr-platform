@@ -65,8 +65,8 @@ export function useDashboardData() {
       const { data: reviews, error: reviewsError } = await supabase
         .from('performance_reviews')
         .select('id')
-        .gte('review_date', firstDay.toISOString())
-        .lte('review_date', lastDay.toISOString())
+        .gte('created_at', firstDay.toISOString())
+        .lte('created_at', lastDay.toISOString())
         .eq('status', 'pending');
 
       if (reviewsError) throw reviewsError;
