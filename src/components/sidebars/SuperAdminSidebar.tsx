@@ -324,7 +324,7 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "hover:bg-muted/50"
+                        : "hover:bg-muted/50 text-foreground"
                     }
                   >
                     <Crown className="h-4 w-4" />
