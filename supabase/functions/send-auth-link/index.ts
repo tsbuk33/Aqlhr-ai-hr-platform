@@ -113,6 +113,8 @@ serve(async (req) => {
       html: htmlTemplate(actionLink, title, 'Continue to AqlHR'),
     })
 
+    console.log('[send-auth-link] Resend response:', emailResp)
+
     if ((emailResp as any).error) {
       console.error('[send-auth-link] Resend error', (emailResp as any).error)
       throw (emailResp as any).error
