@@ -16,12 +16,10 @@ const allowedOrigins = [
 ]
 const lovableRegex = /^https:\/\/.*\.lovable\.(dev|app)$/i
 
-function buildCorsHeaders(_origin: string | null) {
-  return {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  }
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
 const supabase = createClient(
@@ -71,12 +69,10 @@ function htmlTemplate(link: string, title: string, cta: string): string {
 }
 
 Deno.serve(async (req) => {
-  const cors = buildCorsHeaders(req.headers.get('origin'))
-
   if (req.method === 'OPTIONS') {
     return new Response('ok', { 
       status: 200,
-      headers: cors 
+      headers: corsHeaders 
     })
   }
 
@@ -86,7 +82,7 @@ Deno.serve(async (req) => {
     if (!email) {
       return new Response(JSON.stringify({ error: 'email_required' }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json', ...cors },
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
       })
     }
 
@@ -147,7 +143,7 @@ Deno.serve(async (req) => {
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
-      headers: { 'Content-Type': 'application/json', ...cors },
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
     })
   } catch (err: any) {
     // Structured error logging
@@ -160,7 +156,7 @@ Deno.serve(async (req) => {
 
     return new Response(JSON.stringify({ error: err?.message || 'internal_error' }), {
       status: 500,
-      headers: { 'Content-Type': 'application/json', ...cors },
+      headers: { 'Content-Type': 'application/json', ...corsHeaders },
     })
   }
 })
