@@ -69,7 +69,10 @@ function htmlTemplate(link: string, title: string, cta: string): string {
 }
 
 Deno.serve(async (req) => {
+  console.log(`[send-auth-link] ${req.method} request received`)
+  
   if (req.method === 'OPTIONS') {
+    console.log('[send-auth-link] Handling OPTIONS request')
     return new Response('ok', { 
       status: 200,
       headers: corsHeaders 
@@ -77,6 +80,7 @@ Deno.serve(async (req) => {
   }
 
   try {
+    console.log('[send-auth-link] Processing POST request')
     const { email, mode, redirectTo }: AuthLinkRequest = await req.json()
 
     if (!email) {
