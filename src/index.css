@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './styles/rtl.css';
+@import 'src/styles/rtl.css';
 
 /* AqlHR Design System - Professional Enterprise HR Platform */
 
