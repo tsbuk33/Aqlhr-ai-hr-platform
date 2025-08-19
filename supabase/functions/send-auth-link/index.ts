@@ -124,14 +124,22 @@ Deno.serve(async (req) => {
       throw (emailResp as any).error
     }
 
+    // Structured logging after successful email send
+    console.log("[send-auth-link] Email sent", {
+      email,
+      mode,
+      redirectTo: finalRedirect,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Insert audit record into auth_email_events table
     try {
       await supabase.from('auth_email_events').insert({
         email,
         mode,
         sent_at: new Date().toISOString(),
-        ip_address: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip'),
-        user_agent: req.headers.get('user-agent'),
-        success: true,
+        ip: req.headers.get('x-forwarded-for') ?? null,
+        ua: req.headers.get('user-agent') ?? null,
       })
     } catch (auditErr) {
       console.warn('audit insert failed', auditErr)
@@ -142,18 +150,13 @@ Deno.serve(async (req) => {
       headers: { 'Content-Type': 'application/json', ...cors },
     })
   } catch (err: any) {
-    console.error('send-auth-link error', err)
-    try {
-      await supabase.from('auth_email_events').insert({
-        email: 'unknown',
-        mode: 'unknown',
-        sent_at: new Date().toISOString(),
-        success: false,
-        error_message: String(err?.message || err),
-      })
-    } catch (_) {
-      // ignore
-    }
+    // Structured error logging
+    console.error("[send-auth-link] ERROR", {
+      email: email || 'unknown',
+      mode: mode || 'unknown', 
+      error: String(err),
+      timestamp: new Date().toISOString(),
+    });
 
     return new Response(JSON.stringify({ error: err?.message || 'internal_error' }), {
       status: 500,
