@@ -7,7 +7,7 @@ import AuthCallback from '@/pages/auth/AuthCallback';
 
 
 export const AppRoutes: React.FC = () => {
-  
+  console.log('[AppRoutes] rendering routes:', ROUTES.length);
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />

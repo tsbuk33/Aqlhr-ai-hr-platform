@@ -10,6 +10,7 @@ interface LayoutShellProps {
 export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   const { user, isLoading } = useAuth();
   const location = useLocation();
+  console.log('[LayoutShell] route=', location.pathname, 'user=', user?.id || null, 'isLoading=', isLoading);
 
   if (isLoading) {
     return (
