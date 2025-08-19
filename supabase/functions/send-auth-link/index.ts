@@ -16,7 +16,7 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 )
 
-const resend = new Resend(Deno.env.get('RESEND_API_KEY')!)
+// Resend will be instantiated lazily inside the handler
 
 interface AuthLinkRequest {
   email: string
@@ -105,29 +105,39 @@ serve(async (req) => {
     const subject = mode === 'signup' ? 'Confirm your AqlHR account' : 'Sign in to AqlHR'
     const title = subject
 
-    console.log('[send-auth-link] Sending email via Resend')
-    const emailResp = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: [email],
-      subject,
-      html: htmlTemplate(actionLink, title, 'Continue to AqlHR'),
-    })
+    console.log('[send-auth-link] Preparing to send email via Resend')
+    const resendApiKey = Deno.env.get('RESEND_API_KEY')
+    let emailResp: any = null
+    let emailSent = false
 
-    console.log('[send-auth-link] Resend response:', emailResp)
+    if (resendApiKey) {
+      const resend = new Resend(resendApiKey)
+      emailResp = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: [email],
+        subject,
+        html: htmlTemplate(actionLink, title, 'Continue to AqlHR'),
+      })
 
-    if ((emailResp as any).error) {
-      console.error('[send-auth-link] Resend error', (emailResp as any).error)
-      throw (emailResp as any).error
+      console.log('[send-auth-link] Resend response:', emailResp)
+
+      if ((emailResp as any).error) {
+        console.error('[send-auth-link] Resend error', (emailResp as any).error)
+        throw (emailResp as any).error
+      }
+
+      emailSent = true
+      console.log('[send-auth-link] Email sent successfully', {
+        email,
+        mode,
+        redirectTo: finalRedirect,
+        timestamp: new Date().toISOString(),
+      })
+    } else {
+      console.warn('[send-auth-link] RESEND_API_KEY is not set; skipping email send. Returning action link in response')
     }
 
-    console.log('[send-auth-link] Email sent successfully', {
-      email,
-      mode,
-      redirectTo: finalRedirect,
-      timestamp: new Date().toISOString(),
-    })
-
-    return new Response(JSON.stringify({ ok: true }), {
+    return new Response(JSON.stringify({ ok: true, actionLink }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     })
