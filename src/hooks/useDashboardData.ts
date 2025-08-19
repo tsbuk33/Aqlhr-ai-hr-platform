@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-
+import { useAuth } from './useAuth';
 interface DashboardStats {
   totalEmployees: number;
   presentToday: number;
@@ -23,6 +23,7 @@ interface SystemAlert {
 }
 
 export function useDashboardData() {
+  const { user } = useAuth();
   const [stats, setStats] = useState<DashboardStats>({
     totalEmployees: 0,
     presentToday: 0,
@@ -41,13 +42,39 @@ export function useDashboardData() {
     try {
       setLoading(true);
 
+      if (!user) {
+        // Preview mode without authentication
+        setStats({
+          totalEmployees: 0,
+          presentToday: 0,
+          pendingLeaves: 0,
+          performanceReviews: 0,
+          saudiEmployees: 0,
+          nonSaudiEmployees: 0,
+          attendanceRate: 0,
+        });
+        setAlerts([
+          {
+            id: 'preview',
+            title: 'Preview Mode',
+            titleAr: 'وضع المعاينة',
+            message: 'Sign in to view live company data',
+            messageAr: 'سجّل الدخول لعرض بيانات الشركة الحقيقية',
+            type: 'warning',
+            isActive: true,
+          },
+        ]);
+        return;
+      }
+
       // Fetch employees count
       const { data: employees, error: employeesError } = await supabase
         .from('employees')
         .select('id, nationality')
         .eq('status', 'active');
 
-      if (employeesError) throw employeesError;
+      // If employees query fails, continue gracefully in preview
+      if (employeesError) console.warn('Employees query failed:', employeesError);
 
       // Fetch pending leaves
       const { data: leaves, error: leavesError } = await supabase

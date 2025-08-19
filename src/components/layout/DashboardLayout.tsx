@@ -7,7 +7,7 @@ import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
 import { HRManagerSidebar } from '@/components/sidebars/HRManagerSidebar';
 import { ManagerSidebar } from '@/components/sidebars/ManagerSidebar';
 import { EmployeeSidebar } from '@/components/sidebars/EmployeeSidebar';
-
+import { useLocation } from 'react-router-dom';
 interface DashboardLayoutProps {
   children: React.ReactNode;
 }
