@@ -522,4 +522,13 @@ export const ROUTES: RouteConfig[] = [
   
   // System Engineering - admin only
   { path: '/system-engineer', element: SystemEngineer, auth: true, adminOnly: true },
+  
+  // CCI routes - Corporate Culture Intelligence
+  { path: '/cci/overview', element: CCIOverview, auth: false },
+  { path: '/cci/survey', element: CCISurvey, auth: false },
+  { path: '/cci/evidence', element: CCIEvidence, auth: false },
+  { path: '/cci/analysis', element: CCIAnalysis, auth: false },
+  { path: '/cci/playbook', element: CCIPlaybook, auth: false },
+  { path: '/cci/tracking', element: CCITracking, auth: false },
+  { path: '/cci/export', element: CCIExport, auth: false },
 ];
