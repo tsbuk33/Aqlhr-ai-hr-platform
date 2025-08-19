@@ -16,14 +16,11 @@ const allowedOrigins = [
 ]
 const lovableRegex = /^https:\/\/.*\.lovable\.(dev|app)$/i
 
-function buildCorsHeaders(origin: string | null) {
-  const o = origin ?? ''
-  const allow = allowedOrigins.includes(o) || lovableRegex.test(o) ? o : APP_URL
+function buildCorsHeaders(_origin: string | null) {
   return {
-    'Access-Control-Allow-Origin': allow,
+    'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-    'Vary': 'Origin',
   }
 }
 
