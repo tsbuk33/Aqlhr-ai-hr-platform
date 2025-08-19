@@ -241,7 +241,7 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
         )}
 
         <SidebarGroup>
-          <SidebarGroupLabel>Platform Modules</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-foreground">Platform Modules</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {/* Dashboard */}
@@ -252,7 +252,7 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "hover:bg-muted/50"
+                        : "hover:bg-muted/50 text-foreground"
                     }
                   >
                     <LayoutDashboard className="h-4 w-4" />
@@ -266,6 +266,54 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                     )}
                   </NavLink>
                 </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Diagnostic Framework */}
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={() => setDiagnosticExpanded(!diagnosticExpanded)}
+                  className={`hover:bg-muted/50 text-foreground ${isGroupActive(diagnosticItems.map(i => i.url)) ? 'bg-muted text-foreground font-medium' : ''}`}
+                >
+                  <Activity className="h-4 w-4" />
+                  {open && (
+                    <div className="flex items-center justify-between w-full">
+                      <span>Diagnostic Framework</span>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="secondary" className="h-5 w-6 p-0 flex items-center justify-center text-xs">
+                          {diagnosticItems.length}
+                        </Badge>
+                        {diagnosticExpanded ? (
+                          <ChevronDown className="h-3 w-3" />
+                        ) : (
+                          <ChevronRight className="h-3 w-3" />
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </SidebarMenuButton>
+
+                {/* Diagnostic Framework Sub-items */}
+                {open && diagnosticExpanded && (
+                  <SidebarMenuSub>
+                    {diagnosticItems.map((item) => (
+                      <SidebarMenuSubItem key={item.title}>
+                        <SidebarMenuSubButton asChild>
+                          <NavLink
+                            to={item.url}
+                            className={({ isActive }) =>
+                              isActive
+                                ? "bg-primary/10 text-primary font-medium"
+                                : "hover:bg-muted/30 text-foreground"
+                            }
+                          >
+                            <item.icon className="h-3 w-3" />
+                            <span className="text-sm">{item.title}</span>
+                          </NavLink>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                )}
               </SidebarMenuItem>
 
               {/* Executive Intelligence Center */}
@@ -574,44 +622,6 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                 )}
               </SidebarMenuItem>
 
-              {/* Diagnostic Framework */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  onClick={() => setDiagnosticExpanded(!diagnosticExpanded)}
-                  className={`hover:bg-muted/50 ${isGroupActive(diagnosticItems.map(i => i.url)) ? 'bg-muted text-foreground font-medium' : ''}`}
-                >
-                  <Layers className="h-4 w-4" />
-                  {open && (
-                    <div className="flex items-center justify-between w-full">
-                      <span>Diagnostic Framework</span>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className="h-5 px-1 p-0 flex items-center justify-center text-xs">
-                          {diagnosticItems.length}
-                        </Badge>
-                        {diagnosticExpanded ? (
-                          <ChevronDown className="h-3 w-3" />
-                        ) : (
-                          <ChevronRight className="h-3 w-3" />
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </SidebarMenuButton>
-                {open && diagnosticExpanded && (
-                  <SidebarMenuSub>
-                    {diagnosticItems.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild>
-                          <NavLink to={item.url} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
-                            <item.icon className="h-3 w-3" />
-                            <span className="text-sm">{item.title}</span>
-                          </NavLink>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                )}
-              </SidebarMenuItem>
 
               {/* Local Content Compliance */}
               <SidebarMenuItem>
