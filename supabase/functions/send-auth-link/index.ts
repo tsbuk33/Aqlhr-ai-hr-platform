@@ -74,7 +74,10 @@ Deno.serve(async (req) => {
   const cors = buildCorsHeaders(req.headers.get('origin'))
 
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: cors })
+    return new Response('ok', { 
+      status: 200,
+      headers: cors 
+    })
   }
 
   try {
