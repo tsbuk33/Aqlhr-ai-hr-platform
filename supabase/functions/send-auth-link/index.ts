@@ -29,7 +29,7 @@ const supabase = createClient(
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 )
 
-const resend = new Resend(Deno.env.get('RESEND_API_KEY')!)
+const resend = new Resend(Deno.env.get('RESEND_API_KEY')!) // Updated secret
 
 interface AuthLinkRequest {
   email: string
