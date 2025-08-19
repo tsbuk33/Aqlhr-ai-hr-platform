@@ -255,10 +255,10 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                         : "hover:bg-muted/50 text-foreground"
                     }
                   >
-                    <LayoutDashboard className="h-4 w-4" />
+                    <LayoutDashboard className="h-4 w-4 text-foreground" />
                     {open && (
                       <div className="flex items-center justify-between w-full">
-                        <span>Dashboard</span>
+                        <span className="text-foreground">Dashboard</span>
                         <Badge variant="secondary" className="h-5 w-5 p-0 flex items-center justify-center text-xs">
                           1
                         </Badge>
@@ -327,10 +327,10 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                         : "hover:bg-muted/50 text-foreground"
                     }
                   >
-                    <Crown className="h-4 w-4" />
+                    <Crown className="h-4 w-4 text-foreground" />
                     {open && (
                       <div className="flex items-center justify-between w-full">
-                        <span>AqlHR Executive Intelligence Center</span>
+                        <span className="text-foreground">AqlHR Executive Intelligence Center</span>
                         <Badge className="bg-yellow-600 hover:bg-yellow-600 text-xs px-2 py-0">
                           PREMIUM
                         </Badge>
