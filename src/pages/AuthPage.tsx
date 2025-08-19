@@ -39,22 +39,38 @@ export default function AuthPage() {
 
         setMessage(`We sent a confirmation email to ${email}. Check your inbox.`);
       } else {
-        // Try normal password sign-in
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        // Inside handleAuth or your sign-in block
+        try {
+          // Attempt password login
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
 
-        if (error) {
-          // On invalid credentials or unconfirmed email, fallback to magic link
-          await supabase.functions.invoke("send-auth-link", {
-            body: {
-              email,
-              mode: "magic",
-              redirectTo: `${window.location.origin}/auth/callback`,
-            },
+          if (error) {
+            console.error("Password sign-in failed, sending magic link:", error.message);
+
+            // Always send magic link if sign-in fails
+            await supabase.functions.invoke("send-auth-link", {
+              body: {
+                email,
+                mode: "magic",
+                redirectTo: `${window.location.origin}/auth/callback`,
+              },
+            });
+
+            setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
+          } else {
+            // Success → go to dashboard
+            navigate("/");
+          }
+        } catch (err) {
+          console.error("Unexpected error:", err);
+
+          // Fallback: Supabase OTP if Edge Function fails
+          await supabase.auth.signInWithOtp({
+            email,
+            options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
           });
-          setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
-        } else {
-          // Success → redirect
-          navigate("/");
+
+          setMessage(`We emailed you a secure sign-in link at ${email}.`);
         }
       }
     } catch (err: any) {
