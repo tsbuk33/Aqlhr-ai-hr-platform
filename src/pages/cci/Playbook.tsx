@@ -1,0 +1,386 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { 
+  Brain, 
+  Target, 
+  Users, 
+  Calendar, 
+  CheckCircle,
+  Clock,
+  AlertTriangle,
+  Play,
+  Pause,
+  Settings
+} from 'lucide-react';
+
+const Playbook: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
+
+  const initiatives = [
+    {
+      id: 1,
+      title: isArabic ? 'تعزيز الشفافية في التواصل' : 'Enhance Communication Transparency',
+      description: isArabic ? 'تطوير قنوات تواصل مفتوحة وشفافة بين جميع مستويات المنظمة' : 'Develop open and transparent communication channels across all organizational levels',
+      priority: 'high',
+      impact: 'high',
+      effort: 'medium',
+      duration: 12,
+      status: 'planning',
+      aiConfidence: 92,
+      frameworks: ['CVF', 'Cultural Web'],
+      owner: isArabic ? 'فريق التواصل الداخلي' : 'Internal Communications Team'
+    },
+    {
+      id: 2,
+      title: isArabic ? 'برنامج تطوير القيادة التحويلية' : 'Transformational Leadership Development Program',
+      description: isArabic ? 'برنامج شامل لتطوير مهارات القيادة التحويلية للمدراء' : 'Comprehensive program to develop transformational leadership skills for managers',
+      priority: 'high',
+      impact: 'high',
+      effort: 'high',
+      duration: 18,
+      status: 'ready',
+      aiConfidence: 88,
+      frameworks: ['Barrett', 'Schein'],
+      owner: isArabic ? 'قسم التطوير التنظيمي' : 'Organizational Development'
+    },
+    {
+      id: 3,
+      title: isArabic ? 'تعزيز الأمان النفسي' : 'Psychological Safety Enhancement',
+      description: isArabic ? 'مبادرات لزيادة الأمان النفسي وتشجيع الابتكار' : 'Initiatives to increase psychological safety and encourage innovation',
+      priority: 'medium',
+      impact: 'high',
+      effort: 'low',
+      duration: 8,
+      status: 'in-progress',
+      aiConfidence: 85,
+      frameworks: ['CVF', 'Barrett'],
+      owner: isArabic ? 'فريق تجربة الموظف' : 'Employee Experience Team'
+    },
+    {
+      id: 4,
+      title: isArabic ? 'إعادة تصميم نظام المكافآت' : 'Rewards System Redesign',
+      description: isArabic ? 'مراجعة وإعادة تصميم نظام المكافآت ليتماشى مع القيم المرغوبة' : 'Review and redesign rewards system to align with desired values',
+      priority: 'medium',
+      impact: 'medium',
+      effort: 'high',
+      duration: 16,
+      status: 'planning',
+      aiConfidence: 78,
+      frameworks: ['Barrett', 'Hofstede'],
+      owner: isArabic ? 'إدارة الموارد البشرية' : 'HR Management'
+    }
+  ];
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'high': return 'destructive';
+      case 'medium': return 'secondary';
+      case 'low': return 'outline';
+      default: return 'secondary';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'planning': return 'secondary';
+      case 'ready': return 'default';
+      case 'in-progress': return 'default';
+      case 'completed': return 'default';
+      default: return 'secondary';
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'planning': return <Clock className="h-4 w-4" />;
+      case 'ready': return <Play className="h-4 w-4" />;
+      case 'in-progress': return <Pause className="h-4 w-4" />;
+      case 'completed': return <CheckCircle className="h-4 w-4" />;
+      default: return <Clock className="h-4 w-4" />;
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'planning': return isArabic ? 'تخطيط' : 'Planning';
+      case 'ready': return isArabic ? 'جاهز' : 'Ready';
+      case 'in-progress': return isArabic ? 'قيد التنفيذ' : 'In Progress';
+      case 'completed': return isArabic ? 'مكتمل' : 'Completed';
+      default: return status;
+    }
+  };
+
+  return (
+    <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+      <div className="max-w-7xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {isArabic ? 'خطة التغيير بالذكاء الاصطناعي' : 'AI Change Playbook'}
+            </h1>
+            <p className="text-muted-foreground">
+              {isArabic ? 'عقل للموارد البشرية - مبادرات مولدة بالذكاء الاصطناعي' : 'AqlHR — AI-Generated Change Initiatives'}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button>
+              <Brain className="mr-2 h-4 w-4" />
+              {isArabic ? 'توليد مبادرات جديدة' : 'Generate New Initiatives'}
+            </Button>
+            <Button variant="outline">
+              <Settings className="mr-2 h-4 w-4" />
+              {isArabic ? 'إعدادات الذكاء الاصطناعي' : 'AI Settings'}
+            </Button>
+          </div>
+        </div>
+
+        {/* Overview Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {isArabic ? 'إجمالي المبادرات' : 'Total Initiatives'}
+              </CardTitle>
+              <Target className="h-4 w-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">12</div>
+              <p className="text-xs text-muted-foreground">
+                {isArabic ? '4 نشطة، 8 مخططة' : '4 active, 8 planned'}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {isArabic ? 'معدل الثقة بالذكاء الاصطناعي' : 'AI Confidence'}
+              </CardTitle>
+              <Brain className="h-4 w-4 text-purple-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">86%</div>
+              <p className="text-xs text-muted-foreground">
+                {isArabic ? 'متوسط عبر جميع المبادرات' : 'Average across all initiatives'}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {isArabic ? 'المدة المتوقعة' : 'Expected Duration'}
+              </CardTitle>
+              <Calendar className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">14</div>
+              <p className="text-xs text-muted-foreground">
+                {isArabic ? 'أشهر متوسط' : 'months average'}
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                {isArabic ? 'الفرق المشاركة' : 'Teams Involved'}
+              </CardTitle>
+              <Users className="h-4 w-4 text-orange-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">8</div>
+              <p className="text-xs text-muted-foreground">
+                {isArabic ? 'عبر الإدارات المختلفة' : 'across departments'}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Initiatives List */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">
+              {isArabic ? 'المبادرات المقترحة' : 'Recommended Initiatives'}
+            </h2>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">
+                {isArabic ? 'فلترة حسب الأولوية' : 'Filter by Priority'}
+              </Button>
+              <Button variant="outline" size="sm">
+                {isArabic ? 'ترتيب حسب التأثير' : 'Sort by Impact'}
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {initiatives.map((initiative) => (
+              <Card key={initiative.id} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-2">
+                      <CardTitle className="text-lg">{initiative.title}</CardTitle>
+                      <CardDescription>{initiative.description}</CardDescription>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Badge variant={getPriorityColor(initiative.priority)}>
+                        {initiative.priority === 'high' ? (isArabic ? 'عالية' : 'High') :
+                         initiative.priority === 'medium' ? (isArabic ? 'متوسطة' : 'Medium') :
+                         (isArabic ? 'منخفضة' : 'Low')}
+                      </Badge>
+                      <Badge variant={getStatusColor(initiative.status)} className="flex items-center gap-1">
+                        {getStatusIcon(initiative.status)}
+                        {getStatusText(initiative.status)}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'التأثير المتوقع' : 'Expected Impact'}
+                      </div>
+                      <Badge variant={initiative.impact === 'high' ? 'default' : 'secondary'}>
+                        {initiative.impact === 'high' ? (isArabic ? 'عالي' : 'High') :
+                         initiative.impact === 'medium' ? (isArabic ? 'متوسط' : 'Medium') :
+                         (isArabic ? 'منخفض' : 'Low')}
+                      </Badge>
+                    </div>
+                    
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'الجهد المطلوب' : 'Required Effort'}
+                      </div>
+                      <Badge variant="outline">
+                        {initiative.effort === 'high' ? (isArabic ? 'عالي' : 'High') :
+                         initiative.effort === 'medium' ? (isArabic ? 'متوسط' : 'Medium') :
+                         (isArabic ? 'منخفض' : 'Low')}
+                      </Badge>
+                    </div>
+                    
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'المدة' : 'Duration'}
+                      </div>
+                      <span className="text-sm font-medium">{initiative.duration} {isArabic ? 'شهر' : 'months'}</span>
+                    </div>
+                    
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'ثقة الذكاء الاصطناعي' : 'AI Confidence'}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Progress value={initiative.aiConfidence} className="h-2 flex-1" />
+                        <span className="text-sm">{initiative.aiConfidence}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'الأطر المرجعية' : 'Source Frameworks'}
+                      </div>
+                      <div className="flex gap-1">
+                        {initiative.frameworks.map((framework, index) => (
+                          <Badge key={index} variant="outline" className="text-xs">
+                            {framework}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="text-sm text-muted-foreground mb-1">
+                        {isArabic ? 'المسؤول' : 'Owner'}
+                      </div>
+                      <span className="text-sm font-medium">{initiative.owner}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-2 mt-4">
+                    <Button variant="outline" size="sm">
+                      {isArabic ? 'عرض التفاصيل' : 'View Details'}
+                    </Button>
+                    <Button size="sm">
+                      {initiative.status === 'ready' ? (isArabic ? 'بدء التنفيذ' : 'Start Implementation') :
+                       initiative.status === 'planning' ? (isArabic ? 'بدء التخطيط' : 'Begin Planning') :
+                       (isArabic ? 'متابعة' : 'Continue')}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* AI Insights */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Brain className="h-5 w-5" />
+              {isArabic ? 'رؤى الذكاء الاصطناعي' : 'AI Insights'}
+            </CardTitle>
+            <CardDescription>
+              {isArabic ? 'تحليل وتوصيات مبنية على الذكاء الاصطناعي' : 'AI-powered analysis and recommendations'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <Brain className="h-5 w-5 text-blue-600 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-blue-900">
+                      {isArabic ? 'نمط محدد: فجوة في القيادة التحويلية' : 'Pattern Detected: Transformational Leadership Gap'}
+                    </h4>
+                    <p className="text-sm text-blue-700 mt-1">
+                      {isArabic ? 'يشير التحليل إلى وجود فجوة كبيرة في مهارات القيادة التحويلية. يُوصى بالبدء ببرنامج تطوير القيادة كأولوية قصوى.' : 'Analysis indicates a significant gap in transformational leadership skills. Recommend prioritizing leadership development program as immediate action.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <Target className="h-5 w-5 text-green-600 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-green-900">
+                      {isArabic ? 'فرصة: الاستفادة من الثقافة العشائرية الحالية' : 'Opportunity: Leverage Current Clan Culture'}
+                    </h4>
+                    <p className="text-sm text-green-700 mt-1">
+                      {isArabic ? 'الثقافة العشائرية القوية الحالية توفر أساساً ممتازاً لتعزيز الأمان النفسي والتعاون. استخدم هذا كنقطة انطلاق.' : 'Strong existing clan culture provides excellent foundation for psychological safety and collaboration. Use this as launching point.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
+                  <div>
+                    <h4 className="font-medium text-orange-900">
+                      {isArabic ? 'تحذير: مقاومة محتملة للتغيير' : 'Warning: Potential Change Resistance'}
+                    </h4>
+                    <p className="text-sm text-orange-700 mt-1">
+                      {isArabic ? 'المستوى العالي لتجنب عدم اليقين قد يؤدي إلى مقاومة التغيير. يُنصح بتطبيق استراتيجيات إدارة التغيير التدريجية.' : 'High uncertainty avoidance level may lead to change resistance. Recommend implementing gradual change management strategies.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export default Playbook;

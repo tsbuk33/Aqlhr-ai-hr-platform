@@ -193,6 +193,15 @@ const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/Intell
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
+
+// CCI modules
+const CCIOverview = lazy(() => import('../pages/cci/Overview'));
+const CCISurvey = lazy(() => import('../pages/cci/Survey'));
+const CCIEvidence = lazy(() => import('../pages/cci/Evidence'));
+const CCIAnalysis = lazy(() => import('../pages/cci/Analysis'));
+const CCIPlaybook = lazy(() => import('../pages/cci/Playbook'));
+const CCITracking = lazy(() => import('../pages/cci/Tracking'));
+const CCIExport = lazy(() => import('../pages/cci/Export'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
