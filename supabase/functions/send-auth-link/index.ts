@@ -1,20 +1,6 @@
-// deno-lint-ignore-file no-explicit-any
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { Resend } from 'https://esm.sh/resend@3'
-
-// Strict CORS config
-const APP_URL = Deno.env.get('APP_URL') || 'https://aqlhr.com'
-const APP_URL_DEV = Deno.env.get('APP_URL_DEV') || ''
-const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'AqlHR <no-reply@aqlhr.com>'
-
-const allowedOrigins = [
-  APP_URL,
-  APP_URL_DEV,
-  'http://localhost:3000',
-  'http://localhost:5173',
-]
-const lovableRegex = /^https:\/\/.*\.lovable\.(dev|app)$/i
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -22,12 +8,15 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+const APP_URL = Deno.env.get('APP_URL') || 'https://aqlhr.com'
+const FROM_EMAIL = Deno.env.get('FROM_EMAIL') || 'AqlHR <no-reply@aqlhr.com>'
+
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 )
 
-const resend = new Resend(Deno.env.get('RESEND_API_KEY')!) // Updated secret
+const resend = new Resend(Deno.env.get('RESEND_API_KEY')!)
 
 interface AuthLinkRequest {
   email: string
@@ -57,7 +46,7 @@ function htmlTemplate(link: string, title: string, cta: string): string {
                 ${cta}
               </a>
             </p>
-            <p>If the button doesn’t work, copy and paste this link into your browser:</p>
+            <p>If the button doesn't work, copy and paste this link into your browser:</p>
             <p style="word-break:break-all; font-family:monospace; background:#eee; padding:8px 12px; border-radius:6px;">${link}</p>
             <hr style="border:none; border-top:1px solid #e5e5e5; margin:24px 0;" />
             <p style="color:#666; font-size:12px; text-align:center;">© ${new Date().getFullYear()} AqlHR. All rights reserved.</p>
@@ -70,20 +59,21 @@ function htmlTemplate(link: string, title: string, cta: string): string {
 
 Deno.serve(async (req) => {
   console.log(`[send-auth-link] ${req.method} request received`)
-  
+
   if (req.method === 'OPTIONS') {
-    console.log('[send-auth-link] Handling OPTIONS request')
-    return new Response('ok', { 
+    console.log('[send-auth-link] Handling OPTIONS preflight')
+    return new Response(null, {
       status: 200,
-      headers: corsHeaders 
+      headers: corsHeaders,
     })
   }
 
   try {
-    console.log('[send-auth-link] Processing POST request')
+    console.log('[send-auth-link] Processing request')
     const { email, mode, redirectTo }: AuthLinkRequest = await req.json()
 
     if (!email) {
+      console.error('[send-auth-link] Missing email')
       return new Response(JSON.stringify({ error: 'email_required' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
@@ -93,7 +83,7 @@ Deno.serve(async (req) => {
     const type = mode === 'signup' ? 'signup' : 'magiclink'
     const finalRedirect = redirectTo || `${APP_URL}/auth/callback`
 
-    console.log('Generating link', { email, mode, finalRedirect })
+    console.log('[send-auth-link] Generating link', { email, mode, finalRedirect })
 
     const { data, error } = await supabase.auth.admin.generateLink({
       type: type as any,
@@ -102,16 +92,20 @@ Deno.serve(async (req) => {
     })
 
     if (error) {
-      console.error('generateLink error', error)
+      console.error('[send-auth-link] generateLink error', error)
       throw error
     }
 
     const actionLink = (data as any).properties?.action_link ?? (data as any).action_link
-    if (!actionLink) throw new Error('no_action_link')
+    if (!actionLink) {
+      console.error('[send-auth-link] No action link generated')
+      throw new Error('no_action_link')
+    }
 
     const subject = mode === 'signup' ? 'Confirm your AqlHR account' : 'Sign in to AqlHR'
     const title = subject
 
+    console.log('[send-auth-link] Sending email via Resend')
     const emailResp = await resend.emails.send({
       from: FROM_EMAIL,
       to: [email],
@@ -120,43 +114,26 @@ Deno.serve(async (req) => {
     })
 
     if ((emailResp as any).error) {
-      console.error('Resend error', (emailResp as any).error)
+      console.error('[send-auth-link] Resend error', (emailResp as any).error)
       throw (emailResp as any).error
     }
 
-    // Structured logging after successful email send
-    console.log("[send-auth-link] Email sent", {
+    console.log('[send-auth-link] Email sent successfully', {
       email,
       mode,
       redirectTo: finalRedirect,
       timestamp: new Date().toISOString(),
-    });
-
-    // Insert audit record into auth_email_events table
-    try {
-      await supabase.from('auth_email_events').insert({
-        email,
-        mode,
-        sent_at: new Date().toISOString(),
-        ip: req.headers.get('x-forwarded-for') ?? null,
-        ua: req.headers.get('user-agent') ?? null,
-      })
-    } catch (auditErr) {
-      console.warn('audit insert failed', auditErr)
-    }
+    })
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     })
   } catch (err: any) {
-    // Structured error logging
-    console.error("[send-auth-link] ERROR", {
-      email: email || 'unknown',
-      mode: mode || 'unknown', 
+    console.error('[send-auth-link] ERROR', {
       error: String(err),
       timestamp: new Date().toISOString(),
-    });
+    })
 
     return new Response(JSON.stringify({ error: err?.message || 'internal_error' }), {
       status: 500,
