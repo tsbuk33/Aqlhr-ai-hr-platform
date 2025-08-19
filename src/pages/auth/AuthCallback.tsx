@@ -70,6 +70,11 @@ const AuthCallback = () => {
         throw new Error(error?.message || data?.error || 'Failed to send email');
       }
 
+      if (data?.actionLink) {
+        window.location.assign(data.actionLink as string);
+        return;
+      }
+
       toast({
         title: 'Fresh link sent!',
         description: `We've sent a new sign-in link to ${email}. Please check your inbox.`,

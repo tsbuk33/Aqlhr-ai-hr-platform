@@ -29,7 +29,7 @@ export default function AuthPage() {
         if (error) throw error;
 
         // Always trigger our custom edge function after signup
-        await supabase.functions.invoke("send-auth-link", {
+        const { data, error: fnError } = await supabase.functions.invoke("send-auth-link", {
           body: {
             email,
             mode: "signup",
@@ -37,7 +37,17 @@ export default function AuthPage() {
           },
         });
 
-        setMessage(`We sent a confirmation email to ${email}. Check your inbox.`);
+        if (fnError || (data as any)?.error) {
+          throw new Error(fnError?.message || (data as any)?.error || "Failed to send email");
+        }
+
+        if ((data as any)?.actionLink) {
+          const url = (data as any).actionLink as string;
+          const opened = window.open(url, "_blank", "noopener,noreferrer");
+          setMessage(`We sent a confirmation email to ${email}. If it doesn't arrive, use this link: ${url}`);
+        } else {
+          setMessage(`We sent a confirmation email to ${email}. Check your inbox.`);
+        }
       } else {
         // Inside handleAuth or your sign-in block
         try {
@@ -48,7 +58,7 @@ export default function AuthPage() {
             console.error("Password sign-in failed, sending magic link:", error.message);
 
             // Always send magic link if sign-in fails
-            await supabase.functions.invoke("send-auth-link", {
+            const { data: fnData, error: fnError2 } = await supabase.functions.invoke("send-auth-link", {
               body: {
                 email,
                 mode: "magic",
@@ -56,7 +66,17 @@ export default function AuthPage() {
               },
             });
 
-            setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
+            if (fnError2 || (fnData as any)?.error) {
+              throw new Error(fnError2?.message || (fnData as any)?.error || "Failed to send email");
+            }
+
+            if ((fnData as any)?.actionLink) {
+              const url = (fnData as any).actionLink as string;
+              const opened = window.open(url, "_blank", "noopener,noreferrer");
+              setMessage(`We sent a secure sign-in link to ${email}. If it doesn't arrive, use this link: ${url}`);
+            } else {
+              setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
+            }
           } else {
             // Success → go to dashboard
             navigate("/");
