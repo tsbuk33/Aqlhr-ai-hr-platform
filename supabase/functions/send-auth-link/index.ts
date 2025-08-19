@@ -9,7 +9,7 @@ const corsHeaders = {
 }
 
 const APP_URL = Deno.env.get('APP_URL') || 'https://aqlhr.com'
-const FROM_EMAIL = 'AqlHR <onboarding@resend.dev>'
+const FROM_EMAIL = 'onboarding@resend.dev'
 
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL')!,
