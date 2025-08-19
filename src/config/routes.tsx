@@ -191,7 +191,7 @@ const LearningEnginePage = lazy(() => import('../pages/ai-ecosystem/LearningEngi
 const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/IntelligenceGathererPage'));
 
 // Additional modules
-const SmartKPITool = lazy(() => import('../pages/additional/SmartKPITool'));
+import SmartKPITool from '../pages/additional/SmartKPITool';
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
