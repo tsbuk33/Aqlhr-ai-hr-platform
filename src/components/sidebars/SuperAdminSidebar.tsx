@@ -43,19 +43,19 @@ import {
 import { Badge } from '@/components/ui/badge';
 
 const coreHRItems = [
-  { title: 'Employee Master Data', url: '/core-hr/employee-master-data', icon: Database },
-  { title: 'Recruitment & Hiring', url: '/core-hr/recruitment-hiring', icon: UserPlus },
-  { title: 'Payroll Processing', url: '/core-hr/payroll-processing', icon: DollarSign },
-  { title: 'Benefits Administration', url: '/core-hr/benefits-administration', icon: Gift },
-  { title: 'Performance Management', url: '/core-hr/performance-management', icon: Target },
-  { title: 'Training & Development', url: '/core-hr/training-development', icon: GraduationCap },
+  { title: 'Employee Master Data', url: '/core-hr/master-data', icon: Database },
+  { title: 'Recruitment & Hiring', url: '/core-hr/recruitment', icon: UserPlus },
+  { title: 'Payroll Processing', url: '/payroll', icon: DollarSign },
+  { title: 'Benefits Administration', url: '/core-hr/benefits', icon: Gift },
+  { title: 'Performance Management', url: '/core-hr/performance', icon: Target },
+  { title: 'Training & Development', url: '/core-hr/training', icon: GraduationCap },
   { title: 'Time & Attendance', url: '/core-hr/time-attendance', icon: Clock },
-  { title: 'Leave Management', url: '/core-hr/leave-management', icon: Calendar },
+  { title: 'Leave Management', url: '/core-hr/leave', icon: Calendar },
   { title: 'Succession Planning', url: '/core-hr/succession-planning', icon: TrendingUp },
   { title: 'Compensation Management', url: '/core-hr/compensation-management', icon: DollarSign },
-  { title: 'Saudization & Visa Calculator', url: '/core-hr/saudization-calculator', icon: Calculator },
-  { title: 'Employee Self Service', url: '/core-hr/employee-self-service', icon: UserCheck },
-  { title: 'Manager Dashboard', url: '/core-hr/manager-dashboard', icon: BarChart3 },
+  { title: 'Saudization & Visa Calculator', url: '/core-hr/saudization', icon: Calculator },
+  { title: 'Employee Self Service', url: '/core-hr/self-service', icon: UserCheck },
+  { title: 'Manager Dashboard', url: '/core-hr/organization', icon: BarChart3 },
 ];
 
 // Additional groups
