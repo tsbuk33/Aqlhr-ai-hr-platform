@@ -8047,6 +8047,10 @@ export type Database = {
         Args: { feature_name?: string; user_uuid: string }
         Returns: boolean
       }
+      purge_old_auth_email_events: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       register_discovered_module: {
         Args: {
           p_metadata?: Json
