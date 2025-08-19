@@ -258,7 +258,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
   { path: '/prompt-logs', element: PromptLogs, auth: true },
   { path: '/prompt-audit', element: PromptAudit, auth: true },
-  { path: '/', element: DashboardPage, auth: true },
+  { path: '/', element: DashboardPage, auth: false },
   
   // Admin routes
   { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },
