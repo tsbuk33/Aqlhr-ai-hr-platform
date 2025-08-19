@@ -27,7 +27,11 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
     return <>{children}</>;
   }
 
-  if (!user) {
+  // Public routes allowed without authentication (for development/preview)
+  const PUBLIC_ROUTES = ['/', '/dashboard'];
+  const isPublicRoute = PUBLIC_ROUTES.some((p) => location.pathname === p || location.pathname.startsWith(p + '/'));
+
+  if (!user && !isPublicRoute) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
         <div className="text-center space-y-6 max-w-md mx-auto p-6">

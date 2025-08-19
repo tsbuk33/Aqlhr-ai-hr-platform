@@ -259,6 +259,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/prompt-logs', element: PromptLogs, auth: true },
   { path: '/prompt-audit', element: PromptAudit, auth: true },
   { path: '/', element: DashboardPage, auth: false },
+  { path: '/dashboard', element: DashboardPage, auth: false },
   
   // Admin routes
   { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },
