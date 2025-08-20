@@ -5,14 +5,16 @@ import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { AlertTriangle, CheckCircle, Database, Users, FileText, Zap } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Database, Users, FileText, Zap, Play } from 'lucide-react';
 
 const DemoData = () => {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
   const { toast } = useToast();
   const [isSeeding, setIsSeeding] = useState(false);
+  const [isQuickTesting, setIsQuickTesting] = useState(false);
   const [seedResult, setSeedResult] = useState<any>(null);
+  const [quickTestResult, setQuickTestResult] = useState<any>(null);
 
   const handleSeedCCI = async () => {
     setIsSeeding(true);
@@ -52,6 +54,46 @@ const DemoData = () => {
     }
   };
 
+  const handleQuickTest = async () => {
+    setIsQuickTesting(true);
+    try {
+      // Get current user's tenant/company ID
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Call the quick test edge function
+      const { data, error } = await supabase.functions.invoke('cci-quick-test', {
+        body: { tenantId: user.id }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setQuickTestResult(data);
+      toast({
+        title: isArabic ? 'تم بنجاح' : 'Success',
+        description: data.message,
+      });
+
+      // Navigate to CCI overview
+      const url = `/cci/overview?survey=${data.surveyId}&wave=${data.waveId}`;
+      window.open(url, '_blank');
+
+    } catch (error: any) {
+      console.error('Error running CCI Quick Test:', error);
+      toast({
+        title: isArabic ? 'خطأ' : 'Error',
+        description: error.message || (isArabic ? 'فشل في تشغيل الاختبار السريع' : 'Failed to run quick test'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsQuickTesting(false);
+    }
+  };
+
   const seedOptions = [
     {
       title: isArabic ? 'أداة تشخيص الثقافة المؤسسية (CCI)' : 'CCI Instrument (EN/AR)',
@@ -69,6 +111,23 @@ const DemoData = () => {
         isArabic ? 'السياق السعودي (5 عناصر)' : 'KSA Context (5 items)',
         isArabic ? 'عناصر عكسية (10 عناصر)' : 'Reverse-scored fillers (10 items)',
         isArabic ? 'قيم باريت (2 عنصر)' : 'Barrett Values (2 items)'
+      ]
+    },
+    {
+      title: isArabic ? 'اختبار CCI السريع (تجريبي)' : 'CCI Quick Test (Demo)',
+      description: isArabic 
+        ? 'إنشاء 10 استجابات وهمية وحساب النتائج وفتح لوحة المعلومات'
+        : 'Create 10 fake responses, compute scores, and open dashboard',
+      icon: Play,
+      action: handleQuickTest,
+      isLoading: isQuickTesting,
+      color: 'text-green-600',
+      details: [
+        isArabic ? 'إنشاء استطلاع وموجة جديدة' : 'Creates new survey and wave',
+        isArabic ? '10 استجابات وهمية متوازنة' : '10 balanced fake responses',
+        isArabic ? 'حساب جميع النتائج تلقائياً' : 'Computes all scores automatically', 
+        isArabic ? 'فتح لوحة CCI في نافذة جديدة' : 'Opens CCI dashboard in new tab',
+        isArabic ? '⚠️ للاختبار فقط - سيتم إزالته لاحقاً' : '⚠️ Test only - remove in production'
       ]
     }
   ];
@@ -142,8 +201,15 @@ const DemoData = () => {
                       </>
                     ) : (
                       <>
+                     {option.icon === Play ? (
+                        <Play className="mr-2 h-4 w-4" />
+                      ) : (
                         <Database className="mr-2 h-4 w-4" />
-                        {isArabic ? 'إنشاء البيانات' : 'Seed Data'}
+                      )}
+                      {option.icon === Play 
+                        ? (isArabic ? 'تشغيل الاختبار' : 'Run Test')
+                        : (isArabic ? 'إنشاء البيانات' : 'Seed Data')
+                      }
                       </>
                     )}
                   </Button>
@@ -170,7 +236,7 @@ const DemoData = () => {
       </div>
 
       {/* Results */}
-      {seedResult && (
+      {(seedResult || quickTestResult) && (
         <Card className="border-green-200 bg-green-50/50">
           <CardHeader>
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
@@ -182,35 +248,72 @@ const DemoData = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col space-y-1">
-                  <span className="text-sm text-muted-foreground">
-                    {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
-                  </span>
-                  <Badge variant="outline" className="font-mono text-xs">
-                    {seedResult.surveyId?.slice(0, 8)}...
-                  </Badge>
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <span className="text-sm text-muted-foreground">
-                    {isArabic ? 'معرف الموجة' : 'Wave ID'}
-                  </span>
-                  <Badge variant="outline" className="font-mono text-xs">
-                    {seedResult.waveId?.slice(0, 8)}...
-                  </Badge>
-                </div>
-                <div className="flex flex-col space-y-1">
-                  <span className="text-sm text-muted-foreground">
-                    {isArabic ? 'عدد العناصر' : 'Item Count'}
-                  </span>
-                  <Badge variant="secondary">
-                    {seedResult.itemCount}
-                  </Badge>
-                </div>
-              </div>
-              <p className="text-sm text-green-700 mt-3">
-                {seedResult.message}
-              </p>
+              {seedResult && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {seedResult.surveyId?.slice(0, 8)}...
+                      </Badge>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'معرف الموجة' : 'Wave ID'}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {seedResult.waveId?.slice(0, 8)}...
+                      </Badge>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'عدد العناصر' : 'Item Count'}
+                      </span>
+                      <Badge variant="secondary">
+                        {seedResult.itemCount}
+                      </Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-green-700 mt-3">
+                    {seedResult.message}
+                  </p>
+                </>
+              )}
+              {quickTestResult && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {quickTestResult.surveyId?.slice(0, 8)}...
+                      </Badge>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'معرف الموجة' : 'Wave ID'}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {quickTestResult.waveId?.slice(0, 8)}...
+                      </Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-green-700 mt-3">
+                    {quickTestResult.message}
+                  </p>
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+                    <p className="text-sm text-yellow-800">
+                      {isArabic 
+                        ? '🎯 تم فتح لوحة CCI - تحقق من النافذة الجديدة'
+                        : '🎯 CCI Dashboard opened - check the new tab'
+                      }
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
