@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useCCIOverview } from '@/hooks/useCCIOverview';
 import { 
   Activity, 
   TrendingUp, 
@@ -16,13 +18,27 @@ import {
   BarChart3,
   FileText,
   Brain,
-  HelpCircle
+  HelpCircle,
+  RefreshCw
 } from 'lucide-react';
 
 const Overview: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
+  
+  // TODO: Get these from context/routing in real implementation
+  const tenantId = "00000000-0000-0000-0000-000000000000"; // placeholder
+  const surveyId = "00000000-0000-0000-0000-000000000000"; // placeholder  
+  const waveId = "00000000-0000-0000-0000-000000000000"; // placeholder
+  
+  const { data, loading, error, computeScores } = useCCIOverview(tenantId, surveyId, waveId);
+  
+  // Helper function to show "—" for groups with n < 7 (anonymity protection)
+  const safeDisplay = (value: number | null | undefined, defaultValue: string = "—") => {
+    if (!data || data.n < 7) return defaultValue;
+    return value !== null && value !== undefined ? Math.round(value) : defaultValue;
+  };
 
-  const scoreCard = (title: string, value: number, delta: number, color: string, icon: React.ReactNode, tooltip: string) => (
+  const scoreCard = (title: string, value: string | number, delta: number, color: string, icon: React.ReactNode, tooltip: string) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">{title}</CardTitle>
@@ -44,14 +60,23 @@ const Overview: React.FC = () => {
               {icon}
             </div>
             <div>
-              <div className="text-2xl font-bold">{value}</div>
+              <div className="text-2xl font-bold">
+                {loading ? <Skeleton className="h-8 w-16" /> : value}
+              </div>
               <div className="flex items-center text-xs text-muted-foreground">
-                {delta > 0 ? (
-                  <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
-                ) : (
-                  <TrendingDown className="h-3 w-3 text-red-500 mr-1" />
+                {!loading && data && data.n >= 7 && (
+                  <>
+                    {delta > 0 ? (
+                      <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
+                    ) : (
+                      <TrendingDown className="h-3 w-3 text-red-500 mr-1" />
+                    )}
+                    {Math.abs(delta)}% MoM
+                  </>
                 )}
-                {Math.abs(delta)}% MoM
+                {!loading && data && data.n < 7 && (
+                  <span className="text-xs">n&lt;7</span>
+                )}
               </div>
             </div>
           </div>
@@ -60,11 +85,17 @@ const Overview: React.FC = () => {
     </Card>
   );
 
-  const competingValues = [
-    { name: isArabic ? 'العشيرة' : 'Clan', value: 35, color: 'blue' },
-    { name: isArabic ? 'الإبداع' : 'Adhocracy', value: 20, color: 'green' },
-    { name: isArabic ? 'السوق' : 'Market', value: 30, color: 'orange' },
-    { name: isArabic ? 'التسلسل الهرمي' : 'Hierarchy', value: 40, color: 'purple' }
+  // Dynamic data based on real CCI scores
+  const competingValues = loading || !data || data.n < 7 ? [
+    { name: isArabic ? 'العشيرة' : 'Clan', value: 0, color: 'blue', display: "—" },
+    { name: isArabic ? 'الإبداع' : 'Adhocracy', value: 0, color: 'green', display: "—" },
+    { name: isArabic ? 'السوق' : 'Market', value: 0, color: 'orange', display: "—" },
+    { name: isArabic ? 'التسلسل الهرمي' : 'Hierarchy', value: 0, color: 'purple', display: "—" }
+  ] : [
+    { name: isArabic ? 'العشيرة' : 'Clan', value: Math.round(data.cvf?.Clan || 0), color: 'blue', display: Math.round(data.cvf?.Clan || 0) + "%" },
+    { name: isArabic ? 'الإبداع' : 'Adhocracy', value: Math.round(data.cvf?.Adhocracy || 0), color: 'green', display: Math.round(data.cvf?.Adhocracy || 0) + "%" },
+    { name: isArabic ? 'السوق' : 'Market', value: Math.round(data.cvf?.Market || 0), color: 'orange', display: Math.round(data.cvf?.Market || 0) + "%" },
+    { name: isArabic ? 'التسلسل الهرمي' : 'Hierarchy', value: Math.round(data.cvf?.Hierarchy || 0), color: 'purple', display: Math.round(data.cvf?.Hierarchy || 0) + "%" }
   ];
 
   const topValues = [
@@ -94,6 +125,10 @@ const Overview: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-2">
+            <Button onClick={computeScores} variant="outline" size="sm">
+              <RefreshCw className="mr-2 h-4 w-4" />
+              {isArabic ? 'حساب النتائج' : 'Compute Scores'}
+            </Button>
             <Button asChild>
               <Link to="/cci/survey">
                 <FileText className="mr-2 h-4 w-4" />
@@ -113,7 +148,7 @@ const Overview: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {scoreCard(
             isArabic ? 'درجة التوازن الثقافي' : 'Culture Balance Score',
-            78,
+            safeDisplay(data?.balance_score),
             5.2,
             'blue',
             <Activity className="h-4 w-4" />,
@@ -122,7 +157,7 @@ const Overview: React.FC = () => {
           
           {scoreCard(
             isArabic ? 'مؤشر المخاطر الثقافية' : 'Cultural Risk Index',
-            23,
+            safeDisplay(data?.risk_index),
             -3.1,
             'orange',
             <AlertTriangle className="h-4 w-4" />,
@@ -131,7 +166,7 @@ const Overview: React.FC = () => {
           
           {scoreCard(
             isArabic ? 'مؤشر الأمان النفسي' : 'Psychological Safety Index',
-            82,
+            safeDisplay(data?.psych_safety),
             7.3,
             'green',
             <Shield className="h-4 w-4" />,
@@ -140,7 +175,7 @@ const Overview: React.FC = () => {
           
           {scoreCard(
             isArabic ? 'محاذاة القيم' : 'Values Alignment',
-            65,
+            safeDisplay(data?.barrett?.values_alignment),
             2.8,
             'purple',
             <Target className="h-4 w-4" />,
@@ -165,10 +200,10 @@ const Overview: React.FC = () => {
               <div className="space-y-4">
                 {competingValues.map((value, index) => (
                   <div key={index} className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium">{value.name}</span>
-                      <span className="text-sm text-muted-foreground">{value.value}%</span>
-                    </div>
+                     <div className="flex justify-between">
+                       <span className="text-sm font-medium">{value.name}</span>
+                       <span className="text-sm text-muted-foreground">{value.display}</span>
+                     </div>
                     <Progress value={value.value} className="h-2" />
                   </div>
                 ))}

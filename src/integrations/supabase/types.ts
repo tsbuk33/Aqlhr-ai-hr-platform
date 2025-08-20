@@ -8426,6 +8426,42 @@ export type Database = {
       }
     }
     Views: {
+      cci_answers_v1: {
+        Row: {
+          department_id: string | null
+          grade_id: string | null
+          is_flagged: boolean | null
+          item_id: string | null
+          project_id: string | null
+          survey_id: string | null
+          tenant_id: string | null
+          value: number | null
+          wave_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cci_responses_wave_fk"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_response_quality_v1"
+            referencedColumns: ["wave_id"]
+          },
+          {
+            foreignKeyName: "cci_responses_wave_fk"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_waves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cci_response_quality_v1: {
         Row: {
           avg_duration_seconds: number | null
@@ -8450,9 +8486,7 @@ export type Database = {
         Row: {
           balance_score: number | null
           barrett: Json | null
-          created_at: string | null
           cvf: Json | null
-          id: string | null
           last_computed_at: string | null
           n: number | null
           psych_safety: number | null
@@ -8461,9 +8495,38 @@ export type Database = {
           scope_id: string | null
           survey_id: string | null
           tenant_id: string | null
-          values_tags: string[] | null
           wave_id: string | null
           web: Json | null
+        }
+        Insert: {
+          balance_score?: number | null
+          barrett?: Json | null
+          cvf?: Json | null
+          last_computed_at?: string | null
+          n?: number | null
+          psych_safety?: number | null
+          risk_index?: number | null
+          scope?: string | null
+          scope_id?: string | null
+          survey_id?: string | null
+          tenant_id?: string | null
+          wave_id?: string | null
+          web?: Json | null
+        }
+        Update: {
+          balance_score?: number | null
+          barrett?: Json | null
+          cvf?: Json | null
+          last_computed_at?: string | null
+          n?: number | null
+          psych_safety?: number | null
+          risk_index?: number | null
+          scope?: string | null
+          scope_id?: string | null
+          survey_id?: string | null
+          tenant_id?: string | null
+          wave_id?: string | null
+          web?: Json | null
         }
         Relationships: [
           {
@@ -8544,9 +8607,45 @@ export type Database = {
         }
         Returns: number
       }
+      cci_compute_scores_v1: {
+        Args: { p_survey: string; p_tenant: string; p_wave: string }
+        Returns: undefined
+      }
+      cci_get_heatmap_v1: {
+        Args: {
+          p_scope: string
+          p_survey: string
+          p_tenant: string
+          p_wave: string
+        }
+        Returns: {
+          balance_score: number
+          n: number
+          psych_safety: number
+          risk_index: number
+          scope_id: string
+        }[]
+      }
+      cci_get_overview_v1: {
+        Args: { p_survey: string; p_tenant: string; p_wave: string }
+        Returns: {
+          balance_score: number
+          barrett: Json
+          cvf: Json
+          last_computed_at: string
+          n: number
+          psych_safety: number
+          risk_index: number
+          web: Json
+        }[]
+      }
       cci_is_response_valid: {
         Args: { answers: Json; duration_seconds: number }
         Returns: boolean
+      }
+      cci_norm_0_100: {
+        Args: { maxv: number; minv: number; val: number }
+        Returns: number
       }
       cleanup_old_compliance_logs: {
         Args: Record<PropertyKey, never>
