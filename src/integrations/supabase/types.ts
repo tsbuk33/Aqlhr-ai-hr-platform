@@ -8515,14 +8515,11 @@ export type Database = {
         Row: {
           adj_value: number | null
           department_id: string | null
-          dimension: string | null
-          framework: string | null
           grade_id: string | null
           is_flagged: boolean | null
           item_id: string | null
           project_id: string | null
           raw_value: number | null
-          respondent_hash: string | null
           reverse_scored: boolean | null
           scale_max: number | null
           scale_min: number | null
