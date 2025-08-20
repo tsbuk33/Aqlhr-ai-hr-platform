@@ -6,163 +6,212 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Validation schemas - simplified zod-like validation
 interface GenerateChangePlanRequest {
   tenantId: string;
   surveyId: string;
   waveId: string;
+  dryRun?: boolean;
+}
+
+interface Overview {
+  balance_score: number | null;
+  risk_index: number | null;
+  psych_safety: number | null;
+  barrett: { values_alignment: number | null } | null;
+  cvf: Record<string, number> | null;
+  web: Record<string, number> | null;
+  n: number | null;
+  last_computed_at: string | null;
+}
+
+interface Gap {
+  kind: 'psych_safety_deficit' | 'over_hierarchy_vs_agility' | 'weak_cross_team_collab' | 'values_misalignment' | 'customer_voice_gap' | 'recognition_gap';
+  severity: number;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  evidence?: string[];
+}
+
+interface KPI {
+  name: string;
+  targetDelta: number;
+  unit: '%' | 'pts';
 }
 
 interface Initiative {
   id: string;
-  title: string;
-  title_ar: string;
-  description: string;
-  description_ar: string;
-  owner: string;
-  priority: 'High' | 'Medium' | 'Low';
-  duration_weeks: number;
-  expected_impact: string;
-  kpis: Array<{
-    metric: string;
-    target: string;
-    baseline?: number;
-  }>;
-  milestones: Array<{
-    week: number;
-    title: string;
-    description: string;
-  }>;
+  titleEN: string;
+  titleAR: string;
+  descriptionEN: string;
+  descriptionAR: string;
+  ownerRole: 'HR' | 'LineManager' | 'Executive' | 'HSE';
+  durationDays: number;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  kpis: KPI[];
+  milestones: { titleEN: string; titleAR: string; dueInDays: number }[];
 }
 
-// Initiative templates library
-const INITIATIVE_TEMPLATES: Record<string, Omit<Initiative, 'id'>> = {
-  manager_safety_training: {
-    title: "Manager Safety Training Program",
-    title_ar: "برنامج تدريب المدراء على الأمان النفسي",
-    description: "Comprehensive training for managers on creating psychologically safe environments",
-    description_ar: "تدريب شامل للمدراء على خلق بيئات آمنة نفسياً",
-    owner: "HR Director",
-    priority: "High",
-    duration_weeks: 8,
-    expected_impact: "Increase psychological safety scores by 15-20%",
-    kpis: [
-      { metric: "Psychological Safety Score", target: "+15 points", baseline: 0 },
-      { metric: "Manager Confidence Rating", target: "85%", baseline: 0 },
-      { metric: "Team Engagement", target: "+10%", baseline: 0 }
-    ],
-    milestones: [
-      { week: 2, title: "Training Design Complete", description: "Finalize curriculum and materials" },
-      { week: 4, title: "Pilot Training Launch", description: "Train first cohort of managers" },
-      { week: 6, title: "Feedback Integration", description: "Incorporate feedback and iterate" },
-      { week: 8, title: "Full Rollout Complete", description: "All managers trained and certified" }
-    ]
-  },
-  decision_rights_reset: {
-    title: "Decision Rights Reset (RACI)",
-    title_ar: "إعادة تعيين صلاحيات القرار (راسي)",
-    description: "Clarify decision-making authority using RACI framework",
-    description_ar: "توضيح صلاحيات اتخاذ القرار باستخدام إطار راسي",
-    owner: "Operations Director",
-    priority: "High",
-    duration_weeks: 6,
-    expected_impact: "Reduce decision bottlenecks by 40%, improve clarity",
-    kpis: [
-      { metric: "Decision Speed", target: "40% faster", baseline: 0 },
-      { metric: "Role Clarity Score", target: "90%", baseline: 0 },
-      { metric: "Cross-team Efficiency", target: "+25%", baseline: 0 }
-    ],
-    milestones: [
-      { week: 1, title: "Current State Mapping", description: "Document existing decision processes" },
-      { week: 3, title: "RACI Matrix Design", description: "Create new decision authority matrix" },
-      { week: 4, title: "Stakeholder Alignment", description: "Get leadership buy-in and approval" },
-      { week: 6, title: "Implementation Complete", description: "New system operational" }
-    ]
-  },
-  cross_team_rituals: {
-    title: "Cross-Team Collaboration Rituals",
-    title_ar: "طقوس التعاون بين الفرق",
-    description: "Implement regular cross-functional collaboration sessions",
-    description_ar: "تنفيذ جلسات تعاون منتظمة بين الوظائف المختلفة",
-    owner: "Team Lead",
-    priority: "Medium",
-    duration_weeks: 12,
-    expected_impact: "Improve cross-team coordination by 30%",
-    kpis: [
-      { metric: "Cross-team Tasks Completion", target: "+20%", baseline: 0 },
-      { metric: "Silo Breaking Score", target: "80%", baseline: 0 },
-      { metric: "Innovation Ideas", target: "+35%", baseline: 0 }
-    ],
-    milestones: [
-      { week: 2, title: "Ritual Design", description: "Define formats and cadence" },
-      { week: 4, title: "Pilot Launch", description: "Start with 2-3 key teams" },
-      { week: 8, title: "Expansion", description: "Roll out to all teams" },
-      { week: 12, title: "Optimization", description: "Refine based on feedback" }
-    ]
-  },
-  recognition_refresh: {
-    title: "Recognition System Refresh",
-    title_ar: "تجديد نظام التقدير",
-    description: "Redesign employee recognition to align with company values",
-    description_ar: "إعادة تصميم تقدير الموظفين ليتماشى مع قيم الشركة",
-    owner: "HR Manager",
-    priority: "Medium",
-    duration_weeks: 10,
-    expected_impact: "Boost values alignment and engagement by 25%",
-    kpis: [
-      { metric: "Values Alignment Score", target: "+20 points", baseline: 0 },
-      { metric: "Employee Engagement", target: "+15%", baseline: 0 },
-      { metric: "Recognition Frequency", target: "2x increase", baseline: 0 }
-    ],
-    milestones: [
-      { week: 2, title: "Current System Audit", description: "Assess existing recognition programs" },
-      { week: 4, title: "New System Design", description: "Create values-based recognition framework" },
-      { week: 6, title: "Platform Implementation", description: "Deploy new recognition tools" },
-      { week: 10, title: "Full Adoption", description: "System fully operational across organization" }
-    ]
-  },
-  lean_approvals_pilot: {
-    title: "Lean Approvals Pilot",
-    title_ar: "تجريب الموافقات الرشيقة",
-    description: "Streamline approval processes to reduce bureaucracy",
-    description_ar: "تبسيط عمليات الموافقة لتقليل البيروقراطية",
-    owner: "Process Owner",
-    priority: "High",
-    duration_weeks: 8,
-    expected_impact: "Reduce approval time by 50%, eliminate 30% of steps",
-    kpis: [
-      { metric: "Approval Time", target: "-50%", baseline: 0 },
-      { metric: "Process Steps", target: "-30%", baseline: 0 },
-      { metric: "Employee Satisfaction", target: "+20%", baseline: 0 }
-    ],
-    milestones: [
-      { week: 2, title: "Process Mapping", description: "Document current approval flows" },
-      { week: 4, title: "Optimization Design", description: "Create streamlined processes" },
-      { week: 6, title: "Pilot Testing", description: "Test with select departments" },
-      { week: 8, title: "Rollout Plan", description: "Prepare for organization-wide deployment" }
-    ]
-  },
-  customer_voice_huddles: {
-    title: "Customer Voice Huddles",
-    title_ar: "اجتماعات صوت العميل",
-    description: "Regular sessions to share customer feedback across teams",
-    description_ar: "جلسات منتظمة لمشاركة تعليقات العملاء عبر الفرق",
-    owner: "Customer Success Manager",
-    priority: "Medium",
-    duration_weeks: 6,
-    expected_impact: "Improve customer focus and market orientation",
-    kpis: [
-      { metric: "Customer Satisfaction", target: "+15%", baseline: 0 },
-      { metric: "Market Culture Score", target: "+10 points", baseline: 0 },
-      { metric: "Customer-driven Ideas", target: "50 per quarter", baseline: 0 }
-    ],
-    milestones: [
-      { week: 1, title: "Huddle Format Design", description: "Define structure and content" },
-      { week: 2, title: "Pilot Sessions", description: "Test with key departments" },
-      { week: 4, title: "Full Implementation", description: "Deploy across all teams" },
-      { week: 6, title: "Impact Assessment", description: "Measure early results" }
-    ]
+// Validation functions
+function validateInput(data: any): GenerateChangePlanRequest {
+  if (!data.tenantId || typeof data.tenantId !== 'string') {
+    throw new Error('Invalid tenantId');
   }
-};
+  if (!data.surveyId || typeof data.surveyId !== 'string') {
+    throw new Error('Invalid surveyId');
+  }
+  if (!data.waveId || typeof data.waveId !== 'string') {
+    throw new Error('Invalid waveId');
+  }
+  
+  return {
+    tenantId: data.tenantId,
+    surveyId: data.surveyId,
+    waveId: data.waveId,
+    dryRun: Boolean(data.dryRun)
+  };
+}
+
+function severityToPriority(sev: number): 'low' | 'medium' | 'high' | 'critical' {
+  if (sev < 25) return 'low';
+  if (sev < 50) return 'medium';
+  if (sev < 75) return 'high';
+  return 'critical';
+}
+
+function makeInitiatives(priority: 'low' | 'medium' | 'high' | 'critical'): Initiative[] {
+  const baseKPIs = {
+    psychSafetyPlus5: { name: 'Psychological Safety', targetDelta: +5, unit: 'pts' as const },
+    approvalsMinus30: { name: 'Approval cycle time', targetDelta: -30, unit: '%' as const },
+    crossTeamPlus20: { name: 'Cross-team tasks', targetDelta: +20, unit: '%' as const },
+  };
+
+  const common: Initiative[] = [
+    {
+      id: 'manager-safety-training',
+      titleEN: 'Manager Psychological Safety Training',
+      titleAR: 'تدريب المديرين على السلامة النفسية',
+      descriptionEN: 'Targeted workshops and practice with feedback.',
+      descriptionAR: 'ورش عمل مستهدفة وممارسة مع تغذية راجعة.',
+      ownerRole: 'HR',
+      durationDays: 30,
+      priority,
+      kpis: [baseKPIs.psychSafetyPlus5],
+      milestones: [
+        { titleEN: 'Design curriculum', titleAR: 'تصميم المنهج', dueInDays: 7 },
+        { titleEN: 'Pilot with 2 teams', titleAR: 'تجربة على فريقين', dueInDays: 20 },
+        { titleEN: 'Full roll-out', titleAR: 'إطلاق كامل', dueInDays: 30 },
+      ],
+    },
+    {
+      id: 'decision-rights-raci',
+      titleEN: 'Decision Rights Reset (RACI)',
+      titleAR: 'إعادة ضبط صلاحيات القرار (RACI)',
+      descriptionEN: 'Clarify who is Responsible, Accountable, Consulted, Informed.',
+      descriptionAR: 'توضيح من المسؤول والمحاسب والمستشار والمُخطر.',
+      ownerRole: 'Executive',
+      durationDays: 45,
+      priority,
+      kpis: [baseKPIs.approvalsMinus30],
+      milestones: [
+        { titleEN: 'Map current approvals', titleAR: 'حصر الموافقات الحالية', dueInDays: 10 },
+        { titleEN: 'Publish RACI', titleAR: 'نشر RACI', dueInDays: 25 },
+        { titleEN: 'Audit adoption', titleAR: 'مراجعة الالتزام', dueInDays: 45 },
+      ],
+    },
+    {
+      id: 'cross-team-rituals',
+      titleEN: 'Cross‑Team Weekly Rituals',
+      titleAR: 'طقوس أسبوعية بين الفرق',
+      descriptionEN: 'Weekly huddles to unblock dependencies.',
+      descriptionAR: 'اجتماعات قصيرة أسبوعياً لإزالة العوائق.',
+      ownerRole: 'LineManager',
+      durationDays: 60,
+      priority,
+      kpis: [baseKPIs.crossTeamPlus20],
+      milestones: [
+        { titleEN: 'Pick time & cadence', titleAR: 'تحديد الوقت والإيقاع', dueInDays: 7 },
+        { titleEN: 'First 4 sessions', titleAR: 'أول ٤ جلسات', dueInDays: 28 },
+        { titleEN: 'Retrospective', titleAR: 'مراجعة وتحسين', dueInDays: 60 },
+      ],
+    },
+    {
+      id: 'recognition-refresh',
+      titleEN: 'Recognition Refresh',
+      titleAR: 'تجديد برنامج التقدير',
+      descriptionEN: 'Make recognition visible and fair.',
+      descriptionAR: 'جعل التقدير مرئياً وعادلاً.',
+      ownerRole: 'HR',
+      durationDays: 30,
+      priority,
+      kpis: [],
+      milestones: [
+        { titleEN: 'Define criteria', titleAR: 'تحديد المعايير', dueInDays: 7 },
+        { titleEN: 'Launch monthly awards', titleAR: 'إطلاق جوائز شهرية', dueInDays: 30 },
+      ],
+    },
+    {
+      id: 'lean-approvals-pilot',
+      titleEN: 'Lean Approvals Pilot',
+      titleAR: 'تجربة تقليل طبقات الموافقة',
+      descriptionEN: 'Reduce layers where risk is low.',
+      descriptionAR: 'تقليل الطبقات حين المخاطر منخفضة.',
+      ownerRole: 'Executive',
+      durationDays: 30,
+      priority,
+      kpis: [baseKPIs.approvalsMinus30],
+      milestones: [
+        { titleEN: 'Pick one process', titleAR: 'اختيار عملية واحدة', dueInDays: 5 },
+        { titleEN: 'Pilot & measure', titleAR: 'تجربة وقياس', dueInDays: 25 },
+      ],
+    },
+    {
+      id: 'customer-voice-huddles',
+      titleEN: 'Customer‑Voice Huddles',
+      titleAR: 'جلسات صوت العميل',
+      descriptionEN: 'Short weekly reviews of customer feedback.',
+      descriptionAR: 'مراجعات قصيرة أسبوعياً لتعليقات العملاء.',
+      ownerRole: 'LineManager',
+      durationDays: 30,
+      priority,
+      kpis: [],
+      milestones: [
+        { titleEN: 'Collect inputs', titleAR: 'جمع المدخلات', dueInDays: 7 },
+        { titleEN: 'Weekly cadence', titleAR: 'وتيرة أسبوعية', dueInDays: 30 },
+      ],
+    },
+  ];
+
+  switch (priority) {
+    case 'low':
+      return [common[3]];
+    case 'medium':
+      return [common[0], common[3]];
+    case 'high':
+      return [common[0], common[1], common[2]];
+    case 'critical':
+      return [common[0], common[1], common[2], common[4], common[5]];
+    default:
+      return [];
+  }
+}
+
+async function checkUserRole(supabase: any, userId: string, tenantId: string): Promise<boolean> {
+  const allowedRoles = ['admin', 'hr_manager', 'super_admin'];
+  
+  const { data: roles, error } = await supabase
+    .from('user_roles')
+    .select('role, company_id')
+    .eq('user_id', userId);
+
+  if (error || !roles || roles.length === 0) {
+    return false;
+  }
+
+  // Check if user has allowed role and belongs to the tenant
+  return roles.some((r: any) => 
+    allowedRoles.includes(r.role) && r.company_id === tenantId
+  );
+}
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
@@ -175,28 +224,81 @@ serve(async (req) => {
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
   try {
-    const { tenantId, surveyId, waveId }: GenerateChangePlanRequest = await req.json();
+    // Get user from JWT
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      throw new Error('Missing authorization header');
+    }
 
-    console.log(`Starting change plan generation for tenant: ${tenantId}, survey: ${surveyId}, wave: ${waveId}`);
+    const { data: { user }, error: userError } = await supabase.auth.getUser(
+      authHeader.replace('Bearer ', '')
+    );
 
-    // Log the action start
-    const { data: actionLog } = await supabase
-      .from('agent_actions')
-      .insert({
-        tenant_id: tenantId,
-        action_type: 'cci_change_plan_generation',
-        input_data: { tenantId, surveyId, waveId },
-        status: 'running'
-      })
-      .select()
-      .single();
+    if (userError || !user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
-    // 1. Fetch overview data via RPC
+    // Validate and parse input
+    const requestData = await req.json();
+    const input = validateInput(requestData);
+
+    // Check user role and tenant access
+    const hasAccess = await checkUserRole(supabase, user.id, input.tenantId);
+    if (!hasAccess) {
+      return new Response(JSON.stringify({ error: 'Forbidden - insufficient permissions' }), {
+        status: 403,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log(`Starting change plan generation for tenant: ${input.tenantId}, survey: ${input.surveyId}, wave: ${input.waveId}, dryRun: ${input.dryRun}`);
+
+    // Try to insert action for idempotency (only if not dry run)
+    let actionId = null;
+    if (!input.dryRun) {
+      try {
+        const { data: actionLog, error: actionError } = await supabase
+          .from('agent_actions')
+          .insert({
+            tenant_id: input.tenantId,
+            action_type: 'cci_change_plan_generation',
+            payload: input,
+            status: 'running',
+            created_by: user.id
+          })
+          .select()
+          .single();
+
+        if (actionError) {
+          if (actionError.code === '23505') { // Unique constraint violation
+            return new Response(JSON.stringify({
+              error: 'Plan generation already in progress—try again shortly.',
+              code: 'ALREADY_IN_PROGRESS'
+            }), {
+              status: 409,
+              headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            });
+          }
+          throw actionError;
+        }
+        
+        actionId = actionLog.id;
+      } catch (error) {
+        console.error('Error creating action log:', error);
+        throw error;
+      }
+    }
+
+    // Fetch overview data via RPC
+    const fetchOverviewStart = Date.now();
     const { data: overviewData, error: overviewError } = await supabase
       .rpc('cci_get_overview_v1', {
-        p_tenant: tenantId,
-        p_survey: surveyId,
-        p_wave: waveId
+        p_tenant: input.tenantId,
+        p_survey: input.surveyId,
+        p_wave: input.waveId
       });
 
     if (overviewError) {
@@ -207,39 +309,141 @@ serve(async (req) => {
       throw new Error('No overview data found. Please compute scores first.');
     }
 
-    const overview = overviewData[0];
-    console.log('Overview data fetched:', overview);
+    const overview: Overview = overviewData[0];
+    const fetchOverviewMs = Date.now() - fetchOverviewStart;
+    console.log(`Overview data fetched in ${fetchOverviewMs}ms:`, overview);
 
-    // 2. Identify top 3-5 gaps based on scores
-    const gaps = identifyGaps(overview);
-    console.log('Identified gaps:', gaps);
+    // Compose plan from gaps
+    const composePlanStart = Date.now();
+    const gaps: Gap[] = [];
+    
+    // Analyze psychological safety
+    const ps = overview.psych_safety ?? 70;
+    const psDeficit = Math.max(0, 100 - ps);
+    if (psDeficit > 10) {
+      gaps.push({ 
+        kind: 'psych_safety_deficit', 
+        severity: psDeficit, 
+        priority: severityToPriority(psDeficit) 
+      });
+    }
 
-    // 3. Generate initiatives based on gaps
-    const initiatives = generateInitiatives(gaps, overview);
-    console.log(`Generated ${initiatives.length} initiatives`);
+    // Analyze values alignment
+    const va = overview.barrett?.values_alignment ?? 70;
+    const vaDeficit = Math.max(0, 100 - va);
+    if (vaDeficit > 10) {
+      gaps.push({ 
+        kind: 'values_misalignment', 
+        severity: vaDeficit, 
+        priority: severityToPriority(vaDeficit) 
+      });
+    }
 
-    // 4. Create schedule for D30/D60/D90 pulses
-    const schedule = createSchedule();
+    // CVF hierarchy vs agility check
+    const cvf = overview.cvf ?? {};
+    const overHierarchy = Math.max(0, (cvf['Hierarchy'] ?? 0) - (cvf['Adhocracy'] ?? 0));
+    if (overHierarchy > 15) {
+      gaps.push({ 
+        kind: 'over_hierarchy_vs_agility', 
+        severity: overHierarchy, 
+        priority: severityToPriority(overHierarchy) 
+      });
+    }
 
-    // 5. Generate communications
-    const comms = generateCommunications(initiatives, overview);
+    // Cross-team collaboration proxy from Web
+    const web = overview.web ?? {};
+    const collabGap = Math.max(0, 70 - (web['Rituals & Routines'] ?? 0));
+    if (collabGap > 10) {
+      gaps.push({ 
+        kind: 'weak_cross_team_collab', 
+        severity: collabGap, 
+        priority: severityToPriority(collabGap) 
+      });
+    }
 
-    // 6. Insert into cci_playbooks
+    // Rank by severity, pick top 3-5
+    gaps.sort((a, b) => b.severity - a.severity);
+    const topGaps = gaps.slice(0, 5);
+
+    // Determine global priority
+    const priorityOrder: ('low' | 'medium' | 'high' | 'critical')[] = ['low', 'medium', 'high', 'critical'];
+    const globalPriority = topGaps.reduce<'low' | 'medium' | 'high' | 'critical'>((acc, g) => {
+      return priorityOrder.indexOf(g.priority) > priorityOrder.indexOf(acc) ? g.priority : acc;
+    }, 'low');
+
+    // Generate initiatives
+    const initiatives = makeInitiatives(globalPriority);
+    
+    // Create schedule
+    const now = new Date();
+    const schedule = {
+      pulses: [
+        {
+          day: 30,
+          date: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          title: 'First Pulse Check',
+          activities: ['Progress review', 'Obstacle identification', 'Course correction']
+        },
+        {
+          day: 60,
+          date: new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          title: 'Mid-Point Assessment',
+          activities: ['Interim results analysis', 'Stakeholder feedback', 'Plan adjustments']
+        },
+        {
+          day: 90,
+          date: new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          title: 'Final Evaluation',
+          activities: ['Full impact assessment', 'Success celebration', 'Next phase planning']
+        }
+      ]
+    };
+
+    // Generate communications
+    const summaryEN = `90-Day Culture Change Plan\n\nBased on assessment results, we identified ${topGaps.length} priority areas requiring ${globalPriority} priority action. Key initiatives include ${initiatives.map(i => i.titleEN).join(', ')}.`;
+    const summaryAR = `خطة تغيير الثقافة لمدة 90 يومًا\n\nبناءً على نتائج التقييم، حددنا ${topGaps.length} مجالات ذات أولوية ${globalPriority}. المبادرات الرئيسية تشمل ${initiatives.map(i => i.titleAR).join('، ')}.`;
+
+    const composePlanMs = Date.now() - composePlanStart;
+    console.log(`Plan composed in ${composePlanMs}ms - ${initiatives.length} initiatives, priority: ${globalPriority}`);
+
+    // If dry run, return without DB writes
+    if (input.dryRun) {
+      return new Response(JSON.stringify({
+        success: true,
+        dryRun: true,
+        plan: {
+          initiatives,
+          schedule,
+          summaryEN,
+          summaryAR,
+          gaps: topGaps,
+          globalPriority
+        },
+        execution_time_ms: Date.now() - startTime
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Write to database
+    const dbWriteStart = Date.now();
     const { data: playbook, error: playbookError } = await supabase
       .from('cci_playbooks')
-      .insert({
-        tenant_id: tenantId,
-        survey_id: surveyId,
-        wave_id: waveId,
+      .upsert({
+        tenant_id: input.tenantId,
+        survey_id: input.surveyId,
+        wave_id: input.waveId,
         title: '90-Day Culture Change Plan',
-        description: `AI-generated change plan based on CCI assessment results. Focus areas: ${gaps.map(g => g.area).join(', ')}`,
+        description: `AI-generated change plan based on CCI assessment results. Focus areas: ${topGaps.map(g => g.kind).join(', ')}`,
         status: 'draft',
         initiatives: initiatives,
         schedule: schedule,
-        ai_summary: generateAISummary(initiatives, gaps, overview),
-        comms_en: comms.english,
-        comms_ar: comms.arabic,
-        manager_brief: comms.managerBrief
+        ai_summary: summaryEN,
+        comms_en: summaryEN,
+        comms_ar: summaryAR,
+        manager_brief: `Manager Brief: Your leadership is critical for the success of these ${initiatives.length} culture change initiatives.`
+      }, {
+        onConflict: 'tenant_id,survey_id,wave_id'
       })
       .select()
       .single();
@@ -248,35 +452,43 @@ serve(async (req) => {
       throw new Error(`Failed to create playbook: ${playbookError.message}`);
     }
 
+    const dbWriteMs = Date.now() - dbWriteStart;
     const executionTime = Date.now() - startTime;
 
     // Update action log
-    await supabase
-      .from('agent_actions')
-      .update({
-        status: 'completed',
-        output_data: {
-          playbook_id: playbook.id,
-          initiatives_count: initiatives.length,
-          gaps_identified: gaps.length,
-          overview_scores: {
-            balance_score: overview.balance_score,
-            risk_index: overview.risk_index,
-            psych_safety: overview.psych_safety
+    if (actionId) {
+      await supabase
+        .from('agent_actions')
+        .update({
+          status: 'completed',
+          finished_at: new Date().toISOString(),
+          payload: {
+            ...input,
+            result: {
+              playbook_id: playbook.id,
+              initiatives_count: initiatives.length,
+              gaps_identified: topGaps.length,
+              global_priority: globalPriority,
+              timing: {
+                fetchOverviewMs,
+                composePlanMs,
+                dbWriteMs,
+                totalMs: executionTime
+              }
+            }
           }
-        },
-        execution_time_ms: executionTime,
-        completed_at: new Date().toISOString()
-      })
-      .eq('id', actionLog?.id);
+        })
+        .eq('id', actionId);
+    }
 
     console.log(`Change plan generated successfully in ${executionTime}ms`);
 
     return new Response(JSON.stringify({
       success: true,
-      playbook_id: playbook.id,
-      initiatives_count: initiatives.length,
-      gaps_identified: gaps.map(g => g.area),
+      playbookId: playbook.id,
+      initiativesCount: initiatives.length,
+      pulses: [30, 60, 90],
+      globalPriority,
       execution_time_ms: executionTime
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -296,240 +508,3 @@ serve(async (req) => {
     });
   }
 });
-
-function identifyGaps(overview: any): Array<{area: string, score: number, priority: 'High' | 'Medium' | 'Low'}> {
-  const gaps: Array<{area: string, score: number, priority: 'High' | 'Medium' | 'Low'}> = [];
-
-  // Check psychological safety
-  if (overview.psych_safety < 60) {
-    gaps.push({
-      area: 'Psychological Safety',
-      score: overview.psych_safety,
-      priority: overview.psych_safety < 40 ? 'High' : 'Medium'
-    });
-  }
-
-  // Check CVF dimensions
-  if (overview.cvf) {
-    const cvfScores = overview.cvf;
-    Object.entries(cvfScores).forEach(([dimension, score]: [string, any]) => {
-      if (score < 60) {
-        gaps.push({
-          area: `CVF ${dimension}`,
-          score: score,
-          priority: score < 40 ? 'High' : 'Medium'
-        });
-      }
-    });
-  }
-
-  // Check Web dimensions
-  if (overview.web) {
-    const webScores = overview.web;
-    Object.entries(webScores).forEach(([dimension, score]: [string, any]) => {
-      if (score < 60) {
-        gaps.push({
-          area: `Cultural Web ${dimension}`,
-          score: score,
-          priority: score < 40 ? 'High' : 'Medium'
-        });
-      }
-    });
-  }
-
-  // Check values alignment
-  if (overview.barrett?.values_alignment < 70) {
-    gaps.push({
-      area: 'Values Alignment',
-      score: overview.barrett.values_alignment,
-      priority: overview.barrett.values_alignment < 50 ? 'High' : 'Medium'
-    });
-  }
-
-  // Sort by priority and score, take top 5
-  return gaps
-    .sort((a, b) => {
-      const priorityOrder = { 'High': 3, 'Medium': 2, 'Low': 1 };
-      return priorityOrder[b.priority] - priorityOrder[a.priority] || a.score - b.score;
-    })
-    .slice(0, 5);
-}
-
-function generateInitiatives(gaps: Array<{area: string, score: number, priority: string}>, overview: any): Initiative[] {
-  const initiatives: Initiative[] = [];
-  const usedTemplates = new Set<string>();
-
-  gaps.forEach((gap, index) => {
-    let templateKey = '';
-
-    // Map gaps to initiative templates
-    if (gap.area === 'Psychological Safety') {
-      templateKey = 'manager_safety_training';
-    } else if (gap.area.includes('Power Structures') || gap.area.includes('Control Systems')) {
-      templateKey = 'decision_rights_reset';
-    } else if (gap.area.includes('Clan') || gap.area.includes('Rituals')) {
-      templateKey = 'cross_team_rituals';
-    } else if (gap.area === 'Values Alignment') {
-      templateKey = 'recognition_refresh';
-    } else if (gap.area.includes('Hierarchy') || gap.area.includes('Control')) {
-      templateKey = 'lean_approvals_pilot';
-    } else if (gap.area.includes('Market')) {
-      templateKey = 'customer_voice_huddles';
-    }
-
-    // Use fallback if template already used or not found
-    if (!templateKey || usedTemplates.has(templateKey)) {
-      const availableTemplates = Object.keys(INITIATIVE_TEMPLATES).filter(k => !usedTemplates.has(k));
-      if (availableTemplates.length > 0) {
-        templateKey = availableTemplates[0];
-      }
-    }
-
-    if (templateKey && INITIATIVE_TEMPLATES[templateKey]) {
-      const template = INITIATIVE_TEMPLATES[templateKey];
-      const initiative: Initiative = {
-        ...template,
-        id: `init_${Date.now()}_${index}`,
-        priority: gap.priority as 'High' | 'Medium' | 'Low',
-        kpis: template.kpis.map(kpi => ({
-          ...kpi,
-          baseline: gap.score
-        }))
-      };
-
-      initiatives.push(initiative);
-      usedTemplates.add(templateKey);
-    }
-  });
-
-  return initiatives;
-}
-
-function createSchedule(): any {
-  const now = new Date();
-  return {
-    pulses: [
-      {
-        day: 30,
-        date: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        title: 'First Pulse Check',
-        activities: ['Progress review', 'Obstacle identification', 'Course correction']
-      },
-      {
-        day: 60,
-        date: new Date(now.getTime() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        title: 'Mid-Point Assessment',
-        activities: ['Interim results analysis', 'Stakeholder feedback', 'Plan adjustments']
-      },
-      {
-        day: 90,
-        date: new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        title: 'Final Evaluation',
-        activities: ['Full impact assessment', 'Success celebration', 'Next phase planning']
-      }
-    ]
-  };
-}
-
-function generateCommunications(initiatives: Initiative[], overview: any): {english: string, arabic: string, managerBrief: string} {
-  const english = `
-# 90-Day Culture Change Plan
-
-Based on our recent Culture Climate Index assessment, we've identified key opportunities to strengthen our organizational culture and improve performance.
-
-## Current State
-- Overall Balance Score: ${overview.balance_score || 'N/A'}
-- Risk Index: ${overview.risk_index || 'N/A'}
-- Psychological Safety: ${overview.psych_safety || 'N/A'}
-
-## Key Initiatives
-${initiatives.map((init, i) => `
-${i + 1}. **${init.title}**
-   - Owner: ${init.owner}
-   - Duration: ${init.duration_weeks} weeks
-   - Expected Impact: ${init.expected_impact}
-`).join('')}
-
-## Success Metrics
-We will track progress through regular pulse checks at 30, 60, and 90 days, measuring key performance indicators for each initiative.
-
-Let's work together to build a stronger, more engaged culture!
-`;
-
-  const arabic = `
-# خطة تغيير الثقافة لمدة 90 يومًا
-
-بناءً على تقييم مؤشر مناخ الثقافة الأخير، حددنا الفرص الرئيسية لتقوية ثقافتنا التنظيمية وتحسين الأداء.
-
-## الوضع الحالي
-- نتيجة التوازن الإجمالية: ${overview.balance_score || 'غير متوفر'}
-- مؤشر المخاطر: ${overview.risk_index || 'غير متوفر'}
-- الأمان النفسي: ${overview.psych_safety || 'غير متوفر'}
-
-## المبادرات الرئيسية
-${initiatives.map((init, i) => `
-${i + 1}. **${init.title_ar}**
-   - المسؤول: ${init.owner}
-   - المدة: ${init.duration_weeks} أسابيع
-   - التأثير المتوقع: ${init.expected_impact}
-`).join('')}
-
-## مؤشرات النجاح
-سنتابع التقدم من خلال فحوصات نبضية منتظمة في الأيام 30 و60 و90، قياس مؤشرات الأداء الرئيسية لكل مبادرة.
-
-لنعمل معًا لبناء ثقافة أقوى وأكثر إشراكًا!
-`;
-
-  const managerBrief = `
-# Manager Brief: 90-Day Culture Change Plan
-
-## Your Role
-As a manager, you are critical to the success of these culture change initiatives. Your teams look to you for guidance, support, and modeling of desired behaviors.
-
-## Key Actions Required:
-1. **Champion the initiatives** - Show visible support and enthusiasm
-2. **Communicate regularly** - Keep your team informed of progress and changes
-3. **Provide resources** - Ensure your team has what they need to participate
-4. **Model behaviors** - Demonstrate the cultural changes you want to see
-5. **Gather feedback** - Listen to your team's concerns and suggestions
-
-## Support Available:
-- Training materials and resources
-- Regular check-ins with HR/Leadership team
-- Peer manager support network
-- Progress tracking dashboards
-
-## Success Metrics:
-- Team engagement scores
-- Initiative participation rates
-- Behavioral change indicators
-- Employee feedback
-
-Remember: Culture change takes time and consistent effort. Your leadership in the next 90 days will set the foundation for long-term success.
-`;
-
-  return { english, arabic, managerBrief };
-}
-
-function generateAISummary(initiatives: Initiative[], gaps: any[], overview: any): string {
-  return `AI-Generated Culture Change Plan Summary:
-
-Analyzed ${overview.n || 0} survey responses and identified ${gaps.length} priority areas for improvement.
-
-Key Focus Areas:
-${gaps.map(g => `- ${g.area}: Score ${g.score}/100 (${g.priority} priority)`).join('\n')}
-
-Generated ${initiatives.length} targeted initiatives with specific KPIs and milestones.
-
-Expected Outcomes:
-- Psychological Safety improvement: +15-20 points
-- Process efficiency gains: 30-40% faster approvals
-- Cross-team collaboration: +20-25% increase
-- Values alignment: +15-20 points
-
-Implementation Schedule: 90-day phased approach with regular pulse checks.
-
-AI Confidence Level: High (based on proven change management frameworks and cultural assessment data)
-
-Recommended Review: 30-day intervals with stakeholder feedback integration.`;
-}

@@ -254,8 +254,8 @@ const Playbook: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={getPriorityColor(initiative.priority)}>
-                        {initiative.priority === 'high' ? (isArabic ? 'عالية' : 'High') :
-                         initiative.priority === 'medium' ? (isArabic ? 'متوسطة' : 'Medium') :
+                        {initiative.priority === 'High' ? (isArabic ? 'عالية' : 'High') :
+                         initiative.priority === 'Medium' ? (isArabic ? 'متوسطة' : 'Medium') :
                          (isArabic ? 'منخفضة' : 'Low')}
                       </Badge>
                       <Badge variant={getStatusColor(initiative.status)} className="flex items-center gap-1">
