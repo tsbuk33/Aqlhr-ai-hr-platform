@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_actions: {
+        Row: {
+          action_type: string | null
+          created_at: string | null
+          created_by: string | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          payload: Json | null
+          started_at: string | null
+          status: string | null
+          tenant_id: string
+        }
+        Insert: {
+          action_type?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          payload?: Json | null
+          started_at?: string | null
+          status?: string | null
+          tenant_id: string
+        }
+        Update: {
+          action_type?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          payload?: Json | null
+          started_at?: string | null
+          status?: string | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
       ai_document_chunks: {
         Row: {
           chunk_index: number
@@ -1157,6 +1196,445 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_benchmarks: {
+        Row: {
+          country: string
+          industry: string
+          metric: string
+          p50: number | null
+          p75: number | null
+          p90: number | null
+        }
+        Insert: {
+          country: string
+          industry: string
+          metric: string
+          p50?: number | null
+          p75?: number | null
+          p90?: number | null
+        }
+        Update: {
+          country?: string
+          industry?: string
+          metric?: string
+          p50?: number | null
+          p75?: number | null
+          p90?: number | null
+        }
+        Relationships: []
+      }
+      cci_evidence: {
+        Row: {
+          ai_tags: string[] | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          storage_path: string | null
+          survey_id: string | null
+          tags: string[] | null
+          tenant_id: string
+          title: string | null
+          type: string | null
+          uploaded_at: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          ai_tags?: string[] | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          storage_path?: string | null
+          survey_id?: string | null
+          tags?: string[] | null
+          tenant_id: string
+          title?: string | null
+          type?: string | null
+          uploaded_at?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          ai_tags?: string[] | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          storage_path?: string | null
+          survey_id?: string | null
+          tags?: string[] | null
+          tenant_id?: string
+          title?: string | null
+          type?: string | null
+          uploaded_at?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_evidence_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_evidence_vectors: {
+        Row: {
+          embedding: string | null
+          evidence_id: string
+        }
+        Insert: {
+          embedding?: string | null
+          evidence_id: string
+        }
+        Update: {
+          embedding?: string | null
+          evidence_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_evidence_vectors_evidence_id_fkey"
+            columns: ["evidence_id"]
+            isOneToOne: true
+            referencedRelation: "cci_evidence"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_playbooks: {
+        Row: {
+          ai_summary: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          initiatives: Json | null
+          owner_id: string | null
+          status: string | null
+          survey_id: string | null
+          tenant_id: string
+          top_risks: Json | null
+        }
+        Insert: {
+          ai_summary?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          initiatives?: Json | null
+          owner_id?: string | null
+          status?: string | null
+          survey_id?: string | null
+          tenant_id: string
+          top_risks?: Json | null
+        }
+        Update: {
+          ai_summary?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          initiatives?: Json | null
+          owner_id?: string | null
+          status?: string | null
+          survey_id?: string | null
+          tenant_id?: string
+          top_risks?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_playbooks_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_responses: {
+        Row: {
+          answers: Json
+          created_at: string | null
+          created_by: string | null
+          department_id: string | null
+          duration_seconds: number | null
+          flag_reason: string | null
+          gender: string | null
+          grade_id: string | null
+          id: string
+          is_flagged: boolean | null
+          nationality: string | null
+          project_id: string | null
+          respondent_hash: string
+          submitted_at: string | null
+          survey_id: string
+          tenant_id: string
+        }
+        Insert: {
+          answers: Json
+          created_at?: string | null
+          created_by?: string | null
+          department_id?: string | null
+          duration_seconds?: number | null
+          flag_reason?: string | null
+          gender?: string | null
+          grade_id?: string | null
+          id?: string
+          is_flagged?: boolean | null
+          nationality?: string | null
+          project_id?: string | null
+          respondent_hash: string
+          submitted_at?: string | null
+          survey_id: string
+          tenant_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string | null
+          created_by?: string | null
+          department_id?: string | null
+          duration_seconds?: number | null
+          flag_reason?: string | null
+          gender?: string | null
+          grade_id?: string | null
+          id?: string
+          is_flagged?: boolean | null
+          nationality?: string | null
+          project_id?: string | null
+          respondent_hash?: string
+          submitted_at?: string | null
+          survey_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_scores: {
+        Row: {
+          balance_score: number | null
+          barrett: Json | null
+          created_at: string | null
+          created_by: string | null
+          cvf: Json | null
+          id: string
+          last_computed_at: string | null
+          n: number
+          psych_safety: number | null
+          risk_index: number | null
+          scope: string | null
+          scope_id: string | null
+          survey_id: string
+          tenant_id: string
+          values_tags: string[] | null
+          wave_id: string | null
+          web: Json | null
+        }
+        Insert: {
+          balance_score?: number | null
+          barrett?: Json | null
+          created_at?: string | null
+          created_by?: string | null
+          cvf?: Json | null
+          id?: string
+          last_computed_at?: string | null
+          n: number
+          psych_safety?: number | null
+          risk_index?: number | null
+          scope?: string | null
+          scope_id?: string | null
+          survey_id: string
+          tenant_id: string
+          values_tags?: string[] | null
+          wave_id?: string | null
+          web?: Json | null
+        }
+        Update: {
+          balance_score?: number | null
+          barrett?: Json | null
+          created_at?: string | null
+          created_by?: string | null
+          cvf?: Json | null
+          id?: string
+          last_computed_at?: string | null
+          n?: number
+          psych_safety?: number | null
+          risk_index?: number | null
+          scope?: string | null
+          scope_id?: string | null
+          survey_id?: string
+          tenant_id?: string
+          values_tags?: string[] | null
+          wave_id?: string | null
+          web?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_scores_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cci_scores_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_response_quality_v1"
+            referencedColumns: ["wave_id"]
+          },
+          {
+            foreignKeyName: "cci_scores_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_waves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_survey_items: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          dimension: string | null
+          framework: string | null
+          id: string
+          order_no: number | null
+          reverse_scored: boolean | null
+          scale_max: number | null
+          scale_min: number | null
+          survey_id: string
+          tenant_id: string
+          text_ar: string
+          text_en: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          dimension?: string | null
+          framework?: string | null
+          id?: string
+          order_no?: number | null
+          reverse_scored?: boolean | null
+          scale_max?: number | null
+          scale_min?: number | null
+          survey_id: string
+          tenant_id: string
+          text_ar: string
+          text_en: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          dimension?: string | null
+          framework?: string | null
+          id?: string
+          order_no?: number | null
+          reverse_scored?: boolean | null
+          scale_max?: number | null
+          scale_min?: number | null
+          survey_id?: string
+          tenant_id?: string
+          text_ar?: string
+          text_en?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_survey_items_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_surveys: {
+        Row: {
+          anonymity_min_n: number
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          language: string | null
+          name: string
+          status: string | null
+          tenant_id: string
+          wave_count: number | null
+        }
+        Insert: {
+          anonymity_min_n?: number
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          language?: string | null
+          name: string
+          status?: string | null
+          tenant_id: string
+          wave_count?: number | null
+        }
+        Update: {
+          anonymity_min_n?: number
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          language?: string | null
+          name?: string
+          status?: string | null
+          tenant_id?: string
+          wave_count?: number | null
+        }
+        Relationships: []
+      }
+      cci_waves: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_baseline: boolean | null
+          period_end: string | null
+          period_start: string | null
+          survey_id: string
+          tenant_id: string
+          wave_no: number
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_baseline?: boolean | null
+          period_end?: string | null
+          period_start?: string | null
+          survey_id: string
+          tenant_id: string
+          wave_no: number
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_baseline?: boolean | null
+          period_end?: string | null
+          period_start?: string | null
+          survey_id?: string
+          tenant_id?: string
+          wave_no?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_waves_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
             referencedColumns: ["id"]
           },
         ]
@@ -7931,7 +8409,69 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      cci_response_quality_v1: {
+        Row: {
+          avg_duration_seconds: number | null
+          flagged_percentage: number | null
+          flagged_responses: number | null
+          survey_id: string | null
+          too_fast_responses: number | null
+          total_responses: number | null
+          wave_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_responses_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cci_scores_public_v1: {
+        Row: {
+          balance_score: number | null
+          barrett: Json | null
+          created_at: string | null
+          cvf: Json | null
+          id: string | null
+          last_computed_at: string | null
+          n: number | null
+          psych_safety: number | null
+          risk_index: number | null
+          scope: string | null
+          scope_id: string | null
+          survey_id: string | null
+          tenant_id: string | null
+          values_tags: string[] | null
+          wave_id: string | null
+          web: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_scores_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cci_scores_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_response_quality_v1"
+            referencedColumns: ["wave_id"]
+          },
+          {
+            foreignKeyName: "cci_scores_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_waves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       apply_translation_patch: {
@@ -7954,6 +8494,10 @@ export type Database = {
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
+      }
+      binary_quantize: {
+        Args: { "": string } | { "": unknown }
+        Returns: unknown
       }
       calculate_annual_leave_entitlement: {
         Args: { p_current_date?: string; p_hire_date: string }
@@ -7982,6 +8526,10 @@ export type Database = {
           p_check_out: string
         }
         Returns: number
+      }
+      cci_is_response_valid: {
+        Args: { answers: Json; duration_seconds: number }
+        Returns: boolean
       }
       cleanup_old_compliance_logs: {
         Args: Record<PropertyKey, never>
@@ -8036,6 +8584,22 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      halfvec_avg: {
+        Args: { "": number[] }
+        Returns: unknown
+      }
+      halfvec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      halfvec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      halfvec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -8043,11 +8607,51 @@ export type Database = {
         }
         Returns: boolean
       }
+      hnsw_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnsw_sparsevec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      hnswhandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
       is_pilot_user: {
         Args: { feature_name?: string; user_uuid: string }
         Returns: boolean
       }
+      ivfflat_bit_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflat_halfvec_support: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      ivfflathandler: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      l2_norm: {
+        Args: { "": unknown } | { "": unknown }
+        Returns: number
+      }
+      l2_normalize: {
+        Args: { "": string } | { "": unknown } | { "": unknown }
+        Returns: string
+      }
       purge_old_auth_email_events: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      refresh_cci_quality_stats: {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
@@ -8071,6 +8675,18 @@ export type Database = {
         }
         Returns: string
       }
+      sparsevec_out: {
+        Args: { "": unknown }
+        Returns: unknown
+      }
+      sparsevec_send: {
+        Args: { "": unknown }
+        Returns: string
+      }
+      sparsevec_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
+      }
       sync_tool_integration: {
         Args: { p_action?: string; p_company_id: string; p_tool_name: string }
         Returns: undefined
@@ -8086,6 +8702,30 @@ export type Database = {
           has_access: boolean
           user_id: string
         }[]
+      }
+      vector_avg: {
+        Args: { "": number[] }
+        Returns: string
+      }
+      vector_dims: {
+        Args: { "": string } | { "": unknown }
+        Returns: number
+      }
+      vector_norm: {
+        Args: { "": string }
+        Returns: number
+      }
+      vector_out: {
+        Args: { "": string }
+        Returns: unknown
+      }
+      vector_send: {
+        Args: { "": string }
+        Returns: string
+      }
+      vector_typmod_in: {
+        Args: { "": unknown[] }
+        Returns: number
       }
     }
     Enums: {
