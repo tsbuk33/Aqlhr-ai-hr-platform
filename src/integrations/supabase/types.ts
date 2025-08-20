@@ -1542,6 +1542,7 @@ export type Database = {
           created_at: string | null
           created_by: string | null
           cvf: Json | null
+          evidence_factor: number | null
           id: string
           last_computed_at: string | null
           n: number
@@ -1561,6 +1562,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           cvf?: Json | null
+          evidence_factor?: number | null
           id?: string
           last_computed_at?: string | null
           n: number
@@ -1580,6 +1582,7 @@ export type Database = {
           created_at?: string | null
           created_by?: string | null
           cvf?: Json | null
+          evidence_factor?: number | null
           id?: string
           last_computed_at?: string | null
           n?: number
@@ -8712,8 +8715,8 @@ export type Database = {
         Returns: number
       }
       cci_compute_scores_v1: {
-        Args: { p_survey: string; p_tenant: string; p_wave: string }
-        Returns: undefined
+        Args: { p_survey: string; p_tenant: string; p_wave?: string }
+        Returns: Json
       }
       cci_evidence_quality_factor: {
         Args: { p_survey_id: string; p_tenant_id: string }
