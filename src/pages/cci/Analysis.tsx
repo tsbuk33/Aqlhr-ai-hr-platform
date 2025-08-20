@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import HofstedeContextCard from '@/components/cci/HofstedeContextCard';
+import { useHofstedeContext } from '@/hooks/useHofstedeContext';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -17,6 +19,10 @@ import {
 
 const Analysis: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
+  
+  // Mock tenant ID - in production, get from context or auth
+  const tenantId = 'mock-tenant-id';
+  const { data: hofstedeContext, loading: hofstedeLoading } = useHofstedeContext(tenantId);
 
   const cvfData = [
     { dimension: isArabic ? 'العشيرة' : 'Clan', current: 35, desired: 30, color: 'blue' },
@@ -75,6 +81,11 @@ const Analysis: React.FC = () => {
             </Button>
           </div>
         </div>
+
+        {/* Hofstede National Context */}
+        {!hofstedeLoading && hofstedeContext && (
+          <HofstedeContextCard data={hofstedeContext} isArabic={isArabic} />
+        )}
 
         {/* Analysis Frameworks Tabs */}
         <Tabs defaultValue="cvf" className="space-y-6">

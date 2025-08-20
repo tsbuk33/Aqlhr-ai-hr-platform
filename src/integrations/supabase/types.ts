@@ -3498,6 +3498,48 @@ export type Database = {
         }
         Relationships: []
       }
+      hofstede_national_scores: {
+        Row: {
+          country_code: string
+          country_name_ar: string | null
+          country_name_en: string
+          created_at: string | null
+          id: string
+          individualism: number | null
+          indulgence: number | null
+          long_term_orientation: number | null
+          masculinity: number | null
+          power_distance: number | null
+          uncertainty_avoidance: number | null
+        }
+        Insert: {
+          country_code: string
+          country_name_ar?: string | null
+          country_name_en: string
+          created_at?: string | null
+          id?: string
+          individualism?: number | null
+          indulgence?: number | null
+          long_term_orientation?: number | null
+          masculinity?: number | null
+          power_distance?: number | null
+          uncertainty_avoidance?: number | null
+        }
+        Update: {
+          country_code?: string
+          country_name_ar?: string | null
+          country_name_en?: string
+          created_at?: string | null
+          id?: string
+          individualism?: number | null
+          indulgence?: number | null
+          long_term_orientation?: number | null
+          masculinity?: number | null
+          power_distance?: number | null
+          uncertainty_avoidance?: number | null
+        }
+        Relationships: []
+      }
       hse_compliance: {
         Row: {
           company_id: string | null
@@ -8659,6 +8701,23 @@ export type Database = {
           },
         ]
       }
+      employee_national_mix_v1: {
+        Row: {
+          employee_count: number | null
+          label: string | null
+          pct: number | null
+          tenant_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employees_company_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       apply_translation_patch: {
@@ -8736,6 +8795,10 @@ export type Database = {
           risk_index: number
           scope_id: string
         }[]
+      }
+      cci_get_hofstede_context_v1: {
+        Args: { p_tenant_id: string }
+        Returns: Json
       }
       cci_get_overview_v1: {
         Args: { p_survey: string; p_tenant: string; p_wave: string }
