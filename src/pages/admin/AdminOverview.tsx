@@ -17,6 +17,13 @@ const AdminOverview = () => {
       color: 'text-blue-600'
     },
     {
+      title: isArabic ? 'البيانات التجريبية' : 'Demo Data',
+      description: isArabic ? 'إنشاء بيانات تجريبية واختبار النظام' : 'Generate demo data and test system',
+      icon: Database,
+      path: '/admin/demo-data',
+      color: 'text-cyan-600'
+    },
+    {
       title: isArabic ? 'الامتثال' : 'Compliance',
       description: isArabic ? 'الرقابة التنظيمية والامتثال' : 'Regulatory oversight and compliance',
       icon: Shield,

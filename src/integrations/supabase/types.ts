@@ -1306,6 +1306,67 @@ export type Database = {
           },
         ]
       }
+      cci_invite_tokens: {
+        Row: {
+          channel: string | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          meta: Json | null
+          redeemed_at: string | null
+          survey_id: string
+          tenant_id: string
+          token_hash: string
+          wave_id: string
+        }
+        Insert: {
+          channel?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          meta?: Json | null
+          redeemed_at?: string | null
+          survey_id: string
+          tenant_id: string
+          token_hash: string
+          wave_id: string
+        }
+        Update: {
+          channel?: string | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          meta?: Json | null
+          redeemed_at?: string | null
+          survey_id?: string
+          tenant_id?: string
+          token_hash?: string
+          wave_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cci_invite_tokens_survey_id_fkey"
+            columns: ["survey_id"]
+            isOneToOne: false
+            referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cci_invite_tokens_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_response_quality_v1"
+            referencedColumns: ["wave_id"]
+          },
+          {
+            foreignKeyName: "cci_invite_tokens_wave_id_fkey"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_waves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cci_playbooks: {
         Row: {
           ai_summary: string | null

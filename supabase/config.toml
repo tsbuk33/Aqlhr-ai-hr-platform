@@ -41,3 +41,9 @@ verify_jwt = false
 
 [functions.send-auth-link]
 verify_jwt = false
+
+[functions.agent-cci-change-plan-v1]
+verify_jwt = false
+
+[functions.cci-seed-instrument-v1]
+verify_jwt = false
