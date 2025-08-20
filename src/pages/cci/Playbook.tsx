@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 import { 
   Brain, 
   Target, 
@@ -13,66 +14,57 @@ import {
   AlertTriangle,
   Play,
   Pause,
-  Settings
+  Settings,
+  Loader2,
+  Sparkles
 } from 'lucide-react';
+import { useCCIPlaybook } from '@/hooks/useCCIPlaybook';
 
 const Playbook: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
+  
+  // Mock data for now - replace with actual tenant/survey/wave from context
+  const tenantId = "mock-tenant-id"; // TODO: Get from auth context
+  const surveyId = "mock-survey-id"; // TODO: Get from URL params or context
+  const waveId = "mock-wave-id"; // TODO: Get from URL params or context
+  
+  const { 
+    currentPlaybook, 
+    playbooks, 
+    loading, 
+    generating, 
+    error,
+    generatePlaybook,
+    updatePlaybookStatus 
+  } = useCCIPlaybook(tenantId, surveyId, waveId);
 
-  const initiatives = [
-    {
-      id: 1,
-      title: isArabic ? 'تعزيز الشفافية في التواصل' : 'Enhance Communication Transparency',
-      description: isArabic ? 'تطوير قنوات تواصل مفتوحة وشفافة بين جميع مستويات المنظمة' : 'Develop open and transparent communication channels across all organizational levels',
-      priority: 'high',
-      impact: 'high',
-      effort: 'medium',
-      duration: 12,
-      status: 'planning',
-      aiConfidence: 92,
-      frameworks: ['CVF', 'Cultural Web'],
-      owner: isArabic ? 'فريق التواصل الداخلي' : 'Internal Communications Team'
-    },
-    {
-      id: 2,
-      title: isArabic ? 'برنامج تطوير القيادة التحويلية' : 'Transformational Leadership Development Program',
-      description: isArabic ? 'برنامج شامل لتطوير مهارات القيادة التحويلية للمدراء' : 'Comprehensive program to develop transformational leadership skills for managers',
-      priority: 'high',
-      impact: 'high',
-      effort: 'high',
-      duration: 18,
-      status: 'ready',
-      aiConfidence: 88,
-      frameworks: ['Barrett', 'Schein'],
-      owner: isArabic ? 'قسم التطوير التنظيمي' : 'Organizational Development'
-    },
-    {
-      id: 3,
-      title: isArabic ? 'تعزيز الأمان النفسي' : 'Psychological Safety Enhancement',
-      description: isArabic ? 'مبادرات لزيادة الأمان النفسي وتشجيع الابتكار' : 'Initiatives to increase psychological safety and encourage innovation',
-      priority: 'medium',
-      impact: 'high',
-      effort: 'low',
-      duration: 8,
-      status: 'in-progress',
-      aiConfidence: 85,
-      frameworks: ['CVF', 'Barrett'],
-      owner: isArabic ? 'فريق تجربة الموظف' : 'Employee Experience Team'
-    },
-    {
-      id: 4,
-      title: isArabic ? 'إعادة تصميم نظام المكافآت' : 'Rewards System Redesign',
-      description: isArabic ? 'مراجعة وإعادة تصميم نظام المكافآت ليتماشى مع القيم المرغوبة' : 'Review and redesign rewards system to align with desired values',
-      priority: 'medium',
-      impact: 'medium',
-      effort: 'high',
-      duration: 16,
-      status: 'planning',
-      aiConfidence: 78,
-      frameworks: ['Barrett', 'Hofstede'],
-      owner: isArabic ? 'إدارة الموارد البشرية' : 'HR Management'
-    }
-  ];
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all');
+
+  const handleGeneratePlaybook = async () => {
+    await generatePlaybook({ tenantId, surveyId, waveId });
+  };
+
+  const handleStartInitiative = async (initiativeId: string) => {
+    // Update initiative status - this would be a separate function
+    console.log('Starting initiative:', initiativeId);
+  };
+
+  // Filter initiatives based on selected filter
+  const filteredInitiatives = currentPlaybook?.initiatives?.filter(initiative => {
+    if (selectedFilter === 'all') return true;
+    return initiative.priority.toLowerCase() === selectedFilter.toLowerCase();
+  }) || [];
+
+  // Calculate overview stats
+  const totalInitiatives = currentPlaybook?.initiatives?.length || 0;
+  const activeInitiatives = filteredInitiatives.filter(i => i.milestones?.some(m => m.week <= 4)).length;
+  const avgConfidence = totalInitiatives > 0 
+    ? Math.round(filteredInitiatives.reduce((acc, init) => acc + (init.kpis?.length || 0) * 20, 0) / totalInitiatives)
+    : 0;
+  const avgDuration = totalInitiatives > 0
+    ? Math.round(filteredInitiatives.reduce((acc, init) => acc + (init.duration_weeks || 0) / 4, 0) / totalInitiatives)
+    : 0;
+  const uniqueOwners = new Set(filteredInitiatives.map(i => i.owner)).size;
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -127,8 +119,15 @@ const Playbook: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button>
-              <Brain className="mr-2 h-4 w-4" />
+            <Button 
+              onClick={handleGeneratePlaybook}
+              disabled={generating}
+            >
+              {generating ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Sparkles className="mr-2 h-4 w-4" />
+              )}
               {isArabic ? 'توليد مبادرات جديدة' : 'Generate New Initiatives'}
             </Button>
             <Button variant="outline">
@@ -148,9 +147,9 @@ const Playbook: React.FC = () => {
               <Target className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-2xl font-bold">{totalInitiatives}</div>
               <p className="text-xs text-muted-foreground">
-                {isArabic ? '4 نشطة، 8 مخططة' : '4 active, 8 planned'}
+                {isArabic ? `${activeInitiatives} نشطة، ${totalInitiatives - activeInitiatives} مخططة` : `${activeInitiatives} active, ${totalInitiatives - activeInitiatives} planned`}
               </p>
             </CardContent>
           </Card>
@@ -163,7 +162,7 @@ const Playbook: React.FC = () => {
               <Brain className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">86%</div>
+              <div className="text-2xl font-bold">{avgConfidence}%</div>
               <p className="text-xs text-muted-foreground">
                 {isArabic ? 'متوسط عبر جميع المبادرات' : 'Average across all initiatives'}
               </p>
@@ -178,7 +177,7 @@ const Playbook: React.FC = () => {
               <Calendar className="h-4 w-4 text-green-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">14</div>
+              <div className="text-2xl font-bold">{avgDuration}</div>
               <p className="text-xs text-muted-foreground">
                 {isArabic ? 'أشهر متوسط' : 'months average'}
               </p>
@@ -193,7 +192,7 @@ const Playbook: React.FC = () => {
               <Users className="h-4 w-4 text-orange-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">8</div>
+              <div className="text-2xl font-bold">{uniqueOwners}</div>
               <p className="text-xs text-muted-foreground">
                 {isArabic ? 'عبر الإدارات المختلفة' : 'across departments'}
               </p>
@@ -218,7 +217,34 @@ const Playbook: React.FC = () => {
           </div>
 
           <div className="space-y-4">
-            {initiatives.map((initiative) => (
+            {loading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <Card key={i}>
+                    <CardHeader>
+                      <Skeleton className="h-6 w-3/4" />
+                      <Skeleton className="h-4 w-full" />
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-20 w-full" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : filteredInitiatives.length === 0 ? (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <Brain className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-medium mb-2">
+                    {isArabic ? 'لا توجد مبادرات' : 'No Initiatives Available'}
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    {isArabic ? 'انقر على "توليد مبادرات جديدة" لإنشاء خطة تغيير بالذكاء الاصطناعي' : 'Click "Generate New Initiatives" to create an AI-powered change plan'}
+                  </p>
+                </CardContent>
+              </Card>
+            ) : (
+              filteredInitiatives.map((initiative) => (
               <Card key={initiative.id} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -315,7 +341,8 @@ const Playbook: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

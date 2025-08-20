@@ -1309,39 +1309,63 @@ export type Database = {
       cci_playbooks: {
         Row: {
           ai_summary: string | null
+          comms_ar: string | null
+          comms_en: string | null
           created_at: string | null
           created_by: string | null
+          description: string | null
           id: string
           initiatives: Json | null
+          manager_brief: string | null
           owner_id: string | null
+          schedule: Json | null
           status: string | null
           survey_id: string | null
           tenant_id: string
+          title: string | null
           top_risks: Json | null
+          updated_at: string | null
+          wave_id: string | null
         }
         Insert: {
           ai_summary?: string | null
+          comms_ar?: string | null
+          comms_en?: string | null
           created_at?: string | null
           created_by?: string | null
+          description?: string | null
           id?: string
           initiatives?: Json | null
+          manager_brief?: string | null
           owner_id?: string | null
+          schedule?: Json | null
           status?: string | null
           survey_id?: string | null
           tenant_id: string
+          title?: string | null
           top_risks?: Json | null
+          updated_at?: string | null
+          wave_id?: string | null
         }
         Update: {
           ai_summary?: string | null
+          comms_ar?: string | null
+          comms_en?: string | null
           created_at?: string | null
           created_by?: string | null
+          description?: string | null
           id?: string
           initiatives?: Json | null
+          manager_brief?: string | null
           owner_id?: string | null
+          schedule?: Json | null
           status?: string | null
           survey_id?: string | null
           tenant_id?: string
+          title?: string | null
           top_risks?: Json | null
+          updated_at?: string | null
+          wave_id?: string | null
         }
         Relationships: [
           {
