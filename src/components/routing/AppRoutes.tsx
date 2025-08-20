@@ -7,6 +7,7 @@ import AuthCallback from '@/pages/auth/AuthCallback';
 import Survey from '@/pages/cci/Survey';
 import SurveyThanks from '@/pages/cci/SurveyThanks';
 import Respond from '@/pages/cci/Respond';
+import CCIAdminLinks from '@/pages/cci/admin/Links';
 
 
 export const AppRoutes: React.FC = () => {
@@ -18,6 +19,7 @@ export const AppRoutes: React.FC = () => {
       <Route path="/cci/survey" element={<Survey />} />
       <Route path="/cci/survey/thanks" element={<SurveyThanks />} />
       <Route path="/cci/respond" element={<Respond />} />
+      <Route path="/cci/admin/links" element={<CCIAdminLinks />} />
       {ROUTES.map((route) => {
         const Component = route.element;
         return (

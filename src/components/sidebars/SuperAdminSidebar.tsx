@@ -39,6 +39,7 @@ import {
   Layers,
   Activity,
   Building2,
+  Link,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
@@ -160,6 +161,7 @@ const welfareItems = [
 
 const diagnosticItems = [
   { title: 'Corporate Culture Intelligence (CCI)', url: '/cci/overview', icon: Brain },
+  { title: 'CCI Survey Links & Tokens', url: '/cci/admin/links', icon: Link },
   { title: 'Retention Strategy', url: '/diagnostic/retention-strategy', icon: Target },
   { title: 'HR Process Improvement', url: '/diagnostic/hr-process-improvement', icon: Layers },
   { title: 'HR Role Optimization', url: '/diagnostic/hr-role-optimization', icon: Users },
