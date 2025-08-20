@@ -1371,6 +1371,7 @@ export type Database = {
           submitted_at: string | null
           survey_id: string
           tenant_id: string
+          wave_id: string | null
         }
         Insert: {
           answers: Json
@@ -1389,6 +1390,7 @@ export type Database = {
           submitted_at?: string | null
           survey_id: string
           tenant_id: string
+          wave_id?: string | null
         }
         Update: {
           answers?: Json
@@ -1407,6 +1409,7 @@ export type Database = {
           submitted_at?: string | null
           survey_id?: string
           tenant_id?: string
+          wave_id?: string | null
         }
         Relationships: [
           {
@@ -1414,6 +1417,20 @@ export type Database = {
             columns: ["survey_id"]
             isOneToOne: false
             referencedRelation: "cci_surveys"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cci_responses_wave_fk"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_response_quality_v1"
+            referencedColumns: ["wave_id"]
+          },
+          {
+            foreignKeyName: "cci_responses_wave_fk"
+            columns: ["wave_id"]
+            isOneToOne: false
+            referencedRelation: "cci_waves"
             referencedColumns: ["id"]
           },
         ]
