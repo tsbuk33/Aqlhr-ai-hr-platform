@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Progress } from '@/components/ui/progress';
+import { useCCIEvidence } from '@/hooks/useCCIEvidence';
+import { EvidenceUploadDialog } from '@/components/cci/EvidenceUploadDialog';
 import { 
   FileText, 
   Image, 
@@ -14,56 +18,50 @@ import {
   Upload,
   Tags,
   Calendar,
-  User
+  User,
+  Brain,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  Loader2
 } from 'lucide-react';
 
 const Evidence: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState<string>('all');
+  
+  const { 
+    evidence, 
+    loading, 
+    uploading, 
+    uploadEvidence, 
+    updateEvidenceTags,
+    deleteEvidence 
+  } = useCCIEvidence();
 
-  const evidenceItems = [
-    {
-      id: 1,
-      type: 'document',
-      title: isArabic ? 'دليل السياسات والإجراءات 2024' : 'Policy & Procedures Manual 2024',
-      description: isArabic ? 'الإصدار المحدث من دليل السياسات الداخلية' : 'Updated version of internal policy guidelines',
-      tags: [isArabic ? 'سياسات' : 'policies', isArabic ? 'إجراءات' : 'procedures', isArabic ? 'حوكمة' : 'governance'],
-      aiTags: [isArabic ? 'هيكل تنظيمي' : 'organizational structure', isArabic ? 'سلطة' : 'authority'],
-      date: '2024-01-15',
-      author: isArabic ? 'فريق الموارد البشرية' : 'HR Team'
-    },
-    {
-      id: 2,
-      type: 'image',
-      title: isArabic ? 'صور اجتماع الفريق الربع سنوي' : 'Quarterly Team Meeting Photos',
-      description: isArabic ? 'توثيق مرئي لاجتماع الفريق الربع سنوي' : 'Visual documentation of quarterly team meeting',
-      tags: [isArabic ? 'اجتماعات' : 'meetings', isArabic ? 'فريق عمل' : 'teamwork', isArabic ? 'تعاون' : 'collaboration'],
-      aiTags: [isArabic ? 'تفاعل اجتماعي' : 'social interaction', isArabic ? 'ثقافة الفريق' : 'team culture'],
-      date: '2024-01-10',
-      author: isArabic ? 'أحمد الخالد' : 'Ahmed Al-Khalid'
-    },
-    {
-      id: 3,
-      type: 'link',
-      title: isArabic ? 'نتائج استطلاع رضا الموظفين' : 'Employee Satisfaction Survey Results',
-      description: isArabic ? 'رابط لنتائج استطلاع الرضا الوظيفي للربع الأخير' : 'Link to latest quarterly employee satisfaction results',
-      tags: [isArabic ? 'رضا' : 'satisfaction', isArabic ? 'استطلاع' : 'survey', isArabic ? 'تقييم' : 'feedback'],
-      aiTags: [isArabic ? 'معنويات' : 'morale', isArabic ? 'مشاركة' : 'engagement'],
-      date: '2024-01-08',
-      author: isArabic ? 'فاطمة النوري' : 'Fatima Al-Nouri'
-    },
-    {
-      id: 4,
-      type: 'note',
-      title: isArabic ? 'ملاحظات من جلسة العصف الذهني' : 'Brainstorming Session Notes',
-      description: isArabic ? 'ملاحظات مهمة من جلسة العصف الذهني حول تطوير الثقافة' : 'Key insights from culture development brainstorming session',
-      tags: [isArabic ? 'عصف ذهني' : 'brainstorming', isArabic ? 'أفكار' : 'ideas', isArabic ? 'إبداع' : 'innovation'],
-      aiTags: [isArabic ? 'تفكير إبداعي' : 'creative thinking', isArabic ? 'حل المشاكل' : 'problem solving'],
-      date: '2024-01-05',
-      author: isArabic ? 'سارة المطيري' : 'Sarah Al-Mutairi'
-    }
-  ];
+  // Filter evidence based on search and type
+  const filteredEvidence = evidence.filter(item => {
+    const matchesSearch = !searchTerm || 
+      item.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      item.ai_tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+    
+    const matchesType = selectedType === 'all' || item.type === selectedType;
+    
+    return matchesSearch && matchesType;
+  });
 
-  const getTypeIcon = (type: string) => {
+  // Statistics
+  const stats = {
+    total: evidence.length,
+    processed: evidence.filter(e => e.processing_status === 'completed').length,
+    aiTagged: evidence.filter(e => e.ai_tags && e.ai_tags.length > 0).length,
+    types: [...new Set(evidence.map(e => e.type))].length
+  };
+
+  const getTypeIcon = (type?: string) => {
     switch (type) {
       case 'document': return <FileText className="h-4 w-4" />;
       case 'image': return <Image className="h-4 w-4" />;
@@ -73,13 +71,23 @@ const Evidence: React.FC = () => {
     }
   };
 
-  const getTypeColor = (type: string) => {
+  const getTypeColor = (type?: string) => {
     switch (type) {
-      case 'document': return 'blue';
-      case 'image': return 'green';
-      case 'link': return 'purple';
-      case 'note': return 'orange';
-      default: return 'gray';
+      case 'document': return 'text-blue-600 bg-blue-100';
+      case 'image': return 'text-green-600 bg-green-100';
+      case 'link': return 'text-purple-600 bg-purple-100';
+      case 'note': return 'text-orange-600 bg-orange-100';
+      default: return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  const getStatusIcon = (status?: string) => {
+    switch (status) {
+      case 'completed': return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case 'processing': return <Loader2 className="h-4 w-4 text-blue-600 animate-spin" />;
+      case 'pending': return <Clock className="h-4 w-4 text-orange-600" />;
+      case 'rejected': return <AlertCircle className="h-4 w-4 text-red-600" />;
+      default: return <Clock className="h-4 w-4 text-gray-600" />;
     }
   };
 
@@ -97,10 +105,16 @@ const Evidence: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button>
-              <Upload className="mr-2 h-4 w-4" />
-              {isArabic ? 'رفع دليل' : 'Upload Evidence'}
-            </Button>
+            <EvidenceUploadDialog onUpload={uploadEvidence} uploading={uploading}>
+              <Button disabled={uploading}>
+                {uploading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Upload className="mr-2 h-4 w-4" />
+                )}
+                {isArabic ? 'رفع دليل' : 'Upload Evidence'}
+              </Button>
+            </EvidenceUploadDialog>
             <Button variant="outline">
               <Tags className="mr-2 h-4 w-4" />
               {isArabic ? 'إدارة العلامات' : 'Manage Tags'}
@@ -118,6 +132,8 @@ const Evidence: React.FC = () => {
                   <Input 
                     placeholder={isArabic ? 'البحث في الأدلة...' : 'Search evidence...'}
                     className="pl-10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
                 </div>
               </div>
@@ -138,135 +154,147 @@ const Evidence: React.FC = () => {
         </Card>
 
         {/* Evidence Tabs */}
-        <Tabs defaultValue="all" className="space-y-4">
+        <Tabs value={selectedType} onValueChange={setSelectedType} className="space-y-4">
           <TabsList>
-            <TabsTrigger value="all">{isArabic ? 'الكل' : 'All'}</TabsTrigger>
-            <TabsTrigger value="documents">{isArabic ? 'المستندات' : 'Documents'}</TabsTrigger>
-            <TabsTrigger value="images">{isArabic ? 'الصور' : 'Images'}</TabsTrigger>
-            <TabsTrigger value="links">{isArabic ? 'الروابط' : 'Links'}</TabsTrigger>
-            <TabsTrigger value="notes">{isArabic ? 'الملاحظات' : 'Notes'}</TabsTrigger>
+            <TabsTrigger value="all">{isArabic ? 'الكل' : 'All'} ({evidence.length})</TabsTrigger>
+            <TabsTrigger value="document">{isArabic ? 'المستندات' : 'Documents'} ({evidence.filter(e => e.type === 'document').length})</TabsTrigger>
+            <TabsTrigger value="image">{isArabic ? 'الصور' : 'Images'} ({evidence.filter(e => e.type === 'image').length})</TabsTrigger>
+            <TabsTrigger value="link">{isArabic ? 'الروابط' : 'Links'} ({evidence.filter(e => e.type === 'link').length})</TabsTrigger>
+            <TabsTrigger value="note">{isArabic ? 'الملاحظات' : 'Notes'} ({evidence.filter(e => e.type === 'note').length})</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="all" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {evidenceItems.map((item) => (
-                <Card key={item.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className={`p-2 rounded-full bg-${getTypeColor(item.type)}-100 text-${getTypeColor(item.type)}-600`}>
-                          {getTypeIcon(item.type)}
-                        </div>
-                        <Badge variant="secondary" className="text-xs">
-                          {item.type}
-                        </Badge>
-                      </div>
-                    </div>
-                    <CardTitle className="text-lg line-clamp-2">{item.title}</CardTitle>
-                    <CardDescription className="line-clamp-2">{item.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {/* Manual Tags */}
-                    <div>
-                      <div className="text-xs font-medium text-muted-foreground mb-1">
-                        {isArabic ? 'العلامات' : 'Tags'}
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.tags.map((tag, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* AI Generated Tags */}
-                    <div>
-                      <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
-                        <Tags className="h-3 w-3" />
-                        {isArabic ? 'علامات الذكاء الاصطناعي' : 'AI Tags'}
-                      </div>
-                      <div className="flex flex-wrap gap-1">
-                        {item.aiTags.map((tag, index) => (
-                          <Badge key={index} variant="secondary" className="text-xs bg-purple-100 text-purple-700">
-                            {tag}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Metadata */}
-                    <div className="pt-2 border-t space-y-1">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <Calendar className="h-3 w-3" />
-                        {item.date}
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                        <User className="h-3 w-3" />
-                        {item.author}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="documents">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {evidenceItems
-                .filter(item => item.type === 'document')
-                .map((item) => (
-                  <Card key={item.id} className="hover:shadow-lg transition-shadow">
-                    {/* Same card structure as above */}
+          <TabsContent value={selectedType} className="space-y-4">
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <Card key={i}>
                     <CardHeader className="pb-3">
+                      <div className="flex items-center gap-2">
+                        <Skeleton className="h-8 w-8 rounded-full" />
+                        <Skeleton className="h-4 w-16" />
+                      </div>
+                      <Skeleton className="h-6 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </CardHeader>
+                    <CardContent>
+                      <Skeleton className="h-16 w-full" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : filteredEvidence.length === 0 ? (
+              <div className="text-center py-8">
+                <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+                <p className="text-muted-foreground">
+                  {searchTerm ? 'No evidence matches your search' : 'No evidence uploaded yet'}
+                </p>
+                {!searchTerm && (
+                  <EvidenceUploadDialog onUpload={uploadEvidence} uploading={uploading}>
+                    <Button className="mt-4">
+                      <Upload className="mr-2 h-4 w-4" />
+                      Upload First Evidence
+                    </Button>
+                  </EvidenceUploadDialog>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredEvidence.map((item) => (
+                  <Card key={item.id} className="hover:shadow-lg transition-shadow">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-start justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className={`p-2 rounded-full ${getTypeColor(item.type)}`}>
+                            {getTypeIcon(item.type)}
+                          </div>
+                          <Badge variant="secondary" className="text-xs">
+                            {item.type}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          {getStatusIcon(item.processing_status)}
+                          {item.ai_confidence && (
+                            <Badge variant="outline" className="text-xs">
+                              {Math.round(item.ai_confidence * 100)}%
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
                       <CardTitle className="text-lg line-clamp-2">{item.title}</CardTitle>
                       <CardDescription className="line-clamp-2">{item.description}</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                      <div className="text-xs text-muted-foreground">
-                        {isArabic ? 'مستند PDF' : 'PDF Document'} • {item.date}
+                    <CardContent className="space-y-3">
+                      {/* Processing Status */}
+                      {item.processing_status === 'processing' && (
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm text-blue-600">
+                            <Brain className="h-4 w-4" />
+                            AI Processing...
+                          </div>
+                          <Progress value={50} className="h-2" />
+                        </div>
+                      )}
+
+                      {/* Manual Tags */}
+                      {item.tags && item.tags.length > 0 && (
+                        <div>
+                          <div className="text-xs font-medium text-muted-foreground mb-1">
+                            {isArabic ? 'العلامات' : 'Tags'}
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {item.tags.map((tag, index) => (
+                              <Badge key={index} variant="outline" className="text-xs">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* AI Generated Tags */}
+                      {item.ai_tags && item.ai_tags.length > 0 && (
+                        <div>
+                          <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center gap-1">
+                            <Brain className="h-3 w-3" />
+                            {isArabic ? 'علامات الذكاء الاصطناعي' : 'AI Tags'}
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {item.ai_tags.map((tag, index) => (
+                              <Badge key={index} variant="secondary" className="text-xs bg-purple-100 text-purple-700">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Metadata */}
+                      <div className="pt-2 border-t space-y-1">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(item.uploaded_at).toLocaleDateString()}
+                        </div>
+                        {item.processed_at && (
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <CheckCircle className="h-3 w-3" />
+                            Processed {new Date(item.processed_at).toLocaleDateString()}
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
                 ))}
-            </div>
+              </div>
+            )}
           </TabsContent>
 
-          {/* Similar structure for other tabs */}
-          <TabsContent value="images">
-            <div className="text-center py-8">
-              <Image className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                {isArabic ? 'عرض الصور والمحتوى المرئي' : 'Image gallery and visual content view'}
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="links">
-            <div className="text-center py-8">
-              <Link className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                {isArabic ? 'مجموعة الروابط والمصادر الخارجية' : 'Collection of links and external resources'}
-              </p>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="notes">
-            <div className="text-center py-8">
-              <StickyNote className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">
-                {isArabic ? 'الملاحظات والأفكار المدونة' : 'Written notes and insights'}
-              </p>
-            </div>
-          </TabsContent>
         </Tabs>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold">127</div>
+              <div className="text-2xl font-bold">{stats.total}</div>
               <div className="text-xs text-muted-foreground">
                 {isArabic ? 'إجمالي الأدلة' : 'Total Evidence'}
               </div>
@@ -274,25 +302,27 @@ const Evidence: React.FC = () => {
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold">45</div>
+              <div className="text-2xl font-bold">{stats.processed}</div>
               <div className="text-xs text-muted-foreground">
-                {isArabic ? 'علامات الذكاء الاصطناعي' : 'AI Tags'}
+                {isArabic ? 'معالج' : 'Processed'}
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold">23</div>
+              <div className="text-2xl font-bold">{stats.aiTagged}</div>
               <div className="text-xs text-muted-foreground">
-                {isArabic ? 'مساهمين' : 'Contributors'}
+                {isArabic ? 'علامات الذكاء الاصطناعي' : 'AI Tagged'}
               </div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <div className="text-2xl font-bold">89%</div>
+              <div className="text-2xl font-bold">
+                {stats.total > 0 ? Math.round((stats.processed / stats.total) * 100) : 0}%
+              </div>
               <div className="text-xs text-muted-foreground">
-                {isArabic ? 'معدل التصنيف' : 'Tagged Rate'}
+                {isArabic ? 'معدل المعالجة' : 'Processing Rate'}
               </div>
             </CardContent>
           </Card>
