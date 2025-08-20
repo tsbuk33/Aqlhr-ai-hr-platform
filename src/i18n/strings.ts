@@ -164,6 +164,28 @@ export const STRINGS = {
   view_metadata: { en: 'View metadata', ar: 'عرض البيانات الوصفية' },
   rate_limit_exceeded: { en: 'Rate limit exceeded', ar: 'تم تجاوز الحد المسموح' },
 
+  // Plan gating and pricing
+  upgrade_to_access: { en: 'Upgrade to Access', ar: 'ترقية للوصول' },
+  feature_requires_plan: { en: 'This feature requires', ar: 'هذه الميزة تتطلب' },
+  demo_preview_protected: { en: 'Demo preview protected', ar: 'معاينة العرض محمية' },
+  demo_only: { en: 'Demo Only', ar: 'عرض فقط' },
+  current_plan: { en: 'Current Plan', ar: 'الخطة الحالية' },
+  upgrade_to_unlock: { en: 'Upgrade to unlock', ar: 'ترقية لإلغاء القفل' },
+  available_plans: { en: 'Available Plans', ar: 'الخطط المتاحة' },
+  recommended: { en: 'Recommended', ar: 'موصى به' },
+  full_cci_access: { en: 'Full CCI Access', ar: 'وصول كامل لـ CCI' },
+  export_capabilities: { en: 'Export Capabilities', ar: 'قدرات التصدير' },
+  advanced_playbooks: { en: 'Advanced Playbooks', ar: 'كتيبات متقدمة' },
+  white_label: { en: 'White Label', ar: 'علامة بيضاء' },
+  upgrade_to: { en: 'Upgrade to', ar: 'ترقية إلى' },
+  upgrade_benefits_notice: { en: 'Unlock all features with your upgrade', ar: 'إلغاء قفل جميع الميزات بالترقية' },
+  feature_locked_title: { en: 'Premium Feature Locked', ar: 'ميزة مميزة مقفلة' },
+  premium_feature_locked: { en: 'Premium Feature Locked', ar: 'ميزة مميزة مقفلة' },
+  upgrade_to_access_description: { en: 'Upgrade to', ar: 'ترقية إلى' },
+  to_unlock_feature: { en: 'to unlock this feature', ar: 'لإلغاء قفل هذه الميزة' },
+  upgrade_now: { en: 'Upgrade Now', ar: 'ترقية الآن' },
+  this_feature: { en: 'This Feature', ar: 'هذه الميزة' },
+
   // Common words
   more: { en: 'more', ar: 'أخرى' },
   seconds: { en: 'seconds', ar: 'ثانية' },

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { FeatureGate } from '@/components/pricing/FeatureGate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+// ... keep existing imports
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -106,18 +108,16 @@ const Playbook: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">
-              {isArabic ? 'خطة التغيير بالذكاء الاصطناعي' : 'AI Change Playbook'}
-            </h1>
-            <p className="text-muted-foreground">
-              {isArabic ? 'عقل للموارد البشرية - مبادرات مولدة بالذكاء الاصطناعي' : 'AqlHR — AI-Generated Change Initiatives'}
-            </p>
-          </div>
+    <FeatureGate 
+      featureKey="cci_playbook" 
+      featureName="CCI AI Change Playbook"
+      demoScreenshot="/demo-playbook-screenshot.png"
+    >
+      <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+        {/* ... keep existing code */}
+      </div>
+    </FeatureGate>
+  );
           <div className="flex gap-2">
             <Button 
               onClick={handleGeneratePlaybook}

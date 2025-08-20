@@ -3296,6 +3296,39 @@ export type Database = {
         }
         Relationships: []
       }
+      features: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          feature_key: string
+          feature_name: string
+          id: string
+          is_active: boolean | null
+          plans: string[]
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          feature_key: string
+          feature_name: string
+          id?: string
+          is_active?: boolean | null
+          plans?: string[]
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          feature_key?: string
+          feature_name?: string
+          id?: string
+          is_active?: boolean | null
+          plans?: string[]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       gosi_rate_history: {
         Row: {
           created_at: string | null
@@ -6121,6 +6154,38 @@ export type Database = {
         }
         Relationships: []
       }
+      plan_features: {
+        Row: {
+          created_at: string | null
+          feature_key: string
+          id: string
+          is_enabled: boolean | null
+          plan_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          feature_key: string
+          id?: string
+          is_enabled?: boolean | null
+          plan_name: string
+        }
+        Update: {
+          created_at?: string | null
+          feature_key?: string
+          id?: string
+          is_enabled?: boolean | null
+          plan_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plan_features_feature_key_fkey"
+            columns: ["feature_key"]
+            isOneToOne: false
+            referencedRelation: "features"
+            referencedColumns: ["feature_key"]
+          },
+        ]
+      }
       positions: {
         Row: {
           company_id: string
@@ -8874,6 +8939,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_user_subscription_tier: {
+        Args: { p_user_id?: string }
+        Returns: string
+      }
       halfvec_avg: {
         Args: { "": number[] }
         Returns: unknown
@@ -8889,6 +8958,10 @@ export type Database = {
       halfvec_typmod_in: {
         Args: { "": unknown[] }
         Returns: number
+      }
+      has_feature: {
+        Args: { p_feature_key: string; p_tenant_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
