@@ -1229,11 +1229,16 @@ export type Database = {
       }
       cci_evidence: {
         Row: {
+          ai_confidence: number | null
           ai_tags: string[] | null
           created_at: string | null
           created_by: string | null
           description: string | null
+          extracted_text: string | null
+          file_metadata: Json | null
           id: string
+          processed_at: string | null
+          processing_status: string | null
           storage_path: string | null
           survey_id: string | null
           tags: string[] | null
@@ -1244,11 +1249,16 @@ export type Database = {
           uploaded_by: string | null
         }
         Insert: {
+          ai_confidence?: number | null
           ai_tags?: string[] | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          extracted_text?: string | null
+          file_metadata?: Json | null
           id?: string
+          processed_at?: string | null
+          processing_status?: string | null
           storage_path?: string | null
           survey_id?: string | null
           tags?: string[] | null
@@ -1259,11 +1269,16 @@ export type Database = {
           uploaded_by?: string | null
         }
         Update: {
+          ai_confidence?: number | null
           ai_tags?: string[] | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
+          extracted_text?: string | null
+          file_metadata?: Json | null
           id?: string
+          processed_at?: string | null
+          processing_status?: string | null
           storage_path?: string | null
           survey_id?: string | null
           tags?: string[] | null
@@ -8699,6 +8714,10 @@ export type Database = {
       cci_compute_scores_v1: {
         Args: { p_survey: string; p_tenant: string; p_wave: string }
         Returns: undefined
+      }
+      cci_evidence_quality_factor: {
+        Args: { p_survey_id: string; p_tenant_id: string }
+        Returns: number
       }
       cci_get_heatmap_v1: {
         Args: {
