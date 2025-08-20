@@ -34,8 +34,13 @@ const Overview: React.FC = () => {
   
   // Helper function to show "—" for groups with n < 7 (anonymity protection)
   const safeDisplay = (value: number | null | undefined, defaultValue: string = "—") => {
+    if (value === null || value === undefined) return defaultValue;
     if (!data || data.n < 7) return defaultValue;
-    return value !== null && value !== undefined ? Math.round(value) : defaultValue;
+    return Math.round(value);
+  };
+
+  const isAnonymityProtected = (value: number | null | undefined) => {
+    return value === null || value === undefined || (data && data.n < 7);
   };
 
   const scoreCard = (title: string, value: string | number, delta: number, color: string, icon: React.ReactNode, tooltip: string) => (
@@ -48,7 +53,11 @@ const Overview: React.FC = () => {
               <HelpCircle className="h-4 w-4 text-muted-foreground" />
             </TooltipTrigger>
             <TooltipContent>
-              <p className="max-w-xs">{tooltip}</p>
+              <p className="max-w-xs">
+                {typeof value === "string" && value === "—" 
+                  ? "Hidden to protect anonymity (n < 7)" 
+                  : tooltip}
+              </p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -64,7 +73,7 @@ const Overview: React.FC = () => {
                 {loading ? <Skeleton className="h-8 w-16" /> : value}
               </div>
               <div className="flex items-center text-xs text-muted-foreground">
-                {!loading && data && data.n >= 7 && (
+                {!loading && data && value !== "—" && (
                   <>
                     {delta > 0 ? (
                       <TrendingUp className="h-3 w-3 text-green-500 mr-1" />
@@ -74,7 +83,7 @@ const Overview: React.FC = () => {
                     {Math.abs(delta)}% MoM
                   </>
                 )}
-                {!loading && data && data.n < 7 && (
+                {!loading && data && value === "—" && (
                   <span className="text-xs">n&lt;7</span>
                 )}
               </div>
@@ -123,11 +132,17 @@ const Overview: React.FC = () => {
             <p className="text-muted-foreground">
               {isArabic ? 'عقل للموارد البشرية' : 'AqlHR — Intelligent HR Solutions'}
             </p>
+            {data?.last_computed_at && (
+              <p className="text-sm text-muted-foreground mt-1">
+                {isArabic ? 'آخر حساب: ' : 'Last computed: '}
+                {new Date(data.last_computed_at).toLocaleString()}
+              </p>
+            )}
           </div>
           <div className="flex gap-2">
             <Button onClick={computeScores} variant="outline" size="sm">
               <RefreshCw className="mr-2 h-4 w-4" />
-              {isArabic ? 'حساب النتائج' : 'Compute Scores'}
+              {isArabic ? 'احسب الآن' : 'Compute Now'}
             </Button>
             <Button asChild>
               <Link to="/cci/survey">
