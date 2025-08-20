@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Info, Globe, Users } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface HofstedeContextData {
   total_employees: number;
@@ -26,10 +27,10 @@ interface HofstedeContextData {
 
 interface HofstedeContextCardProps {
   data: HofstedeContextData | null;
-  isArabic?: boolean;
 }
 
-const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabic = false }) => {
+const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data }) => {
+  const { t, isRTL } = useTranslation();
   if (!data || data.total_employees === 0) {
     return null; // Hide card if no employee data
   }
@@ -37,49 +38,49 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
   const dimensions = [
     {
       key: 'power_distance',
-      label: isArabic ? 'مسافة السلطة' : 'Power Distance',
+      label: t('power_distance'),
       value: data.dimensions.power_distance,
-      description: isArabic 
+      description: isRTL 
         ? 'مدى قبول التفاوت في السلطة في المؤسسات والمنظمات'
         : 'Extent to which power inequality is accepted in institutions and organizations'
     },
     {
       key: 'individualism',
-      label: isArabic ? 'الفردية' : 'Individualism',
+      label: t('individualism'),
       value: data.dimensions.individualism,
-      description: isArabic
+      description: isRTL
         ? 'تفضيل العمل الفردي مقابل العمل الجماعي'
         : 'Preference for individual vs. collective action'
     },
     {
       key: 'masculinity',
-      label: isArabic ? 'الذكورة' : 'Masculinity',
+      label: t('masculinity'),
       value: data.dimensions.masculinity,
-      description: isArabic
+      description: isRTL
         ? 'تفضيل الإنجاز والنجاح مقابل العلاقات وجودة الحياة'
         : 'Preference for achievement and success vs. relationships and quality of life'
     },
     {
       key: 'uncertainty_avoidance',
-      label: isArabic ? 'تجنب عدم اليقين' : 'Uncertainty Avoidance',
+      label: t('uncertainty_avoidance'),
       value: data.dimensions.uncertainty_avoidance,
-      description: isArabic
+      description: isRTL
         ? 'مستوى الراحة مع الغموض والمواقف غير المؤكدة'
         : 'Comfort level with ambiguity and uncertain situations'
     },
     {
       key: 'long_term_orientation',
-      label: isArabic ? 'التوجه طويل المدى' : 'Long-term Orientation',
+      label: t('long_term_orientation'),
       value: data.dimensions.long_term_orientation,
-      description: isArabic
+      description: isRTL
         ? 'التركيز على الأهداف المستقبلية مقابل النتائج قريبة المدى'
         : 'Focus on future goals vs. short-term results'
     },
     {
       key: 'indulgence',
-      label: isArabic ? 'التساهل' : 'Indulgence',
+      label: t('indulgence'),
       value: data.dimensions.indulgence,
-      description: isArabic
+      description: isRTL
         ? 'الحرية في إشباع الرغبات الطبيعية والاستمتاع بالحياة'
         : 'Freedom to gratify natural desires and enjoy life'
     }
@@ -100,13 +101,10 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
             <Globe className="h-5 w-5 text-muted-foreground" />
             <div>
               <CardTitle className="text-lg">
-                {isArabic ? 'السياق الثقافي الوطني' : 'National Cultural Context'}
+                {t('national_cultural_context')}
               </CardTitle>
               <CardDescription className="text-sm text-muted-foreground">
-                {isArabic 
-                  ? 'مزيج التنوع الثقافي (وليس الثقافة التنظيمية)'
-                  : 'National mix context (not organizational culture)'
-                }
+                {t('national_mix_context')}
               </CardDescription>
             </div>
           </div>
@@ -117,10 +115,7 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
               </TooltipTrigger>
               <TooltipContent className="max-w-sm">
                 <p className="text-sm">
-                  {isArabic
-                    ? 'هذا السياق يعكس المزيج الثقافي الوطني لموظفيكم وفقاً لأبعاد هوفستيد. هذا سياق مرجعي فقط وليس تقييماً للثقافة التنظيمية.'
-                    : 'This context reflects the national cultural mix of your workforce according to Hofstede dimensions. This is reference context only, not an assessment of organizational culture.'
-                  }
+                  {t('hofstede_disclaimer')}
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -133,7 +128,7 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
           <Users className="h-4 w-4 text-muted-foreground" />
           <div className="flex flex-col">
             <span className="text-sm font-medium">
-              {isArabic ? 'إجمالي الموظفين' : 'Total Employees'}
+              {t('total_employees')}
             </span>
             <span className="text-lg font-bold">{data.total_employees}</span>
           </div>
@@ -145,7 +140,7 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
             ))}
             {data.nationality_mix.length > 5 && (
               <Badge variant="outline" className="text-xs">
-                +{data.nationality_mix.length - 5} {isArabic ? 'أخرى' : 'more'}
+                +{data.nationality_mix.length - 5} {t('more')}
               </Badge>
             )}
           </div>
@@ -154,7 +149,7 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
         {/* Hofstede Dimensions */}
         <div className="space-y-4">
           <h4 className="font-medium text-sm">
-            {isArabic ? 'أبعاد هوفستيد المرجحة' : 'Weighted Hofstede Dimensions'}
+            {t('weighted_hofstede_dimensions')}
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {dimensions.map((dimension) => (
@@ -192,10 +187,7 @@ const HofstedeContextCard: React.FC<HofstedeContextCardProps> = ({ data, isArabi
         {/* Disclaimer */}
         <div className="text-xs text-muted-foreground p-3 bg-amber-50 border border-amber-200 rounded-lg">
           <p>
-            {isArabic
-              ? '⚠️ هذا السياق المرجعي الوطني للتوجه فقط. أرقام هوفستيد تقدم سياقاً وطنياً فقط. النتائج توجيهية وليست قياسات نفسية إكلينيكية.'
-              : '⚠️ This national reference context is for guidance only. Hofstede figures provide national context only. Results are directional, not clinical psychometrics.'
-            }
+            {t('hofstede_disclaimer')}
           </p>
         </div>
       </CardContent>

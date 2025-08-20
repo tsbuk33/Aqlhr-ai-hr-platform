@@ -6,6 +6,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import HofstedeContextCard from '@/components/cci/HofstedeContextCard';
 import { useHofstedeContext } from '@/hooks/useHofstedeContext';
+import { useTranslation } from '@/hooks/useTranslation';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -18,83 +19,83 @@ import {
 } from 'lucide-react';
 
 const Analysis: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { t, isRTL } = useTranslation();
   
   // Mock tenant ID - in production, get from context or auth
   const tenantId = 'mock-tenant-id';
   const { data: hofstedeContext, loading: hofstedeLoading } = useHofstedeContext(tenantId);
 
   const cvfData = [
-    { dimension: isArabic ? 'العشيرة' : 'Clan', current: 35, desired: 30, color: 'blue' },
-    { dimension: isArabic ? 'الإبداع' : 'Adhocracy', current: 20, desired: 25, color: 'green' },
-    { dimension: isArabic ? 'السوق' : 'Market', current: 30, desired: 25, color: 'orange' },
-    { dimension: isArabic ? 'التسلسل الهرمي' : 'Hierarchy', current: 40, desired: 20, color: 'purple' }
+    { dimension: t('clan'), current: 35, desired: 30, color: 'blue' },
+    { dimension: t('adhocracy'), current: 20, desired: 25, color: 'green' },
+    { dimension: t('market'), current: 30, desired: 25, color: 'orange' },
+    { dimension: t('hierarchy'), current: 40, desired: 20, color: 'purple' }
   ];
 
   const culturalWebElements = [
-    { element: isArabic ? 'القصص' : 'Stories', score: 72, risk: 'low' },
-    { element: isArabic ? 'الرموز' : 'Symbols', score: 68, risk: 'medium' },
-    { element: isArabic ? 'هياكل السلطة' : 'Power Structures', score: 45, risk: 'high' },
-    { element: isArabic ? 'الهياكل التنظيمية' : 'Organisational Structures', score: 58, risk: 'medium' },
-    { element: isArabic ? 'أنظمة التحكم' : 'Control Systems', score: 62, risk: 'medium' },
-    { element: isArabic ? 'الطقوس والروتين' : 'Rituals & Routines', score: 71, risk: 'low' }
+    { element: t('stories'), score: 72, risk: 'low' },
+    { element: t('symbols'), score: 68, risk: 'medium' },
+    { element: t('power_structures'), score: 45, risk: 'high' },
+    { element: t('organisational_structures'), score: 58, risk: 'medium' },
+    { element: t('control_systems'), score: 62, risk: 'medium' },
+    { element: t('rituals_routines'), score: 71, risk: 'low' }
   ];
 
   const barrettValues = [
-    { level: isArabic ? 'البقاء' : 'Survival', current: 25, optimal: 15, status: 'high' },
-    { level: isArabic ? 'العلاقات' : 'Relationship', current: 30, optimal: 25, status: 'good' },
-    { level: isArabic ? 'الاحترام الذاتي' : 'Self-esteem', current: 20, optimal: 25, status: 'low' },
-    { level: isArabic ? 'التحول' : 'Transformation', current: 15, optimal: 20, status: 'low' },
-    { level: isArabic ? 'التماسك الداخلي' : 'Internal Cohesion', current: 8, optimal: 10, status: 'low' },
-    { level: isArabic ? 'إحداث فرق' : 'Making a Difference', current: 2, optimal: 5, status: 'critical' }
+    { level: t('survival'), current: 25, optimal: 15, status: 'high' },
+    { level: t('relationship'), current: 30, optimal: 25, status: 'good' },
+    { level: t('self_esteem'), current: 20, optimal: 25, status: 'low' },
+    { level: t('transformation'), current: 15, optimal: 20, status: 'low' },
+    { level: t('internal_cohesion'), current: 8, optimal: 10, status: 'low' },
+    { level: t('making_difference'), current: 2, optimal: 5, status: 'critical' }
   ];
 
   const hofstedeData = [
-    { dimension: isArabic ? 'مسافة السلطة' : 'Power Distance', score: 80, benchmark: 68 },
-    { dimension: isArabic ? 'الفردية' : 'Individualism', score: 25, benchmark: 38 },
-    { dimension: isArabic ? 'الذكورة' : 'Masculinity', score: 60, benchmark: 53 },
-    { dimension: isArabic ? 'تجنب عدم اليقين' : 'Uncertainty Avoidance', score: 85, benchmark: 68 },
-    { dimension: isArabic ? 'التوجه طويل المدى' : 'Long-term Orientation', score: 36, benchmark: 45 }
+    { dimension: t('power_distance'), score: 80, benchmark: 68 },
+    { dimension: t('individualism'), score: 25, benchmark: 38 },
+    { dimension: t('masculinity'), score: 60, benchmark: 53 },
+    { dimension: t('uncertainty_avoidance'), score: 85, benchmark: 68 },
+    { dimension: t('long_term_orientation'), score: 36, benchmark: 45 }
   ];
 
   return (
-    <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-background p-6 ${isRTL ? 'rtl' : 'ltr'}`}>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {isArabic ? 'التشخيصات الثقافية' : 'Cultural Diagnostics'}
+              {t('cultural_diagnostics')}
             </h1>
             <p className="text-muted-foreground">
-              {isArabic ? 'عقل للموارد البشرية - تحليل متعدد الأطر' : 'AqlHR — Multi-Framework Analysis'}
+              {t('multi_framework_analysis')}
             </p>
           </div>
           <div className="flex gap-2">
             <Button>
               <RefreshCw className="mr-2 h-4 w-4" />
-              {isArabic ? 'تحديث التحليل' : 'Refresh Analysis'}
+              {t('refresh_analysis')}
             </Button>
             <Button variant="outline">
               <Download className="mr-2 h-4 w-4" />
-              {isArabic ? 'تصدير التقرير' : 'Export Report'}
+              {t('export_report')}
             </Button>
           </div>
         </div>
 
         {/* Hofstede National Context */}
         {!hofstedeLoading && hofstedeContext && (
-          <HofstedeContextCard data={hofstedeContext} isArabic={isArabic} />
+          <HofstedeContextCard data={hofstedeContext} />
         )}
 
         {/* Analysis Frameworks Tabs */}
         <Tabs defaultValue="cvf" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="cvf">CVF</TabsTrigger>
-            <TabsTrigger value="cultural-web">{isArabic ? 'الشبكة الثقافية' : 'Cultural Web'}</TabsTrigger>
-            <TabsTrigger value="barrett">{isArabic ? 'باريت' : 'Barrett'}</TabsTrigger>
-            <TabsTrigger value="schein">{isArabic ? 'شاين' : 'Schein'}</TabsTrigger>
-            <TabsTrigger value="hofstede">{isArabic ? 'هوفستيد' : 'Hofstede'}</TabsTrigger>
+            <TabsTrigger value="cultural-web">{t('cultural_web')}</TabsTrigger>
+            <TabsTrigger value="barrett">{t('barrett')}</TabsTrigger>
+            <TabsTrigger value="schein">{t('schein')}</TabsTrigger>
+            <TabsTrigger value="hofstede">{t('hofstede')}</TabsTrigger>
           </TabsList>
 
           {/* Competing Values Framework */}
@@ -103,22 +104,22 @@ const Analysis: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5" />
-                  {isArabic ? 'إطار القيم المتنافسة (CVF)' : 'Competing Values Framework (CVF)'}
+                  {t('cvf_framework')}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'تحليل الثقافة الحالية مقابل المرغوبة عبر أربعة أبعاد' : 'Current vs desired culture analysis across four dimensions'}
+                  {t('current_vs_desired_analysis')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-4">
-                    <h4 className="font-medium">{isArabic ? 'التوزيع الحالي مقابل المرغوب' : 'Current vs Desired Distribution'}</h4>
+                    <h4 className="font-medium">{t('current_vs_desired_distribution')}</h4>
                     {cvfData.map((item, index) => (
                       <div key={index} className="space-y-2">
                         <div className="flex justify-between">
                           <span className="text-sm font-medium">{item.dimension}</span>
                           <span className="text-sm text-muted-foreground">
-                            {isArabic ? 'حالي' : 'Current'}: {item.current}% | {isArabic ? 'مرغوب' : 'Desired'}: {item.desired}%
+                            {t('current')}: {item.current}% | {t('desired')}: {item.desired}%
                           </span>
                         </div>
                         <div className="space-y-1">
@@ -130,7 +131,7 @@ const Analysis: React.FC = () => {
                   </div>
                   
                   <div className="space-y-4">
-                    <h4 className="font-medium">{isArabic ? 'تحليل الفجوات' : 'Gap Analysis'}</h4>
+                    <h4 className="font-medium">{t('gap_analysis')}</h4>
                     <div className="space-y-3">
                       {cvfData.map((item, index) => {
                         const gap = item.current - item.desired;
@@ -159,10 +160,10 @@ const Analysis: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Layers className="h-5 w-5" />
-                  {isArabic ? 'تحليل الشبكة الثقافية' : 'Cultural Web Analysis'}
+                  {t('cultural_web_analysis')}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'تقييم العناصر الستة للشبكة الثقافية ومستوى المخاطر' : 'Assessment of six cultural web elements and risk levels'}
+                  {t('six_elements_assessment')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -177,14 +178,14 @@ const Analysis: React.FC = () => {
                               element.risk === 'high' ? 'destructive' : 
                               element.risk === 'medium' ? 'secondary' : 'default'
                             }>
-                              {element.risk === 'high' ? (isArabic ? 'عالي' : 'High') :
-                               element.risk === 'medium' ? (isArabic ? 'متوسط' : 'Medium') :
-                               (isArabic ? 'منخفض' : 'Low')}
+                              {element.risk === 'high' ? t('high') :
+                               element.risk === 'medium' ? t('medium') :
+                               t('low')}
                             </Badge>
                           </div>
                           <div className="space-y-1">
                             <div className="flex justify-between text-sm">
-                              <span>{isArabic ? 'النضج' : 'Maturity'}</span>
+                              <span>{t('maturity_level')}</span>
                               <span>{element.score}%</span>
                             </div>
                             <Progress value={element.score} className="h-2" />
@@ -204,10 +205,10 @@ const Analysis: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Target className="h-5 w-5" />
-                  {isArabic ? 'نموذج باريت للقيم السبع' : 'Barrett Seven Levels of Values'}
+                  {t('barrett_seven_levels')}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'توزيع القيم الحالي مقابل التوزيع الأمثل' : 'Current vs optimal values distribution'}
+                  {t('current_vs_optimal')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -221,20 +222,20 @@ const Analysis: React.FC = () => {
                           level.status === 'low' ? 'secondary' :
                           level.status === 'high' ? 'secondary' : 'default'
                         }>
-                          {level.status === 'critical' ? (isArabic ? 'حرج' : 'Critical') :
-                           level.status === 'low' ? (isArabic ? 'منخفض' : 'Low') :
-                           level.status === 'high' ? (isArabic ? 'مرتفع' : 'High') :
-                           (isArabic ? 'جيد' : 'Good')}
+                          {level.status === 'critical' ? t('critical') :
+                           level.status === 'low' ? t('low') :
+                           level.status === 'high' ? t('high') :
+                           t('good')}
                         </Badge>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">{isArabic ? 'الحالي' : 'Current'}</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t('current')}</div>
                           <Progress value={level.current * 2} className="h-2" />
                           <div className="text-xs text-muted-foreground mt-1">{level.current}%</div>
                         </div>
                         <div>
-                          <div className="text-sm text-muted-foreground mb-1">{isArabic ? 'الأمثل' : 'Optimal'}</div>
+                          <div className="text-sm text-muted-foreground mb-1">{t('optimal')}</div>
                           <Progress value={level.optimal * 2} className="h-2 opacity-50" />
                           <div className="text-xs text-muted-foreground mt-1">{level.optimal}%</div>
                         </div>
@@ -252,10 +253,10 @@ const Analysis: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Brain className="h-5 w-5" />
-                  {isArabic ? 'نموذج شاين للثقافة التنظيمية' : "Schein's Organizational Culture Model"}
+                  {t('scheins_model')}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'تحليل المستويات الثلاثة للثقافة التنظيمية' : 'Analysis of three levels of organizational culture'}
+                  {t('three_levels_analysis')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -263,10 +264,10 @@ const Analysis: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <Card>
                       <CardContent className="p-4">
-                        <h5 className="font-medium mb-2">{isArabic ? 'الأدلة المرئية' : 'Artifacts'}</h5>
+                        <h5 className="font-medium mb-2">{t('artifacts')}</h5>
                         <div className="space-y-2">
                           <div className="text-sm text-muted-foreground">
-                            {isArabic ? 'مستوى النضج' : 'Maturity Level'}
+                            {t('maturity_level')}
                           </div>
                           <Progress value={78} className="h-2" />
                           <div className="text-xs">78%</div>
@@ -276,10 +277,10 @@ const Analysis: React.FC = () => {
                     
                     <Card>
                       <CardContent className="p-4">
-                        <h5 className="font-medium mb-2">{isArabic ? 'القيم المعلنة' : 'Espoused Values'}</h5>
+                        <h5 className="font-medium mb-2">{t('espoused_values')}</h5>
                         <div className="space-y-2">
                           <div className="text-sm text-muted-foreground">
-                            {isArabic ? 'مستوى النضج' : 'Maturity Level'}
+                            {t('maturity_level')}
                           </div>
                           <Progress value={65} className="h-2" />
                           <div className="text-xs">65%</div>
@@ -289,10 +290,10 @@ const Analysis: React.FC = () => {
                     
                     <Card>
                       <CardContent className="p-4">
-                        <h5 className="font-medium mb-2">{isArabic ? 'الافتراضات الأساسية' : 'Basic Assumptions'}</h5>
+                        <h5 className="font-medium mb-2">{t('basic_assumptions')}</h5>
                         <div className="space-y-2">
                           <div className="text-sm text-muted-foreground">
-                            {isArabic ? 'مستوى النضج' : 'Maturity Level'}
+                            {t('maturity_level')}
                           </div>
                           <Progress value={42} className="h-2" />
                           <div className="text-xs">42%</div>
@@ -311,10 +312,10 @@ const Analysis: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Globe className="h-5 w-5" />
-                  {isArabic ? 'أبعاد هوفستيد الثقافية' : "Hofstede's Cultural Dimensions"}
+                  {t('hofstede_cultural_dimensions')}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'مقارنة الثقافة التنظيمية مع المعايير الإقليمية' : 'Organizational culture vs regional benchmarks'}
+                  {t('org_vs_regional')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -325,10 +326,10 @@ const Analysis: React.FC = () => {
                         <h5 className="font-medium">{dimension.dimension}</h5>
                         <div className="flex items-center gap-2">
                           <span className="text-sm text-muted-foreground">
-                            {isArabic ? 'المنظمة' : 'Org'}: {dimension.score}
+                            {t('org')}: {dimension.score}
                           </span>
                           <span className="text-sm text-muted-foreground">
-                            {isArabic ? 'المعيار' : 'Benchmark'}: {dimension.benchmark}
+                            {t('benchmark')}: {dimension.benchmark}
                           </span>
                         </div>
                       </div>
@@ -336,7 +337,7 @@ const Analysis: React.FC = () => {
                         <Progress value={dimension.score} className="h-2" />
                         <Progress value={dimension.benchmark} className="h-1 opacity-50" />
                         <div className="text-xs text-muted-foreground">
-                          {isArabic ? 'الفرق' : 'Difference'}: {dimension.score - dimension.benchmark > 0 ? '+' : ''}{dimension.score - dimension.benchmark}
+                          {t('difference')}: {dimension.score - dimension.benchmark > 0 ? '+' : ''}{dimension.score - dimension.benchmark}
                         </div>
                       </div>
                     </div>
