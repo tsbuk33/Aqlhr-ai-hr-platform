@@ -154,6 +154,16 @@ export const STRINGS = {
   hofstede_cultural_dimensions: { en: "Hofstede's Cultural Dimensions", ar: 'أبعاد هوفستيد الثقافية' },
   org_vs_regional: { en: 'Organizational culture vs regional benchmarks', ar: 'مقارنة الثقافة التنظيمية مع المعايير الإقليمية' },
   
+  // Admin and logs
+  admin_logs: { en: 'Admin Logs', ar: 'سجلات الإدارة' },
+  error_loading_logs: { en: 'Error loading logs', ar: 'خطأ في تحميل السجلات' },
+  please_try_again: { en: 'Please try again', ar: 'يرجى المحاولة مرة أخرى' },
+  auto_refreshing: { en: 'Auto-refreshing', ar: 'تحديث تلقائي' },
+  recent_actions: { en: 'Recent Actions', ar: 'الإجراءات الأخيرة' },
+  no_recent_actions: { en: 'No recent actions found', ar: 'لم يتم العثور على إجراءات حديثة' },
+  view_metadata: { en: 'View metadata', ar: 'عرض البيانات الوصفية' },
+  rate_limit_exceeded: { en: 'Rate limit exceeded', ar: 'تم تجاوز الحد المسموح' },
+
   // Common words
   more: { en: 'more', ar: 'أخرى' },
   seconds: { en: 'seconds', ar: 'ثانية' },

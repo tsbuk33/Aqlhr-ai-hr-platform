@@ -273,6 +273,7 @@ export const ROUTES: RouteConfig[] = [
   // Admin routes
   { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },
   { path: '/admin/users', element: UsersPage, auth: true, adminOnly: true },
+  { path: '/admin/logs', element: lazy(() => import('@/pages/admin/Logs')), auth: true, adminOnly: true },
   { path: '/admin/demo-data', element: lazy(() => import('@/pages/admin/DemoData')), auth: true, adminOnly: true },
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/analytics', element: AnalyticsPage, auth: true },
