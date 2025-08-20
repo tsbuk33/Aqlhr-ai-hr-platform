@@ -527,6 +527,7 @@ export const ROUTES: RouteConfig[] = [
   // CCI routes - Corporate Culture Intelligence
   { path: '/cci/overview', element: CCIOverview, auth: false },
   { path: '/cci/survey', element: CCISurvey, auth: false },
+  { path: '/cci/respond', element: lazy(() => import('../pages/cci/Respond')), auth: false },
   { path: '/cci/evidence', element: CCIEvidence, auth: false },
   { path: '/cci/analysis', element: CCIAnalysis, auth: false },
   { path: '/cci/playbook', element: CCIPlaybook, auth: false },
