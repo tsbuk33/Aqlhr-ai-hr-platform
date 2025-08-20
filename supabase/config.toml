@@ -50,3 +50,6 @@ verify_jwt = false
 
 [functions.cci-evidence-ingest-v1]
 verify_jwt = false
+
+[functions.cci-exports]
+verify_jwt = false

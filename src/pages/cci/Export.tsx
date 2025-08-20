@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   FileText, 
   Presentation, 
@@ -14,11 +16,59 @@ import {
   Filter,
   Settings,
   Share,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 
 const Export: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
+  const [isExporting, setIsExporting] = useState(false);
+
+  // Mock data - in production, get from context or props
+  const tenantId = 'mock-tenant-id';
+  const surveyId = 'mock-survey-id';
+  const waveId = 'mock-wave-id';
+
+  const handleExport = async (exportType: string, fileName: string) => {
+    setIsExporting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('cci-exports', {
+        body: {
+          exportType,
+          tenantId,
+          surveyId,
+          waveId
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Create blob and download
+      const blob = new Blob([data], { 
+        type: exportType === 'executive-pdf' ? 'application/pdf' :
+              exportType === 'board-pptx' ? 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
+              'text/csv'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast.success(`${fileName} exported successfully`);
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export file');
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const exportTemplates = [
     {
@@ -123,13 +173,28 @@ const Export: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button>
-              <Download className="mr-2 h-4 w-4" />
-              {isArabic ? 'تصدير سريع' : 'Quick Export'}
+            <Button 
+              onClick={() => handleExport('executive-pdf', 'CCI-Executive-Summary.pdf')}
+              disabled={isExporting}
+            >
+              {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <FileText className="mr-2 h-4 w-4" />}
+              {isArabic ? 'PDF تنفيذي' : 'Executive PDF'}
             </Button>
-            <Button variant="outline">
-              <Settings className="mr-2 h-4 w-4" />
-              {isArabic ? 'إعدادات التصدير' : 'Export Settings'}
+            <Button 
+              variant="outline"
+              onClick={() => handleExport('board-pptx', 'CCI-Board-Presentation.pptx')}
+              disabled={isExporting}
+            >
+              {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Presentation className="mr-2 h-4 w-4" />}
+              {isArabic ? 'عرض مجلس الإدارة' : 'Board PPTX'}
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => handleExport('aggregated-csv', 'CCI-Aggregated-Scores.csv')}
+              disabled={isExporting}
+            >
+              {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+              {isArabic ? 'بيانات CSV' : 'CSV Data'}
             </Button>
           </div>
         </div>
