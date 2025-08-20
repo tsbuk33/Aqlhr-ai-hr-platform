@@ -53,3 +53,6 @@ verify_jwt = false
 
 [functions.cci-exports]
 verify_jwt = false
+
+[functions.cci-seed-demo-wave-v1]
+verify_jwt = false

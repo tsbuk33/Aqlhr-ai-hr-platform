@@ -13,8 +13,10 @@ const DemoData = () => {
   const { toast } = useToast();
   const [isSeeding, setIsSeeding] = useState(false);
   const [isQuickTesting, setIsQuickTesting] = useState(false);
+  const [isCCISeeding, setIsCCISeeding] = useState(false);
   const [seedResult, setSeedResult] = useState<any>(null);
   const [quickTestResult, setQuickTestResult] = useState<any>(null);
+  const [cciSeedResult, setCCISeedResult] = useState<any>(null);
 
   const handleSeedCCI = async () => {
     setIsSeeding(true);
@@ -94,6 +96,66 @@ const DemoData = () => {
     }
   };
 
+  const handleSeedCCIBaseline = async () => {
+    setIsCCISeeding(true);
+    try {
+      // Get current user's tenant/company ID
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // First ensure we have a survey and wave - use the quick test to create one
+      const { data: testData, error: testError } = await supabase.functions.invoke('cci-quick-test', {
+        body: { tenantId: user.id }
+      });
+
+      if (testError) {
+        throw testError;
+      }
+
+      // Now seed 300+ responses using the new function
+      const { data, error } = await supabase.functions.invoke('cci-seed-demo-wave-v1', {
+        body: { 
+          tenantId: user.id,
+          surveyId: testData.surveyId,
+          waveId: testData.waveId
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      setCCISeedResult({
+        ...data,
+        surveyId: testData.surveyId,
+        waveId: testData.waveId
+      });
+
+      toast({
+        title: isArabic ? 'تم بنجاح' : 'Success',
+        description: isArabic 
+          ? `تم إنشاء ${data.responses_created} استجابة CCI تجريبية`
+          : `Successfully created ${data.responses_created} demo CCI responses`,
+      });
+
+      // Open CCI overview
+      const url = `/cci/overview?survey=${testData.surveyId}&wave=${testData.waveId}`;
+      window.open(url, '_blank');
+
+    } catch (error: any) {
+      console.error('Error seeding CCI baseline:', error);
+      toast({
+        title: isArabic ? 'خطأ' : 'Error',
+        description: error.message || (isArabic ? 'فشل في إنشاء استجابات CCI' : 'Failed to seed CCI responses'),
+        variant: 'destructive',
+      });
+    } finally {
+      setIsCCISeeding(false);
+    }
+  };
+
   const seedOptions = [
     {
       title: isArabic ? 'أداة تشخيص الثقافة المؤسسية (CCI)' : 'CCI Instrument (EN/AR)',
@@ -128,6 +190,24 @@ const DemoData = () => {
         isArabic ? 'حساب جميع النتائج تلقائياً' : 'Computes all scores automatically', 
         isArabic ? 'فتح لوحة CCI في نافذة جديدة' : 'Opens CCI dashboard in new tab',
         isArabic ? '⚠️ للاختبار فقط - سيتم إزالته لاحقاً' : '⚠️ Test only - remove in production'
+      ]
+    },
+    {
+      title: isArabic ? 'إنشاء خط الأساس CCI (300 استجابة)' : 'Seed CCI Baseline (300)',
+      description: isArabic 
+        ? 'إنشاء 300+ استجابة واقعية باستخدام 1000 موظف تجريبي مع توزيعات KPI مستهدفة'
+        : 'Generate 300+ realistic responses using 1,000 demo employees with targeted KPI distributions',
+      icon: Users,
+      action: handleSeedCCIBaseline,
+      isLoading: isCCISeeding,
+      color: 'text-purple-600',
+      details: [
+        isArabic ? 'الأمان النفسي: 68-74%' : 'Psych Safety: 68-74%',
+        isArabic ? 'محاذاة القيم: 72-80%' : 'Values Alignment: 72-80%',
+        isArabic ? 'درجة التوازن: 72-78%' : 'Balance Score: 72-78%',
+        isArabic ? 'مؤشر المخاطر: 25-35%' : 'Risk Index: 25-35%',
+        isArabic ? 'CVF: اتجاه هرمي + السوق' : 'CVF: Hierarchy + Market tilt',
+        isArabic ? 'يستخدم التركيبة السكانية الحقيقية' : 'Uses real demographic distribution'
       ]
     }
   ];
@@ -236,7 +316,7 @@ const DemoData = () => {
       </div>
 
       {/* Results */}
-      {(seedResult || quickTestResult) && (
+      {(seedResult || quickTestResult || cciSeedResult) && (
         <Card className="border-green-200 bg-green-50/50">
           <CardHeader>
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
@@ -309,6 +389,47 @@ const DemoData = () => {
                       {isArabic 
                         ? '🎯 تم فتح لوحة CCI - تحقق من النافذة الجديدة'
                         : '🎯 CCI Dashboard opened - check the new tab'
+                      }
+                    </p>
+                  </div>
+                </>
+              )}
+              {cciSeedResult && (
+                <>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'الاستجابات المُنشأة' : 'Responses Created'}
+                      </span>
+                      <Badge variant="secondary">
+                        {cciSeedResult.responses_created}
+                      </Badge>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
+                      </span>
+                      <Badge variant="outline" className="font-mono text-xs">
+                        {cciSeedResult.surveyId?.slice(0, 8)}...
+                      </Badge>
+                    </div>
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm text-muted-foreground">
+                        {isArabic ? 'النتائج محسوبة' : 'Scores Computed'}
+                      </span>
+                      <Badge variant={cciSeedResult.scores_computed ? "default" : "destructive"}>
+                        {cciSeedResult.scores_computed ? '✓' : '✗'}
+                      </Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-green-700 mt-3">
+                    {cciSeedResult.message}
+                  </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+                    <p className="text-sm text-blue-800">
+                      {isArabic 
+                        ? '🎯 تم فتح لوحة CCI مع البيانات الجديدة - تحقق من النافذة الجديدة'
+                        : '🎯 CCI Dashboard opened with new data - check the new tab'
                       }
                     </p>
                   </div>
