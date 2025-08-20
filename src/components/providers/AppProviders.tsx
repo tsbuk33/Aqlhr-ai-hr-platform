@@ -6,6 +6,7 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { AuthProvider } from '@/hooks/useAuth.tsx';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -24,18 +25,20 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <SimpleLanguageProvider>
-          <TooltipProvider>
-            <BrowserRouter>
-              <SidebarProvider>
-                <Toaster />
-                {children}
-              </SidebarProvider>
-            </BrowserRouter>
-          </TooltipProvider>
-        </SimpleLanguageProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <SimpleLanguageProvider>
+            <TooltipProvider>
+              <BrowserRouter>
+                <SidebarProvider>
+                  <Toaster />
+                  {children}
+                </SidebarProvider>
+              </BrowserRouter>
+            </TooltipProvider>
+          </SimpleLanguageProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

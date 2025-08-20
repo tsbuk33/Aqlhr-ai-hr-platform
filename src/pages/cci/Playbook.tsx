@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FeatureGate } from '@/components/pricing/FeatureGate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-// ... keep existing imports
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -114,10 +113,12 @@ const Playbook: React.FC = () => {
       demoScreenshot="/demo-playbook-screenshot.png"
     >
       <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
-        {/* ... keep existing code */}
-      </div>
-    </FeatureGate>
-  );
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold">{isArabic ? 'كتيب التغيير الذكي' : 'AI Change Playbook'}</h1>
+            <p className="text-muted-foreground">{isArabic ? 'مبادرات التغيير المقترحة بالذكاء الاصطناعي' : 'AI-powered change initiatives and recommendations'}</p>
+          </div>
           <div className="flex gap-2">
             <Button 
               onClick={handleGeneratePlaybook}
@@ -138,7 +139,7 @@ const Playbook: React.FC = () => {
         </div>
 
         {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -201,7 +202,7 @@ const Playbook: React.FC = () => {
         </div>
 
         {/* Initiatives List */}
-        <div className="space-y-4">
+        <div className="space-y-4 mb-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">
               {isArabic ? 'المبادرات المقترحة' : 'Recommended Initiatives'}
@@ -245,102 +246,39 @@ const Playbook: React.FC = () => {
               </Card>
             ) : (
               filteredInitiatives.map((initiative) => (
-              <Card key={initiative.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-2">
-                      <CardTitle className="text-lg">{initiative.title}</CardTitle>
-                      <CardDescription>{initiative.description}</CardDescription>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={getPriorityColor(initiative.priority)}>
-                        {initiative.priority === 'High' ? (isArabic ? 'عالية' : 'High') :
-                         initiative.priority === 'Medium' ? (isArabic ? 'متوسطة' : 'Medium') :
-                         (isArabic ? 'منخفضة' : 'Low')}
-                      </Badge>
-                      <Badge variant={getStatusColor(initiative.status)} className="flex items-center gap-1">
-                        {getStatusIcon(initiative.status)}
-                        {getStatusText(initiative.status)}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'التأثير المتوقع' : 'Expected Impact'}
-                      </div>
-                      <Badge variant={initiative.impact === 'high' ? 'default' : 'secondary'}>
-                        {initiative.impact === 'high' ? (isArabic ? 'عالي' : 'High') :
-                         initiative.impact === 'medium' ? (isArabic ? 'متوسط' : 'Medium') :
-                         (isArabic ? 'منخفض' : 'Low')}
-                      </Badge>
-                    </div>
-                    
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'الجهد المطلوب' : 'Required Effort'}
-                      </div>
-                      <Badge variant="outline">
-                        {initiative.effort === 'high' ? (isArabic ? 'عالي' : 'High') :
-                         initiative.effort === 'medium' ? (isArabic ? 'متوسط' : 'Medium') :
-                         (isArabic ? 'منخفض' : 'Low')}
-                      </Badge>
-                    </div>
-                    
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'المدة' : 'Duration'}
-                      </div>
-                      <span className="text-sm font-medium">{initiative.duration} {isArabic ? 'شهر' : 'months'}</span>
-                    </div>
-                    
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'ثقة الذكاء الاصطناعي' : 'AI Confidence'}
+                <Card key={initiative.id} className="hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-2">
+                        <CardTitle className="text-lg">{initiative.title}</CardTitle>
+                        <CardDescription>{initiative.description}</CardDescription>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Progress value={initiative.aiConfidence} className="h-2 flex-1" />
-                        <span className="text-sm">{initiative.aiConfidence}%</span>
+                        <Badge variant={getPriorityColor(initiative.priority)}>
+                          {initiative.priority === 'High' ? (isArabic ? 'عالية' : 'High') :
+                           initiative.priority === 'Medium' ? (isArabic ? 'متوسطة' : 'Medium') :
+                           (isArabic ? 'منخفضة' : 'Low')}
+                        </Badge>
+                        <Badge variant={getStatusColor(initiative.status)} className="flex items-center gap-1">
+                          {getStatusIcon(initiative.status)}
+                          {getStatusText(initiative.status)}
+                        </Badge>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'الأطر المرجعية' : 'Source Frameworks'}
-                      </div>
-                      <div className="flex gap-1">
-                        {initiative.frameworks.map((framework, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
-                            {framework}
-                          </Badge>
-                        ))}
-                      </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex justify-end gap-2 mt-4">
+                      <Button variant="outline" size="sm">
+                        {isArabic ? 'عرض التفاصيل' : 'View Details'}
+                      </Button>
+                      <Button size="sm">
+                        {initiative.status === 'ready' ? (isArabic ? 'بدء التنفيذ' : 'Start Implementation') :
+                         initiative.status === 'planning' ? (isArabic ? 'بدء التخطيط' : 'Begin Planning') :
+                         (isArabic ? 'متابعة' : 'Continue')}
+                      </Button>
                     </div>
-                    
-                    <div>
-                      <div className="text-sm text-muted-foreground mb-1">
-                        {isArabic ? 'المسؤول' : 'Owner'}
-                      </div>
-                      <span className="text-sm font-medium">{initiative.owner}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end gap-2 mt-4">
-                    <Button variant="outline" size="sm">
-                      {isArabic ? 'عرض التفاصيل' : 'View Details'}
-                    </Button>
-                    <Button size="sm">
-                      {initiative.status === 'ready' ? (isArabic ? 'بدء التنفيذ' : 'Start Implementation') :
-                       initiative.status === 'planning' ? (isArabic ? 'بدء التخطيط' : 'Begin Planning') :
-                       (isArabic ? 'متابعة' : 'Continue')}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
               ))
             )}
           </div>
@@ -392,10 +330,10 @@ const Playbook: React.FC = () => {
                   <AlertTriangle className="h-5 w-5 text-orange-600 mt-0.5" />
                   <div>
                     <h4 className="font-medium text-orange-900">
-                      {isArabic ? 'تحذير: مقاومة محتملة للتغيير' : 'Warning: Potential Change Resistance'}
+                      {isArabic ? 'تحذير: مقاومة محتملة للتغيير' : 'Caution: Potential Change Resistance'}
                     </h4>
                     <p className="text-sm text-orange-700 mt-1">
-                      {isArabic ? 'المستوى العالي لتجنب عدم اليقين قد يؤدي إلى مقاومة التغيير. يُنصح بتطبيق استراتيجيات إدارة التغيير التدريجية.' : 'High uncertainty avoidance level may lead to change resistance. Recommend implementing gradual change management strategies.'}
+                      {isArabic ? 'مستويات الأمان النفسي المنخفضة قد تؤدي إلى مقاومة التغيير. يُنصح بالتركيز على بناء الثقة قبل تنفيذ تغييرات كبيرة.' : 'Lower psychological safety levels may lead to change resistance. Recommend focusing on trust-building before implementing major changes.'}
                     </p>
                   </div>
                 </div>
@@ -404,7 +342,7 @@ const Playbook: React.FC = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </FeatureGate>
   );
 };
 
