@@ -9642,6 +9642,18 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_tenant_plan: {
+        Args: { p_tenant_id?: string }
+        Returns: {
+          features: string[]
+          is_trial: boolean
+          plan_code: string
+          plan_name: string
+          price_mo: number
+          seats: number
+          trial_ends_at: string
+        }[]
+      }
       get_user_company_id: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -9667,7 +9679,7 @@ export type Database = {
         Returns: number
       }
       has_feature: {
-        Args: { p_feature_key: string; p_tenant_id: string }
+        Args: { p_feature_code: string; p_tenant_id: string }
         Returns: boolean
       }
       has_role: {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FeatureGate } from '@/components/pricing/FeatureGate';
+import { FeatureGate } from '@/components/plans/FeatureGate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -133,9 +133,9 @@ const Playbook: React.FC = () => {
 
   return (
     <FeatureGate 
-      featureKey="cci_playbook" 
-      featureName="CCI AI Change Playbook"
-      demoScreenshot="/demo-playbook-screenshot.png"
+      feature="cci_playbook" 
+      upsellTitle="CCI AI Change Playbook - Premium Feature"
+      upsellDescription="Unlock AI-powered culture change initiatives and recommendations"
     >
       <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
         {/* Header */}

@@ -35,19 +35,32 @@ import { LearningEngine } from '@/components/ai-ecosystem/LearningEngine';
 import { IntelligenceGatherer } from '@/components/ai-ecosystem/IntelligenceGatherer';
 import { AdvancedPredictiveAnalytics } from '@/components/executive/AdvancedPredictiveAnalytics';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { FeatureGate } from '@/components/plans/FeatureGate';
 import useAqlHRLocalization from '@/hooks/useAqlHRLocalization';
 
-const ExecutiveCenter: React.FC = () => {
+const ExecutiveCenter = () => {
+  return (
+    <FeatureGate 
+      feature="executive_intelligence" 
+      upsellTitle="Executive Intelligence Center - Enterprise Feature"
+      upsellDescription="Advanced AI-powered strategic insights and cross-module intelligence for executives"
+    >
+      <ExecutiveCenterContent />
+    </FeatureGate>
+  );
+};
+
+const ExecutiveCenterContent: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
   const { platformBranding, executiveBranding, dashboardMetrics, dir } = useAqlHRLocalization();
   const [activeModule, setActiveModule] = useState('intelligence');
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto p-6 space-y-6" dir={dir}>
-      {/* AqlHR AI Assistant - Executive Context */}
-      <AqlHRAIAssistant moduleContext="executive" position="fixed" />
-      {/* Executive Header */}
+      <div className="container mx-auto p-6 space-y-6" dir={dir}>
+        {/* AqlHR AI Assistant - Executive Context */}
+        <AqlHRAIAssistant moduleContext="executive" position="fixed" />
+        {/* Executive Header */}
       <div className="relative overflow-hidden rounded-lg bg-gradient-to-r from-primary/20 via-primary/10 to-accent/20 p-8">
         <div className="relative z-10">
           <div className="flex items-center justify-between">
@@ -440,7 +453,7 @@ const ExecutiveCenter: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
   );
 };
 

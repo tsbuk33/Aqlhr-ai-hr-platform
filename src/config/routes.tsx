@@ -131,6 +131,7 @@ const EmployeeReports = lazy(() => import('../pages/analytics/EmployeeReports'))
 
 // Compliance modules
 const ComplianceOverview = lazy(() => import('../pages/compliance'));
+const PlansPage = lazy(() => import('../pages/plans/PlansPage'));
 const ComplianceAutopilot = lazy(() => import('../pages/compliance/ComplianceAutopilot'));
 const RegulatoryCompliance = lazy(() => import('../pages/compliance/RegulatoryCompliance'));
 const CommitteeManagement = lazy(() => import('../pages/compliance/CommitteeManagement'));
@@ -329,6 +330,9 @@ export const ROUTES: RouteConfig[] = [
   { path: '/analytics', element: Analytics, auth: true },
   { path: '/performance', element: PerformanceAnalytics, auth: true },
   
+  // Plans & Billing route
+  { path: '/plans', element: PlansPage, auth: true },
+
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
   { path: '/compliance/autopilot', element: ComplianceAutopilot, auth: true },
@@ -521,22 +525,22 @@ export const ROUTES: RouteConfig[] = [
   // ESG-HR Module - auth required
   { path: '/esg-hr', element: EsgHrPage, auth: true },
   
-  // Executive Intelligence Center - admin only
-  { path: '/executive-center', element: ExecutiveCenter, auth: true, adminOnly: true },
-  { path: '/executive/mobile', element: ExecutiveMobileApp, auth: true, adminOnly: true },
-  { path: '/executive/strategic-presentations', element: StrategicPresentationCenter, auth: true, adminOnly: true },
+  // Executive Intelligence Center - Enterprise only (feature gated)
+  { path: '/executive-center', element: ExecutiveCenter, auth: true },
+  { path: '/executive/mobile', element: ExecutiveMobileApp, auth: true },
+  { path: '/executive/strategic-presentations', element: StrategicPresentationCenter, auth: true },
   { path: '/founder/super-admin', element: SuperAdminDashboard, auth: true, adminOnly: true },
   
   // System Engineering - admin only
   { path: '/system-engineer', element: SystemEngineer, auth: true, adminOnly: true },
   
-  // CCI routes - Corporate Culture Intelligence
+  // CCI routes - Corporate Culture Intelligence (with feature gating)
   { path: '/cci/overview', element: CCIOverview, auth: false },
   { path: '/cci/survey', element: CCISurvey, auth: false },
   { path: '/cci/respond', element: lazy(() => import('../pages/cci/Respond')), auth: false },
   { path: '/cci/evidence', element: CCIEvidence, auth: false },
   { path: '/cci/analysis', element: CCIAnalysis, auth: false },
-  { path: '/cci/playbook', element: CCIPlaybook, auth: false },
+  { path: '/cci/playbook', element: CCIPlaybook, auth: false }, // Feature gated within component
   { path: '/cci/tracking', element: CCITracking, auth: false },
-  { path: '/cci/export', element: CCIExport, auth: false },
+  { path: '/cci/export', element: CCIExport, auth: false }, // Feature gated within component
 ];

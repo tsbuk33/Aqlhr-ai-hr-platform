@@ -6,10 +6,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertTriangle, Calendar, Download, FileText, Users, TrendingUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { FeatureGate, LockedButton } from '@/components/plans/FeatureGate';
 import { useComplianceAutopilot } from '@/hooks/useComplianceAutopilot';
 import { generateRenewalLetterPDF } from '@/utils/letterGenerator';
 
 export default function ComplianceAutopilot() {
+  return (
+    <FeatureGate 
+      feature="compliance_autopilot" 
+      upsellTitle="Compliance Autopilot - Premium Feature"
+      upsellDescription="Automated Nitaqat & Iqama monitoring with proactive task creation"
+    >
+      <ComplianceAutopilotContent />
+    </FeatureGate>
+  );
+}
+
+function ComplianceAutopilotContent() {
   const { toast } = useToast();
   const { 
     complianceData, 
@@ -81,10 +94,14 @@ export default function ComplianceAutopilot() {
             Automated Nitaqat & Iqama monitoring with proactive task creation
           </p>
         </div>
-        <Button onClick={handleRunAutopilot} className="gap-2">
+        <LockedButton
+          feature="compliance_autopilot"
+          onClick={handleRunAutopilot} 
+          className="gap-2"
+        >
           <TrendingUp className="h-4 w-4" />
           Run Scan Now
-        </Button>
+        </LockedButton>
       </div>
 
       {/* Status Cards */}

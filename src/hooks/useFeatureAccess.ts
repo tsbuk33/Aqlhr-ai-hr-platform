@@ -29,7 +29,7 @@ export const useFeatureAccess = (featureKey: string): FeatureAccess => {
           .single(),
         supabase.rpc('has_feature', {
           p_tenant_id: companyId,
-          p_feature_key: featureKey
+          p_feature_code: featureKey
         }),
         supabase.rpc('get_user_subscription_tier')
       ]);
