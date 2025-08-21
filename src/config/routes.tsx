@@ -278,6 +278,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/people/employees', element: lazy(() => import('../pages/people/EmployeeList')), auth: true },
   { path: '/people/employees/:id', element: lazy(() => import('../pages/people/EmployeeProfile')), auth: true },
+  { path: '/tasks', element: lazy(() => import('../pages/TaskCenter')), auth: true },
   { path: '/analytics', element: AnalyticsPage, auth: true },
   { path: '/attendance', element: TimeAttendance, auth: true },
   { path: '/leave', element: LeaveManagement, auth: true },

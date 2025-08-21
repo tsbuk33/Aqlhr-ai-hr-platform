@@ -20,6 +20,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { useCCIPlaybook } from '@/hooks/useCCIPlaybook';
+import { useTaskIntegration } from '@/hooks/useTaskIntegration';
 
 const Playbook: React.FC = () => {
   const isArabic = false; // TODO: Implement i18n
@@ -39,6 +40,8 @@ const Playbook: React.FC = () => {
     updatePlaybookStatus 
   } = useCCIPlaybook(tenantId, surveyId, waveId);
 
+  const { createCCITask } = useTaskIntegration();
+
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all');
 
   const handleGeneratePlaybook = async () => {
@@ -46,8 +49,30 @@ const Playbook: React.FC = () => {
   };
 
   const handleStartInitiative = async (initiativeId: string) => {
-    // Update initiative status - this would be a separate function
-    console.log('Starting initiative:', initiativeId);
+    // Find the initiative in the current playbook
+    const initiative = currentPlaybook?.initiatives?.find(i => i.id === initiativeId);
+    
+    if (initiative) {
+      try {
+        // Create a task for this initiative
+        const taskId = await createCCITask({
+          title: initiative.title,
+          description: initiative.description,
+          priority: initiative.priority as 'low' | 'medium' | 'high' | 'urgent',
+          dueDate: undefined, // Will be set based on milestone timing
+          ownerRole: 'hr_manager', // Default owner role
+          category: 'culture_improvement'
+        });
+        
+        console.log('Created task for initiative:', initiativeId, 'Task ID:', taskId);
+        
+        // Update initiative status (if you have this function)
+        // await updateInitiativeStatus(initiativeId, 'in_progress');
+        
+      } catch (error) {
+        console.error('Failed to create task for initiative:', error);
+      }
+    }
   };
 
   // Filter initiatives based on selected filter
@@ -271,7 +296,10 @@ const Playbook: React.FC = () => {
                       <Button variant="outline" size="sm">
                         {isArabic ? 'عرض التفاصيل' : 'View Details'}
                       </Button>
-                      <Button size="sm">
+                      <Button 
+                        size="sm"
+                        onClick={() => handleStartInitiative(initiative.id)}
+                      >
                         {initiative.status === 'ready' ? (isArabic ? 'بدء التنفيذ' : 'Start Implementation') :
                          initiative.status === 'planning' ? (isArabic ? 'بدء التخطيط' : 'Begin Planning') :
                          (isArabic ? 'متابعة' : 'Continue')}

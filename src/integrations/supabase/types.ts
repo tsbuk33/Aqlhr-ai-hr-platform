@@ -9682,6 +9682,70 @@ export type Database = {
         Args: { p_action?: string; p_company_id: string; p_tool_name: string }
         Returns: undefined
       }
+      task_assign_v1: {
+        Args: {
+          p_owner_role?: string
+          p_owner_user_id?: string
+          p_task_id: string
+        }
+        Returns: boolean
+      }
+      task_complete_v1: {
+        Args: { p_completion_notes?: string; p_task_id: string }
+        Returns: boolean
+      }
+      task_create_v1: {
+        Args: {
+          p_description?: string
+          p_due_at?: string
+          p_metadata?: Json
+          p_module: string
+          p_owner_role?: string
+          p_owner_user_id?: string
+          p_priority?: string
+          p_tenant_id: string
+          p_title: string
+        }
+        Returns: string
+      }
+      task_list_v1: {
+        Args: {
+          p_limit?: number
+          p_module?: string
+          p_offset?: number
+          p_owner_user_id?: string
+          p_status?: string
+          p_tenant_id: string
+        }
+        Returns: {
+          closed_at: string
+          created_at: string
+          created_by: string
+          description: string
+          due_at: string
+          id: string
+          is_overdue: boolean
+          metadata: Json
+          module: string
+          owner_name: string
+          owner_role: string
+          owner_user_id: string
+          priority: string
+          status: string
+          title: string
+          updated_at: string
+        }[]
+      }
+      task_notify_v1: {
+        Args: {
+          p_channel?: string
+          p_message?: string
+          p_task_id: string
+          p_to_email?: string
+          p_to_user_id?: string
+        }
+        Returns: string
+      }
       update_auth_security_compliance: {
         Args: Record<PropertyKey, never>
         Returns: undefined
