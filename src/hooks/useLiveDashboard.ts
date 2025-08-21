@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { resolveTenantId } from '@/lib/useTenant';
+import { useDashboardTrends } from './useDashboardTrends';
 
 interface LiveDashboardData {
   snap_date: string;
@@ -17,6 +18,15 @@ interface LiveDashboardData {
   workforce_forecast_accuracy: number;
 }
 
+interface MetricWithChange {
+  value: number;
+  change?: {
+    value: number;
+    isPositive: boolean;
+    formatted: string;
+  } | null;
+}
+
 export function useLiveDashboard() {
   const [data, setData] = useState<LiveDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,6 +35,9 @@ export function useLiveDashboard() {
   const [mode, setMode] = useState<'auth' | 'demo' | 'impersonated' | null>(null);
   const [tenantId, setTenantId] = useState<string | null>(null);
   const [systemsOperational, setSystemsOperational] = useState<{ connected: number; total: number } | null>(null);
+  
+  // Get trends data for MoM calculations
+  const { series } = useDashboardTrends(90); // Get 90 days for MoM comparison
 
   const fetchDashboardData = async () => {
     setLoading(true);
@@ -114,6 +127,33 @@ export function useLiveDashboard() {
     fetchDashboardData();
   }, []);
 
+  const getMetricWithMoMChange = (metric: keyof LiveDashboardData): MetricWithChange => {
+    const currentValue = data?.[metric] as number || 0;
+    
+    // Get 30-day old value from series
+    const thirtyDaysAgo = series.find(s => {
+      const date = new Date(s.snap_date);
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() - 30);
+      return Math.abs(date.getTime() - targetDate.getTime()) < 24 * 60 * 60 * 1000; // Within 1 day
+    });
+    
+    let change = null;
+    if (thirtyDaysAgo && typeof thirtyDaysAgo[metric as keyof typeof thirtyDaysAgo] === 'number') {
+      const oldValue = thirtyDaysAgo[metric as keyof typeof thirtyDaysAgo] as number;
+      if (oldValue > 0) {
+        const changeValue = ((currentValue - oldValue) / oldValue) * 100;
+        change = {
+          value: changeValue,
+          isPositive: changeValue >= 0,
+          formatted: `${changeValue >= 0 ? '+' : ''}${changeValue.toFixed(1)}%`
+        };
+      }
+    }
+    
+    return { value: currentValue, change };
+  };
+
   return {
     data,
     loading,
@@ -125,6 +165,7 @@ export function useLiveDashboard() {
     tenantId,
     mode,
     refetch: fetchDashboardData,
-    computeKPIs
+    computeKPIs,
+    getMetricWithMoMChange
   };
 }

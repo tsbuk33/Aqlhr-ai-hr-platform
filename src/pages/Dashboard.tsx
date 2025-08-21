@@ -1,17 +1,24 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLiveDashboard } from "@/hooks/useLiveDashboard";
-import { DashboardTrendsChart } from "@/components/dashboard/DashboardTrendsChart";
+import { useDashboardTrends } from "@/hooks/useDashboardTrends";
+import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
 import { DashboardAlertsPanel } from "@/components/dashboard/DashboardAlertsPanel";
+import { DashboardSparkline } from "@/components/dashboard/DashboardSparkline";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, Users, Shield, FileText, Clock } from "lucide-react";
+import { useAPITranslations } from "@/hooks/useAPITranslations";
 
 const Dashboard = () => {
   const { 
     data, 
     loading, 
     systemsOperational,
-    mode 
+    mode,
+    getMetricWithMoMChange
   } = useLiveDashboard();
+  
+  const { getSparklineData } = useDashboardTrends(365);
+  const { t } = useAPITranslations();
 
   const getChangeIcon = (change: number | null) => {
     if (!change) return null;
@@ -56,9 +63,9 @@ const Dashboard = () => {
         </div>
         <div className="flex items-center gap-2">
           <Badge variant={mode === 'demo' ? 'secondary' : 'default'}>
-            {mode === 'demo' ? 'Demo Mode' : 'Live Data'}
+            {mode === 'demo' ? t('dashboard.demo_mode') : 'Live Data'}
           </Badge>
-          {systemsOperational.connected > 0 && (
+          {systemsOperational && systemsOperational.connected > 0 && (
             <Badge variant="outline" className="text-green-600">
               {systemsOperational.connected}/{systemsOperational.total} Systems Online
             </Badge>
@@ -73,10 +80,25 @@ const Dashboard = () => {
             <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data.total_employees}</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Active workforce count
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-2xl font-bold">{data?.total_employees || 0}</div>
+              {(() => {
+                const metric = getMetricWithMoMChange('total_employees');
+                return metric.change && (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
+                    {getChangeIcon(metric.change.value)}
+                    {metric.change.formatted}
+                  </div>
+                );
+              })()}
+            </div>
+            <DashboardSparkline 
+              data={getSparklineData('total_employees')} 
+              color="hsl(var(--primary))"
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('dashboard.sparklines.12_month_trend')}
             </p>
           </CardContent>
         </Card>
@@ -86,10 +108,25 @@ const Dashboard = () => {
             <CardTitle className="text-sm font-medium">Saudization Rate</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data.saudization_rate?.toFixed(1)}%</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Nitaqat compliance metric
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-2xl font-bold">{data?.saudization_rate?.toFixed(1) || 0}%</div>
+              {(() => {
+                const metric = getMetricWithMoMChange('saudization_rate');
+                return metric.change && (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
+                    {getChangeIcon(metric.change.value)}
+                    {metric.change.formatted}
+                  </div>
+                );
+              })()}
+            </div>
+            <DashboardSparkline 
+              data={getSparklineData('saudization_rate')} 
+              color="hsl(var(--destructive))"
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('dashboard.sparklines.12_month_trend')}
             </p>
           </CardContent>
         </Card>
@@ -99,10 +136,25 @@ const Dashboard = () => {
             <CardTitle className="text-sm font-medium">HSE Safety Score</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data.hse_safety_score?.toFixed(1)}</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Safety performance index
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-2xl font-bold">{data?.hse_safety_score?.toFixed(1) || 0}</div>
+              {(() => {
+                const metric = getMetricWithMoMChange('hse_safety_score');
+                return metric.change && (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
+                    {getChangeIcon(metric.change.value)}
+                    {metric.change.formatted}
+                  </div>
+                );
+              })()}
+            </div>
+            <DashboardSparkline 
+              data={getSparklineData('hse_safety_score')} 
+              color="hsl(var(--secondary))"
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('dashboard.sparklines.12_month_trend')}
             </p>
           </CardContent>
         </Card>
@@ -112,10 +164,25 @@ const Dashboard = () => {
             <CardTitle className="text-sm font-medium">Employee Experience</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data.employee_experience_10?.toFixed(1)}/10</div>
-            <p className="text-xs text-muted-foreground flex items-center gap-1">
-              Engagement & satisfaction
+          <CardContent className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="text-2xl font-bold">{data?.employee_experience_10?.toFixed(1) || 0}/10</div>
+              {(() => {
+                const metric = getMetricWithMoMChange('employee_experience_10');
+                return metric.change && (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
+                    {getChangeIcon(metric.change.value)}
+                    {metric.change.formatted}
+                  </div>
+                );
+              })()}
+            </div>
+            <DashboardSparkline 
+              data={getSparklineData('employee_experience_10')} 
+              color="hsl(var(--accent))"
+            />
+            <p className="text-xs text-muted-foreground">
+              {t('dashboard.sparklines.12_month_trend')}
             </p>
           </CardContent>
         </Card>
@@ -123,8 +190,8 @@ const Dashboard = () => {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Trends Chart */}
-        <DashboardTrendsChart />
+        {/* Operational Trends Chart */}
+        <DashboardOperationalTrends />
         
         {/* Alerts Panel */}
         <DashboardAlertsPanel />
@@ -140,7 +207,7 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.docs_processed}</div>
+            <div className="text-2xl font-bold">{data?.docs_processed || 0}</div>
             <p className="text-xs text-muted-foreground">Last 30 days</p>
           </CardContent>
         </Card>
@@ -153,7 +220,7 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.training_hours?.toFixed(0)}</div>
+            <div className="text-2xl font-bold">{data?.training_hours?.toFixed(0) || 0}</div>
             <p className="text-xs text-muted-foreground">Completed this quarter</p>
           </CardContent>
         </Card>
@@ -166,7 +233,7 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.compliance_score?.toFixed(1)}%</div>
+            <div className="text-2xl font-bold">{data?.compliance_score?.toFixed(1) || 0}%</div>
             <p className="text-xs text-muted-foreground">Overall compliance rating</p>
           </CardContent>
         </Card>

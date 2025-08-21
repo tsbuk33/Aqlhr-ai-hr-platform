@@ -76,7 +76,7 @@ export function DashboardTrendsChart() {
         <CardContent>
           <div className="text-center py-8">
             <p className="text-muted-foreground mb-4">Failed to load trend data</p>
-            <Button onClick={refetch} variant="outline">
+            <Button onClick={() => refetch()} variant="outline">
               <RefreshCw className="h-4 w-4 mr-2" />
               Retry
             </Button>
@@ -106,7 +106,7 @@ export function DashboardTrendsChart() {
                 Generate Sample Data
               </Button>
             )}
-            <Button onClick={refetch} variant="ghost" size="sm">
+            <Button onClick={() => refetch()} variant="ghost" size="sm">
               <RefreshCw className="h-4 w-4" />
             </Button>
           </div>

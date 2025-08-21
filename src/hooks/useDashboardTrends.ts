@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { resolveTenantId } from '@/lib/useTenant';
 
@@ -36,54 +36,28 @@ interface ActionableAlert extends DashboardAlert {
   taskDescription?: string;
 }
 
-export function useDashboardTrends() {
-  const [data, setData] = useState<TrendsData>({
-    series: [],
-    alerts: [],
-    loading: true,
-    error: null
-  });
-
+export function useDashboardTrends(days = 365) {
   const fetchTrendsData = async () => {
-    try {
-      setData(prev => ({ ...prev, loading: true, error: null }));
-      
-      const { tenantId } = await resolveTenantId(supabase);
-      if (!tenantId) throw new Error('No tenant available');
+    const { tenantId } = await resolveTenantId(supabase);
+    if (!tenantId) throw new Error('No tenant available');
 
-      // Fetch time series data (last 365 days for full year view)
-      const { data: seriesData, error: seriesError } = await supabase
-        .rpc('dashboard_get_series_v1', { 
-          p_tenant: tenantId,
-          days: 365 
-        });
-
-      if (seriesError) throw seriesError;
-
-      // Fetch alerts
-      const { data: alertsData, error: alertsError } = await supabase
-        .rpc('dashboard_rules_v1', { p_tenant: tenantId });
-
-      if (alertsError) throw alertsError;
-
-      setData({
-        series: seriesData || [],
-        alerts: (alertsData || []).map((alert: any) => ({
-          ...alert,
-          severity: alert.severity as 'High' | 'Medium' | 'Low'
-        })),
-        loading: false,
-        error: null
+    // Fetch time series data
+    const { data: seriesData, error: seriesError } = await supabase
+      .rpc('dashboard_get_series_v1', { 
+        p_tenant: tenantId,
+        days 
       });
 
-    } catch (err: any) {
-      setData(prev => ({
-        ...prev,
-        loading: false,
-        error: err.message || 'Failed to load trends data'
-      }));
-    }
+    if (seriesError) throw seriesError;
+    return seriesData || [];
   };
+
+  const { data: series = [], isLoading: loading, error, refetch } = useQuery({
+    queryKey: ['dashboard-trends', days],
+    queryFn: fetchTrendsData,
+    staleTime: 60_000, // 1 minute
+    gcTime: 5 * 60_000, // 5 minutes
+  });
 
   const createTaskFromAlert = async (alert: DashboardAlert, assignedTo?: string) => {
     try {
@@ -95,7 +69,7 @@ export function useDashboardTrends() {
 
       const { data: taskId, error } = await supabase.rpc('task_create_v1', {
         p_tenant_id: tenantId,
-        p_module: 'dashboard_alerts',
+        p_module: 'dashboard',
         p_title: taskTitle,
         p_description: taskDescription,
         p_priority: alert.severity === 'High' ? 'urgent' : alert.severity === 'Medium' ? 'high' : 'medium',
@@ -125,7 +99,7 @@ export function useDashboardTrends() {
       });
 
       // Refresh data after backfill
-      await fetchTrendsData();
+      await refetch();
       return { success: true };
     } catch (err: any) {
       throw new Error(err.message || 'Failed to backfill historical data');
@@ -133,10 +107,10 @@ export function useDashboardTrends() {
   };
 
   const getMoMChange = (metric: keyof TimeSeriesData) => {
-    if (data.series.length < 2) return null;
+    if (series.length < 2) return null;
     
-    const latest = data.series[data.series.length - 1];
-    const previous = data.series[data.series.length - 2];
+    const latest = series[series.length - 1];
+    const previous = series[series.length - 2];
     
     if (!latest || !previous || typeof latest[metric] !== 'number' || typeof previous[metric] !== 'number') {
       return null;
@@ -151,19 +125,17 @@ export function useDashboardTrends() {
   };
 
   const getSparklineData = (metric: keyof TimeSeriesData) => {
-    return data.series.map(item => ({
+    return series.map(item => ({
       date: item.snap_date,
       value: Number(item[metric] || 0)
     }));
   };
 
-  useEffect(() => {
-    fetchTrendsData();
-  }, []);
-
   return {
-    ...data,
-    refetch: fetchTrendsData,
+    series,
+    loading,
+    error: error?.message || null,
+    refetch,
     backfillHistoricalData,
     getMoMChange,
     getSparklineData,

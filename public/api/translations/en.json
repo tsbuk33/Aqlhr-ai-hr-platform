@@ -104,6 +104,33 @@
     "intelligence_matrix": "Intelligence Matrix",
     "autonomous_actions": "Autonomous Actions"
   },
+  "dashboard": {
+    "alerts": {
+      "title": "Issues & Alerts",
+      "no_alerts": "All Systems Normal",
+      "no_alerts_message": "No critical issues detected across key performance indicators",
+      "create_task": "Create Task",
+      "task_created": "Task created successfully",
+      "task_creation_failed": "Failed to create task",
+      "severity": {
+        "High": "High",
+        "Medium": "Medium", 
+        "Low": "Low"
+      }
+    },
+    "trends": {
+      "title": "Operational Trends",
+      "subtitle": "12-month performance overview",
+      "saudization_rate": "Saudization Rate",
+      "hse_safety": "HSE Safety",
+      "compliance": "Compliance",
+      "employee_experience": "Employee Experience"
+    },
+    "sparklines": {
+      "12_month_trend": "12-month trend"
+    },
+    "demo_mode": "Demo Mode"
+  },
   "employees": {
     "master_data": "Employee Master Data",
     "complete_profile_mgmt": "Complete profile management",

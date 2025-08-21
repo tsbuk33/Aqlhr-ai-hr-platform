@@ -104,6 +104,33 @@
     "intelligence_matrix": "مصفوفة الذكاء",
     "autonomous_actions": "الإجراءات المستقلة"
   },
+  "dashboard": {
+    "alerts": {
+      "title": "المشاكل والتنبيهات",
+      "no_alerts": "جميع الأنظمة تعمل بشكل طبيعي",
+      "no_alerts_message": "لم يتم اكتشاف أي مشاكل حرجة في مؤشرات الأداء الرئيسية",
+      "create_task": "إنشاء مهمة",
+      "task_created": "تم إنشاء المهمة بنجاح",
+      "task_creation_failed": "فشل في إنشاء المهمة",
+      "severity": {
+        "High": "عالي",
+        "Medium": "متوسط",
+        "Low": "منخفض"
+      }
+    },
+    "trends": {
+      "title": "اتجاهات العمليات",
+      "subtitle": "نظرة عامة على الأداء لمدة 12 شهرًا",
+      "saudization_rate": "معدل السعودة",
+      "hse_safety": "السلامة المهنية",
+      "compliance": "الامتثال",
+      "employee_experience": "تجربة الموظف"
+    },
+    "sparklines": {
+      "12_month_trend": "اتجاه 12 شهر"
+    },
+    "demo_mode": "وضع التجريبي"
+  },
   "employees": {
     "master_data": "البيانات الأساسية للموظفين",
     "complete_profile_mgmt": "إدارة الملفات الشخصية الكاملة",

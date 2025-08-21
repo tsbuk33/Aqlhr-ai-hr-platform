@@ -5,7 +5,7 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useLiveDashboard } from '@/hooks/useLiveDashboard';
-import { useDashboardTrends } from '@/hooks/useDashboardTrends';
+import { useDashboardAlerts } from '@/hooks/useDashboardAlerts';
 import { Sparkline } from '@/components/charts/Sparkline';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
 import { IssuesCard } from '@/components/dashboard/IssuesCard';
@@ -32,12 +32,11 @@ export default function DashboardPage() {
   
   const {
     series: timeSeriesData,
-    alerts,
     loading: trendsLoading,
     getMoMChange,
     getSparklineData,
     backfillHistoricalData
-  } = useDashboardTrends();
+  const { alerts } = useDashboardAlerts();
 
   const getSaudizationBadge = (rate: number) => {
     if (rate >= 60) return { variant: 'secondary' as const, text: isArabic ? 'أخضر' : 'Green' };

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangle, CheckCircle, Info, Plus } from "lucide-react";
-import { useDashboardTrends } from "@/hooks/useDashboardTrends";
-import { useToast } from "@/hooks/use-toast";
+import { AlertTriangle, AlertCircle, Info, Plus } from 'lucide-react';
+import { useDashboardAlerts } from '@/hooks/useDashboardAlerts';
+import { useToast } from '@/hooks/use-toast';
+import { useAPITranslations } from '@/hooks/useAPITranslations';
 
 interface DashboardAlert {
   id: string;
@@ -19,9 +19,9 @@ interface DashboardAlert {
 }
 
 export function DashboardAlertsPanel() {
-  const { alerts, loading, createTaskFromAlert } = useDashboardTrends();
+  const { alerts, loading, createTaskFromAlert } = useDashboardAlerts();
   const { toast } = useToast();
-  const [creatingTask, setCreatingTask] = useState<string | null>(null);
+  const { t } = useAPITranslations();
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
@@ -30,7 +30,7 @@ export function DashboardAlertsPanel() {
       case 'Medium':
         return <Info className="h-4 w-4 text-yellow-500" />;
       case 'Low':
-        return <CheckCircle className="h-4 w-4 text-green-500" />;
+        return <AlertCircle className="h-4 w-4 text-green-500" />;
       default:
         return <Info className="h-4 w-4 text-gray-500" />;
     }
@@ -39,33 +39,29 @@ export function DashboardAlertsPanel() {
   const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'High':
-        return 'bg-red-100 text-red-800 border-red-200';
+        return 'bg-red-50 text-red-800 border-red-200';
       case 'Medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        return 'bg-yellow-50 text-yellow-800 border-yellow-200';
       case 'Low':
-        return 'bg-green-100 text-green-800 border-green-200';
+        return 'bg-green-50 text-green-800 border-green-200';
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return 'bg-gray-50 text-gray-800 border-gray-200';
     }
   };
 
   const handleCreateTask = async (alert: DashboardAlert) => {
     try {
-      setCreatingTask(alert.id);
       await createTaskFromAlert(alert);
-      
       toast({
-        title: "Task Created",
-        description: `Task created for alert: ${alert.title}`,
+        title: t('dashboard.alerts.task_created'),
+        description: `Task created for: ${alert.title}`,
       });
-    } catch (error: any) {
+    } catch (error) {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create task",
+        title: t('dashboard.alerts.task_creation_failed'),
+        description: error instanceof Error ? error.message : 'Unknown error',
         variant: "destructive",
       });
-    } finally {
-      setCreatingTask(null);
     }
   };
 
@@ -79,18 +75,13 @@ export function DashboardAlertsPanel() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5" />
-            Issues & Alerts
-          </CardTitle>
-          <CardDescription>
-            Rule-driven alerts and actionable insights
-          </CardDescription>
+          <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
+          <div className="h-3 bg-gray-200 rounded w-3/4 animate-pulse"></div>
         </CardHeader>
         <CardContent>
-          <div className="animate-pulse space-y-3">
+          <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-16 bg-gray-200 rounded-md" />
+              <div key={i} className="h-16 bg-gray-200 rounded animate-pulse" />
             ))}
           </div>
         </CardContent>
@@ -98,90 +89,69 @@ export function DashboardAlertsPanel() {
     );
   }
 
+  const actionableAlerts = getActionableAlerts();
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <AlertTriangle className="h-5 w-5" />
-          Issues & Alerts
-          <Badge variant="outline" className="ml-auto">
-            {alerts.length} Total
-          </Badge>
+          {t('dashboard.alerts.title')}
         </CardTitle>
         <CardDescription>
-          Rule-driven alerts and actionable insights
+          System notifications and recommendations
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {alerts.length === 0 ? (
-          <Alert>
-            <CheckCircle className="h-4 w-4" />
-            <AlertTitle>All Systems Normal</AlertTitle>
-            <AlertDescription>
-              No critical issues detected across key performance indicators.
-            </AlertDescription>
-          </Alert>
-        ) : (
-          <>
-            {/* Actionable Alerts */}
-            {getActionableAlerts().length > 0 && (
-              <div className="space-y-3">
-                <h4 className="font-medium text-sm text-muted-foreground">
-                  Actionable Issues ({getActionableAlerts().length})
-                </h4>
-                {getActionableAlerts().map((alert) => (
-                  <Alert key={alert.id} className={getSeverityColor(alert.severity)}>
-                    <div className="flex items-start gap-3">
-                      {getSeverityIcon(alert.severity)}
-                      <div className="flex-1 space-y-2">
-                        <AlertTitle className="text-sm font-medium">
-                          {alert.title}
-                        </AlertTitle>
-                        <AlertDescription className="text-sm">
-                          {alert.message}
-                        </AlertDescription>
-                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                          <span>Current: {alert.current_value}</span>
-                          <span>Threshold: {alert.threshold_value}</span>
-                          <Badge variant="outline" className="text-xs">
-                            {alert.metric}
-                          </Badge>
-                        </div>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleCreateTask(alert)}
-                        disabled={creatingTask === alert.id}
-                        className="shrink-0"
-                      >
-                        <Plus className="h-3 w-3 mr-1" />
-                        {creatingTask === alert.id ? 'Creating...' : 'Create Task'}
-                      </Button>
-                    </div>
-                  </Alert>
-                ))}
-              </div>
-            )}
+        {alerts.length === 0 && (
+          <div className="text-center py-8">
+            <Info className="h-12 w-12 text-green-500 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-green-700 mb-2">{t('dashboard.alerts.no_alerts')}</h3>
+            <p className="text-muted-foreground">
+              {t('dashboard.alerts.no_alerts_message')}
+            </p>
+          </div>
+        )}
 
-            {/* Info/Low Alerts */}
-            {alerts.filter(a => a.severity === 'Low').map((alert) => (
-              <Alert key={alert.id} className={getSeverityColor(alert.severity)}>
-                <div className="flex items-center gap-3">
-                  {getSeverityIcon(alert.severity)}
-                  <div className="flex-1">
-                    <AlertTitle className="text-sm font-medium">
-                      {alert.title}
-                    </AlertTitle>
-                    <AlertDescription className="text-sm">
-                      {alert.message}
-                    </AlertDescription>
+        {alerts.map((alert) => (
+          <div key={alert.id} className={`p-4 rounded-lg border ${getSeverityColor(alert.severity)}`}>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-start gap-3 flex-1">
+                {getSeverityIcon(alert.severity)}
+                <div className="flex-1 space-y-1">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge 
+                      variant={alert.severity === 'High' ? 'destructive' : alert.severity === 'Medium' ? 'default' : 'secondary'}
+                      className="mb-2"
+                    >
+                      {t(`dashboard.alerts.severity.${alert.severity}`)}
+                    </Badge>
+                  </div>
+                  <h4 className="font-medium text-sm">{alert.title}</h4>
+                  <p className="text-sm text-muted-foreground">{alert.message}</p>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
+                    <span>Current: {alert.current_value}</span>
+                    <span>Threshold: {alert.threshold_value}</span>
+                    <Badge variant="outline" className="text-xs">
+                      {alert.metric}
+                    </Badge>
                   </div>
                 </div>
-              </Alert>
-            ))}
-          </>
-        )}
+              </div>
+              
+              {actionableAlerts.includes(alert) && (
+                <Button 
+                  size="sm" 
+                  onClick={() => handleCreateTask(alert)}
+                  className="flex items-center gap-1"
+                >
+                  <Plus className="h-3 w-3" />
+                  {t('dashboard.alerts.create_task')}
+                </Button>
+              )}
+            </div>
+          </div>
+        ))}
       </CardContent>
     </Card>
   );
