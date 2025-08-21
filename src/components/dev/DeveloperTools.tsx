@@ -13,9 +13,10 @@ import { useTenant } from '@/lib/useTenant';
 interface DeveloperToolsProps {
   demoMode?: boolean;
   onRefresh?: () => void;
+  backfillHistoricalData?: (days?: number) => Promise<{ success: boolean }>;
 }
 
-export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh }) => {
+export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh, backfillHistoricalData }) => {
   const { isArabic } = useSimpleLanguage();
   const { 
     tenantInfo, 
@@ -45,6 +46,20 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh }) => 
     clearImpersonation();
     setTenantId('');
     onRefresh?.();
+  };
+
+  const handleBackfill = async () => {
+    if (!backfillHistoricalData) return;
+    
+    try {
+      setLoading(true);
+      await backfillHistoricalData(365);
+      onRefresh?.();
+    } catch (error) {
+      console.error('Error backfilling data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getDemoTenantInfo = async () => {
@@ -192,6 +207,25 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh }) => 
                   {isArabic ? 'البيانات' : 'Data'}
                 </Button>
               </div>
+              
+              {/* Backfill Button */}
+              {backfillHistoricalData && (
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={handleBackfill}
+                  disabled={loading}
+                  className="w-full text-xs"
+                >
+                  {loading ? (
+                    <RefreshCw className="h-3 w-3 mr-1 animate-spin" />
+                  ) : (
+                    <Database className="h-3 w-3 mr-1" />
+                  )}
+                  {isArabic ? 'ملء البيانات التاريخية' : 'Backfill Historical Data'}
+                </Button>
+              )}
+              
               {tenantInfo?.mode === 'impersonated' && (
                 <Button 
                   size="sm" 

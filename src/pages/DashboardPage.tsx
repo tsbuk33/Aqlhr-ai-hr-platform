@@ -5,6 +5,10 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useLiveDashboard } from '@/hooks/useLiveDashboard';
+import { useDashboardTrends } from '@/hooks/useDashboardTrends';
+import { Sparkline } from '@/components/charts/Sparkline';
+import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
+import { IssuesCard } from '@/components/dashboard/IssuesCard';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
@@ -25,6 +29,15 @@ export default function DashboardPage() {
     mode,
     refetch
   } = useLiveDashboard();
+  
+  const {
+    series: timeSeriesData,
+    alerts,
+    loading: trendsLoading,
+    getMoMChange,
+    getSparklineData,
+    backfillHistoricalData
+  } = useDashboardTrends();
 
   const getSaudizationBadge = (rate: number) => {
     if (rate >= 60) return { variant: 'secondary' as const, text: isArabic ? 'أخضر' : 'Green' };
@@ -44,7 +57,9 @@ export default function DashboardPage() {
         description: isArabic ? 'الموظفون النشطون' : 'Active employees',
         icon: Users,
         clickable: true,
-        href: '/people/employees'
+        href: '/people/employees',
+        sparklineData: getSparklineData('total_employees'),
+        trend: getMoMChange('total_employees')
       },
       {
         title: isArabic ? 'نسبة السعودة' : 'Saudization Rate',
@@ -53,7 +68,9 @@ export default function DashboardPage() {
         icon: Target,
         badge: saudizationBadge,
         clickable: true,
-        href: '/compliance/nitaqat'
+        href: '/compliance/nitaqat',
+        sparklineData: getSparklineData('saudization_rate'),
+        trend: getMoMChange('saudization_rate')
       },
       {
         title: isArabic ? 'نقاط السلامة' : 'HSE Safety Score',
@@ -61,7 +78,9 @@ export default function DashboardPage() {
         description: isArabic ? 'مؤشر السلامة (90 يوم)' : 'Safety index (90d)',
         icon: Shield,
         clickable: true,
-        href: '/safety/incidents'
+        href: '/safety/incidents',
+        sparklineData: getSparklineData('hse_safety_score'),
+        trend: getMoMChange('hse_safety_score')
       },
       {
         title: isArabic ? 'نقاط الامتثال' : 'Compliance Score',
@@ -69,7 +88,9 @@ export default function DashboardPage() {
         description: isArabic ? 'التكامل والأتمتة' : 'Integrations & automation',
         icon: CheckCircle,
         clickable: true,
-        href: '/compliance'
+        href: '/compliance',
+        sparklineData: getSparklineData('compliance_score'),
+        trend: getMoMChange('compliance_score')
       },
       {
         title: isArabic ? 'تجربة الموظف' : 'Employee Experience',
@@ -77,7 +98,9 @@ export default function DashboardPage() {
         description: isArabic ? 'من بيانات الثقافة المؤسسية' : 'From CCI data blend',
         icon: Brain,
         clickable: true,
-        href: '/cci'
+        href: '/cci',
+        sparklineData: getSparklineData('employee_experience_10'),
+        trend: getMoMChange('employee_experience_10')
       },
       {
         title: isArabic ? 'المخاطر التنبؤية' : 'Predictive Risk',
@@ -85,7 +108,9 @@ export default function DashboardPage() {
         description: isArabic ? 'موظفون عالي المخاطر' : 'High-risk employees',
         icon: AlertTriangle,
         clickable: true,
-        href: '/people/risk'
+        href: '/people/risk',
+        sparklineData: getSparklineData('predictive_risk_high'),
+        trend: getMoMChange('predictive_risk_high')
       },
       {
         title: isArabic ? 'قوة خط المواهب' : 'Talent Pipeline',
@@ -327,7 +352,7 @@ export default function DashboardPage() {
                 <div className="text-2xl font-bold text-foreground mb-1">
                   {stat.value}
                 </div>
-                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''} mb-3`}>
                   <p className="text-xs text-foreground-subtle">
                     {stat.description}
                   </p>
@@ -336,12 +361,41 @@ export default function DashboardPage() {
                       {stat.badge.text}
                     </Badge>
                   )}
+                  {stat.trend && (
+                    <div className={`flex items-center gap-1 text-xs ${stat.trend.isPositive ? 'text-status-success' : 'text-status-danger'}`}>
+                      <span className="font-medium">{stat.trend.formatted}</span>
+                      {stat.trend.isPositive ? '↗' : '↘'}
+                    </div>
+                  )}
                 </div>
+                
+                {/* Mini sparkline */}
+                {stat.sparklineData && stat.sparklineData.length > 0 && (
+                  <div className="mt-2">
+                    <Sparkline 
+                      data={stat.sparklineData} 
+                      color={stat.trend?.isPositive ? 'hsl(var(--status-success))' : 'hsl(var(--status-danger))'} 
+                      height={32}
+                    />
+                  </div>
+                )}
               </CardContent>
             </Card>
           );
         })}
       </div>
+
+      {/* Issues & Alerts */}
+      <div className="space-y-4">
+        <IssuesCard alerts={alerts} isArabic={isArabic} />
+      </div>
+
+      {/* Time Series Chart */}
+      {timeSeriesData && timeSeriesData.length > 0 && (
+        <div className="space-y-4">
+          <TimeSeriesChart data={timeSeriesData} isArabic={isArabic} />
+        </div>
+      )}
 
       {/* AI Insights */}
       {dashboardData && (
@@ -399,7 +453,12 @@ export default function DashboardPage() {
       <AqlHRAIAssistant moduleContext="dashboard.executive" />
 
       {/* Developer Tools (shows in dev mode or demo/impersonation) */}
-      <DeveloperTools onRefresh={refetch} />
+      {(demoMode || isImpersonated) && (
+        <DeveloperTools 
+          onRefresh={refetch}
+          backfillHistoricalData={backfillHistoricalData}
+        />
+      )}
     </div>
   );
 }

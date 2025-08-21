@@ -9333,6 +9333,22 @@ export type Database = {
         Args: { a: number[]; b: number[] }
         Returns: number
       }
+      dashboard_backfill_v1: {
+        Args: { days?: number; p_tenant: string }
+        Returns: undefined
+      }
+      dashboard_get_series_v1: {
+        Args: { days?: number; p_tenant: string }
+        Returns: {
+          compliance_score: number
+          employee_experience_10: number
+          hse_safety_score: number
+          predictive_risk_high: number
+          saudization_rate: number
+          snap_date: string
+          total_employees: number
+        }[]
+      }
       dashboard_get_v1: {
         Args: { p_tenant: string }
         Returns: {
@@ -9348,6 +9364,19 @@ export type Database = {
           total_employees: number
           training_hours: number
           workforce_forecast_accuracy: number
+        }[]
+      }
+      dashboard_rules_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          created_at: string
+          current_value: number
+          id: string
+          message: string
+          metric: string
+          severity: string
+          threshold_value: number
+          title: string
         }[]
       }
       find_similar_chunks: {
