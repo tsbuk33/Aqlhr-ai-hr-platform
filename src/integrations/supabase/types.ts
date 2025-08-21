@@ -3597,6 +3597,123 @@ export type Database = {
           },
         ]
       }
+      gov_integrations: {
+        Row: {
+          api_credentials: Json | null
+          connection_config: Json | null
+          created_at: string
+          error_count: number
+          id: string
+          is_connected: boolean
+          is_enabled: boolean
+          last_error_at: string | null
+          last_error_message: string | null
+          last_sync_at: string | null
+          last_sync_status: string | null
+          next_sync_at: string | null
+          sync_frequency: string
+          sync_settings: Json | null
+          system: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          api_credentials?: Json | null
+          connection_config?: Json | null
+          created_at?: string
+          error_count?: number
+          id?: string
+          is_connected?: boolean
+          is_enabled?: boolean
+          last_error_at?: string | null
+          last_error_message?: string | null
+          last_sync_at?: string | null
+          last_sync_status?: string | null
+          next_sync_at?: string | null
+          sync_frequency?: string
+          sync_settings?: Json | null
+          system: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          api_credentials?: Json | null
+          connection_config?: Json | null
+          created_at?: string
+          error_count?: number
+          id?: string
+          is_connected?: boolean
+          is_enabled?: boolean
+          last_error_at?: string | null
+          last_error_message?: string | null
+          last_sync_at?: string | null
+          last_sync_status?: string | null
+          next_sync_at?: string | null
+          sync_frequency?: string
+          sync_settings?: Json | null
+          system?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      gov_sync_logs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          finished_at: string | null
+          id: string
+          payload: Json | null
+          records_created: number | null
+          records_failed: number | null
+          records_processed: number | null
+          records_updated: number | null
+          response_data: Json | null
+          started_at: string
+          status: string
+          sync_type: string
+          system: string
+          tenant_id: string
+          test_mode: boolean
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          payload?: Json | null
+          records_created?: number | null
+          records_failed?: number | null
+          records_processed?: number | null
+          records_updated?: number | null
+          response_data?: Json | null
+          started_at?: string
+          status?: string
+          sync_type?: string
+          system: string
+          tenant_id: string
+          test_mode?: boolean
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          finished_at?: string | null
+          id?: string
+          payload?: Json | null
+          records_created?: number | null
+          records_failed?: number | null
+          records_processed?: number | null
+          records_updated?: number | null
+          response_data?: Json | null
+          started_at?: string
+          status?: string
+          sync_type?: string
+          system?: string
+          tenant_id?: string
+          test_mode?: boolean
+        }
+        Relationships: []
+      }
       government_compliance: {
         Row: {
           compliance_level: string | null
