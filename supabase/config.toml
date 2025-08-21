@@ -80,3 +80,9 @@ verify_jwt = true
 
 [functions.cron-dashboard-snapshot-daily-v1]
 verify_jwt = false
+
+[functions.compliance-autopilot-daily-v1]
+verify_jwt = false
+
+[functions.compliance-letter-generator]
+verify_jwt = false

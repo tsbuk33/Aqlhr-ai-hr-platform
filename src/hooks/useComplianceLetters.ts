@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { generateRenewalLetterPDF } from '@/utils/letterGenerator';
 
 interface ComplianceLetter {
   id: string;
@@ -94,40 +93,51 @@ export const useComplianceLetters = () => {
         .eq('tenant_id', userRoles.company_id)
         .maybeSingle();
 
-      // Generate PDF
-      await generateRenewalLetterPDF({
-        company_name_en: company.name,
-        company_name_ar: company.company_name_arabic || company.name,
-        employee_name_en: employee.full_name_en,
-        employee_name_ar: employee.full_name_ar || employee.full_name_en,
-        employee_id: employee.employee_no,
-        iqama_expiry: employee.iqama_expiry,
-        generated_date: new Date().toISOString().split('T')[0],
-        language: language,
-        footer_en: settings?.letter_footer_en,
-        footer_ar: settings?.letter_footer_ar
+      // Call edge function to generate PDF
+      const { data, error } = await supabase.functions.invoke('compliance-letter-generator', {
+        body: {
+          tenant_id: userRoles.company_id,
+          employee: {
+            id: employee.id,
+            full_name_en: employee.full_name_en,
+            full_name_ar: employee.full_name_ar || employee.full_name_en,
+            employee_no: employee.employee_no,
+            iqama_expiry: employee.iqama_expiry
+          },
+          company: {
+            name: company.name,
+            name_ar: company.company_name_arabic
+          },
+          language,
+          letter_type: 'iqama_renewal',
+          footer: language === 'ar' ? settings?.letter_footer_ar : settings?.letter_footer_en
+        }
       });
 
-      // Store letter record
-      const storagePath = `${userRoles.company_id}/${employee.id}/${Date.now()}_iqama_renewal.pdf`;
-      
-      await supabase.from('compliance_letters').insert({
-        tenant_id: userRoles.company_id,
-        employee_id: employee.id,
-        type: 'iqama_renewal',
-        lang: language,
-        expiry_date: employee.iqama_expiry,
-        reminder_day: 0, // Manual generation
-        storage_path: storagePath,
-        created_by: userData.user.id
-      });
+      if (error) {
+        throw new Error(`Failed to generate letter: ${error.message}`);
+      }
 
-      toast({
-        title: "Letter Generated",
-        description: `Iqama renewal letter for ${employee.full_name_en} has been downloaded.`
-      });
+      if (data?.success && data?.buffer) {
+        // Convert array back to Uint8Array and trigger download
+        const uint8Array = new Uint8Array(data.buffer);
+        const blob = new Blob([uint8Array], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = data.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
 
-      await fetchLetters();
+        toast({
+          title: "Letter Generated",
+          description: `${language === 'ar' ? 'Arabic' : 'English'} Iqama renewal letter for ${employee.full_name_en} has been downloaded.`
+        });
+
+        await fetchLetters();
+      }
 
     } catch (error) {
       console.error('Error generating letter PDF:', error);

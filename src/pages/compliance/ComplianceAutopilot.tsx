@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { FeatureGate, LockedButton } from '@/components/plans/FeatureGate';
 import { useComplianceAutopilot } from '@/hooks/useComplianceAutopilot';
-import { generateRenewalLetterPDF } from '@/utils/letterGenerator';
+import { useComplianceLetters } from '@/hooks/useComplianceLetters';
 
 export default function ComplianceAutopilot() {
   return (
@@ -32,6 +32,8 @@ function ComplianceAutopilotContent() {
     runAutopilot, 
     downloadLetter 
   } = useComplianceAutopilot();
+  
+  const { generateLetterPDF } = useComplianceLetters();
 
   const getNitaqatColor = (status: string) => {
     const colors = {
@@ -190,10 +192,19 @@ function ComplianceAutopilotContent() {
                           size="sm"
                           variant="outline"
                           onClick={() => downloadLetter(employee)}
+                          className="gap-1 mr-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          EN
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => generateLetterPDF(employee, 'ar')}
                           className="gap-1"
                         >
                           <Download className="h-3 w-3" />
-                          Letter
+                          AR
                         </Button>
                       </div>
                     </div>

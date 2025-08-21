@@ -258,21 +258,57 @@ export const useComplianceAutopilot = () => {
       const company = companyResponse.data;
       if (!company) return;
 
-      // Generate and download PDF
-      await generateRenewalLetterPDF({
-        company_name_en: company.name,
-        company_name_ar: company.company_name_arabic || company.name,
-        employee_name_en: employee.full_name_en,
-        employee_name_ar: employee.full_name_ar || employee.full_name_en,
-        employee_id: employee.employee_no,
-        iqama_expiry: employee.iqama_expiry,
-        generated_date: new Date().toISOString().split('T')[0]
+      // Get compliance settings for footer
+      const { data: settings } = await supabase
+        .from('compliance_settings')
+        .select('letter_footer_en, letter_footer_ar')
+        .eq('tenant_id', rolesResponse.data.company_id)
+        .maybeSingle();
+
+      // Call edge function to generate PDF (default to English)
+      const { data, error } = await supabase.functions.invoke('compliance-letter-generator', {
+        body: {
+          tenant_id: rolesResponse.data.company_id,
+          employee: {
+            id: employee.id,
+            full_name_en: employee.full_name_en,
+            full_name_ar: employee.full_name_ar || employee.full_name_en,
+            employee_no: employee.employee_no,
+            iqama_expiry: employee.iqama_expiry
+          },
+          company: {
+            name: company.name,
+            name_ar: company.company_name_arabic
+          },
+          language: 'en', // Default to English
+          letter_type: 'iqama_renewal',
+          footer: settings?.letter_footer_en
+        }
       });
 
-      toast({
-        title: "Letter Downloaded",
-        description: `Iqama renewal letter for ${employee.full_name_en} has been downloaded.`,
-      });
+      if (error) {
+        throw new Error(`Failed to generate letter: ${error.message}`);
+      }
+
+      if (data?.success && data?.buffer) {
+        // Convert array back to Uint8Array and trigger download
+        const uint8Array = new Uint8Array(data.buffer);
+        const blob = new Blob([uint8Array], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = data.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        toast({
+          title: "Letter Downloaded",
+          description: `Iqama renewal letter for ${employee.full_name_en} has been downloaded.`
+        });
+      }
+
     } catch (error) {
       console.error('Error downloading letter:', error);
       toast({
