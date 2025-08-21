@@ -2105,6 +2105,33 @@ export type Database = {
           },
         ]
       }
+      docs_events: {
+        Row: {
+          company_id: string
+          event_at: string | null
+          id: string
+          module: string | null
+          processed_by_ai: boolean | null
+          type: string
+        }
+        Insert: {
+          company_id: string
+          event_at?: string | null
+          id?: string
+          module?: string | null
+          processed_by_ai?: boolean | null
+          type: string
+        }
+        Update: {
+          company_id?: string
+          event_at?: string | null
+          id?: string
+          module?: string | null
+          processed_by_ai?: boolean | null
+          type?: string
+        }
+        Relationships: []
+      }
       document_types: {
         Row: {
           allowed_file_types: string[] | null
@@ -3573,6 +3600,332 @@ export type Database = {
         }
         Relationships: []
       }
+      hr_attendance: {
+        Row: {
+          company_id: string
+          employee_id: string
+          id: string
+          overtime_minutes: number | null
+          tardy_minutes: number | null
+          work_date: string
+        }
+        Insert: {
+          company_id: string
+          employee_id: string
+          id?: string
+          overtime_minutes?: number | null
+          tardy_minutes?: number | null
+          work_date: string
+        }
+        Update: {
+          company_id?: string
+          employee_id?: string
+          id?: string
+          overtime_minutes?: number | null
+          tardy_minutes?: number | null
+          work_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hr_departments: {
+        Row: {
+          code: string
+          company_id: string
+          created_at: string | null
+          id: string
+          name_ar: string
+          name_en: string
+          parent_id: string | null
+        }
+        Insert: {
+          code: string
+          company_id: string
+          created_at?: string | null
+          id?: string
+          name_ar: string
+          name_en: string
+          parent_id?: string | null
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          created_at?: string | null
+          id?: string
+          name_ar?: string
+          name_en?: string
+          parent_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_departments_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "hr_departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hr_employees: {
+        Row: {
+          allowances: number | null
+          base_salary: number | null
+          company_id: string
+          created_at: string | null
+          dept_id: string | null
+          dob: string | null
+          employee_no: string
+          employment_status: string | null
+          full_name_ar: string
+          full_name_en: string
+          gender: string
+          grade_id: string | null
+          hire_date: string
+          id: string
+          iqama_expiry: string | null
+          is_saudi: boolean
+          job_id: string | null
+          location_id: string | null
+          manager_id: string | null
+          nationality_code: string
+          termination_date: string | null
+        }
+        Insert: {
+          allowances?: number | null
+          base_salary?: number | null
+          company_id: string
+          created_at?: string | null
+          dept_id?: string | null
+          dob?: string | null
+          employee_no: string
+          employment_status?: string | null
+          full_name_ar: string
+          full_name_en: string
+          gender: string
+          grade_id?: string | null
+          hire_date: string
+          id?: string
+          iqama_expiry?: string | null
+          is_saudi: boolean
+          job_id?: string | null
+          location_id?: string | null
+          manager_id?: string | null
+          nationality_code: string
+          termination_date?: string | null
+        }
+        Update: {
+          allowances?: number | null
+          base_salary?: number | null
+          company_id?: string
+          created_at?: string | null
+          dept_id?: string | null
+          dob?: string | null
+          employee_no?: string
+          employment_status?: string | null
+          full_name_ar?: string
+          full_name_en?: string
+          gender?: string
+          grade_id?: string | null
+          hire_date?: string
+          id?: string
+          iqama_expiry?: string | null
+          is_saudi?: boolean
+          job_id?: string | null
+          location_id?: string | null
+          manager_id?: string | null
+          nationality_code?: string
+          termination_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_employees_dept_id_fkey"
+            columns: ["dept_id"]
+            isOneToOne: false
+            referencedRelation: "hr_departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_grade_id_fkey"
+            columns: ["grade_id"]
+            isOneToOne: false
+            referencedRelation: "hr_grades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "hr_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "hr_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hr_grades: {
+        Row: {
+          code: string
+          company_id: string
+          id: string
+          max_salary: number | null
+          min_salary: number | null
+        }
+        Insert: {
+          code: string
+          company_id: string
+          id?: string
+          max_salary?: number | null
+          min_salary?: number | null
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          id?: string
+          max_salary?: number | null
+          min_salary?: number | null
+        }
+        Relationships: []
+      }
+      hr_jobs: {
+        Row: {
+          code: string
+          company_id: string
+          family: string | null
+          id: string
+          title_ar: string
+          title_en: string
+        }
+        Insert: {
+          code: string
+          company_id: string
+          family?: string | null
+          id?: string
+          title_ar: string
+          title_en: string
+        }
+        Update: {
+          code?: string
+          company_id?: string
+          family?: string | null
+          id?: string
+          title_ar?: string
+          title_en?: string
+        }
+        Relationships: []
+      }
+      hr_leaves: {
+        Row: {
+          company_id: string
+          days: number
+          employee_id: string
+          end_date: string
+          id: string
+          leave_type: string
+          start_date: string
+        }
+        Insert: {
+          company_id: string
+          days: number
+          employee_id: string
+          end_date: string
+          id?: string
+          leave_type: string
+          start_date: string
+        }
+        Update: {
+          company_id?: string
+          days?: number
+          employee_id?: string
+          end_date?: string
+          id?: string
+          leave_type?: string
+          start_date?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hr_locations: {
+        Row: {
+          company_id: string
+          id: string
+          name_ar: string
+          name_en: string
+        }
+        Insert: {
+          company_id: string
+          id?: string
+          name_ar: string
+          name_en: string
+        }
+        Update: {
+          company_id?: string
+          id?: string
+          name_ar?: string
+          name_en?: string
+        }
+        Relationships: []
+      }
+      hr_training: {
+        Row: {
+          company_id: string
+          completed_at: string | null
+          course_name: string | null
+          employee_id: string | null
+          hours: number | null
+          id: string
+        }
+        Insert: {
+          company_id: string
+          completed_at?: string | null
+          course_name?: string | null
+          employee_id?: string | null
+          hours?: number | null
+          id?: string
+        }
+        Update: {
+          company_id?: string
+          completed_at?: string | null
+          course_name?: string | null
+          employee_id?: string | null
+          hours?: number | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hse_compliance: {
         Row: {
           company_id: string | null
@@ -4252,6 +4605,33 @@ export type Database = {
           },
         ]
       }
+      integrations: {
+        Row: {
+          category: string
+          company_id: string
+          id: string
+          last_sync: string | null
+          name: string
+          status: string
+        }
+        Insert: {
+          category: string
+          company_id: string
+          id?: string
+          last_sync?: string | null
+          name: string
+          status?: string
+        }
+        Update: {
+          category?: string
+          company_id?: string
+          id?: string
+          last_sync?: string | null
+          name?: string
+          status?: string
+        }
+        Relationships: []
+      }
       invoices: {
         Row: {
           company_id: string | null
@@ -4784,6 +5164,57 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      kpi_snapshots: {
+        Row: {
+          active_users: number | null
+          company_id: string
+          compliance_score: number | null
+          docs_processed: number | null
+          employee_experience_10: number | null
+          hse_safety_score: number | null
+          id: string
+          predictive_risk_high: number | null
+          saudization_rate: number | null
+          snap_date: string
+          talent_pipeline_strength: number | null
+          total_employees: number | null
+          training_hours: number | null
+          workforce_forecast_accuracy: number | null
+        }
+        Insert: {
+          active_users?: number | null
+          company_id: string
+          compliance_score?: number | null
+          docs_processed?: number | null
+          employee_experience_10?: number | null
+          hse_safety_score?: number | null
+          id?: string
+          predictive_risk_high?: number | null
+          saudization_rate?: number | null
+          snap_date?: string
+          talent_pipeline_strength?: number | null
+          total_employees?: number | null
+          training_hours?: number | null
+          workforce_forecast_accuracy?: number | null
+        }
+        Update: {
+          active_users?: number | null
+          company_id?: string
+          compliance_score?: number | null
+          docs_processed?: number | null
+          employee_experience_10?: number | null
+          hse_safety_score?: number | null
+          id?: string
+          predictive_risk_high?: number | null
+          saudization_rate?: number | null
+          snap_date?: string
+          talent_pipeline_strength?: number | null
+          total_employees?: number | null
+          training_hours?: number | null
+          workforce_forecast_accuracy?: number | null
+        }
+        Relationships: []
       }
       learning_engagement_insights: {
         Row: {
