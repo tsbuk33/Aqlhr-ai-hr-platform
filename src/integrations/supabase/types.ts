@@ -3768,6 +3768,78 @@ export type Database = {
         }
         Relationships: []
       }
+      gov_adapters: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_sync: string | null
+          mode: string | null
+          notes: string | null
+          status: string | null
+          system: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_sync?: string | null
+          mode?: string | null
+          notes?: string | null
+          status?: string | null
+          system: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_sync?: string | null
+          mode?: string | null
+          notes?: string | null
+          status?: string | null
+          system?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      gov_changes: {
+        Row: {
+          change_type: string
+          created_at: string | null
+          effective_date: string | null
+          id: string
+          payload: Json | null
+          processed: boolean | null
+          reference: string | null
+          system: string
+          tenant_id: string
+        }
+        Insert: {
+          change_type: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          reference?: string | null
+          system: string
+          tenant_id: string
+        }
+        Update: {
+          change_type?: string
+          created_at?: string | null
+          effective_date?: string | null
+          id?: string
+          payload?: Json | null
+          processed?: boolean | null
+          reference?: string | null
+          system?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
       gov_integration_status: {
         Row: {
           api_key_encrypted: string | null
@@ -10250,6 +10322,31 @@ export type Database = {
       get_user_subscription_tier: {
         Args: { p_user_id?: string }
         Returns: string
+      }
+      gov_get_changes_v1: {
+        Args: { p_limit?: number; p_tenant: string }
+        Returns: {
+          change_type: string
+          created_at: string
+          effective_date: string
+          id: string
+          processed: boolean
+          reference: string
+          system: string
+        }[]
+      }
+      gov_get_status_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          last_sync: string
+          mode: string
+          status: string
+          system: string
+        }[]
+      }
+      gov_mark_change_processed_v1: {
+        Args: { p_change_id: string; p_tenant: string }
+        Returns: undefined
       }
       halfvec_avg: {
         Args: { "": number[] }
