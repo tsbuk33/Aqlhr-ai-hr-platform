@@ -20,12 +20,14 @@ interface GovernmentChangesTableProps {
   changes: GovernmentChange[];
   onCreateTask: (change: GovernmentChange) => void;
   onMarkProcessed: (changeId: string) => void;
+  canCreateTasks?: boolean;
 }
 
 export const GovernmentChangesTable: React.FC<GovernmentChangesTableProps> = ({
   changes,
   onCreateTask,
-  onMarkProcessed
+  onMarkProcessed,
+  canCreateTasks = true
 }) => {
   const { isArabic } = useSimpleLanguage();
 
@@ -172,16 +174,23 @@ export const GovernmentChangesTable: React.FC<GovernmentChangesTableProps> = ({
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex gap-2 justify-end">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => onCreateTask(change)}
-                        disabled={change.processed}
-                      >
-                        <Plus className="h-3 w-3" />
-                        {isArabic ? 'إنشاء مهمة' : 'Create Task'}
-                      </Button>
-                      {!change.processed && (
+                      {canCreateTasks ? (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => onCreateTask(change)}
+                          disabled={change.processed}
+                        >
+                          <Plus className="h-3 w-3" />
+                          {isArabic ? 'إنشاء مهمة' : 'Create Task'}
+                        </Button>
+                      ) : (
+                        <Button size="sm" variant="outline" disabled>
+                          <Plus className="h-3 w-3" />
+                          {isArabic ? 'إنشاء مهمة' : 'Create Task'}
+                        </Button>
+                      )}
+                      {!change.processed && canCreateTasks && (
                         <Button
                           size="sm"
                           variant="ghost"

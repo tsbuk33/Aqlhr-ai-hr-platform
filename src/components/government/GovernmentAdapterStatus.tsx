@@ -2,8 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Clock, XCircle, Loader2, RefreshCw } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { CheckCircle, Clock, XCircle, Loader2, RefreshCw, Lock, AlertCircle } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useFeatureAccess, useUserRole } from '@/hooks/useGovernmentAdapters';
 
 interface GovernmentAdapter {
   system: string;
@@ -26,6 +28,8 @@ export const GovernmentAdapterStatus: React.FC<GovernmentAdapterStatusProps> = (
   onSyncAll
 }) => {
   const { isArabic } = useSimpleLanguage();
+  const { hasAccess: hasFeatureAccess, loading: featureLoading } = useFeatureAccess('gov_adapters');
+  const { canManageIntegrations, loading: roleLoading } = useUserRole();
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -90,6 +94,103 @@ export const GovernmentAdapterStatus: React.FC<GovernmentAdapterStatusProps> = (
 
   const allConnected = adapters.every(adapter => adapter.status === 'connected');
 
+  // Show feature access check
+  if (featureLoading || roleLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  // Upsell modal content
+  const UpsellModal = () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button disabled={!hasFeatureAccess} size="lg" className="gap-2">
+          <Lock className="h-4 w-4" />
+          {isArabic ? 'مزامنة شاملة' : 'Sync All Systems'}
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <AlertCircle className="h-5 w-5" />
+            {isArabic ? 'ميزة متقدمة' : 'Premium Feature'}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <p className="text-muted-foreground">
+            {isArabic 
+              ? 'التكاملات الحكومية متاحة في الخطط المتقدمة فقط'
+              : 'Government integrations are available in Growth+ plans only'
+            }
+          </p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span className="text-sm">
+                {isArabic ? 'مراقبة نطاقات تلقائية' : 'Automatic Nitaqat monitoring'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span className="text-sm">
+                {isArabic ? 'تحديثات الإقامة الآلية' : 'Automated Iqama updates'}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-500" />
+              <span className="text-sm">
+                {isArabic ? 'مزامنة راتب GOSI' : 'GOSI wage sync'}
+              </span>
+            </div>
+          </div>
+          <Button asChild className="w-full">
+            <a href={`mailto:sales@company.com?subject=${isArabic ? 'طلب ترقية الخطة' : 'Plan Upgrade Request'}`}>
+              {isArabic ? 'تواصل مع المبيعات' : 'Contact Sales'}
+            </a>
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
+  const PermissionModal = () => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button disabled={canManageIntegrations} size="lg" className="gap-2">
+          <Lock className="h-4 w-4" />
+          {isArabic ? 'مزامنة شاملة' : 'Sync All Systems'}
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Lock className="h-5 w-5" />
+            {isArabic ? 'صلاحيات محدودة' : 'Limited Permissions'}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <p className="text-muted-foreground">
+            {isArabic 
+              ? 'تحتاج صلاحيات إدارية لإجراء مزامنة الأنظمة الحكومية'
+              : 'You need administrative permissions to sync government systems'
+            }
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {isArabic 
+              ? 'الأدوار المطلوبة: إداري، مدير الموارد البشرية، أو مدير عام'
+              : 'Required roles: Admin, HR Manager, or Super Admin'
+            }
+          </p>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -105,19 +206,25 @@ export const GovernmentAdapterStatus: React.FC<GovernmentAdapterStatusProps> = (
             }
           </p>
         </div>
-        <Button
-          onClick={onSyncAll}
-          disabled={syncing !== null}
-          size="lg"
-          className="gap-2"
-        >
-          {syncing === 'ALL' ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <RefreshCw className="h-4 w-4" />
-          )}
-          {isArabic ? 'مزامنة شاملة' : 'Sync All Systems'}
-        </Button>
+        {!hasFeatureAccess ? (
+          <UpsellModal />
+        ) : !canManageIntegrations ? (
+          <PermissionModal />
+        ) : (
+          <Button
+            onClick={onSyncAll}
+            disabled={syncing !== null}
+            size="lg"
+            className="gap-2"
+          >
+            {syncing === 'ALL' ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <RefreshCw className="h-4 w-4" />
+            )}
+            {isArabic ? 'مزامنة شاملة' : 'Sync All Systems'}
+          </Button>
+        )}
       </div>
 
       {/* Overall Status Banner */}
@@ -165,21 +272,33 @@ export const GovernmentAdapterStatus: React.FC<GovernmentAdapterStatusProps> = (
                 </p>
               </div>
               
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  onClick={() => onSyncSystem(adapter.system)}
-                  disabled={syncing !== null}
-                  className="flex-1"
-                >
-                  {syncing === adapter.system ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : (
-                    <RefreshCw className="h-3 w-3" />
-                  )}
-                  {isArabic ? 'اختبار' : 'Test Sync'}
-                </Button>
-              </div>
+               <div className="flex gap-2">
+                 {!hasFeatureAccess ? (
+                   <Button size="sm" disabled className="flex-1 gap-2">
+                     <Lock className="h-3 w-3" />
+                     {isArabic ? 'اختبار' : 'Test Sync'}
+                   </Button>
+                 ) : !canManageIntegrations ? (
+                   <Button size="sm" disabled className="flex-1 gap-2">
+                     <Lock className="h-3 w-3" />
+                     {isArabic ? 'اختبار' : 'Test Sync'}
+                   </Button>
+                 ) : (
+                   <Button
+                     size="sm"
+                     onClick={() => onSyncSystem(adapter.system)}
+                     disabled={syncing !== null}
+                     className="flex-1"
+                   >
+                     {syncing === adapter.system ? (
+                       <Loader2 className="h-3 w-3 animate-spin" />
+                     ) : (
+                       <RefreshCw className="h-3 w-3" />
+                     )}
+                     {isArabic ? 'اختبار' : 'Test Sync'}
+                   </Button>
+                 )}
+               </div>
             </CardContent>
           </Card>
         ))}

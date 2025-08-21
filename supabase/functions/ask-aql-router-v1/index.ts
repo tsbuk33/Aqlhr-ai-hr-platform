@@ -221,6 +221,129 @@ serve(async (req) => {
         ];
       }
 
+    } else if (query.includes('sync mol') || query.includes('sync qiwa') || query.includes('sync gosi') || query.includes('sync absher') || 
+               query.includes('اختبار التكامل') || query.includes('مزامنة') && (query.includes('العمل') || query.includes('قوى') || query.includes('تأمينات') || query.includes('أبشر'))) {
+      // Government system sync
+      if (!confirm) {
+        const system = query.includes('mol') || query.includes('العمل') ? 'MOL' :
+                      query.includes('qiwa') || query.includes('قوى') ? 'QIWA' :
+                      query.includes('gosi') || query.includes('تأمينات') ? 'GOSI' :
+                      query.includes('absher') || query.includes('أبشر') ? 'ABSHER' : 'ALL';
+        
+        response.text = lang === 'ar'
+          ? `سيتم تشغيل مزامنة اختبار مع نظام ${system}. هل تريد المتابعة؟`
+          : `This will run a test sync with ${system} system. Do you want to proceed?`;
+        response.needsConfirmation = true;
+      } else {
+        // Check if user has admin access
+        const { data: userRole } = await supabaseClient
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .in('role', ['admin', 'hr_manager', 'super_admin'])
+          .limit(1);
+
+        if (!userRole || userRole.length === 0) {
+          response.text = lang === 'ar'
+            ? 'عذرًا، تحتاج صلاحيات إدارية لتشغيل مزامنة الأنظمة الحكومية.'
+            : 'Sorry, you need administrative permissions to sync government systems.';
+          return;
+        }
+
+        // Determine which system to sync
+        const system = query.includes('mol') || query.includes('العمل') ? 'mol' :
+                      query.includes('qiwa') || query.includes('قوى') ? 'qiwa' :
+                      query.includes('gosi') || query.includes('تأمينات') ? 'gosi' :
+                      query.includes('absher') || query.includes('أبشر') ? 'absher' : 'all';
+        
+        let syncResult;
+        if (system === 'all') {
+          syncResult = await supabaseClient.functions.invoke('gov_sync_all_v1', {
+            body: { tenantId, testMode: true }
+          });
+        } else {
+          syncResult = await supabaseClient.functions.invoke(`gov_sync_${system}_v1`, {
+            body: { tenantId, testMode: true }
+          });
+        }
+
+        if (syncResult.error) {
+          response.text = lang === 'ar'
+            ? `حدث خطأ أثناء المزامنة: ${syncResult.error.message}`
+            : `Sync error: ${syncResult.error.message}`;
+        } else {
+          const changes = syncResult.data?.changes || syncResult.data?.summary?.total_changes || 0;
+          response.text = lang === 'ar'
+            ? `تمت المزامنة بنجاح مع ${system.toUpperCase()}. تم استلام ${changes} تحديث.`
+            : `Successfully synced with ${system.toUpperCase()}. Received ${changes} updates.`;
+          
+          response.actions = [{
+            label: lang === 'ar' ? 'عرض التغييرات' : 'View Changes',
+            type: 'navigate',
+            href: '/integrations'
+          }];
+        }
+
+        response.citations = [
+          { source: `gov_sync_${system}_v1`, scope: `tenant=${tenantId}, testMode=true`, note: 'Government system sync' }
+        ];
+      }
+
+    } else if (query.includes('integration status') || query.includes('حالة التكامل') || query.includes('تكاملات')) {
+      // Integration status
+      const { data: govStatus } = await supabaseClient.rpc('gov_get_status_v1', { p_tenant: tenantId });
+      const { data: overview } = await supabaseClient.rpc('integrations_overview_v2', { p_tenant: tenantId });
+      
+      const govSystems = govStatus || [];
+      const overviewData = overview || [];
+      const govGroup = overviewData.find((o: any) => o.integration_group === 'gov');
+      const toolsGroup = overviewData.find((o: any) => o.integration_group === 'tools');
+
+      let statusText = '';
+      if (lang === 'ar') {
+        statusText = `حالة التكاملات:\n`;
+        statusText += `• الأنظمة الحكومية: ${govGroup?.connected || 0}/${govGroup?.total || 0} متصل\n`;
+        statusText += `• الأدوات الأخرى: ${toolsGroup?.connected || 0}/${toolsGroup?.total || 0} متصل\n\n`;
+        
+        if (govSystems.length > 0) {
+          statusText += `تفاصيل الأنظمة الحكومية:\n`;
+          govSystems.forEach((sys: any) => {
+            const sysName = sys.system === 'MOL' ? 'وزارة العمل' :
+                           sys.system === 'QIWA' ? 'قوى' :
+                           sys.system === 'GOSI' ? 'التأمينات' :
+                           sys.system === 'ABSHER' ? 'أبشر' : sys.system;
+            const status = sys.status === 'connected' ? 'متصل' : 
+                          sys.status === 'error' ? 'خطأ' : 'في الانتظار';
+            const lastSync = sys.last_sync ? new Date(sys.last_sync).toLocaleDateString('ar-SA') : 'لم يتم';
+            statusText += `• ${sysName}: ${status} (آخر مزامنة: ${lastSync})\n`;
+          });
+        }
+      } else {
+        statusText = `Integration Status:\n`;
+        statusText += `• Government Systems: ${govGroup?.connected || 0}/${govGroup?.total || 0} connected\n`;
+        statusText += `• Other Tools: ${toolsGroup?.connected || 0}/${toolsGroup?.total || 0} connected\n\n`;
+        
+        if (govSystems.length > 0) {
+          statusText += `Government System Details:\n`;
+          govSystems.forEach((sys: any) => {
+            const lastSync = sys.last_sync ? new Date(sys.last_sync).toLocaleDateString() : 'Never';
+            statusText += `• ${sys.system}: ${sys.status} (Last sync: ${lastSync})\n`;
+          });
+        }
+      }
+
+      response.text = statusText;
+      response.actions = [{
+        label: lang === 'ar' ? 'إدارة التكاملات' : 'Manage Integrations',
+        type: 'navigate',
+        href: '/integrations'
+      }];
+
+      response.citations = [
+        { source: 'gov_get_status_v1', scope: `tenant=${tenantId}`, note: 'Government adapter status' },
+        { source: 'integrations_overview_v2', scope: `tenant=${tenantId}`, note: 'Integration overview' }
+      ];
+
     } else if (query.includes('create task') || query.includes('إنشاء مهمة')) {
       if (!confirm) {
         response.text = lang === 'ar'

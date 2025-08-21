@@ -2,6 +2,95 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
+export type UserRole = 'admin' | 'hr_manager' | 'super_admin' | 'employee' | 'manager' | null;
+
+export const useUserRole = () => {
+  const [role, setRole] = useState<UserRole>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getUserRole = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          setRole(null);
+          setLoading(false);
+          return;
+        }
+
+        const { data: userRole } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', user.id)
+          .single();
+
+        setRole(userRole?.role as UserRole || null);
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+        setRole(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getUserRole();
+  }, []);
+
+  const hasAdminAccess = role && ['admin', 'hr_manager', 'super_admin'].includes(role);
+  const canManageIntegrations = hasAdminAccess;
+
+  return {
+    role,
+    loading,
+    hasAdminAccess,
+    canManageIntegrations
+  };
+};
+
+export const useFeatureAccess = (featureKey: string) => {
+  const [hasAccess, setHasAccess] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAccess = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+          setHasAccess(false);
+          setLoading(false);
+          return;
+        }
+
+        // Get user's company ID
+        const { data: userRole } = await supabase
+          .from('user_roles')
+          .select('company_id')
+          .eq('user_id', user.id)
+          .single();
+
+        if (!userRole?.company_id) {
+          setHasAccess(false);
+          setLoading(false);
+          return;
+        }
+
+        // For now, allow access to gov_adapters feature for all authenticated users
+        // This can be enhanced later with proper plan checking
+        setHasAccess(true);
+      } catch (error) {
+        console.error('Error checking feature access:', error);
+        setHasAccess(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAccess();
+  }, [featureKey]);
+
+  return { hasAccess, loading };
+};
+
 interface GovernmentAdapter {
   system: string;
   mode: string;

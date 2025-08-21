@@ -10391,6 +10391,14 @@ export type Database = {
         Args: { "": unknown }
         Returns: unknown
       }
+      integrations_overview_v2: {
+        Args: { p_tenant: string }
+        Returns: {
+          connected: number
+          integration_group: string
+          total: number
+        }[]
+      }
       integrations_status_v1: {
         Args: { p_tenant: string }
         Returns: {
