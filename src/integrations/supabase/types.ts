@@ -9325,6 +9325,23 @@ export type Database = {
         Args: { a: number[]; b: number[] }
         Returns: number
       }
+      dashboard_get_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          active_users: number
+          compliance_score: number
+          docs_processed: number
+          employee_experience_10: number
+          hse_safety_score: number
+          predictive_risk_high: number
+          saudization_rate: number
+          snap_date: string
+          talent_pipeline_strength: number
+          total_employees: number
+          training_hours: number
+          workforce_forecast_accuracy: number
+        }[]
+      }
       find_similar_chunks: {
         Args: {
           max_results?: number
@@ -9365,6 +9382,10 @@ export type Database = {
           name_en: string
           timezone: string
         }[]
+      }
+      get_demo_tenant_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       get_user_company_id: {
         Args: Record<PropertyKey, never>
@@ -9416,6 +9437,13 @@ export type Database = {
       hnswhandler: {
         Args: { "": unknown }
         Returns: unknown
+      }
+      integrations_status_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          connected: number
+          total: number
+        }[]
       }
       is_pilot_user: {
         Args: { feature_name?: string; user_uuid: string }

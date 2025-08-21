@@ -12,7 +12,13 @@ import { toast } from 'sonner';
 
 export default function DashboardPage() {
   const { isArabic } = useSimpleLanguage();
-  const { data, loading, error } = useLiveDashboard();
+  const { 
+    data, 
+    loading, 
+    error, 
+    demoMode,
+    systemsOperational
+  } = useLiveDashboard();
 
   const getSaudizationBadge = (rate: number) => {
     if (rate >= 60) return { variant: 'secondary' as const, text: isArabic ? 'أخضر' : 'Green' };
@@ -110,10 +116,17 @@ export default function DashboardPage() {
   };
 
   const getSystemStatus = () => {
-    if (!data) return null;
-    
-    // Simple check: if we have employee data, assume systems are operational
-    const allSystemsOperational = (data.total_employees || 0) > 0;
+    if (!systemsOperational) {
+      return {
+        status: 'checking',
+        title: isArabic ? 'جاري فحص الأنظمة...' : 'Checking Systems...',
+        message: isArabic ? 'يتم فحص حالة الأنظمة' : 'System status check in progress',
+        variant: 'warning'
+      };
+    }
+
+    const { connected, total } = systemsOperational;
+    const allSystemsOperational = connected === total && total > 0;
     
     return {
       status: allSystemsOperational ? 'operational' : 'attention',
@@ -121,8 +134,8 @@ export default function DashboardPage() {
         ? (allSystemsOperational ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'تحتاج الأنظمة إلى انتباه')
         : (allSystemsOperational ? 'All Systems Operational' : 'Systems Need Attention'),
       message: isArabic
-        ? (allSystemsOperational ? 'جميع التكاملات متصلة وتعمل بشكل صحيح' : 'تحقق من التكاملات والبيانات')
-        : (allSystemsOperational ? 'All integrations connected and functioning properly' : 'Check integrations and data'),
+        ? `${connected} من ${total} أنظمة متصلة`
+        : `${connected} of ${total} systems connected`,
       variant: allSystemsOperational ? 'success' : 'warning'
     };
   };
@@ -203,9 +216,16 @@ export default function DashboardPage() {
       <div className={`${isArabic ? 'text-right' : 'text-left'}`}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-              {isArabic ? 'لوحة التحكم التنفيذية' : 'Executive Dashboard'}
-            </h1>
+            <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+                {isArabic ? 'لوحة التحكم التنفيذية' : 'Executive Dashboard'}
+              </h1>
+              {demoMode && (
+                <Badge variant="outline" className="bg-yellow-50 text-yellow-800 border-yellow-300 dark:bg-yellow-950/30 dark:text-yellow-200 dark:border-yellow-800">
+                  {isArabic ? 'وضع التجربة' : 'Demo Mode'}
+                </Badge>
+              )}
+            </div>
             <p className="text-foreground-muted mt-2 text-lg">
               {isArabic ? 'عقل للموارد البشرية - منصة ذكية لإدارة المواهب' : 'AqlHR - Intelligent Talent Management Platform'}
             </p>
