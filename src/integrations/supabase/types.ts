@@ -9977,6 +9977,14 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      compliance_daily_cron_job: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      compliance_run_now_v1: {
+        Args: { p_dry?: boolean; p_tenant: string }
+        Returns: Json
+      }
       cosine_similarity: {
         Args: { a: number[]; b: number[] }
         Returns: number
