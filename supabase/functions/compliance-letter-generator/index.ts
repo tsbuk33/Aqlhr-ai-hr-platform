@@ -41,6 +41,8 @@ serve(async (req) => {
     const letterRequest: LetterRequest = await req.json();
 
     console.log(`Generating ${letterRequest.language} ${letterRequest.letter_type} letter for tenant: ${letterRequest.tenant_id}`);
+    // PDPL Compliance: Never log national IDs or Iqama numbers
+    console.log(`Letter generation for employee: ${letterRequest.employee.employee_no} (expiry: ${letterRequest.employee.iqama_expiry})`);
 
     // Generate PDF buffer
     const pdfBuffer = await generateComplianceLetterPDF(letterRequest);

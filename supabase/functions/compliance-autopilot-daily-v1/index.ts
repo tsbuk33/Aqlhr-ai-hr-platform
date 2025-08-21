@@ -264,7 +264,8 @@ async function checkIqamaExpiries(supabase: any, company: Company, results: any)
         results.iqama_reminders++;
         results.tasks_created++;
 
-        console.log(`Iqama renewal task created for employee ${employee.id}, expires in ${daysUntilExpiry} days`);
+        console.log(`Iqama renewal task created for employee ${employee.employee_no}, expires in ${daysUntilExpiry} days`);
+        // PDPL Compliance: Never log national IDs or sensitive data, only employee numbers
       }
     }
   } catch (error) {
@@ -314,7 +315,8 @@ async function generateAndStoreRenewalLetter(
 
     results.letters_generated++;
 
-    console.log(`Renewal letter metadata stored for employee ${employee.id}`);
+    console.log(`Renewal letter metadata stored for employee ${employee.employee_no}`);
+    // PDPL Compliance: Never log IDs or personal data, only employee numbers and task references
   } catch (error) {
     console.error(`Error generating renewal letter for employee ${employee.id}:`, error);
   }
