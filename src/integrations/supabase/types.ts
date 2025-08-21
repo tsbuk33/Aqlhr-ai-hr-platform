@@ -9971,6 +9971,51 @@ export type Database = {
         }
         Returns: string
       }
+      ask_headcount_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          non_saudi: number
+          saudi: number
+          saudization_rate: number
+          total: number
+        }[]
+      }
+      ask_iqama_expiring_list_admin_v1: {
+        Args: { p_days?: number; p_tenant: string }
+        Returns: {
+          dept_ar: string
+          dept_en: string
+          employee_id: string
+          employee_no: string
+          expiry_date: string
+          full_name_ar: string
+          full_name_en: string
+        }[]
+      }
+      ask_iqama_expiring_summary_v1: {
+        Args: { p_days?: number; p_tenant: string }
+        Returns: {
+          by_department: Json
+          days_ahead: number
+          total: number
+        }[]
+      }
+      ask_saudization_status_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          color: string
+          rate: number
+        }[]
+      }
+      ask_search_evidence_v1: {
+        Args: { p_limit?: number; p_query: string; p_tenant: string }
+        Returns: {
+          evidence_id: string
+          score: number
+          tags: string[]
+          title: string
+        }[]
+      }
       audit_rls_policies: {
         Args: Record<PropertyKey, never>
         Returns: {
