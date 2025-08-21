@@ -9241,6 +9241,14 @@ export type Database = {
         Args: { "": string } | { "": unknown }
         Returns: unknown
       }
+      bootstrap_current_user_as_owner: {
+        Args: { p_company_id?: string }
+        Returns: Json
+      }
+      bootstrap_owner: {
+        Args: { p_auth_uid: string; p_company_id?: string }
+        Returns: Json
+      }
       calculate_annual_leave_entitlement: {
         Args: { p_current_date?: string; p_hire_date: string }
         Returns: number
@@ -9382,6 +9390,10 @@ export type Database = {
           name_en: string
           timezone: string
         }[]
+      }
+      get_current_auth_uid: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       get_demo_tenant_id: {
         Args: Record<PropertyKey, never>
