@@ -6691,6 +6691,45 @@ export type Database = {
           },
         ]
       }
+      plans: {
+        Row: {
+          code: string
+          created_at: string | null
+          description: string | null
+          features: string[]
+          id: string
+          is_active: boolean | null
+          name: string
+          price_mo: number
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          description?: string | null
+          features?: string[]
+          id?: string
+          is_active?: boolean | null
+          name: string
+          price_mo?: number
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          features?: string[]
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          price_mo?: number
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       positions: {
         Row: {
           company_id: string
@@ -8158,6 +8197,53 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      tenant_plans: {
+        Row: {
+          active_from: string | null
+          active_to: string | null
+          created_at: string | null
+          id: string
+          is_trial: boolean | null
+          plan_code: string
+          seats: number
+          tenant_id: string
+          trial_ends_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          active_from?: string | null
+          active_to?: string | null
+          created_at?: string | null
+          id?: string
+          is_trial?: boolean | null
+          plan_code: string
+          seats?: number
+          tenant_id: string
+          trial_ends_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          active_from?: string | null
+          active_to?: string | null
+          created_at?: string | null
+          id?: string
+          is_trial?: boolean | null
+          plan_code?: string
+          seats?: number
+          tenant_id?: string
+          trial_ends_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_plans_plan_code_fkey"
+            columns: ["plan_code"]
+            isOneToOne: false
+            referencedRelation: "plans"
+            referencedColumns: ["code"]
+          },
+        ]
       }
       tool_integrations: {
         Row: {
