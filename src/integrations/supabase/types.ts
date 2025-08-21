@@ -1114,6 +1114,7 @@ export type Database = {
       audit_logs: {
         Row: {
           action: string
+          category: string | null
           company_id: string | null
           created_at: string | null
           id: string
@@ -1121,12 +1122,17 @@ export type Database = {
           new_values: Json | null
           old_values: Json | null
           record_id: string | null
+          session_id: string | null
+          severity: string | null
           table_name: string | null
           user_agent: string | null
+          user_email: string | null
           user_id: string | null
+          user_role: string | null
         }
         Insert: {
           action: string
+          category?: string | null
           company_id?: string | null
           created_at?: string | null
           id?: string
@@ -1134,12 +1140,17 @@ export type Database = {
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
+          session_id?: string | null
+          severity?: string | null
           table_name?: string | null
           user_agent?: string | null
+          user_email?: string | null
           user_id?: string | null
+          user_role?: string | null
         }
         Update: {
           action?: string
+          category?: string | null
           company_id?: string | null
           created_at?: string | null
           id?: string
@@ -1147,9 +1158,13 @@ export type Database = {
           new_values?: Json | null
           old_values?: Json | null
           record_id?: string | null
+          session_id?: string | null
+          severity?: string | null
           table_name?: string | null
           user_agent?: string | null
+          user_email?: string | null
           user_id?: string | null
+          user_role?: string | null
         }
         Relationships: [
           {
@@ -3957,9 +3972,11 @@ export type Database = {
       hr_employees: {
         Row: {
           allowances: number | null
+          audit_metadata: Json | null
           base_salary: number | null
           company_id: string
           created_at: string | null
+          data_retention_policy: Json | null
           dept_id: string | null
           dob: string | null
           employee_no: string
@@ -3980,9 +3997,11 @@ export type Database = {
         }
         Insert: {
           allowances?: number | null
+          audit_metadata?: Json | null
           base_salary?: number | null
           company_id: string
           created_at?: string | null
+          data_retention_policy?: Json | null
           dept_id?: string | null
           dob?: string | null
           employee_no: string
@@ -4003,9 +4022,11 @@ export type Database = {
         }
         Update: {
           allowances?: number | null
+          audit_metadata?: Json | null
           base_salary?: number | null
           company_id?: string
           created_at?: string | null
+          data_retention_policy?: Json | null
           dept_id?: string | null
           dob?: string | null
           employee_no?: string
@@ -7406,6 +7427,7 @@ export type Database = {
         Row: {
           compliance_status: string | null
           created_at: string | null
+          data_retention_policy: Json | null
           description_ar: string | null
           description_en: string | null
           document_category: string
@@ -7432,6 +7454,7 @@ export type Database = {
         Insert: {
           compliance_status?: string | null
           created_at?: string | null
+          data_retention_policy?: Json | null
           description_ar?: string | null
           description_en?: string | null
           document_category: string
@@ -7458,6 +7481,7 @@ export type Database = {
         Update: {
           compliance_status?: string | null
           created_at?: string | null
+          data_retention_policy?: Json | null
           description_ar?: string | null
           description_en?: string | null
           document_category?: string
@@ -7965,6 +7989,57 @@ export type Database = {
           name_ar?: string
           name_en?: string
           sic_code?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      security_config: {
+        Row: {
+          audit_retention_days: number
+          created_at: string
+          data_encryption_at_rest: boolean
+          id: string
+          lockout_duration_minutes: number
+          login_attempt_limit: number
+          password_min_length: number
+          password_require_special: boolean
+          require_2fa_for_admins: boolean
+          require_session_confirmation: boolean
+          session_idle_timeout_minutes: number
+          session_max_duration_hours: number
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          audit_retention_days?: number
+          created_at?: string
+          data_encryption_at_rest?: boolean
+          id?: string
+          lockout_duration_minutes?: number
+          login_attempt_limit?: number
+          password_min_length?: number
+          password_require_special?: boolean
+          require_2fa_for_admins?: boolean
+          require_session_confirmation?: boolean
+          session_idle_timeout_minutes?: number
+          session_max_duration_hours?: number
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          audit_retention_days?: number
+          created_at?: string
+          data_encryption_at_rest?: boolean
+          id?: string
+          lockout_duration_minutes?: number
+          login_attempt_limit?: number
+          password_min_length?: number
+          password_require_special?: boolean
+          require_2fa_for_admins?: boolean
+          require_session_confirmation?: boolean
+          session_idle_timeout_minutes?: number
+          session_max_duration_hours?: number
+          tenant_id?: string
           updated_at?: string
         }
         Relationships: []
@@ -9991,6 +10066,20 @@ export type Database = {
       }
       l2_normalize: {
         Args: { "": string } | { "": unknown } | { "": unknown }
+        Returns: string
+      }
+      log_audit_event: {
+        Args: {
+          p_action: string
+          p_category?: string
+          p_company_id: string
+          p_new_values?: Json
+          p_old_values?: Json
+          p_record_id?: string
+          p_severity?: string
+          p_table_name: string
+          p_user_id: string
+        }
         Returns: string
       }
       purge_old_auth_email_events: {

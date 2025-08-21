@@ -74,3 +74,6 @@ verify_jwt = true
 
 [functions.ask-aql-tools]
 verify_jwt = true
+
+[functions.secure-admin-wrapper]
+verify_jwt = true

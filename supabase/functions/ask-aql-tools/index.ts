@@ -51,6 +51,9 @@ serve(async (req) => {
         case 'find_document':
           result = await findDocument(tenantId, parameters);
           break;
+        case 'log_security_change':
+          result = await logSecurityChange(tenantId, userId, parameters);
+          break;
         default:
           throw new Error(`Unknown tool: ${tool}`);
       }
@@ -192,6 +195,37 @@ async function createTask(tenantId: string, userId: string, parameters: any) {
       due_date: dueDate.toISOString(),
       priority: priority,
       status: 'created'
+    }
+  };
+}
+
+async function logSecurityChange(tenantId: string, userId: string, parameters: any) {
+  const { action, changes } = parameters;
+  
+  // Log security configuration changes
+  const { error } = await supabase.from('audit_logs').insert({
+    company_id: tenantId,
+    user_id: userId,
+    action: action,
+    table_name: 'security_config',
+    record_id: tenantId,
+    old_values: null,
+    new_values: changes,
+    severity: 'info',
+    category: 'security',
+    ip_address: null,
+    user_agent: null
+  });
+
+  if (error) throw error;
+
+  return {
+    source: "Security Audit System",
+    scope: "Security configuration change logged",
+    data: {
+      action: action,
+      changes_logged: Object.keys(changes).length,
+      timestamp: new Date().toISOString()
     }
   };
 }

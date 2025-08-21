@@ -548,4 +548,5 @@ export const ROUTES: RouteConfig[] = [
   { path: '/agent/skills', element: AgentSkills, auth: false },
   { path: '/integrations', element: lazy(() => import('../pages/integrations/IntegrationsPage')), auth: true },
   { path: '/assistant', element: AssistantPage, auth: true },
+  { path: '/security', element: lazy(() => import('../pages/SecurityPage')), auth: true },
 ];
