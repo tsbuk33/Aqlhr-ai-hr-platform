@@ -9,15 +9,20 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 import { toast } from 'sonner';
+import { DeveloperTools } from '@/components/dev/DeveloperTools';
 
 export default function DashboardPage() {
   const { isArabic } = useSimpleLanguage();
   const { 
-    data, 
+    data: dashboardData, 
     loading, 
     error, 
     demoMode,
-    systemsOperational
+    isImpersonated,
+    systemsOperational,
+    tenantId,
+    mode,
+    refetch
   } = useLiveDashboard();
 
   const getSaudizationBadge = (rate: number) => {
@@ -27,14 +32,14 @@ export default function DashboardPage() {
   };
 
   const getStatData = () => {
-    if (!data) return [];
+    if (!dashboardData) return [];
     
-    const saudizationBadge = getSaudizationBadge(data.saudization_rate || 0);
+    const saudizationBadge = getSaudizationBadge(dashboardData.saudization_rate || 0);
     
     return [
       {
         title: isArabic ? 'إجمالي الموظفين' : 'Total Employees',
-        value: data.total_employees?.toLocaleString() || '—',
+        value: dashboardData.total_employees?.toLocaleString() || '—',
         description: isArabic ? 'الموظفون النشطون' : 'Active employees',
         icon: Users,
         clickable: true,
@@ -42,7 +47,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'نسبة السعودة' : 'Saudization Rate',
-        value: data.saudization_rate ? `${data.saudization_rate.toFixed(1)}%` : '—',
+        value: dashboardData.saudization_rate ? `${dashboardData.saudization_rate.toFixed(1)}%` : '—',
         description: saudizationBadge.text,
         icon: Target,
         badge: saudizationBadge,
@@ -51,7 +56,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'نقاط السلامة' : 'HSE Safety Score',
-        value: data.hse_safety_score ? `${data.hse_safety_score.toFixed(1)}` : '—',
+        value: dashboardData.hse_safety_score ? `${dashboardData.hse_safety_score.toFixed(1)}` : '—',
         description: isArabic ? 'مؤشر السلامة (90 يوم)' : 'Safety index (90d)',
         icon: Shield,
         clickable: true,
@@ -59,7 +64,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'نقاط الامتثال' : 'Compliance Score',
-        value: data.compliance_score ? `${data.compliance_score.toFixed(1)}` : '—',
+        value: dashboardData.compliance_score ? `${dashboardData.compliance_score.toFixed(1)}` : '—',
         description: isArabic ? 'التكامل والأتمتة' : 'Integrations & automation',
         icon: CheckCircle,
         clickable: true,
@@ -67,7 +72,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'تجربة الموظف' : 'Employee Experience',
-        value: data.employee_experience_10 ? `${data.employee_experience_10.toFixed(1)}/10` : '—',
+        value: dashboardData.employee_experience_10 ? `${dashboardData.employee_experience_10.toFixed(1)}/10` : '—',
         description: isArabic ? 'من بيانات الثقافة المؤسسية' : 'From CCI data blend',
         icon: Brain,
         clickable: true,
@@ -75,7 +80,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'المخاطر التنبؤية' : 'Predictive Risk',
-        value: data.predictive_risk_high?.toString() || '—',
+        value: dashboardData.predictive_risk_high?.toString() || '—',
         description: isArabic ? 'موظفون عالي المخاطر' : 'High-risk employees',
         icon: AlertTriangle,
         clickable: true,
@@ -83,7 +88,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'قوة خط المواهب' : 'Talent Pipeline',
-        value: data.talent_pipeline_strength?.toString() || '—',
+        value: dashboardData.talent_pipeline_strength?.toString() || '—',
         description: isArabic ? 'نقاط قوة التوظيف' : 'Recruiting strength',
         icon: TrendingUp,
         clickable: true,
@@ -91,7 +96,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'المستندات المعالجة' : 'Documents Processed',
-        value: data.docs_processed?.toLocaleString() || '—',
+        value: dashboardData.docs_processed?.toLocaleString() || '—',
         description: isArabic ? '30 يوم الماضية' : 'Last 30 days',
         icon: FileText,
         clickable: true,
@@ -99,7 +104,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'ساعات التدريب' : 'Training Hours',
-        value: data.training_hours ? `${Math.round(data.training_hours)}h` : '—',
+        value: dashboardData.training_hours ? `${Math.round(dashboardData.training_hours)}h` : '—',
         description: isArabic ? '90 يوم الماضية' : 'Last 90 days',
         icon: Activity,
         clickable: true,
@@ -107,7 +112,7 @@ export default function DashboardPage() {
       },
       {
         title: isArabic ? 'دقة التنبؤ' : 'Forecast Accuracy',
-        value: data.workforce_forecast_accuracy ? `${data.workforce_forecast_accuracy.toFixed(1)}%` : 'TBD',
+        value: dashboardData.workforce_forecast_accuracy ? `${dashboardData.workforce_forecast_accuracy.toFixed(1)}%` : 'TBD',
         description: isArabic ? 'التنبؤ بالقوى العاملة' : 'Workforce forecasting',
         icon: BarChart,
         clickable: false
@@ -225,9 +230,19 @@ export default function DashboardPage() {
                   {isArabic ? 'وضع التجربة' : 'Demo Mode'}
                 </Badge>
               )}
+              {isImpersonated && (
+                <Badge variant="outline" className="bg-purple-50 text-purple-800 border-purple-300 dark:bg-purple-950/30 dark:text-purple-200 dark:border-purple-800">
+                  {isArabic ? 'وضع المطور' : 'Dev Mode'}
+                </Badge>
+              )}
             </div>
             <p className="text-foreground-muted mt-2 text-lg">
               {isArabic ? 'عقل للموارد البشرية - منصة ذكية لإدارة المواهب' : 'AqlHR - Intelligent Talent Management Platform'}
+              {tenantId && (
+                <span className="text-xs text-muted-foreground ml-2">
+                  ({mode}: {tenantId.slice(0, 8)}...)
+                </span>
+              )}
             </p>
           </div>
           <div className="hidden lg:block">
@@ -306,7 +321,7 @@ export default function DashboardPage() {
       </div>
 
       {/* AI Insights */}
-      {data && (
+      {dashboardData && (
         <div className="space-y-4">
           <h2 className={`text-xl font-semibold text-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
             {isArabic ? 'رؤى الذكاء الاصطناعي' : 'AI Insights'}
@@ -318,8 +333,8 @@ export default function DashboardPage() {
                   <Brain className="h-5 w-5 text-blue-600" />
                   <p className="text-sm text-blue-800 dark:text-blue-200">
                     {isArabic 
-                      ? `نسبة السعودة ${data.saudization_rate?.toFixed(1)}% تتماشى مع أهداف رؤية 2030`
-                      : `Saudization rate of ${data.saudization_rate?.toFixed(1)}% aligns with Vision 2030 goals`
+                      ? `نسبة السعودة ${dashboardData.saudization_rate?.toFixed(1)}% تتماشى مع أهداف رؤية 2030`
+                      : `Saudization rate of ${dashboardData.saudization_rate?.toFixed(1)}% aligns with Vision 2030 goals`
                     }
                   </p>
                 </div>
@@ -332,8 +347,8 @@ export default function DashboardPage() {
                   <Shield className="h-5 w-5 text-green-600" />
                   <p className="text-sm text-green-800 dark:text-green-200">
                     {isArabic 
-                      ? `مؤشر السلامة ${data.hse_safety_score?.toFixed(1)} يُظهر بيئة عمل آمنة`
-                      : `Safety score of ${data.hse_safety_score?.toFixed(1)} indicates a secure work environment`
+                      ? `مؤشر السلامة ${dashboardData.hse_safety_score?.toFixed(1)} يُظهر بيئة عمل آمنة`
+                      : `Safety score of ${dashboardData.hse_safety_score?.toFixed(1)} indicates a secure work environment`
                     }
                   </p>
                 </div>
@@ -346,8 +361,8 @@ export default function DashboardPage() {
                   <TrendingUp className="h-5 w-5 text-purple-600" />
                   <p className="text-sm text-purple-800 dark:text-purple-200">
                     {isArabic 
-                      ? `تجربة الموظف ${data.employee_experience_10?.toFixed(1)}/10 تشير إلى مستوى رضا عالي`
-                      : `Employee experience of ${data.employee_experience_10?.toFixed(1)}/10 shows high satisfaction`
+                      ? `تجربة الموظف ${dashboardData.employee_experience_10?.toFixed(1)}/10 تشير إلى مستوى رضا عالي`
+                      : `Employee experience of ${dashboardData.employee_experience_10?.toFixed(1)}/10 shows high satisfaction`
                     }
                   </p>
                 </div>
@@ -359,6 +374,9 @@ export default function DashboardPage() {
 
       {/* AI Assistant */}
       <AqlHRAIAssistant moduleContext="dashboard.executive" />
+
+      {/* Developer Tools (shows in dev mode or demo/impersonation) */}
+      <DeveloperTools onRefresh={refetch} />
     </div>
   );
 }

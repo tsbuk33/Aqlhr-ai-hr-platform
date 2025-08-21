@@ -8,14 +8,21 @@ import { Switch } from '@/components/ui/switch';
 import { Settings, Database, Users, RefreshCw } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
+import { useTenant } from '@/lib/useTenant';
 
 interface DeveloperToolsProps {
   demoMode?: boolean;
   onRefresh?: () => void;
 }
 
-export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefresh }) => {
+export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh }) => {
   const { isArabic } = useSimpleLanguage();
+  const { 
+    tenantInfo, 
+    impersonateTenant, 
+    clearImpersonation,
+    refetch: refetchTenant 
+  } = useTenant();
   const [isExpanded, setIsExpanded] = useState(false);
   const [tenantId, setTenantId] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,14 +32,19 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefr
     
     try {
       setLoading(true);
-      // In a real implementation, this would set a session variable or call a secure function
-      // For now, we'll just trigger a refresh
+      impersonateTenant(tenantId);
       onRefresh?.();
     } catch (error) {
       console.error('Error switching tenant:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClearImpersonation = () => {
+    clearImpersonation();
+    setTenantId('');
+    onRefresh?.();
   };
 
   const getDemoTenantInfo = async () => {
@@ -46,8 +58,8 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefr
     }
   };
 
-  // Only show for development environment or when demo mode is active
-  if (process.env.NODE_ENV === 'production' && !demoMode) {
+  // Only show for development environment or when in demo/impersonated mode
+  if (process.env.NODE_ENV === 'production' && !tenantInfo?.mode) {
     return null;
   }
 
@@ -85,14 +97,38 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefr
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Demo Mode Indicator */}
+            {/* Mode Indicator */}
             <div className="flex items-center justify-between">
               <Label className="text-xs font-medium">
-                {isArabic ? 'وضع التجربة' : 'Demo Mode'}
+                {isArabic ? 'الوضع الحالي' : 'Current Mode'}
               </Label>
-              <Badge variant={demoMode ? "default" : "outline"} className="text-xs">
-                {demoMode ? (isArabic ? 'مفعل' : 'Active') : (isArabic ? 'غير مفعل' : 'Inactive')}
-              </Badge>
+              <div className="flex gap-1">
+                {tenantInfo?.mode === 'demo' && (
+                  <Badge variant="outline" className="text-xs">
+                    {isArabic ? 'تجريبي' : 'Demo'}
+                  </Badge>
+                )}
+                {tenantInfo?.mode === 'auth' && (
+                  <Badge variant="default" className="text-xs">
+                    {isArabic ? 'مصادق' : 'Auth'}
+                  </Badge>
+                )}
+                {tenantInfo?.mode === 'impersonated' && (
+                  <Badge variant="secondary" className="text-xs">
+                    {isArabic ? 'مطور' : 'Dev'}
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Current Tenant */}
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-medium">
+                {isArabic ? 'المستأجر' : 'Tenant'}
+              </Label>
+              <span className="text-xs font-mono text-muted-foreground">
+                {tenantInfo?.tenantId?.slice(0, 8) || 'None'}...
+              </span>
             </div>
 
             {/* Tenant Impersonation */}
@@ -140,7 +176,7 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefr
                 <Button 
                   size="sm" 
                   variant="outline" 
-                  onClick={onRefresh}
+                  onClick={refetchTenant}
                   className="flex-1 text-xs"
                 >
                   <RefreshCw className="h-3 w-3 mr-1" />
@@ -156,15 +192,31 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ demoMode, onRefr
                   {isArabic ? 'البيانات' : 'Data'}
                 </Button>
               </div>
+              {tenantInfo?.mode === 'impersonated' && (
+                <Button 
+                  size="sm" 
+                  variant="destructive" 
+                  onClick={handleClearImpersonation}
+                  className="w-full text-xs"
+                >
+                  {isArabic ? 'إلغاء الانتحال' : 'Clear Impersonation'}
+                </Button>
+              )}
             </div>
 
             {/* Environment Info */}
             <div className="pt-2 border-t">
               <div className="text-xs text-muted-foreground space-y-1">
                 <div>Env: {process.env.NODE_ENV}</div>
-                {demoMode && (
+                <div>Mode: {tenantInfo?.mode || 'unknown'}</div>
+                {tenantInfo?.mode === 'demo' && (
                   <div className="text-yellow-600">
                     {isArabic ? '⚠️ وضع التجربة نشط' : '⚠️ Demo mode active'}
+                  </div>
+                )}
+                {tenantInfo?.mode === 'impersonated' && (
+                  <div className="text-purple-600">
+                    {isArabic ? '👤 وضع المطور نشط' : '👤 Dev mode active'}
                   </div>
                 )}
               </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
+import { useTenant } from '@/lib/useTenant';
 
 interface LiveDashboardData {
   snap_date: string;
@@ -19,44 +20,19 @@ interface LiveDashboardData {
 
 export function useLiveDashboard() {
   const { user } = useAuth();
+  const { tenantId, mode, loading: tenantLoading, refetch: refetchTenant } = useTenant();
   const [data, setData] = useState<LiveDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [demoMode, setDemoMode] = useState(false);
   const [systemsOperational, setSystemsOperational] = useState<{ connected: number; total: number } | null>(null);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
       
-      let tenantId: string | null = null;
-      let isDemo = false;
-
-      // Try to get authenticated user's company ID first
-      if (user) {
-        const { data: userRole } = await supabase
-          .from('user_roles')
-          .select('company_id')
-          .eq('user_id', user.id)
-          .single();
-        
-        if (userRole?.company_id) {
-          tenantId = userRole.company_id;
-        }
-      }
-
-      // If no authenticated tenant, use demo mode
-      if (!tenantId) {
-        const { data: demoTenant } = await supabase.rpc('get_demo_tenant_id');
-        if (demoTenant) {
-          tenantId = demoTenant;
-          isDemo = true;
-          setDemoMode(true);
-        }
-      }
-
-      if (!tenantId) {
-        throw new Error('No tenant available for dashboard data');
+      // Wait for tenant resolution if still loading
+      if (tenantLoading || !tenantId) {
+        return;
       }
 
       // Use dashboard_get_v1 RPC function for secure data access
@@ -66,7 +42,7 @@ export function useLiveDashboard() {
 
       if (rpcError) {
         console.warn('RPC error, falling back to direct query:', rpcError);
-        // Fallback to direct query for demo mode
+        // Fallback to direct query
         const { data: fallbackData, error: fallbackError } = await supabase
           .from('kpi_snapshots')
           .select('*')
@@ -120,28 +96,26 @@ export function useLiveDashboard() {
       }
 
       // Fetch systems status
-      if (tenantId) {
-        try {
-          const { data: statusData } = await supabase.rpc('integrations_status_v1', {
-            p_tenant: tenantId
+      try {
+        const { data: statusData } = await supabase.rpc('integrations_status_v1', {
+          p_tenant: tenantId
+        });
+        if (statusData && Array.isArray(statusData) && statusData.length > 0) {
+          const firstStatus = statusData[0] as any;
+          setSystemsOperational({
+            connected: Number(firstStatus.connected || 0),
+            total: Number(firstStatus.total || 0)
           });
-          if (statusData && Array.isArray(statusData) && statusData.length > 0) {
-            const firstStatus = statusData[0] as any;
-            setSystemsOperational({
-              connected: Number(firstStatus.connected || 0),
-              total: Number(firstStatus.total || 0)
-            });
-          } else if (statusData) {
-            const status = statusData as any;
-            setSystemsOperational({
-              connected: Number(status.connected || 0),
-              total: Number(status.total || 0)
-            });
-          }
-        } catch (statusError) {
-          console.warn('Could not fetch system status:', statusError);
-          setSystemsOperational({ connected: 5, total: 8 }); // Default fallback
+        } else if (statusData) {
+          const status = statusData as any;
+          setSystemsOperational({
+            connected: Number(status.connected || 0),
+            total: Number(status.total || 0)
+          });
         }
+      } catch (statusError) {
+        console.warn('Could not fetch system status:', statusError);
+        setSystemsOperational({ connected: 5, total: 8 }); // Default fallback
       }
 
       setError(null);
@@ -184,15 +158,19 @@ export function useLiveDashboard() {
 
   useEffect(() => {
     fetchDashboardData();
-  }, [user]);
+  }, [tenantId, tenantLoading]);
 
   return {
     data,
-    loading,
+    loading: loading || tenantLoading,
     error,
-    demoMode,
+    demoMode: mode === 'demo',
+    isImpersonated: mode === 'impersonated', 
     systemsOperational,
+    tenantId,
+    mode,
     refetch: fetchDashboardData,
-    computeKPIs
+    computeKPIs,
+    refetchTenant
   };
 }
