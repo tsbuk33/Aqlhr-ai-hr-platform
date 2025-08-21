@@ -691,6 +691,104 @@ export type Database = {
         }
         Relationships: []
       }
+      assistant_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          role: string
+          session_id: string
+          tenant_id: string
+          tool_name: string | null
+          tool_payload: Json | null
+          tool_result: Json | null
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          role: string
+          session_id: string
+          tenant_id: string
+          tool_name?: string | null
+          tool_payload?: Json | null
+          tool_result?: Json | null
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          role?: string
+          session_id?: string
+          tenant_id?: string
+          tool_name?: string | null
+          tool_payload?: Json | null
+          tool_result?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assistant_messages_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "assistant_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assistant_sessions: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          lang: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          lang?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          lang?: string | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      assistant_tool_logs: {
+        Row: {
+          called_at: string | null
+          id: string
+          payload: Json | null
+          requested_by: string | null
+          result_summary: string | null
+          tenant_id: string
+          tool_name: string
+        }
+        Insert: {
+          called_at?: string | null
+          id?: string
+          payload?: Json | null
+          requested_by?: string | null
+          result_summary?: string | null
+          tenant_id: string
+          tool_name: string
+        }
+        Update: {
+          called_at?: string | null
+          id?: string
+          payload?: Json | null
+          requested_by?: string | null
+          result_summary?: string | null
+          tenant_id?: string
+          tool_name?: string
+        }
+        Relationships: []
+      }
       attendance: {
         Row: {
           actual_hours: number | null
