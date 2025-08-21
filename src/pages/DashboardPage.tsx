@@ -6,6 +6,7 @@ import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useLiveDashboard } from '@/hooks/useLiveDashboard';
 import { useDashboardAlerts } from '@/hooks/useDashboardAlerts';
+import { useDashboardTrends } from '@/hooks/useDashboardTrends';
 import { Sparkline } from '@/components/charts/Sparkline';
 import { TimeSeriesChart } from '@/components/charts/TimeSeriesChart';
 import { IssuesCard } from '@/components/dashboard/IssuesCard';
@@ -36,6 +37,8 @@ export default function DashboardPage() {
     getMoMChange,
     getSparklineData,
     backfillHistoricalData
+  } = useDashboardTrends();
+  
   const { alerts } = useDashboardAlerts();
 
   const getSaudizationBadge = (rate: number) => {
