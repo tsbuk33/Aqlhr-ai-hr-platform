@@ -97,7 +97,7 @@ export function useDashboardTrends(days = 365) {
 
       await supabase.rpc('dashboard_backfill_v1', {
         p_tenant: tenantId,
-        p_num_days: days
+        p_days: days
       });
 
       // Refresh data after backfill

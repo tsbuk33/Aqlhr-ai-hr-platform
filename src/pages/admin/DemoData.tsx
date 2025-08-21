@@ -69,7 +69,7 @@ export default function DemoDataPage() {
 
       const { error } = await supabase.rpc('dashboard_backfill_v1', {
         p_tenant: tenantId,
-        p_num_days: 365
+        p_days: 365
       });
 
       if (error) throw error;
@@ -102,9 +102,9 @@ export default function DemoDataPage() {
       }
 
       // Call the new dashboard computation function for today
-      const { error } = await supabase.rpc('dashboard_compute_kpis_asof_v1', {
+      const { error } = await supabase.rpc('dashboard_compute_kpis_v1', {
         p_tenant: tenantId,
-        p_asof: new Date().toISOString().split('T')[0]
+        p_date: new Date().toISOString().split('T')[0]
       });
 
       if (error) throw error;

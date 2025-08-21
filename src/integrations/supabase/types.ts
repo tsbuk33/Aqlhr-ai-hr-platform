@@ -4249,10 +4249,12 @@ export type Database = {
           company_id: string
           created_at: string | null
           data_retention_policy: Json | null
+          department_id: string | null
           dept_id: string | null
           dob: string | null
           employee_no: string
           employment_status: string | null
+          first_name: string | null
           full_name_ar: string
           full_name_en: string
           gender: string
@@ -4262,8 +4264,10 @@ export type Database = {
           iqama_expiry: string | null
           is_saudi: boolean
           job_id: string | null
+          last_name: string | null
           location_id: string | null
           manager_id: string | null
+          nationality: string | null
           nationality_code: string
           termination_date: string | null
         }
@@ -4274,10 +4278,12 @@ export type Database = {
           company_id: string
           created_at?: string | null
           data_retention_policy?: Json | null
+          department_id?: string | null
           dept_id?: string | null
           dob?: string | null
           employee_no: string
           employment_status?: string | null
+          first_name?: string | null
           full_name_ar: string
           full_name_en: string
           gender: string
@@ -4287,8 +4293,10 @@ export type Database = {
           iqama_expiry?: string | null
           is_saudi: boolean
           job_id?: string | null
+          last_name?: string | null
           location_id?: string | null
           manager_id?: string | null
+          nationality?: string | null
           nationality_code: string
           termination_date?: string | null
         }
@@ -4299,10 +4307,12 @@ export type Database = {
           company_id?: string
           created_at?: string | null
           data_retention_policy?: Json | null
+          department_id?: string | null
           dept_id?: string | null
           dob?: string | null
           employee_no?: string
           employment_status?: string | null
+          first_name?: string | null
           full_name_ar?: string
           full_name_en?: string
           gender?: string
@@ -4312,8 +4322,10 @@ export type Database = {
           iqama_expiry?: string | null
           is_saudi?: boolean
           job_id?: string | null
+          last_name?: string | null
           location_id?: string | null
           manager_id?: string | null
+          nationality?: string | null
           nationality_code?: string
           termination_date?: string | null
         }
@@ -10251,11 +10263,15 @@ export type Database = {
         }[]
       }
       dashboard_backfill_v1: {
-        Args: { p_num_days?: number; p_tenant: string }
+        Args: { p_days?: number; p_tenant: string }
         Returns: undefined
       }
       dashboard_compute_kpis_asof_v1: {
         Args: { p_asof: string; p_tenant: string }
+        Returns: undefined
+      }
+      dashboard_compute_kpis_v1: {
+        Args: { p_date?: string; p_tenant: string }
         Returns: undefined
       }
       dashboard_get_series_v1: {
