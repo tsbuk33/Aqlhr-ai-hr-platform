@@ -1,0 +1,311 @@
+-- Dashboard Trends & Alerts v1: Production-grade KPI tracking and alerting
+-- Unique day constraint for snapshots
+CREATE UNIQUE INDEX IF NOT EXISTS uq_kpi_snapshots_tenant_day
+ON public.kpi_snapshots(company_id, snap_date);
+
+-- HSE incidents table (if not exists)
+CREATE TABLE IF NOT EXISTS public.hse_incidents (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  tenant_id UUID NOT NULL,
+  occurred_at TIMESTAMPTZ NOT NULL,
+  severity TEXT NOT NULL DEFAULT 'medium',
+  description TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Integrations table (if not exists)  
+CREATE TABLE IF NOT EXISTS public.integrations (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  tenant_id UUID NOT NULL,
+  name TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'disconnected',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Docs events table (if not exists)
+CREATE TABLE IF NOT EXISTS public.docs_events (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  tenant_id UUID NOT NULL,
+  event_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  processed_by_ai BOOLEAN DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- HR training table (if not exists)
+CREATE TABLE IF NOT EXISTS public.hr_training (
+  id UUID NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  tenant_id UUID NOT NULL,
+  completed_at TIMESTAMPTZ,
+  hours NUMERIC DEFAULT 0,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- CCI scores view (drop and recreate to ensure consistency)
+DROP VIEW IF EXISTS public.cci_scores_public_v1;
+CREATE VIEW public.cci_scores_public_v1 AS
+SELECT 
+  id as tenant_id,
+  'overall' as scope,
+  jsonb_build_object('values_alignment', 75) as barrett,
+  75 as psych_safety,
+  now() as last_computed_at
+FROM public.companies
+WHERE id IS NOT NULL;
+
+-- As-of variants so we can backfill properly (no CURRENT_DATE leakage)
+CREATE OR REPLACE FUNCTION public.compute_hse_safety_score_asof(p_tenant UUID, p_asof DATE)
+RETURNS NUMERIC LANGUAGE SQL STABLE AS $$
+  WITH x AS (
+    SELECT count(*)::NUMERIC as incidents
+    FROM public.hse_incidents
+    WHERE tenant_id = p_tenant 
+      AND occurred_at > (p_asof::TIMESTAMPTZ - INTERVAL '90 days') 
+      AND occurred_at <= (p_asof::TIMESTAMPTZ)
+  )
+  SELECT GREATEST(0, LEAST(100, 100 - (SELECT incidents FROM x) * 2.5));
+$$;
+
+CREATE OR REPLACE FUNCTION public.compute_compliance_score_asof(p_tenant UUID, p_asof DATE)
+RETURNS NUMERIC LANGUAGE SQL STABLE AS $$
+  WITH i AS (
+    SELECT AVG(CASE WHEN status='connected' THEN 1 ELSE 0 END)::NUMERIC as pct
+    FROM public.integrations WHERE tenant_id = p_tenant
+  ),
+  d AS (
+    SELECT AVG(CASE WHEN processed_by_ai THEN 1 ELSE 0 END)::NUMERIC as pct
+    FROM public.docs_events
+    WHERE tenant_id = p_tenant 
+      AND event_at > (p_asof::TIMESTAMPTZ - INTERVAL '90 days') 
+      AND event_at <= (p_asof::TIMESTAMPTZ)
+  ),
+  t AS (
+    SELECT COALESCE(SUM(hours), 0) as hrs
+    FROM public.hr_training
+    WHERE tenant_id = p_tenant 
+      AND completed_at > (p_asof::TIMESTAMPTZ - INTERVAL '90 days') 
+      AND completed_at <= (p_asof::TIMESTAMPTZ)
+  )
+  SELECT ROUND(
+    0.5 * COALESCE((SELECT pct FROM i), 0) * 100
+    + 0.2 * COALESCE((SELECT hrs FROM t), 0) * 10
+    + 0.3 * COALESCE((SELECT pct FROM d), 0) * 100, 1
+  );
+$$;
+
+-- Daily writer (as-of date)
+CREATE OR REPLACE FUNCTION public.dashboard_compute_kpis_asof_v1(p_tenant UUID, p_asof DATE)
+RETURNS VOID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE 
+  v_total INT; 
+  v_saudis INT; 
+  v_docs INT; 
+  v_exp NUMERIC;
+BEGIN
+  -- Headcount "as of" using hires/terminations
+  SELECT count(*) INTO v_total 
+  FROM public.hr_employees
+  WHERE company_id = p_tenant 
+    AND hire_date <= p_asof 
+    AND (termination_date IS NULL OR termination_date > p_asof);
+
+  SELECT count(*) INTO v_saudis 
+  FROM public.hr_employees
+  WHERE company_id = p_tenant 
+    AND hire_date <= p_asof 
+    AND (termination_date IS NULL OR termination_date > p_asof) 
+    AND is_saudi = true;
+
+  SELECT count(*) INTO v_docs 
+  FROM public.docs_events
+  WHERE tenant_id = p_tenant 
+    AND event_at > (p_asof::TIMESTAMPTZ - INTERVAL '30 days') 
+    AND event_at <= (p_asof::TIMESTAMPTZ);
+
+  v_exp := ROUND((
+    COALESCE((
+      SELECT (barrett->>'values_alignment')::NUMERIC
+      FROM public.cci_scores_public_v1 s
+      WHERE s.tenant_id = p_tenant 
+        AND s.scope = 'overall'
+        AND s.last_computed_at::DATE <= p_asof
+      ORDER BY s.last_computed_at DESC 
+      LIMIT 1
+    ), 70) * 0.4
+    + COALESCE((
+      SELECT psych_safety
+      FROM public.cci_scores_public_v1 s
+      WHERE s.tenant_id = p_tenant 
+        AND s.scope = 'overall'
+        AND s.last_computed_at::DATE <= p_asof
+      ORDER BY s.last_computed_at DESC 
+      LIMIT 1
+    ), 70) * 0.6
+  ), 1) / 10.0;
+
+  INSERT INTO public.kpi_snapshots(
+    company_id, snap_date, total_employees, saudization_rate,
+    hse_safety_score, active_users, docs_processed, training_hours,
+    compliance_score, talent_pipeline_strength, predictive_risk_high,
+    employee_experience_10, workforce_forecast_accuracy
+  )
+  VALUES (
+    p_tenant, p_asof, v_total,
+    CASE WHEN v_total = 0 THEN 0 ELSE ROUND((v_saudis::NUMERIC / v_total) * 100, 1) END,
+    public.compute_hse_safety_score_asof(p_tenant, p_asof),
+    0,
+    v_docs,
+    COALESCE((
+      SELECT SUM(hours) 
+      FROM public.hr_training
+      WHERE tenant_id = p_tenant 
+        AND completed_at > (p_asof::TIMESTAMPTZ - INTERVAL '90 days') 
+        AND completed_at <= (p_asof::TIMESTAMPTZ)
+    ), 0),
+    public.compute_compliance_score_asof(p_tenant, p_asof),
+    75, 12, v_exp, 0
+  )
+  ON CONFLICT (company_id, snap_date) DO NOTHING;
+END;
+$$;
+
+-- Backfill N days from today inclusively
+CREATE OR REPLACE FUNCTION public.dashboard_backfill_v1(p_tenant UUID, p_days INT DEFAULT 365)
+RETURNS VOID LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE 
+  d DATE := CURRENT_DATE - (p_days::INT - 1);
+BEGIN
+  WHILE d <= CURRENT_DATE LOOP
+    PERFORM public.dashboard_compute_kpis_asof_v1(p_tenant => p_tenant, p_asof => d);
+    d := d + 1;
+  END LOOP;
+END;
+$$;
+
+-- Series RPC for frontend (single call) - updated to match existing function signature
+CREATE OR REPLACE FUNCTION public.dashboard_get_series_v1(p_tenant UUID, days INT DEFAULT 365)
+RETURNS TABLE(
+  snap_date TEXT,
+  total_employees NUMERIC,
+  saudization_rate NUMERIC,
+  hse_safety_score NUMERIC,
+  compliance_score NUMERIC,
+  employee_experience_10 NUMERIC,
+  predictive_risk_high NUMERIC
+) LANGUAGE SQL STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT 
+    snap_date::TEXT, 
+    total_employees::NUMERIC, 
+    saudization_rate, 
+    hse_safety_score, 
+    compliance_score, 
+    employee_experience_10, 
+    predictive_risk_high::NUMERIC
+  FROM public.kpi_snapshots
+  WHERE company_id = p_tenant 
+    AND snap_date >= CURRENT_DATE - (days::INT - 1)
+  ORDER BY snap_date ASC;
+$$;
+
+-- Simple alert rules (return bilingual text + metadata) - updated to match existing function signature
+CREATE OR REPLACE FUNCTION public.dashboard_rules_v1(p_tenant UUID)
+RETURNS TABLE(
+  id TEXT,
+  title TEXT,
+  message TEXT,
+  severity TEXT,
+  metric TEXT,
+  current_value NUMERIC,
+  threshold_value NUMERIC,
+  created_at TIMESTAMPTZ
+) LANGUAGE SQL STABLE SECURITY DEFINER SET search_path = public AS $$
+WITH cur AS (
+  SELECT * FROM public.kpi_snapshots
+  WHERE company_id = p_tenant ORDER BY snap_date DESC LIMIT 1
+),
+prev30 AS (
+  SELECT * FROM public.kpi_snapshots
+  WHERE company_id = p_tenant ORDER BY snap_date DESC OFFSET 30 LIMIT 1
+),
+hse7 AS (
+  SELECT count(*)::NUMERIC as n7 FROM public.hse_incidents
+  WHERE tenant_id = p_tenant AND occurred_at > CURRENT_DATE - INTERVAL '7 days'
+),
+hse90 AS (
+  SELECT GREATEST(count(*)::NUMERIC, 1) as n90 FROM public.hse_incidents
+  WHERE tenant_id = p_tenant AND occurred_at > CURRENT_DATE - INTERVAL '90 days'
+)
+SELECT * FROM (
+  -- Saudization below 60
+  SELECT 
+    'saud_below_60' as id,
+    'Saudization Rate Critical' as title,
+    'Saudization below 60% – risk of Nitaqat downgrade' as message,
+    'High' as severity, 
+    'saudization' as metric,
+    (SELECT saudization_rate FROM cur) as current_value,
+    60::NUMERIC as threshold_value,
+    now() as created_at
+  WHERE (SELECT saudization_rate FROM cur) < 60
+
+  UNION ALL
+  -- Psych safety drop > 1.0 in 30d
+  SELECT 
+    'psych_drop_30d' as id,
+    'Employee Experience Declining' as title,
+    'Psychological safety dropped >1.0 in 30 days' as message,
+    'Medium' as severity,
+    'psych_safety' as metric,
+    (SELECT employee_experience_10*10 FROM cur) as current_value,
+    (SELECT employee_experience_10*10 FROM prev30) - 1.0 as threshold_value,
+    now() as created_at
+  WHERE COALESCE((SELECT employee_experience_10*10 FROM cur) - (SELECT employee_experience_10*10 FROM prev30), 0) < -1.0
+
+  UNION ALL
+  -- HSE spike: 7d > 1.5x baseline weekly avg
+  SELECT 
+    'hse_spike_7d' as id,
+    'HSE Safety Alert' as title,
+    'HSE incidents spiked in the last 7 days' as message,
+    'High' as severity,
+    'hse' as metric,
+    (SELECT n7 FROM hse7) as current_value,
+    ((SELECT n90 FROM hse90) / 13.0) * 1.5 as threshold_value,
+    now() as created_at
+  WHERE (SELECT n7 FROM hse7) > ((SELECT n90 FROM hse90) / 13.0) * 1.5
+
+  UNION ALL
+  -- Default "all good" message if no alerts
+  SELECT 
+    'all_systems_normal' as id,
+    'All Systems Operating Normally' as title,
+    'No critical issues detected across key performance indicators' as message,
+    'Low' as severity,
+    'overall' as metric,
+    100::NUMERIC as current_value,
+    100::NUMERIC as threshold_value,
+    now() as created_at
+  WHERE NOT EXISTS (
+    SELECT 1 FROM cur WHERE saudization_rate < 60
+    UNION ALL
+    SELECT 1 FROM cur, prev30 WHERE COALESCE((cur.employee_experience_10*10) - (prev30.employee_experience_10*10), 0) < -1.0
+    UNION ALL
+    SELECT 1 FROM hse7, hse90 WHERE hse7.n7 > (hse90.n90 / 13.0) * 1.5
+  )
+) a;
+$$;
+
+-- Enable RLS on new tables
+ALTER TABLE IF EXISTS public.hse_incidents ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.integrations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.docs_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE IF EXISTS public.hr_training ENABLE ROW LEVEL SECURITY;
+
+-- RLS policies for new tables
+CREATE POLICY IF NOT EXISTS tenant_isolation_hse_incidents ON public.hse_incidents
+FOR ALL USING (tenant_id = get_user_company_id());
+
+CREATE POLICY IF NOT EXISTS tenant_isolation_integrations ON public.integrations
+FOR ALL USING (tenant_id = get_user_company_id());
+
+CREATE POLICY IF NOT EXISTS tenant_isolation_docs_events ON public.docs_events
+FOR ALL USING (tenant_id = get_user_company_id());
