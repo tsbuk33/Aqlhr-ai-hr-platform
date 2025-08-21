@@ -34,7 +34,14 @@ export const translations = {
     nextStepsDescription: 'Apply plan, monitor pulses, re-compute scores, and review adoption.',
     balance: 'Balance',
     risk: 'Risk',
-    psychSafety: 'Psych Safety'
+    psychSafety: 'Psych Safety',
+    hofstedeContext: 'Hofstede Context',
+    nationalCulturalContext: 'Weighted national cultural mix provides context only',
+    hofstedeUnavailable: 'Hofstede data unavailable',
+    evidenceInsights: 'Evidence Insights',
+    evidenceContributes: 'Evidence contributes up to 10% of Balance Score',
+    artifacts: 'artifacts',
+    noEvidenceAvailable: 'No evidence artifacts available'
   },
   ar: {
     corporateCultureIntelligence: 'ذكاء الثقافة المؤسسية',
@@ -61,7 +68,14 @@ export const translations = {
     nextStepsDescription: 'تطبيق الخطة، متابعة النبضات، إعادة احتساب المؤشرات، ومراجعة التبنّي.',
     balance: 'التوازن',
     risk: 'المخاطر',
-    psychSafety: 'السلامة النفسية'
+    psychSafety: 'السلامة النفسية',
+    hofstedeContext: 'سياق هوفستد',
+    nationalCulturalContext: 'المزيج الثقافي الوطني المرجح يوفر سياقاً فقط',
+    hofstedeUnavailable: 'بيانات هوفستد غير متاحة',
+    evidenceInsights: 'رؤى الأدلة',
+    evidenceContributes: 'تساهم الأدلة بما يصل إلى 10% من درجة التوازن',
+    artifacts: 'عناصر',
+    noEvidenceAvailable: 'لا توجد عناصر أدلة متاحة'
   }
 };
 

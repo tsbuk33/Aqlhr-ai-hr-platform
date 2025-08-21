@@ -60,6 +60,41 @@ export async function fetchOverview(tenantId: string, surveyId: string, waveId?:
   }
 }
 
+export async function fetchHofstedeContext(tenantId: string, surveyId: string, waveId: string) {
+  try {
+    // This would normally call cci_get_hofstede_context_v1 RPC
+    // For now, return mock data structure
+    return [
+      { dimension: 'Power Distance', weighted_score: 65.5 },
+      { dimension: 'Individualism', weighted_score: 45.2 },
+      { dimension: 'Masculinity', weighted_score: 55.8 },
+      { dimension: 'Uncertainty Avoidance', weighted_score: 78.3 },
+      { dimension: 'Long-term Orientation', weighted_score: 62.1 },
+      { dimension: 'Indulgence', weighted_score: 38.9 }
+    ];
+  } catch (error) {
+    console.error('Error fetching Hofstede context:', error);
+    return null;
+  }
+}
+
+export async function fetchEvidenceInsights(tenantId: string, surveyId: string, waveId: string) {
+  try {
+    // This would normally query AI-processed evidence tags from cci_evidence
+    // For now, return mock data structure
+    return [
+      { tag: 'Innovation Culture', count: 24 },
+      { tag: 'Team Collaboration', count: 18 },
+      { tag: 'Leadership Style', count: 15 },
+      { tag: 'Communication Patterns', count: 12 },
+      { tag: 'Performance Recognition', count: 9 }
+    ];
+  } catch (error) {
+    console.error('Error fetching evidence insights:', error);
+    return null;
+  }
+}
+
 export async function fetchHeatmap(tenantId: string, surveyId: string, waveId: string, scope: 'dept' | 'project' | 'grade') {
   try {
     const { data, error } = await supabase.rpc('cci_get_heatmap_v1', {
@@ -121,14 +156,14 @@ export async function fetchPlaybook(tenantId: string, surveyId: string, waveId: 
 
 export async function fetchCSVData(tenantId: string, surveyId: string, waveId: string) {
   try {
-    // Fetch aggregated scores from cci_scores table
+    // Fetch all aggregated scores including suppressed groups (includes suppressed groups with null metrics)
     const { data, error } = await supabase
       .from('cci_scores')
       .select('*')
       .eq('tenant_id', tenantId)
       .eq('survey_id', surveyId)
-      .eq('wave_id', waveId)
-      .gte('n', 7); // Only include groups with n >= 7 for anonymity
+      .eq('wave_id', waveId);
+      // No filter on 'n' - include all groups even if n < 7 (they will have null metrics)
 
     if (error) {
       console.error('Error fetching CCI CSV data:', error);
@@ -174,44 +209,49 @@ export function generateCSVContent(data: any[]): string {
 
   data.forEach(row => {
     const csvRow = headers.map(header => {
-      let value = '';
+      let value = row[header];
+      
+      // Handle nested JSON fields - return empty string for null metrics in suppressed groups
+      if (value === null || value === undefined) {
+        return '';
+      }
       
       switch (header) {
         case 'cvf_clan':
-          value = row.cvf?.Clan || '';
+          value = row.cvf?.Clan ?? '';
           break;
         case 'cvf_adhocracy':
-          value = row.cvf?.Adhocracy || '';
+          value = row.cvf?.Adhocracy ?? '';
           break;
         case 'cvf_market':
-          value = row.cvf?.Market || '';
+          value = row.cvf?.Market ?? '';
           break;
         case 'cvf_hierarchy':
-          value = row.cvf?.Hierarchy || '';
+          value = row.cvf?.Hierarchy ?? '';
           break;
         case 'web_stories':
-          value = row.web?.Stories || '';
+          value = row.web?.Stories ?? '';
           break;
         case 'web_symbols':
-          value = row.web?.Symbols || '';
+          value = row.web?.Symbols ?? '';
           break;
         case 'web_power_structures':
-          value = row.web?.['Power Structures'] || '';
+          value = row.web?.['Power Structures'] ?? '';
           break;
         case 'web_control_systems':
-          value = row.web?.['Control Systems'] || '';
+          value = row.web?.['Control Systems'] ?? '';
           break;
         case 'web_rituals_routines':
-          value = row.web?.['Rituals & Routines'] || '';
+          value = row.web?.['Rituals & Routines'] ?? '';
           break;
         case 'web_organizational_structure':
-          value = row.web?.['Organizational Structure'] || '';
+          value = row.web?.['Organizational Structure'] ?? '';
           break;
         case 'values_alignment':
-          value = row.barrett?.values_alignment || '';
+          value = row.barrett?.values_alignment ?? '';
           break;
         default:
-          value = row[header] || '';
+          value = row[header] ?? '';
       }
       
       // Escape commas in values

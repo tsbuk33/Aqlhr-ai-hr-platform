@@ -2,6 +2,16 @@ import html2canvas from 'html2canvas';
 
 export async function capturePng(el: HTMLElement): Promise<string> {
   try {
+    // Ensure element is visible for capture
+    const originalPosition = el.style.position;
+    const originalLeft = el.style.left;
+    const originalVisibility = el.style.visibility;
+    
+    // Temporarily position off-screen but visible
+    el.style.position = 'absolute';
+    el.style.left = '-10000px';
+    el.style.visibility = 'visible';
+    
     const canvas = await html2canvas(el, { 
       backgroundColor: '#fff', 
       scale: 2,
@@ -10,6 +20,12 @@ export async function capturePng(el: HTMLElement): Promise<string> {
       width: el.offsetWidth,
       height: el.offsetHeight
     });
+    
+    // Restore original styles
+    el.style.position = originalPosition;
+    el.style.left = originalLeft;
+    el.style.visibility = originalVisibility;
+    
     return canvas.toDataURL('image/png');
   } catch (error) {
     console.error('Error capturing chart:', error);

@@ -1,15 +1,18 @@
 import { fetchCSVData, generateCSVContent } from './data';
 import { footerFor } from './disclaimers';
 
-export function generateCSVFilename(waveLabel: string): string {
-  return `AqlHR_CCI_${waveLabel.replace(/[^a-zA-Z0-9]/g, '_')}_data.csv`;
+export function generateCSVFilename(tenantName: string, waveNo: string): string {
+  const cleanTenantName = tenantName.replace(/[^a-zA-Z0-9]/g, '_');
+  const cleanWaveNo = waveNo.replace(/[^a-zA-Z0-9]/g, '_');
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  return `AqlHR_CCI_${cleanTenantName}_Wave_${cleanWaveNo}_${dateStr}.csv`;
 }
 
-export async function exportCSV(tenantId: string, surveyId: string, waveId: string, waveLabel: string, lang: 'en' | 'ar' = 'en') {
+export async function exportCSV(tenantId: string, surveyId: string, waveId: string, tenantName: string, waveNo: string, lang: 'en' | 'ar' = 'en') {
   try {
     const data = await fetchCSVData(tenantId, surveyId, waveId);
     
-    if (!data) {
+    if (!data || !Array.isArray(data)) {
       throw new Error('No data available for CSV export');
     }
 
@@ -26,7 +29,7 @@ export async function exportCSV(tenantId: string, surveyId: string, waveId: stri
     const url = URL.createObjectURL(blob);
     
     link.setAttribute('href', url);
-    link.setAttribute('download', generateCSVFilename(waveLabel));
+    link.setAttribute('download', generateCSVFilename(tenantName, waveNo));
     link.style.visibility = 'hidden';
     
     document.body.appendChild(link);

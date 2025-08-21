@@ -21,11 +21,31 @@ export async function buildExecutivePdf(opts: PDFExportOptions): Promise<jsPDF> 
   const isAR = lang === 'ar';
   const brandName = isAR ? brand.nameAR : brand.nameEN;
 
+  // Set document metadata
+  doc.setProperties({
+    title: `CCI Report - ${brandName}`,
+    subject: 'Corporate Culture Intelligence Report',
+    author: 'AqlHR'
+  });
+
+  // For Arabic text support, use a font that includes Arabic glyphs
+  // Note: In production, you would embed NotoSansArabic or similar
+  if (isAR) {
+    try {
+      // Fallback to default font for now - in production load Arabic font
+      doc.setFont('helvetica');
+    } catch (error) {
+      console.warn('Arabic font not available, using fallback');
+    }
+  }
+
   // Header
   doc.setFontSize(16);
-  doc.text(`${brandName} — ${t('corporateCultureIntelligence', lang)}`, 40, 40, { align: 'left' });
+  const headerAlign = isAR ? 'right' : 'left';
+  const headerX = isAR ? 555 : 40;
+  doc.text(`${brandName} — ${t('corporateCultureIntelligence', lang)}`, headerX, 40, { align: headerAlign });
   doc.setFontSize(11);
-  doc.text(`${t('survey', lang)}: ${surveyName}   ${t('wave', lang)}: ${waveLabel}   ${t('asOf', lang)}: ${asOf}`, 40, 60);
+  doc.text(`${t('survey', lang)}: ${surveyName}   ${t('wave', lang)}: ${waveLabel}   ${t('asOf', lang)}: ${asOf}`, headerX, 60, { align: headerAlign });
 
   // KPI cards (simple text rows)
   const fmt = (v: number | null): string => v == null ? '—' : Number(v).toFixed(1);
@@ -90,6 +110,9 @@ export async function buildExecutivePdf(opts: PDFExportOptions): Promise<jsPDF> 
   return doc;
 }
 
-export function generatePDFFilename(waveLabel: string): string {
-  return `AqlHR_CCI_${waveLabel.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+export function generatePDFFilename(tenantName: string, waveNo: string): string {
+  const cleanTenantName = tenantName.replace(/[^a-zA-Z0-9]/g, '_');
+  const cleanWaveNo = waveNo.replace(/[^a-zA-Z0-9]/g, '_');
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  return `AqlHR_CCI_${cleanTenantName}_Wave_${cleanWaveNo}_${dateStr}.pdf`;
 }

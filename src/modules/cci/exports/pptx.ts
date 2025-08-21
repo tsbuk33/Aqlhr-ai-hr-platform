@@ -13,10 +13,13 @@ export interface PPTXExportOptions {
   heatmapPng?: string;
   initiatives: CCIInitiative[];
   pulses: { day: 30 | 60 | 90 }[];
+  hofstedeData?: any;
+  evidenceInsights?: { tag: string; count: number }[];
+  tenantName?: string;
 }
 
 export async function buildBoardDeck(opts: PPTXExportOptions): Promise<PptxGenJS> {
-  const { lang, brand, surveyName, waveLabel, asOf, overview, cvfPng, heatmapPng, initiatives, pulses } = opts;
+  const { lang, brand, surveyName, waveLabel, asOf, overview, cvfPng, heatmapPng, initiatives, pulses, hofstedeData, evidenceInsights, tenantName } = opts;
   const isAR = lang === 'ar';
   const pptx = new PptxGenJS();
   pptx.layout = 'LAYOUT_16x9';
@@ -149,7 +152,73 @@ export async function buildBoardDeck(opts: PPTXExportOptions): Promise<PptxGenJS
   }
   addFooter(s);
 
-  // 6) Top Initiatives
+  // 6) Hofstede Context
+  s = pptx.addSlide();
+  s.addText(t('hofstedeContext', lang), { 
+    x: 0.6, 
+    y: 0.7, 
+    fontSize: 22, 
+    bold: true 
+  });
+  
+  if (hofstedeData && Array.isArray(hofstedeData)) {
+    s.addText(t('nationalCulturalContext', lang), { 
+      x: 0.6, 
+      y: 1.4, 
+      fontSize: 14, 
+      w: 9 
+    });
+    
+    let y = 2.0;
+    hofstedeData.slice(0, 6).forEach(item => {
+      s.addText(`${item.dimension}: ${item.weighted_score?.toFixed(1) || '—'}`, { 
+        x: 0.6, 
+        y: y, 
+        fontSize: 12 
+      });
+      y += 0.3;
+    });
+  } else {
+    s.addText(t('hofstedeUnavailable', lang), { x: 0.8, y: 3, fontSize: 14 });
+  }
+  addFooter(s);
+
+  // 7) Evidence Insights
+  s = pptx.addSlide();
+  s.addText(t('evidenceInsights', lang), { 
+    x: 0.6, 
+    y: 0.7, 
+    fontSize: 22, 
+    bold: true 
+  });
+  
+  s.addText(t('evidenceContributes', lang), { 
+    x: 0.6, 
+    y: 1.2, 
+    fontSize: 12, 
+    italic: true 
+  });
+  
+  if (evidenceInsights && evidenceInsights.length > 0) {
+    let y = 1.6;
+    evidenceInsights.slice(0, 5).forEach((insight, i) => {
+      s.addText(`• ${insight.tag} (${insight.count} ${t('artifacts', lang)})`, { 
+        x: 0.8, 
+        y: y, 
+        fontSize: 12 
+      });
+      y += 0.3;
+    });
+  } else {
+    s.addText(t('noEvidenceAvailable', lang), { 
+      x: 0.8, 
+      y: 1.6, 
+      fontSize: 12 
+    });
+  }
+  addFooter(s);
+
+  // 8) Top Initiatives
   const tops = (initiatives || []).slice(0, 5);
   s = pptx.addSlide();
   s.addText(t('aiChangePlan', lang), { 
@@ -180,7 +249,7 @@ export async function buildBoardDeck(opts: PPTXExportOptions): Promise<PptxGenJS
   }
   addFooter(s);
 
-  // 7) Pulse Schedule
+  // 9) Pulse Schedule
   s = pptx.addSlide();
   s.addText(t('pulseSchedule', lang), { 
     x: 0.6, 
@@ -196,7 +265,7 @@ export async function buildBoardDeck(opts: PPTXExportOptions): Promise<PptxGenJS
   });
   addFooter(s);
 
-  // 8) Next Steps
+  // 10) Next Steps
   s = pptx.addSlide();
   s.addText(t('nextSteps', lang), { 
     x: 0.6, 
@@ -215,6 +284,9 @@ export async function buildBoardDeck(opts: PPTXExportOptions): Promise<PptxGenJS
   return pptx;
 }
 
-export function generatePPTXFilename(waveLabel: string): string {
-  return `AqlHR_CCI_${waveLabel.replace(/[^a-zA-Z0-9]/g, '_')}.pptx`;
+export function generatePPTXFilename(tenantName: string, waveNo: string): string {
+  const cleanTenantName = tenantName.replace(/[^a-zA-Z0-9]/g, '_');
+  const cleanWaveNo = waveNo.replace(/[^a-zA-Z0-9]/g, '_');
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  return `AqlHR_CCI_${cleanTenantName}_Wave_${cleanWaveNo}_${dateStr}.pptx`;
 }

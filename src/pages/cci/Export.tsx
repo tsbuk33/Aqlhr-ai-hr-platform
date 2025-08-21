@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { toast } from 'sonner';
 import { useUserRole } from '@/hooks/useUserRole';
 import { useUserCompany } from '@/hooks/useUserCompany';
-import { fetchOverview, fetchPlaybook } from '@/modules/cci/exports/data';
+import { fetchOverview, fetchPlaybook, fetchHofstedeContext, fetchEvidenceInsights } from '@/modules/cci/exports/data';
 import { buildExecutivePdf, generatePDFFilename } from '@/modules/cci/exports/pdf';
 import { buildBoardDeck, generatePPTXFilename } from '@/modules/cci/exports/pptx';
 import { exportCSV } from '@/modules/cci/exports/csvExport';
@@ -32,6 +32,8 @@ const Export: React.FC = () => {
     try {
       const overview = await fetchOverview(companyId, selectedSurvey, selectedWave);
       const playbook = await fetchPlaybook(companyId, selectedSurvey, selectedWave);
+      const hofstedeData = await fetchHofstedeContext(companyId, selectedSurvey, selectedWave);
+      const evidenceInsights = await fetchEvidenceInsights(companyId, selectedSurvey, selectedWave);
 
       const exportData = {
         lang: isArabic ? 'ar' as const : 'en' as const,
@@ -41,17 +43,20 @@ const Export: React.FC = () => {
         asOf: new Date().toLocaleDateString(),
         overview: overview || { balance_score: null, risk_index: null, psych_safety: null, values_alignment: null, cvf: null, web: null, barrett: null, n: null, last_computed_at: null },
         initiatives: playbook?.initiatives || [],
-        pulses: playbook?.pulses || []
+        pulses: playbook?.pulses || [],
+        hofstedeData: hofstedeData || [],
+        evidenceInsights: evidenceInsights || [],
+        tenantName: 'Company_Name'
       };
 
       if (type === 'pdf') {
         const doc = await buildExecutivePdf(exportData);
-        doc.save(generatePDFFilename(exportData.waveLabel));
+        doc.save(generatePDFFilename(exportData.tenantName, selectedWave));
       } else if (type === 'pptx') {
         const deck = await buildBoardDeck(exportData);
-        await deck.writeFile({ fileName: generatePPTXFilename(exportData.waveLabel) });
+        await deck.writeFile({ fileName: generatePPTXFilename(exportData.tenantName, selectedWave) });
       } else if (type === 'csv') {
-        await exportCSV(companyId, selectedSurvey, selectedWave, exportData.waveLabel, exportData.lang);
+        await exportCSV(companyId, selectedSurvey, selectedWave, exportData.tenantName, selectedWave, exportData.lang);
       }
 
       toast.success(`${type.toUpperCase()} exported successfully`);
