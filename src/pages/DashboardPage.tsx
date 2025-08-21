@@ -17,6 +17,7 @@ export default function DashboardPage() {
     data: dashboardData, 
     loading, 
     error, 
+    empty,
     demoMode,
     isImpersonated,
     systemsOperational,
@@ -187,6 +188,34 @@ export default function DashboardPage() {
     );
   }
 
+  if (empty) {
+    return (
+      <div className={`space-y-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+        <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950/20">
+          <CardHeader>
+            <CardTitle className="text-orange-800 dark:text-orange-200">
+              {isArabic ? 'لا توجد بيانات متاحة' : 'No Data Available'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-orange-700 dark:text-orange-300 mb-4">
+              {isArabic 
+                ? 'لم يتم العثور على بيانات في النظام'
+                : 'No data found in the system'
+              }
+            </p>
+            <p className="text-sm text-orange-600 dark:text-orange-400">
+              {isArabic 
+                ? 'يرجى الذهاب إلى الإدارة → البيانات التجريبية والنقر على "إضافة بيانات الموارد البشرية (1,000)" ثم "إعادة حساب المؤشرات"'
+                : 'Go to Admin → Demo Data and click Seed HR Demo (1,000) then Recompute KPIs'
+              }
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <div className={`space-y-6 ${isArabic ? 'rtl' : 'ltr'}`}>
@@ -199,12 +228,6 @@ export default function DashboardPage() {
           <CardContent>
             <p className="text-red-700 dark:text-red-300 mb-4">
               {error}
-            </p>
-            <p className="text-sm text-red-600 dark:text-red-400">
-              {isArabic 
-                ? 'يرجى الذهاب إلى صفحة البيانات التجريبية لتحميل البيانات أولاً'
-                : 'Please go to the Demo Data page to seed data first'
-              }
             </p>
           </CardContent>
         </Card>
@@ -232,7 +255,7 @@ export default function DashboardPage() {
               )}
               {isImpersonated && (
                 <Badge variant="outline" className="bg-purple-50 text-purple-800 border-purple-300 dark:bg-purple-950/30 dark:text-purple-200 dark:border-purple-800">
-                  {isArabic ? 'وضع المطور' : 'Dev Mode'}
+                  {isArabic ? 'معاينة المالك (انتحال)' : 'Owner Preview (Impersonated)'}
                 </Badge>
               )}
             </div>
