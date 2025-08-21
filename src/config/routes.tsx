@@ -131,6 +131,7 @@ const EmployeeReports = lazy(() => import('../pages/analytics/EmployeeReports'))
 
 // Compliance modules
 const ComplianceOverview = lazy(() => import('../pages/compliance'));
+const ComplianceAutopilot = lazy(() => import('../pages/compliance/ComplianceAutopilot'));
 const RegulatoryCompliance = lazy(() => import('../pages/compliance/RegulatoryCompliance'));
 const CommitteeManagement = lazy(() => import('../pages/compliance/CommitteeManagement'));
 const AuditTrails = lazy(() => import('../pages/compliance/AuditTrails'));
@@ -330,6 +331,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
+  { path: '/compliance/autopilot', element: ComplianceAutopilot, auth: true },
   { path: '/compliance/regulatory', element: RegulatoryCompliance, auth: true, adminOnly: true },
   { path: '/compliance/committees', element: CommitteeManagement, auth: true, adminOnly: true },
   { path: '/compliance/audit-trails', element: AuditTrails, auth: true, adminOnly: true },
