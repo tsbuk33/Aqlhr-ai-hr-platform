@@ -107,7 +107,7 @@ export default function Dashboard() {
                     {isArabic ? "مشاكل في الأنظمة" : "System issues detected"}
                     {integrations.length > 0 && (
                       <span className="text-xs">
-                        ({integrations.map(int => `${int.grouping}: ${int.connected}/${int.total}`).join(", ")})
+                        ({integrations.map(int => `${int.integration_group}: ${int.connected}/${int.total}`).join(", ")})
                       </span>
                     )}
                   </>

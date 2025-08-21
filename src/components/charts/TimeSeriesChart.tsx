@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp } from 'lucide-react';
 
 interface TimeSeriesData {
-  snap_date: string;
+  d: string;
   total_employees: number;
   saudization_rate: number;
   hse_safety_score: number;
@@ -87,7 +87,7 @@ export const TimeSeriesChart: React.FC<TimeSeriesChartProps> = ({
             <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border-subtle))" />
               <XAxis 
-                dataKey="snap_date"
+                dataKey="d"
                 tickFormatter={formatDate}
                 stroke="hsl(var(--foreground-muted))"
                 fontSize={12}

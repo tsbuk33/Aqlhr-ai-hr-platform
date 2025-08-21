@@ -132,7 +132,7 @@ export function useLiveDashboard() {
     
     // Get 30-day old value from series
     const thirtyDaysAgo = series.find(s => {
-      const date = new Date(s.snap_date);
+      const date = new Date(s.d);
       const targetDate = new Date();
       targetDate.setDate(targetDate.getDate() - 30);
       return Math.abs(date.getTime() - targetDate.getTime()) < 24 * 60 * 60 * 1000; // Within 1 day

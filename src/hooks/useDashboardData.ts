@@ -1,167 +1,132 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
-import { useAuth } from './useAuth';
-interface DashboardStats {
+import { useTenantResolver } from './useTenantResolver';
+
+interface DashboardData {
   totalEmployees: number;
-  presentToday: number;
-  pendingLeaves: number;
-  performanceReviews: number;
-  saudiEmployees: number;
-  nonSaudiEmployees: number;
-  attendanceRate: number;
+  saudizationRate: number;
+  hseSafetyScore: number;
+  docsProcessed: number;
+  trainingHours: number;
+  complianceScore: number;
+  employeeExperience: number;
+  predictiveRisk: number;
 }
 
-interface SystemAlert {
-  id: string;
-  title: string;
-  titleAr: string;
-  message: string;
-  messageAr: string;
-  type: 'success' | 'warning' | 'critical';
-  isActive: boolean;
+export interface DashboardSeriesItem {
+  d: string;
+  total_employees: number;
+  saudization_rate: number;
+  hse_safety_score: number;
+  docs_processed: number;
+  training_hours: number;
+  compliance_score: number;
+  employee_experience_10: number;
+  predictive_risk_high: number;
+}
+
+export interface DashboardAlertItem {
+  severity: string;
+  metric: string;
+  message_en: string;
+  message_ar: string;
+  current_value: number;
+  delta_30: number | null;
+  recommendation_en: string;
+  recommendation_ar: string;
+}
+
+interface IntegrationStatusRow {
+  integration_group: string;
+  connected: number;
+  total: number;
 }
 
 export function useDashboardData() {
-  const { user } = useAuth();
-  const [stats, setStats] = useState<DashboardStats>({
-    totalEmployees: 0,
-    presentToday: 0,
-    pendingLeaves: 0,
-    performanceReviews: 0,
-    saudiEmployees: 0,
-    nonSaudiEmployees: 0,
-    attendanceRate: 0,
-  });
-  
-  const [alerts, setAlerts] = useState<SystemAlert[]>([]);
+  const { tenantId, isDemoMode, loading: tenantLoading } = useTenantResolver();
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [series, setSeries] = useState<DashboardSeriesItem[]>([]);
+  const [alerts, setAlerts] = useState<DashboardAlertItem[]>([]);
+  const [integrations, setIntegrations] = useState<IntegrationStatusRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  const [error, setError] = useState<string | null>(null);
+
+  const logUIEvent = async (level: 'info' | 'warn' | 'error', message: string, details?: any) => {
+    if (!tenantId) return;
+    try {
+      const { data: userRes } = await supabase.auth.getUser();
+      await supabase.from('ui_events').insert({
+        tenant_id: tenantId,
+        page: '/dashboard',
+        level,
+        message,
+        details,
+        user_id: userRes?.user?.id || null,
+      });
+    } catch (e) {
+      console.warn('Failed to log UI event', e);
+    }
+  };
 
   const fetchDashboardData = async () => {
+    if (!tenantId || tenantLoading) return;
+
     try {
       setLoading(true);
+      setError(null);
 
-      if (!user) {
-        // Preview mode without authentication
-        setStats({
-          totalEmployees: 0,
-          presentToday: 0,
-          pendingLeaves: 0,
-          performanceReviews: 0,
-          saudiEmployees: 0,
-          nonSaudiEmployees: 0,
-          attendanceRate: 0,
+      // Current snapshot
+      const { data: snapshot, error: snapErr } = await supabase
+        .rpc('dashboard_get_v1', { p_tenant: tenantId });
+      if (snapErr) throw snapErr;
+
+      const latest = Array.isArray(snapshot) ? snapshot[0] : snapshot;
+      if (latest) {
+        setData({
+          totalEmployees: latest.total_employees || 0,
+          saudizationRate: latest.saudization_rate || 0,
+          hseSafetyScore: latest.hse_safety_score || 0,
+          docsProcessed: latest.docs_processed || 0,
+          trainingHours: latest.training_hours || 0,
+          complianceScore: latest.compliance_score || 0,
+          employeeExperience: latest.employee_experience_10 || 0,
+          predictiveRisk: latest.predictive_risk_high || 0,
         });
-        setAlerts([
-          {
-            id: 'preview',
-            title: 'Preview Mode',
-            titleAr: 'وضع المعاينة',
-            message: 'Sign in to view live company data',
-            messageAr: 'سجّل الدخول لعرض بيانات الشركة الحقيقية',
-            type: 'warning',
-            isActive: true,
-          },
-        ]);
-        return;
+      } else {
+        setData({
+          totalEmployees: 0,
+          saudizationRate: 0,
+          hseSafetyScore: 0,
+          docsProcessed: 0,
+          trainingHours: 0,
+          complianceScore: 0,
+          employeeExperience: 0,
+          predictiveRisk: 0,
+        });
       }
 
-      // Fetch employees count
-      const { data: employees, error: employeesError } = await supabase
-        .from('employees')
-        .select('id, nationality')
-        .eq('status', 'active');
+      // Series
+      const { data: seriesData, error: seriesErr } = await supabase
+        .rpc('dashboard_get_series_v1', { p_tenant: tenantId, p_days: 365 });
+      if (seriesErr) throw seriesErr;
+      setSeries(seriesData || []);
 
-      // If employees query fails, continue gracefully in preview
-      if (employeesError) console.warn('Employees query failed:', employeesError);
+      // Alerts
+      const { data: alertsData, error: alertsErr } = await supabase
+        .rpc('dashboard_alerts_v1', { p_tenant: tenantId });
+      if (alertsErr) throw alertsErr;
+      setAlerts(alertsData || []);
 
-      // Fetch leaves
-      const { data: leaves, error: leavesError } = await supabase
-        .from('leave_requests')
-        .select('id')
-        .eq('status', 'pending');
+      // Integrations banner
+      const { data: integData, error: integErr } = await supabase
+        .rpc('integrations_overview_v2', { p_tenant: tenantId });
+      if (integErr) throw integErr;
+      setIntegrations(integData || []);
 
-      // If leaves query fails, continue gracefully in preview
-      if (leavesError) console.warn('Leave requests query failed:', leavesError);
-
-      // Fetch performance reviews due this month (using correct column names)
-      const currentDate = new Date();
-      const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-
-      const { data: reviews, error: reviewsError } = await supabase
-        .from('performance_reviews')
-        .select('id, hr_review_date, manager_review_date, status')
-        .or(`hr_review_date.gte.${firstDay.toISOString()},manager_review_date.gte.${firstDay.toISOString()}`)
-        .or(`hr_review_date.lte.${lastDay.toISOString()},manager_review_date.lte.${lastDay.toISOString()}`)
-        .eq('status', 'pending');
-
-      // If performance reviews query fails, continue gracefully in preview
-      if (reviewsError) console.warn('Performance reviews query failed:', reviewsError);
-
-      // Calculate stats
-      const totalEmployees = employees?.length || 0;
-      const saudiEmployees = employees?.filter(emp => emp.nationality === 'saudi').length || 0;
-      const nonSaudiEmployees = totalEmployees - saudiEmployees;
-      const presentToday = totalEmployees; // Simplified for now
-      const attendanceRate = totalEmployees > 0 ? (presentToday / totalEmployees) * 100 : 0;
-
-      setStats({
-        totalEmployees,
-        presentToday,
-        pendingLeaves: leaves?.length || 0,
-        performanceReviews: reviews?.length || 0,
-        saudiEmployees,
-        nonSaudiEmployees,
-        attendanceRate,
-      });
-
-      // Set system alerts (these could come from a table in the future)
-      setAlerts([
-        {
-          id: '1',
-          title: 'Authentication System',
-          titleAr: 'نظام المصادقة',
-          message: 'All authentication systems are operational',
-          messageAr: 'جميع أنظمة المصادقة تعمل بشكل طبيعي',
-          type: 'success',
-          isActive: true,
-        },
-        {
-          id: '2',
-          title: 'Database Status',
-          titleAr: 'حالة قاعدة البيانات',
-          message: 'Database is running optimally',
-          messageAr: 'قاعدة البيانات تعمل بأفضل أداء',
-          type: 'success',
-          isActive: true,
-        },
-      ]);
-
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-      // Set fallback data for preview mode
-      setStats({
-        totalEmployees: 0,
-        presentToday: 0,
-        pendingLeaves: 0,
-        performanceReviews: 0,
-        saudiEmployees: 0,
-        nonSaudiEmployees: 0,
-        attendanceRate: 0,
-      });
-      setAlerts([
-        {
-          id: 'error',
-          title: 'Data Loading Issue',
-          titleAr: 'مشكلة في تحميل البيانات',
-          message: 'Some data may not be available in preview mode',
-          messageAr: 'قد تكون بعض البيانات غير متاحة في وضع المعاينة',
-          type: 'warning',
-          isActive: true,
-        },
-      ]);
+    } catch (e: any) {
+      const msg = e?.message || 'Failed to load dashboard data';
+      setError(msg);
+      await logUIEvent('error', msg, { error: e?.toString?.() });
     } finally {
       setLoading(false);
     }
@@ -169,12 +134,56 @@ export function useDashboardData() {
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tenantId, tenantLoading]);
+
+  const getMoMChange = (current: number, s: DashboardSeriesItem[], field: keyof DashboardSeriesItem): number | null => {
+    if (!s || s.length < 30) return null;
+    const prevIdx = Math.max(0, s.length - 30);
+    const prev = s[prevIdx]?.[field];
+    if (typeof prev === 'number' && prev !== 0) {
+      return ((current - prev) / prev) * 100;
+    }
+    return null;
+  };
+
+  const getSparklineData = (field: keyof DashboardSeriesItem) => {
+    return series.map((row) => ({ date: row.d, value: Number(row[field] || 0) }));
+  };
+
+  const createTaskFromAlert = async (alert: DashboardAlertItem) => {
+    if (!tenantId) return null;
+    const priority = alert.severity === 'high' ? 'urgent' : alert.severity === 'medium' ? 'high' : 'medium';
+    const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+      p_tenant_id: tenantId,
+      p_module: 'dashboard',
+      p_title: `Alert: ${alert.message_en}`,
+      p_description: `${alert.recommendation_en}\n\nCurrent Value: ${alert.current_value}\n30-Day Change: ${alert.delta_30}`,
+      p_priority: priority,
+      p_metadata: {
+        alert_metric: alert.metric,
+        alert_severity: alert.severity,
+        created_from_dashboard: true,
+      },
+    });
+    if (error) throw error;
+    return taskId;
+  };
+
+  const systemsOperational = integrations.length > 0 && integrations.every(i => i.connected === i.total && i.total > 0);
 
   return {
-    stats,
+    data,
+    series,
     alerts,
-    loading,
+    integrations,
+    loading: loading || tenantLoading,
+    error,
+    isDemoMode,
+    systemsOperational,
+    getMoMChange,
+    getSparklineData,
+    createTaskFromAlert,
     refetch: fetchDashboardData,
   };
 }

@@ -12,11 +12,11 @@ export function DashboardTrendsChart() {
 
   const chartData = useMemo(() => {
     return series.map(item => ({
-      date: new Date(item.snap_date).toLocaleDateString('en-US', { 
+      date: new Date(item.d).toLocaleDateString('en-US', { 
         month: 'short', 
         day: 'numeric' 
       }),
-      fullDate: item.snap_date,
+      fullDate: item.d,
       saudization: item.saudization_rate,
       hse_safety: item.hse_safety_score,
       compliance: item.compliance_score,
