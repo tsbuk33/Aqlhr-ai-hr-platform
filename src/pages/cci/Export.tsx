@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FeatureGate } from '@/components/pricing/FeatureGate';
+import { FeatureGate } from '@/components/plans/FeatureGate';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -69,7 +69,11 @@ const Export: React.FC = () => {
   };
 
   return (
-    <FeatureGate featureKey="cci_export" featureName="CCI Export">
+    <FeatureGate 
+      feature="cci_exports"
+      upsellTitle="CCI Export Capabilities - Premium Feature"
+      upsellDescription="Generate executive PDFs, board presentations, and CSV exports from your CCI data"
+    >
       <div className="min-h-screen bg-background p-6">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center py-8">
