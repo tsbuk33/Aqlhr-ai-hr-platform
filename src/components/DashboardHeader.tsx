@@ -6,6 +6,7 @@ import SimpleLanguageToggle from "@/components/SimpleLanguageToggle";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { OwnerTools } from "@/components/dev/OwnerTools";
 
 export function DashboardHeader() {
   const { isArabic } = useSimpleLanguage();
@@ -55,6 +56,7 @@ export function DashboardHeader() {
           <SimpleLanguageToggle />
           
           <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <OwnerTools />
             <Button variant="ghost" size="icon" className="text-foreground-muted dark:text-foreground-muted hover:text-foreground dark:hover:text-foreground hover:bg-accent dark:hover:bg-accent rounded-lg transition-all duration-200">
               <Search className="h-5 w-5" />
             </Button>
