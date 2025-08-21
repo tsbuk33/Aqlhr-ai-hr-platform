@@ -5,7 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Users, TrendingUp, Database, Loader2 } from 'lucide-react';
+import { Users, TrendingUp, Database, Loader2, Calendar } from 'lucide-react';
+import { resolveTenantId } from '@/lib/useTenant';
 
 export default function DemoDataPage() {
   const { isArabic } = useSimpleLanguage();
@@ -53,31 +54,56 @@ export default function DemoDataPage() {
     }
   };
 
+  const backfillDashboard = async () => {
+    try {
+      setLoading({ dashboardBackfill: true });
+      
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
+        toast.error(isArabic ? 'لم يتم العثور على معرف المستأجر' : 'No tenant ID found');
+        return;
+      }
+
+      toast.info(isArabic ? 'بدء إنشاء البيانات التاريخية للوحة القيادة (12 شهر)...' : 'Starting dashboard backfill (12 months)...');
+
+      const { error } = await supabase.rpc('dashboard_backfill_v1', {
+        p_tenant: tenantId,
+        p_num_days: 365
+      });
+
+      if (error) throw error;
+
+      toast.success(
+        isArabic 
+          ? 'تم إنشاء البيانات التاريخية للوحة القيادة بنجاح (365 يوم)'
+          : 'Dashboard backfill completed successfully (365 days)'
+      );
+    } catch (err: any) {
+      console.error('Dashboard backfill error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في إنشاء البيانات التاريخية'
+          : 'Failed to backfill dashboard data'
+      );
+    } finally {
+      setLoading({ dashboardBackfill: false });
+    }
+  };
+
   const computeKPIs = async () => {
     try {
       setLoading({ kpiCompute: true });
       
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error(isArabic ? 'يجب تسجيل الدخول أولاً' : 'Please log in first');
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
+        toast.error(isArabic ? 'لم يتم العثور على معرف المستأجر' : 'No tenant ID found');
         return;
       }
 
-      // For demo, just create a sample KPI snapshot
-      const { error } = await supabase.from('kpi_snapshots').upsert({
-        company_id: user.id,
-        snap_date: new Date().toISOString().split('T')[0],
-        total_employees: 1000,
-        saudization_rate: 68.5,
-        hse_safety_score: 92.3,
-        active_users: 0,
-        docs_processed: 1250,
-        training_hours: 890,
-        compliance_score: 85.7,
-        talent_pipeline_strength: 75,
-        predictive_risk_high: 12,
-        employee_experience_10: 8.7,
-        workforce_forecast_accuracy: 0
+      // Call the new dashboard computation function for today
+      const { error } = await supabase.rpc('dashboard_compute_kpis_asof_v1', {
+        p_tenant: tenantId,
+        p_asof: new Date().toISOString().split('T')[0]
       });
 
       if (error) throw error;
@@ -87,7 +113,7 @@ export default function DemoDataPage() {
           ? 'تم حساب مؤشرات الأداء بنجاح'
           : 'KPIs computed successfully'
       );
-    } catch (err) {
+    } catch (err: any) {
       console.error('KPI compute error:', err);
       toast.error(
         isArabic 
@@ -113,7 +139,7 @@ export default function DemoDataPage() {
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <CardHeader>
             <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
@@ -167,6 +193,39 @@ export default function DemoDataPage() {
                 <>
                   <TrendingUp className="mr-2 h-4 w-4" />
                   {isArabic ? 'حساب مؤشرات الأداء' : 'Compute KPIs'}
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <Calendar className="h-5 w-5 text-brand-accent" />
+              {isArabic ? 'إنشاء البيانات التاريخية (12 شهر)' : 'Backfill Dashboard (12 months)'}
+            </CardTitle>
+            <CardDescription>
+              {isArabic ? 'إنشاء 365 يوم من البيانات التاريخية لمؤشرات الأداء' : 'Generate 365 days of historical KPI data'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={backfillDashboard}
+              disabled={loading.dashboardBackfill}
+              variant="secondary"
+              className="w-full"
+              size="lg"
+            >
+              {loading.dashboardBackfill ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري الإنشاء...' : 'Backfilling...'}
+                </>
+              ) : (
+                <>
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {isArabic ? 'إنشاء البيانات التاريخية' : 'Backfill Dashboard'}
                 </>
               )}
             </Button>
