@@ -9,15 +9,41 @@ const corsHeaders = {
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-serve(async (req) => {
-  console.log('HR Seed Demo 1000 v1 function called');
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+// Generate realistic Iqama expiry dates for demo
+function generateRealisticIqamaExpiry(employeeIndex: number): string {
+  const now = new Date();
+  const dayMs = 24 * 60 * 60 * 1000;
+  
+  // Distribute across next 180 days with focus on critical windows
+  // Ensure at least 15 fall in each critical window (7, 30, 60 days)
+  let daysFromNow: number;
+  
+  if (employeeIndex <= 15) {
+    // First 15: within 7 days (critical)
+    daysFromNow = Math.random() * 7;
+  } else if (employeeIndex <= 30) {
+    // Next 15: within 8-30 days (urgent)
+    daysFromNow = 8 + Math.random() * 22;
+  } else if (employeeIndex <= 45) {
+    // Next 15: within 31-60 days (warning)
+    daysFromNow = 31 + Math.random() * 29;
+  } else {
+    // Remaining: spread across 61-180 days
+    daysFromNow = 61 + Math.random() * 119;
+  }
+  
+  const expiryDate = new Date(now.getTime() + daysFromNow * dayMs);
+  return expiryDate.toISOString().split('T')[0];
+}
+
+serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { tenantId } = await req.json();
     
     console.log('Seeding HR demo data for tenant:', tenantId);
@@ -181,7 +207,7 @@ serve(async (req) => {
         employment_status: isTerminated ? 'terminated' : 'active',
         base_salary: Math.floor(Math.random() * 50000) + 5000,
         allowances: Math.floor(Math.random() * 5000),
-        iqama_expiry: !isSaudi ? new Date(Date.now() + Math.random() * 365 * 24 * 60 * 60 * 1000 * 2).toISOString().split('T')[0] : null
+        iqama_expiry: !isSaudi ? generateRealisticIqamaExpiry(i) : null
       });
     }
 

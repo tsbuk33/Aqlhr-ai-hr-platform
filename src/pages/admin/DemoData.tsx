@@ -37,7 +37,8 @@ export default function DemoDataPage() {
             : `Successfully seeded ${data.counts?.employees || 0} employees`
         );
         
-        // Auto-compute KPIs after seeding
+        // Auto-backfill dashboard and compute KPIs after seeding
+        await backfillDashboard();
         await computeKPIs();
       } else {
         throw new Error(data?.error || 'Failed to seed data');
