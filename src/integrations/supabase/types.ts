@@ -9518,6 +9518,39 @@ export type Database = {
         }
         Relationships: []
       }
+      ui_events: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          id: string
+          level: string | null
+          message: string | null
+          page: string
+          tenant_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          level?: string | null
+          message?: string | null
+          page: string
+          tenant_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          level?: string | null
+          message?: string | null
+          page?: string
+          tenant_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       uploaded_files: {
         Row: {
           bucket_name: string
@@ -10204,6 +10237,19 @@ export type Database = {
         Args: { a: number[]; b: number[] }
         Returns: number
       }
+      dashboard_alerts_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          current_value: number
+          delta_30: number
+          message_ar: string
+          message_en: string
+          metric: string
+          recommendation_ar: string
+          recommendation_en: string
+          severity: string
+        }[]
+      }
       dashboard_backfill_v1: {
         Args: { p_num_days?: number; p_tenant: string }
         Returns: undefined
@@ -10213,15 +10259,17 @@ export type Database = {
         Returns: undefined
       }
       dashboard_get_series_v1: {
-        Args: { days?: number; p_tenant: string }
+        Args: { p_days?: number; p_tenant: string }
         Returns: {
           compliance_score: number
+          d: string
+          docs_processed: number
           employee_experience_10: number
           hse_safety_score: number
           predictive_risk_high: number
           saudization_rate: number
-          snap_date: string
           total_employees: number
+          training_hours: number
         }[]
       }
       dashboard_get_v1: {

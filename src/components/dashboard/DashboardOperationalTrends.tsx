@@ -10,7 +10,7 @@ export function DashboardOperationalTrends() {
 
   const chartData = useMemo(() => {
     return series.map(item => ({
-      date: new Date(item.snap_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: new Date(item.d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       saudization: item.saudization_rate,
       safety: item.hse_safety_score,
       compliance: item.compliance_score,

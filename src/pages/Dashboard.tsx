@@ -1,245 +1,356 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useLiveDashboard } from "@/hooks/useLiveDashboard";
-import { useDashboardTrends } from "@/hooks/useDashboardTrends";
-import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
-import { DashboardAlertsPanel } from "@/components/dashboard/DashboardAlertsPanel";
-import { DashboardSparkline } from "@/components/dashboard/DashboardSparkline";
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { TrendingUp, TrendingDown, Users, CheckCircle, AlertCircle, FileText, Clock, Shield, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, Users, Shield, FileText, Clock } from "lucide-react";
-import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { Button } from "@/components/ui/button";
+import { useDashboardData } from "@/hooks/useDashboardData";
+import { DashboardErrorBoundary, DashboardSkeleton } from "@/components/dashboard/DashboardErrorBoundary";
+import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDashboardAlertsPanel";
+import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
+import { LineChart, Line, ResponsiveContainer } from 'recharts';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
-const Dashboard = () => {
+export default function Dashboard() {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
+  
   const { 
     data, 
+    series,
+    alerts,
+    integrations,
     loading, 
-    systemsOperational,
-    mode,
-    getMetricWithMoMChange
-  } = useLiveDashboard();
-  
-  const { getSparklineData } = useDashboardTrends(365);
-  const { t } = useAPITranslations();
+    error, 
+    isDemoMode,
+    systemsOperational, 
+    getMoMChange,
+    getSparklineData,
+    createTaskFromAlert,
+    refetch
+  } = useDashboardData();
 
+  // Helper functions for UI
   const getChangeIcon = (change: number | null) => {
-    if (!change) return null;
-    return change >= 0 ? 
-      <TrendingUp className="h-4 w-4 text-green-500" /> : 
-      <TrendingDown className="h-4 w-4 text-red-500" />;
+    if (change === null) return null;
+    return change >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />;
   };
 
   const getChangeClass = (change: number | null) => {
-    if (!change) return "text-muted-foreground";
-    return change >= 0 ? "text-green-600" : "text-red-600";
+    if (change === null) return "text-muted-foreground";
+    return change >= 0 ? "text-success" : "text-destructive";
   };
 
+  // Clickable drill-down handlers
+  const handleDrillDown = (path: string) => {
+    window.location.href = path;
+  };
+
+  // Show loading skeleton while data is being fetched
   if (loading) {
     return (
-      <div className="container mx-auto p-6 space-y-6">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-32 bg-gray-200 rounded"></div>
-            ))}
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-96 bg-gray-200 rounded"></div>
-            <div className="h-96 bg-gray-200 rounded"></div>
-          </div>
+      <DashboardErrorBoundary>
+        <div className="container mx-auto p-6">
+          <DashboardSkeleton />
         </div>
-      </div>
+      </DashboardErrorBoundary>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <DashboardErrorBoundary>
+        <div className="container mx-auto p-6">
+          <Card className="border-destructive">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertCircle className="h-5 w-5 text-destructive" />
+                <h3 className="font-semibold">Dashboard Error</h3>
+              </div>
+              <p className="text-muted-foreground mb-4">{error}</p>
+              <Button onClick={refetch} variant="outline">
+                Retry Loading
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </DashboardErrorBoundary>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Executive Dashboard</h1>
-          <p className="text-muted-foreground">
-            Real-time insights and trend analysis for strategic decision making
-          </p>
+    <DashboardErrorBoundary>
+      <div className="container mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-3xl font-bold">
+                {isArabic ? "لوحة التحكم" : "Dashboard"}
+              </h1>
+              {isDemoMode && (
+                <Badge variant="outline" className="text-xs">
+                  {isArabic ? "وضع تجريبي" : "Demo Mode"}
+                </Badge>
+              )}
+            </div>
+            <p className="text-muted-foreground flex items-center gap-2 mt-1">
+              <span className={`inline-flex items-center gap-1 ${systemsOperational ? 'text-success' : 'text-warning'}`}>
+                {systemsOperational ? (
+                  <>
+                    <CheckCircle className="h-4 w-4" />
+                    {isArabic ? "جميع الأنظمة تعمل" : "All systems operational"}
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle className="h-4 w-4" />
+                    {isArabic ? "مشاكل في الأنظمة" : "System issues detected"}
+                    {integrations.length > 0 && (
+                      <span className="text-xs">
+                        ({integrations.map(int => `${int.grouping}: ${int.connected}/${int.total}`).join(", ")})
+                      </span>
+                    )}
+                  </>
+                )}
+              </span>
+            </p>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Badge variant={mode === 'demo' ? 'secondary' : 'default'}>
-            {mode === 'demo' ? t('dashboard.demo_mode') : 'Live Data'}
-          </Badge>
-          {systemsOperational && systemsOperational.connected > 0 && (
-            <Badge variant="outline" className="text-green-600">
-              {systemsOperational.connected}/{systemsOperational.total} Systems Online
-            </Badge>
-          )}
-        </div>
-      </div>
 
-      {/* KPI Cards */}
+      {/* Main KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Employees</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">{data?.total_employees || 0}</div>
+        {/* Total Employees */}
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/people/employees')}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
               {(() => {
-                const metric = getMetricWithMoMChange('total_employees');
-                return metric.change && (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
-                    {getChangeIcon(metric.change.value)}
-                    {metric.change.formatted}
+                const change = getMoMChange(data?.totalEmployees || 0, series, 'total_employees');
+                return (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
+                    {getChangeIcon(change)}
+                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
                   </div>
                 );
               })()}
             </div>
-            <DashboardSparkline 
-              data={getSparklineData('total_employees')} 
-              color="hsl(var(--primary))"
-            />
-            <p className="text-xs text-muted-foreground">
-              {t('dashboard.sparklines.12_month_trend')}
-            </p>
+            <div className="flex items-end justify-between">
+              <div>
+                <h3 className="text-2xl font-bold">{data?.totalEmployees.toLocaleString() || 0}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? "إجمالي الموظفين" : "Total Employees"}
+                </p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="mt-4 h-16">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getSparklineData('total_employees')}>
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--primary))" 
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Saudization Rate</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">{data?.saudization_rate?.toFixed(1) || 0}%</div>
+        {/* Saudization Rate */}
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/compliance/autopilot')}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-success/10 rounded-lg">
+                <CheckCircle className="h-6 w-6 text-success" />
+              </div>
               {(() => {
-                const metric = getMetricWithMoMChange('saudization_rate');
-                return metric.change && (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
-                    {getChangeIcon(metric.change.value)}
-                    {metric.change.formatted}
+                const change = getMoMChange(data?.saudizationRate || 0, series, 'saudization_rate');
+                return (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
+                    {getChangeIcon(change)}
+                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
                   </div>
                 );
               })()}
             </div>
-            <DashboardSparkline 
-              data={getSparklineData('saudization_rate')} 
-              color="hsl(var(--destructive))"
-            />
-            <p className="text-xs text-muted-foreground">
-              {t('dashboard.sparklines.12_month_trend')}
-            </p>
+            <div className="flex items-end justify-between">
+              <div>
+                <h3 className="text-2xl font-bold">{data?.saudizationRate?.toFixed(1) || 0}%</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? "معدل التوطين" : "Saudization Rate"}
+                </p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="mt-4 h-16">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getSparklineData('saudization_rate')}>
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--success))" 
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">HSE Safety Score</CardTitle>
-            <Shield className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">{data?.hse_safety_score?.toFixed(1) || 0}</div>
+        {/* HSE Safety Score */}
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/hse/incidents?range=90d')}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-warning/10 rounded-lg">
+                <Shield className="h-6 w-6 text-warning" />
+              </div>
               {(() => {
-                const metric = getMetricWithMoMChange('hse_safety_score');
-                return metric.change && (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
-                    {getChangeIcon(metric.change.value)}
-                    {metric.change.formatted}
+                const change = getMoMChange(data?.hseSafetyScore || 0, series, 'hse_safety_score');
+                return (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
+                    {getChangeIcon(change)}
+                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
                   </div>
                 );
               })()}
             </div>
-            <DashboardSparkline 
-              data={getSparklineData('hse_safety_score')} 
-              color="hsl(var(--secondary))"
-            />
-            <p className="text-xs text-muted-foreground">
-              {t('dashboard.sparklines.12_month_trend')}
-            </p>
+            <div className="flex items-end justify-between">
+              <div>
+                <h3 className="text-2xl font-bold">{data?.hseSafetyScore?.toFixed(1) || 0}/10</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? "درجة السلامة" : "HSE Safety Score"}
+                </p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="mt-4 h-16">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getSparklineData('hse_safety_score')}>
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--warning))" 
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Employee Experience</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">{data?.employee_experience_10?.toFixed(1) || 0}/10</div>
+        {/* Employee Experience */}
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/cci/overview')}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-2 bg-info/10 rounded-lg">
+                <TrendingUp className="h-6 w-6 text-info" />
+              </div>
               {(() => {
-                const metric = getMetricWithMoMChange('employee_experience_10');
-                return metric.change && (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(metric.change.value)}`}>
-                    {getChangeIcon(metric.change.value)}
-                    {metric.change.formatted}
+                const change = getMoMChange(data?.employeeExperience || 0, series, 'employee_experience_10');
+                return (
+                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
+                    {getChangeIcon(change)}
+                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
                   </div>
                 );
               })()}
             </div>
-            <DashboardSparkline 
-              data={getSparklineData('employee_experience_10')} 
-              color="hsl(var(--accent))"
-            />
-            <p className="text-xs text-muted-foreground">
-              {t('dashboard.sparklines.12_month_trend')}
-            </p>
+            <div className="flex items-end justify-between">
+              <div>
+                <h3 className="text-2xl font-bold">{data?.employeeExperience?.toFixed(1) || 0}/10</h3>
+                <p className="text-sm text-muted-foreground">
+                  {isArabic ? "تجربة الموظفين" : "Employee Experience"}
+                </p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="mt-4 h-16">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={getSparklineData('employee_experience_10')}>
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="hsl(var(--info))" 
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Operational Trends Chart */}
         <DashboardOperationalTrends />
-        
-        {/* Alerts Panel */}
-        <DashboardAlertsPanel />
+        <EnhancedDashboardAlertsPanel 
+          alerts={alerts}
+          onCreateTask={createTaskFromAlert}
+          loading={loading}
+        />
       </div>
 
-      {/* Secondary KPIs */}
+      {/* Secondary KPIs Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Documents Processed
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data?.docs_processed || 0}</div>
-            <p className="text-xs text-muted-foreground">Last 30 days</p>
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/documents/activity?range=30d')}>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-2 bg-secondary/10 rounded-lg">
+                <FileText className="h-6 w-6 text-secondary" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold">
+                  {isArabic ? "المستندات المعالجة" : "Documents Processed"}
+                </h3>
+                <p className="text-2xl font-bold">{data?.docsProcessed?.toLocaleString() || 0}</p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/learning/completions?range=90d')}>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-2 bg-accent/10 rounded-lg">
+                <Clock className="h-6 w-6 text-accent" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold">
+                  {isArabic ? "ساعات التدريب" : "Training Hours"}
+                </h3>
+                <p className="text-2xl font-bold">{data?.trainingHours?.toFixed(1) || 0}</p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-muted-foreground" />
+            </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              Training Hours
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data?.training_hours?.toFixed(0) || 0}</div>
-            <p className="text-xs text-muted-foreground">Completed this quarter</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              Compliance Score
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data?.compliance_score?.toFixed(1) || 0}%</div>
-            <p className="text-xs text-muted-foreground">Overall compliance rating</p>
+          <CardContent className="p-6">
+            <div className="flex items-center gap-4">
+              <div className="p-2 bg-success/10 rounded-lg">
+                <CheckCircle className="h-6 w-6 text-success" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold">
+                  {isArabic ? "درجة الامتثال" : "Compliance Score"}
+                </h3>
+                <p className="text-2xl font-bold">{data?.complianceScore?.toFixed(1) || 0}%</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </DashboardErrorBoundary>
   );
-};
-
-export default Dashboard;
+}

@@ -3,13 +3,15 @@ import { supabase } from '@/integrations/supabase/client';
 import { resolveTenantId } from '@/lib/useTenant';
 
 interface TimeSeriesData {
-  snap_date: string;
+  d: string;
   total_employees: number;
   saudization_rate: number;
   hse_safety_score: number;
   compliance_score: number;
   employee_experience_10: number;
   predictive_risk_high: number;
+  docs_processed: number;
+  training_hours: number;
 }
 
 interface DashboardAlert {
@@ -45,7 +47,7 @@ export function useDashboardTrends(days = 365) {
     const { data: seriesData, error: seriesError } = await supabase
       .rpc('dashboard_get_series_v1', { 
         p_tenant: tenantId,
-        days 
+        p_days: days 
       });
 
     if (seriesError) throw seriesError;
@@ -126,7 +128,7 @@ export function useDashboardTrends(days = 365) {
 
   const getSparklineData = (metric: keyof TimeSeriesData) => {
     return series.map(item => ({
-      date: item.snap_date,
+      date: item.d,
       value: Number(item[metric] || 0)
     }));
   };
