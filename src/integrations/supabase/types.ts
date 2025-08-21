@@ -5926,6 +5926,56 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          channel: string | null
+          created_at: string | null
+          error_details: Json | null
+          id: string
+          message: string
+          sent_at: string | null
+          status: string | null
+          task_id: string | null
+          tenant_id: string
+          to_email: string | null
+          to_user_id: string | null
+        }
+        Insert: {
+          channel?: string | null
+          created_at?: string | null
+          error_details?: Json | null
+          id?: string
+          message: string
+          sent_at?: string | null
+          status?: string | null
+          task_id?: string | null
+          tenant_id: string
+          to_email?: string | null
+          to_user_id?: string | null
+        }
+        Update: {
+          channel?: string | null
+          created_at?: string | null
+          error_details?: Json | null
+          id?: string
+          message?: string
+          sent_at?: string | null
+          status?: string | null
+          task_id?: string | null
+          tenant_id?: string
+          to_email?: string | null
+          to_user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       overtime_records: {
         Row: {
           approval_status: string | null
@@ -8054,6 +8104,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tasks: {
+        Row: {
+          closed_at: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          metadata: Json | null
+          module: string
+          owner_role: string | null
+          owner_user_id: string | null
+          priority: string | null
+          status: string | null
+          tenant_id: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          closed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json | null
+          module: string
+          owner_role?: string | null
+          owner_user_id?: string | null
+          priority?: string | null
+          status?: string | null
+          tenant_id: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          closed_at?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          metadata?: Json | null
+          module?: string
+          owner_role?: string | null
+          owner_user_id?: string | null
+          priority?: string | null
+          status?: string | null
+          tenant_id?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       tool_integrations: {
         Row: {
