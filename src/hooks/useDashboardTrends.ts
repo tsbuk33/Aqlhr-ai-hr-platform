@@ -30,6 +30,12 @@ interface TrendsData {
   error: string | null;
 }
 
+interface ActionableAlert extends DashboardAlert {
+  canCreateTask: boolean;
+  taskTitle?: string;
+  taskDescription?: string;
+}
+
 export function useDashboardTrends() {
   const [data, setData] = useState<TrendsData>({
     series: [],
@@ -45,11 +51,11 @@ export function useDashboardTrends() {
       const { tenantId } = await resolveTenantId(supabase);
       if (!tenantId) throw new Error('No tenant available');
 
-      // Fetch time series data (last 30 days)
+      // Fetch time series data (last 365 days for full year view)
       const { data: seriesData, error: seriesError } = await supabase
         .rpc('dashboard_get_series_v1', { 
           p_tenant: tenantId,
-          days: 30 
+          days: 365 
         });
 
       if (seriesError) throw seriesError;
@@ -79,6 +85,35 @@ export function useDashboardTrends() {
     }
   };
 
+  const createTaskFromAlert = async (alert: DashboardAlert, assignedTo?: string) => {
+    try {
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) throw new Error('No tenant available');
+
+      const taskTitle = `Alert: ${alert.title}`;
+      const taskDescription = `${alert.message}\n\nCurrent Value: ${alert.current_value}\nThreshold: ${alert.threshold_value}\nMetric: ${alert.metric}\nSeverity: ${alert.severity}`;
+
+      const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+        p_tenant_id: tenantId,
+        p_module: 'dashboard_alerts',
+        p_title: taskTitle,
+        p_description: taskDescription,
+        p_priority: alert.severity === 'High' ? 'urgent' : alert.severity === 'Medium' ? 'high' : 'medium',
+        p_metadata: {
+          alert_id: alert.id,
+          metric: alert.metric,
+          severity: alert.severity,
+          created_from_dashboard: true
+        }
+      });
+
+      if (error) throw error;
+      return taskId;
+    } catch (err: any) {
+      throw new Error(err.message || 'Failed to create task from alert');
+    }
+  };
+
   const backfillHistoricalData = async (days = 365) => {
     try {
       const { tenantId } = await resolveTenantId(supabase);
@@ -86,7 +121,7 @@ export function useDashboardTrends() {
 
       await supabase.rpc('dashboard_backfill_v1', {
         p_tenant: tenantId,
-        days
+        p_num_days: days
       });
 
       // Refresh data after backfill
@@ -131,6 +166,7 @@ export function useDashboardTrends() {
     refetch: fetchTrendsData,
     backfillHistoricalData,
     getMoMChange,
-    getSparklineData
+    getSparklineData,
+    createTaskFromAlert
   };
 }

@@ -9880,7 +9880,11 @@ export type Database = {
         Returns: number
       }
       dashboard_backfill_v1: {
-        Args: { days?: number; p_tenant: string }
+        Args: { p_num_days?: number; p_tenant: string }
+        Returns: undefined
+      }
+      dashboard_compute_kpis_asof_v1: {
+        Args: { p_asof: string; p_tenant: string }
         Returns: undefined
       }
       dashboard_get_series_v1: {
