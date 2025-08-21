@@ -84,7 +84,8 @@ const Export: React.FC = () => {
                   <Select value={selectedSurvey} onValueChange={setSelectedSurvey}>
                     <SelectTrigger><SelectValue placeholder="Select survey" /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="survey-1">Survey 1</SelectItem>
+                      <SelectItem value="survey-1">CCI Culture Survey</SelectItem>
+                      <SelectItem value="survey-2">Leadership Assessment</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -93,7 +94,8 @@ const Export: React.FC = () => {
                   <Select value={selectedWave} onValueChange={setSelectedWave}>
                     <SelectTrigger><SelectValue placeholder="Select wave" /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="wave-1">Wave 1</SelectItem>
+                      <SelectItem value="wave-1">Wave 1 (Baseline)</SelectItem>
+                      <SelectItem value="wave-2">Wave 2 (Follow-up)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
