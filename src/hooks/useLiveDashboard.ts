@@ -35,7 +35,7 @@ export function useLiveDashboard() {
       const { data: dashboardData, error: rpcError } = await supabase
         .from('kpi_snapshots')
         .select('*')
-        .eq('tenant_id', user.id)
+        .eq('company_id', user.id)
         .order('snap_date', { ascending: false })
         .limit(1);
 
@@ -77,9 +77,10 @@ export function useLiveDashboard() {
       if (!user) throw new Error('User not authenticated');
 
       // For demo, just refresh the data - KPI computation would be done server-side
-      const { error: computeError } = null;
-
-      if (computeError) throw computeError;
+      // In a real implementation, this would call a server-side function
+      // const { error: computeError } = await supabase.rpc('compute_dashboard_kpis', { company_id: user.id });
+      
+      // if (computeError) throw computeError;
       
       // Refresh data after computation
       await fetchDashboardData();

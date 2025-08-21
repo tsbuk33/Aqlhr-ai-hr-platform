@@ -65,7 +65,7 @@ export default function DemoDataPage() {
 
       // For demo, just create a sample KPI snapshot
       const { error } = await supabase.from('kpi_snapshots').upsert({
-        tenant_id: user.id,
+        company_id: user.id,
         snap_date: new Date().toISOString().split('T')[0],
         total_employees: 1000,
         saudization_rate: 68.5,
