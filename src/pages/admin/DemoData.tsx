@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Users, TrendingUp, Database, Loader2, Calendar } from 'lucide-react';
+import { Users, TrendingUp, Database, Loader2, Calendar, Building2, Play, RefreshCw } from 'lucide-react';
 import { resolveTenantId } from '@/lib/useTenant';
 
 export default function DemoDataPage() {
   const { isArabic } = useSimpleLanguage();
   const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
+  const [currentTenantId, setCurrentTenantId] = useState<string>('');
+
+  // Resolve and display current tenant ID
+  useEffect(() => {
+    const getTenantId = async () => {
+      try {
+        const { tenantId } = await resolveTenantId(supabase);
+        setCurrentTenantId(tenantId || 'Not resolved');
+      } catch (error) {
+        console.error('Error resolving tenant ID:', error);
+        setCurrentTenantId('Error resolving');
+      }
+    };
+    getTenantId();
+  }, []);
 
   const seedHRDemo = async () => {
     try {
@@ -126,6 +141,117 @@ export default function DemoDataPage() {
     }
   };
 
+  // HR Demo Bootstrap functions
+  const seedHRBootstrap = async () => {
+    try {
+      setLoading({ hrBootstrapSeed: true });
+      
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
+        toast.error(isArabic ? 'لم يتم العثور على معرف المستأجر' : 'No tenant ID found');
+        return;
+      }
+
+      toast.info(isArabic ? 'بدء تحميل 1000 موظف...' : 'Starting to seed 1,000 employees...');
+
+      const { data, error } = await supabase.functions.invoke('hr_seed_demo_1000_v1', {
+        body: { tenantId }
+      });
+
+      if (error) throw error;
+
+      if (data?.success) {
+        toast.success(
+          isArabic 
+            ? `تم تحميل ${data.inserted || 0} موظف بنجاح`
+            : `Successfully seeded ${data.inserted || 0} employees`
+        );
+      } else {
+        throw new Error(data?.error || 'Failed to seed HR data');
+      }
+    } catch (err: any) {
+      console.error('HR Bootstrap seed error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في تحميل بيانات الموارد البشرية'
+          : 'Failed to seed HR demo data'
+      );
+    } finally {
+      setLoading({ hrBootstrapSeed: false });
+    }
+  };
+
+  const recomputeKPIsToday = async () => {
+    try {
+      setLoading({ recomputeKPIs: true });
+      
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
+        toast.error(isArabic ? 'لم يتم العثور على معرف المستأجر' : 'No tenant ID found');
+        return;
+      }
+
+      toast.info(isArabic ? 'إعادة حساب مؤشرات الأداء لليوم...' : 'Recomputing KPIs for today...');
+
+      const { error } = await supabase.rpc('dashboard_compute_kpis_v1', {
+        p_tenant: tenantId
+      });
+
+      if (error) throw error;
+
+      toast.success(
+        isArabic 
+          ? 'تم إعادة حساب مؤشرات الأداء بنجاح'
+          : 'KPIs recomputed successfully'
+      );
+    } catch (err: any) {
+      console.error('Recompute KPIs error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في إعادة حساب مؤشرات الأداء'
+          : 'Failed to recompute KPIs'
+      );
+    } finally {
+      setLoading({ recomputeKPIs: false });
+    }
+  };
+
+  const backfill12Months = async () => {
+    try {
+      setLoading({ backfill12Months: true });
+      
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
+        toast.error(isArabic ? 'لم يتم العثور على معرف المستأجر' : 'No tenant ID found');
+        return;
+      }
+
+      toast.info(isArabic ? 'بدء إنشاء البيانات التاريخية لـ12 شهر...' : 'Starting 12-month backfill...');
+
+      const { error } = await supabase.rpc('dashboard_backfill_v1', {
+        p_tenant: tenantId,
+        p_days: 365
+      });
+
+      if (error) throw error;
+
+      toast.success(
+        isArabic 
+          ? 'تم إنشاء البيانات التاريخية لـ12 شهر بنجاح'
+          : '12-month backfill completed successfully'
+      );
+    } catch (err: any) {
+      console.error('12-month backfill error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في إنشاء البيانات التاريخية'
+          : 'Failed to complete 12-month backfill'
+      );
+    } finally {
+      setLoading({ backfill12Months: false });
+    }
+  };
+
   return (
     <div className={`space-y-6 p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
       <div className={isArabic ? 'text-right' : 'text-left'}>
@@ -227,6 +353,132 @@ export default function DemoDataPage() {
                 <>
                   <Calendar className="mr-2 h-4 w-4" />
                   {isArabic ? 'إنشاء البيانات التاريخية' : 'Backfill Dashboard'}
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Tenant ID Display */}
+      <div className={`p-4 bg-muted/50 rounded-lg ${isArabic ? 'text-right' : 'text-left'}`}>
+        <div className="flex items-center gap-3">
+          <Building2 className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-medium text-muted-foreground">
+            {isArabic ? 'معرف المستأجر الحالي:' : 'Current Tenant ID:'}
+          </span>
+          <Badge variant="outline" className="font-mono text-xs">
+            {currentTenantId || 'Loading...'}
+          </Badge>
+        </div>
+      </div>
+
+      {/* HR Demo Bootstrap Section */}
+      <div className={isArabic ? 'text-right' : 'text-left'}>
+        <h2 className="text-2xl font-bold text-foreground mb-2">
+          {isArabic ? 'إعداد بيانات الموارد البشرية المتقدم' : 'HR Demo Bootstrap'}
+        </h2>
+        <p className="text-foreground-muted">
+          {isArabic 
+            ? 'أدوات متقدمة لإعداد وإدارة بيانات الموارد البشرية التجريبية'
+            : 'Advanced tools for HR demo data setup and management'
+          }
+        </p>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <Play className="h-5 w-5 text-green-500" />
+              {isArabic ? 'تحميل 1000 موظف' : 'Seed 1,000 Employees'}
+            </CardTitle>
+            <CardDescription>
+              {isArabic ? 'تحميل 1000 موظف مع التوزيع الصحيح للجنسيات والأقسام' : 'Seed 1,000 employees with proper nationality and department distribution'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={seedHRBootstrap}
+              disabled={loading.hrBootstrapSeed}
+              className="w-full"
+              size="lg"
+            >
+              {loading.hrBootstrapSeed ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري التحميل...' : 'Seeding...'}
+                </>
+              ) : (
+                <>
+                  <Play className="mr-2 h-4 w-4" />
+                  {isArabic ? 'تحميل الموظفين' : 'Seed Employees'}
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <RefreshCw className="h-5 w-5 text-blue-500" />
+              {isArabic ? 'إعادة حساب مؤشرات اليوم' : 'Recompute KPIs (Today)'}
+            </CardTitle>
+            <CardDescription>
+              {isArabic ? 'إعادة حساب مؤشرات الأداء الرئيسية لليوم الحالي' : 'Recompute key performance indicators for today'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={recomputeKPIsToday}
+              disabled={loading.recomputeKPIs}
+              variant="outline"
+              className="w-full"
+              size="lg"
+            >
+              {loading.recomputeKPIs ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري الحساب...' : 'Computing...'}
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  {isArabic ? 'إعادة الحساب' : 'Recompute'}
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <Calendar className="h-5 w-5 text-purple-500" />
+              {isArabic ? 'إنشاء بيانات 12 شهر' : 'Backfill 12 Months'}
+            </CardTitle>
+            <CardDescription>
+              {isArabic ? 'إنشاء البيانات التاريخية لمدة 365 يوم' : 'Generate 365 days of historical dashboard data'}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={backfill12Months}
+              disabled={loading.backfill12Months}
+              variant="secondary"
+              className="w-full"
+              size="lg"
+            >
+              {loading.backfill12Months ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري الإنشاء...' : 'Backfilling...'}
+                </>
+              ) : (
+                <>
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {isArabic ? 'إنشاء البيانات' : 'Backfill Data'}
                 </>
               )}
             </Button>
