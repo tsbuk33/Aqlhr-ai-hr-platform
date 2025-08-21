@@ -30,19 +30,19 @@ export function DashboardHeader() {
             {isArabic ? (
               <div className="text-right min-w-0">
                 <h1 className="text-lg font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent truncate">
-                  عقل HR
+                  عقل للموارد البشرية
                 </h1>
                 <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 font-medium truncate">
-                  منصة الموارد البشرية الذكية
+                  منصة الذكاء الاصطناعي للمواهب
                 </p>
               </div>
             ) : (
               <div className="min-w-0">
                 <h1 className="text-lg font-bold bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent truncate">
-                  AqlHR System
+                  AqlHR - عقل للموارد البشرية
                 </h1>
                 <p className="text-xs text-foreground-muted dark:text-foreground-muted mt-1 font-medium truncate">
-                  Smart HR Platform
+                  AI-Powered Talent Intelligence
                 </p>
               </div>
             )}

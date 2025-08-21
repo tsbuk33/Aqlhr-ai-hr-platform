@@ -1,74 +1,131 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle, Building2 } from 'lucide-react';
+import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle, Building2, Activity, FileText, Target, Brain, BarChart } from 'lucide-react';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { useDashboardData } from '@/hooks/useDashboardData';
+import { useLiveDashboard } from '@/hooks/useLiveDashboard';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
+import { toast } from 'sonner';
 
 export default function DashboardPage() {
   const { isArabic } = useSimpleLanguage();
-  const { stats, alerts, loading } = useDashboardData();
+  const { data, loading, error } = useLiveDashboard();
 
-  const getStatData = () => [
-    {
-      title: isArabic ? 'إجمالي الموظفين' : 'Total Employees',
-      value: stats.totalEmployees.toString(),
-      description: isArabic 
-        ? `${stats.saudiEmployees} سعودي، ${stats.nonSaudiEmployees} غير سعودي`
-        : `${stats.saudiEmployees} Saudi, ${stats.nonSaudiEmployees} Non-Saudi`,
-      icon: Users,
-    },
-    {
-      title: isArabic ? 'الحاضرون اليوم' : 'Present Today',
-      value: stats.presentToday.toString(),
-      description: isArabic 
-        ? `معدل الحضور: ${stats.attendanceRate.toFixed(1)}%`
-        : `Attendance rate: ${stats.attendanceRate.toFixed(1)}%`,
-      icon: Clock,
-    },
-    {
-      title: isArabic ? 'الإجازات المعلقة' : 'Pending Leaves',
-      value: stats.pendingLeaves.toString(),
-      description: isArabic ? 'في انتظار الموافقة' : 'Awaiting approval',
-      icon: Calendar,
-    },
-    {
-      title: isArabic ? 'مراجعات الأداء' : 'Performance Reviews',
-      value: stats.performanceReviews.toString(),
-      description: isArabic ? 'مستحقة هذا الشهر' : 'Due this month',
-      icon: TrendingUp,
-    }
-  ];
+  const getSaudizationBadge = (rate: number) => {
+    if (rate >= 60) return { variant: 'secondary' as const, text: isArabic ? 'أخضر' : 'Green' };
+    if (rate >= 40) return { variant: 'outline' as const, text: isArabic ? 'أصفر' : 'Yellow' };
+    return { variant: 'destructive' as const, text: isArabic ? 'أحمر' : 'Red' };
+  };
 
-  const getQuickActions = () => [
-    {
-      title: isArabic ? 'إدارة الموظفين' : 'Employee Management',
-      description: isArabic ? 'إضافة وإدارة القوى العاملة' : 'Add and manage your workforce',
-      content: isArabic 
-        ? 'ابدأ بإضافة الموظفين إلى نظامك لفتح ميزات الحضور والرواتب والأداء.'
-        : 'Start by adding employees to your system to unlock attendance, payroll, and performance features.',
-      icon: Users,
-    },
-    {
-      title: isArabic ? 'الصحة والسلامة' : 'Health & Safety',
-      description: isArabic ? 'امتثال الصحة والسلامة وتتبع الحوادث' : 'HSE compliance and incident tracking',
-      content: isArabic 
-        ? 'إدارة سلامة مكان العمل وتتبع الحوادث وضمان الامتثال التنظيمي.'
-        : 'Manage workplace safety, track incidents, and ensure regulatory compliance.',
-      icon: Shield,
-    },
-    {
-      title: isArabic ? 'الرواتب والتأمينات' : 'Payroll & GOSI',
-      description: isArabic ? 'الامتثال السعودي والمزايا' : 'Saudi compliance and benefits',
-      content: isArabic 
-        ? 'التعامل مع حسابات الرواتب وتسجيل التأمينات والامتثال الحكومي.'
-        : 'Handle payroll calculations, GOSI registration, and government compliance.',
-      icon: DollarSign,
-    }
-  ];
+  const getStatData = () => {
+    if (!data) return [];
+    
+    const saudizationBadge = getSaudizationBadge(data.saudization_rate || 0);
+    
+    return [
+      {
+        title: isArabic ? 'إجمالي الموظفين' : 'Total Employees',
+        value: data.total_employees?.toLocaleString() || '—',
+        description: isArabic ? 'الموظفون النشطون' : 'Active employees',
+        icon: Users,
+        clickable: true,
+        href: '/people/employees'
+      },
+      {
+        title: isArabic ? 'نسبة السعودة' : 'Saudization Rate',
+        value: data.saudization_rate ? `${data.saudization_rate.toFixed(1)}%` : '—',
+        description: saudizationBadge.text,
+        icon: Target,
+        badge: saudizationBadge,
+        clickable: true,
+        href: '/compliance/nitaqat'
+      },
+      {
+        title: isArabic ? 'نقاط السلامة' : 'HSE Safety Score',
+        value: data.hse_safety_score ? `${data.hse_safety_score.toFixed(1)}` : '—',
+        description: isArabic ? 'مؤشر السلامة (90 يوم)' : 'Safety index (90d)',
+        icon: Shield,
+        clickable: true,
+        href: '/safety/incidents'
+      },
+      {
+        title: isArabic ? 'نقاط الامتثال' : 'Compliance Score',
+        value: data.compliance_score ? `${data.compliance_score.toFixed(1)}` : '—',
+        description: isArabic ? 'التكامل والأتمتة' : 'Integrations & automation',
+        icon: CheckCircle,
+        clickable: true,
+        href: '/compliance'
+      },
+      {
+        title: isArabic ? 'تجربة الموظف' : 'Employee Experience',
+        value: data.employee_experience_10 ? `${data.employee_experience_10.toFixed(1)}/10` : '—',
+        description: isArabic ? 'من بيانات الثقافة المؤسسية' : 'From CCI data blend',
+        icon: Brain,
+        clickable: true,
+        href: '/cci'
+      },
+      {
+        title: isArabic ? 'المخاطر التنبؤية' : 'Predictive Risk',
+        value: data.predictive_risk_high?.toString() || '—',
+        description: isArabic ? 'موظفون عالي المخاطر' : 'High-risk employees',
+        icon: AlertTriangle,
+        clickable: true,
+        href: '/people/risk'
+      },
+      {
+        title: isArabic ? 'قوة خط المواهب' : 'Talent Pipeline',
+        value: data.talent_pipeline_strength?.toString() || '—',
+        description: isArabic ? 'نقاط قوة التوظيف' : 'Recruiting strength',
+        icon: TrendingUp,
+        clickable: true,
+        href: '/recruiting'
+      },
+      {
+        title: isArabic ? 'المستندات المعالجة' : 'Documents Processed',
+        value: data.docs_processed?.toLocaleString() || '—',
+        description: isArabic ? '30 يوم الماضية' : 'Last 30 days',
+        icon: FileText,
+        clickable: true,
+        href: '/docs'
+      },
+      {
+        title: isArabic ? 'ساعات التدريب' : 'Training Hours',
+        value: data.training_hours ? `${Math.round(data.training_hours)}h` : '—',
+        description: isArabic ? '90 يوم الماضية' : 'Last 90 days',
+        icon: Activity,
+        clickable: true,
+        href: '/learning'
+      },
+      {
+        title: isArabic ? 'دقة التنبؤ' : 'Forecast Accuracy',
+        value: data.workforce_forecast_accuracy ? `${data.workforce_forecast_accuracy.toFixed(1)}%` : 'TBD',
+        description: isArabic ? 'التنبؤ بالقوى العاملة' : 'Workforce forecasting',
+        icon: BarChart,
+        clickable: false
+      }
+    ];
+  };
+
+  const getSystemStatus = () => {
+    if (!data) return null;
+    
+    // Simple check: if we have employee data, assume systems are operational
+    const allSystemsOperational = (data.total_employees || 0) > 0;
+    
+    return {
+      status: allSystemsOperational ? 'operational' : 'attention',
+      title: isArabic 
+        ? (allSystemsOperational ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'تحتاج الأنظمة إلى انتباه')
+        : (allSystemsOperational ? 'All Systems Operational' : 'Systems Need Attention'),
+      message: isArabic
+        ? (allSystemsOperational ? 'جميع التكاملات متصلة وتعمل بشكل صحيح' : 'تحقق من التكاملات والبيانات')
+        : (allSystemsOperational ? 'All integrations connected and functioning properly' : 'Check integrations and data'),
+      variant: allSystemsOperational ? 'success' : 'warning'
+    };
+  };
 
   const getAlertVariant = (type: string) => {
     switch (type) {
@@ -95,8 +152,8 @@ export default function DashboardPage() {
           <Skeleton className="h-8 w-48 mb-2" />
           <Skeleton className="h-4 w-96" />
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {Array(4).fill(0).map((_, i) => (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {Array(10).fill(0).map((_, i) => (
             <Card key={i}>
               <CardHeader>
                 <Skeleton className="h-4 w-24" />
@@ -112,109 +169,176 @@ export default function DashboardPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className={`space-y-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+        <Card className="border-red-200 bg-red-50 dark:bg-red-950/20">
+          <CardHeader>
+            <CardTitle className="text-red-800 dark:text-red-200">
+              {isArabic ? 'خطأ في تحميل البيانات' : 'Error Loading Dashboard'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-red-700 dark:text-red-300 mb-4">
+              {error}
+            </p>
+            <p className="text-sm text-red-600 dark:text-red-400">
+              {isArabic 
+                ? 'يرجى الذهاب إلى صفحة البيانات التجريبية لتحميل البيانات أولاً'
+                : 'Please go to the Demo Data page to seed data first'
+              }
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const systemStatus = getSystemStatus();
+  const statData = getStatData();
+
   return (
     <div className={`space-y-8 ${isArabic ? 'rtl' : 'ltr'}`}>
       {/* Header */}
       <div className={`${isArabic ? 'text-right' : 'text-left'}`}>
-        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
-          {isArabic ? 'لوحة التحكم' : 'Dashboard'}
-        </h1>
-        <p className="text-foreground-muted mt-2 text-lg">
-          {isArabic ? 'مرحباً بك في منصة إدارة الموارد البشرية' : 'Welcome to your HR management platform'}
-        </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-brand-primary to-brand-accent bg-clip-text text-transparent">
+              {isArabic ? 'لوحة التحكم التنفيذية' : 'Executive Dashboard'}
+            </h1>
+            <p className="text-foreground-muted mt-2 text-lg">
+              {isArabic ? 'عقل للموارد البشرية - منصة ذكية لإدارة المواهب' : 'AqlHR - Intelligent Talent Management Platform'}
+            </p>
+          </div>
+          <div className="hidden lg:block">
+            <HijriCalendarWidget />
+          </div>
+        </div>
       </div>
 
       {/* System Status */}
-      <div className="space-y-4">
-        <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-          <Building2 className="h-5 w-5 text-brand-primary" />
-          <h2 className="text-xl font-semibold text-foreground">
-            {isArabic ? 'حالة النظام' : 'System Status'}
-          </h2>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          {alerts.map((alert) => {
-            const IconComponent = getAlertIcon(alert.type);
-            return (
-              <Card key={alert.id} className={`border-l-4 ${getAlertVariant(alert.type)} transition-all duration-200 hover:shadow-md`}>
-                <CardHeader className="pb-3">
-                  <CardTitle className={`flex items-center gap-3 text-sm font-medium ${isArabic ? 'flex-row-reverse' : ''}`}>
-                    <IconComponent className="h-4 w-4" />
-                    {isArabic ? alert.titleAr : alert.title}
-                    <Badge variant="secondary" className="ml-auto text-xs">
-                      {isArabic ? 'نشط' : 'Active'}
-                    </Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className={`text-sm text-foreground-muted ${isArabic ? 'text-right' : 'text-left'}`}>
-                    {isArabic ? alert.messageAr : alert.message}
-                  </p>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {getStatData().map((stat, index) => (
-          <Card key={index} className="relative overflow-hidden bg-gradient-to-br from-surface to-surface-subtle border border-border-subtle hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
-            <CardHeader className={`flex flex-row items-center justify-between space-y-0 pb-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-              <CardTitle className={`text-sm font-medium text-foreground-muted ${isArabic ? 'text-right' : 'text-left'}`}>
-                {stat.title}
+      {systemStatus && (
+        <div className="space-y-4">
+          <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <Building2 className="h-5 w-5 text-brand-primary" />
+            <h2 className="text-xl font-semibold text-foreground">
+              {isArabic ? 'حالة النظام' : 'System Status'}
+            </h2>
+          </div>
+          <Card className={`border-l-4 ${systemStatus.variant === 'success' ? 'bg-status-success/10 border-l-status-success text-status-success' : 'bg-status-warning/10 border-l-status-warning text-status-warning'} transition-all duration-200 hover:shadow-md`}>
+            <CardHeader className="pb-3">
+              <CardTitle className={`flex items-center gap-3 text-sm font-medium ${isArabic ? 'flex-row-reverse' : ''}`}>
+                {systemStatus.variant === 'success' ? <CheckCircle className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
+                {systemStatus.title}
+                <Badge variant="secondary" className="ml-auto text-xs">
+                  {isArabic ? 'مباشر' : 'Live'}
+                </Badge>
               </CardTitle>
-              <div className="p-2 rounded-lg bg-brand-primary/10">
-                <stat.icon className="h-5 w-5 text-brand-primary" />
-              </div>
             </CardHeader>
-            <CardContent className={isArabic ? 'text-right' : 'text-left'}>
-              <div className="text-3xl font-bold text-foreground mb-1">
-                {stat.value}
-              </div>
-              <p className="text-sm text-foreground-subtle">
-                {stat.description}
+            <CardContent>
+              <p className={`text-sm text-foreground-muted ${isArabic ? 'text-right' : 'text-left'}`}>
+                {systemStatus.message}
               </p>
             </CardContent>
           </Card>
-        ))}
-      </div>
+        </div>
+      )}
 
-      {/* Quick Actions */}
-      <div className="space-y-4">
-        <h2 className={`text-xl font-semibold text-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
-          {isArabic ? 'الإجراءات السريعة' : 'Quick Actions'}
-        </h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {getQuickActions().map((action, index) => (
-            <Card key={index} className="group relative overflow-hidden bg-gradient-to-br from-surface to-surface-raised border border-border-subtle hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-              <CardHeader className={isArabic ? 'text-right' : 'text-left'}>
-                <CardTitle className={`flex items-center gap-3 text-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
-                  <div className="p-2 rounded-lg bg-brand-secondary/10 group-hover:bg-brand-secondary/20 transition-colors">
-                    <action.icon className="h-5 w-5 text-brand-secondary" />
-                  </div>
-                  {action.title}
+      {/* Executive KPI Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        {statData.map((stat, index) => {
+          const CardComponent = stat.clickable ? 'button' : 'div';
+          return (
+            <Card 
+              key={index} 
+              className={`relative overflow-hidden bg-gradient-to-br from-surface to-surface-subtle border border-border-subtle transition-all duration-300 ${stat.clickable ? 'hover:shadow-lg hover:scale-[1.02] cursor-pointer' : ''}`}
+              onClick={stat.clickable ? () => {
+                // In a real app, you'd use router navigation
+                toast.info(isArabic ? `الانتقال إلى ${stat.title}` : `Navigate to ${stat.title}`);
+              } : undefined}
+            >
+              <CardHeader className={`flex flex-row items-center justify-between space-y-0 pb-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                <CardTitle className={`text-xs font-medium text-foreground-muted ${isArabic ? 'text-right' : 'text-left'} leading-tight`}>
+                  {stat.title}
                 </CardTitle>
-                <CardDescription className={`text-foreground-muted ${isArabic ? 'text-right' : 'text-left'}`}>
-                  {action.description}
-                </CardDescription>
+                <div className="p-2 rounded-lg bg-brand-primary/10 flex-shrink-0">
+                  <stat.icon className="h-4 w-4 text-brand-primary" />
+                </div>
               </CardHeader>
               <CardContent className={isArabic ? 'text-right' : 'text-left'}>
-                <p className="text-sm text-foreground-subtle leading-relaxed">
-                  {action.content}
-                </p>
+                <div className="text-2xl font-bold text-foreground mb-1">
+                  {stat.value}
+                </div>
+                <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <p className="text-xs text-foreground-subtle">
+                    {stat.description}
+                  </p>
+                  {stat.badge && (
+                    <Badge variant={stat.badge.variant} className="text-xs">
+                      {stat.badge.text}
+                    </Badge>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
-      {/* AI Tools Testing Suite - for development/testing purposes */}
-      <AIToolsTester moduleContext="dashboard.overview" />
+      {/* AI Insights */}
+      {data && (
+        <div className="space-y-4">
+          <h2 className={`text-xl font-semibold text-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
+            {isArabic ? 'رؤى الذكاء الاصطناعي' : 'AI Insights'}
+          </h2>
+          <div className="grid gap-4 md:grid-cols-3">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/20 dark:to-blue-900/20 border-blue-200 dark:border-blue-800">
+              <CardContent className="p-4">
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Brain className="h-5 w-5 text-blue-600" />
+                  <p className="text-sm text-blue-800 dark:text-blue-200">
+                    {isArabic 
+                      ? `نسبة السعودة ${data.saudization_rate?.toFixed(1)}% تتماشى مع أهداف رؤية 2030`
+                      : `Saudization rate of ${data.saudization_rate?.toFixed(1)}% aligns with Vision 2030 goals`
+                    }
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/20 dark:to-green-900/20 border-green-200 dark:border-green-800">
+              <CardContent className="p-4">
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <Shield className="h-5 w-5 text-green-600" />
+                  <p className="text-sm text-green-800 dark:text-green-200">
+                    {isArabic 
+                      ? `مؤشر السلامة ${data.hse_safety_score?.toFixed(1)} يُظهر بيئة عمل آمنة`
+                      : `Safety score of ${data.hse_safety_score?.toFixed(1)} indicates a secure work environment`
+                    }
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/20 dark:to-purple-900/20 border-purple-200 dark:border-purple-800">
+              <CardContent className="p-4">
+                <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <TrendingUp className="h-5 w-5 text-purple-600" />
+                  <p className="text-sm text-purple-800 dark:text-purple-200">
+                    {isArabic 
+                      ? `تجربة الموظف ${data.employee_experience_10?.toFixed(1)}/10 تشير إلى مستوى رضا عالي`
+                      : `Employee experience of ${data.employee_experience_10?.toFixed(1)}/10 shows high satisfaction`
+                    }
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
 
       {/* AI Assistant */}
-      <AqlHRAIAssistant moduleContext="dashboard.overview" />
+      <AqlHRAIAssistant moduleContext="dashboard.executive" />
     </div>
   );
 }

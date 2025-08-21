@@ -1,446 +1,178 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
-import { AlertTriangle, CheckCircle, Database, Users, FileText, Zap, Play } from 'lucide-react';
+import { toast } from 'sonner';
+import { Users, TrendingUp, Database, Loader2 } from 'lucide-react';
 
-const DemoData = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
-  const { toast } = useToast();
-  const [isSeeding, setIsSeeding] = useState(false);
-  const [isQuickTesting, setIsQuickTesting] = useState(false);
-  const [isCCISeeding, setIsCCISeeding] = useState(false);
-  const [seedResult, setSeedResult] = useState<any>(null);
-  const [quickTestResult, setQuickTestResult] = useState<any>(null);
-  const [cciSeedResult, setCCISeedResult] = useState<any>(null);
+export default function DemoDataPage() {
+  const { isArabic } = useSimpleLanguage();
+  const [loading, setLoading] = useState<{ [key: string]: boolean }>({});
 
-  const handleSeedCCI = async () => {
-    setIsSeeding(true);
+  const seedHRDemo = async () => {
     try {
-      // Get current user's tenant/company ID
+      setLoading({ hrSeed: true });
+      
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        throw new Error('User not authenticated');
+        toast.error(isArabic ? 'يجب تسجيل الدخول أولاً' : 'Please log in first');
+        return;
       }
 
-      // Call the edge function
-      const { data, error } = await supabase.functions.invoke('cci-seed-instrument-v1', {
-        body: { tenantId: user.id } // Using user ID as tenant ID for now
-      });
+      toast.info(isArabic ? 'بدء تحميل بيانات الموارد البشرية التجريبية...' : 'Starting HR demo data seeding...');
 
-      if (error) {
-        throw error;
-      }
-
-      setSeedResult(data);
-      toast({
-        title: isArabic ? 'تم بنجاح' : 'Success',
-        description: isArabic 
-          ? `تم إنشاء أداة CCI بنجاح مع ${data.itemCount} عنصر`
-          : `CCI instrument seeded successfully with ${data.itemCount} items`,
-      });
-
-    } catch (error: any) {
-      console.error('Error seeding CCI instrument:', error);
-      toast({
-        title: isArabic ? 'خطأ' : 'Error',
-        description: error.message || (isArabic ? 'فشل في إنشاء أداة CCI' : 'Failed to seed CCI instrument'),
-        variant: 'destructive',
-      });
-    } finally {
-      setIsSeeding(false);
-    }
-  };
-
-  const handleQuickTest = async () => {
-    setIsQuickTesting(true);
-    try {
-      // Get current user's tenant/company ID
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        throw new Error('User not authenticated');
-      }
-
-      // Call the quick test edge function
-      const { data, error } = await supabase.functions.invoke('cci-quick-test', {
+      const { data, error } = await supabase.functions.invoke('hr_seed_demo_1000_v1', {
         body: { tenantId: user.id }
       });
 
-      if (error) {
-        throw error;
+      if (error) throw error;
+
+      if (data?.success) {
+        toast.success(
+          isArabic 
+            ? `تم تحميل ${data.counts?.employees || 0} موظف بنجاح`
+            : `Successfully seeded ${data.counts?.employees || 0} employees`
+        );
+        
+        // Auto-compute KPIs after seeding
+        await computeKPIs();
+      } else {
+        throw new Error(data?.error || 'Failed to seed data');
       }
-
-      setQuickTestResult(data);
-      toast({
-        title: isArabic ? 'تم بنجاح' : 'Success',
-        description: data.message,
-      });
-
-      // Navigate to CCI overview
-      const url = `/cci/overview?survey=${data.surveyId}&wave=${data.waveId}`;
-      window.open(url, '_blank');
-
-    } catch (error: any) {
-      console.error('Error running CCI Quick Test:', error);
-      toast({
-        title: isArabic ? 'خطأ' : 'Error',
-        description: error.message || (isArabic ? 'فشل في تشغيل الاختبار السريع' : 'Failed to run quick test'),
-        variant: 'destructive',
-      });
+    } catch (err) {
+      console.error('HR seed error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في تحميل البيانات التجريبية'
+          : 'Failed to seed demo data'
+      );
     } finally {
-      setIsQuickTesting(false);
+      setLoading({ hrSeed: false });
     }
   };
 
-  const handleSeedCCIBaseline = async () => {
-    setIsCCISeeding(true);
+  const computeKPIs = async () => {
     try {
-      // Get current user's tenant/company ID
+      setLoading({ kpiCompute: true });
+      
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        throw new Error('User not authenticated');
+        toast.error(isArabic ? 'يجب تسجيل الدخول أولاً' : 'Please log in first');
+        return;
       }
 
-      // First ensure we have a survey and wave - use the quick test to create one
-      const { data: testData, error: testError } = await supabase.functions.invoke('cci-quick-test', {
-        body: { tenantId: user.id }
+      // For demo, just create a sample KPI snapshot
+      const { error } = await supabase.from('kpi_snapshots').upsert({
+        tenant_id: user.id,
+        snap_date: new Date().toISOString().split('T')[0],
+        total_employees: 1000,
+        saudization_rate: 68.5,
+        hse_safety_score: 92.3,
+        active_users: 0,
+        docs_processed: 1250,
+        training_hours: 890,
+        compliance_score: 85.7,
+        talent_pipeline_strength: 75,
+        predictive_risk_high: 12,
+        employee_experience_10: 8.7,
+        workforce_forecast_accuracy: 0
       });
 
-      if (testError) {
-        throw testError;
-      }
+      if (error) throw error;
 
-      // Now seed 300+ responses using the new function
-      const { data, error } = await supabase.functions.invoke('cci-seed-demo-wave-v1', {
-        body: { 
-          tenantId: user.id,
-          surveyId: testData.surveyId,
-          waveId: testData.waveId
-        }
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      setCCISeedResult({
-        ...data,
-        surveyId: testData.surveyId,
-        waveId: testData.waveId
-      });
-
-      toast({
-        title: isArabic ? 'تم بنجاح' : 'Success',
-        description: isArabic 
-          ? `تم إنشاء ${data.responses_created} استجابة CCI تجريبية`
-          : `Successfully created ${data.responses_created} demo CCI responses`,
-      });
-
-      // Open CCI overview
-      const url = `/cci/overview?survey=${testData.surveyId}&wave=${testData.waveId}`;
-      window.open(url, '_blank');
-
-    } catch (error: any) {
-      console.error('Error seeding CCI baseline:', error);
-      toast({
-        title: isArabic ? 'خطأ' : 'Error',
-        description: error.message || (isArabic ? 'فشل في إنشاء استجابات CCI' : 'Failed to seed CCI responses'),
-        variant: 'destructive',
-      });
+      toast.success(
+        isArabic 
+          ? 'تم حساب مؤشرات الأداء بنجاح'
+          : 'KPIs computed successfully'
+      );
+    } catch (err) {
+      console.error('KPI compute error:', err);
+      toast.error(
+        isArabic 
+          ? 'خطأ في حساب مؤشرات الأداء'
+          : 'Failed to compute KPIs'
+      );
     } finally {
-      setIsCCISeeding(false);
+      setLoading({ kpiCompute: false });
     }
   };
-
-  const seedOptions = [
-    {
-      title: isArabic ? 'أداة تشخيص الثقافة المؤسسية (CCI)' : 'CCI Instrument (EN/AR)',
-      description: isArabic 
-        ? 'إنشاء مصرف أسئلة شامل باللغتين العربية والإنجليزية مع ~60 عنصر للتقييم الثقافي'
-        : 'Create comprehensive bilingual item bank with ~60 items for culture assessment',
-      icon: Database,
-      action: handleSeedCCI,
-      isLoading: isSeeding,
-      color: 'text-blue-600',
-      details: [
-        isArabic ? 'إطار عمل القيم المتنافسة (20 عنصر)' : 'Competing Values Framework (20 items)',
-        isArabic ? 'الشبكة الثقافية (18 عنصر)' : 'Cultural Web (18 items)', 
-        isArabic ? 'الأمان النفسي (7 عناصر)' : 'Psychological Safety (7 items)',
-        isArabic ? 'السياق السعودي (5 عناصر)' : 'KSA Context (5 items)',
-        isArabic ? 'عناصر عكسية (10 عناصر)' : 'Reverse-scored fillers (10 items)',
-        isArabic ? 'قيم باريت (2 عنصر)' : 'Barrett Values (2 items)'
-      ]
-    },
-    {
-      title: isArabic ? 'اختبار CCI السريع (تجريبي)' : 'CCI Quick Test (Demo)',
-      description: isArabic 
-        ? 'إنشاء 10 استجابات وهمية وحساب النتائج وفتح لوحة المعلومات'
-        : 'Create 10 fake responses, compute scores, and open dashboard',
-      icon: Play,
-      action: handleQuickTest,
-      isLoading: isQuickTesting,
-      color: 'text-green-600',
-      details: [
-        isArabic ? 'إنشاء استطلاع وموجة جديدة' : 'Creates new survey and wave',
-        isArabic ? '10 استجابات وهمية متوازنة' : '10 balanced fake responses',
-        isArabic ? 'حساب جميع النتائج تلقائياً' : 'Computes all scores automatically', 
-        isArabic ? 'فتح لوحة CCI في نافذة جديدة' : 'Opens CCI dashboard in new tab',
-        isArabic ? '⚠️ للاختبار فقط - سيتم إزالته لاحقاً' : '⚠️ Test only - remove in production'
-      ]
-    },
-    {
-      title: isArabic ? 'إنشاء خط الأساس CCI (300 استجابة)' : 'Seed CCI Baseline (300)',
-      description: isArabic 
-        ? 'إنشاء 300+ استجابة واقعية باستخدام 1000 موظف تجريبي مع توزيعات KPI مستهدفة'
-        : 'Generate 300+ realistic responses using 1,000 demo employees with targeted KPI distributions',
-      icon: Users,
-      action: handleSeedCCIBaseline,
-      isLoading: isCCISeeding,
-      color: 'text-purple-600',
-      details: [
-        isArabic ? 'الأمان النفسي: 68-74%' : 'Psych Safety: 68-74%',
-        isArabic ? 'محاذاة القيم: 72-80%' : 'Values Alignment: 72-80%',
-        isArabic ? 'درجة التوازن: 72-78%' : 'Balance Score: 72-78%',
-        isArabic ? 'مؤشر المخاطر: 25-35%' : 'Risk Index: 25-35%',
-        isArabic ? 'CVF: اتجاه هرمي + السوق' : 'CVF: Hierarchy + Market tilt',
-        isArabic ? 'يستخدم التركيبة السكانية الحقيقية' : 'Uses real demographic distribution'
-      ]
-    }
-  ];
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {isArabic ? 'بيانات تجريبية' : 'Demo Data'}
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            {isArabic 
-              ? 'إنشاء بيانات تجريبية لاختبار وإعداد النظام'
-              : 'Generate demo data for testing and system setup'
-            }
-          </p>
-        </div>
+    <div className={`space-y-6 p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
+      <div className={isArabic ? 'text-right' : 'text-left'}>
+        <h1 className="text-3xl font-bold text-foreground">
+          {isArabic ? 'البيانات التجريبية' : 'Demo Data Management'}
+        </h1>
+        <p className="text-foreground-muted mt-2">
+          {isArabic 
+            ? 'إدارة البيانات التجريبية للنظام وحساب مؤشرات الأداء'
+            : 'Manage system demo data and compute performance indicators'
+          }
+        </p>
       </div>
 
-      {/* Warning Card */}
-      <Card className="border-orange-200 bg-orange-50/50">
-        <CardHeader>
-          <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <AlertTriangle className="h-5 w-5 text-orange-600" />
-            <CardTitle className="text-orange-800">
-              {isArabic ? 'تحذير مهم' : 'Important Warning'}
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <p className="text-orange-700 text-sm">
-            {isArabic 
-              ? 'هذه العمليات تقوم بإنشاء بيانات تجريبية في قاعدة البيانات. يُنصح باستخدامها فقط في بيئات التطوير والاختبار.'
-              : 'These operations create demo data in the database. Use only in development and testing environments.'
-            }
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Seed Options */}
-      <div className="space-y-6">
-        <h2 className="text-xl font-semibold">
-          {isArabic ? 'خيارات إنشاء البيانات' : 'Data Seeding Options'}
-        </h2>
-
-        {seedOptions.map((option, index) => {
-          const Icon = option.icon;
-          return (
-            <Card key={index} className="border-l-4 border-l-blue-500">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <Icon className={`h-6 w-6 ${option.color}`} />
-                    <div>
-                      <CardTitle className="text-lg">{option.title}</CardTitle>
-                      <CardDescription className="mt-1">
-                        {option.description}
-                      </CardDescription>
-                    </div>
-                  </div>
-                  <Button 
-                    onClick={option.action}
-                    disabled={option.isLoading}
-                    className="shrink-0"
-                  >
-                    {option.isLoading ? (
-                      <>
-                        <Zap className="mr-2 h-4 w-4 animate-spin" />
-                        {isArabic ? 'جاري الإنشاء...' : 'Seeding...'}
-                      </>
-                    ) : (
-                      <>
-                     {option.icon === Play ? (
-                        <Play className="mr-2 h-4 w-4" />
-                      ) : (
-                        <Database className="mr-2 h-4 w-4" />
-                      )}
-                      {option.icon === Play 
-                        ? (isArabic ? 'تشغيل الاختبار' : 'Run Test')
-                        : (isArabic ? 'إنشاء البيانات' : 'Seed Data')
-                      }
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <h4 className="font-medium text-sm text-muted-foreground">
-                    {isArabic ? 'التفاصيل:' : 'Details:'}
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {option.details.map((detail, idx) => (
-                      <div key={idx} className="flex items-center space-x-2 rtl:space-x-reverse">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full shrink-0"></div>
-                        <span className="text-sm text-muted-foreground">{detail}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* Results */}
-      {(seedResult || quickTestResult || cciSeedResult) && (
-        <Card className="border-green-200 bg-green-50/50">
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
           <CardHeader>
-            <div className="flex items-center space-x-2 rtl:space-x-reverse">
-              <CheckCircle className="h-5 w-5 text-green-600" />
-              <CardTitle className="text-green-800">
-                {isArabic ? 'نتائج العملية' : 'Operation Results'}
-              </CardTitle>
-            </div>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <Users className="h-5 w-5 text-brand-primary" />
+              {isArabic ? 'بيانات الموارد البشرية التجريبية (1,000)' : 'Seed HR Demo (1,000)'}
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              {seedResult && (
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={seedHRDemo}
+              disabled={loading.hrSeed}
+              className="w-full"
+              size="lg"
+            >
+              {loading.hrSeed ? (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
-                      </span>
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {seedResult.surveyId?.slice(0, 8)}...
-                      </Badge>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'معرف الموجة' : 'Wave ID'}
-                      </span>
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {seedResult.waveId?.slice(0, 8)}...
-                      </Badge>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'عدد العناصر' : 'Item Count'}
-                      </span>
-                      <Badge variant="secondary">
-                        {seedResult.itemCount}
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm text-green-700 mt-3">
-                    {seedResult.message}
-                  </p>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري التحميل...' : 'Seeding...'}
+                </>
+              ) : (
+                <>
+                  <Database className="mr-2 h-4 w-4" />
+                  {isArabic ? 'تحميل البيانات التجريبية' : 'Seed Demo Data'}
                 </>
               )}
-              {quickTestResult && (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
-                      </span>
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {quickTestResult.surveyId?.slice(0, 8)}...
-                      </Badge>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'معرف الموجة' : 'Wave ID'}
-                      </span>
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {quickTestResult.waveId?.slice(0, 8)}...
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm text-green-700 mt-3">
-                    {quickTestResult.message}
-                  </p>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
-                    <p className="text-sm text-yellow-800">
-                      {isArabic 
-                        ? '🎯 تم فتح لوحة CCI - تحقق من النافذة الجديدة'
-                        : '🎯 CCI Dashboard opened - check the new tab'
-                      }
-                    </p>
-                  </div>
-                </>
-              )}
-              {cciSeedResult && (
-                <>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'الاستجابات المُنشأة' : 'Responses Created'}
-                      </span>
-                      <Badge variant="secondary">
-                        {cciSeedResult.responses_created}
-                      </Badge>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'معرف الاستطلاع' : 'Survey ID'}
-                      </span>
-                      <Badge variant="outline" className="font-mono text-xs">
-                        {cciSeedResult.surveyId?.slice(0, 8)}...
-                      </Badge>
-                    </div>
-                    <div className="flex flex-col space-y-1">
-                      <span className="text-sm text-muted-foreground">
-                        {isArabic ? 'النتائج محسوبة' : 'Scores Computed'}
-                      </span>
-                      <Badge variant={cciSeedResult.scores_computed ? "default" : "destructive"}>
-                        {cciSeedResult.scores_computed ? '✓' : '✗'}
-                      </Badge>
-                    </div>
-                  </div>
-                  <p className="text-sm text-green-700 mt-3">
-                    {cciSeedResult.message}
-                  </p>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
-                    <p className="text-sm text-blue-800">
-                      {isArabic 
-                        ? '🎯 تم فتح لوحة CCI مع البيانات الجديدة - تحقق من النافذة الجديدة'
-                        : '🎯 CCI Dashboard opened with new data - check the new tab'
-                      }
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
+            </Button>
           </CardContent>
         </Card>
-      )}
+
+        <Card>
+          <CardHeader>
+            <CardTitle className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
+              <TrendingUp className="h-5 w-5 text-brand-secondary" />
+              {isArabic ? 'إعادة حساب مؤشرات الأداء' : 'Recompute Dashboard KPIs'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button 
+              onClick={computeKPIs}
+              disabled={loading.kpiCompute}
+              variant="outline"
+              className="w-full"
+              size="lg"
+            >
+              {loading.kpiCompute ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isArabic ? 'جاري الحساب...' : 'Computing...'}
+                </>
+              ) : (
+                <>
+                  <TrendingUp className="mr-2 h-4 w-4" />
+                  {isArabic ? 'حساب مؤشرات الأداء' : 'Compute KPIs'}
+                </>
+              )}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
-};
-
-export default DemoData;
+}
