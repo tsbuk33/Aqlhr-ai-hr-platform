@@ -11,383 +11,248 @@ const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Generate realistic Iqama expiry dates for demo
-function generateRealisticIqamaExpiry(employeeIndex: number): string {
-  const now = new Date();
-  const dayMs = 24 * 60 * 60 * 1000;
-  
-  // Distribute across next 180 days with focus on critical windows
-  // Ensure at least 15 fall in each critical window (7, 30, 60 days)
-  let daysFromNow: number;
-  
-  if (employeeIndex <= 15) {
-    // First 15: within 7 days (critical)
-    daysFromNow = Math.random() * 7;
-  } else if (employeeIndex <= 30) {
-    // Next 15: within 8-30 days (urgent)
-    daysFromNow = 8 + Math.random() * 22;
-  } else if (employeeIndex <= 45) {
-    // Next 15: within 31-60 days (warning)
-    daysFromNow = 31 + Math.random() * 29;
-  } else {
-    // Remaining: spread across 61-180 days
-    daysFromNow = 61 + Math.random() * 119;
-  }
-  
-  const expiryDate = new Date(now.getTime() + daysFromNow * dayMs);
-  return expiryDate.toISOString().split('T')[0];
-}
-
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { tenantId } = await req.json();
+    // Get authorization header
+    const authHeader = req.headers.get('Authorization');
+    let tenantId: string;
     
-    console.log('Seeding HR demo data for tenant:', tenantId);
+    // Parse request body
+    const body = await req.json().catch(() => ({}));
+    const providedTenantId = body.tenantId;
 
-    // Check if already seeded (≥1000 employees)
+    if (providedTenantId) {
+      tenantId = providedTenantId;
+    } else {
+      // Try to resolve tenant from session
+      if (authHeader) {
+        const { data: { user }, error: authError } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+        
+        if (!authError && user) {
+          // Look up company_id from profiles
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('company_id')
+            .eq('user_id', user.id)
+            .maybeSingle();
+          
+          if (profile?.company_id) {
+            tenantId = profile.company_id;
+          }
+        }
+      }
+
+      // Generate UUID if still no tenant
+      if (!tenantId) {
+        tenantId = crypto.randomUUID();
+      }
+    }
+
+    console.log('Using tenant ID:', tenantId);
+
+    // Check if already seeded (avoid duplicates)
     const { count: existingCount } = await supabase
       .from('hr_employees')
       .select('*', { count: 'exact', head: true })
-      .eq('tenant_id', tenantId);
+      .eq('company_id', tenantId);
 
     if (existingCount && existingCount >= 1000) {
-      console.log('Already seeded with', existingCount, 'employees');
       return new Response(JSON.stringify({
         success: true,
         message: `Already seeded with ${existingCount} employees`,
-        counts: { employees: existingCount }
+        tenantId,
+        inserted: 0
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
 
-    console.log('Starting HR data seeding...');
+    console.log('Starting HR demo data seeding...');
 
-    // 1. Create departments
+    // 1. Insert 6 departments (Projects, Operations, Finance, HR, IT, HSE)
     const departments = [
-      { code: 'IT', name_en: 'Information Technology', name_ar: 'تقنية المعلومات' },
-      { code: 'HR', name_en: 'Human Resources', name_ar: 'الموارد البشرية' },
-      { code: 'FIN', name_en: 'Finance', name_ar: 'المالية' },
-      { code: 'OPS', name_en: 'Operations', name_ar: 'العمليات' },
-      { code: 'SALES', name_en: 'Sales', name_ar: 'المبيعات' },
-      { code: 'MKT', name_en: 'Marketing', name_ar: 'التسويق' },
-      { code: 'ENG', name_en: 'Engineering', name_ar: 'الهندسة' },
-      { code: 'QA', name_en: 'Quality Assurance', name_ar: 'ضمان الجودة' },
-      { code: 'SUPPORT', name_en: 'Customer Support', name_ar: 'دعم العملاء' },
-      { code: 'ADMIN', name_en: 'Administration', name_ar: 'الإدارة' },
-      { code: 'LEGAL', name_en: 'Legal', name_ar: 'الشؤون القانونية' },
-      { code: 'PROCUREMENT', name_en: 'Procurement', name_ar: 'المشتريات' }
+      { name: 'Projects', code: 'PROJ' },
+      { name: 'Operations', code: 'OPS' },
+      { name: 'Finance', code: 'FIN' },
+      { name: 'Human Resources', code: 'HR' },
+      { name: 'Information Technology', code: 'IT' },
+      { name: 'Health, Safety & Environment', code: 'HSE' }
     ];
 
     const { data: deptData } = await supabase.from('hr_departments').insert(
-      departments.map(d => ({ ...d, tenant_id: tenantId }))
+      departments.map(d => ({ company_id: tenantId, name: d.name, code: d.code }))
     ).select();
-    console.log('Created departments:', deptData?.length);
 
-    // 2. Create locations
-    const locations = [
-      { name_en: 'Riyadh HQ', name_ar: 'الرياض - المقر الرئيسي' },
-      { name_en: 'Jeddah Branch', name_ar: 'جدة - الفرع' },
-      { name_en: 'Dammam Office', name_ar: 'الدمام - المكتب' },
-      { name_en: 'Remote', name_ar: 'عن بُعد' }
-    ];
-
-    const { data: locationData } = await supabase.from('hr_locations').insert(
-      locations.map(l => ({ ...l, tenant_id: tenantId }))
-    ).select();
-    console.log('Created locations:', locationData?.length);
-
-    // 3. Create grades
-    const grades = [
-      { code: 'L1', min_salary: 3000, max_salary: 5000 },
-      { code: 'L2', min_salary: 5000, max_salary: 8000 },
-      { code: 'L3', min_salary: 8000, max_salary: 12000 },
-      { code: 'L4', min_salary: 12000, max_salary: 18000 },
-      { code: 'L5', min_salary: 18000, max_salary: 25000 },
-      { code: 'L6', min_salary: 25000, max_salary: 35000 },
-      { code: 'M1', min_salary: 35000, max_salary: 50000 },
-      { code: 'M2', min_salary: 50000, max_salary: 70000 },
-      { code: 'E1', min_salary: 70000, max_salary: 100000 }
-    ];
-
-    const { data: gradeData } = await supabase.from('hr_grades').insert(
-      grades.map(g => ({ ...g, tenant_id: tenantId }))
-    ).select();
-    console.log('Created grades:', gradeData?.length);
-
-    // 4. Create job titles
+    // 2. Insert 10 jobs  
     const jobs = [
-      { code: 'DEV_JR', title_en: 'Junior Developer', title_ar: 'مطور مبتدئ', family: 'Engineering' },
-      { code: 'DEV_SR', title_en: 'Senior Developer', title_ar: 'مطور أول', family: 'Engineering' },
-      { code: 'DEV_LEAD', title_en: 'Development Lead', title_ar: 'قائد التطوير', family: 'Engineering' },
-      { code: 'QA_ENG', title_en: 'QA Engineer', title_ar: 'مهندس ضمان جودة', family: 'Engineering' },
-      { code: 'SYS_ADMIN', title_en: 'System Administrator', title_ar: 'مدير أنظمة', family: 'IT' },
-      { code: 'HR_SPEC', title_en: 'HR Specialist', title_ar: 'أخصائي موارد بشرية', family: 'HR' },
-      { code: 'HR_MGR', title_en: 'HR Manager', title_ar: 'مدير موارد بشرية', family: 'HR' },
-      { code: 'ACCOUNTANT', title_en: 'Accountant', title_ar: 'محاسب', family: 'Finance' },
-      { code: 'FIN_ANALYST', title_en: 'Financial Analyst', title_ar: 'محلل مالي', family: 'Finance' },
-      { code: 'SALES_REP', title_en: 'Sales Representative', title_ar: 'ممثل مبيعات', family: 'Sales' },
-      { code: 'SALES_MGR', title_en: 'Sales Manager', title_ar: 'مدير مبيعات', family: 'Sales' },
-      { code: 'MKT_SPEC', title_en: 'Marketing Specialist', title_ar: 'أخصائي تسويق', family: 'Marketing' },
-      { code: 'PROJ_MGR', title_en: 'Project Manager', title_ar: 'مدير مشروع', family: 'Management' },
-      { code: 'SUPPORT_AGT', title_en: 'Support Agent', title_ar: 'وكيل دعم', family: 'Support' },
-      { code: 'ADMIN_ASST', title_en: 'Administrative Assistant', title_ar: 'مساعد إداري', family: 'Administration' }
+      'Manager', 'Senior Engineer', 'Engineer', 'Specialist', 'Coordinator',
+      'Analyst', 'Technician', 'Administrator', 'Supervisor', 'Consultant'
     ];
 
     const { data: jobData } = await supabase.from('hr_jobs').insert(
-      jobs.map(j => ({ ...j, tenant_id: tenantId }))
+      jobs.map(job => ({ company_id: tenantId, name: job }))
     ).select();
-    console.log('Created jobs:', jobData?.length);
 
-    // 5. Generate 1,000 employees
-    console.log('Generating 1,000 employees...');
+    // 3. Insert 5 grades
+    const grades = [
+      { name: 'Grade 1', level: 1 },
+      { name: 'Grade 2', level: 2 },
+      { name: 'Grade 3', level: 3 },
+      { name: 'Grade 4', level: 4 },
+      { name: 'Grade 5', level: 5 }
+    ];
+
+    const { data: gradeData } = await supabase.from('hr_grades').insert(
+      grades.map(g => ({ company_id: tenantId, name: g.name, level: g.level }))
+    ).select();
+
+    // 4. Generate 1,000 employees with specified distribution
+    console.log('Generating 1,000 employees with specified distributions...');
     const employees = [];
-    const nationalities = ['SA', 'EG', 'IN', 'PH', 'BD', 'PK', 'JO', 'SY'];
-    const nationalityWeights = [68, 8, 6, 5, 4, 4, 3, 2]; // SA dominates
+    const nonSaudiNationalities = ['EG', 'PH', 'IN', 'PK', 'SD', 'BD'];
+    
+    // Names for variety
+    const maleNames = ['Ahmed', 'Mohammed', 'Abdullah', 'Omar', 'Khalid', 'Faisal', 'Saud', 'Bandar', 'Nasser', 'Turki'];
+    const femaleNames = ['Fatima', 'Aisha', 'Sarah', 'Noura', 'Hala', 'Mona', 'Reem', 'Lina', 'Jana', 'Dina'];
+    const surnames = ['Al-Ahmed', 'Al-Mohammed', 'Al-Omar', 'Al-Khalid', 'Al-Faisal', 'Al-Saud', 'Al-Rashid', 'Al-Malik', 'Al-Nasser', 'Al-Turki'];
 
-    for (let i = 1; i <= 1000; i++) {
-      // Nationality selection (weighted random)
-      const rand = Math.random() * 100;
-      let cumulative = 0;
-      let nationality = 'SA';
-      for (let j = 0; j < nationalityWeights.length; j++) {
-        cumulative += nationalityWeights[j];
-        if (rand <= cumulative) {
-          nationality = nationalities[j];
-          break;
-        }
-      }
+    // Identify female-heavy departments (HR, Finance, IT)
+    const femaleHeavyDepts = deptData?.filter(dept => 
+      dept.name === 'Human Resources' || 
+      dept.name === 'Finance' || 
+      dept.name === 'Information Technology'
+    ) || [];
 
-      const isSaudi = nationality === 'SA';
-      const isMale = Math.random() < 0.82; // 82% male, 18% female
+    for (let i = 0; i < 1000; i++) {
+      // Saudi distribution: 38-45%
+      const saudiRate = 0.38 + Math.random() * 0.07; // 38-45%
+      const isSaudi = Math.random() < saudiRate;
+      const nationality = isSaudi ? 'SA' : nonSaudiNationalities[Math.floor(Math.random() * nonSaudiNationalities.length)];
+
+      // Department assignment
+      const department = deptData![Math.floor(Math.random() * deptData!.length)];
+      const isFemaleHeavyDept = femaleHeavyDepts.some(d => d.id === department.id);
       
-      // Generate hire date (last 10 years)
+      // Gender distribution: 22-30% female (higher in HR/Finance/IT)
+      const baseFemaleRate = 0.22 + Math.random() * 0.08; // 22-30%
+      const femaleRate = isFemaleHeavyDept ? baseFemaleRate + 0.15 : baseFemaleRate; // Boost for female-heavy depts
+      const isFemale = Math.random() < femaleRate;
+      const gender = isFemale ? 'female' : 'male';
+
+      // Generate names
+      const firstName = isFemale 
+        ? femaleNames[Math.floor(Math.random() * femaleNames.length)]
+        : maleNames[Math.floor(Math.random() * maleNames.length)];
+      const lastName = surnames[Math.floor(Math.random() * surnames.length)];
+
+      // Hire dates: spread across last 6 years
       const hireDate = new Date();
-      hireDate.setFullYear(hireDate.getFullYear() - Math.floor(Math.random() * 10));
+      hireDate.setFullYear(hireDate.getFullYear() - Math.floor(Math.random() * 6));
       hireDate.setMonth(Math.floor(Math.random() * 12));
       hireDate.setDate(Math.floor(Math.random() * 28) + 1);
 
-      // 5-8% terminated
-      const isTerminated = Math.random() < 0.065;
-      let terminationDate = null;
-      if (isTerminated) {
-        terminationDate = new Date(hireDate);
-        terminationDate.setDate(terminationDate.getDate() + Math.floor(Math.random() * 1000));
+      // Employment status: 96-98% active
+      const activeRate = 0.96 + Math.random() * 0.02; // 96-98%
+      const isActive = Math.random() < activeRate;
+      const employmentStatus = isActive ? 'active' : 'terminated';
+
+      // Iqama expiry for non-Saudis: 15-270 days ahead
+      let iqamaExpiry = null;
+      if (!isSaudi) {
+        const daysAhead = 15 + Math.floor(Math.random() * (270 - 15));
+        const expiry = new Date();
+        expiry.setDate(expiry.getDate() + daysAhead);
+        iqamaExpiry = expiry.toISOString().split('T')[0];
       }
 
-      // Random selections
-      const dept = deptData?.[Math.floor(Math.random() * deptData.length)];
-      const job = jobData?.[Math.floor(Math.random() * jobData.length)];
-      const grade = gradeData?.[Math.floor(Math.random() * gradeData.length)];
-      const location = locationData?.[Math.floor(Math.random() * locationData.length)];
-
-      // Generate names
-      const arabicNames = ['أحمد', 'فاطمة', 'محمد', 'عائشة', 'علي', 'زينب', 'عبدالله', 'مريم'];
-      const englishNames = ['Ahmed', 'Fatima', 'Mohammed', 'Aisha', 'Ali', 'Zainab', 'Abdullah', 'Maryam'];
-      const randomNameIndex = Math.floor(Math.random() * arabicNames.length);
-
-      employees.push({
-        tenant_id: tenantId,
-        employee_no: `EMP${i.toString().padStart(4, '0')}`,
-        full_name_en: englishNames[randomNameIndex] + ' Al-' + (isSaudi ? 'Saudi' : nationality),
-        full_name_ar: arabicNames[randomNameIndex] + ' آل ' + (isSaudi ? 'السعودي' : nationality),
-        gender: isMale ? 'M' : 'F',
-        nationality_code: nationality,
+      // Generate employee
+      const employee = {
+        company_id: tenantId,
+        employee_no: `AQL-${100000 + i}`,
+        first_name: firstName,
+        last_name: lastName,
+        full_name_en: `${firstName} ${lastName}`,
+        full_name_ar: `${firstName} ${lastName}`, // Simplified for demo
+        gender,
+        nationality,
         is_saudi: isSaudi,
+        department_id: department.id,
+        job_id: jobData![Math.floor(Math.random() * jobData!.length)].id,
+        grade_id: gradeData![Math.floor(Math.random() * gradeData!.length)].id,
         hire_date: hireDate.toISOString().split('T')[0],
-        termination_date: terminationDate ? terminationDate.toISOString().split('T')[0] : null,
-        dept_id: dept?.id,
-        job_id: job?.id,
-        grade_id: grade?.id,
-        location_id: location?.id,
-        employment_status: isTerminated ? 'terminated' : 'active',
-        base_salary: Math.floor(Math.random() * 50000) + 5000,
-        allowances: Math.floor(Math.random() * 5000),
-        iqama_expiry: !isSaudi ? generateRealisticIqamaExpiry(i) : null
-      });
+        employment_status: employmentStatus,
+        iqama_expiry: iqamaExpiry
+      };
+
+      employees.push(employee);
     }
 
-    // Insert employees in batches
-    const batchSize = 100;
-    let totalEmployees = 0;
-    for (let i = 0; i < employees.length; i += batchSize) {
-      const batch = employees.slice(i, i + batchSize);
-      const { data: empBatch } = await supabase.from('hr_employees').insert(batch).select('id');
-      totalEmployees += empBatch?.length || 0;
-      console.log(`Inserted employees batch ${Math.floor(i / batchSize) + 1}`);
-    }
-
-    // 6. Generate sample activity data
-    console.log('Generating activity data...');
-
-    // Attendance (last 60 workdays)
-    const activeEmployees = await supabase
-      .from('hr_employees')
-      .select('id')
-      .eq('tenant_id', tenantId)
-      .eq('employment_status', 'active')
-      .limit(500); // Sample for performance
-
-    if (activeEmployees.data) {
-      const attendanceRecords = [];
-      for (let i = 0; i < 60; i++) {
-        const workDate = new Date();
-        workDate.setDate(workDate.getDate() - i);
-        // Skip weekends
-        if (workDate.getDay() === 5 || workDate.getDay() === 6) continue;
-
-        activeEmployees.data.forEach(emp => {
-          attendanceRecords.push({
-            tenant_id: tenantId,
-            employee_id: emp.id,
-            work_date: workDate.toISOString().split('T')[0],
-            tardy_minutes: Math.random() < 0.1 ? Math.floor(Math.random() * 30) : 0,
-            overtime_minutes: Math.random() < 0.3 ? Math.floor(Math.random() * 120) : 0
-          });
-        });
-      }
-
-      // Insert attendance in batches
-      for (let i = 0; i < attendanceRecords.length; i += 1000) {
-        const batch = attendanceRecords.slice(i, i + 1000);
-        await supabase.from('hr_attendance').insert(batch);
-      }
-    }
-
-    // Generate other activity data (leaves, training, incidents, docs, integrations)
-    // Leaves
-    if (activeEmployees.data) {
-      const leaveRecords = [];
-      const sampleSize = Math.min(200, activeEmployees.data.length);
-      for (let i = 0; i < sampleSize; i++) {
-        const emp = activeEmployees.data[i];
-        if (Math.random() < 0.4) { // 40% chance of having leave
-          const startDate = new Date();
-          startDate.setDate(startDate.getDate() - Math.floor(Math.random() * 90));
-          const days = Math.floor(Math.random() * 10) + 1;
-          const endDate = new Date(startDate);
-          endDate.setDate(endDate.getDate() + days);
-
-          leaveRecords.push({
-            tenant_id: tenantId,
-            employee_id: emp.id,
-            leave_type: ['annual', 'sick', 'other'][Math.floor(Math.random() * 3)],
-            start_date: startDate.toISOString().split('T')[0],
-            end_date: endDate.toISOString().split('T')[0],
-            days
-          });
-        }
-      }
-      if (leaveRecords.length > 0) {
-        await supabase.from('hr_leaves').insert(leaveRecords);
-      }
-    }
-
-    // Training records
-    if (activeEmployees.data) {
-      const trainingRecords = [];
-      const sampleSize = Math.min(300, activeEmployees.data.length);
-      const courses = ['Safety Training', 'Leadership Development', 'Technical Skills', 'Compliance Training'];
+    // Insert employees in batches of 100
+    let totalInserted = 0;
+    for (let i = 0; i < employees.length; i += 100) {
+      const batch = employees.slice(i, i + 100);
+      const { data: batchResult } = await supabase
+        .from('hr_employees')
+        .insert(batch)
+        .select('id');
       
-      for (let i = 0; i < sampleSize; i++) {
-        const emp = activeEmployees.data[i];
-        if (Math.random() < 0.6) { // 60% chance of having training
-          trainingRecords.push({
-            tenant_id: tenantId,
-            employee_id: emp.id,
-            course_name: courses[Math.floor(Math.random() * courses.length)],
-            hours: Math.floor(Math.random() * 8) + 1,
-            completed_at: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-          });
-        }
-      }
-      if (trainingRecords.length > 0) {
-        await supabase.from('hr_training').insert(trainingRecords);
-      }
+      totalInserted += batchResult?.length || 0;
+      console.log(`Inserted batch ${Math.floor(i / 100) + 1}/10 - Total: ${totalInserted}`);
     }
 
-    // HSE Incidents
-    const incidents = [];
-    for (let i = 0; i < 12; i++) { // ~12 incidents per quarter
-      incidents.push({
-        tenant_id: tenantId,
-        occurred_at: new Date(Date.now() - Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-        dept_id: deptData?.[Math.floor(Math.random() * deptData.length)]?.id,
-        severity: ['NearMiss', 'FirstAid', 'LTI', 'Recordable'][Math.floor(Math.random() * 4)],
-        days_lost: Math.random() < 0.2 ? Math.floor(Math.random() * 5) : 0,
-        description: 'Sample incident for demo purposes'
-      });
-    }
-    if (incidents.length > 0) {
-      await supabase.from('hse_incidents').insert(incidents);
+    console.log('All employees inserted. Computing KPIs...');
+
+    // 5. Compute current KPIs
+    const { error: kpiError } = await supabase.rpc('dashboard_compute_kpis_v1', {
+      p_tenant: tenantId
+    });
+
+    if (kpiError) {
+      console.error('KPI computation error:', kpiError);
     }
 
-    // Document events
-    const docEvents = [];
-    for (let i = 0; i < 1500; i++) {
-      docEvents.push({
-        tenant_id: tenantId,
-        event_at: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
-        type: ['upload', 'ocr', 'extract', 'approve'][Math.floor(Math.random() * 4)],
-        module: ['HR', 'Payroll', 'Compliance', 'Training'][Math.floor(Math.random() * 4)],
-        processed_by_ai: Math.random() < 0.6 // 60% AI processed
-      });
-    }
-    if (docEvents.length > 0) {
-      for (let i = 0; i < docEvents.length; i += 500) {
-        const batch = docEvents.slice(i, i + 500);
-        await supabase.from('docs_events').insert(batch);
-      }
+    console.log('KPIs computed. Starting backfill...');
+
+    // 6. Backfill 365 days of data  
+    const { error: backfillError } = await supabase.rpc('dashboard_backfill_v1', {
+      p_tenant: tenantId,
+      p_days: 365
+    });
+
+    if (backfillError) {
+      console.error('Backfill error:', backfillError);
     }
 
-    // Integrations
-    const integrationsList = [
-      { name: 'MOL', category: 'Gov', status: 'connected' },
-      { name: 'QIWA', category: 'Gov', status: 'connected' },
-      { name: 'GOSI', category: 'Gov', status: 'connected' },
-      { name: 'ABSHER', category: 'Gov', status: 'connected' },
-      { name: 'Payroll System', category: 'Tool', status: 'connected' },
-      { name: 'LMS Platform', category: 'Tool', status: 'partial' },
-      { name: 'ATS System', category: 'Tool', status: 'connected' }
-    ];
-
-    await supabase.from('integrations').insert(
-      integrationsList.map(int => ({ 
-        ...int, 
-        tenant_id: tenantId,
-        last_sync: new Date().toISOString()
-      }))
-    );
-
-    console.log('HR demo seeding completed successfully');
+    console.log('Demo data seeding completed successfully!');
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'HR demo data seeded successfully',
+      tenantId,
+      inserted: totalInserted,
       counts: {
-        departments: deptData?.length || 0,
-        locations: locationData?.length || 0,
-        grades: gradeData?.length || 0,
-        jobs: jobData?.length || 0,
-        employees: totalEmployees,
-        integrations: integrationsList.length
+        departments: departments.length,
+        jobs: jobs.length,
+        grades: grades.length,
+        employees: totalInserted
       }
     }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
-    console.error('Error in hr_seed_demo_1000_v1:', error);
+    console.error('Function error:', error);
     return new Response(JSON.stringify({
       success: false,
-      error: error.message
+      error: error.message,
+      tenantId: null,
+      inserted: 0
     }), {
       status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 });
