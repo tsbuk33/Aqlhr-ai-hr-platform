@@ -77,3 +77,6 @@ verify_jwt = true
 
 [functions.secure-admin-wrapper]
 verify_jwt = true
+
+[functions.cron-dashboard-snapshot-daily-v1]
+verify_jwt = false
