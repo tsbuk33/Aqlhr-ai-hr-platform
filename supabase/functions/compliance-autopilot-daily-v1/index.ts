@@ -12,18 +12,15 @@ interface Employee {
   full_name_en: string;
   full_name_ar: string;
   is_saudi: boolean;
-  nationality_code: string;
   iqama_expiry: string;
   employee_no: string;
+  employment_status: string;
 }
 
 interface Company {
   id: string;
   name: string;
   company_name_arabic: string;
-  saudization_percentage: number;
-  saudization_target: number;
-  nitaqat_status: string;
 }
 
 serve(async (req) => {
@@ -36,7 +33,7 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    console.log('Starting daily compliance autopilot...');
+    console.log('Starting daily compliance autopilot v1...');
 
     // Get all active companies
     const { data: companies, error: companiesError } = await supabase
@@ -53,13 +50,21 @@ serve(async (req) => {
       iqama_reminders: 0,
       tasks_created: 0,
       letters_generated: 0,
-      companies_processed: 0
+      companies_processed: 0,
+      errors: []
     };
 
     for (const company of companies as Company[]) {
       console.log(`Processing company: ${company.name}`);
       
       try {
+        // Log start of processing
+        await supabase.from('compliance_runs').insert({
+          tenant_id: company.id,
+          status: 'ok',
+          stats: { processing: true }
+        });
+
         // 1. Check Saudization Risk
         await checkSaudizationRisk(supabase, company, results);
         
@@ -67,12 +72,32 @@ serve(async (req) => {
         await checkIqamaExpiries(supabase, company, results);
         
         results.companies_processed++;
+
+        // Log completion
+        await supabase.from('compliance_runs').insert({
+          tenant_id: company.id,
+          status: 'ok',
+          stats: {
+            saudization_alerts: results.saudization_alerts,
+            iqama_reminders: results.iqama_reminders,
+            tasks_created: results.tasks_created
+          }
+        });
+
       } catch (error) {
         console.error(`Error processing company ${company.id}:`, error);
+        results.errors.push({ company_id: company.id, error: error.message });
+
+        // Log error
+        await supabase.from('compliance_runs').insert({
+          tenant_id: company.id,
+          status: 'error',
+          error: error.message
+        });
       }
     }
 
-    console.log('Daily compliance autopilot completed:', results);
+    console.log('Daily compliance autopilot v1 completed:', results);
 
     return new Response(JSON.stringify({
       success: true,
@@ -84,7 +109,7 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('Error in compliance autopilot:', error);
+    console.error('Error in compliance autopilot v1:', error);
     return new Response(JSON.stringify({ 
       success: false, 
       error: error.message 
@@ -96,173 +121,221 @@ serve(async (req) => {
 });
 
 async function checkSaudizationRisk(supabase: any, company: Company, results: any) {
-  // Get employee counts
-  const { data: employeeCounts } = await supabase
-    .from('hr_employees')
-    .select('is_saudi, employment_status')
-    .eq('company_id', company.id)
-    .eq('employment_status', 'active');
-
-  if (!employeeCounts || employeeCounts.length === 0) return;
-
-  const totalEmployees = employeeCounts.length;
-  const saudiEmployees = employeeCounts.filter((emp: any) => emp.is_saudi).length;
-  const currentRate = (saudiEmployees / totalEmployees) * 100;
-  
-  const target = company.saudization_target || 60; // Default 60% if not set
-  const riskThreshold = target - 5; // Risk if within 5% of target
-
-  if (currentRate < riskThreshold) {
-    const saudisNeeded = Math.ceil((target * totalEmployees / 100) - saudiEmployees);
-    
-    // Create task
-    const { data: taskId } = await supabase.rpc('task_create_v1', {
-      p_tenant_id: company.id,
-      p_module: 'compliance',
-      p_title: `Urgent: Protect Nitaqat Status - Hire ${saudisNeeded} Saudi Nationals`,
-      p_description: `Current Saudization: ${currentRate.toFixed(1)}%. Target: ${target}%. Risk of color drop detected. Immediate action required.`,
-      p_priority: 'urgent',
-      p_owner_role: 'hr_manager',
-      p_metadata: {
-        source: 'compliance_autopilot',
-        current_rate: currentRate,
-        target_rate: target,
-        saudis_needed: saudisNeeded,
-        total_employees: totalEmployees,
-        saudi_employees: saudiEmployees
-      }
+  try {
+    // Get saudization color using new function
+    const { data: saudizationData } = await supabase.rpc('saudization_color_v1', {
+      p_tenant: company.id
     });
 
-    // Log action
-    await supabase.from('agent_actions').insert({
-      company_id: company.id,
-      action_type: 'saudization_alert',
-      action_description: `Saudization risk detected: ${currentRate.toFixed(1)}% (target: ${target}%)`,
-      task_id: taskId,
-      metadata: {
-        current_rate: currentRate,
-        target_rate: target,
-        saudis_needed: saudisNeeded
-      }
-    });
+    if (!saudizationData || saudizationData.length === 0) return;
 
-    results.saudization_alerts++;
-    results.tasks_created++;
-  }
-}
-
-async function checkIqamaExpiries(supabase: any, company: Company, results: any) {
-  const now = new Date();
-  const reminders = [
-    { days: 60, priority: 'medium' },
-    { days: 30, priority: 'high' }, 
-    { days: 7, priority: 'urgent' }
-  ];
-
-  for (const reminder of reminders) {
-    const targetDate = new Date();
-    targetDate.setDate(now.getDate() + reminder.days);
+    const { color, rate } = saudizationData[0];
     
-    const { data: expiringEmployees } = await supabase
-      .from('hr_employees')
+    // Get compliance settings
+    const { data: settings } = await supabase
+      .from('compliance_settings')
       .select('*')
-      .eq('company_id', company.id)
-      .eq('employment_status', 'active')
-      .eq('is_saudi', false)
-      .not('iqama_expiry', 'is', null)
-      .lte('iqama_expiry', targetDate.toISOString().split('T')[0])
-      .gt('iqama_expiry', now.toISOString().split('T')[0]);
+      .eq('tenant_id', company.id)
+      .maybeSingle();
 
-    if (!expiringEmployees || expiringEmployees.length === 0) continue;
+    const greenThreshold = settings?.saudization_green_threshold || 60;
+    const yellowThreshold = settings?.saudization_yellow_threshold || 40;
 
-    for (const employee of expiringEmployees) {
-      // Check if we already created a task for this employee recently
-      const { data: existingActions } = await supabase
-        .from('agent_actions')
-        .select('*')
+    // Create alert if in yellow or red zone
+    if (color === 'yellow' || color === 'red') {
+      const urgency = color === 'red' ? 'urgent' : 'high';
+      const requiredRate = color === 'red' ? yellowThreshold : greenThreshold;
+      
+      // Get current employee counts for calculations
+      const { data: employeeCounts } = await supabase
+        .from('hr_employees')
+        .select('is_saudi, employment_status')
         .eq('company_id', company.id)
-        .eq('action_type', 'iqama_reminder')
-        .eq('target_employee_id', employee.id)
-        .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()); // Last 7 days
+        .eq('employment_status', 'active');
 
-      if (existingActions && existingActions.length > 0) continue;
-
-      const expiryDate = new Date(employee.iqama_expiry);
-      const daysUntilExpiry = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+      let saudisNeeded = 0;
+      if (employeeCounts && employeeCounts.length > 0) {
+        const totalEmployees = employeeCounts.length;
+        const currentSaudis = employeeCounts.filter((emp: any) => emp.is_saudi).length;
+        const requiredSaudis = Math.ceil((requiredRate * totalEmployees) / 100);
+        saudisNeeded = Math.max(0, requiredSaudis - currentSaudis);
+      }
 
       // Create task
       const { data: taskId } = await supabase.rpc('task_create_v1', {
         p_tenant_id: company.id,
         p_module: 'compliance',
-        p_title: `Iqama Renewal Required - ${employee.full_name_en} (${daysUntilExpiry} days)`,
-        p_description: `Employee ${employee.full_name_en} (ID: ${employee.employee_no}) Iqama expires on ${employee.iqama_expiry}. Renewal process must begin immediately.`,
-        p_priority: reminder.priority,
+        p_title: `${color.toUpperCase()} Alert: Saudization Risk - Action Required`,
+        p_description: `Current Saudization: ${rate.toFixed(1)}%. Status: ${color.toUpperCase()}. ${saudisNeeded > 0 ? `Hire ${saudisNeeded} Saudi nationals to improve status.` : 'Review workforce composition.'}`,
+        p_priority: urgency,
         p_owner_role: 'hr_manager',
-        p_due_at: expiryDate.toISOString(),
         p_metadata: {
           source: 'compliance_autopilot',
-          employee_id: employee.id,
-          employee_name: employee.full_name_en,
-          employee_name_ar: employee.full_name_ar,
-          employee_no: employee.employee_no,
-          iqama_expiry: employee.iqama_expiry,
-          days_until_expiry: daysUntilExpiry,
-          reminder_type: `${reminder.days}_day`
+          saudization_color: color,
+          current_rate: rate,
+          threshold: requiredRate,
+          saudis_needed: saudisNeeded,
+          alert_type: 'saudization_risk'
         }
       });
 
-      // Generate renewal letter PDF
-      await generateRenewalLetter(supabase, company, employee, taskId, results);
-
-      // Log action
-      await supabase.from('agent_actions').insert({
-        company_id: company.id,
-        action_type: 'iqama_reminder',
-        action_description: `Iqama renewal reminder for ${employee.full_name_en} - expires in ${daysUntilExpiry} days`,
-        target_employee_id: employee.id,
-        task_id: taskId,
-        metadata: {
-          employee_name: employee.full_name_en,
-          iqama_expiry: employee.iqama_expiry,
-          days_until_expiry: daysUntilExpiry,
-          reminder_days: reminder.days
-        }
-      });
-
-      results.iqama_reminders++;
+      results.saudization_alerts++;
       results.tasks_created++;
+
+      console.log(`Saudization ${color} alert created for company ${company.id}`);
     }
+  } catch (error) {
+    console.error(`Error checking saudization risk for company ${company.id}:`, error);
   }
 }
 
-async function generateRenewalLetter(supabase: any, company: Company, employee: Employee, taskId: string, results: any) {
-  // Generate letter content
-  const letterData = {
-    company_name_en: company.name,
-    company_name_ar: company.company_name_arabic || company.name,
-    employee_name_en: employee.full_name_en,
-    employee_name_ar: employee.full_name_ar || employee.full_name_en,
-    employee_id: employee.employee_no,
-    iqama_expiry: employee.iqama_expiry,
-    generated_date: new Date().toISOString().split('T')[0],
-    task_id: taskId
-  };
+async function checkIqamaExpiries(supabase: any, company: Company, results: any) {
+  try {
+    // Get compliance settings for reminder days
+    const { data: settings } = await supabase
+      .from('compliance_settings')
+      .select('*')
+      .eq('tenant_id', company.id)
+      .maybeSingle();
 
-  // Store letter data in task metadata for later PDF generation in UI
-  await supabase.rpc('task_assign_v1', {
-    p_task_id: taskId,
-    p_owner_role: 'hr_manager'
-  });
+    const reminderDays = settings?.iqama_reminders || [60, 30, 7];
+    const now = new Date();
 
-  // Log letter generation action
-  await supabase.from('agent_actions').insert({
-    company_id: company.id,
-    action_type: 'letter_generated',
-    action_description: `Iqama renewal letter generated for ${employee.full_name_en}`,
-    target_employee_id: employee.id,
-    task_id: taskId,
-    metadata: letterData
-  });
+    for (const days of reminderDays) {
+      const targetDate = new Date();
+      targetDate.setDate(now.getDate() + days);
+      
+      const { data: expiringEmployees } = await supabase
+        .from('hr_employees')
+        .select('*')
+        .eq('company_id', company.id)
+        .eq('employment_status', 'active')
+        .eq('is_saudi', false)
+        .not('iqama_expiry', 'is', null)
+        .lte('iqama_expiry', targetDate.toISOString().split('T')[0])
+        .gt('iqama_expiry', now.toISOString().split('T')[0]);
 
-  results.letters_generated++;
+      if (!expiringEmployees || expiringEmployees.length === 0) continue;
+
+      for (const employee of expiringEmployees) {
+        // Check if we already created a task for this employee and reminder period
+        const { data: existingTasks } = await supabase
+          .from('tasks')
+          .select('*')
+          .eq('tenant_id', company.id)
+          .eq('module', 'compliance')
+          .gte('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
+          .like('metadata->employee_id', `%${employee.id}%`);
+
+        if (existingTasks && existingTasks.length > 0) continue;
+
+        const expiryDate = new Date(employee.iqama_expiry);
+        const daysUntilExpiry = Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+        let priority = 'medium';
+        if (daysUntilExpiry <= 7) priority = 'urgent';
+        else if (daysUntilExpiry <= 30) priority = 'high';
+
+        // Create task
+        const { data: taskId } = await supabase.rpc('task_create_v1', {
+          p_tenant_id: company.id,
+          p_module: 'compliance',
+          p_title: `Iqama Renewal: ${employee.full_name_en} (${daysUntilExpiry} days)`,
+          p_description: `Employee ${employee.full_name_en} (ID: ${employee.employee_no}) Iqama expires on ${employee.iqama_expiry}. ${daysUntilExpiry <= 30 ? 'URGENT: ' : ''}Renewal process must ${daysUntilExpiry <= 7 ? 'be completed immediately' : 'begin now'}.`,
+          p_priority: priority,
+          p_owner_role: 'hr_manager',
+          p_due_at: expiryDate.toISOString(),
+          p_metadata: {
+            source: 'compliance_autopilot',
+            employee_id: employee.id,
+            employee_name: employee.full_name_en,
+            employee_name_ar: employee.full_name_ar,
+            employee_no: employee.employee_no,
+            iqama_expiry: employee.iqama_expiry,
+            days_until_expiry: daysUntilExpiry,
+            reminder_days: days,
+            alert_type: 'iqama_expiry'
+          }
+        });
+
+        // Generate and store renewal letter
+        await generateAndStoreRenewalLetter(supabase, company, employee, taskId, days, results);
+
+        results.iqama_reminders++;
+        results.tasks_created++;
+
+        console.log(`Iqama renewal task created for employee ${employee.id}, expires in ${daysUntilExpiry} days`);
+      }
+    }
+  } catch (error) {
+    console.error(`Error checking iqama expiries for company ${company.id}:`, error);
+  }
+}
+
+async function generateAndStoreRenewalLetter(
+  supabase: any, 
+  company: Company, 
+  employee: Employee, 
+  taskId: string, 
+  reminderDays: number,
+  results: any
+) {
+  try {
+    // Generate letter data (basic text format for now, PDF generation happens in UI)
+    const letterFooter = await getLetterFooter(supabase, company.id);
+    
+    const letterData = {
+      company_name_en: company.name,
+      company_name_ar: company.company_name_arabic || company.name,
+      employee_name_en: employee.full_name_en,
+      employee_name_ar: employee.full_name_ar || employee.full_name_en,
+      employee_id: employee.employee_no,
+      iqama_expiry: employee.iqama_expiry,
+      generated_date: new Date().toISOString().split('T')[0],
+      task_id: taskId,
+      reminder_days: reminderDays,
+      footer_en: letterFooter.en,
+      footer_ar: letterFooter.ar
+    };
+
+    // Store letter metadata in compliance_letters table
+    const storagePath = `${company.id}/${employee.id}/${taskId}_iqama_renewal_${reminderDays}d.json`;
+    
+    await supabase.from('compliance_letters').insert({
+      tenant_id: company.id,
+      employee_id: employee.id,
+      type: 'iqama_renewal',
+      lang: 'en', // Default language, can be changed in UI
+      expiry_date: employee.iqama_expiry,
+      reminder_day: reminderDays,
+      storage_path: storagePath,
+      created_by: null // System generated
+    });
+
+    results.letters_generated++;
+
+    console.log(`Renewal letter metadata stored for employee ${employee.id}`);
+  } catch (error) {
+    console.error(`Error generating renewal letter for employee ${employee.id}:`, error);
+  }
+}
+
+async function getLetterFooter(supabase: any, companyId: string) {
+  try {
+    const { data: settings } = await supabase
+      .from('compliance_settings')
+      .select('letter_footer_en, letter_footer_ar')
+      .eq('tenant_id', companyId)
+      .maybeSingle();
+
+    return {
+      en: settings?.letter_footer_en || 'Generated by AqlHR – PDPL compliant. No national IDs stored in logs.',
+      ar: settings?.letter_footer_ar || 'تم إنشاء الخطاب بواسطة عقل للموارد البشرية – متوافق مع نظام حماية البيانات الشخصية.'
+    };
+  } catch (error) {
+    return {
+      en: 'Generated by AqlHR – PDPL compliant. No national IDs stored in logs.',
+      ar: 'تم إنشاء الخطاب بواسطة عقل للموارد البشرية – متوافق مع نظام حماية البيانات الشخصية.'
+    };
+  }
 }

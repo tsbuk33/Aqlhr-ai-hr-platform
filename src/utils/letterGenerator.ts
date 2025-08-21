@@ -8,108 +8,179 @@ interface LetterData {
   employee_id: string;
   iqama_expiry: string;
   generated_date: string;
+  language?: 'en' | 'ar';
+  footer_en?: string;
+  footer_ar?: string;
 }
 
 export const generateRenewalLetterPDF = async (data: LetterData) => {
+  const { jsPDF } = await import('jspdf');
+  
+  // Create new PDF document
   const doc = new jsPDF();
   
-  // Set up fonts and styles
-  doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
+  const language = data.language || 'en';
+  const isArabic = language === 'ar';
   
-  // Header - Company Name (English)
-  doc.text(data.company_name_en, 20, 30);
+  // Set font and font sizes
+  const titleFontSize = 18;
+  const headerFontSize = 14;
+  const bodyFontSize = 12;
+  const footerFontSize = 10;
   
-  // Arabic company name (if different)
-  if (data.company_name_ar !== data.company_name_en) {
-    doc.setFontSize(14);
-    doc.text(data.company_name_ar, 20, 45);
+  let yPosition = 30;
+  
+  if (isArabic) {
+    // Arabic version
+    doc.setFontSize(headerFontSize);
+    doc.setFont('helvetica', 'bold');
+    doc.text(data.company_name_ar || data.company_name_en, 20, yPosition, { align: 'right', maxWidth: 170 });
+    yPosition += 15;
+    
+    // Date
+    doc.setFontSize(bodyFontSize);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`التاريخ: ${data.generated_date}`, 170, yPosition, { align: 'right' });
+    yPosition += 20;
+    
+    // Title
+    doc.setFontSize(titleFontSize);
+    doc.setFont('helvetica', 'bold');
+    doc.text('إشعار تجديد الإقامة', 105, yPosition, { align: 'center' });
+    yPosition += 20;
+    
+    // Arabic letter content
+    const arabicContent = [
+      'إلى من يهمه الأمر،',
+      '',
+      'نحيطكم علماً بأن الموظف التالي يحتاج إلى عناية فورية',
+      'لتجديد الإقامة حيث أن تاريخ انتهاء الصلاحية يقترب:',
+      '',
+      `اسم الموظف (عربي): ${data.employee_name_ar}`,
+      `اسم الموظف (إنجليزي): ${data.employee_name_en}`,
+      `رقم الموظف: ${data.employee_id}`,
+      `تاريخ انتهاء الإقامة الحالي: ${data.iqama_expiry}`,
+      '',
+      'يرجى التأكد من بدء عملية التجديد فوراً لتجنب',
+      'أي مضاعفات قانونية أو مشاكل في تصريح العمل.',
+      '',
+      'الإجراءات المطلوبة:',
+      '١. بدء عملية تجديد الإقامة مع السلطات المختصة',
+      '٢. إعداد الوثائق المطلوبة',
+      '٣. حجز موعد مع خدمات أبشر/وزارة الداخلية',
+      '٤. متابعة حالة الطلب',
+      '٥. تحديث سجلات الموارد البشرية عند اكتمال التجديد',
+      '',
+      'تم إنتاج هذا الإشعار تلقائياً من قبل نظام الموارد البشرية الخاص بنا',
+      'لضمان الامتثال لمتطلبات قانون العمل السعودي.',
+      '',
+      'لأي استفسارات أو مساعدة، يرجى الاتصال بقسم الموارد البشرية.',
+      '',
+      'مع أطيب التحيات،',
+      'قسم الموارد البشرية',
+      data.company_name_ar || data.company_name_en
+    ];
+    
+    doc.setFontSize(bodyFontSize);
+    doc.setFont('helvetica', 'normal');
+    
+    arabicContent.forEach(line => {
+      if (yPosition > 270) {
+        doc.addPage();
+        yPosition = 20;
+      }
+      if (line) {
+        doc.text(line, 190, yPosition, { align: 'right', maxWidth: 170 });
+      }
+      yPosition += 6;
+    });
+    
+  } else {
+    // English version
+    doc.setFontSize(headerFontSize);
+    doc.setFont('helvetica', 'bold');
+    doc.text(data.company_name_en, 20, yPosition);
+    yPosition += 10;
+    
+    // Company Name (Arabic) - if different
+    if (data.company_name_ar && data.company_name_ar !== data.company_name_en) {
+      doc.text(data.company_name_ar, 20, yPosition);
+      yPosition += 15;
+    } else {
+      yPosition += 10;
+    }
+    
+    // Date
+    doc.setFontSize(bodyFontSize);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`Date: ${data.generated_date}`, 150, yPosition);
+    yPosition += 20;
+    
+    // Title
+    doc.setFontSize(titleFontSize);
+    doc.setFont('helvetica', 'bold');
+    doc.text('IQAMA RENEWAL NOTIFICATION', 20, yPosition);
+    yPosition += 20;
+    
+    // Letter content
+    const letterContent = [
+      'To Whom It May Concern,',
+      '',
+      'This is to notify that the following employee requires immediate attention',
+      'for Iqama renewal as the expiry date is approaching:',
+      '',
+      `Employee Name (English): ${data.employee_name_en}`,
+      `Employee Name (Arabic): ${data.employee_name_ar}`,
+      `Employee ID: ${data.employee_id}`,
+      `Current Iqama Expiry Date: ${data.iqama_expiry}`,
+      '',
+      'Please ensure that the renewal process is initiated immediately to avoid',
+      'any legal complications or work permit issues.',
+      '',
+      'Required Actions:',
+      '1. Initiate Iqama renewal process with relevant authorities',
+      '2. Prepare required documentation',
+      '3. Schedule appointment with Absher/MOI services',
+      '4. Follow up on application status',
+      '5. Update HR records upon renewal completion',
+      '',
+      'This notification has been generated automatically by our HR system',
+      'to ensure compliance with Saudi Arabian labor law requirements.',
+      '',
+      'For any questions or assistance, please contact the HR department.',
+      '',
+      'Best regards,',
+      'Human Resources Department',
+      data.company_name_en
+    ];
+    
+    doc.setFontSize(bodyFontSize);
+    doc.setFont('helvetica', 'normal');
+    
+    letterContent.forEach(line => {
+      if (yPosition > 270) {
+        doc.addPage();
+        yPosition = 20;
+      }
+      doc.text(line, 20, yPosition);
+      yPosition += 6;
+    });
   }
   
-  // Date
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Date: ${data.generated_date}`, 150, 30);
+  // Add footer
+  yPosition = Math.max(yPosition + 20, 280);
+  doc.setFontSize(footerFontSize);
+  doc.setFont('helvetica', 'italic');
   
-  // Title
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text('IQAMA RENEWAL NOTIFICATION', 20, 70);
-  doc.text('إشعار تجديد الإقامة', 20, 85);
-  
-  // Letter content - English
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
-  
-  const englishContent = [
-    'To: Ministry of Interior - Directorate General of Passports',
-    'Re: Iqama Renewal Request',
-    '',
-    `Employee Name: ${data.employee_name_en}`,
-    `Employee ID: ${data.employee_id}`,
-    `Current Iqama Expiry: ${data.iqama_expiry}`,
-    '',
-    'We hereby request the renewal of the above-mentioned employee\'s',
-    'Iqama (residence permit) in accordance with Saudi Arabia\'s',
-    'immigration regulations.',
-    '',
-    'The employee is currently employed with our organization and',
-    'continues to meet all employment and residency requirements.',
-    '',
-    'We kindly request your assistance in processing this renewal',
-    'application at your earliest convenience.',
-    '',
-    'Thank you for your cooperation.',
-    '',
-    'Sincerely,',
-    `${data.company_name_en}`,
-    'Human Resources Department'
-  ];
-  
-  let yPosition = 105;
-  englishContent.forEach(line => {
-    doc.text(line, 20, yPosition);
-    yPosition += 6;
-  });
-  
-  // Arabic content
-  yPosition += 10;
-  doc.setFont('helvetica', 'bold');
-  doc.text('المحتوى باللغة العربية:', 20, yPosition);
-  yPosition += 15;
-  
-  doc.setFont('helvetica', 'normal');
-  const arabicContent = [
-    'إلى: وزارة الداخلية - المديرية العامة للجوازات',
-    `اسم الموظف: ${data.employee_name_ar}`,
-    `رقم الموظف: ${data.employee_id}`,
-    `تاريخ انتهاء الإقامة الحالية: ${data.iqama_expiry}`,
-    '',
-    'نطلب بموجبه تجديد إقامة الموظف المذكور أعلاه',
-    'وفقاً للوائح الهجرة في المملكة العربية السعودية.',
-    '',
-    'الموظف يعمل حالياً لدى مؤسستنا ويستوفي',
-    'جميع متطلبات العمل والإقامة.',
-    '',
-    'نرجو منكم التكرم بمعالجة طلب التجديد',
-    'في أقرب وقت ممكن.',
-    '',
-    'شكراً لتعاونكم.',
-    '',
-    `${data.company_name_ar}`,
-    'قسم الموارد البشرية'
-  ];
-  
-  arabicContent.forEach(line => {
-    doc.text(line, 20, yPosition);
-    yPosition += 6;
-  });
-  
-  // Footer
-  doc.setFontSize(8);
-  doc.text(`Generated automatically by Aql HR System on ${data.generated_date}`, 20, 280);
+  const footerText = isArabic 
+    ? (data.footer_ar || 'تم إنشاء الخطاب بواسطة عقل للموارد البشرية – متوافق مع نظام حماية البيانات الشخصية.')
+    : (data.footer_en || 'Generated by AqlHR - PDPL Compliant HR Management System');
+    
+  doc.text(footerText, isArabic ? 190 : 20, yPosition, { align: isArabic ? 'right' : 'left', maxWidth: 170 });
+  doc.text(`${isArabic ? 'تاريخ الإنتاج: ' : 'Generation Date: '}${data.generated_date}`, isArabic ? 190 : 20, yPosition + 5, { align: isArabic ? 'right' : 'left' });
   
   // Save the PDF
-  const fileName = `Iqama_Renewal_${data.employee_name_en.replace(/\s+/g, '_')}_${data.generated_date}.pdf`;
+  const langSuffix = isArabic ? '_AR' : '_EN';
+  const fileName = `Iqama_Renewal_${data.employee_name_en.replace(/\s+/g, '_')}_${data.employee_id}_${data.generated_date}${langSuffix}.pdf`;
   doc.save(fileName);
 };

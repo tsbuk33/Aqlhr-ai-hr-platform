@@ -2139,6 +2139,108 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_letters: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          employee_id: string
+          expiry_date: string | null
+          id: string
+          lang: string
+          reminder_day: number | null
+          storage_path: string
+          tenant_id: string
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          employee_id: string
+          expiry_date?: string | null
+          id?: string
+          lang: string
+          reminder_day?: number | null
+          storage_path: string
+          tenant_id: string
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          employee_id?: string
+          expiry_date?: string | null
+          id?: string
+          lang?: string
+          reminder_day?: number | null
+          storage_path?: string
+          tenant_id?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      compliance_runs: {
+        Row: {
+          error: string | null
+          id: string
+          ran_at: string | null
+          stats: Json | null
+          status: string | null
+          tenant_id: string
+        }
+        Insert: {
+          error?: string | null
+          id?: string
+          ran_at?: string | null
+          stats?: Json | null
+          status?: string | null
+          tenant_id: string
+        }
+        Update: {
+          error?: string | null
+          id?: string
+          ran_at?: string | null
+          stats?: Json | null
+          status?: string | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      compliance_settings: {
+        Row: {
+          id: string
+          iqama_reminders: number[] | null
+          letter_footer_ar: string | null
+          letter_footer_en: string | null
+          saudization_green_threshold: number | null
+          saudization_yellow_threshold: number | null
+          tenant_id: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          id?: string
+          iqama_reminders?: number[] | null
+          letter_footer_ar?: string | null
+          letter_footer_en?: string | null
+          saudization_green_threshold?: number | null
+          saudization_yellow_threshold?: number | null
+          tenant_id: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          id?: string
+          iqama_reminders?: number[] | null
+          letter_footer_ar?: string | null
+          letter_footer_en?: string | null
+          saudization_green_threshold?: number | null
+          saudization_yellow_threshold?: number | null
+          tenant_id?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       cross_system_recommendations: {
         Row: {
           company_id: string | null
@@ -10113,6 +10215,13 @@ export type Database = {
           p_source_line?: number
         }
         Returns: string
+      }
+      saudization_color_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          color: string
+          rate: number
+        }[]
       }
       sparsevec_out: {
         Args: { "": unknown }

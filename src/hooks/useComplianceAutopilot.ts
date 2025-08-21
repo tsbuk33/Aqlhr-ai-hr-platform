@@ -172,17 +172,23 @@ export const useComplianceAutopilot = () => {
         currentRate = (saudiCount / employeeCounts.length) * 100;
       }
 
-      // Determine Nitaqat color
-      let color = 'green';
-      const target = company?.saudization_target || 60;
-      if (currentRate < target - 10) color = 'red';
-      else if (currentRate < target - 5) color = 'yellow';
-      else if (currentRate >= 85) color = 'platinum';
+      // Get Saudization status using new function
+      const { data: saudizationData } = await supabase.rpc('saudization_color_v1', {
+        p_tenant: companyId
+      });
+      
+      let nitaqatColor = 'green';
+      let nitaqatRate = currentRate;
+      
+      if (saudizationData && saudizationData.length > 0) {
+        nitaqatColor = saudizationData[0].color;
+        nitaqatRate = saudizationData[0].rate;
+      }
 
       setNitaqatStatus({
-        color,
-        current_rate: currentRate,
-        target_rate: target
+        color: nitaqatColor,
+        current_rate: nitaqatRate,
+        target_rate: company?.saudization_target || 60
       });
 
       setUpcomingExpiries({
@@ -210,19 +216,14 @@ export const useComplianceAutopilot = () => {
 
   const runAutopilot = async () => {
     try {
-      const response = await fetch('https://qcuhjcyjlkfizesndmth.supabase.co/functions/v1/compliance-autopilot-daily-v1', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjdWhqY3lqbGtmaXplc25kbXRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4NDY4NzgsImV4cCI6MjA2MzQyMjg3OH0.Vr1tBpNjv8e6sNtjfISJul12Mg9ROQVrlRTgWB1dPoc',
-          'Content-Type': 'application/json'
-        }
+      // Use Supabase client to call the edge function
+      const { data, error } = await supabase.functions.invoke('compliance-autopilot-daily-v1', {
+        body: {}
       });
       
-      if (!response.ok) {
-        throw new Error('Failed to run autopilot');
+      if (error) {
+        throw new Error(`Autopilot failed: ${error.message}`);
       }
-      
-      const data = await response.json();
       
       // Refresh data after running autopilot
       await fetchComplianceData();
