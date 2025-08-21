@@ -53,6 +53,146 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_skill_bindings: {
+        Row: {
+          config: Json
+          created_at: string
+          enabled: boolean
+          id: string
+          last_run_at: string | null
+          last_run_metrics: Json | null
+          last_run_status: string | null
+          next_run_at: string | null
+          run_count: number
+          skill_code: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          last_run_metrics?: Json | null
+          last_run_status?: string | null
+          next_run_at?: string | null
+          run_count?: number
+          skill_code: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          last_run_at?: string | null
+          last_run_metrics?: Json | null
+          last_run_status?: string | null
+          next_run_at?: string | null
+          run_count?: number
+          skill_code?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_skill_bindings_skill_code_fkey"
+            columns: ["skill_code"]
+            isOneToOne: false
+            referencedRelation: "agent_skills"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      agent_skill_executions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          dry_run: boolean
+          error_message: string | null
+          execution_id: string
+          id: string
+          input_data: Json | null
+          metrics: Json | null
+          output_data: Json | null
+          skill_code: string
+          started_at: string
+          status: string
+          tenant_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          dry_run?: boolean
+          error_message?: string | null
+          execution_id: string
+          id?: string
+          input_data?: Json | null
+          metrics?: Json | null
+          output_data?: Json | null
+          skill_code: string
+          started_at?: string
+          status?: string
+          tenant_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          dry_run?: boolean
+          error_message?: string | null
+          execution_id?: string
+          id?: string
+          input_data?: Json | null
+          metrics?: Json | null
+          output_data?: Json | null
+          skill_code?: string
+          started_at?: string
+          status?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      agent_skills: {
+        Row: {
+          category: string
+          code: string
+          created_at: string
+          default_config: Json | null
+          description: string | null
+          enabled: boolean
+          execution_type: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          code: string
+          created_at?: string
+          default_config?: Json | null
+          description?: string | null
+          enabled?: boolean
+          execution_type?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          code?: string
+          created_at?: string
+          default_config?: Json | null
+          description?: string | null
+          enabled?: boolean
+          execution_type?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ai_document_chunks: {
         Row: {
           chunk_index: number

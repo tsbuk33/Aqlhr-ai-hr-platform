@@ -204,6 +204,7 @@ const CCIAnalysis = lazy(() => import('../pages/cci/Analysis'));
 const CCIPlaybook = lazy(() => import('../pages/cci/Playbook'));
 const CCITracking = lazy(() => import('../pages/cci/Tracking'));
 const CCIExport = lazy(() => import('../pages/cci/Export'));
+const AgentSkills = lazy(() => import('../pages/agent/SkillsPage'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
@@ -543,4 +544,5 @@ export const ROUTES: RouteConfig[] = [
   { path: '/cci/playbook', element: CCIPlaybook, auth: false }, // Feature gated within component
   { path: '/cci/tracking', element: CCITracking, auth: false },
   { path: '/cci/export', element: CCIExport, auth: false }, // Feature gated within component
+  { path: '/agent/skills', element: AgentSkills, auth: false },
 ];
