@@ -2108,27 +2108,51 @@ export type Database = {
       docs_events: {
         Row: {
           company_id: string
-          event_at: string | null
+          created_at: string | null
+          document_type: string
+          employee_id: string
+          file_name: string
+          file_path: string
+          file_size: number
           id: string
-          module: string | null
-          processed_by_ai: boolean | null
-          type: string
+          mime_type: string
+          updated_at: string | null
+          upload_metadata: Json | null
+          uploaded_by: string | null
+          virus_scan_details: Json | null
+          virus_scan_status: string | null
         }
         Insert: {
           company_id: string
-          event_at?: string | null
+          created_at?: string | null
+          document_type: string
+          employee_id: string
+          file_name: string
+          file_path: string
+          file_size: number
           id?: string
-          module?: string | null
-          processed_by_ai?: boolean | null
-          type: string
+          mime_type: string
+          updated_at?: string | null
+          upload_metadata?: Json | null
+          uploaded_by?: string | null
+          virus_scan_details?: Json | null
+          virus_scan_status?: string | null
         }
         Update: {
           company_id?: string
-          event_at?: string | null
+          created_at?: string | null
+          document_type?: string
+          employee_id?: string
+          file_name?: string
+          file_path?: string
+          file_size?: number
           id?: string
-          module?: string | null
-          processed_by_ai?: boolean | null
-          type?: string
+          mime_type?: string
+          updated_at?: string | null
+          upload_metadata?: Json | null
+          uploaded_by?: string | null
+          virus_scan_details?: Json | null
+          virus_scan_status?: string | null
         }
         Relationships: []
       }
