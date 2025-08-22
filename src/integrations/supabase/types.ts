@@ -8246,6 +8246,47 @@ export type Database = {
         }
         Relationships: []
       }
+      rew_snapshots: {
+        Row: {
+          case_id: string
+          created_at: string | null
+          id: string
+          n: number | null
+          risk_score: number
+          scope: string
+          scope_id: string | null
+          top_drivers: Json | null
+        }
+        Insert: {
+          case_id: string
+          created_at?: string | null
+          id?: string
+          n?: number | null
+          risk_score?: number
+          scope: string
+          scope_id?: string | null
+          top_drivers?: Json | null
+        }
+        Update: {
+          case_id?: string
+          created_at?: string | null
+          id?: string
+          n?: number | null
+          risk_score?: number
+          scope?: string
+          scope_id?: string | null
+          top_drivers?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rew_snapshots_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       saudi_activities: {
         Row: {
           classification_code: string
@@ -11763,6 +11804,24 @@ export type Database = {
           p_source_line?: number
         }
         Returns: string
+      }
+      rew_compute_case_v1: {
+        Args: { p_case_id: string }
+        Returns: undefined
+      }
+      rew_get_high_risk_managers_v1: {
+        Args: { p_case_id: string }
+        Returns: {
+          manager_id: string
+          manager_name: string
+          risk_factors: string[]
+          risk_score: number
+          team_size: number
+        }[]
+      }
+      rew_get_overview_v1: {
+        Args: { p_case_id: string }
+        Returns: Json
       }
       roi_backfill_snapshots_v1: {
         Args: { p_days?: number; p_tenant: string }

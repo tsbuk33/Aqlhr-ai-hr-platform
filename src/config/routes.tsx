@@ -169,7 +169,8 @@ const HRProcessImprovement = lazy(() => import('../pages/diagnostic/HRProcessImp
 const HRRoleOptimization = lazy(() => import('../pages/diagnostic/HRRoleOptimization'));
 const HRValueChainAnalysis = lazy(() => import('../pages/diagnostic/HRValueChainAnalysis'));
 const OrgStructureAssessment = lazy(() => import('../pages/diagnostic/OrgStructureAssessment'));
-const OrgStructureIntelligence = lazy(() => import('../pages/diagnostic/OrgStructureIntelligence'));
+import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
+import RetentionEarlyWarning from '@/pages/diagnostic/RetentionEarlyWarning';
 const CultureChangeTracker = lazy(() => import('../pages/diagnostic/CultureChangeTracker'));
 const IPOReadinessDiagnostic = lazy(() => import('../pages/diagnostic/IPOReadinessDiagnostic'));
 
@@ -407,6 +408,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/diagnostic/hr-value-chain', element: HRValueChainAnalysis, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-assessment', element: OrgStructureAssessment, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-intelligence', element: OrgStructureIntelligence, auth: true, adminOnly: true },
+  { path: '/diagnostic/retention-early-warning', element: RetentionEarlyWarning, auth: true, adminOnly: true },
   { path: '/diagnostic/culture-change', element: CultureChangeTracker, auth: true, adminOnly: true },
   { path: '/diagnostic/ipo-readiness', element: IPOReadinessDiagnostic, auth: true, adminOnly: true },
   

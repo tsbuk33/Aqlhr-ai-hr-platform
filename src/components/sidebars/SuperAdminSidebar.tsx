@@ -167,7 +167,8 @@ const diagnosticItems = [
   { title: 'HR Role Optimization', url: '/diagnostic/hr-role-optimization', icon: Users },
   { title: 'HR Value Chain', url: '/diagnostic/hr-value-chain', icon: Layers },
   { title: 'Org Structure Assessment', url: '/diagnostic/org-structure-assessment', icon: Building2 },
-  { title: 'OSI v1', url: '/diagnostic/org-structure-intelligence', icon: Building2 },
+  { title: 'Org Structure Intelligence', url: '/diagnostic/osi', icon: BarChart3 },
+  { title: 'Retention Early Warning', url: '/diagnostic/retention-early-warning', icon: Target },
   { title: 'Culture Change Tracker', url: '/diagnostic/culture-change', icon: Activity },
   { title: 'IPO Readiness', url: '/diagnostic/ipo-readiness', icon: FileText },
 ];
