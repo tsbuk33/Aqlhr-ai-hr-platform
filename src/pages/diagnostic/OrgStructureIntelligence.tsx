@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { OSIOverview } from "@/components/diagnostic/OSIOverview";
+import { OSIOverview } from "@/pages/osi/OSIOverview";
+import { OSISpansLayers } from "@/pages/osi/OSISpansLayers";
+import { OSISaudizationLayer } from "@/pages/osi/OSISaudizationLayer";
+import { OSICostManage } from "@/pages/osi/OSICostManage";
+import { OSIPlaybook } from "@/pages/osi/OSIPlaybook";
+import { OSIExport } from "@/pages/osi/OSIExport";
 import ModuleDiagnosticPanel from "@/components/universal/ModuleDiagnosticPanel";
 import { AqlHRAIAssistant } from "@/components/ai";
 import { useEntitlement } from "@/hooks/useEntitlement";
@@ -13,7 +18,12 @@ import {
   TrendingUp, 
   Settings,
   Crown,
-  Lock
+  Lock,
+  DollarSign,
+  Target,
+  BookOpen,
+  Download,
+  BarChart3
 } from "lucide-react";
 
 const OrgStructureIntelligence = () => {
@@ -151,26 +161,30 @@ const OrgStructureIntelligence = () => {
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
-            Overview
+            نظرة عامة
           </TabsTrigger>
           <TabsTrigger value="spans" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Spans & Layers
+            <BarChart3 className="h-4 w-4" />
+            النطاقات والطبقات
+          </TabsTrigger>
+          <TabsTrigger value="saudization" className="flex items-center gap-2">
+            <Target className="h-4 w-4" />
+            السعودة بالطبقات
           </TabsTrigger>
           <TabsTrigger value="costs" className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4" />
-            Cost Analysis
+            <DollarSign className="h-4 w-4" />
+            تكلفة الإدارة
           </TabsTrigger>
           <TabsTrigger value="playbook" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Playbook
+            <BookOpen className="h-4 w-4" />
+            دليل العمل
           </TabsTrigger>
-          <TabsTrigger value="diagnostics" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Diagnostics
+          <TabsTrigger value="export" className="flex items-center gap-2">
+            <Download className="h-4 w-4" />
+            التصدير
           </TabsTrigger>
         </TabsList>
 
@@ -179,60 +193,23 @@ const OrgStructureIntelligence = () => {
         </TabsContent>
 
         <TabsContent value="spans" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Spans & Layers Analysis</CardTitle>
-              <CardDescription>
-                Management structure and reporting hierarchy analysis
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                Coming soon: Interactive span and layer visualization
-              </div>
-            </CardContent>
-          </Card>
+          <OSISpansLayers caseId={currentCase} />
+        </TabsContent>
+
+        <TabsContent value="saudization" className="space-y-6">
+          <OSISaudizationLayer caseId={currentCase} />
         </TabsContent>
 
         <TabsContent value="costs" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Cost-to-Manage Analysis</CardTitle>
-              <CardDescription>
-                Organizational cost efficiency and optimization opportunities
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                Coming soon: Cost analysis dashboard
-              </div>
-            </CardContent>
-          </Card>
+          <OSICostManage caseId={currentCase} />
         </TabsContent>
 
         <TabsContent value="playbook" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>OSI Playbook</CardTitle>
-              <CardDescription>
-                AI-generated recommendations and action plans
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                Coming soon: Interactive playbook with task creation
-              </div>
-            </CardContent>
-          </Card>
+          <OSIPlaybook caseId={currentCase} />
         </TabsContent>
 
-        <TabsContent value="diagnostics" className="space-y-6">
-          <ModuleDiagnosticPanel
-            moduleKey="osi"
-            contextData={{ case_id: currentCase }}
-            autoRefresh={true}
-            refreshInterval={300000} // 5 minutes
-          />
+        <TabsContent value="export" className="space-y-6">
+          <OSIExport caseId={currentCase} />
         </TabsContent>
       </Tabs>
 

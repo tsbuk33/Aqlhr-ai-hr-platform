@@ -54,12 +54,14 @@ serve(async (req) => {
     // Step 4: Create dx_playbooks entry
     const { data: playbookEntry, error: playbookError } = await supabase
       .from('dx_playbooks')
-      .insert({
+      .upsert({
         case_id: caseId,
         ai_summary: playbook.summary,
         initiatives: playbook.initiatives,
         status: 'draft',
         confidence: playbook.confidence
+      }, {
+        onConflict: 'case_id'
       })
       .select()
       .single();
