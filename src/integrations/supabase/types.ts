@@ -3770,8 +3770,10 @@ export type Database = {
       }
       gov_adapters: {
         Row: {
+          config: Json | null
           created_at: string | null
           id: string
+          last_error: string | null
           last_sync: string | null
           mode: string | null
           notes: string | null
@@ -3781,8 +3783,10 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          config?: Json | null
           created_at?: string | null
           id?: string
+          last_error?: string | null
           last_sync?: string | null
           mode?: string | null
           notes?: string | null
@@ -3792,8 +3796,10 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          config?: Json | null
           created_at?: string | null
           id?: string
+          last_error?: string | null
           last_sync?: string | null
           mode?: string | null
           notes?: string | null
@@ -3835,6 +3841,69 @@ export type Database = {
           payload?: Json | null
           processed?: boolean | null
           reference?: string | null
+          system?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      gov_documents: {
+        Row: {
+          created_at: string | null
+          id: string
+          meta: Json | null
+          storage_path: string | null
+          system: string
+          tenant_id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          storage_path?: string | null
+          system: string
+          tenant_id: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          storage_path?: string | null
+          system?: string
+          tenant_id?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
+      gov_events: {
+        Row: {
+          data: Json | null
+          event_at: string | null
+          id: string
+          kind: string | null
+          message: string | null
+          severity: string | null
+          system: string
+          tenant_id: string
+        }
+        Insert: {
+          data?: Json | null
+          event_at?: string | null
+          id?: string
+          kind?: string | null
+          message?: string | null
+          severity?: string | null
+          system: string
+          tenant_id: string
+        }
+        Update: {
+          data?: Json | null
+          event_at?: string | null
+          id?: string
+          kind?: string | null
+          message?: string | null
+          severity?: string | null
           system?: string
           tenant_id?: string
         }
@@ -3941,6 +4010,48 @@ export type Database = {
           system?: string
           tenant_id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      gov_sync_jobs: {
+        Row: {
+          created_at: string | null
+          error: string | null
+          finished_at: string | null
+          id: string
+          job_type: string
+          payload: Json | null
+          result: Json | null
+          started_at: string | null
+          status: string | null
+          system: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          job_type: string
+          payload?: Json | null
+          result?: Json | null
+          started_at?: string | null
+          status?: string | null
+          system: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          job_type?: string
+          payload?: Json | null
+          result?: Json | null
+          started_at?: string | null
+          status?: string | null
+          system?: string
+          tenant_id?: string
         }
         Relationships: []
       }
@@ -10501,8 +10612,8 @@ export type Database = {
       gov_get_status_v1: {
         Args: { p_tenant: string }
         Returns: {
+          last_error: string
           last_sync: string
-          mode: string
           status: string
           system: string
         }[]
@@ -10510,6 +10621,15 @@ export type Database = {
       gov_mark_change_processed_v1: {
         Args: { p_change_id: string; p_tenant: string }
         Returns: undefined
+      }
+      gov_queue_job_v1: {
+        Args: {
+          p_job: string
+          p_payload?: Json
+          p_system: string
+          p_tenant: string
+        }
+        Returns: string
       }
       halfvec_avg: {
         Args: { "": number[] }

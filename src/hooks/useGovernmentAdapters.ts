@@ -149,10 +149,11 @@ export const useGovernmentAdapters = () => {
           system,
           mode: 'test',
           status: 'pending',
-          last_sync: null
+          last_sync: null,
+          last_error: null
         }));
 
-      setAdapters([...(data || []), ...missingAdapters]);
+      setAdapters([...(data || []).map(d => ({...d, last_error: d.last_error || null})), ...missingAdapters]);
     } catch (error) {
       console.error('Error fetching adapters:', error);
       toast({

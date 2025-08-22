@@ -45,6 +45,7 @@ const BenefitsAdministration = lazy(() => import('../pages/core-hr/BenefitsAdmin
 const SuccessionPlanningCore = lazy(() => import('../pages/core-hr/SuccessionPlanningCore'));
 const CompensationManagementCore = lazy(() => import('../pages/core-hr/CompensationManagementCore'));
 const SaudizationCalculator = lazy(() => import('../pages/core-hr/SaudizationCalculator'));
+const GovIntegrationHub = lazy(() => import('../pages/government/GovIntegrationHub').then(m => ({ default: m.GovIntegrationHub })));
 
 // HSE Module
 const HealthSafety = lazy(() => import('../pages/HealthSafety'));
@@ -448,7 +449,7 @@ export const ROUTES: RouteConfig[] = [
   
   // New Government Portal Routes
   { path: '/government/qiyas', element: QiyasAssessment, auth: true },
-  { path: '/government/ncaaa', element: NCAAAccreditation, auth: true },
+  { path: '/government/integration-hub', element: GovIntegrationHub, auth: true },
   { path: '/government/education', element: EducationMinistry, auth: true },
   { path: '/government/taqat', element: TaqatHRDF, auth: true },
   { path: '/government/ncei', element: NCEIEmployment, auth: true },
