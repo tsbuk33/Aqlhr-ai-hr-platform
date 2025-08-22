@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { useFeatureGating } from '@/hooks/useFeatureGating';
+import { usePlanAccess } from '@/hooks/usePlanAccess';
+import { UpsellRibbon } from '@/components/plans/UpsellRibbon';
+import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import { supabase } from '@/integrations/supabase/client';
 import { Zap, MessageSquare, Users, Send, TrendingUp, Activity } from 'lucide-react';
 import { toast } from 'sonner';
@@ -52,7 +54,7 @@ const GEOOverview: React.FC<GEOOverviewProps> = ({ caseId }) => {
   const [data, setData] = useState<GEOData | null>(null);
   const [loading, setLoading] = useState(false);
   const [sendingPulses, setSendingPulses] = useState(false);
-  const { hasAccess, showUpsell } = useFeatureGating('SKU_GEO');
+  const { hasAccess, isTrialAccess, showUpsell, upsellOpen, hideUpsell, requestTrial, trialExpiresAt } = usePlanAccess('SKU_GEO');
 
   const runGEOAnalysis = async () => {
     if (!hasAccess) {
@@ -116,6 +118,25 @@ const GEOOverview: React.FC<GEOOverviewProps> = ({ caseId }) => {
 
   return (
     <div className="space-y-6">
+      {/* Upsell Ribbon */}
+      {!hasAccess && (
+        <UpsellRibbon
+          title="Generative Engagement Optimization"
+          description="Combine diagnostics to get stronger decisions with automated engagement pulses"
+          onRequestTrial={showUpsell}
+        />
+      )}
+      
+      {hasAccess && isTrialAccess && (
+        <UpsellRibbon
+          title="GEO Trial Active"
+          description=""
+          onRequestTrial={() => {}}
+          isTrialAccess={true}
+          trialExpiresAt={trialExpiresAt}
+        />
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -128,14 +149,14 @@ const GEOOverview: React.FC<GEOOverviewProps> = ({ caseId }) => {
         <div className="flex gap-2">
           <Button 
             onClick={runGEOAnalysis} 
-            disabled={loading}
+            disabled={loading || !hasAccess}
             variant="outline"
             className="gap-2"
           >
             <Activity className="h-4 w-4" />
             {loading ? 'Analyzing...' : 'Run Analysis'}
           </Button>
-          {data && data.pulses.length > 0 && (
+          {data && data.pulses.length > 0 && hasAccess && (
             <Button 
               onClick={sendPulses} 
               disabled={sendingPulses}
@@ -300,7 +321,17 @@ const GEOOverview: React.FC<GEOOverviewProps> = ({ caseId }) => {
         </>
       )}
 
-      {!data && !loading && (
+      {!data && !loading && !hasAccess && (
+        <div className="text-center py-12">
+          <Zap className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-medium mb-2">Premium Feature</h3>
+          <p className="text-muted-foreground mb-4">
+            Generative Engagement Optimization requires a premium plan
+          </p>
+        </div>
+      )}
+
+      {!data && !loading && hasAccess && (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Zap className="h-16 w-16 text-muted-foreground mb-4" />
@@ -315,6 +346,14 @@ const GEOOverview: React.FC<GEOOverviewProps> = ({ caseId }) => {
           </CardContent>
         </Card>
       )}
+      
+      <PlanUpsellModal
+        isOpen={upsellOpen}
+        onClose={hideUpsell}
+        skuCode="SKU_GEO"
+        featureName="Generative Engagement Optimization"
+        description="Automated engagement pulses and targeted interventions for your teams"
+      />
     </div>
   );
 };

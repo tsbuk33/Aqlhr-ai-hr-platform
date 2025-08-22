@@ -11952,6 +11952,10 @@ export type Database = {
         Args: { "": unknown[] }
         Returns: number
       }
+      has_active_trial: {
+        Args: { p_plan_code?: string; p_tenant_id: string }
+        Returns: boolean
+      }
       has_entitlement: {
         Args: { p_sku: string; p_tenant: string }
         Returns: boolean
@@ -11965,6 +11969,10 @@ export type Database = {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      has_sku_access: {
+        Args: { p_sku_code: string; p_tenant_id: string }
         Returns: boolean
       }
       hnsw_bit_support: {
@@ -12164,6 +12172,14 @@ export type Database = {
       sparsevec_typmod_in: {
         Args: { "": unknown[] }
         Returns: number
+      }
+      start_trial: {
+        Args: {
+          p_plan_code: string
+          p_requested_by?: string
+          p_tenant_id: string
+        }
+        Returns: string
       }
       sync_tool_integration: {
         Args: { p_action?: string; p_company_id: string; p_tool_name: string }

@@ -1,222 +1,356 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Check, Crown, Zap, Star, Mail } from 'lucide-react';
-import { usePlans } from '@/hooks/usePlans';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
+import { supabase } from '@/integrations/supabase/client';
+import { useUserCompany } from '@/hooks/useUserCompany';
+import { Crown, Check, Sparkles, Zap, Shield, Brain } from 'lucide-react';
+import { toast } from 'sonner';
 
-export default function PlansPage() {
-  const { availablePlans, currentPlan, loading, upgradePlan } = usePlans();
+interface PlanBundle {
+  id: string;
+  plan_code: string;
+  plan_name: string;
+  description: string;
+  price_monthly: number;
+  price_annual: number;
+  included_skus: string[];
+  is_popular: boolean;
+  trial_days: number;
+}
 
-  const getFeatureDescription = (feature: string) => {
-    const descriptions: Record<string, string> = {
-      'core_hr': 'Core HR Management',
-      'basic_reports': 'Basic Reports & Analytics',
-      'employee_management': 'Employee Management',
-      'cci_playbook': 'Culture Change Intelligence Playbook',
-      'cci_exports': 'CCI Export Capabilities',
-      'compliance_autopilot': 'Automated Compliance Monitoring',
-      'advanced_analytics': 'Advanced Analytics & Reports',
-      'executive_intelligence': 'Executive Intelligence Center',
-      'api_access': 'API Access & Integrations',
-      'custom_integrations': 'Custom Integrations',
-      'dedicated_support': '24/7 Dedicated Support'
-    };
-    return descriptions[feature] || feature;
+interface SKU {
+  sku_code: string;
+  sku_name: string;
+  description: string;
+  category: string;
+  features: string[];
+}
+
+interface ActiveTrial {
+  id: string;
+  plan_code: string;
+  expires_at: string;
+}
+
+const PlansPage: React.FC = () => {
+  const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly');
+  const { companyId } = useUserCompany();
+
+  // Fetch plan bundles
+  const { data: plans, isLoading: plansLoading } = useQuery({
+    queryKey: ['plan-bundles'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('plan_bundles')
+        .select('*')
+        .eq('is_active', true)
+        .order('price_monthly', { ascending: true });
+
+      if (error) throw error;
+      return data as PlanBundle[];
+    }
+  });
+
+  // Fetch SKU catalog
+  const { data: skus } = useQuery({
+    queryKey: ['sku-catalog'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('sku_catalog')
+        .select('*')
+        .eq('is_active', true);
+
+      if (error) throw error;
+      return data as SKU[];
+    }
+  });
+
+  // Fetch current trials
+  const { data: activeTrials } = useQuery({
+    queryKey: ['active-trials', companyId],
+    queryFn: async () => {
+      if (!companyId) return [];
+
+      const { data, error } = await supabase
+        .from('tenant_trials')
+        .select('*')
+        .eq('tenant_id', companyId)
+        .eq('status', 'active')
+        .gt('expires_at', new Date().toISOString());
+
+      if (error) throw error;
+
+      // Get plan names for each trial
+      const trialsWithPlans = await Promise.all(
+        data.map(async (trial) => {
+          const { data: planBundle } = await supabase
+            .from('plan_bundles')
+            .select('plan_name')
+            .eq('plan_code', trial.plan_code)
+            .single();
+
+          return {
+            ...trial,
+            plan_name: planBundle?.plan_name || trial.plan_code
+          };
+        })
+      );
+
+      return trialsWithPlans;
+    },
+    enabled: !!companyId
+  });
+
+  const requestTrial = async (planCode: string) => {
+    if (!companyId) return;
+
+    try {
+      const { error: trialError } = await supabase.rpc('start_trial', {
+        p_tenant_id: companyId,
+        p_plan_code: planCode,
+        p_requested_by: (await supabase.auth.getUser()).data.user?.id
+      });
+
+      if (trialError) throw trialError;
+
+      const { error: leadError } = await supabase
+        .from('sales_leads')
+        .insert({
+          tenant_id: companyId,
+          user_id: (await supabase.auth.getUser()).data.user?.id,
+          lead_type: 'trial_request',
+          requested_plan: planCode,
+          status: 'trial_activated'
+        });
+
+      if (leadError) {
+        console.error('Error creating sales lead:', leadError);
+      }
+
+      toast.success('Trial started successfully!');
+      
+      // Refresh trials
+      window.location.reload();
+    } catch (error) {
+      console.error('Error starting trial:', error);
+      toast.error('Failed to start trial');
+    }
+  };
+
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case 'diagnostics': return <Brain className="h-4 w-4" />;
+      case 'compliance': return <Shield className="h-4 w-4" />;
+      case 'ai_insights': return <Sparkles className="h-4 w-4" />;
+      case 'executive': return <Crown className="h-4 w-4" />;
+      default: return <Zap className="h-4 w-4" />;
+    }
   };
 
   const getPlanIcon = (planCode: string) => {
     switch (planCode) {
-      case 'starter':
-        return <Star className="h-6 w-6 text-green-500" />;
-      case 'growth':
-        return <Zap className="h-6 w-6 text-blue-500" />;
-      case 'enterprise':
-        return <Crown className="h-6 w-6 text-purple-500" />;
-      default:
-        return null;
+      case 'STARTER': return <Zap className="h-6 w-6" />;
+      case 'COMPLIANCE_ESSENTIALS': return <Shield className="h-6 w-6" />;
+      case 'INTELLIGENT_HR': return <Brain className="h-6 w-6" />;
+      case 'EXECUTIVE_INTELLIGENCE': return <Crown className="h-6 w-6" />;
+      default: return <Sparkles className="h-6 w-6" />;
     }
   };
 
-  const handleContactSales = (planName: string) => {
-    const subject = encodeURIComponent(`${planName} Plan Inquiry`);
-    const body = encodeURIComponent(
-      `Hi there,\n\nI'm interested in learning more about the ${planName} plan.\n\nCould you please provide more information about pricing and implementation?\n\nThank you!`
-    );
-    window.open(`mailto:sales@aqlhr.com?subject=${subject}&body=${body}`, '_blank');
+  const hasActiveTrial = (planCode: string) => {
+    return activeTrials?.some(trial => trial.plan_code === planCode);
   };
 
-  const handleUpgrade = async (planCode: string) => {
-    await upgradePlan(planCode);
-  };
-
-  if (loading) {
+  if (plansLoading) {
     return (
       <div className="container mx-auto p-6">
-        <div className="animate-pulse space-y-6">
-          <div className="h-8 bg-muted rounded w-1/4"></div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-96 bg-muted rounded-lg"></div>
-            ))}
-          </div>
+        <div className="text-center py-12">
+          <p>Loading plans...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Choose Your Plan</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Scale your HR operations with the right plan for your organization. Upgrade or downgrade at any time.
+    <div className="container mx-auto p-6 max-w-7xl">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4">Choose Your Plan</h1>
+        <p className="text-xl text-muted-foreground mb-6">
+          Unlock the power of AI-driven HR intelligence
         </p>
+        
+        {/* Billing Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <span className={billingCycle === 'monthly' ? 'font-medium' : 'text-muted-foreground'}>
+            Monthly
+          </span>
+          <Switch
+            checked={billingCycle === 'annual'}
+            onCheckedChange={(checked) => setBillingCycle(checked ? 'annual' : 'monthly')}
+          />
+          <span className={billingCycle === 'annual' ? 'font-medium' : 'text-muted-foreground'}>
+            Annual
+          </span>
+          {billingCycle === 'annual' && (
+            <Badge variant="secondary" className="ml-2">Save 17%</Badge>
+          )}
+        </div>
       </div>
 
-      {/* Current Plan Display */}
-      {currentPlan && (
-        <Card className="max-w-md mx-auto bg-primary/5 border-primary/20">
+      <Tabs defaultValue="plans" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="plans">Plan Bundles</TabsTrigger>
+          <TabsTrigger value="features">Features</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="plans">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {plans?.map((plan) => (
+              <Card 
+                key={plan.id} 
+                className={`relative ${plan.is_popular ? 'border-primary shadow-lg' : ''}`}
+              >
+                {plan.is_popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-primary text-primary-foreground">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+                
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                    {getPlanIcon(plan.plan_code)}
+                  </div>
+                  <CardTitle>{plan.plan_name}</CardTitle>
+                  <CardDescription>{plan.description}</CardDescription>
+                  <div className="mt-4">
+                    <span className="text-3xl font-bold">
+                      ${billingCycle === 'monthly' ? plan.price_monthly : Math.floor(plan.price_annual / 12)}
+                    </span>
+                    <span className="text-muted-foreground">/month</span>
+                    {billingCycle === 'annual' && (
+                      <div className="text-sm text-muted-foreground">
+                        ${plan.price_annual}/year
+                      </div>
+                    )}
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium">Included Features:</h4>
+                    {plan.included_skus.map((skuCode) => {
+                      const sku = skus?.find(s => s.sku_code === skuCode);
+                      return sku ? (
+                        <div key={skuCode} className="flex items-center gap-2 text-sm">
+                          <Check className="h-4 w-4 text-success" />
+                          <span>{sku.sku_name}</span>
+                        </div>
+                      ) : null;
+                    })}
+                  </div>
+                  
+                  <div className="pt-4">
+                    {hasActiveTrial(plan.plan_code) ? (
+                      <Button variant="outline" disabled className="w-full">
+                        Trial Active
+                      </Button>
+                    ) : (
+                      <Button 
+                        onClick={() => requestTrial(plan.plan_code)}
+                        variant={plan.is_popular ? 'default' : 'outline'}
+                        className="w-full gap-2"
+                      >
+                        <Crown className="h-4 w-4" />
+                        Start {plan.trial_days}-Day Trial
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="features">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {skus?.map((sku) => (
+              <Card key={sku.sku_code}>
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+                      {getCategoryIcon(sku.category)}
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{sku.sku_name}</CardTitle>
+                      <Badge variant="outline" className="text-xs">
+                        {sku.category.replace('_', ' ')}
+                      </Badge>
+                    </div>
+                  </div>
+                  <CardDescription>{sku.description}</CardDescription>
+                </CardHeader>
+                
+                <CardContent>
+                  <div className="space-y-2">
+                    {sku.features.map((feature, index) => (
+                      <div key={index} className="flex items-center gap-2 text-sm">
+                        <Check className="h-4 w-4 text-success" />
+                        <span>{feature.replace(/_/g, ' ')}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+
+      {/* Active Trials Section */}
+      {activeTrials && activeTrials.length > 0 && (
+        <Card className="mt-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Crown className="h-5 w-5 text-primary" />
-              Current Plan
+              Active Trials
             </CardTitle>
+            <CardDescription>
+              Your current trial subscriptions
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-lg">{currentPlan.plan_name}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {currentPlan.seats} seat{currentPlan.seats !== 1 ? 's' : ''}
-                </p>
-              </div>
-              <div className="text-right">
-                <div className="font-bold text-xl">${currentPlan.price_mo}/mo</div>
-                {currentPlan.is_trial && (
-                  <Badge variant="outline" className="text-xs">
-                    Trial {currentPlan.trial_ends_at ? `until ${new Date(currentPlan.trial_ends_at).toLocaleDateString()}` : ''}
-                  </Badge>
-                )}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {activeTrials.map((trial) => {
+                const daysLeft = Math.ceil(
+                  (new Date(trial.expires_at).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+                );
+                
+                return (
+                  <div key={trial.id} className="p-4 border rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium">{trial.plan_name}</h4>
+                      <Badge variant={daysLeft > 7 ? 'default' : 'destructive'}>
+                        {daysLeft} days left
+                      </Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Expires {new Date(trial.expires_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </CardContent>
         </Card>
       )}
-
-      {/* Plans Grid */}
-      <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-        {availablePlans.map((plan) => {
-          const isCurrentPlan = currentPlan?.plan_code === plan.code;
-          const isRecommended = plan.code === 'growth';
-
-          return (
-            <Card key={plan.code} className={`relative ${isRecommended ? 'border-primary shadow-lg scale-105' : ''} ${isCurrentPlan ? 'border-green-500 bg-green-50/50' : ''}`}>
-              {isRecommended && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary">
-                  Most Popular
-                </Badge>
-              )}
-              {isCurrentPlan && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500">
-                  Current Plan
-                </Badge>
-              )}
-
-              <CardHeader className="text-center pb-4">
-                <div className="flex justify-center mb-2">
-                  {getPlanIcon(plan.code)}
-                </div>
-                <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                <CardDescription className="text-base">{plan.description}</CardDescription>
-                
-                <div className="pt-4">
-                  <div className="text-4xl font-bold">
-                    ${plan.price_mo}
-                    <span className="text-lg font-normal text-muted-foreground">/month</span>
-                  </div>
-                  {plan.price_mo === 0 && (
-                    <p className="text-sm text-muted-foreground mt-1">Forever free</p>
-                  )}
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-6">
-                {/* Features List */}
-                <div className="space-y-3">
-                  {plan.features.map((feature) => (
-                    <div key={feature} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{getFeatureDescription(feature)}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Action Button */}
-                <div className="pt-4">
-                  {isCurrentPlan ? (
-                    <Button className="w-full" disabled>
-                      Current Plan
-                    </Button>
-                  ) : plan.code === 'enterprise' ? (
-                    <Button 
-                      onClick={() => handleContactSales(plan.name)} 
-                      className="w-full gap-2"
-                      variant={isRecommended ? 'default' : 'outline'}
-                    >
-                      <Mail className="h-4 w-4" />
-                      Contact Sales
-                    </Button>
-                  ) : (
-                    <Button 
-                      onClick={() => handleUpgrade(plan.code)} 
-                      className="w-full"
-                      variant={isRecommended ? 'default' : 'outline'}
-                    >
-                      {currentPlan && plan.price_mo > currentPlan.price_mo ? 'Upgrade' : 'Choose'} Plan
-                    </Button>
-                  )}
-                </div>
-
-                {/* Additional Info */}
-                {plan.code === 'enterprise' && (
-                  <div className="text-center pt-2">
-                    <p className="text-xs text-muted-foreground">
-                      Custom pricing available for large organizations
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
-
-      {/* FAQ/Additional Info */}
-      <div className="text-center space-y-4 max-w-2xl mx-auto">
-        <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
-        <div className="space-y-2 text-left">
-          <details className="bg-muted/30 rounded-lg p-4">
-            <summary className="font-semibold cursor-pointer">Can I change my plan at any time?</summary>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately.
-            </p>
-          </details>
-          <details className="bg-muted/30 rounded-lg p-4">
-            <summary className="font-semibold cursor-pointer">What happens to my data if I downgrade?</summary>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Your data is always safe. Some features may become unavailable, but your data remains intact.
-            </p>
-          </details>
-          <details className="bg-muted/30 rounded-lg p-4">
-            <summary className="font-semibold cursor-pointer">Do you offer custom Enterprise solutions?</summary>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Yes! Contact our sales team to discuss custom pricing and features for large organizations.
-            </p>
-          </details>
-        </div>
-      </div>
     </div>
   );
-}
+};
+
+export default PlansPage;

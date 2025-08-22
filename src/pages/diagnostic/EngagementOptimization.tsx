@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useFeatureGating } from '@/hooks/useFeatureGating';
-import { UpsellModal } from '@/components/common/UpsellModal';
+import { usePlanAccess } from '@/hooks/usePlanAccess';
+import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import GEOOverview from '@/components/diagnostic/GEOOverview';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
@@ -9,7 +9,7 @@ import { useUserCompany } from '@/hooks/useUserCompany';
 const EngagementOptimization: React.FC = () => {
   const [caseId, setCaseId] = useState<string>('');
   const { companyId } = useUserCompany();
-  const { hasAccess, upsellOpen, hideUpsell } = useFeatureGating('SKU_GEO');
+  const { hasAccess, upsellOpen, hideUpsell } = usePlanAccess('SKU_GEO');
 
   useEffect(() => {
     const createOrGetCase = async () => {
@@ -65,10 +65,11 @@ const EngagementOptimization: React.FC = () => {
             This feature requires the GEO package. Please upgrade to access automated engagement optimization.
           </p>
         </div>
-        <UpsellModal 
+        <PlanUpsellModal 
           isOpen={upsellOpen}
           onClose={hideUpsell}
-          feature="Generative Engagement Optimization"
+          skuCode="SKU_GEO"
+          featureName="Generative Engagement Optimization"
           description="Get automated engagement pulses and targeted interventions for your teams"
         />
       </div>
@@ -97,10 +98,11 @@ const EngagementOptimization: React.FC = () => {
         </TabsContent>
       </Tabs>
       
-      <UpsellModal 
+      <PlanUpsellModal
         isOpen={upsellOpen}
         onClose={hideUpsell}
-        feature="Generative Engagement Optimization"
+        skuCode="SKU_GEO"
+        featureName="Generative Engagement Optimization"
         description="Get automated engagement pulses and targeted interventions for your teams"
       />
     </div>

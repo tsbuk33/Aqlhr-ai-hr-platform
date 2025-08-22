@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { useFeatureGating } from '@/hooks/useFeatureGating';
+import { usePlanAccess } from '@/hooks/usePlanAccess';
+import { UpsellRibbon } from '@/components/plans/UpsellRibbon';
+import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import { supabase } from '@/integrations/supabase/client';
 import { Brain, BookOpen, Target, TrendingUp, Play, Users } from 'lucide-react';
 import { toast } from 'sonner';
@@ -38,7 +40,7 @@ interface LEOOverviewProps {
 const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
   const [data, setData] = useState<LEOData | null>(null);
   const [loading, setLoading] = useState(false);
-  const { hasAccess, showUpsell } = useFeatureGating('SKU_LEO');
+  const { hasAccess, isTrialAccess, showUpsell, upsellOpen, hideUpsell, requestTrial, trialExpiresAt } = usePlanAccess('SKU_LEO');
 
   const runLEOAnalysis = async () => {
     if (!hasAccess) {
@@ -78,6 +80,25 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
 
   return (
     <div className="space-y-6">
+      {/* Upsell Ribbon */}
+      {!hasAccess && (
+        <UpsellRibbon
+          title="Learning Experience Optimization"
+          description="Combine diagnostics to get stronger decisions with AI-powered skill gap analysis"
+          onRequestTrial={showUpsell}
+        />
+      )}
+      
+      {hasAccess && isTrialAccess && (
+        <UpsellRibbon
+          title="LEO Trial Active"
+          description=""
+          onRequestTrial={() => {}}
+          isTrialAccess={true}
+          trialExpiresAt={trialExpiresAt}
+        />
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -89,7 +110,7 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
         </div>
         <Button 
           onClick={runLEOAnalysis} 
-          disabled={loading}
+          disabled={loading || !hasAccess}
           className="gap-2"
         >
           <Play className="h-4 w-4" />
@@ -201,7 +222,17 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
         </>
       )}
 
-      {!data && !loading && (
+      {!data && !loading && !hasAccess && (
+        <div className="text-center py-12">
+          <Brain className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-medium mb-2">Premium Feature</h3>
+          <p className="text-muted-foreground mb-4">
+            Learning Experience Optimization requires a premium plan
+          </p>
+        </div>
+      )}
+
+      {!data && !loading && hasAccess && (
         <Card>
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Brain className="h-16 w-16 text-muted-foreground mb-4" />
@@ -216,6 +247,14 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
           </CardContent>
         </Card>
       )}
+      
+      <PlanUpsellModal
+        isOpen={upsellOpen}
+        onClose={hideUpsell}
+        skuCode="SKU_LEO"
+        featureName="Learning Experience Optimization"
+        description="AI-powered skill gap analysis and personalized learning paths"
+      />
     </div>
   );
 };

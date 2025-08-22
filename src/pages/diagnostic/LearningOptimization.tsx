@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useFeatureGating } from '@/hooks/useFeatureGating';
-import { UpsellModal } from '@/components/common/UpsellModal';
+import { usePlanAccess } from '@/hooks/usePlanAccess';
+import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import LEOOverview from '@/components/diagnostic/LEOOverview';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
@@ -9,7 +9,7 @@ import { useUserCompany } from '@/hooks/useUserCompany';
 const LearningOptimization: React.FC = () => {
   const [caseId, setCaseId] = useState<string>('');
   const { companyId } = useUserCompany();
-  const { hasAccess, upsellOpen, hideUpsell } = useFeatureGating('SKU_LEO');
+  const { hasAccess, upsellOpen, hideUpsell } = usePlanAccess('SKU_LEO');
 
   useEffect(() => {
     const createOrGetCase = async () => {
@@ -65,10 +65,11 @@ const LearningOptimization: React.FC = () => {
             This feature requires the LEO package. Please upgrade to access AI-powered learning optimization.
           </p>
         </div>
-        <UpsellModal 
+        <PlanUpsellModal 
           isOpen={upsellOpen}
           onClose={hideUpsell}
-          feature="Learning Experience Optimization"
+          skuCode="SKU_LEO"
+          featureName="Learning Experience Optimization"
           description="Get AI-powered skill gap analysis and personalized learning paths"
         />
       </div>
@@ -97,10 +98,11 @@ const LearningOptimization: React.FC = () => {
         </TabsContent>
       </Tabs>
       
-      <UpsellModal 
+      <PlanUpsellModal
         isOpen={upsellOpen}
         onClose={hideUpsell}
-        feature="Learning Experience Optimization"
+        skuCode="SKU_LEO"
+        featureName="Learning Experience Optimization"
         description="Get AI-powered skill gap analysis and personalized learning paths"
       />
     </div>
