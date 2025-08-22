@@ -8328,6 +8328,39 @@ export type Database = {
         }
         Relationships: []
       }
+      share_links: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          expires_at: string
+          id: string
+          kind: string
+          payload: Json | null
+          tenant_id: string
+          token: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          expires_at: string
+          id?: string
+          kind: string
+          payload?: Json | null
+          tenant_id: string
+          token: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          expires_at?: string
+          id?: string
+          kind?: string
+          payload?: Json | null
+          tenant_id?: string
+          token?: string
+        }
+        Relationships: []
+      }
       smart_kpis: {
         Row: {
           category: string
@@ -9666,6 +9699,72 @@ export type Database = {
           },
         ]
       }
+      value_events: {
+        Row: {
+          event_type: string
+          id: string
+          meta: Json | null
+          module: string | null
+          occurred_at: string | null
+          qty: number | null
+          ref_id: string | null
+          tenant_id: string
+        }
+        Insert: {
+          event_type: string
+          id?: string
+          meta?: Json | null
+          module?: string | null
+          occurred_at?: string | null
+          qty?: number | null
+          ref_id?: string | null
+          tenant_id: string
+        }
+        Update: {
+          event_type?: string
+          id?: string
+          meta?: Json | null
+          module?: string | null
+          occurred_at?: string | null
+          qty?: number | null
+          ref_id?: string | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      value_metrics_snapshots: {
+        Row: {
+          autopilot_runs: number | null
+          docs: number | null
+          est_hours_saved: number | null
+          exports: number | null
+          letters: number | null
+          snap_date: string
+          tasks: number | null
+          tenant_id: string
+        }
+        Insert: {
+          autopilot_runs?: number | null
+          docs?: number | null
+          est_hours_saved?: number | null
+          exports?: number | null
+          letters?: number | null
+          snap_date: string
+          tasks?: number | null
+          tenant_id: string
+        }
+        Update: {
+          autopilot_runs?: number | null
+          docs?: number | null
+          est_hours_saved?: number | null
+          exports?: number | null
+          letters?: number | null
+          snap_date?: string
+          tasks?: number | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
       work_schedules: {
         Row: {
           break_duration_minutes: number | null
@@ -10535,6 +10634,41 @@ export type Database = {
           p_source_line?: number
         }
         Returns: string
+      }
+      roi_backfill_snapshots_v1: {
+        Args: { p_days?: number; p_tenant: string }
+        Returns: undefined
+      }
+      roi_emit_event: {
+        Args: {
+          p_event: string
+          p_meta?: Json
+          p_module?: string
+          p_qty?: number
+          p_ref?: string
+          p_tenant: string
+        }
+        Returns: undefined
+      }
+      roi_get_last30_v1: {
+        Args: { p_tenant: string }
+        Returns: Json
+      }
+      roi_get_trend_v1: {
+        Args: { p_days?: number; p_tenant: string }
+        Returns: {
+          autopilot_runs: number
+          d: string
+          docs: number
+          exports: number
+          hours_saved: number
+          letters: number
+          tasks: number
+        }[]
+      }
+      roi_snapshot_upsert_v1: {
+        Args: { p_date: string; p_tenant: string }
+        Returns: undefined
       }
       saudization_color_v1: {
         Args: { p_tenant: string }

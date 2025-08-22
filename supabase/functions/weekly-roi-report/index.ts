@@ -1,0 +1,178 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
+
+serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const supabaseClient = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    const { tenantId } = await req.json();
+
+    if (!tenantId) {
+      return new Response(
+        JSON.stringify({ error: 'tenantId is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    console.log(`[Weekly ROI Report] Generating report for tenant: ${tenantId}`);
+
+    // Get ROI summary for the last 7 days
+    const { data: summary, error: summaryError } = await supabaseClient
+      .rpc('roi_get_last30_v1', { p_tenant: tenantId });
+
+    if (summaryError) {
+      console.error('[Weekly ROI Report] Summary error:', summaryError);
+      throw summaryError;
+    }
+
+    // Get trend data for the last 7 days
+    const { data: trend, error: trendError } = await supabaseClient
+      .rpc('roi_get_trend_v1', { p_tenant: tenantId, p_days: 7 });
+
+    if (trendError) {
+      console.error('[Weekly ROI Report] Trend error:', trendError);
+      throw trendError;
+    }
+
+    // Get company information
+    const { data: company } = await supabaseClient
+      .from('companies')
+      .select('name, company_name_arabic')
+      .eq('id', tenantId)
+      .single();
+
+    // Calculate key metrics
+    const totalAutomations = (summary?.tasks || 0) + (summary?.letters || 0) + (summary?.autopilot_runs || 0);
+    const hoursSaved = summary?.hours_saved || 0;
+    const estimatedSavings = hoursSaved * 150; // SAR per hour
+    const weeklyAverage = trend?.length > 0 ? 
+      trend.reduce((sum: number, day: any) => sum + (day.hours_saved || 0), 0) / trend.length : 0;
+
+    // Generate a simple HTML report (for now - could be enhanced with PDF generation)
+    const reportHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Weekly ROI Report - ${company?.name || 'AqlHR Client'}</title>
+        <style>
+          body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
+          .header { text-align: center; margin-bottom: 40px; }
+          .metric { display: inline-block; margin: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; text-align: center; min-width: 200px; }
+          .metric h3 { margin: 0 0 10px 0; color: #2563eb; }
+          .metric .value { font-size: 24px; font-weight: bold; color: #059669; }
+          .section { margin: 30px 0; }
+          .footer { text-align: center; margin-top: 40px; color: #666; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Weekly ROI Report</h1>
+          <h2>${company?.name || 'AqlHR Client'}</h2>
+          <p>Report Period: ${new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString()} - ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="section">
+          <h2>Key Performance Indicators</h2>
+          <div class="metric">
+            <h3>Time Saved</h3>
+            <div class="value">${hoursSaved.toFixed(1)} hours</div>
+          </div>
+          <div class="metric">
+            <h3>Cost Savings</h3>
+            <div class="value">${estimatedSavings.toFixed(0)} SAR</div>
+          </div>
+          <div class="metric">
+            <h3>Automations</h3>
+            <div class="value">${totalAutomations}</div>
+          </div>
+          <div class="metric">
+            <h3>Daily Average</h3>
+            <div class="value">${weeklyAverage.toFixed(1)}h/day</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Activity Summary</h2>
+          <ul>
+            <li><strong>Tasks Created:</strong> ${summary?.tasks || 0} automated workflows</li>
+            <li><strong>Letters Generated:</strong> ${summary?.letters || 0} compliance documents</li>
+            <li><strong>Autopilot Runs:</strong> ${summary?.autopilot_runs || 0} automated processes</li>
+            <li><strong>Documents Processed:</strong> ${summary?.docs || 0} files</li>
+            <li><strong>Exports Generated:</strong> ${summary?.exports || 0} reports</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <h2>ROI Analysis</h2>
+          <p>AqlHR has delivered significant value to your organization this week:</p>
+          <ul>
+            <li>Efficiency improvement: ${Math.round((hoursSaved / 40) * 100)}% of a full-time equivalent</li>
+            <li>Annual cost savings projection: ${(estimatedSavings * 52).toFixed(0)} SAR</li>
+            <li>Process automation rate: ${totalAutomations > 0 ? 'Active' : 'Getting Started'}</li>
+          </ul>
+        </div>
+
+        <div class="footer">
+          <p>Generated by AqlHR - Smart HR Management Platform</p>
+          <p>Report generated on ${new Date().toLocaleString()}</p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Log the report generation
+    await supabaseClient
+      .from('value_events')
+      .insert({
+        tenant_id: tenantId,
+        event_type: 'export_generated',
+        module: 'roi_reports',
+        meta: { 
+          report_type: 'weekly_roi',
+          hours_saved: hoursSaved,
+          automations: totalAutomations
+        }
+      });
+
+    console.log(`[Weekly ROI Report] Report generated successfully for tenant: ${tenantId}`);
+
+    return new Response(
+      JSON.stringify({ 
+        success: true,
+        report: reportHtml,
+        summary: {
+          hours_saved: hoursSaved,
+          cost_savings: estimatedSavings,
+          automations: totalAutomations,
+          period: '7 days'
+        }
+      }),
+      { 
+        status: 200, 
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+      }
+    );
+
+  } catch (error) {
+    console.error('[Weekly ROI Report] Error:', error);
+    return new Response(
+      JSON.stringify({ error: 'Failed to generate weekly ROI report' }),
+      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+});

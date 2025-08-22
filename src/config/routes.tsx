@@ -256,8 +256,10 @@ const EsgHrPage = lazy(() => import('../pages/esg-hr'));
 // Debug page for testing
 const DebugPage = lazy(() => import('../pages/debug'));
 
-// Demo/Test page
-const TestPage = lazy(() => import('../pages/TestHarness'));
+// New growth and onboarding modules
+const ROIDashboard = lazy(() => import('../pages/growth/ROIDashboard'));
+const Onboarding = lazy(() => import('../pages/Onboarding'));
+const ShareViewer = lazy(() => import('../pages/share/ShareViewer'));
 
 export interface RouteConfig {
   path: string;
@@ -267,6 +269,11 @@ export interface RouteConfig {
 }
 
 export const ROUTES: RouteConfig[] = [
+  // New growth and self-sell routes
+  { path: '/growth/roi', element: ROIDashboard, auth: true },
+  { path: '/onboarding', element: Onboarding, auth: true },
+  { path: '/share/:token', element: ShareViewer, auth: false },
+  
   // Core routes - no auth required
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
   { path: '/prompt-logs', element: PromptLogs, auth: true },
@@ -290,7 +297,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/tools', element: Tools },
   { path: '/help', element: Help },
   { path: '/debug', element: DebugPage, auth: true },
-  { path: '/demo/test-page', element: TestPage, auth: false },
+  { path: '/demo/test-page', element: TestHarness, auth: false },
   
   // New main pages
   { path: '/ai', element: lazy(() => import('../pages/AIPage')), auth: true },
