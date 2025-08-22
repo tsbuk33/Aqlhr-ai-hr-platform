@@ -4751,6 +4751,27 @@ export type Database = {
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
+            referencedColumns: ["id"]
+          },
         ]
       }
       hr_departments: {
@@ -4915,6 +4936,27 @@ export type Database = {
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
+            referencedColumns: ["id"]
+          },
         ]
       }
       hr_grades: {
@@ -5004,6 +5046,27 @@ export type Database = {
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
+            referencedColumns: ["id"]
+          },
         ]
       }
       hr_locations: {
@@ -5058,6 +5121,27 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
             referencedColumns: ["id"]
           },
         ]
@@ -7084,6 +7168,104 @@ export type Database = {
             columns: ["task_id"]
             isOneToOne: false
             referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      osi_benchmarks: {
+        Row: {
+          function: string
+          grade: string
+          max_layers: number
+          target_cost_to_manage: number
+          target_span: number
+        }
+        Insert: {
+          function: string
+          grade: string
+          max_layers: number
+          target_cost_to_manage: number
+          target_span: number
+        }
+        Update: {
+          function?: string
+          grade?: string
+          max_layers?: number
+          target_cost_to_manage?: number
+          target_span?: number
+        }
+        Relationships: []
+      }
+      osi_snapshots: {
+        Row: {
+          case_id: string
+          cost_to_manage: number | null
+          cost_total: number | null
+          created_at: string | null
+          duplicate_titles_n: number | null
+          female_pct: number | null
+          flags: string[] | null
+          headcount: number
+          id: string
+          layers_depth: number | null
+          manager_overload_n: number | null
+          managers: number
+          n: number | null
+          saudization: number | null
+          scope: string
+          scope_id: string | null
+          span_avg: number | null
+          span_p90: number | null
+          vacant_positions_n: number | null
+        }
+        Insert: {
+          case_id: string
+          cost_to_manage?: number | null
+          cost_total?: number | null
+          created_at?: string | null
+          duplicate_titles_n?: number | null
+          female_pct?: number | null
+          flags?: string[] | null
+          headcount?: number
+          id?: string
+          layers_depth?: number | null
+          manager_overload_n?: number | null
+          managers?: number
+          n?: number | null
+          saudization?: number | null
+          scope: string
+          scope_id?: string | null
+          span_avg?: number | null
+          span_p90?: number | null
+          vacant_positions_n?: number | null
+        }
+        Update: {
+          case_id?: string
+          cost_to_manage?: number | null
+          cost_total?: number | null
+          created_at?: string | null
+          duplicate_titles_n?: number | null
+          female_pct?: number | null
+          flags?: string[] | null
+          headcount?: number
+          id?: string
+          layers_depth?: number | null
+          manager_overload_n?: number | null
+          managers?: number
+          n?: number | null
+          saudization?: number | null
+          scope?: string
+          scope_id?: string | null
+          span_avg?: number | null
+          span_p90?: number | null
+          vacant_positions_n?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "osi_snapshots_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
             referencedColumns: ["id"]
           },
         ]
@@ -10890,6 +11072,176 @@ export type Database = {
           },
         ]
       }
+      v_costs: {
+        Row: {
+          employee_id: string | null
+          monthly_cost: number | null
+          tenant_id: string | null
+        }
+        Insert: {
+          employee_id?: string | null
+          monthly_cost?: never
+          tenant_id?: string | null
+        }
+        Update: {
+          employee_id?: string | null
+          monthly_cost?: never
+          tenant_id?: string | null
+        }
+        Relationships: []
+      }
+      v_manager_spans: {
+        Row: {
+          avg_team_cost: number | null
+          full_name_ar: string | null
+          full_name_en: string | null
+          grade_name: string | null
+          manager_id: string | null
+          overload: boolean | null
+          span: number | null
+          target_span: number | null
+        }
+        Relationships: []
+      }
+      v_org_current: {
+        Row: {
+          allowances: number | null
+          base_salary: number | null
+          department_id: string | null
+          department_name_ar: string | null
+          department_name_en: string | null
+          employee_no: string | null
+          employment_status: string | null
+          full_name_ar: string | null
+          full_name_en: string | null
+          gender: string | null
+          grade_id: string | null
+          grade_name_ar: string | null
+          grade_name_en: string | null
+          hire_date: string | null
+          id: string | null
+          is_saudi: boolean | null
+          job_id: string | null
+          job_title_ar: string | null
+          job_title_en: string | null
+          manager_id: string | null
+          nationality_code: string | null
+          tenant_id: string | null
+          total_compensation: number | null
+        }
+        Insert: {
+          allowances?: number | null
+          base_salary?: number | null
+          department_id?: string | null
+          department_name_ar?: never
+          department_name_en?: never
+          employee_no?: string | null
+          employment_status?: string | null
+          full_name_ar?: string | null
+          full_name_en?: string | null
+          gender?: string | null
+          grade_id?: string | null
+          grade_name_ar?: never
+          grade_name_en?: never
+          hire_date?: string | null
+          id?: string | null
+          is_saudi?: boolean | null
+          job_id?: string | null
+          job_title_ar?: never
+          job_title_en?: never
+          manager_id?: string | null
+          nationality_code?: string | null
+          tenant_id?: string | null
+          total_compensation?: never
+        }
+        Update: {
+          allowances?: number | null
+          base_salary?: number | null
+          department_id?: string | null
+          department_name_ar?: never
+          department_name_en?: never
+          employee_no?: string | null
+          employment_status?: string | null
+          full_name_ar?: string | null
+          full_name_en?: string | null
+          gender?: string | null
+          grade_id?: string | null
+          grade_name_ar?: never
+          grade_name_en?: never
+          hire_date?: string | null
+          id?: string | null
+          is_saudi?: boolean | null
+          job_id?: string | null
+          job_title_ar?: never
+          job_title_en?: never
+          manager_id?: string | null
+          nationality_code?: string | null
+          tenant_id?: string | null
+          total_compensation?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_employees_dept_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "hr_departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_grade_id_fkey"
+            columns: ["grade_id"]
+            isOneToOne: false
+            referencedRelation: "hr_grades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "hr_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_org_layers: {
+        Row: {
+          company_id: string | null
+          full_name_en: string | null
+          id: string | null
+          layer: number | null
+          manager_id: string | null
+          path: string[] | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       api_create_key_v1: {
@@ -11358,6 +11710,27 @@ export type Database = {
           p_user_id: string
         }
         Returns: string
+      }
+      osi_compute_case_v1: {
+        Args: { p_case_id: string }
+        Returns: undefined
+      }
+      osi_get_heatmap_v1: {
+        Args: { p_case_id: string; p_dim?: string }
+        Returns: {
+          cost_total: number
+          flags: string[]
+          headcount: number
+          label_ar: string
+          label_en: string
+          layers: number
+          saudization: number
+          span_avg: number
+        }[]
+      }
+      osi_get_overview_v1: {
+        Args: { p_case_id: string }
+        Returns: Json
       }
       pdpl_redact: {
         Args: { input_text: string }
