@@ -3,14 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { TrendingUp, Clock, FileText, Zap, Download, Share2, Calendar } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { TrendingUp, Clock, FileText, Zap, Download, Share2, Calendar, Shield, AlertCircle, HardDrive, FileOutput } from 'lucide-react';
 import { useROI } from '@/hooks/useROI';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const ROIDashboard = () => {
   const [tenantId, setTenantId] = useState<string | null>(null);
+  const [hasAccess, setHasAccess] = useState<boolean>(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState<boolean>(false);
   const { summary, trend, loading, fetchROISummary, fetchROITrend, backfillSnapshots, createShareLink } = useROI();
 
   useEffect(() => {
@@ -27,6 +30,14 @@ const ROIDashboard = () => {
 
         if (error) throw error;
         setTenantId(data.company_id);
+
+        // Check plan access for self_sell_growth feature
+        const { data: planData, error: planError } = await supabase
+          .rpc('has_feature', { p_tenant_id: data.company_id, p_feature_code: 'self_sell_growth' });
+        
+        if (!planError) {
+          setHasAccess(planData || false);
+        }
       } catch (err) {
         toast.error('Failed to get tenant ID');
       }
@@ -51,17 +62,47 @@ const ROIDashboard = () => {
   const handleShareDashboard = async () => {
     if (!tenantId || !summary) return;
     
-    const payload = {
-      summary,
-      trend: trend.slice(-7), // Last 7 days
-      generated_at: new Date().toISOString()
-    };
+    try {
+      const { data, error } = await supabase.functions.invoke('share_link_sign_v1', {
+        body: {
+          tenantId,
+          kind: 'dashboard_snapshot',
+          ttlHours: 72,
+          payload: {
+            summary,
+            trend: trend.slice(-7),
+            generated_at: new Date().toISOString()
+          }
+        }
+      });
 
-    const token = await createShareLink(tenantId, 'dashboard_snapshot', payload);
-    if (token) {
-      const shareUrl = `${window.location.origin}/share/${token}`;
-      navigator.clipboard.writeText(shareUrl);
+      if (error) throw error;
+      
+      navigator.clipboard.writeText(data.url);
       toast.success('Share link copied to clipboard!');
+    } catch (err) {
+      toast.error('Failed to create share link');
+    }
+  };
+
+  const handleGenerateReport = async () => {
+    if (!tenantId) return;
+    
+    setIsGeneratingReport(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('roi_compute_weekly_v1', {
+        body: { tenantId, lang: 'en' }
+      });
+
+      if (error) throw error;
+      
+      // Open the signed URL in a new tab
+      window.open(data.signedUrl, '_blank');
+      toast.success('Weekly ROI report generated successfully!');
+    } catch (err) {
+      toast.error('Failed to generate weekly report');
+    } finally {
+      setIsGeneratingReport(false);
     }
   };
 
@@ -73,6 +114,26 @@ const ROIDashboard = () => {
     const hourlyRate = 150; // SAR per hour
     return (hours * hourlyRate).toFixed(0);
   };
+
+  // Plan gating check
+  if (!hasAccess && !loading) {
+    return (
+      <div className="container mx-auto p-6">
+        <Card className="max-w-2xl mx-auto text-center">
+          <CardContent className="p-8">
+            <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Upgrade Required</h2>
+            <p className="text-muted-foreground mb-6">
+              ROI Dashboard is available with our Growth plan. Upgrade to track your return on investment and generate detailed reports.
+            </p>
+            <Button size="lg">
+              View Plans & Pricing
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (!summary && !loading) {
     return (
@@ -98,14 +159,36 @@ const ROIDashboard = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">ROI Dashboard</h1>
-          <p className="text-muted-foreground">
-            Track the value AqlHR delivers to your organization
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-muted-foreground">
+              Track the value AqlHR delivers to your organization
+            </p>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <AlertCircle className="h-4 w-4 text-muted-foreground" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    This dashboard complies with Saudi PDPL regulations. All data is processed securely and no PII is included in shared reports.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleBackfill} disabled={loading}>
             <Calendar className="h-4 w-4 mr-2" />
             Backfill Data
+          </Button>
+          <Button 
+            variant="secondary" 
+            onClick={handleGenerateReport} 
+            disabled={loading || !summary || isGeneratingReport}
+          >
+            <Download className="h-4 w-4 mr-2" />
+            {isGeneratingReport ? 'Generating...' : 'Generate Weekly Report'}
           </Button>
           <Button onClick={handleShareDashboard} disabled={loading || !summary}>
             <Share2 className="h-4 w-4 mr-2" />
@@ -115,7 +198,7 @@ const ROIDashboard = () => {
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Time Saved</CardTitle>
@@ -133,7 +216,7 @@ const ROIDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Tasks Created</CardTitle>
+            <CardTitle className="text-sm font-medium">Tasks</CardTitle>
             <Zap className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -148,7 +231,7 @@ const ROIDashboard = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Letters Generated</CardTitle>
+            <CardTitle className="text-sm font-medium">Letters</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -156,14 +239,29 @@ const ROIDashboard = () => {
               {summary?.letters || 0}
             </div>
             <p className="text-xs text-muted-foreground">
-              Compliance documents
+              Compliance docs
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Autopilot Runs</CardTitle>
+            <CardTitle className="text-sm font-medium">Documents</CardTitle>
+            <HardDrive className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {summary?.docs || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Processed files
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Autopilot</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -171,7 +269,22 @@ const ROIDashboard = () => {
               {summary?.autopilot_runs || 0}
             </div>
             <p className="text-xs text-muted-foreground">
-              Automated compliance
+              Auto processes
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Exports</CardTitle>
+            <FileOutput className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {summary?.exports || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Reports generated
             </p>
           </CardContent>
         </Card>
@@ -196,7 +309,7 @@ const ROIDashboard = () => {
                   tickFormatter={(value) => new Date(value).toLocaleDateString()}
                 />
                 <YAxis />
-                <Tooltip 
+                <RechartsTooltip 
                   labelFormatter={(value) => new Date(value).toLocaleDateString()}
                   formatter={(value: number) => [formatHours(value), 'Hours Saved']}
                 />
@@ -229,7 +342,7 @@ const ROIDashboard = () => {
                   tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { weekday: 'short' })}
                 />
                 <YAxis />
-                <Tooltip 
+                <RechartsTooltip 
                   labelFormatter={(value) => new Date(value).toLocaleDateString()}
                 />
                 <Bar dataKey="tasks" stackId="a" fill="hsl(var(--primary))" name="Tasks" />

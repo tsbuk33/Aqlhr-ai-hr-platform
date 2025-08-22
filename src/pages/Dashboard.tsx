@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Users, CheckCircle, AlertCircle, FileText, Clock, Shield, ExternalLink } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, CheckCircle, AlertCircle, FileText, Clock, Shield, ExternalLink, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useDashboardData } from "@/hooks/useDashboardData";
@@ -9,6 +9,8 @@ import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDas
 import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from 'sonner';
 
 export default function Dashboard() {
   const { language } = useLanguage();
@@ -28,6 +30,55 @@ export default function Dashboard() {
     createTaskFromAlert,
     refetch
   } = useDashboardData();
+
+  // Share dashboard functionality
+  const handleShareDashboard = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        toast.error('Please login to share dashboard');
+        return;
+      }
+
+      const { data: userRole } = await supabase
+        .from('user_roles')
+        .select('company_id')
+        .eq('user_id', user.id)
+        .single();
+
+      if (!userRole) {
+        toast.error('Unable to determine company');
+        return;
+      }
+
+      const { data: shareData, error } = await supabase.functions.invoke('share_link_sign_v1', {
+        body: {
+          tenantId: userRole.company_id,
+          kind: 'dashboard_snapshot',
+          ttlHours: 72,
+          payload: {
+            dashboard_data: data,
+            kpi_summary: {
+              total_employees: data?.totalEmployees || 0,
+              saudization_rate: data?.saudizationRate || 0,
+              compliance_score: data?.complianceScore || 0,
+              hse_safety_score: data?.hseSafetyScore || 0,
+              employee_experience_10: data?.employeeExperience || 0
+            },
+            generated_at: new Date().toISOString()
+          }
+        }
+      });
+
+      if (error) throw error;
+      
+      navigator.clipboard.writeText(shareData.url);
+      toast.success('Dashboard share link copied to clipboard!');
+    } catch (err) {
+      console.error('Share error:', err);
+      toast.error('Failed to create share link');
+    }
+  };
 
   // Helper functions for UI
   const getChangeIcon = (change: number | null) => {
@@ -115,6 +166,12 @@ export default function Dashboard() {
               </span>
             </p>
           </div>
+          
+          {/* Share Dashboard Button */}
+          <Button onClick={handleShareDashboard} disabled={loading}>
+            <Share2 className="h-4 w-4 mr-2" />
+            {isArabic ? "مشاركة لوحة التحكم" : "Share Dashboard"}
+          </Button>
         </div>
 
       {/* Main KPI Cards */}

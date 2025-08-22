@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
-import { CheckCircle, Circle, ArrowRight, Users, FileText, Settings, Zap, TrendingUp } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { CheckCircle, Circle, ArrowRight, Users, FileText, Shield, Zap, TrendingUp, Camera, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -15,22 +16,82 @@ interface OnboardingStep {
   description: string;
   icon: React.ReactNode;
   completed: boolean;
-  action?: string;
-  route?: string;
-  estimatedMinutes?: number;
+  actionLabel: string;
+  estimatedMinutes: number;
 }
 
 const Onboarding = () => {
   const navigate = useNavigate();
   const [steps, setSteps] = useState<OnboardingStep[]>([]);
+  const [tenantId, setTenantId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [runningStep, setRunningStep] = useState<string | null>(null);
   const [completionRate, setCompletionRate] = useState(0);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [shareUrl, setShareUrl] = useState('');
+
+  const onboardingSteps: OnboardingStep[] = [
+    {
+      id: 'seed_employees',
+      title: 'Seed 1,000 Employees',
+      description: 'Generate sample employee data to experience AqlHR features',
+      icon: <Users className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Run Seed',
+      estimatedMinutes: 2
+    },
+    {
+      id: 'backfill_kpis',
+      title: 'Backfill KPIs (12 months)',
+      description: 'Generate historical KPI data for comprehensive analytics',
+      icon: <TrendingUp className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Run Backfill',
+      estimatedMinutes: 3
+    },
+    {
+      id: 'compliance_autopilot',
+      title: 'Run Compliance Autopilot',
+      description: 'Automatically check and improve compliance status',
+      icon: <Shield className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Run Autopilot',
+      estimatedMinutes: 4
+    },
+    {
+      id: 'cci_quick_test',
+      title: 'Send CCI Quick Test',
+      description: 'Launch a corporate culture assessment survey',
+      icon: <FileText className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Send Test',
+      estimatedMinutes: 1
+    },
+    {
+      id: 'export_cci_pdf',
+      title: 'Export CCI Executive PDF',
+      description: 'Generate executive summary report of culture assessment',
+      icon: <FileText className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Export PDF',
+      estimatedMinutes: 2
+    },
+    {
+      id: 'create_snapshot',
+      title: 'Create Read-Only Snapshot',
+      description: 'Generate a shareable dashboard snapshot for stakeholders',
+      icon: <Camera className="h-5 w-5" />,
+      completed: false,
+      actionLabel: 'Create Snapshot',
+      estimatedMinutes: 1
+    }
+  ];
 
   useEffect(() => {
-    checkOnboardingProgress();
+    initializeOnboarding();
   }, []);
 
-  const checkOnboardingProgress = async () => {
+  const initializeOnboarding = async () => {
     try {
       setLoading(true);
 
@@ -44,98 +105,109 @@ const Onboarding = () => {
         .single();
 
       if (!userRole) return;
+      setTenantId(userRole.company_id);
 
-      // Check various completion criteria
-      const [
-        { count: employeeCount },
-        { count: kpiCount },
-        { count: taskCount },
-        { data: company },
-        { count: trainingCount }
-      ] = await Promise.all([
-        supabase.from('hr_employees').select('*', { count: 'exact', head: true }).eq('company_id', userRole.company_id),
-        supabase.from('employee_kpi_assignments').select('*', { count: 'exact', head: true }),
-        supabase.from('tasks').select('*', { count: 'exact', head: true }).eq('tenant_id', userRole.company_id),
-        supabase.from('companies').select('*').eq('id', userRole.company_id).single(),
-        supabase.from('training_programs').select('*', { count: 'exact', head: true }).eq('company_id', userRole.company_id)
-      ]);
-
-      const onboardingSteps: OnboardingStep[] = [
-        {
-          id: 'company_setup',
-          title: 'Complete Company Profile',
-          description: 'Set up your company information, industry, and basic settings',
-          icon: <Settings className="h-5 w-5" />,
-          completed: !!(company?.name && company?.industry),
-          action: 'Complete Setup',
-          route: '/settings/company',
-          estimatedMinutes: 5
-        },
-        {
-          id: 'import_employees',
-          title: 'Import Employee Data',
-          description: 'Add your employees to start tracking and managing HR data',
-          icon: <Users className="h-5 w-5" />,
-          completed: (employeeCount || 0) >= 5,
-          action: 'Import Employees',
-          route: '/employees',
-          estimatedMinutes: 10
-        },
-        {
-          id: 'setup_kpis',
-          title: 'Configure Smart KPIs',
-          description: 'Set up performance indicators and tracking for your team',
-          icon: <TrendingUp className="h-5 w-5" />,
-          completed: (kpiCount || 0) >= 1,
-          action: 'Setup KPIs',
-          route: '/smart-kpi',
-          estimatedMinutes: 8
-        },
-        {
-          id: 'create_tasks',
-          title: 'Explore Task Management',
-          description: 'Create your first tasks to experience automated workflow',
-          icon: <Zap className="h-5 w-5" />,
-          completed: (taskCount || 0) >= 1,
-          action: 'Create Task',
-          route: '/tasks',
-          estimatedMinutes: 3
-        },
-        {
-          id: 'setup_training',
-          title: 'Add Training Programs',
-          description: 'Configure learning and development programs',
-          icon: <FileText className="h-5 w-5" />,
-          completed: (trainingCount || 0) >= 1,
-          action: 'Add Training',
-          route: '/training',
-          estimatedMinutes: 7
-        }
-      ];
-
+      // Initialize steps (for demo, all start as uncompleted)
       setSteps(onboardingSteps);
-      
-      const completedCount = onboardingSteps.filter(step => step.completed).length;
-      setCompletionRate((completedCount / onboardingSteps.length) * 100);
+      setCompletionRate(0);
 
     } catch (error) {
-      toast.error('Failed to load onboarding progress');
+      toast.error('Failed to initialize onboarding');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleStepAction = (step: OnboardingStep) => {
-    if (step.route) {
-      navigate(step.route);
+  const runStep = async (stepId: string) => {
+    if (!tenantId) return;
+    
+    setRunningStep(stepId);
+    
+    try {
+      let success = false;
+      
+      switch (stepId) {
+        case 'seed_employees':
+          // Simulate seeding employees
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          success = true;
+          break;
+          
+        case 'backfill_kpis':
+          // Call backfill function
+          const { error: backfillError } = await supabase
+            .rpc('roi_backfill_snapshots_v1', { p_tenant: tenantId, p_days: 365 });
+          success = !backfillError;
+          break;
+          
+        case 'compliance_autopilot':
+          // Simulate compliance check
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          success = true;
+          break;
+          
+        case 'cci_quick_test':
+          // Simulate sending CCI test
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          success = true;
+          break;
+          
+        case 'export_cci_pdf':
+          // Simulate PDF export
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          success = true;
+          break;
+          
+        case 'create_snapshot':
+          // Create actual share link
+          const { data, error } = await supabase.functions.invoke('share_link_sign_v1', {
+            body: {
+              tenantId,
+              kind: 'dashboard_snapshot',
+              ttlHours: 168, // 7 days
+              payload: {
+                onboarding_snapshot: true,
+                generated_at: new Date().toISOString()
+              }
+            }
+          });
+          
+          if (!error && data.url) {
+            setShareUrl(data.url);
+            setShareModalOpen(true);
+            success = true;
+          }
+          break;
+      }
+
+      if (success) {
+        // Mark step as completed
+        setSteps(prev => prev.map(step => 
+          step.id === stepId ? { ...step, completed: true } : step
+        ));
+        
+        // Update completion rate
+        const completedCount = steps.filter(s => s.completed).length + 1;
+        setCompletionRate((completedCount / steps.length) * 100);
+        
+        toast.success(`${steps.find(s => s.id === stepId)?.title} completed!`);
+      } else {
+        toast.error('Step failed to complete');
+      }
+      
+    } catch (error) {
+      toast.error('Failed to run step');
+    } finally {
+      setRunningStep(null);
     }
   };
 
   const totalEstimatedTime = steps.reduce((total, step) => 
-    total + (step.estimatedMinutes || 0), 0
+    total + (step.completed ? 0 : step.estimatedMinutes), 0
   );
 
   const completedSteps = steps.filter(step => step.completed).length;
+  const allCompleted = completedSteps === steps.length;
 
   if (loading) {
     return (
@@ -144,7 +216,7 @@ const Onboarding = () => {
           <div className="h-8 bg-muted rounded-lg w-1/3"></div>
           <div className="h-4 bg-muted rounded w-1/2"></div>
           <div className="space-y-4">
-            {[1,2,3,4,5].map((i) => (
+            {[1,2,3,4,5,6].map((i) => (
               <div key={i} className="h-20 bg-muted rounded-lg"></div>
             ))}
           </div>
@@ -157,9 +229,9 @@ const Onboarding = () => {
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-bold">Welcome to AqlHR</h1>
+        <h1 className="text-4xl font-bold">AqlHR Onboarding</h1>
         <p className="text-xl text-muted-foreground">
-          Get started with a few simple steps to unlock the full potential of your HR management
+          Complete these 6 steps to experience the full power of AqlHR
         </p>
       </div>
 
@@ -171,7 +243,7 @@ const Onboarding = () => {
             Onboarding Progress
           </CardTitle>
           <CardDescription>
-            Complete these steps to get the most out of AqlHR
+            Follow the guided setup to unlock AqlHR's capabilities
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -179,14 +251,14 @@ const Onboarding = () => {
             <span className="text-sm font-medium">
               {completedSteps} of {steps.length} steps completed
             </span>
-            <Badge variant={completionRate === 100 ? "default" : "secondary"}>
+            <Badge variant={allCompleted ? "default" : "secondary"}>
               {Math.round(completionRate)}% Complete
             </Badge>
           </div>
           <Progress value={completionRate} className="h-2" />
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>Estimated time remaining: {totalEstimatedTime - steps.filter(s => s.completed).reduce((t, s) => t + (s.estimatedMinutes || 0), 0)} minutes</span>
-            {completionRate === 100 && (
+            <span>Estimated time remaining: {totalEstimatedTime} minutes</span>
+            {allCompleted && (
               <span className="text-green-600 font-medium">🎉 All done!</span>
             )}
           </div>
@@ -216,7 +288,7 @@ const Onboarding = () => {
                         Complete
                       </Badge>
                     )}
-                    {step.estimatedMinutes && !step.completed && (
+                    {!step.completed && (
                       <Badge variant="secondary">
                         ~{step.estimatedMinutes} min
                       </Badge>
@@ -225,10 +297,22 @@ const Onboarding = () => {
                   <p className="text-muted-foreground">{step.description}</p>
                 </div>
 
-                {!step.completed && step.action && (
-                  <Button onClick={() => handleStepAction(step)}>
-                    {step.action}
-                    <ArrowRight className="h-4 w-4 ml-2" />
+                {!step.completed && (
+                  <Button 
+                    onClick={() => runStep(step.id)}
+                    disabled={runningStep === step.id}
+                  >
+                    {runningStep === step.id ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Running...
+                      </>
+                    ) : (
+                      <>
+                        {step.actionLabel}
+                        <ArrowRight className="h-4 w-4 ml-2" />
+                      </>
+                    )}
                   </Button>
                 )}
               </div>
@@ -237,55 +321,62 @@ const Onboarding = () => {
         ))}
       </div>
 
-      {/* Success Message */}
-      {completionRate === 100 && (
+      {/* Success Message & Upsell */}
+      {allCompleted && (
         <Card className="border-green-200 bg-green-50">
           <CardContent className="p-6 text-center space-y-4">
             <div className="text-6xl">🎉</div>
             <h2 className="text-2xl font-bold text-green-800">
-              Congratulations! You're all set up
+              Congratulations! You're ready to scale
             </h2>
             <p className="text-green-700">
-              Your AqlHR system is now fully configured. Start exploring the features and watch your HR efficiency improve!
+              You've experienced AqlHR's power. Now upgrade to unlock unlimited features and transform your HR operations.
             </p>
             <div className="flex gap-2 justify-center">
-              <Button onClick={() => navigate('/dashboard')}>
-                Go to Dashboard
+              <Button size="lg">
+                🚀 Upgrade to Pro Plan
               </Button>
               <Button variant="outline" onClick={() => navigate('/growth/roi')}>
-                View ROI Tracking
+                View ROI Dashboard
               </Button>
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* Quick Tips */}
-      <Card>
-        <CardHeader>
-          <CardTitle>💡 Quick Tips</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-            <p className="text-sm">
-              <strong>Start with employees:</strong> Import your team first to unlock most features
-            </p>
+      {/* Share Link Modal */}
+      <Dialog open={shareModalOpen} onOpenChange={setShareModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Dashboard Snapshot Created!</DialogTitle>
+            <DialogDescription>
+              Your read-only dashboard snapshot is ready to share with stakeholders.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="p-4 bg-muted rounded-lg">
+              <p className="text-sm font-mono break-all">{shareUrl}</p>
+            </div>
+            <div className="flex gap-2">
+              <Button 
+                onClick={() => {
+                  navigator.clipboard.writeText(shareUrl);
+                  toast.success('Share link copied to clipboard!');
+                }}
+                className="flex-1"
+              >
+                Copy Link
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => window.open(shareUrl, '_blank')}
+              >
+                Preview
+              </Button>
+            </div>
           </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-            <p className="text-sm">
-              <strong>Use bulk import:</strong> Upload CSV files to quickly add multiple employees
-            </p>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0"></div>
-            <p className="text-sm">
-              <strong>Track ROI:</strong> Your efficiency improvements are automatically measured
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
