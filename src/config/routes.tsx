@@ -132,7 +132,6 @@ const EmployeeReports = lazy(() => import('../pages/analytics/EmployeeReports'))
 
 // Compliance modules
 const ComplianceOverview = lazy(() => import('../pages/compliance'));
-const PlansPage = lazy(() => import('../pages/plans/PlansPage'));
 const ComplianceAutopilot = lazy(() => import('../pages/compliance/ComplianceAutopilot'));
 const RegulatoryCompliance = lazy(() => import('../pages/compliance/RegulatoryCompliance'));
 const CommitteeManagement = lazy(() => import('../pages/compliance/CommitteeManagement'));
@@ -411,7 +410,6 @@ export const ROUTES: RouteConfig[] = [
   { path: '/diagnostic/hr-value-chain', element: HRValueChainAnalysis, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-assessment', element: OrgStructureAssessment, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-intelligence', element: OrgStructureIntelligence, auth: true, adminOnly: true },
-  { path: '/plans', element: PlansPage, auth: true },
   { path: '/diagnostic/retention', element: RetentionEarlyWarning, auth: true, adminOnly: true },
   { path: '/diagnostic/learning', element: LearningOptimization, auth: true, adminOnly: true },
   { path: '/diagnostic/engagement', element: EngagementOptimization, auth: true, adminOnly: true },
