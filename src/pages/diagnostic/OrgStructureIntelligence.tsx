@@ -12,6 +12,7 @@ import { AqlHRAIAssistant } from "@/components/ai";
 import { useEntitlement } from "@/hooks/useEntitlement";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { isDeveloperMode, bypassEntitlement, getMockCaseId, logDeveloperMode } from "@/utils/developerMode";
 import { 
   Building2, 
   Users, 
@@ -30,6 +31,9 @@ const OrgStructureIntelligence = () => {
   const [currentCase, setCurrentCase] = useState<string | null>(null);
   const { hasEntitlement, isLoading: entitlementLoading } = useEntitlement('SKU_OSI');
   const { toast } = useToast();
+  
+  // Log developer mode status
+  logDeveloperMode('OSI');
 
   useEffect(() => {
     createOrGetCase();
@@ -37,6 +41,12 @@ const OrgStructureIntelligence = () => {
 
   const createOrGetCase = async () => {
     try {
+      // Developer mode: create a mock case
+      if (isDeveloperMode()) {
+        setCurrentCase(getMockCaseId());
+        return;
+      }
+      
       // Get current user's company ID
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
@@ -103,7 +113,7 @@ const OrgStructureIntelligence = () => {
     );
   }
 
-  if (!hasEntitlement) {
+  if (!bypassEntitlement(hasEntitlement)) {
     return (
       <div className="container mx-auto p-6">
         <div className="text-center py-12">
