@@ -13,6 +13,7 @@ import { LineChart, Line, ResponsiveContainer } from 'recharts';
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from 'sonner';
+import { resolveTenantId } from "@/lib/useTenant";
 
 export default function Dashboard() {
   const { language } = useLanguage();
@@ -42,26 +43,15 @@ export default function Dashboard() {
     }
     
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        toast.error('Please login to share dashboard');
-        return;
-      }
-
-      const { data: userRole } = await supabase
-        .from('user_roles')
-        .select('company_id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!userRole) {
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) {
         toast.error('Unable to determine company');
         return;
       }
 
       const { data: shareData, error } = await supabase.functions.invoke('share_link_sign_v1', {
         body: {
-          tenantId: userRole.company_id,
+          tenantId,
           kind: 'dashboard_snapshot',
           ttlHours: 72,
           payload: {

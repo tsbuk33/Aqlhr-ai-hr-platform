@@ -1,4 +1,10 @@
-import { serve, createClient, corsHeaders } from "../_shared/deps.ts";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.3'
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -7,85 +13,53 @@ serve(async (req) => {
   }
 
   try {
-    const supabaseClient = createClient(
+    const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     const { tenantId, kind, ttlHours = 72, payload } = await req.json();
 
-    if (!kind || !['dashboard_snapshot', 'cci_export'].includes(kind)) {
+    if (!tenantId || !kind || !payload) {
       return new Response(
-        JSON.stringify({ error: 'Invalid or missing kind. Must be dashboard_snapshot or cci_export' }),
+        JSON.stringify({ error: 'Missing required fields: tenantId, kind, payload' }),
         { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Resolve tenant ID if not provided
-    let resolvedTenantId = tenantId;
-    if (!resolvedTenantId) {
-      const authHeader = req.headers.get('authorization');
-      if (authHeader) {
-        const token = authHeader.replace('Bearer ', '');
-        const { data: { user } } = await supabaseClient.auth.getUser(token);
-        if (user) {
-          const { data: profile } = await supabaseClient
-            .from('profiles')
-            .select('company_id')
-            .eq('user_id', user.id)
-            .single();
-          resolvedTenantId = profile?.company_id;
-        }
-      }
-    }
-
-    if (!resolvedTenantId) {
-      return new Response(
-        JSON.stringify({ error: 'Could not resolve tenant ID' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    // Generate a random 48-character token
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let token = '';
-    for (let i = 0; i < 48; i++) {
-      token += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-
-    // Calculate expiry time
-    const expiresAt = new Date(Date.now() + (ttlHours * 60 * 60 * 1000));
+    // Generate secure token
+    const token = crypto.randomUUID().replace(/-/g, '').substring(0, 16);
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + ttlHours);
 
     // Insert share link
-    const { data: shareLink, error: insertError } = await supabaseClient
+    const { data, error } = await supabase
       .from('share_links')
       .insert({
-        tenant_id: resolvedTenantId,
-        token,
+        tenant_id: tenantId,
         kind,
-        payload: payload || {},
+        token,
         expires_at: expiresAt.toISOString(),
-        created_by: req.headers.get('authorization') ? undefined : null
+        payload
       })
       .select()
       .single();
 
-    if (insertError) {
-      console.error('[Share Link Sign] Insert error:', insertError);
-      throw insertError;
+    if (error) {
+      console.error('Share link creation error:', error);
+      throw error;
     }
 
-    // Generate public URL
-    const publicSiteUrl = Deno.env.get('PUBLIC_SITE_URL') || 'https://your-domain.com';
-    const shareUrl = `${publicSiteUrl}/share/${token}`;
-
-    console.log(`[Share Link Sign] Created share link for tenant ${resolvedTenantId}: ${token}`);
+    // Return the share URL
+    const baseUrl = Deno.env.get('SUPABASE_URL')?.replace('//', '//').replace('supabase.co', 'lovable.app') || 'https://aqlhr.lovable.app';
+    const shareUrl = `${baseUrl}/share/${token}`;
 
     return new Response(
       JSON.stringify({ 
         url: shareUrl,
         token,
-        expires_at: expiresAt.toISOString()
+        expires_at: expiresAt.toISOString(),
+        created_at: data.created_at
       }),
       { 
         status: 200, 
@@ -94,9 +68,9 @@ serve(async (req) => {
     );
 
   } catch (error) {
-    console.error('[Share Link Sign] Error:', error);
+    console.error('Share link sign error:', error);
     return new Response(
-      JSON.stringify({ error: 'Failed to create share link' }),
+      JSON.stringify({ error: error.message || 'Failed to create share link' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }

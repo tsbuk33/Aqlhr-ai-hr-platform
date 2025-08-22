@@ -59,6 +59,22 @@ export function useDashboardAlerts() {
       });
 
       if (error) throw error;
+      
+      // Emit ROI event for task creation
+      await supabase.rpc('roi_emit_event', {
+        p_tenant: tenantId,
+        p_event: 'task_created',
+        p_qty: 1,
+        p_module: 'dashboard',
+        p_ref: taskId,
+        p_meta: {
+          source: 'dashboard_alert',
+          alert_id: alert.id,
+          severity: alert.severity,
+          metric: alert.metric
+        }
+      });
+
       return taskId;
     } catch (err: any) {
       throw new Error(err.message || 'Failed to create task from alert');
