@@ -170,7 +170,6 @@ const HRValueChainAnalysis = lazy(() => import('../pages/diagnostic/HRValueChain
 const OrgStructureAssessment = lazy(() => import('../pages/diagnostic/OrgStructureAssessment'));
 import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
 import RetentionEarlyWarning from '@/pages/diagnostic/RetentionEarlyWarning';
-import PlansPage from '@/pages/plans/PlansPage';
 import LearningOptimization from '@/pages/diagnostic/LearningOptimization';
 import EngagementOptimization from '@/pages/diagnostic/EngagementOptimization';
 const CultureChangeTracker = lazy(() => import('../pages/diagnostic/CultureChangeTracker'));
@@ -343,9 +342,6 @@ export const ROUTES: RouteConfig[] = [
   { path: '/consulting', element: Consulting, auth: true },
   { path: '/analytics', element: Analytics, auth: true },
   { path: '/performance', element: PerformanceAnalytics, auth: true },
-  
-  // Plans & Billing route
-  { path: '/plans', element: PlansPage, auth: true },
 
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
