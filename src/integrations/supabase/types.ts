@@ -10577,6 +10577,20 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_gov_cron_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          active: boolean
+          command: string
+          database: string
+          jobid: number
+          jobname: string
+          nodename: string
+          nodeport: number
+          schedule: string
+          username: string
+        }[]
+      }
       get_tenant_plan: {
         Args: { p_tenant_id?: string }
         Returns: {
@@ -10876,6 +10890,10 @@ export type Database = {
           p_to_user_id?: string
         }
         Returns: string
+      }
+      trigger_gov_sync_all_tenants: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       update_auth_security_compliance: {
         Args: Record<PropertyKey, never>
