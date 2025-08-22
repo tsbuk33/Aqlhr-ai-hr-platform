@@ -96,6 +96,7 @@ interface GovernmentAdapter {
   mode: string;
   status: string;
   last_sync: string | null;
+  last_error?: string | null;
 }
 
 interface GovernmentChange {
@@ -153,7 +154,16 @@ export const useGovernmentAdapters = () => {
           last_error: null
         }));
 
-      setAdapters([...(data || []).map(d => ({...d, last_error: d.last_error || null})), ...missingAdapters]);
+      // Map database results to match interface, ensuring all required properties exist
+      const mappedData = (data || []).map(d => ({
+        system: d.system,
+        mode: 'live', // Set mode based on status or system type
+        status: d.status,
+        last_sync: d.last_sync,
+        last_error: d.last_error || null
+      }));
+      
+      setAdapters([...mappedData, ...missingAdapters]);
     } catch (error) {
       console.error('Error fetching adapters:', error);
       toast({
