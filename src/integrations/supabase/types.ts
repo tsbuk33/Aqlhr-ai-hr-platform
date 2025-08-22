@@ -781,6 +781,51 @@ export type Database = {
         }
         Relationships: []
       }
+      api_audit_logs: {
+        Row: {
+          api_key_id: string | null
+          created_at: string
+          endpoint: string
+          id: string
+          ip_address: unknown | null
+          method: string
+          request_body: Json | null
+          request_headers: Json | null
+          response_status: number | null
+          response_time_ms: number | null
+          tenant_id: string
+          user_agent: string | null
+        }
+        Insert: {
+          api_key_id?: string | null
+          created_at?: string
+          endpoint: string
+          id?: string
+          ip_address?: unknown | null
+          method: string
+          request_body?: Json | null
+          request_headers?: Json | null
+          response_status?: number | null
+          response_time_ms?: number | null
+          tenant_id: string
+          user_agent?: string | null
+        }
+        Update: {
+          api_key_id?: string | null
+          created_at?: string
+          endpoint?: string
+          id?: string
+          ip_address?: unknown | null
+          method?: string
+          request_body?: Json | null
+          request_headers?: Json | null
+          response_status?: number | null
+          response_time_ms?: number | null
+          tenant_id?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       api_keys: {
         Row: {
           active: boolean | null
@@ -859,6 +904,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      api_rate_limits: {
+        Row: {
+          api_key_id: string | null
+          call_count: number
+          created_at: string
+          id: string
+          tenant_id: string
+          updated_at: string
+          window_start: string
+        }
+        Insert: {
+          api_key_id?: string | null
+          call_count?: number
+          created_at?: string
+          id?: string
+          tenant_id: string
+          updated_at?: string
+          window_start: string
+        }
+        Update: {
+          api_key_id?: string | null
+          call_count?: number
+          created_at?: string
+          id?: string
+          tenant_id?: string
+          updated_at?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      api_scopes: {
+        Row: {
+          created_at: string
+          id: string
+          scope_description: string | null
+          scope_key: string
+          scope_name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          scope_description?: string | null
+          scope_key: string
+          scope_name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          scope_description?: string | null
+          scope_key?: string
+          scope_name?: string
+        }
+        Relationships: []
       }
       assistant_messages: {
         Row: {
@@ -2959,6 +3058,48 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      dx_insights: {
+        Row: {
+          case_id: string
+          category: string
+          confidence_score: number
+          created_at: string
+          description: string | null
+          id: string
+          impact_score: number
+          insight_type: string
+          metadata: Json
+          severity: string
+          title: string
+        }
+        Insert: {
+          case_id: string
+          category: string
+          confidence_score?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          impact_score?: number
+          insight_type: string
+          metadata?: Json
+          severity?: string
+          title: string
+        }
+        Update: {
+          case_id?: string
+          category?: string
+          confidence_score?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          impact_score?: number
+          insight_type?: string
+          metadata?: Json
+          severity?: string
+          title?: string
+        }
+        Relationships: []
       }
       dx_playbooks: {
         Row: {
@@ -11565,6 +11706,20 @@ export type Database = {
       }
     }
     Functions: {
+      add_diagnostic_insight: {
+        Args: {
+          p_case_id: string
+          p_category: string
+          p_confidence_score?: number
+          p_description?: string
+          p_impact_score?: number
+          p_insight_type: string
+          p_metadata?: Json
+          p_severity?: string
+          p_title: string
+        }
+        Returns: string
+      }
       api_create_key_v1: {
         Args: { p_name: string; p_scopes?: string[]; p_tenant_id: string }
         Returns: {
@@ -11730,6 +11885,15 @@ export type Database = {
         Args: { maxv: number; minv: number; val: number }
         Returns: number
       }
+      check_rate_limit: {
+        Args: {
+          p_api_key_id: string
+          p_limit?: number
+          p_tenant_id: string
+          p_window_minutes?: number
+        }
+        Returns: boolean
+      }
       cleanup_old_compliance_logs: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -11745,6 +11909,27 @@ export type Database = {
       cosine_similarity: {
         Args: { a: number[]; b: number[] }
         Returns: number
+      }
+      create_api_key: {
+        Args: {
+          p_expires_at?: string
+          p_key_name: string
+          p_scopes: string[]
+          p_tenant_id: string
+        }
+        Returns: {
+          api_key: string
+          key_id: string
+        }[]
+      }
+      create_diagnostic_case: {
+        Args: {
+          p_case_name: string
+          p_case_type: string
+          p_scope_config?: Json
+          p_tenant_id: string
+        }
+        Returns: string
       }
       dashboard_alerts_v1: {
         Args: { p_tenant: string }
@@ -11832,6 +12017,10 @@ export type Database = {
           module_key: string
           similarity_score: number
         }[]
+      }
+      generate_api_key: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       generate_comprehensive_employee_report: {
         Args: { _company_id?: string; _filters?: Json; _report_name?: string }
@@ -12034,6 +12223,21 @@ export type Database = {
         Args: { p_case_id: string }
         Returns: undefined
       }
+      log_api_call: {
+        Args: {
+          p_api_key_id: string
+          p_endpoint: string
+          p_ip_address?: unknown
+          p_method: string
+          p_request_body?: Json
+          p_request_headers?: Json
+          p_response_status?: number
+          p_response_time_ms?: number
+          p_tenant_id: string
+          p_user_agent?: string
+        }
+        Returns: string
+      }
       log_audit_event: {
         Args: {
           p_action: string
@@ -12100,6 +12304,10 @@ export type Database = {
           p_source_line?: number
         }
         Returns: string
+      }
+      revoke_api_key: {
+        Args: { p_key_id: string }
+        Returns: boolean
       }
       rew_compute_case_v1: {
         Args: { p_case_id: string }
@@ -12253,9 +12461,22 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: undefined
       }
+      update_api_key_usage: {
+        Args: { p_api_key_id: string }
+        Returns: undefined
+      }
       update_auth_security_compliance: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      validate_api_key: {
+        Args: { p_api_key: string }
+        Returns: {
+          is_valid: boolean
+          key_id: string
+          scopes: string[]
+          tenant_id: string
+        }[]
       }
       validate_user_isolation: {
         Args: Record<PropertyKey, never>
