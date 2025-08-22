@@ -4174,6 +4174,92 @@ export type Database = {
         }
         Relationships: []
       }
+      geo_pulses: {
+        Row: {
+          channel: string
+          content: Json
+          created_at: string
+          id: string
+          is_active: boolean
+          schedule: Json
+          sent_at: string | null
+          status: string
+          target_audience: Json
+          tenant_id: string
+          topic: string
+          updated_at: string
+        }
+        Insert: {
+          channel?: string
+          content?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          schedule?: Json
+          sent_at?: string | null
+          status?: string
+          target_audience?: Json
+          tenant_id: string
+          topic: string
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          content?: Json
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          schedule?: Json
+          sent_at?: string | null
+          status?: string
+          target_audience?: Json
+          tenant_id?: string
+          topic?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      geo_reactions: {
+        Row: {
+          created_at: string
+          feedback_text: string | null
+          id: string
+          n_issue: number
+          n_ok: number
+          pulse_id: string
+          reaction_type: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          n_issue?: number
+          n_ok?: number
+          pulse_id: string
+          reaction_type?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          feedback_text?: string | null
+          id?: string
+          n_issue?: number
+          n_ok?: number
+          pulse_id?: string
+          reaction_type?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "geo_reactions_pulse_id_fkey"
+            columns: ["pulse_id"]
+            isOneToOne: false
+            referencedRelation: "geo_pulses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gosi_rate_history: {
         Row: {
           created_at: string | null
@@ -6809,6 +6895,72 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      leo_paths: {
+        Row: {
+          created_at: string
+          grade: string
+          id: string
+          is_active: boolean
+          path: Json
+          skill: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          grade: string
+          id?: string
+          is_active?: boolean
+          path?: Json
+          skill: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          grade?: string
+          id?: string
+          is_active?: boolean
+          path?: Json
+          skill?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      leo_progress: {
+        Row: {
+          created_at: string
+          employee_id: string
+          hours: number
+          id: string
+          last_event_at: string
+          skill: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          employee_id: string
+          hours?: number
+          id?: string
+          last_event_at?: string
+          skill: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          employee_id?: string
+          hours?: number
+          id?: string
+          last_event_at?: string
+          skill?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       mobile_attendance_sessions: {
         Row: {
@@ -11557,6 +11709,10 @@ export type Database = {
         Args: { _company_id?: string; _filters?: Json; _report_name?: string }
         Returns: string
       }
+      geo_compute_case_v1: {
+        Args: { p_case_id: string }
+        Returns: undefined
+      }
       get_activities_by_sector: {
         Args: { sector_code: string }
         Returns: {
@@ -11737,6 +11893,10 @@ export type Database = {
       l2_normalize: {
         Args: { "": string } | { "": unknown } | { "": unknown }
         Returns: string
+      }
+      leo_compute_case_v1: {
+        Args: { p_case_id: string }
+        Returns: undefined
       }
       log_audit_event: {
         Args: {
