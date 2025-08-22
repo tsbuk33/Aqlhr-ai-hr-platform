@@ -7,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { CheckCircle, Circle, ArrowRight, Users, FileText, Shield, Zap, TrendingUp, Camera, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useFeatureGating } from '@/hooks/useFeatureGating';
+import { UpsellModal } from '@/components/ui/upsell-modal';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -29,6 +31,7 @@ const Onboarding = () => {
   const [completionRate, setCompletionRate] = useState(0);
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState('');
+  const { hasAccess, loading: featureLoading, showUpsell, hideUpsell, upsellOpen } = useFeatureGating('self_sell_growth');
 
   const onboardingSteps: OnboardingStep[] = [
     {
@@ -209,7 +212,39 @@ const Onboarding = () => {
   const completedSteps = steps.filter(step => step.completed).length;
   const allCompleted = completedSteps === steps.length;
 
-  if (loading) {
+  // Plan gating check
+  if (!hasAccess && !featureLoading) {
+    return (
+      <div className="container mx-auto p-6">
+        <Card className="max-w-2xl mx-auto text-center">
+          <CardContent className="p-8">
+            <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Unlock Advanced Onboarding</h2>
+            <p className="text-muted-foreground mb-6">
+              The complete onboarding experience with ROI tracking and analytics is available in our Growth plan.
+            </p>
+            <Button size="lg" onClick={showUpsell}>
+              View Plans & Pricing
+            </Button>
+          </CardContent>
+        </Card>
+        
+        <UpsellModal 
+          open={upsellOpen}
+          onOpenChange={hideUpsell}
+          title="Complete Your AqlHR Setup"
+          description="Get the full onboarding experience with ROI tracking and powerful analytics."
+          features={[
+            "Show ROI automatically",
+            "Weekly exec pdfs",
+            "Read-only snapshot links (PDPL-safe)"
+          ]}
+        />
+      </div>
+    );
+  }
+
+  if (loading || featureLoading) {
     return (
       <div className="container mx-auto p-6">
         <div className="animate-pulse space-y-6">

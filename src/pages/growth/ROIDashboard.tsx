@@ -7,14 +7,16 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { TrendingUp, Clock, FileText, Zap, Download, Share2, Calendar, Shield, AlertCircle, HardDrive, FileOutput } from 'lucide-react';
 import { useROI } from '@/hooks/useROI';
+import { useFeatureGating } from '@/hooks/useFeatureGating';
+import { UpsellModal } from '@/components/ui/upsell-modal';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const ROIDashboard = () => {
   const [tenantId, setTenantId] = useState<string | null>(null);
-  const [hasAccess, setHasAccess] = useState<boolean>(false);
   const [isGeneratingReport, setIsGeneratingReport] = useState<boolean>(false);
   const { summary, trend, loading, fetchROISummary, fetchROITrend, backfillSnapshots, createShareLink } = useROI();
+  const { hasAccess, loading: featureLoading, showUpsell, hideUpsell, upsellOpen } = useFeatureGating('self_sell_growth');
 
   useEffect(() => {
     const getTenantId = async () => {
@@ -30,14 +32,6 @@ const ROIDashboard = () => {
 
         if (error) throw error;
         setTenantId(data.company_id);
-
-        // Check plan access for self_sell_growth feature
-        const { data: planData, error: planError } = await supabase
-          .rpc('has_feature', { p_tenant_id: data.company_id, p_feature_code: 'self_sell_growth' });
-        
-        if (!planError) {
-          setHasAccess(planData || false);
-        }
       } catch (err) {
         toast.error('Failed to get tenant ID');
       }
@@ -59,7 +53,38 @@ const ROIDashboard = () => {
     }
   };
 
+  const handleGenerateReport = async () => {
+    if (!hasAccess) {
+      showUpsell();
+      return;
+    }
+    
+    if (!tenantId) return;
+    
+    setIsGeneratingReport(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('roi_compute_weekly_v1', {
+        body: { tenantId, lang: 'en' }
+      });
+
+      if (error) throw error;
+      
+      // Open the signed URL in a new tab
+      window.open(data.signedUrl, '_blank');
+      toast.success('Weekly ROI report generated successfully!');
+    } catch (err) {
+      toast.error('Failed to generate weekly report');
+    } finally {
+      setIsGeneratingReport(false);
+    }
+  };
+
   const handleShareDashboard = async () => {
+    if (!hasAccess) {
+      showUpsell();
+      return;
+    }
+    
     if (!tenantId || !summary) return;
     
     try {
@@ -85,27 +110,6 @@ const ROIDashboard = () => {
     }
   };
 
-  const handleGenerateReport = async () => {
-    if (!tenantId) return;
-    
-    setIsGeneratingReport(true);
-    try {
-      const { data, error } = await supabase.functions.invoke('roi_compute_weekly_v1', {
-        body: { tenantId, lang: 'en' }
-      });
-
-      if (error) throw error;
-      
-      // Open the signed URL in a new tab
-      window.open(data.signedUrl, '_blank');
-      toast.success('Weekly ROI report generated successfully!');
-    } catch (err) {
-      toast.error('Failed to generate weekly report');
-    } finally {
-      setIsGeneratingReport(false);
-    }
-  };
-
   const formatHours = (hours: number) => {
     return `${hours.toFixed(1)}h`;
   };
@@ -116,7 +120,7 @@ const ROIDashboard = () => {
   };
 
   // Plan gating check
-  if (!hasAccess && !loading) {
+  if (!hasAccess && !featureLoading) {
     return (
       <div className="container mx-auto p-6">
         <Card className="max-w-2xl mx-auto text-center">
@@ -124,13 +128,25 @@ const ROIDashboard = () => {
             <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
             <h2 className="text-2xl font-bold mb-4">Upgrade Required</h2>
             <p className="text-muted-foreground mb-6">
-              ROI Dashboard is available with our Growth plan. Upgrade to track your return on investment and generate detailed reports.
+              ROI Dashboard is available with our Growth plan. Track your return on investment and generate detailed reports.
             </p>
-            <Button size="lg">
+            <Button size="lg" onClick={showUpsell}>
               View Plans & Pricing
             </Button>
           </CardContent>
         </Card>
+        
+        <UpsellModal 
+          open={upsellOpen}
+          onOpenChange={hideUpsell}
+          title="Unlock ROI Tracking & Analytics"
+          description="Get powerful insights into your HR efficiency and return on investment."
+          features={[
+            "Show ROI automatically",
+            "Weekly exec pdfs",
+            "Read-only snapshot links (PDPL-safe)"
+          ]}
+        />
       </div>
     );
   }
@@ -407,6 +423,19 @@ const ROIDashboard = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* Upsell Modal */}
+      <UpsellModal 
+        open={upsellOpen}
+        onOpenChange={hideUpsell}
+        title="Unlock ROI Tracking & Analytics"
+        description="Get powerful insights into your HR efficiency and return on investment."
+        features={[
+          "Show ROI automatically",
+          "Weekly exec pdfs",
+          "Read-only snapshot links (PDPL-safe)"
+        ]}
+      />
     </div>
   );
 };

@@ -4,6 +4,8 @@ import { TrendingUp, TrendingDown, Users, CheckCircle, AlertCircle, FileText, Cl
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useDashboardData } from "@/hooks/useDashboardData";
+import { useFeatureGating } from "@/hooks/useFeatureGating";
+import { UpsellModal } from "@/components/ui/upsell-modal";
 import { DashboardErrorBoundary, DashboardSkeleton } from "@/components/dashboard/DashboardErrorBoundary";
 import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDashboardAlertsPanel";
 import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
@@ -15,6 +17,7 @@ import { toast } from 'sonner';
 export default function Dashboard() {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
+  const { hasAccess: hasGrowthAccess, showUpsell, hideUpsell, upsellOpen } = useFeatureGating('self_sell_growth');
   
   const { 
     data, 
@@ -33,6 +36,11 @@ export default function Dashboard() {
 
   // Share dashboard functionality
   const handleShareDashboard = async () => {
+    if (!hasGrowthAccess) {
+      showUpsell();
+      return;
+    }
+    
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -408,6 +416,19 @@ export default function Dashboard() {
         </Card>
       </div>
       </div>
+      
+      {/* Upsell Modal */}
+      <UpsellModal 
+        open={upsellOpen}
+        onOpenChange={hideUpsell}
+        title="Unlock Growth Features"
+        description="Get advanced analytics, ROI tracking, and executive reporting capabilities."
+        features={[
+          "Show ROI automatically",
+          "Weekly exec pdfs",
+          "Read-only snapshot links (PDPL-safe)"
+        ]}
+      />
     </DashboardErrorBoundary>
   );
 }
