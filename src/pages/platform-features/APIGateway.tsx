@@ -16,10 +16,10 @@ import { format } from 'date-fns';
 
 interface APIKey {
   id: string;
-  key_name: string;
-  api_key: string;
+  name: string;
+  key_hash: string;
   scopes: string[];
-  is_active: boolean;
+  active: boolean;
   expires_at?: string;
   last_used_at?: string;
   created_at: string;
@@ -57,18 +57,18 @@ const APIGateway: React.FC = () => {
 
   // Fetch API keys
   const { data: apiKeys, isLoading: keysLoading } = useQuery({
-    queryKey: ['api-keys', tenantInfo?.id],
+    queryKey: ['api-keys', tenantInfo?.tenantId],
     queryFn: async () => {
-      if (!tenantInfo?.id) return [];
+      if (!tenantInfo?.tenantId) return [];
       const { data, error } = await supabase
         .from('api_keys')
         .select('*')
-        .eq('tenant_id', tenantInfo.id)
+        .eq('tenant_id', tenantInfo.tenantId)
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data as APIKey[];
+      return data;
     },
-    enabled: !!tenantInfo?.id,
+    enabled: !!tenantInfo?.tenantId,
   });
 
   // Fetch API scopes
@@ -86,43 +86,43 @@ const APIGateway: React.FC = () => {
 
   // Fetch audit logs
   const { data: auditLogs } = useQuery({
-    queryKey: ['api-audit-logs', tenantInfo?.id],
+    queryKey: ['api-audit-logs', tenantInfo?.tenantId],
     queryFn: async () => {
-      if (!tenantInfo?.id) return [];
+      if (!tenantInfo?.tenantId) return [];
       const { data, error } = await supabase
         .from('api_audit_logs')
         .select('*')
-        .eq('tenant_id', tenantInfo.id)
+        .eq('tenant_id', tenantInfo.tenantId)
         .order('created_at', { ascending: false })
         .limit(100);
       if (error) throw error;
       return data as APIAuditLog[];
     },
-    enabled: !!tenantInfo?.id,
+    enabled: !!tenantInfo?.tenantId,
   });
 
   // Fetch current rate limit usage
   const { data: rateLimitUsage } = useQuery({
-    queryKey: ['rate-limit-usage', tenantInfo?.id],
+    queryKey: ['rate-limit-usage', tenantInfo?.tenantId],
     queryFn: async () => {
-      if (!tenantInfo?.id) return [];
+      if (!tenantInfo?.tenantId) return [];
       const { data, error } = await supabase
         .from('api_rate_limits')
         .select('*')
-        .eq('tenant_id', tenantInfo.id)
+        .eq('tenant_id', tenantInfo.tenantId)
         .gte('window_start', new Date(Date.now() - 5 * 60 * 1000).toISOString())
         .order('window_start', { ascending: false });
       if (error) throw error;
       return data as RateLimit[];
     },
-    enabled: !!tenantInfo?.id,
+    enabled: !!tenantInfo?.tenantId,
     refetchInterval: 30000, // Refresh every 30 seconds
   });
 
   // Create API key mutation
   const createKeyMutation = useMutation({
     mutationFn: async () => {
-      if (!tenantInfo?.id || !newKeyName || selectedScopes.length === 0) {
+      if (!tenantInfo?.tenantId || !newKeyName || selectedScopes.length === 0) {
         throw new Error('Missing required fields');
       }
 
@@ -131,7 +131,7 @@ const APIGateway: React.FC = () => {
 
       const { data, error } = await supabase
         .rpc('create_api_key', {
-          p_tenant_id: tenantInfo.id,
+          p_tenant_id: tenantInfo.tenantId,
           p_key_name: newKeyName,
           p_scopes: selectedScopes,
           p_expires_at: expiresAt
@@ -349,10 +349,10 @@ const APIGateway: React.FC = () => {
                     <div key={key.id} className="border rounded-lg p-4 space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="font-semibold">{key.key_name}</h3>
+                          <h3 className="font-semibold">{key.name}</h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <Badge variant={key.is_active ? "default" : "secondary"}>
-                              {key.is_active ? 'Active' : 'Inactive'}
+                            <Badge variant={key.active ? "default" : "secondary"}>
+                              {key.active ? 'Active' : 'Inactive'}
                             </Badge>
                             {key.expires_at && (
                               <Badge variant="outline">
@@ -372,7 +372,7 @@ const APIGateway: React.FC = () => {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => copyToClipboard(key.api_key)}
+                            onClick={() => copyToClipboard(key.key_hash)}
                           >
                             <Copy className="h-4 w-4" />
                           </Button>
@@ -380,7 +380,7 @@ const APIGateway: React.FC = () => {
                             variant="outline"
                             size="sm"
                             onClick={() => revokeKeyMutation.mutate(key.id)}
-                            disabled={!key.is_active}
+                            disabled={!key.active}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -388,7 +388,7 @@ const APIGateway: React.FC = () => {
                       </div>
 
                       <div className="font-mono text-sm bg-muted p-2 rounded">
-                        {showApiKey[key.id] ? key.api_key : '•'.repeat(key.api_key.length)}
+                        {showApiKey[key.id] ? key.key_hash : '•'.repeat(key.key_hash.length)}
                       </div>
 
                       <div className="flex flex-wrap gap-1">

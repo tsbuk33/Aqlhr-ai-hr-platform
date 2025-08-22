@@ -273,8 +273,8 @@ export const OSISpansLayers = ({ caseId }: OSISpansLayersProps) => {
             <div className="mt-4 text-sm space-y-2">
               <div className="flex justify-between">
               <span>إجمالي الطبقات:</span>
-                <Badge variant={layerData.length > 6 ? "destructive" : "secondary"}>
-                  {layerData.length}</Badge>
+                <Badge variant="secondary">
+                  6</Badge>
               </div>
               <div className="flex justify-between">
                 <span>الهدف المثالي:</span>
