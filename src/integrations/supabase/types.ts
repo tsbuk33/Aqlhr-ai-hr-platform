@@ -193,6 +193,96 @@ export type Database = {
         }
         Relationships: []
       }
+      agent_tool_usage: {
+        Row: {
+          created_at: string | null
+          error: string | null
+          id: string
+          input: Json | null
+          output: Json | null
+          success: boolean | null
+          tenant_id: string
+          tool_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          error?: string | null
+          id?: string
+          input?: Json | null
+          output?: Json | null
+          success?: boolean | null
+          tenant_id: string
+          tool_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          error?: string | null
+          id?: string
+          input?: Json | null
+          output?: Json | null
+          success?: boolean | null
+          tenant_id?: string
+          tool_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_tool_usage_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "agent_tool_usage_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: false
+            referencedRelation: "agent_tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_tools: {
+        Row: {
+          auth_type: string | null
+          code: string
+          created_at: string | null
+          description: string | null
+          enabled: boolean | null
+          id: string
+          input_schema: Json | null
+          output_schema: Json | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          auth_type?: string | null
+          code: string
+          created_at?: string | null
+          description?: string | null
+          enabled?: boolean | null
+          id?: string
+          input_schema?: Json | null
+          output_schema?: Json | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          auth_type?: string | null
+          code?: string
+          created_at?: string | null
+          description?: string | null
+          enabled?: boolean | null
+          id?: string
+          input_schema?: Json | null
+          output_schema?: Json | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       ai_document_chunks: {
         Row: {
           chunk_index: number
@@ -690,6 +780,85 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      api_keys: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          key_hash: string
+          last_used_at: string | null
+          name: string
+          scopes: string[] | null
+          tenant_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash: string
+          last_used_at?: string | null
+          name: string
+          scopes?: string[] | null
+          tenant_id: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          key_hash?: string
+          last_used_at?: string | null
+          name?: string
+          scopes?: string[] | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_rate_limit: {
+        Row: {
+          bucket: string
+          counter: number | null
+          created_at: string | null
+          id: string
+          tenant_id: string
+          window_start: string
+        }
+        Insert: {
+          bucket: string
+          counter?: number | null
+          created_at?: string | null
+          id?: string
+          tenant_id: string
+          window_start: string
+        }
+        Update: {
+          bucket?: string
+          counter?: number | null
+          created_at?: string | null
+          id?: string
+          tenant_id?: string
+          window_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_rate_limit_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       assistant_messages: {
         Row: {
@@ -1205,6 +1374,53 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          entity: string | null
+          entity_id: string | null
+          id: string
+          ip_address: unknown | null
+          tenant_id: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          tenant_id: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          entity?: string | null
+          entity_id?: string | null
+          id?: string
+          ip_address?: unknown | null
+          tenant_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
@@ -2624,6 +2840,211 @@ export type Database = {
         }
         Relationships: []
       }
+      dx_cases: {
+        Row: {
+          baseline_date: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          module: string
+          name: string
+          status: string
+          tenant_id: string
+        }
+        Insert: {
+          baseline_date?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          module: string
+          name: string
+          status?: string
+          tenant_id: string
+        }
+        Update: {
+          baseline_date?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          module?: string
+          name?: string
+          status?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dx_cases_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dx_flags: {
+        Row: {
+          case_id: string
+          code: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          scope: string | null
+          scope_id: string | null
+          severity: string
+        }
+        Insert: {
+          case_id: string
+          code: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          scope?: string | null
+          scope_id?: string | null
+          severity?: string
+        }
+        Update: {
+          case_id?: string
+          code?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          scope?: string | null
+          scope_id?: string | null
+          severity?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dx_flags_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dx_inputs: {
+        Row: {
+          case_id: string
+          created_at: string | null
+          id: string
+          meta: Json | null
+          ref: string | null
+          snap_date: string
+          source: string
+        }
+        Insert: {
+          case_id: string
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          ref?: string | null
+          snap_date?: string
+          source: string
+        }
+        Update: {
+          case_id?: string
+          created_at?: string | null
+          id?: string
+          meta?: Json | null
+          ref?: string | null
+          snap_date?: string
+          source?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dx_inputs_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dx_playbooks: {
+        Row: {
+          ai_summary: string | null
+          case_id: string
+          confidence: number | null
+          created_at: string | null
+          id: string
+          initiatives: Json | null
+          owner_id: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          ai_summary?: string | null
+          case_id: string
+          confidence?: number | null
+          created_at?: string | null
+          id?: string
+          initiatives?: Json | null
+          owner_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          ai_summary?: string | null
+          case_id?: string
+          confidence?: number | null
+          created_at?: string | null
+          id?: string
+          initiatives?: Json | null
+          owner_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dx_playbooks_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dx_scores: {
+        Row: {
+          case_id: string
+          created_at: string | null
+          id: string
+          last_computed_at: string | null
+          metric: Json
+          n: number | null
+          scope: string
+          scope_id: string | null
+        }
+        Insert: {
+          case_id: string
+          created_at?: string | null
+          id?: string
+          last_computed_at?: string | null
+          metric?: Json
+          n?: number | null
+          scope: string
+          scope_id?: string | null
+        }
+        Update: {
+          case_id?: string
+          created_at?: string | null
+          id?: string
+          last_computed_at?: string | null
+          metric?: Json
+          n?: number | null
+          scope?: string
+          scope_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dx_scores_case_id_fkey"
+            columns: ["case_id"]
+            isOneToOne: false
+            referencedRelation: "dx_cases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       employee_benefits: {
         Row: {
           approval_date: string | null
@@ -3699,6 +4120,24 @@ export type Database = {
           total_payroll_cost?: number | null
           turnover_rate?: number | null
           vision_2030_score?: number | null
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          feature_code: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          feature_code: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          feature_code?: string
         }
         Relationships: []
       }
@@ -7293,6 +7732,36 @@ export type Database = {
           },
         ]
       }
+      pii_catalog: {
+        Row: {
+          column_name: string
+          created_at: string | null
+          id: string
+          pii_type: string
+          purpose: string | null
+          retention_days: number | null
+          table_name: string
+        }
+        Insert: {
+          column_name: string
+          created_at?: string | null
+          id?: string
+          pii_type: string
+          purpose?: string | null
+          retention_days?: number | null
+          table_name: string
+        }
+        Update: {
+          column_name?: string
+          created_at?: string | null
+          id?: string
+          pii_type?: string
+          purpose?: string | null
+          retention_days?: number | null
+          table_name?: string
+        }
+        Relationships: []
+      }
       pilot_group_users: {
         Row: {
           access_level: string | null
@@ -8472,6 +8941,42 @@ export type Database = {
         }
         Relationships: []
       }
+      sku_catalog: {
+        Row: {
+          code: string
+          created_at: string | null
+          kind: string
+          meta: Json | null
+          module_group: string | null
+          monthly_sar: number | null
+          title: string
+          updated_at: string | null
+          yearly_sar: number | null
+        }
+        Insert: {
+          code: string
+          created_at?: string | null
+          kind?: string
+          meta?: Json | null
+          module_group?: string | null
+          monthly_sar?: number | null
+          title: string
+          updated_at?: string | null
+          yearly_sar?: number | null
+        }
+        Update: {
+          code?: string
+          created_at?: string | null
+          kind?: string
+          meta?: Json | null
+          module_group?: string | null
+          monthly_sar?: number | null
+          title?: string
+          updated_at?: string | null
+          yearly_sar?: number | null
+        }
+        Relationships: []
+      }
       smart_kpis: {
         Row: {
           category: string
@@ -8957,6 +9462,93 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      tenant_entitlements: {
+        Row: {
+          active: boolean | null
+          created_at: string | null
+          ends_at: string | null
+          id: string
+          seats: number | null
+          sku_code: string
+          started_at: string | null
+          tenant_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          created_at?: string | null
+          ends_at?: string | null
+          id?: string
+          seats?: number | null
+          sku_code: string
+          started_at?: string | null
+          tenant_id: string
+        }
+        Update: {
+          active?: boolean | null
+          created_at?: string | null
+          ends_at?: string | null
+          id?: string
+          seats?: number | null
+          sku_code?: string
+          started_at?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_entitlements_sku_code_fkey"
+            columns: ["sku_code"]
+            isOneToOne: false
+            referencedRelation: "sku_catalog"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "tenant_entitlements_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tenant_features: {
+        Row: {
+          created_at: string | null
+          enabled: boolean | null
+          feature_code: string
+          id: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          enabled?: boolean | null
+          feature_code: string
+          id?: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          enabled?: boolean | null
+          feature_code?: string
+          id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_features_feature_code_fkey"
+            columns: ["feature_code"]
+            isOneToOne: false
+            referencedRelation: "feature_flags"
+            referencedColumns: ["feature_code"]
+          },
+          {
+            foreignKeyName: "tenant_features_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tenant_plans: {
         Row: {
@@ -9812,36 +10404,47 @@ export type Database = {
       }
       value_events: {
         Row: {
+          created_at: string | null
+          entity: string | null
+          entity_id: string | null
           event_type: string
+          hours_saved: number | null
           id: string
-          meta: Json | null
-          module: string | null
-          occurred_at: string | null
-          qty: number | null
-          ref_id: string | null
+          payload: Json | null
+          sar_saved: number | null
           tenant_id: string
         }
         Insert: {
+          created_at?: string | null
+          entity?: string | null
+          entity_id?: string | null
           event_type: string
+          hours_saved?: number | null
           id?: string
-          meta?: Json | null
-          module?: string | null
-          occurred_at?: string | null
-          qty?: number | null
-          ref_id?: string | null
+          payload?: Json | null
+          sar_saved?: number | null
           tenant_id: string
         }
         Update: {
+          created_at?: string | null
+          entity?: string | null
+          entity_id?: string | null
           event_type?: string
+          hours_saved?: number | null
           id?: string
-          meta?: Json | null
-          module?: string | null
-          occurred_at?: string | null
-          qty?: number | null
-          ref_id?: string | null
+          payload?: Json | null
+          sar_saved?: number | null
           tenant_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "value_events_tenant_fk"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       value_metrics_snapshots: {
         Row: {
@@ -10289,6 +10892,17 @@ export type Database = {
       }
     }
     Functions: {
+      api_create_key_v1: {
+        Args: { p_name: string; p_scopes?: string[]; p_tenant_id: string }
+        Returns: {
+          api_key: string
+          key_id: string
+        }[]
+      }
+      api_revoke_key_v1: {
+        Args: { p_key_id: string }
+        Returns: boolean
+      }
       apply_translation_patch: {
         Args: {
           p_confidence?: number
@@ -10661,6 +11275,10 @@ export type Database = {
         Args: { "": unknown[] }
         Returns: number
       }
+      has_entitlement: {
+        Args: { p_sku: string; p_tenant: string }
+        Returns: boolean
+      }
       has_feature: {
         Args: { p_feature_code: string; p_tenant_id: string }
         Returns: boolean
@@ -10739,6 +11357,10 @@ export type Database = {
           p_table_name: string
           p_user_id: string
         }
+        Returns: string
+      }
+      pdpl_redact: {
+        Args: { input_text: string }
         Returns: string
       }
       purge_old_auth_email_events: {
