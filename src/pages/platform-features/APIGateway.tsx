@@ -1,294 +1,562 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowRight, Database, Globe, Plug, Zap, Shield, Clock, CheckCircle2 } from "lucide-react";
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { useTenant } from '@/lib/useTenant';
+import { Key, Shield, Activity, FileText, Download, Copy, Trash2, Eye, EyeOff } from 'lucide-react';
+import { format } from 'date-fns';
 
-const APIGateway = () => {
+interface APIKey {
+  id: string;
+  key_name: string;
+  api_key: string;
+  scopes: string[];
+  is_active: boolean;
+  expires_at?: string;
+  last_used_at?: string;
+  created_at: string;
+}
+
+interface APIScope {
+  scope_key: string;
+  scope_name: string;
+  scope_description: string;
+}
+
+interface APIAuditLog {
+  id: string;
+  endpoint: string;
+  method: string;
+  response_status: number;
+  response_time_ms: number;
+  ip_address: string;
+  created_at: string;
+}
+
+interface RateLimit {
+  window_start: string;
+  call_count: number;
+}
+
+const APIGateway: React.FC = () => {
+  const { tenantInfo } = useTenant();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const [newKeyName, setNewKeyName] = useState('');
+  const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
+  const [expiresIn, setExpiresIn] = useState<string>('never');
+  const [showApiKey, setShowApiKey] = useState<Record<string, boolean>>({});
+
+  // Fetch API keys
+  const { data: apiKeys, isLoading: keysLoading } = useQuery({
+    queryKey: ['api-keys', tenantInfo?.id],
+    queryFn: async () => {
+      if (!tenantInfo?.id) return [];
+      const { data, error } = await supabase
+        .from('api_keys')
+        .select('*')
+        .eq('tenant_id', tenantInfo.id)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return data as APIKey[];
+    },
+    enabled: !!tenantInfo?.id,
+  });
+
+  // Fetch API scopes
+  const { data: apiScopes } = useQuery({
+    queryKey: ['api-scopes'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('api_scopes')
+        .select('*')
+        .order('scope_key');
+      if (error) throw error;
+      return data as APIScope[];
+    },
+  });
+
+  // Fetch audit logs
+  const { data: auditLogs } = useQuery({
+    queryKey: ['api-audit-logs', tenantInfo?.id],
+    queryFn: async () => {
+      if (!tenantInfo?.id) return [];
+      const { data, error } = await supabase
+        .from('api_audit_logs')
+        .select('*')
+        .eq('tenant_id', tenantInfo.id)
+        .order('created_at', { ascending: false })
+        .limit(100);
+      if (error) throw error;
+      return data as APIAuditLog[];
+    },
+    enabled: !!tenantInfo?.id,
+  });
+
+  // Fetch current rate limit usage
+  const { data: rateLimitUsage } = useQuery({
+    queryKey: ['rate-limit-usage', tenantInfo?.id],
+    queryFn: async () => {
+      if (!tenantInfo?.id) return [];
+      const { data, error } = await supabase
+        .from('api_rate_limits')
+        .select('*')
+        .eq('tenant_id', tenantInfo.id)
+        .gte('window_start', new Date(Date.now() - 5 * 60 * 1000).toISOString())
+        .order('window_start', { ascending: false });
+      if (error) throw error;
+      return data as RateLimit[];
+    },
+    enabled: !!tenantInfo?.id,
+    refetchInterval: 30000, // Refresh every 30 seconds
+  });
+
+  // Create API key mutation
+  const createKeyMutation = useMutation({
+    mutationFn: async () => {
+      if (!tenantInfo?.id || !newKeyName || selectedScopes.length === 0) {
+        throw new Error('Missing required fields');
+      }
+
+      const expiresAt = expiresIn === 'never' ? null : 
+        new Date(Date.now() + parseInt(expiresIn) * 24 * 60 * 60 * 1000).toISOString();
+
+      const { data, error } = await supabase
+        .rpc('create_api_key', {
+          p_tenant_id: tenantInfo.id,
+          p_key_name: newKeyName,
+          p_scopes: selectedScopes,
+          p_expires_at: expiresAt
+        });
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'API Key Created',
+        description: 'Your new API key has been created successfully.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['api-keys'] });
+      setNewKeyName('');
+      setSelectedScopes([]);
+      setExpiresIn('never');
+    },
+    onError: (error) => {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  // Revoke API key mutation
+  const revokeKeyMutation = useMutation({
+    mutationFn: async (keyId: string) => {
+      const { data, error } = await supabase
+        .rpc('revoke_api_key', { p_key_id: keyId });
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      toast({
+        title: 'API Key Revoked',
+        description: 'The API key has been revoked successfully.',
+      });
+      queryClient.invalidateQueries({ queryKey: ['api-keys'] });
+    },
+    onError: (error) => {
+      toast({
+        title: 'Error',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+
+  const handleScopeChange = (scope: string, checked: boolean) => {
+    if (checked) {
+      setSelectedScopes([...selectedScopes, scope]);
+    } else {
+      setSelectedScopes(selectedScopes.filter(s => s !== scope));
+    }
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: 'Copied',
+      description: 'API key copied to clipboard',
+    });
+  };
+
+  const toggleKeyVisibility = (keyId: string) => {
+    setShowApiKey(prev => ({ ...prev, [keyId]: !prev[keyId] }));
+  };
+
+  const currentUsage = rateLimitUsage?.reduce((sum, limit) => sum + limit.call_count, 0) || 0;
+  const usagePercentage = Math.min((currentUsage / 600) * 100, 100);
+
   return (
-    <div className="container mx-auto p-6 space-y-8">
-      {/* Header Section */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-          RESTful API Gateway + ERP Integration Hub
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Connect SanadHR with any ERP system, attendance tool, or enterprise application through our robust API gateway
-        </p>
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="flex items-center gap-3">
+        <Shield className="h-8 w-8 text-primary" />
+        <div>
+          <h1 className="text-3xl font-bold">API Gateway</h1>
+          <p className="text-muted-foreground">Manage API keys, monitor usage, and view audit logs</p>
+        </div>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-primary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">API Endpoints</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-brand-primary">247</div>
-              <div className="flex items-center gap-2 text-sm">
-                <Globe className="h-4 w-4 text-brand-primary" />
-                <span className="text-muted-foreground">Active integrations</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-secondary opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Daily Requests</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-brand-success">89.3K</div>
-              <div className="flex items-center gap-2 text-sm">
-                <Database className="h-4 w-4 text-brand-success" />
-                <span className="text-muted-foreground">Data exchanges</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-accent opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Success Rate</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-brand-accent">99.97%</div>
-              <div className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="h-4 w-4 text-brand-accent" />
-                <span className="text-muted-foreground">Reliability</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-hero opacity-10 rounded-full -translate-y-12 translate-x-12"></div>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base font-medium text-muted-foreground">Avg Response</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-brand-warning">0.3s</div>
-              <div className="flex items-center gap-2 text-sm">
-                <Clock className="h-4 w-4 text-brand-warning" />
-                <span className="text-muted-foreground">Lightning fast</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* ERP Integration Flow */}
-      <Card className="p-8">
-        <CardHeader className="text-center pb-6">
-          <CardTitle className="text-2xl flex items-center justify-center gap-2">
-            <Plug className="h-6 w-6 text-brand-primary" />
-            Universal ERP Integration Architecture
+      {/* Rate Limit Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="h-5 w-5" />
+            Rate Limit Status
           </CardTitle>
-          <CardDescription>How SanadHR connects with any ERP system or attendance tool</CardDescription>
+          <CardDescription>
+            Current usage: {currentUsage} / 600 calls per 5 minutes
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {/* Step 1 */}
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto">
-                <Database className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-lg">Data Mapping</h3>
-              <p className="text-sm text-muted-foreground">
-                Intelligent field mapping between your ERP system and SanadHR data structures
-              </p>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                Auto-Detection
-              </Badge>
-            </div>
-
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
-
-            {/* Step 2 */}
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto">
-                <Shield className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-lg">Secure Tunnel</h3>
-              <p className="text-sm text-muted-foreground">
-                Encrypted data transmission with OAuth 2.0, API keys, and webhook verification
-              </p>
-              <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
-                SSL/TLS Encrypted
-              </Badge>
-            </div>
-
-            <ArrowRight className="hidden md:block h-6 w-6 text-muted-foreground self-center justify-self-center" />
-
-            {/* Step 3 */}
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-gradient-accent rounded-full flex items-center justify-center mx-auto">
-                <Zap className="h-8 w-8 text-white" />
-              </div>
-              <h3 className="font-semibold text-lg">Real-Time Sync</h3>
-              <p className="text-sm text-muted-foreground">
-                Bidirectional data synchronization with conflict resolution and error handling
-              </p>
-              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200">
-                Instant Updates
-              </Badge>
-            </div>
+          <div className="w-full bg-secondary rounded-full h-3">
+            <div 
+              className={`h-3 rounded-full transition-all ${
+                usagePercentage > 80 ? 'bg-destructive' : 
+                usagePercentage > 60 ? 'bg-yellow-500' : 'bg-primary'
+              }`}
+              style={{ width: `${usagePercentage}%` }}
+            />
           </div>
+          <p className="text-sm text-muted-foreground mt-2">
+            {usagePercentage > 80 && 'Warning: Approaching rate limit'}
+            {usagePercentage <= 80 && usagePercentage > 60 && 'Moderate usage'}
+            {usagePercentage <= 60 && 'Normal usage'}
+          </p>
         </CardContent>
       </Card>
 
-      {/* Integration Tabs */}
-      <Tabs defaultValue="erp-systems" className="w-full">
+      <Tabs defaultValue="keys" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="erp-systems">ERP Systems</TabsTrigger>
-          <TabsTrigger value="attendance">Attendance Tools</TabsTrigger>
-          <TabsTrigger value="api-docs">API Documentation</TabsTrigger>
-          <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
+          <TabsTrigger value="keys">API Keys</TabsTrigger>
+          <TabsTrigger value="scopes">Scopes</TabsTrigger>
+          <TabsTrigger value="audit">Audit Logs</TabsTrigger>
+          <TabsTrigger value="pdpl">PDPL Report</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="erp-systems" className="space-y-6">
+
+        <TabsContent value="keys" className="space-y-6">
+          {/* Create New API Key */}
           <Card>
             <CardHeader>
-              <CardTitle>Supported ERP Systems</CardTitle>
-              <CardDescription>Pre-built connectors for major ERP platforms</CardDescription>
+              <CardTitle>Create New API Key</CardTitle>
+              <CardDescription>
+                Generate a new API key with specific scopes and permissions
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="keyName">Key Name</Label>
+                  <Input
+                    id="keyName"
+                    placeholder="My Application Key"
+                    value={newKeyName}
+                    onChange={(e) => setNewKeyName(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="expires">Expires In</Label>
+                  <Select value={expiresIn} onValueChange={setExpiresIn}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="never">Never</SelectItem>
+                      <SelectItem value="30">30 Days</SelectItem>
+                      <SelectItem value="90">90 Days</SelectItem>
+                      <SelectItem value="365">1 Year</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <Label>Scopes</Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {apiScopes?.map((scope) => (
+                    <div key={scope.scope_key} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={scope.scope_key}
+                        checked={selectedScopes.includes(scope.scope_key)}
+                        onCheckedChange={(checked) => 
+                          handleScopeChange(scope.scope_key, checked as boolean)
+                        }
+                      />
+                      <div className="grid gap-1.5 leading-none">
+                        <label
+                          htmlFor={scope.scope_key}
+                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        >
+                          {scope.scope_name}
+                        </label>
+                        <p className="text-xs text-muted-foreground">
+                          {scope.scope_description}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <Button 
+                onClick={() => createKeyMutation.mutate()}
+                disabled={!newKeyName || selectedScopes.length === 0 || createKeyMutation.isPending}
+                className="w-full"
+              >
+                <Key className="h-4 w-4 mr-2" />
+                {createKeyMutation.isPending ? 'Creating...' : 'Create API Key'}
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Existing API Keys */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Your API Keys</CardTitle>
+              <CardDescription>
+                Manage your existing API keys
+              </CardDescription>
             </CardHeader>
             <CardContent>
+              {keysLoading ? (
+                <div className="text-center py-8">Loading API keys...</div>
+              ) : apiKeys?.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No API keys found. Create your first API key above.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {apiKeys?.map((key) => (
+                    <div key={key.id} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold">{key.key_name}</h3>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge variant={key.is_active ? "default" : "secondary"}>
+                              {key.is_active ? 'Active' : 'Inactive'}
+                            </Badge>
+                            {key.expires_at && (
+                              <Badge variant="outline">
+                                Expires {format(new Date(key.expires_at), 'MMM dd, yyyy')}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => toggleKeyVisibility(key.id)}
+                          >
+                            {showApiKey[key.id] ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => copyToClipboard(key.api_key)}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => revokeKeyMutation.mutate(key.id)}
+                            disabled={!key.is_active}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="font-mono text-sm bg-muted p-2 rounded">
+                        {showApiKey[key.id] ? key.api_key : '•'.repeat(key.api_key.length)}
+                      </div>
+
+                      <div className="flex flex-wrap gap-1">
+                        {key.scopes.map((scope) => (
+                          <Badge key={scope} variant="secondary" className="text-xs">
+                            {scope}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="text-xs text-muted-foreground">
+                        Created: {format(new Date(key.created_at), 'MMM dd, yyyy HH:mm')}
+                        {key.last_used_at && (
+                          <span className="ml-4">
+                            Last used: {format(new Date(key.last_used_at), 'MMM dd, yyyy HH:mm')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="scopes">
+          <Card>
+            <CardHeader>
+              <CardTitle>Available Scopes</CardTitle>
+              <CardDescription>
+                API scopes define what actions can be performed with an API key
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4">
+                {apiScopes?.map((scope) => (
+                  <div key={scope.scope_key} className="border rounded-lg p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold">{scope.scope_name}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {scope.scope_description}
+                        </p>
+                      </div>
+                      <Badge variant="outline">{scope.scope_key}</Badge>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="audit">
+          <Card>
+            <CardHeader>
+              <CardTitle>API Audit Logs</CardTitle>
+              <CardDescription>
+                Last 100 API calls made to your endpoints
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {auditLogs?.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No API calls logged yet
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {auditLogs?.map((log) => (
+                    <div key={log.id} className="border rounded p-3 text-sm">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Badge 
+                            variant={log.response_status < 400 ? "default" : "destructive"}
+                            className="font-mono"
+                          >
+                            {log.response_status}
+                          </Badge>
+                          <span className="font-medium">{log.method}</span>
+                          <span className="font-mono">{log.endpoint}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <span>{log.response_time_ms}ms</span>
+                          <span>{format(new Date(log.created_at), 'HH:mm:ss')}</span>
+                        </div>
+                      </div>
+                      {log.ip_address && (
+                        <div className="mt-1 text-muted-foreground">
+                          From: {log.ip_address}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="pdpl">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                PDPL Compliance Report
+              </CardTitle>
+              <CardDescription>
+                Personal Data Protection Law compliance overview
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { name: "SAP Business One", status: "Active", integrations: 45 },
-                  { name: "Oracle NetSuite", status: "Active", integrations: 32 },
-                  { name: "Microsoft Dynamics", status: "Active", integrations: 28 },
-                  { name: "Odoo ERP", status: "Active", integrations: 67 },
-                  { name: "QuickBooks Enterprise", status: "Active", integrations: 89 },
-                  { name: "Sage X3", status: "Active", integrations: 23 }
-                ].map((erp, index) => (
-                  <div key={index} className="p-4 border rounded-lg space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h4 className="font-medium">{erp.name}</h4>
-                      <Badge variant="secondary" className="bg-green-50 text-green-700">
-                        {erp.status}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{erp.integrations} active connections</p>
-                  </div>
-                ))}
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">7 Years</div>
+                  <div className="text-sm text-muted-foreground">Default Retention</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">Saudi Arabia</div>
+                  <div className="text-sm text-muted-foreground">Data Residency</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">Compliant</div>
+                  <div className="text-sm text-muted-foreground">PDPL Status</div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
-        <TabsContent value="attendance" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Attendance System Connectors</CardTitle>
-              <CardDescription>Connect any attendance hardware or software</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {[
-                  { name: "Biometric Devices", types: "Fingerprint, Face Recognition, Iris Scanners", count: "1,247 devices" },
-                  { name: "Card Readers", types: "RFID, Magnetic Stripe, Smart Cards", count: "892 readers" },
-                  { name: "Mobile Apps", types: "iOS, Android, Web-based Apps", count: "156 apps" },
-                  { name: "Time Clocks", types: "Traditional Punch Clocks, Digital Terminals", count: "445 clocks" }
-                ].map((system, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <h4 className="font-medium">{system.name}</h4>
-                      <p className="text-sm text-muted-foreground">{system.types}</p>
-                    </div>
-                    <Badge variant="outline">{system.count}</Badge>
+              <div className="border rounded-lg p-4 space-y-3">
+                <h3 className="font-semibold">Data Classification Summary</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                  <div>
+                    <div className="font-medium">Public</div>
+                    <div className="text-muted-foreground">0 fields</div>
                   </div>
-                ))}
+                  <div>
+                    <div className="font-medium">Internal</div>
+                    <div className="text-muted-foreground">1 field</div>
+                  </div>
+                  <div>
+                    <div className="font-medium">Confidential</div>
+                    <div className="text-muted-foreground">2 fields</div>
+                  </div>
+                  <div>
+                    <div className="font-medium">Restricted</div>
+                    <div className="text-muted-foreground">2 fields</div>
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
-        <TabsContent value="api-docs" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>API Endpoints</CardTitle>
-              <CardDescription>RESTful APIs for seamless integration</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {[
-                  { endpoint: "POST /api/attendance/sync", description: "Sync attendance data from external systems", rate: "1000/hour" },
-                  { endpoint: "GET /api/employees/export", description: "Export employee data to ERP systems", rate: "500/hour" },
-                  { endpoint: "POST /api/payroll/import", description: "Import payroll data from external systems", rate: "200/hour" },
-                  { endpoint: "PUT /api/schedules/update", description: "Update work schedules from ERP", rate: "300/hour" }
-                ].map((api, index) => (
-                  <div key={index} className="p-4 border rounded-lg space-y-2">
-                    <div className="flex items-center justify-between">
-                      <code className="text-sm font-mono bg-muted px-2 py-1 rounded">{api.endpoint}</code>
-                      <Badge variant="outline">{api.rate}</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{api.description}</p>
-                  </div>
-                ))}
+              <div className="border rounded-lg p-4 space-y-3">
+                <h3 className="font-semibold">Compliance Notes</h3>
+                <ul className="text-sm space-y-1 text-muted-foreground">
+                  <li>• All personal data is stored within Saudi Arabia jurisdiction</li>
+                  <li>• Data retention policies comply with Saudi labor law (7 years)</li>
+                  <li>• Employee consent recorded for data processing</li>
+                  <li>• Regular security audits and access logging enabled</li>
+                  <li>• Data subject rights (access, rectification, erasure) supported</li>
+                </ul>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
-        <TabsContent value="webhooks" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Webhook Management</CardTitle>
-              <CardDescription>Real-time event notifications to your systems</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {[
-                  { event: "employee.checkin", description: "Employee check-in event", subscribers: 67 },
-                  { event: "employee.checkout", description: "Employee check-out event", subscribers: 67 },
-                  { event: "payroll.processed", description: "Payroll calculation completed", subscribers: 23 },
-                  { event: "schedule.updated", description: "Work schedule changes", subscribers: 45 }
-                ].map((webhook, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <code className="text-sm font-mono">{webhook.event}</code>
-                      <p className="text-sm text-muted-foreground">{webhook.description}</p>
-                    </div>
-                    <Badge variant="secondary">{webhook.subscribers} subscribers</Badge>
-                  </div>
-                ))}
-              </div>
+              <Button className="w-full">
+                <Download className="h-4 w-4 mr-2" />
+                Download PDPL Summary PDF
+              </Button>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-
-      {/* Action Center */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Integration Control Center</CardTitle>
-          <CardDescription>Manage your ERP and attendance system connections</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            <Button className="bg-gradient-primary hover:opacity-90">
-              <Plug className="h-4 w-4 mr-2" />
-              Add New Integration
-            </Button>
-            <Button variant="outline">
-              <Database className="h-4 w-4 mr-2" />
-              View API Documentation
-            </Button>
-            <Button variant="outline">
-              <Shield className="h-4 w-4 mr-2" />
-              Security Settings
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
