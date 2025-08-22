@@ -8135,6 +8135,51 @@ export type Database = {
         }
         Relationships: []
       }
+      plan_bundles: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          included_skus: string[]
+          is_active: boolean
+          is_popular: boolean
+          plan_code: string
+          plan_name: string
+          price_annual: number
+          price_monthly: number
+          trial_days: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          included_skus?: string[]
+          is_active?: boolean
+          is_popular?: boolean
+          plan_code: string
+          plan_name: string
+          price_annual?: number
+          price_monthly?: number
+          trial_days?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          included_skus?: string[]
+          is_active?: boolean
+          is_popular?: boolean
+          plan_code?: string
+          plan_name?: string
+          price_annual?: number
+          price_monthly?: number
+          trial_days?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       plan_features: {
         Row: {
           created_at: string | null
@@ -8438,6 +8483,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      sales_leads: {
+        Row: {
+          contact_email: string | null
+          contact_name: string | null
+          created_at: string
+          id: string
+          lead_type: string
+          message: string | null
+          metadata: Json | null
+          requested_plan: string | null
+          requested_sku: string | null
+          status: string
+          tenant_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          lead_type?: string
+          message?: string | null
+          metadata?: Json | null
+          requested_plan?: string | null
+          requested_sku?: string | null
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          id?: string
+          lead_type?: string
+          message?: string | null
+          metadata?: Json | null
+          requested_plan?: string | null
+          requested_sku?: string | null
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
       }
       saudi_activities: {
         Row: {
@@ -9318,37 +9411,43 @@ export type Database = {
       }
       sku_catalog: {
         Row: {
-          code: string
-          created_at: string | null
-          kind: string
-          meta: Json | null
-          module_group: string | null
-          monthly_sar: number | null
-          title: string
-          updated_at: string | null
-          yearly_sar: number | null
+          category: string
+          created_at: string
+          description: string | null
+          features: Json
+          id: string
+          is_active: boolean
+          price_annual: number
+          price_monthly: number
+          sku_code: string
+          sku_name: string
+          updated_at: string
         }
         Insert: {
-          code: string
-          created_at?: string | null
-          kind?: string
-          meta?: Json | null
-          module_group?: string | null
-          monthly_sar?: number | null
-          title: string
-          updated_at?: string | null
-          yearly_sar?: number | null
+          category: string
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          price_annual?: number
+          price_monthly?: number
+          sku_code: string
+          sku_name: string
+          updated_at?: string
         }
         Update: {
-          code?: string
-          created_at?: string | null
-          kind?: string
-          meta?: Json | null
-          module_group?: string | null
-          monthly_sar?: number | null
-          title?: string
-          updated_at?: string | null
-          yearly_sar?: number | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          features?: Json
+          id?: string
+          is_active?: boolean
+          price_annual?: number
+          price_monthly?: number
+          sku_code?: string
+          sku_name?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -9871,13 +9970,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tenant_entitlements_sku_code_fkey"
-            columns: ["sku_code"]
-            isOneToOne: false
-            referencedRelation: "sku_catalog"
-            referencedColumns: ["code"]
-          },
-          {
             foreignKeyName: "tenant_entitlements_tenant_fk"
             columns: ["tenant_id"]
             isOneToOne: false
@@ -9971,6 +10063,42 @@ export type Database = {
             referencedColumns: ["code"]
           },
         ]
+      }
+      tenant_trials: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          plan_code: string
+          requested_by: string | null
+          started_at: string
+          status: string
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          plan_code: string
+          requested_by?: string | null
+          started_at?: string
+          status?: string
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          plan_code?: string
+          requested_by?: string | null
+          started_at?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       tool_integrations: {
         Row: {
