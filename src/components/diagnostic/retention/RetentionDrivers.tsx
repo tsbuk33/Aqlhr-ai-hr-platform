@@ -27,7 +27,8 @@ export const RetentionDrivers: React.FC<Props> = ({
           description: lang === 'ar' 
             ? "العوامل الأكثر تأثيراً على مخاطر ترك الموظفين" 
             : "Factors with highest impact on employee turnover risk",
-          globalDrivers: lang === 'ar' ? "المحركات العامة" : "Global Risk Drivers"
+          globalDrivers: lang === 'ar' ? "المحركات العامة" : "Global Risk Drivers",
+          tableSubtitle: lang === 'ar' ? "تفصيل العوامل وتأثيرها" : "Detailed breakdown of risk factors and their impact"
         },
         grid: {
           factor: lang === 'ar' ? "العامل" : "Factor",
@@ -37,6 +38,9 @@ export const RetentionDrivers: React.FC<Props> = ({
         ui: {
           noData: lang === 'ar' ? "لا توجد بيانات حتى الآن" : "No data yet",
           loading: lang === 'ar' ? "جاري التحميل..." : "Loading..."
+        },
+        labels: {
+          employees: lang === 'ar' ? 'موظف' : 'employees'
         },
         factors: {
           low_tenure: lang === 'ar' ? "فترة خدمة قصيرة" : "Low Tenure",
@@ -136,7 +140,7 @@ export const RetentionDrivers: React.FC<Props> = ({
         <CardHeader>
           <CardTitle>{t('retention.drivers.globalDrivers')}</CardTitle>
           <CardDescription>
-            Detailed breakdown of risk factors and their impact
+            {t('retention.drivers.tableSubtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>

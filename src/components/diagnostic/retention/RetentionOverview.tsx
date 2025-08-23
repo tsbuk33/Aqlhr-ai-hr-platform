@@ -42,7 +42,13 @@ export const RetentionOverview: React.FC<Props> = ({
       'retention.ui.hotspots': lang === 'ar' ? "النقاط الساخنة" : "Risk Hotspots",
       'retention.ui.pdplNotice': lang === 'ar' 
         ? "عرض مجمّع. تفاصيل الموظفين تتطلب صلاحيات الإدارة." 
-        : "Aggregated view. Employee details require admin access."
+        : "Aggregated view. Employee details require admin access.",
+      'retention.section.riskDist.title': lang === 'ar' ? 'توزيع المخاطر' : 'Risk Distribution',
+      'retention.section.riskDist.desc': lang === 'ar' ? 'توزيع شرائح المخاطر عبر جميع الموظفين' : 'Current risk band distribution across all employees',
+      'retention.labels.highRisk': lang === 'ar' ? 'مخاطر عالية' : 'High Risk',
+      'retention.labels.medRisk': lang === 'ar' ? 'مخاطر متوسطة' : 'Medium Risk',
+      'retention.labels.lowRisk': lang === 'ar' ? 'مخاطر منخفضة' : 'Low Risk',
+      'retention.section.hotspots.desc': lang === 'ar' ? 'الأقسام ذات أعلى مخاطر الاحتفاظ (فقط المجموعات التي تضم 7 موظفين أو أكثر)' : 'Departments with highest retention risk (groups with 7+ employees only)'
     };
 
     return translations[key] || key;
@@ -85,7 +91,7 @@ export const RetentionOverview: React.FC<Props> = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
@@ -138,9 +144,9 @@ export const RetentionOverview: React.FC<Props> = ({
       {/* Risk Distribution */}
       <Card>
         <CardHeader>
-          <CardTitle>Risk Distribution</CardTitle>
+          <CardTitle>{t('retention.section.riskDist.title')}</CardTitle>
           <CardDescription>
-            Current risk band distribution across all employees
+            {t('retention.section.riskDist.desc')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -149,19 +155,19 @@ export const RetentionOverview: React.FC<Props> = ({
               <div className="text-2xl font-bold text-destructive">
                 {overview.pct_high.toFixed(1)}%
               </div>
-              <div className="text-sm text-muted-foreground">High Risk</div>
+              <div className="text-sm text-muted-foreground">{t('retention.labels.highRisk')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-warning">
                 {overview.pct_med.toFixed(1)}%
               </div>
-              <div className="text-sm text-muted-foreground">Medium Risk</div>
+              <div className="text-sm text-muted-foreground">{t('retention.labels.medRisk')}</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-success">
                 {overview.pct_low.toFixed(1)}%
               </div>
-              <div className="text-sm text-muted-foreground">Low Risk</div>
+              <div className="text-sm text-muted-foreground">{t('retention.labels.lowRisk')}</div>
             </div>
           </div>
         </CardContent>
@@ -173,7 +179,7 @@ export const RetentionOverview: React.FC<Props> = ({
           <div>
             <CardTitle>{t('retention.ui.hotspots')}</CardTitle>
             <CardDescription>
-              Departments with highest retention risk (groups with 7+ employees only)
+              {t('retention.section.hotspots.desc')}
             </CardDescription>
           </div>
           <Button onClick={recompute} size="sm" variant="outline">
