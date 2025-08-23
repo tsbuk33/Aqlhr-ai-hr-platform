@@ -21,7 +21,7 @@ const NotFound = () => {
         <p className="text-xl text-muted-foreground mb-6 max-w-lg mx-auto">
           {isArabic ? 'عذراً! الصفحة غير موجودة' : 'Oops! Page not found'}
         </p>
-        <Link to="/" className="text-primary hover:text-primary/80 underline text-lg">
+        <Link to={`/${language}`} className="text-primary hover:text-primary/80 underline text-lg">
           {isArabic ? 'العودة إلى الصفحة الرئيسية' : 'Return to Home'}
         </Link>
       </div>

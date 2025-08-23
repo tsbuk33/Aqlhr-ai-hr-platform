@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { getCurrentLang } from '@/lib/i18n/localeDriver';
 import {
   LayoutDashboard,
   Calendar,
@@ -37,6 +38,8 @@ const employeeItems = [
 export const EmployeeSidebar: React.FC = () => {
   const { open } = useSidebar();
   const location = useLocation();
+  const currentLang = getCurrentLang();
+  const toLocalized = (url: string) => (url === '/' ? `/${currentLang}` : `/${currentLang}${url}`);
 
   return (
     <Sidebar className={open ? "w-60" : "w-14"}>
@@ -49,7 +52,8 @@ export const EmployeeSidebar: React.FC = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
-                      to={item.url}
+                      to={toLocalized(item.url)
+                      }
                       className={({ isActive }) =>
                         isActive
                           ? "bg-primary text-primary-foreground font-medium"

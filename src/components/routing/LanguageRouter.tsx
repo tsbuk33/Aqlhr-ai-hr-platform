@@ -43,6 +43,18 @@ const RootRedirect: React.FC = () => {
  * Main language router component that handles prefixed routes
  */
 export const LanguageRouter: React.FC = () => {
+  // Local component to preserve the path when redirecting legacy (non-prefixed) routes
+  const LegacyRedirectPreserve: React.FC = () => {
+    const location = useLocation();
+    const resolvedLang = localeDriver.resolveLang();
+    // If already prefixed, do nothing (safety)
+    const alreadyPrefixed = /^\/(en|ar)\//.test(location.pathname + '/');
+    if (alreadyPrefixed) {
+      return <Navigate to={location.pathname + location.search} replace />;
+    }
+    return <Navigate to={`/${resolvedLang}${location.pathname}${location.search}`} replace />;
+  };
+
   return (
     <Routes>
       {/* Catch-all redirect from root to language-prefixed route */}
@@ -58,10 +70,8 @@ export const LanguageRouter: React.FC = () => {
         } 
       />
       
-      {/* Legacy routes without language prefix - redirect to language version */}
-      <Route path="/dashboard" element={<Navigate to={`/${localeDriver.getLang()}/dashboard`} replace />} />
-      <Route path="/cci/*" element={<Navigate to={`/${localeDriver.getLang()}/cci/*`} replace />} />
-      <Route path="/core-hr/*" element={<Navigate to={`/${localeDriver.getLang()}/core-hr/*`} replace />} />
+      {/* Generic legacy routes without language prefix - preserve path */}
+      <Route path="/*" element={<LegacyRedirectPreserve />} />
       
       {/* Fallback for any other routes - redirect to resolved language */}
       <Route path="*" element={<RootRedirect />} />
