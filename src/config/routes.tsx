@@ -280,7 +280,7 @@ export interface RouteConfig {
 const I18nTest = lazy(() => import('../pages/_/I18nTest'));
 
 // Health Page
-const HealthPage = lazy(() => import('../pages/_/HealthPage'));
+const HealthPage = lazy(() => import('../pages/__/Health'));
 
 export const ROUTES: RouteConfig[] = [
   // Root dashboard route

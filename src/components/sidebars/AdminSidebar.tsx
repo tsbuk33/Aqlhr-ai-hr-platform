@@ -37,6 +37,7 @@ const adminItems = [
   { title: 'Reports', url: '/reports', icon: FileText },
   { title: 'User Roles', url: '/user-roles', icon: UserCheck },
   { title: 'Company Settings', url: '/company-settings', icon: Settings },
+  { title: 'System Health', url: '/_/health', icon: Shield },
 ];
 
 export const AdminSidebar: React.FC = () => {
