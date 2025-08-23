@@ -4,7 +4,7 @@ import {
   Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown,
   Settings, Shield, Scale, Award, HelpCircle, Heart, BarChart3, Briefcase,
   Building2, Zap, Brain, Globe, FileCheck, Wrench, GraduationCap, TrendingUp,
-  Star, Sparkles, Activity, Crown
+  Star, Sparkles, Activity, Crown, Microscope
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -159,6 +159,23 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "التحول الرقمي للموارد البشرية" : "HR Transformation", url: "/strategic/hr-transformation" },
       { title: isArabic ? "إدارة التغيير" : "Change Management", url: "/strategic/change-management" },
       { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
+    ]
+  },
+  // Diagnostic Framework
+  { 
+    title: isArabic ? "إطار التشخيص" : "Diagnostic Framework", url: "/diagnostic", icon: Microscope, badge: "11", color: "blue",
+    subItems: [
+      { title: isArabic ? "ذكاء الثقافة المؤسسية" : "Corporate Culture Intelligence", url: "/cci/overview" },
+      { title: isArabic ? "استراتيجية الاحتفاظ" : "Retention Strategy", url: "/diagnostic/retention" },
+      { title: isArabic ? "تحليل الفجوات" : "Gap Analysis", url: "/diagnostic/gap-analysis" },
+      { title: isArabic ? "تحليل القوى العاملة" : "Workforce Analytics", url: "/diagnostic/workforce" },
+      { title: isArabic ? "مؤشرات الأداء" : "Performance Metrics", url: "/diagnostic/performance" },
+      { title: isArabic ? "تحليل التعويضات" : "Compensation Analysis", url: "/diagnostic/compensation" },
+      { title: isArabic ? "تحليل المخاطر" : "Risk Analysis", url: "/diagnostic/risk" },
+      { title: isArabic ? "تحليل الامتثال" : "Compliance Analysis", url: "/diagnostic/compliance" },
+      { title: isArabic ? "تحليل المشاركة" : "Engagement Analysis", url: "/diagnostic/engagement" },
+      { title: isArabic ? "تحليل الإنتاجية" : "Productivity Analysis", url: "/diagnostic/productivity" },
+      { title: isArabic ? "تحليل التنوع" : "Diversity Analysis", url: "/diagnostic/diversity" },
     ]
   },
   // Test & Validation

@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCCIOverview } from '@/hooks/useCCIOverview';
+import { useLocale } from '@/i18n/locale';
 import { 
   Activity, 
   TrendingUp, 
@@ -23,7 +24,8 @@ import {
 } from 'lucide-react';
 
 const Overview: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   
   // TODO: Get these from context/routing in real implementation
   const tenantId = "00000000-0000-0000-0000-000000000000"; // placeholder
