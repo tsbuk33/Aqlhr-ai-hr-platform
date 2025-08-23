@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter } from 'react-router-dom';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
@@ -35,16 +34,12 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   return (
     <LocaleProvider>
       <ThemeProvider>
-        <TooltipProvider>
-          <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-              <BrowserRouter>
-                {children}
-              </BrowserRouter>
-            </AuthProvider>
-            <Toaster />
-          </QueryClientProvider>
-        </TooltipProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+          <Toaster />
+        </QueryClientProvider>
       </ThemeProvider>
     </LocaleProvider>
   );

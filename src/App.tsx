@@ -1,24 +1,16 @@
-import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import { AppProviders } from '@/components/providers/AppProviders';
-import { LayoutShell } from '@/components/layout/LayoutShell';
-import LanguageRouter from '@/components/routing/LanguageRouter';
-import { LoadingScreen } from '@/components/common/LoadingScreen';
+import AppRoutes from '@/components/routing/AppRoutes';
 import { RootErrorBoundary } from '@/components/system/RootErrorBoundary';
-import { NotFoundWatcher } from '@/components/core/404Watcher';
 
-const App: React.FC = () => {
+export default function App() {
   return (
-    <AppProviders>
-      <RootErrorBoundary>
-        <LayoutShell>
-          <React.Suspense fallback={<LoadingScreen />}>
-            <LanguageRouter />
-            <NotFoundWatcher />
-          </React.Suspense>
-        </LayoutShell>
-      </RootErrorBoundary>
-    </AppProviders>
+    <RootErrorBoundary>
+      <BrowserRouter>
+        <AppProviders>
+          <AppRoutes />
+        </AppProviders>
+      </BrowserRouter>
+    </RootErrorBoundary>
   );
-};
-
-export default App;
+}

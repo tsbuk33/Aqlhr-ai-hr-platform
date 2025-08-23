@@ -1,60 +1,56 @@
-import React from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { ROUTES } from '@/config/routes';
-import MainLayout from '@/components/layout/MainLayout';
-import NotFound from '@/pages/NotFound';
-import AuthPage from '@/pages/AuthPage';
-import AuthCallback from '@/pages/auth/AuthCallback';
-import Survey from '@/pages/cci/Survey';
-import SurveyThanks from '@/pages/cci/SurveyThanks';
-import Respond from '@/pages/cci/Respond';
-import CCIAdminLinks from '@/pages/cci/admin/Links';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import LanguageLayout from './LanguageLayout';
+import DashboardPage from '@/pages/Dashboard';
+import { OSIOverview } from '@/components/diagnostic/OSIOverview';
+import RetentionPage from '@/pages/diagnostic/Retention';
 import DiagnosticHub from '@/pages/diagnostic/Hub';
-import OSI from '@/pages/diagnostic/OSI';
-import Retention from '@/pages/diagnostic/Retention';
-import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
-import RequireTenant from '@/components/guards/RequireTenant';
+
+// Tiny utilities (inline to avoid extra files)
+function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
+function NotFound() {
+  const { pathname } = useLocation();
+  return <div style={{padding:16}}>404 — No route for <b>{pathname}</b></div>;
+}
+
+// Helper to infer current lang for legacy redirects
+function currentLang(): 'en'|'ar' {
+  const seg = window.location.pathname.split('/')[1];
+  return seg === 'ar' ? 'ar' : 'en';
+}
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route element={<MainLayout />}>
-        {/* Index under :lang/* */}
+      {/* root → lang root */}
+      <Route path="/" element={<Navigate to={`/${currentLang()}`} replace />} />
+
+      {/* legacy (no lang prefix) redirects */}
+      <Route path="/dashboard" element={<Navigate to={`/${currentLang()}/dashboard`} replace />} />
+      <Route path="/diagnostic/retention/*" element={<Navigate to={`/${currentLang()}/diagnostic/retention`} replace />} />
+      <Route path="/diagnostic/osi/*" element={<Navigate to={`/${currentLang()}/diagnostic/osi`} replace />} />
+      <Route path="/diagnostic/hub" element={<Navigate to={`/${currentLang()}/diagnostic/hub`} replace />} />
+
+      {/* localized tree */}
+      <Route path="/:lang" element={<LanguageLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
-        
-        {/* Public routes without authentication */}
-        <Route path="auth" element={<AuthPage />} />
-        <Route path="auth/callback" element={<AuthCallback />} />
-        <Route path="cci/survey" element={<Survey />} />
-        <Route path="cci/survey/thanks" element={<SurveyThanks />} />
-        <Route path="cci/respond" element={<Respond />} />
-        <Route path="cci/admin/links" element={<CCIAdminLinks />} />
-        
-        {/* Diagnostic routes with tenant requirement */}
-        <Route path="diagnostic" element={<RequireTenant><Outlet /></RequireTenant>}>
+        <Route path="dashboard" element={<DashboardPage />} />
+
+        {/* smoke / health */}
+        <Route path="_/ping" element={<Ping />} />
+
+        {/* diagnostic */}
+        <Route path="diagnostic">
           <Route path="hub" element={<DiagnosticHub />} />
-          <Route path="osi" element={<OSI />} />
-          <Route path="retention" element={<Retention />} />
-          <Route path="org-structure-intelligence" element={<OrgStructureIntelligence />} />
+          <Route path="retention" element={<RetentionPage />} />
+          <Route path="osi" element={<OSIOverview />} />
         </Route>
-        
-        {/* Main application routes - all relative paths */}
-        {ROUTES.map((route) => {
-          const Component = route.element;
-          // Ensure all paths are relative (no leading slash)
-          const nestedPath = route.path.startsWith('/') ? route.path.slice(1) : route.path;
-          return (
-            <Route
-              key={route.path}
-              path={nestedPath}
-              element={<Component />}
-            />
-          );
-        })}
-        
-        {/* Catch-all redirect to dashboard */}
-        <Route path="*" element={<Navigate to="dashboard" replace />} />
+
+        {/* 404 for localized space */}
+        <Route path="*" element={<NotFound />} />
       </Route>
+
+      {/* global 404 */}
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
