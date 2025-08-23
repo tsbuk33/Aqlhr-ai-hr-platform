@@ -169,6 +169,7 @@ const HRRoleOptimization = lazy(() => import('../pages/diagnostic/HRRoleOptimiza
 const HRValueChainAnalysis = lazy(() => import('../pages/diagnostic/HRValueChainAnalysis'));
 const OrgStructureAssessment = lazy(() => import('../pages/diagnostic/OrgStructureAssessment'));
 import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
+const OSI = lazy(() => import('../pages/diagnostic/OSI'));
 import RetentionEarlyWarning from '@/pages/diagnostic/RetentionEarlyWarning';
 import LearningOptimization from '@/pages/diagnostic/LearningOptimization';
 import EngagementOptimization from '@/pages/diagnostic/EngagementOptimization';
@@ -406,7 +407,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/diagnostic/hr-value-chain', element: HRValueChainAnalysis, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-assessment', element: OrgStructureAssessment, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-intelligence', element: OrgStructureIntelligence, auth: true, adminOnly: true },
-  { path: '/diagnostic/osi', element: OrgStructureIntelligence, auth: true, adminOnly: true },
+  { path: '/diagnostic/osi', element: OSI, auth: true, adminOnly: true },
   { path: '/diagnostic/retention', element: RetentionEarlyWarning, auth: true, adminOnly: true },
   { path: '/diagnostic/learning', element: LearningOptimization, auth: true, adminOnly: true },
   { path: '/diagnostic/engagement', element: EngagementOptimization, auth: true, adminOnly: true },

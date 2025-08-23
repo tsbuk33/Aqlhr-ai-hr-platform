@@ -59,7 +59,7 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
     try {
       setLoading(true);
       const { data: osiData, error } = await supabase
-        .rpc('osi_get_overview_v1', { p_case_id: caseId });
+        .rpc('osi_get_overview_v1', { p_tenant: caseId });
 
       if (error) throw error;
       setData(osiData as unknown as OSIData);

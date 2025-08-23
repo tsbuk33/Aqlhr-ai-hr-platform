@@ -44,7 +44,7 @@ export const OSISaudizationLayer = ({ caseId }: OSISaudizationLayerProps) => {
       
       // Get OSI overview for overall saudization
       const { data: overview, error: overviewError } = await supabase
-        .rpc('osi_get_overview_v1', { p_case_id: caseId });
+        .rpc('osi_get_overview_v1', { p_tenant: caseId });
 
       if (overviewError) throw overviewError;
       
