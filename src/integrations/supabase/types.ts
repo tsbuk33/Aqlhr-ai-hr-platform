@@ -4985,6 +4985,13 @@ export type Database = {
             foreignKeyName: "hr_attendance_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
             referencedRelation: "v_costs"
             referencedColumns: ["employee_id"]
           },
@@ -5068,6 +5075,7 @@ export type Database = {
           last_name: string | null
           location_id: string | null
           manager_id: string | null
+          monthly_salary: number | null
           nationality: string | null
           nationality_code: string
           termination_date: string | null
@@ -5097,6 +5105,7 @@ export type Database = {
           last_name?: string | null
           location_id?: string | null
           manager_id?: string | null
+          monthly_salary?: number | null
           nationality?: string | null
           nationality_code: string
           termination_date?: string | null
@@ -5126,6 +5135,7 @@ export type Database = {
           last_name?: string | null
           location_id?: string | null
           manager_id?: string | null
+          monthly_salary?: number | null
           nationality?: string | null
           nationality_code?: string
           termination_date?: string | null
@@ -5165,6 +5175,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
           },
           {
             foreignKeyName: "hr_employees_manager_id_fkey"
@@ -5280,6 +5297,13 @@ export type Database = {
             foreignKeyName: "hr_leaves_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
             referencedRelation: "v_costs"
             referencedColumns: ["employee_id"]
           },
@@ -5352,6 +5376,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
           },
           {
             foreignKeyName: "hr_training_employee_id_fkey"
@@ -7489,6 +7520,33 @@ export type Database = {
           max_layers?: number
           target_cost_to_manage?: number
           target_span?: number
+        }
+        Relationships: []
+      }
+      osi_settings: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          saudi_target: number | null
+          span_max: number | null
+          span_min: number | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          saudi_target?: number | null
+          span_max?: number | null
+          span_min?: number | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          saudi_target?: number | null
+          span_max?: number | null
+          span_min?: number | null
+          tenant_id?: string
         }
         Relationships: []
       }
@@ -11540,6 +11598,43 @@ export type Database = {
           },
         ]
       }
+      org_hierarchy_v1: {
+        Row: {
+          full_name_ar: string | null
+          full_name_en: string | null
+          id: string | null
+          is_saudi: boolean | null
+          layer: number | null
+          manager_id: string | null
+          monthly_salary: number | null
+          nationality: string | null
+          tenant_id: string | null
+        }
+        Relationships: []
+      }
+      osi_layers_mv_v1: {
+        Row: {
+          avg_salary: number | null
+          headcount: number | null
+          layer: number | null
+          saudi_headcount: number | null
+          saudization_rate: number | null
+          tenant_id: string | null
+          total_salary: number | null
+        }
+        Relationships: []
+      }
+      osi_span_v1: {
+        Row: {
+          direct_reports: number | null
+          full_name_ar: string | null
+          full_name_en: string | null
+          layer: number | null
+          manager_id: string | null
+          tenant_id: string | null
+        }
+        Relationships: []
+      }
       v_costs: {
         Row: {
           employee_id: string | null
@@ -11675,6 +11770,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "hr_employees"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
           },
           {
             foreignKeyName: "hr_employees_manager_id_fkey"
@@ -12279,9 +12381,55 @@ export type Database = {
           span_avg: number
         }[]
       }
+      osi_get_layers_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          avg_salary: number
+          headcount: number
+          layer: number
+          saudi_headcount: number
+          saudization_rate: number
+          total_salary: number
+        }[]
+      }
       osi_get_overview_v1: {
-        Args: { p_case_id: string }
-        Returns: Json
+        Args: { p_tenant: string }
+        Returns: {
+          critical_layers: number
+          highest_saudi_layer: number
+          layers_meeting_target: number
+          management_cost: number
+          span_outliers_high: number
+          span_outliers_low: number
+          total_layers: number
+        }[]
+      }
+      osi_get_settings_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          saudi_target: number
+          span_max: number
+          span_min: number
+        }[]
+      }
+      osi_get_span_outliers_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          direct_reports: number
+          full_name_ar: string
+          full_name_en: string
+          layer: number
+          manager_id: string
+          severity: string
+        }[]
+      }
+      osi_refresh_v1: {
+        Args: { p_tenant: string }
+        Returns: undefined
+      }
+      osi_seed_demo_data_v1: {
+        Args: { p_tenant: string }
+        Returns: undefined
       }
       pdpl_redact: {
         Args: { input_text: string }
