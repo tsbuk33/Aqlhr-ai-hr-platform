@@ -5,7 +5,7 @@ import { Download, FileText, Presentation, Table } from "lucide-react";
 import { getLang } from '@/lib/i18n/getLang';
 import { RetentionOverview, RetentionHotspot, RetentionDriver, RetentionWatchlistItem } from '@/hooks/useRetention';
 import { useToast } from '@/hooks/use-toast';
-import { useAuthOptional } from '@/lib/auth/useAuthOptional';
+import { useUserRole } from '@/hooks/useUserRole';
 
 interface Props {
   overview: RetentionOverview | null;
@@ -27,7 +27,7 @@ export const RetentionExport: React.FC<Props> = ({
   const lang = getLang();
   const isRTL = lang === 'ar';
   const { toast } = useToast();
-  const { hasAnyRole } = useAuthOptional();
+  const { hasAnyRole } = useUserRole();
   const isAdmin = hasAnyRole(['admin', 'hr_manager', 'super_admin']);
 
   const t = (key: string) => {

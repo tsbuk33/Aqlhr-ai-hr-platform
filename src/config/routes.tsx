@@ -164,6 +164,7 @@ const MultiViewDashboards = lazy(() => import('../pages/welfare-safety/MultiView
 
 // Diagnostic Framework modules
 const RetentionStrategyAssessment = lazy(() => import('../pages/diagnostic/RetentionStrategyAssessment'));
+const Retention = lazy(() => import('../pages/diagnostic/Retention'));
 const HRProcessImprovement = lazy(() => import('../pages/diagnostic/HRProcessImprovement'));
 const HRRoleOptimization = lazy(() => import('../pages/diagnostic/HRRoleOptimization'));
 const HRValueChainAnalysis = lazy(() => import('../pages/diagnostic/HRValueChainAnalysis'));
@@ -408,7 +409,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/diagnostic/org-structure-assessment', element: OrgStructureAssessment, auth: true, adminOnly: true },
   { path: '/diagnostic/org-structure-intelligence', element: OrgStructureIntelligence, auth: true, adminOnly: true },
   { path: '/diagnostic/osi', element: OSI, auth: true, adminOnly: true },
-  { path: '/diagnostic/retention', element: RetentionEarlyWarning, auth: true, adminOnly: true },
+  { path: '/diagnostic/retention', element: Retention, auth: true, adminOnly: true },
   { path: '/diagnostic/learning', element: LearningOptimization, auth: true, adminOnly: true },
   { path: '/diagnostic/engagement', element: EngagementOptimization, auth: true, adminOnly: true },
   { path: '/diagnostic/culture-change', element: CultureChangeTracker, auth: true, adminOnly: true },

@@ -24,41 +24,28 @@ export const RetentionOverview: React.FC<Props> = ({
   const lang = getLang();
   const isRTL = lang === 'ar';
 
-  const t = (key: string) => {
-    const translations: Record<string, Record<string, string>> = {
-      retention: {
-        kpi: {
-          avgRisk: lang === 'ar' ? "متوسط الخطر" : "Avg Risk",
-          pctHigh: lang === 'ar' ? "٪ عالي الخطر" : "% High Risk",
-          pctMed: lang === 'ar' ? "٪ متوسط الخطر" : "% Medium Risk",
-          pctLow: lang === 'ar' ? "٪ منخفض الخطر" : "% Low Risk",
-          totalEmployees: lang === 'ar' ? "إجمالي الموظفين" : "Total Employees",
-          targetTurnover: lang === 'ar' ? "معدل الدوران المستهدف" : "Target Turnover"
-        },
-        grid: {
-          department: lang === 'ar' ? "القسم" : "Department",
-          n: lang === 'ar' ? "العدد" : "N",
-          avgRisk: lang === 'ar' ? "متوسط الخطر" : "Avg Risk",
-          pctHigh: lang === 'ar' ? "٪ مرتفع" : "% High"
-        },
-        ui: {
-          recompute: lang === 'ar' ? "إعادة احتساب" : "Recompute",
-          noData: lang === 'ar' ? "لا توجد بيانات حتى الآن" : "No data yet",
-          loading: lang === 'ar' ? "جاري التحميل..." : "Loading...",
-          hotspots: lang === 'ar' ? "النقاط الساخنة" : "Risk Hotspots",
-          pdplNotice: lang === 'ar' 
-            ? "عرض مجمّع. تفاصيل الموظفين تتطلب صلاحيات الإدارة." 
-            : "Aggregated view. Employee details require admin access."
-        }
-      }
+  const t = (key: string): string => {
+    const translations: Record<string, any> = {
+      'retention.kpi.avgRisk': lang === 'ar' ? "متوسط الخطر" : "Avg Risk",
+      'retention.kpi.pctHigh': lang === 'ar' ? "٪ عالي الخطر" : "% High Risk",
+      'retention.kpi.pctMed': lang === 'ar' ? "٪ متوسط الخطر" : "% Medium Risk", 
+      'retention.kpi.pctLow': lang === 'ar' ? "٪ منخفض الخطر" : "% Low Risk",
+      'retention.kpi.totalEmployees': lang === 'ar' ? "إجمالي الموظفين" : "Total Employees",
+      'retention.kpi.targetTurnover': lang === 'ar' ? "معدل الدوران المستهدف" : "Target Turnover",
+      'retention.grid.department': lang === 'ar' ? "القسم" : "Department",
+      'retention.grid.n': lang === 'ar' ? "العدد" : "N",
+      'retention.grid.avgRisk': lang === 'ar' ? "متوسط الخطر" : "Avg Risk",
+      'retention.grid.pctHigh': lang === 'ar' ? "٪ مرتفع" : "% High",
+      'retention.ui.recompute': lang === 'ar' ? "إعادة احتساب" : "Recompute",
+      'retention.ui.noData': lang === 'ar' ? "لا توجد بيانات حتى الآن" : "No data yet",
+      'retention.ui.loading': lang === 'ar' ? "جاري التحميل..." : "Loading...",
+      'retention.ui.hotspots': lang === 'ar' ? "النقاط الساخنة" : "Risk Hotspots",
+      'retention.ui.pdplNotice': lang === 'ar' 
+        ? "عرض مجمّع. تفاصيل الموظفين تتطلب صلاحيات الإدارة." 
+        : "Aggregated view. Employee details require admin access."
     };
 
-    const keys = key.split('.');
-    let value: any = translations;
-    for (const k of keys) {
-      value = value?.[k];
-    }
-    return value || key;
+    return translations[key] || key;
   };
 
   const getRiskColor = (risk: number) => {

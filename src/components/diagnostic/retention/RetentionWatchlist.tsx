@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Users, MessageSquare } from "lucide-react";
 import { getLang } from '@/lib/i18n/getLang';
-import { useAuthOptional } from '@/lib/auth/useAuthOptional';
+import { useUserRole } from '@/hooks/useUserRole';
 import { RetentionWatchlistItem } from '@/hooks/useRetention';
 
 interface Props {
@@ -20,7 +20,7 @@ export const RetentionWatchlist: React.FC<Props> = ({
 }) => {
   const lang = getLang();
   const isRTL = lang === 'ar';
-  const { user, hasRole, hasAnyRole } = useAuthOptional();
+  const { hasAnyRole } = useUserRole();
   
   const isAdmin = hasAnyRole(['admin', 'hr_manager', 'super_admin']);
 
