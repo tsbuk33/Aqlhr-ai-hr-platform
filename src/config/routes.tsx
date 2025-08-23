@@ -279,6 +279,9 @@ export interface RouteConfig {
 // I18n Test Page
 const I18nTest = lazy(() => import('../pages/_/I18nTest'));
 
+// Health Page
+const HealthPage = lazy(() => import('../pages/_/HealthPage'));
+
 export const ROUTES: RouteConfig[] = [
   // Root dashboard route
   { path: '/', element: DashboardPage, auth: true },
@@ -578,4 +581,7 @@ export const ROUTES: RouteConfig[] = [
   
   // I18n Test Page
   { path: '/_/i18n', element: I18nTest, auth: false },
+  
+  // System health monitoring  
+  { path: '/_/health', element: HealthPage, auth: true },
 ];

@@ -24,14 +24,14 @@ export const useEntitlement = (feature: string): EntitlementResult => {
 
       // Use the secure RPC function to check entitlement
       const { data: allowed, error: rpcError } = await supabase
-        .rpc('core_is_allowed', { p_feature: feature });
+        .rpc('core_is_allowed' as any, { p_feature: feature });
 
       if (rpcError) {
         console.error('Entitlement check error:', rpcError);
         throw rpcError;
       }
 
-      return { allowed: allowed || false };
+      return { allowed: Boolean(allowed) };
     },
     enabled: !!companyId && !!feature,
     staleTime: 5 * 60 * 1000, // Cache for 5 minutes
@@ -65,9 +65,9 @@ export const useMultipleEntitlements = (features: string[]) => {
       // Check each feature
       for (const feature of features) {
         const { data: allowed } = await supabase
-          .rpc('core_is_allowed', { p_feature: feature });
+          .rpc('core_is_allowed' as any, { p_feature: feature });
         
-        results[feature] = allowed || false;
+        results[feature] = Boolean(allowed);
       }
 
       return results;

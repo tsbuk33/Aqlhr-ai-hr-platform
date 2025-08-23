@@ -86,3 +86,6 @@ verify_jwt = false
 
 [functions.compliance-letter-generator]
 verify_jwt = false
+
+[functions.kernel-worker-v1]
+verify_jwt = false

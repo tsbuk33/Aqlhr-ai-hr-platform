@@ -17,15 +17,15 @@ const HealthPage: React.FC = () => {
 
       // Parallel health checks
       const [jobsResult, auditResult, latencyStart] = await Promise.all([
-        // Job queue health
-        supabase
+        // Job queue health - use any type for new table
+        (supabase as any)
           .from('job_queue')
           .select('status, created_at, attempts')
           .order('created_at', { ascending: false })
           .limit(100),
         
-        // Recent audit events
-        supabase
+        // Recent audit events - use any type for new table
+        (supabase as any)
           .from('audit_log')
           .select('created_at, action, entity')
           .order('created_at', { ascending: false })
