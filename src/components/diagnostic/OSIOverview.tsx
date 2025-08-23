@@ -1,188 +1,112 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
-import { useToast } from "@/hooks/use-toast";
-import { useEntitlement } from "@/hooks/useEntitlement";
-import { supabase } from "@/integrations/supabase/client";
-import { 
-  Users, 
-  TrendingUp, 
-  Layers, 
-  DollarSign, 
-  AlertTriangle,
-  CheckCircle,
-  PlayCircle,
-  FileText
-} from "lucide-react";
-import { useState, useEffect } from "react";
-
-interface OSIData {
-  headcount: number;
-  managers: number;
-  span_avg: number;
-  span_p90: number;
-  layers_depth: number;
-  saudization: number;
-  female_pct: number;
-  cost_total: number;
-  cost_to_manage: number;
-  manager_overload_n: number;
-  duplicate_titles_n: number;
-  flags: string[];
-  created_at: string;
-}
+import React from 'react';
+import { useLocale, formatNumber } from '@/i18n/locale';
+import { useOSI } from '@/hooks/useOSI';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { RefreshCw, TrendingUp, AlertTriangle, Users, DollarSign } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface OSIOverviewProps {
-  caseId: string;
+  tenantId?: string;
 }
 
-export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
-  const [data, setData] = useState<OSIData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [generating, setGenerating] = useState(false);
-  const { toast } = useToast();
-  const { hasEntitlement } = useEntitlement('SKU_OSI');
-
-  useEffect(() => {
-    fetchOSIData();
-  }, [caseId]);
-
-  const fetchOSIData = async () => {
-    try {
-      setLoading(true);
-      const { data: osiData, error } = await supabase
-        .rpc('osi_get_overview_v1', { p_case_id: caseId });
-
-      if (error) throw error;
-      setData(osiData as unknown as OSIData);
-    } catch (error) {
-      console.error('Error fetching OSI data:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load organizational data",
-        variant: "destructive"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const runOSIAnalysis = async () => {
-    if (!hasEntitlement) {
-      toast({
-        title: "Upgrade Required",
-        description: "OSI analysis requires enterprise plan access",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    try {
-      setGenerating(true);
-      const { data: result, error } = await supabase.functions.invoke('osi-run-v1', {
-        body: { caseId }
-      });
-
-      if (error) throw error;
-      
-      toast({
-        title: "Analysis Complete",
-        description: "OSI analysis has been generated successfully",
-      });
-      
-      await fetchOSIData();
-    } catch (error) {
-      console.error('Error running OSI analysis:', error);
-      toast({
-        title: "Analysis Failed",
-        description: "Failed to generate OSI analysis",
-        variant: "destructive"
-      });
-    } finally {
-      setGenerating(false);
-    }
-  };
+export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
+  const { locale, t } = useLocale();
+  const { overview, layers, loading, error, refresh } = useOSI(tenantId);
 
   const getHealthScore = () => {
-    if (!data || !data.flags) return 95;
-    const flagCount = data.flags.length;
-    if (flagCount === 0) return 95;
-    if (flagCount <= 1) return 85;
-    if (flagCount <= 3) return 70;
-    return 50;
+    if (!overview) return 0;
+    const totalLayers = overview.total_layers || 1;
+    const meetingTarget = overview.layers_meeting_target || 0;
+    return Math.round((meetingTarget / totalLayers) * 100);
   };
 
   const getHealthColor = (score: number) => {
-    if (score >= 85) return "text-green-600";
-    if (score >= 70) return "text-yellow-600";
-    return "text-red-600";
-  };
-
-  const getSeverityColor = (flag: string) => {
-    if (['DEEP_LAYERS', 'HIGH_COST_TO_MANAGE'].includes(flag)) return 'destructive';
-    return 'secondary';
-  };
-
-  const getFlagDescription = (flag: string) => {
-    const descriptions = {
-      'OVER_SPAN': 'Management spans exceed best practice',
-      'DEEP_LAYERS': 'Too many organizational layers',
-      'LOW_SAUDI_LAYER': 'Low Saudization in management',
-      'HIGH_COST_TO_MANAGE': 'High cost-to-manage ratio',
-      'DUP_ROLE_TITLES': 'Duplicate job titles detected'
-    };
-    return descriptions[flag as keyof typeof descriptions] || flag;
+    if (score >= 80) return 'text-green-600';
+    if (score >= 60) return 'text-yellow-600';
+    return 'text-red-600';
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <div className="animate-pulse text-muted-foreground">Loading organizational data...</div>
+      <div key={locale} className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {[1, 2, 3, 4].map((i) => (
+            <Card key={i}>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-4 w-4" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-6 w-[60px]" />
+                <Skeleton className="h-3 w-[120px] mt-2" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
 
-  if (!data || Object.keys(data).length === 0) {
+  if (error) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="h-5 w-5" />
-            Org Structure Intelligence
-          </CardTitle>
-          <CardDescription>
-            Analyze your organizational structure for efficiency and compliance
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No Analysis Available</h3>
-            <p className="text-muted-foreground mb-4">
-              Run your first OSI analysis to get insights into your organizational structure
+      <div key={locale} className="space-y-6">
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-8">
+            <AlertTriangle className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">
+              {t('osi', 'no_analysis_available')}
+            </h3>
+            <p className="text-muted-foreground text-center mb-4">
+              {error}
             </p>
-            <Button onClick={runOSIAnalysis} disabled={generating}>
-              <PlayCircle className="h-4 w-4 mr-2" />
-              {generating ? "Generating..." : "Run OSI Analysis"}
+            <Button onClick={refresh} variant="outline" className="flex items-center gap-2">
+              <RefreshCw className="h-4 w-4" />
+              {t('osi', 'run_analysis')}
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!overview) {
+    return (
+      <div key={locale} className="space-y-6">
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-8">
+            <TrendingUp className="h-12 w-12 text-muted-foreground mb-4" />
+            <h3 className="text-lg font-semibold mb-2">
+              {t('osi', 'no_analysis_available')}
+            </h3>
+            <p className="text-muted-foreground text-center mb-4">
+              {t('osi', 'run_first_analysis')}
+            </p>
+            <Button onClick={refresh} className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              {t('osi', 'run_analysis')}
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   const healthScore = getHealthScore();
+  const totalHeadcount = layers.reduce((sum, layer) => sum + layer.headcount, 0);
+  const totalSaudiHeadcount = layers.reduce((sum, layer) => sum + layer.saudi_headcount, 0);
+  const overallSaudizationRate = totalHeadcount > 0 ? (totalSaudiHeadcount / totalHeadcount) * 100 : 0;
 
   return (
-    <div className="space-y-6">
+    <div key={locale} className="space-y-6">
       {/* Health Score Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            Organization Health Score
+            {t('osi', 'health_score')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -193,14 +117,14 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
             <div className="flex-1">
               <Progress value={healthScore} className="h-2" />
               <p className="text-sm text-muted-foreground mt-1">
-                {healthScore >= 85 ? "Excellent" : 
-                 healthScore >= 70 ? "Good" : 
-                 healthScore >= 50 ? "Needs Improvement" : "Critical"}
+                {healthScore >= 80 ? t('osi', 'excellent') : 
+                 healthScore >= 60 ? t('osi', 'good') : 
+                 healthScore >= 40 ? t('osi', 'needs_improvement') : t('osi', 'critical')}
               </p>
             </div>
-            <Button onClick={runOSIAnalysis} disabled={generating} variant="outline">
-              <PlayCircle className="h-4 w-4 mr-2" />
-              {generating ? "Updating..." : "Refresh"}
+            <Button onClick={refresh} variant="outline" className="flex items-center gap-2">
+              <RefreshCw className="h-4 w-4" />
+              {t('osi', 'recompute')}
             </Button>
           </div>
         </CardContent>
@@ -210,46 +134,62 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Total Headcount</CardTitle>
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              {t('osi', 'total_layers')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.headcount}</div>
-            <p className="text-xs text-muted-foreground">Active employees</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Avg Span of Control</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{data.span_avg}</div>
+            <div className="text-2xl font-bold">{overview.total_layers}</div>
             <p className="text-xs text-muted-foreground">
-              Target: 7 | P90: {data.span_p90}
+              {t('osi', 'organizational_layers')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Org Layers</CardTitle>
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              {t('osi', 'highest_saudi_layer')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.layers_depth}</div>
+            <div className="text-2xl font-bold">{overview.highest_saudi_layer}</div>
             <p className="text-xs text-muted-foreground">
-              Target: ≤6 layers
+              {t('osi', 'layer')}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">Cost to Manage</CardTitle>
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              {t('osi', 'critical_layers_below_target')}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{data.cost_to_manage}%</div>
+            <div className="text-2xl font-bold text-red-600">{overview.critical_layers}</div>
             <p className="text-xs text-muted-foreground">
-              Target: 12-18%
+              {overview.layers_meeting_target} {t('osi', 'target')}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              <DollarSign className="h-4 w-4" />
+              {t('osi', 'management_cost_monthly')}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {formatNumber(overview.management_cost, locale)} SR
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {t('osi', 'cost_to_manage')}
             </p>
           </CardContent>
         </Card>
@@ -259,48 +199,48 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Demographics</CardTitle>
+            <CardTitle className="text-lg">{t('osi', 'org_demographics')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
-              <span>Saudization Rate</span>
-              <span className="font-semibold">{data.saudization}%</span>
+              <span>{t('osi', 'total_headcount')}</span>
+              <span className="font-semibold">{totalHeadcount}</span>
             </div>
             <div className="flex justify-between">
-              <span>Female Representation</span>
-              <span className="font-semibold">{data.female_pct}%</span>
+              <span>{t('osi', 'saudization_rate')}</span>
+              <span className="font-semibold">{formatNumber(overallSaudizationRate, locale)}%</span>
             </div>
             <div className="flex justify-between">
-              <span>Total Managers</span>
-              <span className="font-semibold">{data.managers}</span>
+              <span>{t('osi', 'saudi_headcount')}</span>
+              <span className="font-semibold">{totalSaudiHeadcount}</span>
             </div>
             <div className="flex justify-between">
-              <span>Overloaded Managers</span>
-              <span className="font-semibold text-amber-600">{data.manager_overload_n}</span>
+              <span>{t('osi', 'total_layers')}</span>
+              <span className="font-semibold">{overview.total_layers}</span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Structure Issues</CardTitle>
+            <CardTitle className="text-lg">{t('osi', 'span_outliers')}</CardTitle>
           </CardHeader>
-          <CardContent>
-            {data.flags && data.flags.length > 0 ? (
-              <div className="space-y-2">
-                {data.flags.map((flag, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4 text-amber-500" />
-                    <Badge variant={getSeverityColor(flag)} className="text-xs">
-                      {getFlagDescription(flag)}
-                    </Badge>
-                  </div>
-                ))}
-              </div>
-            ) : (
+          <CardContent className="space-y-3">
+            <div className="flex justify-between">
+              <span className="flex items-center gap-2">
+                <Badge variant="secondary">{t('osi', 'low')}</Badge>
+              </span>
+              <span className="font-semibold">{overview.span_outliers_low}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="flex items-center gap-2">
+                <Badge variant="destructive">{t('osi', 'high')}</Badge>
+              </span>
+              <span className="font-semibold">{overview.span_outliers_high}</span>
+            </div>
+            {(overview.span_outliers_low === 0 && overview.span_outliers_high === 0) && (
               <div className="flex items-center gap-2 text-green-600">
-                <CheckCircle className="h-4 w-4" />
-                <span className="text-sm">No critical issues detected</span>
+                <span className="text-sm">{t('osi', 'no_critical_issues')}</span>
               </div>
             )}
           </CardContent>
@@ -310,21 +250,21 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
       {/* Actions */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Available Actions</CardTitle>
+          <CardTitle className="text-lg">{t('osi', 'available_actions')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline">
-              <FileText className="h-4 w-4 mr-2" />
-              Generate Report
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {t('osi', 'generate_report')}
             </Button>
             <Button variant="outline">
-              <Layers className="h-4 w-4 mr-2" />
-              View Org Chart
+              <Users className="h-4 w-4 mr-2" />
+              {t('osi', 'view_org_chart')}
             </Button>
             <Button variant="outline">
               <DollarSign className="h-4 w-4 mr-2" />
-              Cost Analysis
+              {t('osi', 'analyze_costs')}
             </Button>
           </div>
         </CardContent>
