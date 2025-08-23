@@ -5,6 +5,7 @@ import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { useEntitlement } from "@/hooks/useEntitlement";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   Users, 
   TrendingUp, 
@@ -48,6 +49,7 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
   const [generating, setGenerating] = useState(false);
   const { toast } = useToast();
   const { hasEntitlement } = useEntitlement('SKU_OSI');
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     fetchOSIData();
@@ -134,7 +136,7 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-pulse text-muted-foreground">جاري تحميل البيانات التنظيمية...</div>
+        <div className="animate-pulse text-muted-foreground">{t('osi', 'loading_data')}</div>
       </div>
     );
   }
@@ -145,22 +147,22 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Users className="h-5 w-5" />
-            ذكاء الهيكل التنظيمي
+            {t('osi', 'org_structure_intel')}
           </CardTitle>
           <CardDescription>
-            تحليل الهيكل التنظيمي للكفاءة والامتثال
+            {t('osi', 'advanced_analysis')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8">
             <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">لا يوجد تحليل متاح</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('osi', 'no_analysis_available')}</h3>
             <p className="text-muted-foreground mb-4">
-              قم بتشغيل أول تحليل OSI للحصول على رؤى حول هيكلك التنظيمي
+              {t('osi', 'run_first_analysis')}
             </p>
             <Button onClick={runOSIAnalysis} disabled={generating}>
               <PlayCircle className="h-4 w-4 mr-2" />
-              {generating ? "جاري التحليل..." : "تشغيل تحليل OSI"}
+              {generating ? t('osi', 'updating') : t('osi', 'run_analysis')}
             </Button>
           </div>
         </CardContent>
@@ -171,31 +173,31 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
   const healthScore = data.org_health_score || 85;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Health Score Card */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5" />
-            نقاط الصحة التنظيمية
+            {t('osi', 'health_score')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-4">
             <div className={`text-4xl font-bold ${getHealthColor(healthScore)}`}>
-              {healthScore}/100
+              {formatNumber(healthScore, locale)}/100
             </div>
             <div className="flex-1">
               <Progress value={healthScore} className="h-3" />
               <p className="text-sm text-muted-foreground mt-1">
-                {healthScore >= 85 ? "ممتاز" : 
-                 healthScore >= 70 ? "جيد" : 
-                 healthScore >= 50 ? "يحتاج تحسين" : "حرج"}
+                {healthScore >= 85 ? t('osi', 'excellent') : 
+                 healthScore >= 70 ? t('osi', 'good') : 
+                 healthScore >= 50 ? t('osi', 'needs_improvement') : t('osi', 'critical')}
               </p>
             </div>
             <Button onClick={runOSIAnalysis} disabled={generating} variant="outline">
               <PlayCircle className="h-4 w-4 mr-2" />
-              {generating ? "جاري التحديث..." : "تحديث"}
+              {generating ? t('osi', 'updating') : t('osi', 'update')}
             </Button>
           </div>
         </CardContent>
@@ -207,12 +209,12 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Users className="h-4 w-4" />
-              إجمالي الموظفين
+              {t('osi', 'total_headcount')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{data.headcount}</div>
-            <p className="text-xs text-muted-foreground">الموظفون النشطون</p>
+            <div className="text-2xl font-bold text-primary">{formatNumber(data.headcount, locale)}</div>
+            <p className="text-xs text-muted-foreground">{t('osi', 'active_employees')}</p>
           </CardContent>
         </Card>
 
@@ -220,13 +222,13 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
-              متوسط نطاق الإدارة
+              {t('osi', 'avg_management_span')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{data.span_avg}</div>
+            <div className="text-2xl font-bold text-primary">{formatNumber(data.span_avg, locale)}</div>
             <p className="text-xs text-muted-foreground">
-              الهدف: 7 | P90: {data.span_p90}
+              {t('osi', 'target')}: 7 | P90: {formatNumber(data.span_p90, locale)}
             </p>
           </CardContent>
         </Card>
@@ -235,13 +237,13 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <Layers className="h-4 w-4" />
-              طبقات التنظيم
+              {t('osi', 'org_layers')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{data.layers_depth}</div>
+            <div className="text-2xl font-bold text-primary">{formatNumber(data.layers_depth, locale)}</div>
             <p className="text-xs text-muted-foreground">
-              الهدف: ≤6 طبقات
+              {t('osi', 'target')}: ≤6
             </p>
           </CardContent>
         </Card>
@@ -250,13 +252,13 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
               <DollarSign className="h-4 w-4" />
-              تكلفة الإدارة
+              {t('osi', 'cost_to_manage_pct')}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-primary">{data.cost_to_manage}%</div>
+            <div className="text-2xl font-bold text-primary">{formatNumber(data.cost_to_manage, locale)}%</div>
             <p className="text-xs text-muted-foreground">
-              الهدف: 12-18%
+              {t('osi', 'target')}: 12-18%
             </p>
           </CardContent>
         </Card>
@@ -266,31 +268,31 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">الديموغرافيا التنظيمية</CardTitle>
+            <CardTitle className="text-lg">{t('osi', 'org_demographics')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between items-center">
-              <span>نسبة السعودة</span>
+              <span>{t('osi', 'saudization_rate')}</span>
               <div className="flex items-center gap-2">
                 <Progress value={data.saudization} className="w-20 h-2" />
-                <span className="font-semibold text-primary">{data.saudization}%</span>
+                <span className="font-semibold text-primary">{formatNumber(data.saudization, locale)}%</span>
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <span>نسبة الإناث</span>
+              <span>{t('osi', 'female_percentage')}</span>
               <div className="flex items-center gap-2">
                 <Progress value={data.female_pct} className="w-20 h-2" />
-                <span className="font-semibold text-primary">{data.female_pct}%</span>
+                <span className="font-semibold text-primary">{formatNumber(data.female_pct, locale)}%</span>
               </div>
             </div>
             <div className="flex justify-between">
-              <span>إجمالي المدراء</span>
-              <span className="font-semibold">{data.managers}</span>
+              <span>{t('osi', 'total_managers')}</span>
+              <span className="font-semibold">{formatNumber(data.managers, locale)}</span>
             </div>
             <div className="flex justify-between">
-              <span>المدراء المُحمّلون بأعباء زائدة</span>
+              <span>{t('osi', 'overloaded_managers')}</span>
               <Badge variant={data.manager_overload_n > 0 ? "destructive" : "secondary"}>
-                {data.manager_overload_n}
+                {formatNumber(data.manager_overload_n, locale)}
               </Badge>
             </div>
           </CardContent>
@@ -298,7 +300,7 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">مشاكل الهيكل</CardTitle>
+            <CardTitle className="text-lg">{t('osi', 'structure_issues')}</CardTitle>
           </CardHeader>
           <CardContent>
             {data.flags && data.flags.length > 0 ? (
@@ -320,7 +322,7 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
             ) : (
               <div className="flex items-center gap-2 text-success p-4 bg-success/10 rounded-lg">
                 <CheckCircle className="h-5 w-5" />
-                <span className="text-sm font-medium">لم يتم اكتشاف مشاكل حرجة</span>
+                <span className="text-sm font-medium">{t('osi', 'no_critical_issues')}</span>
               </div>
             )}
           </CardContent>
@@ -330,21 +332,21 @@ export const OSIOverview = ({ caseId }: OSIOverviewProps) => {
       {/* Key Insights */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">الإجراءات المتاحة</CardTitle>
+          <CardTitle className="text-lg">{t('osi', 'available_actions')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <Button variant="outline" className="justify-start">
               <FileText className="h-4 w-4 mr-2" />
-              إنشاء تقرير
+              {t('osi', 'create_report')}
             </Button>
             <Button variant="outline" className="justify-start">
               <Layers className="h-4 w-4 mr-2" />
-              عرض الهيكل التنظيمي
+              {t('osi', 'view_org_chart')}
             </Button>
             <Button variant="outline" className="justify-start">
               <DollarSign className="h-4 w-4 mr-2" />
-              تحليل التكاليف
+              {t('osi', 'analyze_costs')}
             </Button>
           </div>
         </CardContent>

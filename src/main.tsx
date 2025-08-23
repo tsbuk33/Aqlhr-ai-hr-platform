@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { LocaleProvider } from './i18n/locale'
 import App from './App.tsx'
 import './index.css'
 
@@ -15,6 +16,8 @@ if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-s
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
-    <App />
+    <LocaleProvider>
+      <App />
+    </LocaleProvider>
   </QueryClientProvider>
 );

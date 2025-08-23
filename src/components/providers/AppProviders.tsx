@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
-import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
+import { LocaleProvider } from '@/i18n/locale';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/hooks/useAuth.tsx';
 
@@ -24,21 +24,15 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   })).current;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ThemeProvider>
-          <SimpleLanguageProvider>
-            <TooltipProvider>
-              <BrowserRouter>
-                <SidebarProvider>
-                  <Toaster />
-                  {children}
-                </SidebarProvider>
-              </BrowserRouter>
-            </TooltipProvider>
-          </SimpleLanguageProvider>
-        </ThemeProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <LocaleProvider>
+      <ThemeProvider defaultTheme="system" storageKey="aql-hr-theme">
+        <TooltipProvider>
+          <QueryClientProvider client={queryClient}>
+            <Toaster />
+            {children}
+          </QueryClientProvider>
+        </TooltipProvider>
+      </ThemeProvider>
+    </LocaleProvider>
   );
 };

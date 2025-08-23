@@ -13,6 +13,7 @@ import { useEntitlement } from "@/hooks/useEntitlement";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { isDeveloperMode, bypassEntitlement, getMockCaseId, logDeveloperMode } from "@/utils/developerMode";
+import { useLocale } from "@/i18n/locale";
 import { 
   Building2, 
   Users, 
@@ -31,6 +32,7 @@ const OrgStructureIntelligence = () => {
   const [currentCase, setCurrentCase] = useState<string | null>(null);
   const { hasEntitlement, isLoading: entitlementLoading } = useEntitlement('SKU_OSI');
   const { toast } = useToast();
+  const { locale, t } = useLocale();
   
   // Log developer mode status
   logDeveloperMode('OSI');
@@ -152,21 +154,21 @@ const OrgStructureIntelligence = () => {
       <div className="container mx-auto p-6">
         <div className="animate-pulse text-center">
           <Building2 className="h-8 w-8 mx-auto mb-4 text-muted-foreground" />
-          <p>Setting up OSI analysis...</p>
+          <p>{t('osi', 'setting_up')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6" key={locale}>
       <div>
         <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
           <Building2 className="h-8 w-8" />
-          Organization Structure Intelligence
+          {t('osi', 'org_structure_intel')}
         </h1>
         <p className="text-muted-foreground">
-          Advanced organizational design and effectiveness analysis
+          {t('osi', 'advanced_analysis')}
         </p>
       </div>
 
@@ -174,27 +176,27 @@ const OrgStructureIntelligence = () => {
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
-            نظرة عامة
+            {t('osi', 'overview')}
           </TabsTrigger>
           <TabsTrigger value="spans" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
-            النطاقات والطبقات
+            {t('osi', 'spans_layers')}
           </TabsTrigger>
           <TabsTrigger value="saudization" className="flex items-center gap-2">
             <Target className="h-4 w-4" />
-            السعودة بالطبقات
+            {t('osi', 'saudization_by_layer')}
           </TabsTrigger>
           <TabsTrigger value="costs" className="flex items-center gap-2">
             <DollarSign className="h-4 w-4" />
-            تكلفة الإدارة
+            {t('osi', 'cost_to_manage')}
           </TabsTrigger>
           <TabsTrigger value="playbook" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
-            دليل العمل
+            {t('osi', 'playbook')}
           </TabsTrigger>
           <TabsTrigger value="export" className="flex items-center gap-2">
             <Download className="h-4 w-4" />
-            التصدير
+            {t('osi', 'export')}
           </TabsTrigger>
         </TabsList>
 

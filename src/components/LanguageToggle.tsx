@@ -1,29 +1,22 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Globe } from 'lucide-react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLocale } from '@/i18n/locale';
 
-const LanguageToggle: React.FC = () => {
-  const { isArabic, toggleLanguage } = useSimpleLanguage();
-  const language = isArabic ? 'ar' : 'en';
-  const isRTL = isArabic;
-
+export default function LanguageToggle({ compact = false }: { compact?: boolean }) {
+  const { locale, setLocale, t } = useLocale();
+  const next = locale === 'en' ? 'ar' : 'en';
+  
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={toggleLanguage}
-      className="flex items-center gap-2 h-8 px-3"
+    <button 
+      onClick={() => setLocale(next)} 
+      className="inline-flex items-center gap-2 px-3 py-1 rounded border border-border hover:bg-muted transition-colors"
     >
       <Globe className="h-4 w-4" />
       <span className="text-sm font-medium">
-        {language === 'ar' ? 'العربية' : 'English'}
+        {next === 'ar' ? t('common', 'arabic') : t('common', 'language')}
       </span>
-      <span className="text-xs text-muted-foreground">
-        {language === 'ar' ? '(ع)' : '(EN)'}
+      <span className="text-xs opacity-60">
+        ({next.toUpperCase()})
       </span>
-    </Button>
+    </button>
   );
-};
-
-export default LanguageToggle;
+}

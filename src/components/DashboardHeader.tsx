@@ -2,15 +2,16 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell, Search, Settings, PanelLeft } from "lucide-react";
-import SimpleLanguageToggle from "@/components/SimpleLanguageToggle";
-import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
+import { useLocale } from "@/i18n/locale";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OwnerTools } from "@/components/dev/OwnerTools";
 
 export function DashboardHeader() {
-  const { isArabic } = useSimpleLanguage();
+  const { locale } = useLocale();
   const { toggleSidebar } = useSidebar();
+  const isArabic = locale === 'ar';
   
   return (
     <header className="h-20 border-b border-border/40 dark:border-border bg-gradient-to-r from-surface via-surface-subtle to-surface dark:from-surface dark:via-surface-subtle dark:to-surface backdrop-blur-xl supports-[backdrop-filter]:bg-surface/90 dark:supports-[backdrop-filter]:bg-surface/90 shadow-sm">
@@ -53,7 +54,7 @@ export function DashboardHeader() {
         <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
           <HijriCalendarWidget compact className="hidden lg:flex" />
           <ThemeToggle />
-          <SimpleLanguageToggle />
+          <LanguageToggle compact />
           
           <div className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <OwnerTools />

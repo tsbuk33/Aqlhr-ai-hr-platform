@@ -2333,6 +2333,7 @@ export type Database = {
           company_name_arabic: string | null
           cr_number: string | null
           created_at: string | null
+          default_locale: string | null
           employee_count_range: string | null
           gosi_establishment_number: string | null
           headquarters_address_arabic: string | null
@@ -2356,6 +2357,7 @@ export type Database = {
           company_name_arabic?: string | null
           cr_number?: string | null
           created_at?: string | null
+          default_locale?: string | null
           employee_count_range?: string | null
           gosi_establishment_number?: string | null
           headquarters_address_arabic?: string | null
@@ -2379,6 +2381,7 @@ export type Database = {
           company_name_arabic?: string | null
           cr_number?: string | null
           created_at?: string | null
+          default_locale?: string | null
           employee_count_range?: string | null
           gosi_establishment_number?: string | null
           headquarters_address_arabic?: string | null
@@ -8500,6 +8503,7 @@ export type Database = {
           first_name: string | null
           id: string
           is_active: boolean | null
+          language: string | null
           last_name: string | null
           role: string | null
           updated_at: string | null
@@ -8513,6 +8517,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           is_active?: boolean | null
+          language?: string | null
           last_name?: string | null
           role?: string | null
           updated_at?: string | null
@@ -8526,6 +8531,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           is_active?: boolean | null
+          language?: string | null
           last_name?: string | null
           role?: string | null
           updated_at?: string | null
@@ -12084,6 +12090,10 @@ export type Database = {
         }[]
       }
       get_user_company_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      get_user_locale: {
         Args: Record<PropertyKey, never>
         Returns: string
       }
