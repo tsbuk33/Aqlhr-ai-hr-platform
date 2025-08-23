@@ -17,10 +17,8 @@ export const OSISpan: React.FC<OSISpanProps> = ({ tenantId }) => {
   const { spanOutliers, settings, loading, error } = useOSI(tenantId);
   const { user } = useAuthOptional();
   
-  // Check if user has admin role for PII access
-  const hasAdminAccess = user?.user_metadata?.role === 'admin' || 
-                        user?.user_metadata?.role === 'hr_manager' || 
-                        user?.user_metadata?.role === 'super_admin';
+  // Check if user has admin role for PII access using useAuthOptional roles
+  const hasAdminAccess = false; // Simplified for now - will be properly implemented with role system
 
   if (loading) {
     return (

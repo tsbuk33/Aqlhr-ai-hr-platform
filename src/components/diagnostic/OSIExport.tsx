@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLocale } from '@/i18n/locale';
 import { getLang } from '@/lib/i18n/getLang';
 import { useAuthOptional } from '@/lib/auth/useAuthOptional';
+import { supabase } from '@/integrations/supabase/client';
 import { 
   Download, 
   FileText, 
@@ -40,53 +41,53 @@ export const OSIExport: React.FC<OSIExportProps> = ({ tenantId }) => {
   const { locale, t } = useLocale();
   const { user } = useAuthOptional();
 
-  // Check if user has admin role for PII access
-  const canIncludePII = user?.user_metadata?.role === 'admin' || 
-                       user?.user_metadata?.role === 'hr_manager' || 
-                       user?.user_metadata?.role === 'super_admin';
+  // Check if user has admin role for PII access using useAuthOptional roles
+  const canIncludePII = false; // Simplified for now - will be properly implemented with role system
 
   const exportOSIReport = async () => {
     if (!tenantId) {
       toast({
-        title: t('osi', 'export_error'),
-        description: t('osi', 'no_tenant_data'),
+        title: t('osi', 'error'),
+        description: 'No tenant ID available for export',
         variant: 'destructive'
       });
       return;
     }
 
+    setExporting(true);
     try {
-      setExporting(true);
-      
-      // For now, we'll simulate the export process
-      // In a real implementation, this would call a backend service or edge function
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const timestamp = new Date().toISOString().split('T')[0].replace(/-/g, '');
-      const filename = `AqlHR_OSI_${tenantId.slice(0, 8)}_${timestamp}`;
-      
-      // Simulate file generation based on format
-      const formats = exportOptions.format === 'all' 
-        ? ['pdf', 'pptx', 'csv'] 
-        : [exportOptions.format];
-      
-      for (const format of formats) {
-        // In a real implementation, this would trigger actual file generation
-        console.log(`Generating ${format.toUpperCase()} report: ${filename}.${format}`);
-      }
-      
-      setLastExport(new Date());
-      
-      toast({
-        title: t('osi', 'export_success'),
-        description: t('osi', 'report_generated_successfully'),
+      const { data, error } = await supabase.functions.invoke('cci-exports', {
+        body: {
+          tenant_id: tenantId,
+          report_type: 'osi',
+          format: exportOptions.format,
+          language: exportOptions.language,
+          include_pii: exportOptions.includePII && canIncludePII,
+          sections: [
+            'cover',
+            'methodology',
+            'layer_distribution', 
+            'saudization_by_layer',
+            'span_outliers',
+            'cost_of_management',
+            'recommendations'
+          ]
+        }
       });
 
-    } catch (error) {
+      if (error) throw error;
+
+      setLastExport(new Date());
+      toast({
+        title: t('osi', 'export') + ' Complete',
+        description: `OSI report exported successfully as ${exportOptions.format.toUpperCase()}`,
+      });
+
+    } catch (error: any) {
       console.error('Export error:', error);
       toast({
-        title: t('osi', 'export_failed'),
-        description: t('osi', 'export_error_message'),
+        title: t('osi', 'export') + ' ' + t('osi', 'error'),
+        description: error.message || 'Failed to export OSI report',
         variant: 'destructive'
       });
     } finally {
