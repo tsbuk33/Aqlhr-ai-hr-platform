@@ -48,7 +48,7 @@ export const LanguageRouter: React.FC = () => {
       {/* Catch-all redirect from root to language-prefixed route */}
       <Route path="/" element={<RootRedirect />} />
       
-      {/* Language-prefixed routes */}
+      {/* Language-prefixed routes - the /* will capture everything after /:lang */}
       <Route 
         path="/:lang/*" 
         element={
@@ -57,6 +57,11 @@ export const LanguageRouter: React.FC = () => {
           </LanguageSync>
         } 
       />
+      
+      {/* Legacy routes without language prefix - redirect to language version */}
+      <Route path="/dashboard" element={<Navigate to={`/${localeDriver.getLang()}/dashboard`} replace />} />
+      <Route path="/cci/*" element={<Navigate to={`/${localeDriver.getLang()}/cci/*`} replace />} />
+      <Route path="/core-hr/*" element={<Navigate to={`/${localeDriver.getLang()}/core-hr/*`} replace />} />
       
       {/* Fallback for any other routes - redirect to resolved language */}
       <Route path="*" element={<RootRedirect />} />

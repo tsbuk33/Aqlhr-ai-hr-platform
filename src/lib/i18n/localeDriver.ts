@@ -72,6 +72,7 @@ class LocaleDriver extends EventTarget {
   }
 
   setLang(lang: Lang) {
+    console.log('[LocaleDriver] Setting language:', lang, 'Current:', this.currentLang);
     if (lang === this.currentLang) return;
     
     this.currentLang = lang;
@@ -80,15 +81,18 @@ class LocaleDriver extends EventTarget {
     
     // Dispatch change event
     this.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
+    console.log('[LocaleDriver] Language set to:', lang, 'Document dir:', document.documentElement.dir);
   }
 
   private updateDocument() {
+    console.log('[LocaleDriver] Updating document for lang:', this.currentLang);
     document.documentElement.lang = this.currentLang;
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.classList.toggle('rtl', this.currentLang === 'ar');
     
     // Update localStorage for compatibility with existing system
     localStorage.setItem('aqlhr.locale', this.currentLang);
+    console.log('[LocaleDriver] Document updated - lang:', document.documentElement.lang, 'dir:', document.documentElement.dir);
   }
 
   getLang(): Lang {

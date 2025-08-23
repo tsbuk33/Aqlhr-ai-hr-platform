@@ -280,6 +280,9 @@ export interface RouteConfig {
 const I18nTest = lazy(() => import('../pages/_/I18nTest'));
 
 export const ROUTES: RouteConfig[] = [
+  // Root dashboard route
+  { path: '/', element: DashboardPage, auth: true },
+  
   // New growth and self-sell routes
   { path: '/growth/roi', element: ROIDashboard, auth: true },
   { path: '/onboarding', element: Onboarding, auth: true },
