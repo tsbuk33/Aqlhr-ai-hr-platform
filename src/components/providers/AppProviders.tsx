@@ -5,6 +5,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { LocaleProvider } from '@/i18n/locale';
+import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/hooks/useAuth.tsx';
 
@@ -25,14 +26,16 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <LocaleProvider>
-      <ThemeProvider defaultTheme="system" storageKey="aql-hr-theme">
-        <TooltipProvider>
-          <QueryClientProvider client={queryClient}>
-            <Toaster />
-            {children}
-          </QueryClientProvider>
-        </TooltipProvider>
-      </ThemeProvider>
+      <SimpleLanguageProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <QueryClientProvider client={queryClient}>
+              <Toaster />
+              {children}
+            </QueryClientProvider>
+          </TooltipProvider>
+        </ThemeProvider>
+      </SimpleLanguageProvider>
     </LocaleProvider>
   );
 };
