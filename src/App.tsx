@@ -4,6 +4,7 @@ import { LayoutShell } from '@/components/layout/LayoutShell';
 import LanguageRouter from '@/components/routing/LanguageRouter';
 import { LoadingScreen } from '@/components/common/LoadingScreen';
 import { RootErrorBoundary } from '@/components/system/RootErrorBoundary';
+import { NotFoundWatcher } from '@/components/core/404Watcher';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
         <LayoutShell>
           <React.Suspense fallback={<LoadingScreen />}>
             <LanguageRouter />
+            <NotFoundWatcher />
           </React.Suspense>
         </LayoutShell>
       </RootErrorBoundary>

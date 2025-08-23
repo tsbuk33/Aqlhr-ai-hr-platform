@@ -99,7 +99,7 @@ export const RetentionOverview: React.FC<Props> = ({
             <CardTitle className="text-sm font-medium">{t('retention.kpi.avgRisk')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${getRiskColor(overview.avg_risk)}`}>
+            <div className={`text-2xl font-bold ${getRiskColor(overview.avg_risk)}`} data-testid="retention-metric">
               {overview.avg_risk.toFixed(1)}
             </div>
           </CardContent>
@@ -110,7 +110,7 @@ export const RetentionOverview: React.FC<Props> = ({
             <CardTitle className="text-sm font-medium">{t('retention.kpi.pctHigh')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-destructive">
+            <div className="text-2xl font-bold text-destructive" data-testid="retention-metric">
               {overview.pct_high.toFixed(1)}%
             </div>
           </CardContent>
@@ -121,7 +121,7 @@ export const RetentionOverview: React.FC<Props> = ({
             <CardTitle className="text-sm font-medium">{t('retention.kpi.totalEmployees')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-foreground flex items-center">
+            <div className="text-2xl font-bold text-foreground flex items-center" data-testid="retention-metric">
               <Users className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
               {overview.total_employees}
             </div>
@@ -133,7 +133,7 @@ export const RetentionOverview: React.FC<Props> = ({
             <CardTitle className="text-sm font-medium">{t('retention.kpi.targetTurnover')}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-muted-foreground flex items-center">
+            <div className="text-2xl font-bold text-muted-foreground flex items-center" data-testid="retention-metric">
               <TrendingDown className={`h-5 w-5 ${isRTL ? 'ml-2' : 'mr-2'}`} />
               {overview.target_turnover}%
             </div>

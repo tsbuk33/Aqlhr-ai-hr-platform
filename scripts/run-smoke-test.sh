@@ -46,7 +46,12 @@ if ! run_test "ESLint Check" "npx eslint src/__tests__/**/*.{ts,tsx} --quiet"; t
   ((FAILED_TESTS++))
 fi
 
-# 4. Integration Tests (if Supabase credentials are available)
+# 4. E2E Cypress Tests
+if ! run_test "E2E Smoke Tests" "npx cypress run --spec 'cypress/e2e/smoke.cy.ts' --headless"; then
+  ((FAILED_TESTS++))
+fi
+
+# 5. Integration Tests (if Supabase credentials are available)
 if [ -n "$SUPABASE_URL" ] && [ -n "$SUPABASE_ANON_KEY" ]; then
   if ! run_test "Integration Tests" "npx tsx scripts/test-prompt-logs-system.ts"; then
     ((FAILED_TESTS++))
@@ -55,7 +60,7 @@ else
   echo -e "${YELLOW}⚠️  Skipping integration tests - Supabase credentials not available${NC}"
 fi
 
-# 5. Build Test
+# 6. Build Test
 if ! run_test "Build Test" "npm run build"; then
   ((FAILED_TESTS++))
 fi

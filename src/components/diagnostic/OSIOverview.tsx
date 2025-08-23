@@ -141,7 +141,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{overview.total_layers}</div>
+            <div className="text-2xl font-bold" data-testid="osi-metric">{overview.total_layers}</div>
             <p className="text-xs text-muted-foreground">
               {t('osi', 'organizational_layers')}
             </p>
@@ -156,7 +156,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{overview.highest_saudi_layer}</div>
+            <div className="text-2xl font-bold" data-testid="osi-metric">{overview.highest_saudi_layer}</div>
             <p className="text-xs text-muted-foreground">
               {t('osi', 'layer')}
             </p>
@@ -171,7 +171,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{overview.critical_layers}</div>
+            <div className="text-2xl font-bold text-red-600" data-testid="osi-metric">{overview.critical_layers}</div>
             <p className="text-xs text-muted-foreground">
               {overview.layers_meeting_target} {t('osi', 'target')}
             </p>
@@ -186,7 +186,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold" data-testid="osi-metric">
               {formatNumber(overview.management_cost, locale)} SR
             </div>
             <p className="text-xs text-muted-foreground">
