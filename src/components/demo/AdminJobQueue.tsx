@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Play, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { Play, Clock, CheckCircle, AlertCircle, BarChart3, RefreshCw, Shield, Brain } from 'lucide-react';
 
 export const AdminJobQueue: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -125,6 +125,3 @@ export const AdminJobQueue: React.FC = () => {
     </Card>
   );
 };
-
-// Missing imports for the icons - let me import them
-import { BarChart3, RefreshCw, Shield, Brain } from 'lucide-react';
