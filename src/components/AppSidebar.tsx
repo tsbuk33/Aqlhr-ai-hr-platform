@@ -161,11 +161,11 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
     ]
   },
-  // Diagnostic Framework
+  // Diagnostic Framework  
   { 
     title: isArabic ? "إطار التشخيص" : "Diagnostic Framework", url: "/diagnostic", icon: Microscope, badge: "11", color: "blue",
     subItems: [
-      { title: isArabic ? "ذكاء الثقافة المؤسسية" : "Corporate Culture Intelligence", url: "/cci/overview" },
+      { title: isArabic ? "ذكاء الثقافة المؤسسية (CCI)" : "Corporate Culture Intelligence (CCI)", url: "/cci/overview" },
       { title: isArabic ? "استراتيجية الاحتفاظ" : "Retention Strategy", url: "/diagnostic/retention" },
       { title: isArabic ? "تحليل الفجوات" : "Gap Analysis", url: "/diagnostic/gap-analysis" },
       { title: isArabic ? "تحليل القوى العاملة" : "Workforce Analytics", url: "/diagnostic/workforce" },

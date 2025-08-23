@@ -11,9 +11,11 @@ import { buildExecutivePdf, generatePDFFilename } from '@/modules/cci/exports/pd
 import { buildBoardDeck, generatePPTXFilename } from '@/modules/cci/exports/pptx';
 import { exportCSV } from '@/modules/cci/exports/csvExport';
 import { FileText, Presentation, Database, Loader2, AlertTriangle } from 'lucide-react';
+import { useLocale } from '@/i18n/locale';
 
 const Export: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   const [isExporting, setIsExporting] = useState(false);
   const [selectedSurvey, setSelectedSurvey] = useState<string>('');
   const [selectedWave, setSelectedWave] = useState<string>('');

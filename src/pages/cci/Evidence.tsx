@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Progress } from '@/components/ui/progress';
 import { useCCIEvidence } from '@/hooks/useCCIEvidence';
 import { EvidenceUploadDialog } from '@/components/cci/EvidenceUploadDialog';
+import { useLocale } from '@/i18n/locale';
 import { 
   FileText, 
   Image, 
@@ -27,7 +28,8 @@ import {
 } from 'lucide-react';
 
 const Evidence: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('all');
   

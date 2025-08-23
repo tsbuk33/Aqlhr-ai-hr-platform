@@ -1,12 +1,12 @@
 import React from 'react';
 import { PartnerLogo } from '@/components/PartnerLogo';
-import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useLocale } from '@/i18n/locale';
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 
 const About = () => {
-  const { t, language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
 
   return (
     <div className="p-6 space-y-8 bg-background min-h-full">

@@ -15,9 +15,11 @@ import {
   RefreshCw,
   Play
 } from 'lucide-react';
+import { useLocale } from '@/i18n/locale';
 
 const Tracking: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
 
   const pulseWaves = [
     {

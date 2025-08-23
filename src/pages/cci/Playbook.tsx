@@ -21,9 +21,11 @@ import {
 } from 'lucide-react';
 import { useCCIPlaybook } from '@/hooks/useCCIPlaybook';
 import { useTaskIntegration } from '@/hooks/useTaskIntegration';
+import { useLocale } from '@/i18n/locale';
 
 const Playbook: React.FC = () => {
-  const isArabic = false; // TODO: Implement i18n
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   
   // Mock data for now - replace with actual tenant/survey/wave from context
   const tenantId = "mock-tenant-id"; // TODO: Get from auth context
