@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
 import { LocaleProvider } from '@/i18n/locale';
-import { SimpleLanguageProvider } from '@/contexts/SimpleLanguageContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/hooks/useAuth.tsx';
+import { ensureDevTenant } from '@/lib/dev/DevModeGuard';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -24,22 +24,25 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
     },
   })).current;
 
+  // Initialize dev tenant on mount
+  useEffect(() => {
+    ensureDevTenant();
+  }, []);
+
   return (
     <LocaleProvider>
-      <SimpleLanguageProvider>
-        <ThemeProvider>
-          <TooltipProvider>
-            <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
               <BrowserRouter>
-                <AuthProvider>
-                  <Toaster />
-                  {children}
-                </AuthProvider>
+                {children}
               </BrowserRouter>
-            </QueryClientProvider>
-          </TooltipProvider>
-        </ThemeProvider>
-      </SimpleLanguageProvider>
+            </AuthProvider>
+            <Toaster />
+          </QueryClientProvider>
+        </TooltipProvider>
+      </ThemeProvider>
     </LocaleProvider>
   );
 };
