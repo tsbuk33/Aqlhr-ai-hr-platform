@@ -1,6 +1,7 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ROUTES } from '@/config/routes';
+import MainLayout from '@/components/layout/MainLayout';
 import NotFound from '@/pages/NotFound';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/auth/AuthCallback';
@@ -9,14 +10,19 @@ import SurveyThanks from '@/pages/cci/SurveyThanks';
 import Respond from '@/pages/cci/Respond';
 import CCIAdminLinks from '@/pages/cci/admin/Links';
 import Hub from '@/pages/diagnostic/Hub';
-export const AppRoutes: React.FC = () => {  
+import OSI from '@/pages/diagnostic/OSI';
+import Retention from '@/pages/diagnostic/Retention';
+import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
+import RequireTenant from '@/components/guards/RequireTenant';
+
+export default function AppRoutes() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Routes>
-        {/* Dashboard redirect */}
-        <Route path="/" element={<Navigate to="dashboard" replace />} />
+    <Routes>
+      <Route element={<MainLayout />}>
+        {/* Index under :lang/* */}
+        <Route index element={<Navigate to="dashboard" replace />} />
         
-        {/* Public routes without authentication - no auth prefix needed */}
+        {/* Public routes without authentication */}
         <Route path="auth" element={<AuthPage />} />
         <Route path="auth/callback" element={<AuthCallback />} />
         <Route path="cci/survey" element={<Survey />} />
@@ -24,8 +30,13 @@ export const AppRoutes: React.FC = () => {
         <Route path="cci/respond" element={<Respond />} />
         <Route path="cci/admin/links" element={<CCIAdminLinks />} />
         
-        {/* Diagnostic Hub (dev mode friendly) */}
-        <Route path="diagnostic/hub" element={<Hub />} />
+        {/* Diagnostic routes with tenant requirement */}
+        <Route path="diagnostic" element={<RequireTenant><Outlet /></RequireTenant>}>
+          <Route path="hub" element={<Hub />} />
+          <Route path="osi" element={<OSI />} />
+          <Route path="retention" element={<Retention />} />
+          <Route path="org-structure-intelligence" element={<OrgStructureIntelligence />} />
+        </Route>
         
         {/* Main application routes - all relative paths */}
         {ROUTES.map((route) => {
@@ -41,9 +52,9 @@ export const AppRoutes: React.FC = () => {
           );
         })}
         
-        {/* Catch-all 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
+        {/* Catch-all redirect to dashboard */}
+        <Route path="*" element={<Navigate to="dashboard" replace />} />
+      </Route>
+    </Routes>
   );
-};
+}

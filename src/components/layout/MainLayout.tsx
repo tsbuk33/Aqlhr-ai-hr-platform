@@ -1,12 +1,9 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { ReactNode } from "react";
-
-interface MainLayoutProps {
-  children: ReactNode;
-}
+import { Outlet } from "react-router-dom";
+import RouteDebug from "@/components/dev/RouteDebug";
 
 // Navigation - Keep sidebar but center main content
-const MainLayout = ({ children }: MainLayoutProps) => {
+const MainLayout = () => {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
   
@@ -14,7 +11,8 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     <div className={`main-layout ${isArabic ? 'rtl' : 'ltr'}`}>
       <main className="main-content">
         <div className="content-wrapper">
-          {children}
+          <RouteDebug />
+          <Outlet />
         </div>
       </main>
     </div>
