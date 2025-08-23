@@ -64,6 +64,40 @@ const Hub = () => {
       setLoading(true);
       setError(null);
       
+      // Check for dev mode
+      const urlParams = new URLSearchParams(window.location.search);
+      const isDevMode = urlParams.get('dev') === '1';
+      
+      if (isDevMode) {
+        // Generate demo data for dev mode
+        const demoData: DiagnosticOverview = {
+          tenant_id: 'demo-tenant',
+          cci_psych_safety: 78,
+          cci_balance_score: 82,
+          cci_risk_index: 23,
+          cci_cvf_balance: 85,
+          cci_sample_size: 245,
+          osi_total_layers: 7,
+          osi_highest_saudi_layer: 5,
+          osi_critical_layers: 2,
+          osi_layers_meeting_target: 5,
+          osi_span_outliers: 3,
+          osi_management_cost: 2.4,
+          retention_avg_risk: 34,
+          retention_employees_at_risk: 12,
+          retention_latest_period: '2024-Q3',
+          compliance_iqama_expiring_30d: 5,
+          compliance_saudization_rate: 67.3,
+          compliance_nitaqat_status: 'green',
+          overall_health_status: 'warning',
+          computed_at: new Date().toISOString()
+        };
+        
+        setTenantId('demo-tenant');
+        setOverview(demoData);
+        return;
+      }
+      
       const resolvedTenantId = await getTenantIdOrDemo();
       if (!resolvedTenantId) {
         throw new Error('No tenant ID available');
