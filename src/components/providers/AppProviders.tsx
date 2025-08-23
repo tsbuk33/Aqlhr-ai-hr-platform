@@ -30,8 +30,12 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
         <ThemeProvider>
           <TooltipProvider>
             <QueryClientProvider client={queryClient}>
-              <Toaster />
-              {children}
+              <BrowserRouter>
+                <AuthProvider>
+                  <Toaster />
+                  {children}
+                </AuthProvider>
+              </BrowserRouter>
             </QueryClientProvider>
           </TooltipProvider>
         </ThemeProvider>
