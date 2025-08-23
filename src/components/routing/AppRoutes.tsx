@@ -9,7 +9,7 @@ import Survey from '@/pages/cci/Survey';
 import SurveyThanks from '@/pages/cci/SurveyThanks';
 import Respond from '@/pages/cci/Respond';
 import CCIAdminLinks from '@/pages/cci/admin/Links';
-import Hub from '@/pages/diagnostic/Hub';
+import DiagnosticHub from '@/pages/diagnostic/Hub';
 import OSI from '@/pages/diagnostic/OSI';
 import Retention from '@/pages/diagnostic/Retention';
 import OrgStructureIntelligence from '@/pages/diagnostic/OrgStructureIntelligence';
@@ -32,7 +32,7 @@ export default function AppRoutes() {
         
         {/* Diagnostic routes with tenant requirement */}
         <Route path="diagnostic" element={<RequireTenant><Outlet /></RequireTenant>}>
-          <Route path="hub" element={<Hub />} />
+          <Route path="hub" element={<DiagnosticHub />} />
           <Route path="osi" element={<OSI />} />
           <Route path="retention" element={<Retention />} />
           <Route path="org-structure-intelligence" element={<OrgStructureIntelligence />} />
