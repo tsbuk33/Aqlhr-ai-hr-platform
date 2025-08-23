@@ -8,7 +8,7 @@ import Survey from '@/pages/cci/Survey';
 import SurveyThanks from '@/pages/cci/SurveyThanks';
 import Respond from '@/pages/cci/Respond';
 import CCIAdminLinks from '@/pages/cci/admin/Links';
-
+import Hub from '@/pages/diagnostic/Hub';
 export const AppRoutes: React.FC = () => {  
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -23,6 +23,9 @@ export const AppRoutes: React.FC = () => {
         <Route path="cci/survey/thanks" element={<SurveyThanks />} />
         <Route path="cci/respond" element={<Respond />} />
         <Route path="cci/admin/links" element={<CCIAdminLinks />} />
+        
+        {/* Diagnostic Hub (dev mode friendly) */}
+        <Route path="diagnostic/hub" element={<Hub />} />
         
         {/* Main application routes - all relative paths */}
         {ROUTES.map((route) => {
