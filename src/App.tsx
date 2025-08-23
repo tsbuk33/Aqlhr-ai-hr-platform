@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { AppProviders } from '@/components/providers/AppProviders';
 import { LayoutShell } from '@/components/layout/LayoutShell';
-import { LanguageRouter } from '@/components/routing/LanguageRouter';
+import LanguageRouter from '@/components/routing/LanguageRouter';
 import { LoadingScreen } from '@/components/common/LoadingScreen';
 import { RootErrorBoundary } from '@/components/system/RootErrorBoundary';
 
@@ -10,9 +10,9 @@ const App: React.FC = () => {
     <AppProviders>
       <RootErrorBoundary>
         <LayoutShell>
-          <Suspense fallback={<LoadingScreen />}>
+          <React.Suspense fallback={<LoadingScreen />}>
             <LanguageRouter />
-          </Suspense>
+          </React.Suspense>
         </LayoutShell>
       </RootErrorBoundary>
     </AppProviders>

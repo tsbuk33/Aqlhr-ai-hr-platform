@@ -3,7 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getCurrentLang, isRTL, setCurrentLang } from '@/lib/i18n/localeDriver';
-import { useLocalePath } from '@/lib/i18n/LinkL';
+import { useSwitchLang } from '@/lib/i18n/LinkL';
+import { resolveLang } from '@/lib/i18n/localePath';
 import { 
   formatNumber, 
   formatCurrency, 
@@ -18,7 +19,7 @@ import {
 const I18nTest: React.FC = () => {
   const currentLang = getCurrentLang();
   const currentDir = isRTL() ? 'rtl' : 'ltr';
-  const { switchLanguage } = useLocalePath();
+  const switchLang = useSwitchLang();
   
   const sampleDate = new Date('2024-03-15T14:30:00');
   const sampleNumbers = [1234.56, 0.75, 1500000];
@@ -69,7 +70,10 @@ const I18nTest: React.FC = () => {
         <div className="text-center space-y-2">
           <h1 className="text-3xl font-bold">{t.title}</h1>
           <p className="text-muted-foreground">{t.subtitle}</p>
-          <Button onClick={() => switchLanguage(currentLang === 'ar' ? 'en' : 'ar')}>
+          <Button onClick={() => {
+            const next = currentLang === 'ar' ? 'en' : 'ar';
+            window.location.href = switchLang(next);
+          }}>
             {t.switchLang}
           </Button>
         </div>

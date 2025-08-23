@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from '@/config/routes';
 import NotFound from '@/pages/NotFound';
 import AuthPage from '@/pages/AuthPage';
@@ -9,15 +9,13 @@ import SurveyThanks from '@/pages/cci/SurveyThanks';
 import Respond from '@/pages/cci/Respond';
 import CCIAdminLinks from '@/pages/cci/admin/Links';
 
-
-export const AppRoutes: React.FC = () => {
-  const location = useLocation();
-  
-  console.log('[AppRoutes] Current pathname:', location.pathname, 'Routes count:', ROUTES.length);
-  
+export const AppRoutes: React.FC = () => {  
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Routes>
+        {/* Dashboard redirect */}
+        <Route path="/" element={<Navigate to="dashboard" replace />} />
+        
         {/* Public routes without authentication - no auth prefix needed */}
         <Route path="auth" element={<AuthPage />} />
         <Route path="auth/callback" element={<AuthCallback />} />
@@ -26,10 +24,10 @@ export const AppRoutes: React.FC = () => {
         <Route path="cci/respond" element={<Respond />} />
         <Route path="cci/admin/links" element={<CCIAdminLinks />} />
         
-        {/* Main application routes - remove leading slash for nested routing */}
+        {/* Main application routes - all relative paths */}
         {ROUTES.map((route) => {
           const Component = route.element;
-          // Remove leading slash from route paths for nested routing
+          // Ensure all paths are relative (no leading slash)
           const nestedPath = route.path.startsWith('/') ? route.path.slice(1) : route.path;
           return (
             <Route

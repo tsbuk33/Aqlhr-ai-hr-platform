@@ -1,15 +1,17 @@
 import { Globe } from 'lucide-react';
-import { useLocalePath } from '@/lib/i18n/LinkL';
-import { getCurrentLang } from '@/lib/i18n/localeDriver';
+import { useSwitchLang } from '@/lib/i18n/LinkL';
+import { resolveLang } from '@/lib/i18n/localePath';
+import { useNavigate } from 'react-router-dom';
 
 export default function LanguageToggle({ compact = false }: { compact?: boolean }) {
-  const { switchLanguage } = useLocalePath();
-  const locale = getCurrentLang();
+  const switchLang = useSwitchLang();
+  const navigate = useNavigate();
+  const locale = resolveLang();
   const next = locale === 'en' ? 'ar' : 'en';
   
   return (
     <button 
-      onClick={() => switchLanguage(next)} 
+      onClick={() => navigate(switchLang(next))}
       className="inline-flex items-center gap-2 px-3 py-1 rounded border border-border hover:bg-muted transition-colors"
     >
       <Globe className="h-4 w-4" />

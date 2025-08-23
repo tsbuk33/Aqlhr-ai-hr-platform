@@ -1,80 +1,25 @@
 import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
-import { localeDriver, Lang } from '@/lib/i18n/localeDriver';
+import { Routes, Route, useParams } from 'react-router-dom';
+import NonLocalizedRedirect from './NonLocalizedRedirect';
 import { AppRoutes } from './AppRoutes';
+import { setLang } from '@/lib/i18n/localePath';
 
-/**
- * Component that handles the language parameter from URL and syncs with localeDriver
- */
-const LanguageSync: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { lang } = useParams<{ lang: string }>();
-  const location = useLocation();
-
+function LocalizedApp() {
+  const { lang } = useParams();
   useEffect(() => {
-    if (lang && (lang === 'ar' || lang === 'en')) {
-      localeDriver.setLang(lang as Lang);
-    }
+    if (lang === 'en' || lang === 'ar') setLang(lang);
   }, [lang]);
+  return <AppRoutes />;
+}
 
-  // If we have an invalid language in the URL, redirect to resolved language
-  useEffect(() => {
-    if (lang && lang !== 'ar' && lang !== 'en') {
-      const resolvedLang = localeDriver.resolveLang();
-      const newPath = location.pathname.replace(`/${lang}`, `/${resolvedLang}`);
-      window.history.replaceState(null, '', newPath + location.search);
-    }
-  }, [lang, location]);
-
-  return <>{children}</>;
-};
-
-/**
- * Root redirect component that determines the default language
- */
-const RootRedirect: React.FC = () => {
-  const resolvedLang = localeDriver.resolveLang();
-  const location = useLocation();
-  
-  // Redirect to the resolved language with current search params
-  return <Navigate to={`/${resolvedLang}${location.search}`} replace />;
-};
-
-/**
- * Main language router component that handles prefixed routes
- */
-export const LanguageRouter: React.FC = () => {
-  // Local component to preserve the path when redirecting legacy (non-prefixed) routes
-  const LegacyRedirectPreserve: React.FC = () => {
-    const location = useLocation();
-    const resolvedLang = localeDriver.resolveLang();
-    // If already prefixed, do nothing (safety)
-    const alreadyPrefixed = /^\/(en|ar)\//.test(location.pathname + '/');
-    if (alreadyPrefixed) {
-      return <Navigate to={location.pathname + location.search} replace />;
-    }
-    return <Navigate to={`/${resolvedLang}${location.pathname}${location.search}`} replace />;
-  };
-
+// Mount this once in App.tsx
+export default function LanguageRouter() {
   return (
     <Routes>
-      {/* Catch-all redirect from root to language-prefixed route */}
-      <Route path="/" element={<RootRedirect />} />
-      
-      {/* Language-prefixed routes - the /* will capture everything after /:lang */}
-      <Route 
-        path="/:lang/*" 
-        element={
-          <LanguageSync>
-            <AppRoutes />
-          </LanguageSync>
-        } 
-      />
-      
-      {/* Generic legacy routes without language prefix - preserve path */}
-      <Route path="/*" element={<LegacyRedirectPreserve />} />
-      
-      {/* Fallback for any other routes - redirect to resolved language */}
-      <Route path="*" element={<RootRedirect />} />
+      {/* catch any non-localized path and redirect to /{lang}/... */}
+      <Route path="*" element={<NonLocalizedRedirect />} />
+      {/* localized subtree */}
+      <Route path=":lang(en|ar)/*" element={<LocalizedApp />} />
     </Routes>
   );
-};
+}

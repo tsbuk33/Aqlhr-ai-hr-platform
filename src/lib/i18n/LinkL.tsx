@@ -1,70 +1,21 @@
 import React from 'react';
-import { Link, LinkProps, useLocation, useNavigate } from 'react-router-dom';
-import { getCurrentLang, Lang } from './localeDriver';
+import { Link, LinkProps, useLocation } from 'react-router-dom';
+import { localePath } from './localePath';
 
-interface LinkLProps extends Omit<LinkProps, 'to'> {
-  to: string;
-  lang?: Lang;
-}
-
-/**
- * Locale-aware Link component that automatically prepends language prefix to routes
- */
-export const LinkL: React.FC<LinkLProps> = ({ to, lang, ...props }) => {
-  const currentLang = lang || getCurrentLang();
-  
-  // Convert relative paths to include language prefix
-  const localizedTo = to.startsWith('/') && !to.match(/^\/(en|ar)\//)
-    ? `/${currentLang}${to}`
-    : to;
-
-  return <Link to={localizedTo} {...props} />;
+type Props = Omit<LinkProps, 'to'> & { to: string; lang?: 'en'|'ar' };
+export const LinkL: React.FC<Props> = ({ to, lang, ...rest }) => {
+  const href = localePath(to, lang);
+  return <Link to={href} {...rest} />;
 };
 
-/**
- * Hook that provides locale-aware navigation functions
- */
-export const useLocalePath = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const currentLang = getCurrentLang();
-
-  const navigateL = (to: string, options?: { replace?: boolean; state?: any; lang?: Lang }) => {
-    const targetLang = options?.lang || currentLang;
-    
-    // Convert relative paths to include language prefix
-    const localizedTo = to.startsWith('/') && !to.match(/^\/(en|ar)\//)
-      ? `/${targetLang}${to}`
-      : to;
-
-    navigate(localizedTo, {
-      replace: options?.replace,
-      state: options?.state
-    });
+// Optional helper: keep current path and switch language
+export const useSwitchLang = () => {
+  const loc = useLocation();
+  return (lang: 'en'|'ar') => {
+    const segments = loc.pathname.split('/');
+    if (segments[1] === 'en' || segments[1] === 'ar') segments[1] = lang;
+    else segments.splice(1, 0, lang);
+    const next = segments.join('') ? segments.join('/') : `/${lang}`;
+    return next + (loc.search || '');
   };
-
-  const getCurrentPath = () => {
-    return location.pathname.replace(/^\/(en|ar)/, '');
-  };
-
-  const switchLanguage = (newLang: Lang) => {
-    const currentPath = getCurrentPath();
-    const search = location.search;
-    navigate(`/${newLang}${currentPath}${search}`, { replace: true });
-  };
-
-  return {
-    navigate: navigateL,
-    getCurrentPath,
-    switchLanguage,
-    currentLang
-  };
-};
-
-/**
- * Get current path without language prefix
- */
-export const usePathWithoutLang = (): string => {
-  const location = useLocation();
-  return location.pathname.replace(/^\/(en|ar)/, '') || '/';
 };
