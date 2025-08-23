@@ -10,6 +10,7 @@ import { RetentionDrivers } from '@/components/diagnostic/retention/RetentionDri
 import { RetentionWatchlist } from '@/components/diagnostic/retention/RetentionWatchlist';
 import { RetentionActions } from '@/components/diagnostic/retention/RetentionActions';
 import { RetentionExport } from '@/components/diagnostic/retention/RetentionExport';
+import { CrossLinksCard } from '@/components/diagnostic/CrossLinksCard';
 import { DevToolbar } from '@/components/dev/DevToolbar';
 import { useAuthOptional } from '@/lib/auth/useAuthOptional';
 import { supabase } from '@/integrations/supabase/client';
@@ -205,9 +206,24 @@ const Retention = () => {
             <RetentionActions {...retentionData} tenantId={tenantId} />
           </TabsContent>
 
-          <TabsContent value="export" className="mt-6">
-            <RetentionExport {...retentionData} tenantId={tenantId} />
-          </TabsContent>
+        <TabsContent value="export" className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <RetentionExport {...retentionData} tenantId={tenantId} />
+            </div>
+            <div className="lg:col-span-1">
+              <CrossLinksCard 
+                module="retention"
+                context={`${retentionData.overview?.avg_risk || 0}% avg risk, ${retentionData.overview?.pct_high || 0}% high risk`}
+                recommendations={[
+                  'Focus on high-risk departments',
+                  'Implement stay interviews', 
+                  'Review compensation gaps'
+                ]}
+              />
+            </div>
+          </div>
+        </TabsContent>
         </Tabs>
       )}
     </div>

@@ -11710,6 +11710,31 @@ export type Database = {
           },
         ]
       }
+      diagnostic_overview_v1: {
+        Row: {
+          cci_balance_score: number | null
+          cci_cvf_balance: number | null
+          cci_psych_safety: number | null
+          cci_risk_index: number | null
+          cci_sample_size: number | null
+          compliance_iqama_expiring_30d: number | null
+          compliance_nitaqat_status: string | null
+          compliance_saudization_rate: number | null
+          computed_at: string | null
+          osi_critical_layers: number | null
+          osi_highest_saudi_layer: number | null
+          osi_layers_meeting_target: number | null
+          osi_management_cost: number | null
+          osi_span_outliers: number | null
+          osi_total_layers: number | null
+          overall_health_status: string | null
+          retention_avg_risk: number | null
+          retention_employees_at_risk: number | null
+          retention_latest_period: string | null
+          tenant_id: string | null
+        }
+        Relationships: []
+      }
       employee_national_mix_v1: {
         Row: {
           employee_count: number | null

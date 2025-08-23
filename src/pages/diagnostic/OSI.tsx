@@ -13,6 +13,9 @@ import { OSISaudizationByLayers } from '@/components/diagnostic/OSISaudizationBy
 import { OSISpan } from '@/components/diagnostic/OSISpan';
 import { OSICost } from '@/components/diagnostic/OSICost';
 import { OSIExport } from '@/components/diagnostic/OSIExport';
+import { OSIDevToolbar } from '@/components/dev/OSIDevToolbar';
+import { CrossLinksCard } from '@/components/diagnostic/CrossLinksCard';
+import * as osiAPI from '@/lib/api/osi';
 import {
   Building2,
   TrendingUp,
@@ -29,6 +32,7 @@ const OSI = () => {
   const [tenantId, setTenantId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [autoSeeding, setAutoSeeding] = useState(false);
   const { toast } = useToast();
   const { locale, t } = useLocale();
   const { user } = useAuthOptional();
@@ -51,6 +55,36 @@ const OSI = () => {
       }
       
       setTenantId(resolvedTenantId);
+
+      // Check if we're in dev mode and need to seed data
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('dev') === '1') {
+        // Check if we have any OSI overview data
+        const overview = await osiAPI.getOverview(resolvedTenantId);
+        
+        if (!overview || overview.total_layers === 0) {
+          console.log('Dev mode: auto-seeding OSI data...');
+          setAutoSeeding(true);
+          
+          try {
+            const seedSuccess = await osiAPI.seedDemo(resolvedTenantId);
+            if (seedSuccess) {
+              const computeSuccess = await osiAPI.computeNow(resolvedTenantId);
+              if (computeSuccess) {
+                console.log('Dev mode: OSI auto-seed completed successfully');
+              } else {
+                console.error('OSI auto-compute failed after seeding');
+              }
+            } else {
+              console.error('OSI auto-seeding failed');
+            }
+          } catch (error) {
+            console.error('OSI auto-seed error:', error);
+          } finally {
+            setAutoSeeding(false);
+          }
+        }
+      }
     } catch (err: any) {
       setError(err.message || 'Failed to initialize OSI');
       console.error('OSI initialization error:', err);
@@ -62,6 +96,11 @@ const OSI = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleDataChanged = () => {
+    // Trigger refresh of OSI data
+    initializeTenant();
   };
 
   if (loading) {
@@ -123,6 +162,8 @@ const OSI = () => {
         </p>
       </div>
 
+      <OSIDevToolbar tenantId={tenantId} onDataChanged={handleDataChanged} />
+
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview" className="flex items-center gap-2">
@@ -172,7 +213,22 @@ const OSI = () => {
         </TabsContent>
 
         <TabsContent value="export" className="space-y-6">
-          <OSIExport tenantId={tenantId} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <OSIExport tenantId={tenantId} />
+            </div>
+            <div className="lg:col-span-1">
+              <CrossLinksCard 
+                module="osi"
+                context="Organizational structure analysis"
+                recommendations={[
+                  'Review span of control',
+                  'Optimize layer structure', 
+                  'Improve saudization by layer'
+                ]}
+              />
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

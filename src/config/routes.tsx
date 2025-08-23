@@ -167,6 +167,7 @@ const MultiViewDashboards = lazy(() => import('../pages/welfare-safety/MultiView
 // Diagnostic Framework modules
 const RetentionStrategyAssessment = lazy(() => import('../pages/diagnostic/RetentionStrategyAssessment'));
 const Retention = lazy(() => import('../pages/diagnostic/Retention'));
+const Hub = lazy(() => import('../pages/diagnostic/Hub'));
 const HRProcessImprovement = lazy(() => import('../pages/diagnostic/HRProcessImprovement'));
 const HRRoleOptimization = lazy(() => import('../pages/diagnostic/HRRoleOptimization'));
 const HRValueChainAnalysis = lazy(() => import('../pages/diagnostic/HRValueChainAnalysis'));
@@ -414,6 +415,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Diagnostic Framework Routes - admin only
   { path: '/diagnostic/retention-strategy', element: RetentionStrategyAssessment, auth: true, adminOnly: true },
+  { path: '/diagnostic/hub', element: Hub, auth: true, adminOnly: true },
   
   // Retention alias - redirect to canonical route
   { path: '/retention', element: () => <Navigate to="/diagnostic/retention" replace /> },
