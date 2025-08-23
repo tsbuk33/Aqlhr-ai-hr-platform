@@ -59,7 +59,7 @@ export async function seedDemo(tenantId?: string | null): Promise<boolean> {
 }
 
 /**
- * Compute retention analysis for a specific month
+ * Compute retention analysis for current month
  */
 export async function computeNow(tenantId?: string | null): Promise<boolean> {
   try {
@@ -83,16 +83,16 @@ export async function computeNow(tenantId?: string | null): Promise<boolean> {
 }
 
 /**
- * Backfill retention analysis for multiple months
+ * Backfill retention analysis for multiple iterations
  */
-export async function backfillMonths(tenantId?: string | null, months: number = 12): Promise<boolean> {
+export async function backfillMonths(tenantId?: string | null, iterations: number = 12): Promise<boolean> {
   try {
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return false;
 
     let successful = 0;
 
-    for (let i = 0; i < months; i++) {
+    for (let i = 0; i < iterations; i++) {
       try {
         const success = await computeNow(resolvedTenantId);
         if (success) {
@@ -103,11 +103,11 @@ export async function backfillMonths(tenantId?: string | null, months: number = 
       }
     }
 
-    console.log(`Backfilled ${successful}/${months} iterations successfully`);
+    console.log(`Backfilled ${successful}/${iterations} iterations successfully`);
     
     return successful > 0;
   } catch (error) {
-    console.error('Error backfilling months:', error);
+    console.error('Error backfilling:', error);
     return false;
   }
 }

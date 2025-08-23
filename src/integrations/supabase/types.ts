@@ -12614,7 +12614,7 @@ export type Database = {
         Returns: string
       }
       retention_compute_v1: {
-        Args: { p_month?: string; p_tenant: string }
+        Args: { p_tenant: string }
         Returns: undefined
       }
       retention_get_drivers_v1: {
