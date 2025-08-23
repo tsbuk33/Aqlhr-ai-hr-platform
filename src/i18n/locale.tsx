@@ -117,8 +117,6 @@ const bundles: Record<string, Bundle> = {
       
       // Additional missing keys
       no_layers_data: 'لا توجد بيانات طبقات',
-      saudization_by_layers: 'السعودة بالطبقات',
-      cost_of_management: 'تكلفة الإدارة',
       
       // Export
       export_title: 'تصدير ذكاء الهيكل',
