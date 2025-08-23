@@ -42,6 +42,7 @@ const CompensationBenefits = lazy(() => import('../pages/core-hr/CompensationBen
 const WorkflowAutomation = lazy(() => import('../pages/core-hr/WorkflowAutomation'));
 const MobileHR = lazy(() => import('../pages/core-hr/MobileHR'));
 const EmployeeMasterData = lazy(() => import('../pages/core-hr/EmployeeMasterData'));
+const Benefits = lazy(() => import('../pages/core-hr/Benefits'));
 const BenefitsAdministration = lazy(() => import('../pages/core-hr/BenefitsAdministration'));
 const SuccessionPlanningCore = lazy(() => import('../pages/core-hr/SuccessionPlanningCore'));
 const CompensationManagementCore = lazy(() => import('../pages/core-hr/CompensationManagementCore'));
@@ -362,7 +363,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Core HR Extended Routes
   { path: '/core-hr/master-data', element: EmployeeMasterData, auth: true },
-  { path: '/core-hr/benefits', element: BenefitsAdministration, auth: true },
+  { path: '/core-hr/benefits', element: Benefits, auth: true },
   { path: '/core-hr/succession-planning', element: SuccessionPlanningCore, auth: true },
   { path: '/core-hr/compensation-management', element: CompensationManagementCore, auth: true },
   { path: '/core-hr/time-attendance', element: TimeAttendance, auth: true },
