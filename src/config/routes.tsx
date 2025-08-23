@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import { Navigate } from 'react-router-dom';
 
 // Core modules
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
@@ -403,6 +404,9 @@ export const ROUTES: RouteConfig[] = [
   
   // Diagnostic Framework Routes - admin only
   { path: '/diagnostic/retention-strategy', element: RetentionStrategyAssessment, auth: true, adminOnly: true },
+  
+  // Retention alias - redirect to canonical route
+  { path: '/retention', element: () => <Navigate to="/diagnostic/retention" replace /> },
   { path: '/diagnostic/hr-process-improvement', element: HRProcessImprovement, auth: true, adminOnly: true },
   { path: '/diagnostic/hr-role-optimization', element: HRRoleOptimization, auth: true, adminOnly: true },
   { path: '/diagnostic/hr-value-chain', element: HRValueChainAnalysis, auth: true, adminOnly: true },

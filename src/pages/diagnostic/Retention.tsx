@@ -20,27 +20,54 @@ const Retention = () => {
   // Get tenant ID and seed demo data if needed
   useEffect(() => {
     const initializeTenant = async () => {
+      let id: string | null = null;
       try {
-        const id = await getTenantIdOrDemo();
+        id = await getTenantIdOrDemo();
         setTenantId(id);
         
         // Check if we're in dev mode and need to seed data
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('dev') === '1' && id) {
-          // Check if we have any data first
-          const { data: existingData } = await supabase
-            .rpc('retention_get_overview_v1', { p_tenant: id });
+          // Check if we have any retention data first
+          const { data: existingRisks } = await supabase
+            .from('retention_risks')
+            .select('id')
+            .eq('tenant_id', id)
+            .gte('period_month', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0])
+            .limit(1);
           
-          if (!existingData || existingData.length === 0 || existingData[0].total_employees === 0) {
-            await retentionData.seedDemo();
+          if (!existingRisks || existingRisks.length === 0) {
+            console.log('Dev mode: seeding retention demo data...');
+            
+            // First seed demo data
+            const { error: seedError } = await supabase.rpc('retention_seed_demo_v1', { 
+              p_tenant: id 
+            });
+            
+            if (seedError) {
+              console.error('Seed error:', seedError);
+            } else {
+              // Then compute current month
+              const currentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+              const { error: computeError } = await supabase.rpc('retention_compute_v1', {
+                p_tenant: id,
+                p_month: currentMonth
+              });
+              
+              if (computeError) {
+                console.error('Compute error:', computeError);
+              } else {
+                console.log('Dev mode: retention data seeded and computed successfully');
+              }
+            }
           }
         }
       } catch (error) {
         console.error('Error initializing tenant:', error);
         // Log to ui_events
-        if (tenantId) {
+        if (tenantId || id) {
           await supabase.from('ui_events').insert({
-            tenant_id: tenantId,
+            tenant_id: tenantId || id,
             event_type: 'error',
             level: 'error',
             page: '/diagnostic/retention',
