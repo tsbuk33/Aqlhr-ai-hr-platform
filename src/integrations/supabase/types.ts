@@ -8648,6 +8648,135 @@ export type Database = {
         }
         Relationships: []
       }
+      retention_actions: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          evidence: Json | null
+          id: string
+          owner_id: string | null
+          period_month: string
+          priority: string | null
+          scope: string
+          scope_id: string | null
+          status: string | null
+          tenant_id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          evidence?: Json | null
+          id?: string
+          owner_id?: string | null
+          period_month: string
+          priority?: string | null
+          scope: string
+          scope_id?: string | null
+          status?: string | null
+          tenant_id: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          evidence?: Json | null
+          id?: string
+          owner_id?: string | null
+          period_month?: string
+          priority?: string | null
+          scope?: string
+          scope_id?: string | null
+          status?: string | null
+          tenant_id?: string
+          title?: string | null
+        }
+        Relationships: []
+      }
+      retention_config: {
+        Row: {
+          band_thresholds: Json | null
+          created_at: string | null
+          min_group_n: number | null
+          target_turnover: number | null
+          tenant_id: string
+        }
+        Insert: {
+          band_thresholds?: Json | null
+          created_at?: string | null
+          min_group_n?: number | null
+          target_turnover?: number | null
+          tenant_id: string
+        }
+        Update: {
+          band_thresholds?: Json | null
+          created_at?: string | null
+          min_group_n?: number | null
+          target_turnover?: number | null
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      retention_features: {
+        Row: {
+          created_at: string | null
+          employee_id: string
+          features: Json
+          id: string
+          period_month: string
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          employee_id: string
+          features: Json
+          id?: string
+          period_month: string
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string | null
+          employee_id?: string
+          features?: Json
+          id?: string
+          period_month?: string
+          tenant_id?: string
+        }
+        Relationships: []
+      }
+      retention_risks: {
+        Row: {
+          band: string
+          created_at: string | null
+          employee_id: string
+          id: string
+          period_month: string
+          risk_score: number
+          tenant_id: string
+          top_factors: Json | null
+        }
+        Insert: {
+          band: string
+          created_at?: string | null
+          employee_id: string
+          id?: string
+          period_month: string
+          risk_score: number
+          tenant_id: string
+          top_factors?: Json | null
+        }
+        Update: {
+          band?: string
+          created_at?: string | null
+          employee_id?: string
+          id?: string
+          period_month?: string
+          risk_score?: number
+          tenant_id?: string
+          top_factors?: Json | null
+        }
+        Relationships: []
+      }
       rew_snapshots: {
         Row: {
           case_id: string
@@ -11635,6 +11764,27 @@ export type Database = {
         }
         Relationships: []
       }
+      retention_overview_v1: {
+        Row: {
+          avg_risk: number | null
+          department_id: string | null
+          dept_name_ar: string | null
+          dept_name_en: string | null
+          n: number | null
+          pct_high: number | null
+          period_month: string | null
+          tenant_id: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_employees_dept_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "hr_departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       v_costs: {
         Row: {
           employee_id: string | null
@@ -12462,6 +12612,58 @@ export type Database = {
           p_source_line?: number
         }
         Returns: string
+      }
+      retention_compute_v1: {
+        Args: { p_month?: string; p_tenant: string }
+        Returns: undefined
+      }
+      retention_get_drivers_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          avg_impact: number
+          factor_name: string
+          frequency: number
+        }[]
+      }
+      retention_get_hotspots_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          avg_risk: number
+          department_id: string
+          dept_name_ar: string
+          dept_name_en: string
+          n: number
+          pct_high: number
+        }[]
+      }
+      retention_get_overview_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          avg_risk: number
+          pct_high: number
+          pct_low: number
+          pct_med: number
+          target_turnover: number
+          total_employees: number
+        }[]
+      }
+      retention_get_watchlist_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          band: string
+          dept_name_ar: string
+          dept_name_en: string
+          employee_id: string
+          employee_name_ar: string
+          employee_name_en: string
+          manager_name: string
+          risk_score: number
+          top_factors: Json
+        }[]
+      }
+      retention_seed_demo_v1: {
+        Args: { p_tenant: string }
+        Returns: undefined
       }
       revoke_api_key: {
         Args: { p_key_id: string }
