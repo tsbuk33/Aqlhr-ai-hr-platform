@@ -28,6 +28,11 @@ const RealtimeAnalytics = lazy(() => import('../pages/analytics/Realtime'));
 // Admin pages
 const AdminOverview = lazy(() => import('../pages/admin/AdminOverview'));
 const UsersPage = lazy(() => import('../pages/admin/Users'));
+const UserRoles = lazy(() => import('../pages/admin/UserRoles'));
+const CompanySettings = lazy(() => import('../pages/admin/CompanySettings'));
+const ApiKeys = lazy(() => import('../pages/admin/ApiKeys'));
+const GovernmentIntegration = lazy(() => import('../pages/admin/GovernmentIntegration'));
+const Localization = lazy(() => import('../pages/admin/Localization'));
 
 // Reports pages  
 const ReportBuilder = lazy(() => import('../pages/reports/Builder'));
@@ -306,6 +311,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/admin/users', element: UsersPage, auth: true, adminOnly: true },
   { path: '/admin/logs', element: lazy(() => import('@/pages/admin/Logs')), auth: true, adminOnly: true },
   { path: '/admin/demo-data', element: lazy(() => import('@/pages/admin/DemoData')), auth: true, adminOnly: true },
+  { path: '/admin/government-integration', element: GovernmentIntegration, auth: true, adminOnly: true },
+  { path: '/admin/localization', element: Localization, auth: true, adminOnly: true },
   { path: '/employees', element: EmployeesPage, auth: true },
   { path: '/people/employees', element: lazy(() => import('../pages/people/EmployeeList')), auth: true },
   { path: '/people/employees/:id', element: lazy(() => import('../pages/people/EmployeeProfile')), auth: true },

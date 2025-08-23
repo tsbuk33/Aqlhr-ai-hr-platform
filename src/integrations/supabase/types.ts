@@ -4622,6 +4622,54 @@ export type Database = {
           },
         ]
       }
+      gov_integration_workflows: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          failure_count: number | null
+          id: string
+          is_active: boolean | null
+          last_run_at: string | null
+          next_run_at: string | null
+          steps: Json
+          success_count: number | null
+          tenant_id: string
+          triggers: Json | null
+          updated_at: string | null
+          workflow_name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          failure_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at?: string | null
+          steps?: Json
+          success_count?: number | null
+          tenant_id: string
+          triggers?: Json | null
+          updated_at?: string | null
+          workflow_name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          failure_count?: number | null
+          id?: string
+          is_active?: boolean | null
+          last_run_at?: string | null
+          next_run_at?: string | null
+          steps?: Json
+          success_count?: number | null
+          tenant_id?: string
+          triggers?: Json | null
+          updated_at?: string | null
+          workflow_name?: string
+        }
+        Relationships: []
+      }
       gov_integrations: {
         Row: {
           api_credentials: Json | null
@@ -4679,6 +4727,45 @@ export type Database = {
           system?: string
           tenant_id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      gov_simulator_configs: {
+        Row: {
+          created_at: string | null
+          enabled: boolean | null
+          id: string
+          mock_data_config: Json | null
+          response_delay_ms: number | null
+          scenarios: Json | null
+          success_rate: number | null
+          system: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string
+          mock_data_config?: Json | null
+          response_delay_ms?: number | null
+          scenarios?: Json | null
+          success_rate?: number | null
+          system: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string
+          mock_data_config?: Json | null
+          response_delay_ms?: number | null
+          scenarios?: Json | null
+          success_rate?: number | null
+          system?: string
+          tenant_id?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -10351,6 +10438,57 @@ export type Database = {
           },
         ]
       }
+      tenant_localization_prefs: {
+        Row: {
+          created_at: string | null
+          currency_symbol: string | null
+          date_format: string | null
+          decimal_separator: string | null
+          default_calendar: string
+          default_language: string
+          id: string
+          module_calendar_prefs: Json | null
+          numeral_system: string
+          tenant_id: string
+          thousands_separator: string | null
+          time_format: string | null
+          timezone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency_symbol?: string | null
+          date_format?: string | null
+          decimal_separator?: string | null
+          default_calendar?: string
+          default_language?: string
+          id?: string
+          module_calendar_prefs?: Json | null
+          numeral_system?: string
+          tenant_id: string
+          thousands_separator?: string | null
+          time_format?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency_symbol?: string | null
+          date_format?: string | null
+          decimal_separator?: string | null
+          default_calendar?: string
+          default_language?: string
+          id?: string
+          module_calendar_prefs?: Json | null
+          numeral_system?: string
+          tenant_id?: string
+          thousands_separator?: string | null
+          time_format?: string | null
+          timezone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       tenant_plans: {
         Row: {
           active_from: string | null
@@ -12354,6 +12492,21 @@ export type Database = {
           username: string
         }[]
       }
+      get_tenant_localization_prefs: {
+        Args: { p_tenant_id?: string }
+        Returns: {
+          currency_symbol: string
+          date_format: string
+          decimal_separator: string
+          default_calendar: string
+          default_language: string
+          module_calendar_prefs: Json
+          numeral_system: string
+          thousands_separator: string
+          time_format: string
+          timezone: string
+        }[]
+      }
       get_tenant_plan: {
         Args: { p_tenant_id?: string }
         Returns: {
@@ -12754,6 +12907,15 @@ export type Database = {
           rate: number
         }[]
       }
+      simulate_gov_api_call: {
+        Args: {
+          p_endpoint: string
+          p_payload?: Json
+          p_system: string
+          p_tenant_id: string
+        }
+        Returns: Json
+      }
       sparsevec_out: {
         Args: { "": unknown }
         Returns: unknown
@@ -12853,6 +13015,10 @@ export type Database = {
       update_auth_security_compliance: {
         Args: Record<PropertyKey, never>
         Returns: undefined
+      }
+      update_localization_prefs: {
+        Args: { p_preferences: Json; p_tenant_id: string }
+        Returns: boolean
       }
       validate_api_key: {
         Args: { p_api_key: string }
