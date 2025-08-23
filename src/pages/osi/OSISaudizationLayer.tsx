@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   Users, 
   TrendingUp, 
@@ -31,6 +32,7 @@ export const OSISaudizationLayer = ({ caseId }: OSISaudizationLayerProps) => {
   const [loading, setLoading] = useState(true);
   const [overallSaudization, setOverallSaudization] = useState(0);
   const { toast } = useToast();
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     fetchSaudizationData();
@@ -97,7 +99,7 @@ export const OSISaudizationLayer = ({ caseId }: OSISaudizationLayerProps) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>

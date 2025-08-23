@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   BookOpen, 
   Play,
@@ -45,6 +46,7 @@ export const OSIPlaybook = ({ caseId }: OSIPlaybookProps) => {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const { toast } = useToast();
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     fetchPlaybook();
@@ -197,7 +199,7 @@ export const OSIPlaybook = ({ caseId }: OSIPlaybookProps) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Playbook Header */}
       <Card>
         <CardHeader>

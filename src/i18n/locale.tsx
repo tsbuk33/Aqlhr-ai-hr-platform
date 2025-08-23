@@ -109,11 +109,7 @@ const Ctx = createContext<{
   locale: Locale; 
   setLocale: (l: Locale) => void; 
   t: (ns: string, k: string) => string;
-}>({
-  locale: 'en', 
-  setLocale: () => {}, 
-  t: () => '',
-});
+} | null>(null);
 
 function resolveLocale(): Locale {
   // Dev/demo override
@@ -161,7 +157,18 @@ export function LocaleProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useLocale = () => useContext(Ctx);
+export const useLocale = () => {
+  const ctx = useContext(Ctx);
+  if (ctx) return ctx;
+  
+  // Safe fallback to prevent crashes when used outside provider
+  const fallbackLocale: Locale = 'en';
+  return {
+    locale: fallbackLocale,
+    setLocale: () => {},
+    t: (_ns: string, key: string) => key, // Return key as fallback
+  };
+};
 
 export const formatNumber = (n: number, l: Locale) => 
   new Intl.NumberFormat(l === 'ar' ? 'ar-SA' : 'en-US', { maximumFractionDigits: 2 }).format(n);

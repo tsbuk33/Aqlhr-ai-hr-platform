@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   DollarSign, 
   TrendingUp,
@@ -38,6 +39,7 @@ export const OSICostManage = ({ caseId }: OSICostManageProps) => {
   const [trendData, setTrendData] = useState<CostTrendData[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     fetchCostData();
@@ -116,7 +118,7 @@ export const OSICostManage = ({ caseId }: OSICostManageProps) => {
   const StatusIcon = costStatus.icon;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>

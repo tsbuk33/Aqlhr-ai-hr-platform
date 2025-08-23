@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   Users, 
   TrendingUp, 
@@ -47,6 +48,7 @@ export const OSISpansLayers = ({ caseId }: OSISpansLayersProps) => {
   const [filterDept, setFilterDept] = useState<string>('all');
   const [filterGrade, setFilterGrade] = useState<string>('all');
   const { toast } = useToast();
+  const { locale, t } = useLocale();
 
   useEffect(() => {
     fetchSpansData();
@@ -106,7 +108,7 @@ export const OSISpansLayers = ({ caseId }: OSISpansLayersProps) => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>

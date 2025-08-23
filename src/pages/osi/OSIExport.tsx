@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale, formatNumber } from "@/i18n/locale";
 import { 
   Download, 
   FileText, 
@@ -38,6 +39,7 @@ export const OSIExport = ({ caseId }: OSIExportProps) => {
   const [lastExport, setLastExport] = useState<string | null>(null);
   const { toast } = useToast();
   const { hasRole } = useUserRole();
+  const { locale, t } = useLocale();
 
   const canIncludePII = hasRole('admin') || hasRole('hr_manager');
 
@@ -108,7 +110,7 @@ export const OSIExport = ({ caseId }: OSIExportProps) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" key={locale}>
       {/* Export Options */}
       <Card>
         <CardHeader>
