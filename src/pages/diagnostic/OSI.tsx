@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,8 @@ import { OSICost } from '@/components/diagnostic/OSICost';
 import { OSIExport } from '@/components/diagnostic/OSIExport';
 import { OSIDevToolbar } from '@/components/dev/OSIDevToolbar';
 import { CrossLinksCard } from '@/components/diagnostic/CrossLinksCard';
+import { useEntitlement } from '@/lib/core/useEntitlement';
+import { EnhancedUpsellModal } from '@/components/core/EnhancedUpsellModal';
 import * as osiAPI from '@/lib/api/osi';
 import {
   Building2,
@@ -29,20 +32,31 @@ import {
 } from 'lucide-react';
 
 const OSI = () => {
+  const { lang } = useParams();
+  const isArabic = lang === 'ar';
+  
   const [tenantId, setTenantId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [autoSeeding, setAutoSeeding] = useState(false);
+  const [showUpsell, setShowUpsell] = useState(false);
+  
   const { toast } = useToast();
   const { locale, t } = useLocale();
   const { user } = useAuthOptional();
   
-  const lang = getLang();
-  const isRTL = lang === 'ar';
+  // Check entitlement for OSI feature
+  const { allowed: hasOSIAccess, loading: entitlementLoading } = useEntitlement('osi');
+  
+  const isRTL = isArabic;
 
   useEffect(() => {
-    initializeTenant();
-  }, []);
+    if (hasOSIAccess) {
+      initializeTenant();
+    } else if (!entitlementLoading) {
+      setLoading(false);
+    }
+  }, [hasOSIAccess, entitlementLoading]);
 
   const initializeTenant = async () => {
     try {
@@ -89,7 +103,7 @@ const OSI = () => {
       setError(err.message || 'Failed to initialize OSI');
       console.error('OSI initialization error:', err);
       toast({
-        title: t('osi', 'error'),
+        title: isArabic ? 'خطأ' : 'Error',
         description: err.message || 'Failed to load OSI data',
         variant: 'destructive'
       });
@@ -103,7 +117,7 @@ const OSI = () => {
     initializeTenant();
   };
 
-  if (loading) {
+  if (loading || entitlementLoading) {
     return (
       <div className="container mx-auto p-6" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="animate-pulse space-y-4">
@@ -115,6 +129,57 @@ const OSI = () => {
     );
   }
 
+  // Show upsell if no access
+  if (!hasOSIAccess) {
+    return (
+      <div className="container mx-auto p-6 space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">
+              {isArabic ? 'ذكاء الهيكل التنظيمي (OSI)' : 'Organizational Structure Intelligence (OSI)'}
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              {isArabic 
+                ? 'تحليل متقدم للهيكل التنظيمي وتحسين الأداء'
+                : 'Advanced organizational analysis and performance optimization'
+              }
+            </p>
+          </div>
+        </div>
+
+        <Card className="text-center border-dashed">
+          <CardContent className="p-12">
+            <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+              <Building2 className="w-8 h-8 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold mb-4">
+              {isArabic ? 'ذكاء الهيكل التنظيمي مقفل' : 'OSI Intelligence Locked'}
+            </h2>
+            <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+              {isArabic 
+                ? 'الوصول إلى ذكاء الهيكل التنظيمي يتطلب الترقية إلى الخطة المؤسسية. احصل على رؤى عميقة حول هيكل مؤسستك وتحسينات الأداء.'
+                : 'Access to OSI Intelligence requires upgrading to the Enterprise plan. Get deep insights into your organizational structure and performance optimizations.'
+              }
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => setShowUpsell(true)} size="lg">
+                <Building2 className="w-4 h-4 me-2" />
+                {isArabic ? 'ترقية للوصول' : 'Upgrade to Access'}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <EnhancedUpsellModal
+          isOpen={showUpsell}
+          onClose={() => setShowUpsell(false)}
+          feature="osi"
+          requiredPlan="enterprise"
+        />
+      </div>
+    );
+  }
+
   if (error) {
     return (
       <div className="container mx-auto p-6" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -122,13 +187,13 @@ const OSI = () => {
           <CardContent className="flex flex-col items-center justify-center py-8">
             <AlertTriangle className="h-12 w-12 text-destructive mb-4" />
             <h3 className="text-lg font-semibold mb-2">
-              {t('osi', 'initialization_error')}
+              {isArabic ? 'خطأ في التهيئة' : 'Initialization Error'}
             </h3>
             <p className="text-muted-foreground text-center mb-4">
               {error}
             </p>
             <Button onClick={initializeTenant} variant="outline">
-              {t('osi', 'retry')}
+              {isArabic ? 'إعادة المحاولة' : 'Retry'}
             </Button>
           </CardContent>
         </Card>
@@ -141,9 +206,9 @@ const OSI = () => {
       <div className="container mx-auto p-6" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="text-center py-12">
           <Lock className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-          <h1 className="text-2xl font-bold mb-2">{t('osi', 'access_required')}</h1>
+          <h1 className="text-2xl font-bold mb-2">{isArabic ? 'الوصول مطلوب' : 'Access Required'}</h1>
           <p className="text-muted-foreground mb-6">
-            {t('osi', 'access_description')}
+            {isArabic ? 'يجب تسجيل الدخول للوصول إلى هذه الميزة' : 'Please log in to access this feature'}
           </p>
         </div>
       </div>
@@ -155,10 +220,10 @@ const OSI = () => {
       <div>
         <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
           <Building2 className="h-8 w-8" />
-          {t('osi', 'org_structure_intel')}
+          {isArabic ? 'ذكاء الهيكل التنظيمي' : 'Organizational Structure Intelligence'}
         </h1>
         <p className="text-muted-foreground mt-2">
-          {t('osi', 'advanced_analysis')}
+          {isArabic ? 'تحليل متقدم للهيكل التنظيمي وتحسين الأداء' : 'Advanced organizational analysis and performance optimization'}
         </p>
       </div>
 
@@ -168,27 +233,27 @@ const OSI = () => {
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'overview')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'نظرة عامة' : 'Overview'}</span>
           </TabsTrigger>
           <TabsTrigger value="layers" className="flex items-center gap-2">
             <Layers className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'layers')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'الطبقات' : 'Layers'}</span>
           </TabsTrigger>
           <TabsTrigger value="saudization" className="flex items-center gap-2">
             <Target className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'saudization_by_layers')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'السعودة حسب الطبقات' : 'Saudization by Layers'}</span>
           </TabsTrigger>
           <TabsTrigger value="span" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'management_span')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'نطاق الإدارة' : 'Management Span'}</span>
           </TabsTrigger>
           <TabsTrigger value="cost" className="flex items-center gap-2">
             <DollarSign className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'cost_of_management')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'تكلفة الإدارة' : 'Cost of Management'}</span>
           </TabsTrigger>
           <TabsTrigger value="export" className="flex items-center gap-2">
             <Download className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('osi', 'export')}</span>
+            <span className="hidden sm:inline">{isArabic ? 'التصدير' : 'Export'}</span>
           </TabsTrigger>
         </TabsList>
 
@@ -231,6 +296,14 @@ const OSI = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Upsell Modal */}
+      <EnhancedUpsellModal
+        isOpen={showUpsell}
+        onClose={() => setShowUpsell(false)}
+        feature="osi"
+        requiredPlan="enterprise"
+      />
     </div>
   );
 };

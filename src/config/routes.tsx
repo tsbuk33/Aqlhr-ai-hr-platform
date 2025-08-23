@@ -204,6 +204,7 @@ const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/Intell
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
+const Pricing = lazy(() => import('../pages/plans/Pricing'));
 
 // CCI modules
 const CCIOverview = lazy(() => import('../pages/cci/Overview'));
@@ -291,6 +292,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/growth/roi', element: ROIDashboard, auth: true },
   { path: '/onboarding', element: Onboarding, auth: true },
   { path: '/share/:token', element: ShareViewer, auth: false },
+  { path: '/plans/pricing', element: Pricing, auth: false },
   
   // Core routes - no auth required
   { path: '/ai-executive-intelligence', element: AIEnhancedExecutiveIntelligence, auth: false },
@@ -359,7 +361,7 @@ export const ROUTES: RouteConfig[] = [
 
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
-  { path: '/compliance/autopilot', element: ComplianceAutopilot, auth: true },
+  { path: '/compliance/autopilot', element: lazy(() => import('../pages/compliance/ComplianceAutopilotGated')), auth: true },
   { path: '/compliance/regulatory', element: RegulatoryCompliance, auth: true, adminOnly: true },
   { path: '/compliance/committees', element: CommitteeManagement, auth: true, adminOnly: true },
   { path: '/compliance/audit-trails', element: AuditTrails, auth: true, adminOnly: true },
