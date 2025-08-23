@@ -1,6 +1,9 @@
+// Update existing i18n system to subscribe to locale driver
 import { createContext, useContext, useLayoutEffect, useMemo, useState } from 'react';
+import { getCurrentLang, localeDriver, type Lang } from '@/lib/i18n/localeDriver';
 
-export type Locale = 'en' | 'ar';
+export type Locale = Lang; // For compatibility
+
 const STORAGE_KEY = 'aqlhr.locale';
 
 type Dict = Record<string, string>;
@@ -140,35 +143,21 @@ const Ctx = createContext<{
   t: (ns: string, k: string) => string;
 } | null>(null);
 
-function resolveLocale(): Locale {
-  // Dev/demo override
-  const qp = new URLSearchParams(window.location.search).get('lang');
-  if (qp === 'en' || qp === 'ar') return qp;
-  // Persisted choice
-  const ls = localStorage.getItem(STORAGE_KEY);
-  if (ls === 'en' || ls === 'ar') return ls as Locale;
-  // Default
-  return 'en';
-}
-
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>(resolveLocale());
+  const [locale, setLocaleState] = useState<Locale>(getCurrentLang());
+  
+  // Subscribe to locale driver changes
+  useLayoutEffect(() => {
+    const cleanup = localeDriver.onLangChange((lang) => {
+      setLocaleState(lang);
+    });
+    return cleanup;
+  }, []);
   
   const setLocale = (l: Locale) => { 
     localStorage.setItem(STORAGE_KEY, l); 
-    setLocaleState(l); 
+    localeDriver.setLang(l);
   };
-
-  useLayoutEffect(() => {
-    document.documentElement.lang = locale;
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.classList.toggle('rtl', locale === 'ar');
-    if (new URLSearchParams(window.location.search).has('lang')) {
-      // visible hint for testers
-      // eslint-disable-next-line no-console
-      console.info(`🔧 Dev Mode: locale forced to ${locale.toUpperCase()} via ?lang=`);
-    }
-  }, [locale]);
 
   const t = (ns: string, key: string) => {
     const b = bundles[ns]; 

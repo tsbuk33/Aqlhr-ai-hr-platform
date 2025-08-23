@@ -1,18 +1,20 @@
 import { Globe } from 'lucide-react';
-import { useLocale } from '@/i18n/locale';
+import { useLocalePath } from '@/lib/i18n/LinkL';
+import { getCurrentLang } from '@/lib/i18n/localeDriver';
 
 export default function LanguageToggle({ compact = false }: { compact?: boolean }) {
-  const { locale, setLocale, t } = useLocale();
+  const { switchLanguage } = useLocalePath();
+  const locale = getCurrentLang();
   const next = locale === 'en' ? 'ar' : 'en';
   
   return (
     <button 
-      onClick={() => setLocale(next)} 
+      onClick={() => switchLanguage(next)} 
       className="inline-flex items-center gap-2 px-3 py-1 rounded border border-border hover:bg-muted transition-colors"
     >
       <Globe className="h-4 w-4" />
       <span className="text-sm font-medium">
-        {next === 'ar' ? t('common', 'arabic') : t('common', 'language')}
+        {next === 'ar' ? 'عربي' : 'English'}
       </span>
       <span className="text-xs opacity-60">
         ({next.toUpperCase()})

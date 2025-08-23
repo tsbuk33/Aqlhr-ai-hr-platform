@@ -14,12 +14,15 @@ export const AppRoutes: React.FC = () => {
   console.log('[AppRoutes] rendering routes:', ROUTES.length);
   return (
     <Routes>
+      {/* Public routes without authentication */}
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route path="/cci/survey" element={<Survey />} />
       <Route path="/cci/survey/thanks" element={<SurveyThanks />} />
       <Route path="/cci/respond" element={<Respond />} />
       <Route path="/cci/admin/links" element={<CCIAdminLinks />} />
+      
+      {/* Main application routes */}
       {ROUTES.map((route) => {
         const Component = route.element;
         return (
@@ -30,6 +33,8 @@ export const AppRoutes: React.FC = () => {
           />
         );
       })}
+      
+      {/* Catch-all 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

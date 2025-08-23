@@ -276,6 +276,9 @@ export interface RouteConfig {
   adminOnly?: boolean;
 }
 
+// I18n Test Page
+const I18nTest = lazy(() => import('../pages/_/I18nTest'));
+
 export const ROUTES: RouteConfig[] = [
   // New growth and self-sell routes
   { path: '/growth/roi', element: ROIDashboard, auth: true },
@@ -569,4 +572,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/integrations', element: lazy(() => import('../pages/integrations/IntegrationsPage')), auth: true },
   { path: '/assistant', element: AssistantPage, auth: true },
   { path: '/security', element: lazy(() => import('../pages/SecurityPage')), auth: true },
+  
+  // I18n Test Page
+  { path: '/_/i18n', element: I18nTest, auth: false },
 ];
