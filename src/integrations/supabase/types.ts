@@ -12924,6 +12924,19 @@ export type Database = {
           top_factors: Json
         }[]
       }
+      retention_overview_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          avg_risk: number
+          high_risk_count: number
+          high_risk_percentage: number
+          last_12m_exits: number
+          low_risk_count: number
+          med_risk_count: number
+          sparkline_data: Json
+          target_turnover: number
+        }[]
+      }
       retention_seed_demo_v1: {
         Args: { p_tenant: string }
         Returns: undefined
