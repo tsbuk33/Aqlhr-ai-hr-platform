@@ -7,6 +7,7 @@ import { useDashboardData } from "@/hooks/useDashboardData";
 import { useFeatureGating } from "@/hooks/useFeatureGating";
 import { UpsellModal } from "@/components/ui/upsell-modal";
 import { DashboardErrorBoundary, DashboardSkeleton } from "@/components/dashboard/DashboardErrorBoundary";
+import { DemoSeedingCallout } from "@/components/dashboard/DemoSeedingCallout";
 import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDashboardAlertsPanel";
 import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
@@ -127,9 +128,18 @@ export default function Dashboard() {
     );
   }
 
+  // Dev callout when no employees
+  const isDev = new URLSearchParams(window.location.search).get('dev') === '1';
+  const hasNoEmployees = data?.totalEmployees === 0;
+
   return (
     <DashboardErrorBoundary>
       <div className="container mx-auto p-6 space-y-6">
+        {/* Dev Callout */}
+        {isDev && hasNoEmployees && (
+          <DemoSeedingCallout onSeedingComplete={refetch} />
+        )}
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>

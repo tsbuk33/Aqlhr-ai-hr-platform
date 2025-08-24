@@ -16,6 +16,7 @@ export default function DiagnosticHub() {
   const [isSeedingRetention, setIsSeedingRetention] = useState(false);
   const [isSeeded, setIsSeeded] = useState(false);
   const [tenantId, setTenantId] = useState<string | null>(null);
+  const [tenantSummary, setTenantSummary] = useState<{employees: number, kpiDays: number, exits: number} | null>(null);
 
   useEffect(() => {
     async function checkStatus() {
@@ -27,6 +28,39 @@ export default function DiagnosticHub() {
     }
     checkStatus();
   }, []);
+
+  const fetchTenantSummary = async () => {
+    if (!tenantId) return;
+    
+    try {
+      // Get employee count
+      const { count: empCount, error: empError } = await supabase
+        .from('hr_employees')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', tenantId);
+      
+      // Get KPI snapshots count
+      const { count: kpiCount, error: kpiError } = await supabase
+        .from('kpi_snapshots')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', tenantId);
+      
+      // Get exits count from last 12 months
+      const { count: exitsCount, error: exitsError } = await supabase
+        .from('hr_employee_exits')
+        .select('*', { count: 'exact', head: true })
+        .eq('company_id', tenantId)
+        .gte('exit_date', new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+
+      setTenantSummary({
+        employees: empCount || 0,
+        kpiDays: kpiCount || 0,
+        exits: exitsCount || 0
+      });
+    } catch (error) {
+      console.warn('Failed to fetch tenant summary:', error);
+    }
+  };
 
   const handleSeedDemo = async () => {
     if (!tenantId) return;
@@ -63,6 +97,9 @@ export default function DiagnosticHub() {
         title: "Demo Data Seeded",
         description: (seedData as any)?.message || `Successfully seeded employees for tenant ${tenantId}`,
       });
+      
+      // Update summary
+      await fetchTenantSummary();
     } catch (error: any) {
       toast({
         title: "Seeding Error",
@@ -103,6 +140,9 @@ export default function DiagnosticHub() {
         title: "KPIs Recomputed",
         description: (backfillData as any)?.message || "Successfully updated all KPI metrics and historical data",
       });
+      
+      // Update summary
+      await fetchTenantSummary();
     } catch (error: any) {
       toast({
         title: "KPI Computation Error",
@@ -136,6 +176,9 @@ export default function DiagnosticHub() {
         title: "Success",
         description: "Retention data seeded successfully with exits and analytics",
       });
+      
+      // Update summary
+      await fetchTenantSummary();
     } catch (error: any) {
       console.error('Error seeding retention:', error);
       toast({
@@ -147,6 +190,13 @@ export default function DiagnosticHub() {
       setIsSeedingRetention(false);
     }
   };
+
+  // Load tenant summary on mount and when tenant changes
+  useEffect(() => {
+    if (tenantId) {
+      fetchTenantSummary();
+    }
+  }, [tenantId]);
 
   // Minimal, always-visible content so we can verify rendering
   return (
@@ -249,6 +299,27 @@ export default function DiagnosticHub() {
           <p className="text-sm text-muted-foreground">
             Seeds ~1,000 employees with realistic Saudization mix and iqama expiries. KPI recomputation generates 365 days of historical snapshots. Both operations use database fallbacks for reliability.
           </p>
+          
+          {/* Tenant Summary */}
+          {tenantSummary && (
+            <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+              <div className="text-xs font-medium mb-2">Tenant Summary (ID: {tenantId?.slice(0, 8)}...)</div>
+              <div className="grid grid-cols-3 gap-4 text-xs">
+                <div>
+                  <span className="text-muted-foreground">Employees:</span>
+                  <div className="font-mono">{tenantSummary.employees.toLocaleString()}</div>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">KPI Days:</span>
+                  <div className="font-mono">{tenantSummary.kpiDays}</div>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Exits (12M):</span>
+                  <div className="font-mono">{tenantSummary.exits}</div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="space-y-3">
