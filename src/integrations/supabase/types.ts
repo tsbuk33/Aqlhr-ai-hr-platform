@@ -12632,6 +12632,10 @@ export type Database = {
         Args: { "": unknown }
         Returns: unknown
       }
+      hr_valid_employment_status_v1: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       integrations_overview_v2: {
         Args: { p_tenant: string }
         Returns: {
