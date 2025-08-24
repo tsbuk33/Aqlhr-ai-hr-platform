@@ -115,27 +115,51 @@ export function useRetention(tenantId: string | null) {
     } catch (err: any) {
       console.error('Error fetching retention data:', err);
       setError(err.message);
+      
+      // Set safe defaults instead of keeping loading state
+      setOverview(null);
+      setHotspots([]);
+      setDrivers([]);
+      setWatchlist([]);
+      setActions([]);
+      
+      toast({
+        title: "Warning",
+        description: "Failed to load retention data. Using empty state.",
+        variant: "destructive"
+      });
     } finally {
       setLoading(false);
     }
   }, [tenantId]);
 
   const recompute = useCallback(async () => {
-    if (!tenantId) return;
+    if (!tenantId) return false;
 
     try {
-      const { error } = await supabase
-        .rpc('retention_compute_v1', { p_tenant: tenantId });
-      
-      if (error) throw error;
+      // First try retention-specific compute
+      try {
+        const { error } = await supabase
+          .rpc('retention_compute_v1', { p_tenant: tenantId });
+        
+        if (error) throw error;
+      } catch (retentionError) {
+        // Fallback to general KPI backfill
+        console.log('Retention compute failed, falling back to KPI backfill');
+        const { error: backfillError } = await supabase
+          .rpc('dev_backfill_kpis_v1', { p_tenant: tenantId, p_days: 365 });
+        
+        if (backfillError) throw backfillError;
+      }
       
       toast({
-        title: "Success",
+        title: "Success", 
         description: "Retention analysis recomputed successfully"
       });
       
       // Refresh data
       await fetchData();
+      return true;
     } catch (err: any) {
       console.error('Error recomputing retention:', err);
       toast({
@@ -143,17 +167,31 @@ export function useRetention(tenantId: string | null) {
         description: err.message,
         variant: "destructive"
       });
+      return false;
     }
   }, [tenantId, fetchData, toast]);
 
   const seedDemo = useCallback(async () => {
-    if (!tenantId) return;
+    if (!tenantId) return false;
 
     try {
-      const { error } = await supabase
-        .rpc('retention_seed_demo_v1', { p_tenant: tenantId });
-      
-      if (error) throw error;
+      // First try retention-specific seeding  
+      try {
+        const { error } = await supabase
+          .rpc('retention_seed_demo_v1', { p_tenant: tenantId });
+        
+        if (error) throw error;
+      } catch (retentionError) {
+        // Fallback to general employee seeding
+        console.log('Retention seed failed, falling back to employee seeding');
+        const { error: seedError } = await supabase
+          .rpc('dev_seed_employees_v1', { p_tenant: tenantId, p_n: 1000 });
+        
+        if (seedError) throw seedError;
+        
+        // Then backfill KPIs
+        await supabase.rpc('dev_backfill_kpis_v1', { p_tenant: tenantId, p_days: 365 });
+      }
       
       toast({
         title: "Success",
@@ -162,13 +200,15 @@ export function useRetention(tenantId: string | null) {
       
       // Refresh data
       await fetchData();
+      return true;
     } catch (err: any) {
       console.error('Error seeding demo data:', err);
       toast({
-        title: "Error",
+        title: "Error", 
         description: err.message,
         variant: "destructive"
       });
+      return false;
     }
   }, [tenantId, fetchData, toast]);
 

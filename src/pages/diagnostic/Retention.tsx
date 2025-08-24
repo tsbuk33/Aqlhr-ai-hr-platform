@@ -18,7 +18,8 @@ import { useEntitlement } from '@/lib/core/useEntitlement';
 import { EnhancedUpsellModal } from '@/components/core/EnhancedUpsellModal';
 import { supabase } from '@/integrations/supabase/client';
 import * as retentionAPI from '@/lib/api/retention';
-import { Database, Target, Shield } from 'lucide-react';
+import { Database, Target, Shield, RefreshCw, AlertTriangle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const Retention = () => {
   const { lang } = useParams();
@@ -212,6 +213,9 @@ const Retention = () => {
   // Show empty state if no data and not loading
   const showEmptyState = !retentionData.loading && !autoSeeding && 
     (!retentionData.overview || retentionData.overview.total_employees === 0);
+    
+  // Show demo not seeded banner when appropriate
+  const showDemoNotSeeded = showEmptyState && tenantId;
 
   const urlParams = new URLSearchParams(window.location.search);
   const isDevMode = urlParams.get('dev') === '1';
@@ -226,6 +230,53 @@ const Retention = () => {
       </div>
 
       <DevToolbar tenantId={tenantId} onDataChanged={handleDataChanged} />
+
+      {/* Demo not seeded banner */}
+      {showDemoNotSeeded && (
+        <Alert className="bg-yellow-50 border-yellow-200 dark:bg-yellow-950 dark:border-yellow-800">
+          <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+          <AlertDescription className="flex items-center justify-between">
+            <span className="text-yellow-800 dark:text-yellow-200">
+              {isArabic 
+                ? "لم يتم توليد البيانات التجريبية بعد - انقر فوق توليد الآن"
+                : "Demo not seeded yet – click Seed Now"
+              }
+            </span>
+            {isDevMode && (
+              <div className="flex gap-2 ml-4">
+                <Button 
+                  size="sm"
+                  variant="outline"
+                  onClick={async () => {
+                    setAutoSeeding(true);
+                    try {
+                      if (tenantId) {
+                        await retentionData.seedDemo();
+                      }
+                    } finally {
+                      setAutoSeeding(false);
+                    }
+                  }}
+                  disabled={autoSeeding}
+                  className="bg-yellow-100 border-yellow-300 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-200 dark:hover:bg-yellow-800"
+                >
+                  <Target className="w-4 h-4 mr-1" />
+                  {autoSeeding ? (isArabic ? "جاري..." : "Seeding...") : (isArabic ? "توليد الآن" : "Seed Now")}
+                </Button>
+                <Button 
+                  size="sm"
+                  variant="outline"
+                  onClick={() => retentionData.recompute()}
+                  className="bg-yellow-100 border-yellow-300 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-200 dark:hover:bg-yellow-800"
+                >
+                  <RefreshCw className="w-4 h-4 mr-1" />
+                  {isArabic ? "إعادة حساب" : "Recompute"}
+                </Button>
+              </div>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
 
       {showEmptyState ? (
         <Card className="text-center py-12">
