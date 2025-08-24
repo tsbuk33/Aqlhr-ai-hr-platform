@@ -12430,7 +12430,7 @@ export type Database = {
         Returns: Json
       }
       dev_seed_retention_v1: {
-        Args: Record<PropertyKey, never> | { p_tenant?: string }
+        Args: { p_tenant?: string }
         Returns: Json
       }
       find_similar_chunks: {
