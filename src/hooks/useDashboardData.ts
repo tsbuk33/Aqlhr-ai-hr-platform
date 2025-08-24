@@ -132,9 +132,14 @@ export function useDashboardData() {
           const row = Array.isArray(headcountData) ? headcountData[0] : headcountData;
           const fallbackTotal = Number(row?.total ?? 0);
           if (fallbackTotal > 0) {
-            mapped = { ...mapped, totalEmployees: fallbackTotal };
-            await logUIEvent('info', 'Dashboard headcount fallback used', { fallbackTotal });
-            console.log('[Dashboard] Headcount fallback succeeded:', fallbackTotal);
+            const fallbackSaudization = Number(row?.saudization_rate ?? 0);
+            const updated: DashboardData = { ...mapped, totalEmployees: fallbackTotal };
+            if ((mapped.saudizationRate ?? 0) === 0 && fallbackSaudization > 0) {
+              updated.saudizationRate = fallbackSaudization;
+            }
+            mapped = updated;
+            await logUIEvent('info', 'Dashboard headcount fallback used', { fallbackTotal, fallbackSaudization });
+            console.log('[Dashboard] Headcount fallback succeeded:', fallbackTotal, 'Saudization:', fallbackSaudization);
           } else {
             console.log('[Dashboard] Headcount fallback returned 0');
           }
