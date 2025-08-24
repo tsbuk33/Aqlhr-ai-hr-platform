@@ -5136,6 +5136,33 @@ export type Database = {
           },
         ]
       }
+      hr_employee_exits: {
+        Row: {
+          company_id: string
+          created_at: string
+          employee_id: string
+          exit_date: string
+          id: string
+          reason: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          employee_id: string
+          exit_date: string
+          id?: string
+          reason?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          employee_id?: string
+          exit_date?: string
+          id?: string
+          reason?: string | null
+        }
+        Relationships: []
+      }
       hr_employees: {
         Row: {
           allowances: number | null
@@ -12431,7 +12458,7 @@ export type Database = {
       }
       dev_seed_retention_v1: {
         Args: { p_tenant?: string }
-        Returns: Json
+        Returns: undefined
       }
       find_similar_chunks: {
         Args: {
@@ -12631,6 +12658,20 @@ export type Database = {
       hnswhandler: {
         Args: { "": unknown }
         Returns: unknown
+      }
+      hr_employment_status_values: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          status: string
+        }[]
+      }
+      hr_pick_active_status: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      hr_pick_exit_status: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       hr_valid_employment_status_v1: {
         Args: Record<PropertyKey, never>
