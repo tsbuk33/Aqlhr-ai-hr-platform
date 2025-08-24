@@ -12422,15 +12422,15 @@ export type Database = {
         }[]
       }
       dev_backfill_kpis_v1: {
-        Args: { p_days?: number; p_tenant: string }
+        Args: Record<PropertyKey, never> | { p_days?: number; p_tenant: string }
         Returns: Json
       }
       dev_seed_employees_v1: {
-        Args: { p_n?: number; p_tenant: string }
+        Args: Record<PropertyKey, never> | { p_n?: number; p_tenant: string }
         Returns: Json
       }
       dev_seed_retention_v1: {
-        Args: { p_tenant?: string }
+        Args: Record<PropertyKey, never> | { p_tenant?: string }
         Returns: undefined
       }
       find_similar_chunks: {
