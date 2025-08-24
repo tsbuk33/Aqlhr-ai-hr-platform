@@ -6,6 +6,8 @@ interface DemoDataStatus {
   backfilled: boolean;
   tenantId: string | null;
   error?: string;
+  seed?: any;
+  backfill?: any;
 }
 
 async function logToUiEvents(tenantId: string, message: string, level: 'info' | 'error' = 'info') {
@@ -35,75 +37,70 @@ export async function ensureDemoData(): Promise<DemoDataStatus> {
 
     const cacheKey = `aqlhr.demoSeeded:${tenantId}`;
     
-    // Check if already seeded
-    if (localStorage.getItem(cacheKey)) {
-      return { seeded: true, backfilled: true, tenantId };
+    // Check if already seeded (idempotent)
+    if (localStorage.getItem(cacheKey) === '1') {
+      return { seeded: false, backfilled: false, tenantId };
     }
 
-    await logToUiEvents(tenantId, 'Checking demo data status...');
+    await logToUiEvents(tenantId, 'Starting demo data setup...', 'info');
 
-    // Check if employees already exist
-    const { count, error: countError } = await supabase
-      .from('hr_employees')
-      .select('*', { count: 'exact', head: true })
-      .eq('company_id', tenantId);
-
-    if (countError) {
-      await logToUiEvents(tenantId, `Error checking employee count: ${countError.message}`, 'error');
-      return { seeded: false, backfilled: false, tenantId, error: countError.message };
+    // 1) Try Edge Function first (non-blocking failure)
+    let edgeFunctionWorked = false;
+    try {
+      await logToUiEvents(tenantId, 'Attempting edge function seeding...', 'info');
+      const { error: edgeError } = await supabase.functions.invoke('hr_seed_demo_1000_v1', { 
+        body: { tenantId } 
+      });
+      
+      if (!edgeError) {
+        edgeFunctionWorked = true;
+        await logToUiEvents(tenantId, 'Edge function seeding successful', 'info');
+      } else {
+        await logToUiEvents(tenantId, `Edge function failed: ${edgeError.message}`, 'error');
+      }
+    } catch (e: any) {
+      await logToUiEvents(tenantId, `Edge function error: ${e.message}`, 'error');
+      // Swallow error - we'll use DB fallback
     }
 
-    if (count && count > 0) {
-      // Data already exists
-      localStorage.setItem(cacheKey, '1');
-      return { seeded: true, backfilled: true, tenantId };
-    }
-
-    await logToUiEvents(tenantId, 'No employees found, seeding demo data...');
-
-    // Seed demo data using edge function
-    const { data: seedResult, error: seedError } = await supabase.functions.invoke('hr_seed_demo_1000_v1', {
-      body: { tenantId }
+    // 2) DB fallback - seed employees idempotently
+    await logToUiEvents(tenantId, 'Running database fallback seeding...', 'info');
+    const { data: seedData, error: seedError } = await supabase.rpc('dev_seed_employees_v1', { 
+      p_tenant: tenantId, 
+      p_n: 1000 
     });
 
     if (seedError) {
-      await logToUiEvents(tenantId, `Seeding failed: ${seedError.message}`, 'error');
+      await logToUiEvents(tenantId, `Database seeding failed: ${seedError.message}`, 'error');
       return { seeded: false, backfilled: false, tenantId, error: seedError.message };
     }
 
-    await logToUiEvents(tenantId, `Seeded ${seedResult?.recordsInserted || 1000} employees successfully`);
+    await logToUiEvents(tenantId, `Database seeding completed: ${(seedData as any)?.message || 'Success'}`, 'info');
 
-    // Compute current KPIs
-    await logToUiEvents(tenantId, 'Computing current KPIs...');
-    const { error: kpiError } = await supabase.rpc('dashboard_compute_kpis_v1', {
-      p_tenant: tenantId
-    });
-
-    if (kpiError) {
-      await logToUiEvents(tenantId, `KPI computation failed: ${kpiError.message}`, 'error');
-      console.warn('KPI computation failed:', kpiError);
-    }
-
-    // Backfill 12 months of historical data
-    await logToUiEvents(tenantId, 'Backfilling historical KPI data...');
-    const { error: backfillError } = await supabase.rpc('dashboard_backfill_v1', {
-      p_tenant: tenantId,
-      p_days: 365
+    // 3) Backfill KPIs idempotently
+    await logToUiEvents(tenantId, 'Backfilling KPI snapshots...', 'info');
+    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', { 
+      p_tenant: tenantId, 
+      p_days: 365 
     });
 
     if (backfillError) {
-      await logToUiEvents(tenantId, `Backfill failed: ${backfillError.message}`, 'error');
+      await logToUiEvents(tenantId, `KPI backfill failed: ${backfillError.message}`, 'error');
       console.warn('Backfill failed:', backfillError);
+    } else {
+      await logToUiEvents(tenantId, `KPI backfill completed: ${(backfillData as any)?.message || 'Success'}`, 'info');
     }
 
     // Mark as seeded
     localStorage.setItem(cacheKey, '1');
-    await logToUiEvents(tenantId, 'Demo data setup completed successfully');
+    await logToUiEvents(tenantId, 'Demo data setup completed successfully', 'info');
 
     return { 
       seeded: true, 
       backfilled: !backfillError, 
-      tenantId 
+      tenantId,
+      seed: seedData,
+      backfill: backfillData
     };
 
   } catch (error: any) {
@@ -136,30 +133,20 @@ export async function manualRecomputeKPIs(tenantId?: string): Promise<{ success:
       return { success: false, error: 'No tenant ID available' };
     }
 
-    await logToUiEvents(targetTenant, 'Manual KPI recomputation started...');
+    await logToUiEvents(targetTenant, 'Manual KPI recomputation started...', 'info');
 
-    // Recompute current KPIs
-    const { error: kpiError } = await supabase.rpc('dashboard_compute_kpis_v1', {
-      p_tenant: targetTenant
-    });
-
-    if (kpiError) {
-      await logToUiEvents(targetTenant, `Manual KPI computation failed: ${kpiError.message}`, 'error');
-      return { success: false, error: kpiError.message };
-    }
-
-    // Backfill historical data
-    const { error: backfillError } = await supabase.rpc('dashboard_backfill_v1', {
+    // Use the new DB backfill function (idempotent)
+    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
       p_tenant: targetTenant,
       p_days: 365
     });
 
     if (backfillError) {
-      await logToUiEvents(targetTenant, `Manual backfill failed: ${backfillError.message}`, 'error');
-      console.warn('Manual backfill failed:', backfillError);
+      await logToUiEvents(targetTenant, `Manual KPI computation failed: ${backfillError.message}`, 'error');
+      return { success: false, error: backfillError.message };
     }
 
-    await logToUiEvents(targetTenant, 'Manual KPI recomputation completed');
+    await logToUiEvents(targetTenant, `Manual KPI recomputation completed: ${(backfillData as any)?.message || 'Success'}`, 'info');
     return { success: true };
 
   } catch (error: any) {

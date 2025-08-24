@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { manualSeedDemo, manualRecomputeKPIs, getDemoDataStatus } from '@/lib/dev/ensureDemoData';
+import { getDemoDataStatus } from '@/lib/dev/ensureDemoData';
 import { getTenantIdOrDemo } from '@/lib/tenant/getTenantId';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function DiagnosticHub() {
   const params = new URLSearchParams(window.location.search);
@@ -31,24 +32,35 @@ export default function DiagnosticHub() {
     setIsSeeding(true);
     toast({
       title: "Seeding Demo Data",
-      description: "Preparing 1,000 employees and KPI data...",
+      description: "Using DB fallback seeding with ~1,000 employees...",
     });
 
     try {
-      const result = await manualSeedDemo(tenantId);
-      if (result.seeded) {
-        setIsSeeded(true);
-        toast({
-          title: "Demo Data Seeded",
-          description: `Successfully seeded demo data for tenant ${result.tenantId}`,
-        });
-      } else {
+      // Clear cache to force re-seeding
+      localStorage.removeItem(`aqlhr.demoSeeded:${tenantId}`);
+      
+      // Use the new DB RPC directly for manual seeding
+      const { data: seedData, error: seedError } = await supabase.rpc('dev_seed_employees_v1', {
+        p_tenant: tenantId,
+        p_n: 1000
+      });
+
+      if (seedError) {
         toast({
           title: "Seeding Failed", 
-          description: result.error || "Unknown error occurred",
+          description: seedError.message,
           variant: "destructive"
         });
+        return;
       }
+
+      setIsSeeded(true);
+      localStorage.setItem(`aqlhr.demoSeeded:${tenantId}`, '1');
+      
+      toast({
+        title: "Demo Data Seeded",
+        description: (seedData as any)?.message || `Successfully seeded employees for tenant ${tenantId}`,
+      });
     } catch (error: any) {
       toast({
         title: "Seeding Error",
@@ -66,23 +78,29 @@ export default function DiagnosticHub() {
     setIsRecomputing(true);
     toast({
       title: "Recomputing KPIs",
-      description: "Processing current data and backfilling historical metrics...",
+      description: "Using DB fallback to generate 365 days of KPI snapshots...",
     });
 
     try {
-      const result = await manualRecomputeKPIs(tenantId);
-      if (result.success) {
-        toast({
-          title: "KPIs Recomputed",
-          description: "Successfully updated all KPI metrics and historical data",
-        });
-      } else {
+      // Use the new DB RPC directly
+      const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
+        p_tenant: tenantId,
+        p_days: 365
+      });
+
+      if (backfillError) {
         toast({
           title: "KPI Computation Failed",
-          description: result.error || "Unknown error occurred", 
+          description: backfillError.message,
           variant: "destructive"
         });
+        return;
       }
+
+      toast({
+        title: "KPIs Recomputed",
+        description: (backfillData as any)?.message || "Successfully updated all KPI metrics and historical data",
+      });
     } catch (error: any) {
       toast({
         title: "KPI Computation Error",
@@ -165,7 +183,7 @@ export default function DiagnosticHub() {
             </Button>
           </div>
           <p className="text-sm text-muted-foreground">
-            Seed creates ~1,000 employees with realistic data. KPI recomputation refreshes all dashboard metrics.
+            Seeds ~1,000 employees with realistic Saudization mix and iqama expiries. KPI recomputation generates 365 days of historical snapshots. Both operations use database fallbacks for reliability.
           </p>
         </div>
 

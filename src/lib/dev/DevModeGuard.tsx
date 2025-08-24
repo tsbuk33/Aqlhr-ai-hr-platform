@@ -42,11 +42,17 @@ export default function DevModeGuard({ children }: DevModeGuardProps) {
           setSeedingStatus('Demo data ready');
           setTimeout(() => setSeedingStatus(''), 3000);
         } else if (result.error) {
-          setSeedingStatus(`Demo setup failed: ${result.error}`);
+          setSeedingStatus(`Demo setup failed — see Dev Tools`);
+          console.error('Demo setup error:', result.error);
+          setTimeout(() => setSeedingStatus(''), 5000);
+        } else {
+          setSeedingStatus('Demo data already available');
+          setTimeout(() => setSeedingStatus(''), 2000);
         }
       } catch (error: any) {
-        setSeedingStatus(`Demo setup error: ${error.message}`);
+        setSeedingStatus(`Demo setup failed — see Dev Tools`);
         console.error('Dev mode initialization failed:', error);
+        setTimeout(() => setSeedingStatus(''), 5000);
       } finally {
         setIsSeeding(false);
       }
@@ -58,7 +64,7 @@ export default function DevModeGuard({ children }: DevModeGuardProps) {
   return (
     <>
       {seedingStatus && (
-        <div className="fixed top-4 right-4 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md shadow-lg max-w-xs">
           {isSeeding && <span className="animate-pulse">⏳ </span>}
           {seedingStatus}
         </div>
