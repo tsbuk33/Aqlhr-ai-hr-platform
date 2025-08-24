@@ -102,29 +102,49 @@ export function useDashboardData() {
       if (snapErr) throw snapErr;
 
       const latest = Array.isArray(snapshot) ? snapshot[0] : snapshot;
-      if (latest) {
-        setData({
-          totalEmployees: latest.total_employees || 0,
-          saudizationRate: latest.saudization_rate || 0,
-          hseSafetyScore: latest.hse_safety_score || 0,
-          docsProcessed: latest.docs_processed || 0,
-          trainingHours: latest.training_hours || 0,
-          complianceScore: latest.compliance_score || 0,
-          employeeExperience: latest.employee_experience_10 || 0,
-          predictiveRisk: latest.predictive_risk_high || 0,
-        });
-      } else {
-        setData({
-          totalEmployees: 0,
-          saudizationRate: 0,
-          hseSafetyScore: 0,
-          docsProcessed: 0,
-          trainingHours: 0,
-          complianceScore: 0,
-          employeeExperience: 0,
-          predictiveRisk: 0,
-        });
+
+      // Prepare initial mapped data from snapshot (may be empty/zero)
+      let mapped: DashboardData = latest ? {
+        totalEmployees: latest.total_employees || 0,
+        saudizationRate: latest.saudization_rate || 0,
+        hseSafetyScore: latest.hse_safety_score || 0,
+        docsProcessed: latest.docs_processed || 0,
+        trainingHours: latest.training_hours || 0,
+        complianceScore: latest.compliance_score || 0,
+        employeeExperience: latest.employee_experience_10 || 0,
+        predictiveRisk: latest.predictive_risk_high || 0,
+      } : {
+        totalEmployees: 0,
+        saudizationRate: 0,
+        hseSafetyScore: 0,
+        docsProcessed: 0,
+        trainingHours: 0,
+        complianceScore: 0,
+        employeeExperience: 0,
+        predictiveRisk: 0,
+      };
+
+      // Fallback: if snapshot says 0 employees, fetch headcount directly via a secure RPC
+      if ((mapped.totalEmployees ?? 0) === 0) {
+        console.log('[Dashboard] Snapshot total is 0 — attempting headcount fallback via ask_headcount_v1');
+        const { data: headcountData, error: hcErr } = await supabase.rpc('ask_headcount_v1', { p_tenant: tenantId });
+        if (!hcErr && headcountData) {
+          const row = Array.isArray(headcountData) ? headcountData[0] : headcountData;
+          const fallbackTotal = Number(row?.total ?? 0);
+          if (fallbackTotal > 0) {
+            mapped = { ...mapped, totalEmployees: fallbackTotal };
+            await logUIEvent('info', 'Dashboard headcount fallback used', { fallbackTotal });
+            console.log('[Dashboard] Headcount fallback succeeded:', fallbackTotal);
+          } else {
+            console.log('[Dashboard] Headcount fallback returned 0');
+          }
+        } else {
+          console.warn('[Dashboard] Headcount fallback failed', hcErr);
+          await logUIEvent('warn', 'Headcount fallback failed', { error: hcErr?.message });
+        }
       }
+
+      setData(mapped);
 
       // Series
       const { data: seriesData, error: seriesErr } = await supabase
