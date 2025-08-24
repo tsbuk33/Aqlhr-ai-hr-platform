@@ -4,7 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { resolveTenantId } from "@/lib/useTenant";
+import { getTenantIdOrDemo } from "@/lib/tenant/getTenantId";
+import { ensureDemoData } from "@/lib/dev/ensureDemoData";
 
 interface DemoSeedingCalloutProps {
   onSeedingComplete?: () => void;
@@ -17,33 +18,23 @@ export function DemoSeedingCallout({ onSeedingComplete }: DemoSeedingCalloutProp
     setIsSeeding(true);
     
     try {
-      const { tenantId } = await resolveTenantId(supabase);
+      const tenantId = await getTenantIdOrDemo();
       if (!tenantId) {
         toast.error('Unable to determine tenant ID');
         return;
       }
 
+      // Clear cache to force real seeding/backfill when needed
+      localStorage.removeItem(`aqlhr.demoSeeded:${tenantId}`);
       toast.info('Starting demo seeding process...');
-      
-      // Try Edge Function first (service role); fallback to DB RPCs
-      const edgeRes = await supabase.functions.invoke('hr_seed_demo_1000_v1', { body: { tenantId } });
-      if (edgeRes.error) {
-        console.warn('Edge seeding failed, falling back to RPC:', edgeRes.error);
-        const { error: seedError } = await supabase.rpc('dev_seed_employees_v1', { 
-          p_tenant: tenantId, 
-          p_n: 1000 
-        });
-        if (seedError) throw new Error(`Seeding failed: ${seedError.message}`);
+
+      // Use centralized demo seeding to ensure company_id consistency
+      const result = await ensureDemoData();
+      if (result.error) {
+        throw new Error(result.error);
       }
 
-      // Recompute 365 days of KPIs
-      const { error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', { 
-        p_tenant: tenantId, 
-        p_days: 365 
-      });
-      if (backfillError) throw new Error(`KPI backfill failed: ${backfillError.message}`);
-
-      // Seed retention exits idempotently
+      // Seed retention exits idempotently for the same tenant
       const { error: retentionError } = await supabase.rpc('dev_seed_retention_v1', { p_tenant: tenantId });
       if (retentionError) console.warn('Retention seeding warning:', retentionError.message);
 
