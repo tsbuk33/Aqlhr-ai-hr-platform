@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { getDemoDataStatus } from '@/lib/dev/ensureDemoData';
+import { getDemoDataStatus, ensureDemoData } from '@/lib/dev/ensureDemoData';
 import { getTenantIdOrDemo } from '@/lib/tenant/getTenantId';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2 } from 'lucide-react';
@@ -74,30 +74,19 @@ export default function DiagnosticHub() {
     try {
       // Clear cache to force re-seeding
       localStorage.removeItem(`aqlhr.demoSeeded:${tenantId}`);
-      
-      // Use the new DB RPC directly for manual seeding
-      const { data: seedData, error: seedError } = await supabase.rpc('dev_seed_employees_v1', {
-        p_tenant: tenantId,
-        p_n: 1000
-      });
 
-      if (seedError) {
-        toast({
-          title: "Seeding Failed", 
-          description: seedError.message,
-          variant: "destructive"
-        });
+      const result = await ensureDemoData();
+      if (result.error) {
+        toast({ title: "Seeding Failed", description: result.error, variant: "destructive" });
         return;
       }
 
       setIsSeeded(true);
-      localStorage.setItem(`aqlhr.demoSeeded:${tenantId}`, '1');
-      
       toast({
         title: "Demo Data Seeded",
-        description: (seedData as any)?.message || `Successfully seeded employees for tenant ${tenantId}`,
+        description: `Seeded and backfilled for tenant ${result.tenantId}`,
       });
-      
+
       // Update summary
       await fetchTenantSummary();
     } catch (error: any) {

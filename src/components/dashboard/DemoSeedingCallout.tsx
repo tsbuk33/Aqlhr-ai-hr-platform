@@ -25,35 +25,29 @@ export function DemoSeedingCallout({ onSeedingComplete }: DemoSeedingCalloutProp
 
       toast.info('Starting demo seeding process...');
       
-      // Run the three RPCs sequentially
-      const { error: seedError } = await supabase.rpc('dev_seed_employees_v1', { 
-        p_tenant: tenantId, 
-        p_n: 1000 
-      });
-      
-      if (seedError) {
-        console.error('Seed error:', seedError);
-        throw new Error(`Seeding failed: ${seedError.message}`);
+      // Try Edge Function first (service role); fallback to DB RPCs
+      const edgeRes = await supabase.functions.invoke('hr_seed_demo_1000_v1', { body: { tenantId } });
+      if (edgeRes.error) {
+        console.warn('Edge seeding failed, falling back to RPC:', edgeRes.error);
+        const { error: seedError } = await supabase.rpc('dev_seed_employees_v1', { 
+          p_tenant: tenantId, 
+          p_n: 1000 
+        });
+        if (seedError) throw new Error(`Seeding failed: ${seedError.message}`);
       }
-      
+
+      // Recompute 365 days of KPIs
       const { error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', { 
         p_tenant: tenantId, 
         p_days: 365 
       });
-      
-      if (backfillError) {
-        console.error('Backfill error:', backfillError);
-        throw new Error(`KPI backfill failed: ${backfillError.message}`);
-      }
-      
-      const { error: retentionError } = await supabase.rpc('dev_seed_retention_v1', { 
-        p_tenant: tenantId 
-      });
-      
-      if (retentionError) {
-        console.error('Retention error:', retentionError);
-        throw new Error(`Retention seeding failed: ${retentionError.message}`);
-      }
+      if (backfillError) throw new Error(`KPI backfill failed: ${backfillError.message}`);
+
+      // Seed retention exits idempotently
+      const { error: retentionError } = await supabase.rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+      if (retentionError) console.warn('Retention seeding warning:', retentionError.message);
+
+      localStorage.setItem(`aqlhr.demoSeeded:${tenantId}`, '1');
       
       toast.success('Demo seeding completed successfully!');
       onSeedingComplete?.();
