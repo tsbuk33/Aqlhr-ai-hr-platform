@@ -11931,6 +11931,21 @@ export type Database = {
         }
         Relationships: []
       }
+      osi_layers_by_grade_v1: {
+        Row: {
+          company_id: string | null
+          headcount: number | null
+          layer_code: string | null
+          layer_order: number | null
+          name_ar: string | null
+          name_en: string | null
+          non_saudi_hc: number | null
+          saudi_hc: number | null
+          saudization_rate: number | null
+          target_rate: number | null
+        }
+        Relationships: []
+      }
       osi_layers_mv_v1: {
         Row: {
           avg_salary: number | null
@@ -12456,6 +12471,10 @@ export type Database = {
         Args: Record<PropertyKey, never> | { p_n?: number; p_tenant: string }
         Returns: Json
       }
+      dev_seed_osi_v1: {
+        Args: { p_tenant: string }
+        Returns: undefined
+      }
       dev_seed_retention_v1: {
         Args: { p_tenant?: string }
         Returns: undefined
@@ -12806,6 +12825,15 @@ export type Database = {
           layer: number
           manager_id: string
           severity: string
+        }[]
+      }
+      osi_overview_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          critical_layers_below_target: number
+          highest_saudized_layer: number
+          layers: Json
+          total_layers: number
         }[]
       }
       osi_refresh_v1: {

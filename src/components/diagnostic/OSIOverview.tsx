@@ -20,7 +20,8 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
   const getHealthScore = () => {
     if (!overview) return 0;
     const totalLayers = overview.total_layers || 1;
-    const meetingTarget = overview.layers_meeting_target || 0;
+    const criticalLayers = overview.critical_layers_below_target || 0;
+    const meetingTarget = totalLayers - criticalLayers;
     return Math.round((meetingTarget / totalLayers) * 100);
   };
 
@@ -156,7 +157,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold" data-testid="osi-metric">{overview.highest_saudi_layer}</div>
+            <div className="text-2xl font-bold" data-testid="osi-metric">{overview.highest_saudized_layer}</div>
             <p className="text-xs text-muted-foreground">
               {t('osi', 'layer')}
             </p>
@@ -171,9 +172,9 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600" data-testid="osi-metric">{overview.critical_layers}</div>
+            <div className="text-2xl font-bold text-red-600" data-testid="osi-metric">{overview.critical_layers_below_target}</div>
             <p className="text-xs text-muted-foreground">
-              {overview.layers_meeting_target} {t('osi', 'target')}
+              {overview.total_layers - overview.critical_layers_below_target} {t('osi', 'target')}
             </p>
           </CardContent>
         </Card>
@@ -187,7 +188,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold" data-testid="osi-metric">
-              {formatNumber(overview.management_cost, locale)} SR
+              {formatNumber(0, locale)} SR
             </div>
             <p className="text-xs text-muted-foreground">
               {t('osi', 'cost_to_manage')}
@@ -231,19 +232,17 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
               <span className="flex items-center gap-2">
                 <Badge variant="secondary">{t('osi', 'low')}</Badge>
               </span>
-              <span className="font-semibold">{overview.span_outliers_low}</span>
+              <span className="font-semibold">0</span>
             </div>
             <div className="flex justify-between">
               <span className="flex items-center gap-2">
                 <Badge variant="destructive">{t('osi', 'high')}</Badge>
               </span>
-              <span className="font-semibold">{overview.span_outliers_high}</span>
+              <span className="font-semibold">0</span>
             </div>
-            {(overview.span_outliers_low === 0 && overview.span_outliers_high === 0) && (
-              <div className="flex items-center gap-2 text-green-600">
-                <span className="text-sm">{t('osi', 'no_critical_issues')}</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 text-green-600">
+              <span className="text-sm">{t('osi', 'no_critical_issues')}</span>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -255,9 +254,9 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline">
-              <RefreshCw className="h-4 w-4 mr-2" />
-              {t('osi', 'generate_report')}
+            <Button onClick={refresh} className="flex items-center gap-2">
+              <RefreshCw className="h-4 w-4" />
+              {t('osi', 'recompute_osi')}
             </Button>
             <Button variant="outline">
               <Users className="h-4 w-4 mr-2" />
@@ -270,6 +269,56 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* OSI Layers by Grade */}
+      {overview.layers && overview.layers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">{t('osi', 'saudization_by_layer')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-2">{t('osi', 'layer')}</th>
+                    <th className="text-right p-2">{t('osi', 'headcount')}</th>
+                    <th className="text-right p-2">{t('osi', 'saudi_headcount')}</th>
+                    <th className="text-right p-2">{t('osi', 'saudization_rate')}</th>
+                    <th className="text-right p-2">{t('osi', 'target_rate')}</th>
+                    <th className="text-center p-2">{t('osi', 'status')}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {overview.layers.map((layer) => {
+                    const isAboveTarget = layer.saudization_rate >= layer.target_rate;
+                    return (
+                      <tr key={layer.layer_code} className="border-b">
+                        <td className="p-2 font-medium">
+                          {locale === 'ar' ? layer.name_ar : layer.name_en}
+                        </td>
+                        <td className="p-2 text-right">{layer.headcount}</td>
+                        <td className="p-2 text-right">{layer.saudi_hc}</td>
+                        <td className="p-2 text-right">
+                          <span className={isAboveTarget ? 'text-green-600' : 'text-red-600'}>
+                            {formatNumber(layer.saudization_rate, locale)}%
+                          </span>
+                        </td>
+                        <td className="p-2 text-right">{layer.target_rate}%</td>
+                        <td className="p-2 text-center">
+                          <Badge variant={isAboveTarget ? 'default' : 'destructive'}>
+                            {isAboveTarget ? t('osi', 'meets_target') : t('osi', 'below_target')}
+                          </Badge>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };

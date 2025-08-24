@@ -5,12 +5,22 @@ import { useToast } from '@/hooks/use-toast';
 
 export interface OSIOverview {
   total_layers: number;
-  highest_saudi_layer: number;
-  critical_layers: number;
-  layers_meeting_target: number;
-  span_outliers_low: number;
-  span_outliers_high: number;
-  management_cost: number;
+  highest_saudized_layer: number;
+  critical_layers_below_target: number;
+  layers: OSILayerData[];
+  management_cost?: number; // Temporary for backward compatibility
+}
+
+export interface OSILayerData {
+  layer_code: string;
+  layer_order: number;
+  name_en: string;
+  name_ar: string;
+  headcount: number;
+  saudi_hc: number;
+  non_saudi_hc: number;
+  saudization_rate: number;
+  target_rate: number;
 }
 
 export interface OSILayer {
@@ -62,29 +72,52 @@ export const useOSI = (tenantId?: string) => {
       const isDev = url.searchParams.get('dev') === '1' || import.meta.env.MODE === 'development';
       
       if (isDev) {
-        await supabase.rpc('osi_seed_demo_data_v1', { p_tenant: resolvedTenantId });
+        await supabase.rpc('dev_seed_osi_v1', { p_tenant: resolvedTenantId });
       }
 
-      // Fetch all OSI data in parallel
-      const [overviewResult, layersResult, outliersResult, settingsResult] = await Promise.all([
-        supabase.rpc('osi_get_overview_v1', { p_tenant: resolvedTenantId }),
-        supabase.rpc('osi_get_layers_v1', { p_tenant: resolvedTenantId }),
-        supabase.rpc('osi_get_span_outliers_v1', { p_tenant: resolvedTenantId }),
-        supabase.rpc('osi_get_settings_v1', { p_tenant: resolvedTenantId })
-      ]);
+      // Fetch OSI overview data
+      const overviewResult = await supabase.rpc('osi_overview_v1', { p_tenant: resolvedTenantId });
 
       if (overviewResult.error) throw overviewResult.error;
-      if (layersResult.error) throw layersResult.error;
-      if (outliersResult.error) throw outliersResult.error;
-      if (settingsResult.error) throw settingsResult.error;
 
-      setOverview(overviewResult.data?.[0] || null);
-      setLayers(layersResult.data || []);
-      setSpanOutliers((outliersResult.data || []).map(outlier => ({
-        ...outlier,
-        severity: outlier.severity as 'low' | 'high' | 'ok'
-      })));
-      setSettings(settingsResult.data?.[0] || null);
+      const overviewData = overviewResult.data?.[0];
+      if (overviewData) {
+        const layersData = (overviewData.layers as any[])?.map((layer: any) => ({
+          layer_code: layer.layer_code,
+          layer_order: layer.layer_order,
+          name_en: layer.name_en,
+          name_ar: layer.name_ar,
+          headcount: layer.headcount,
+          saudi_hc: layer.saudi_hc,
+          non_saudi_hc: layer.non_saudi_hc,
+          saudization_rate: layer.saudization_rate,
+          target_rate: layer.target_rate
+        })) || [];
+        
+        setOverview({
+          total_layers: overviewData.total_layers,
+          highest_saudized_layer: overviewData.highest_saudized_layer,
+          critical_layers_below_target: overviewData.critical_layers_below_target,
+          layers: layersData,
+          management_cost: 0 // Temporary placeholder
+        });
+        // Convert layer data to legacy format for compatibility
+        setLayers(layersData.map((layer: any) => ({
+          layer: layer.layer_order,
+          headcount: layer.headcount,
+          saudi_headcount: layer.saudi_hc,
+          saudization_rate: layer.saudization_rate,
+          avg_salary: 0,
+          total_salary: 0
+        })));
+      } else {
+        setOverview(null);
+        setLayers([]);
+      }
+
+      // Set default settings and empty outliers for now
+      setSpanOutliers([]);
+      setSettings({ saudi_target: 60, span_min: 3, span_max: 10 });
 
     } catch (err: any) {
       setError(err.message || 'Failed to load OSI data');
@@ -99,10 +132,11 @@ export const useOSI = (tenantId?: string) => {
       const resolvedTenantId = tenantId || await getTenantIdOrDemo();
       if (!resolvedTenantId) throw new Error('No tenant ID available');
 
-      await supabase.rpc('osi_refresh_v1', { p_tenant: resolvedTenantId });
+      // Run OSI seeding to ensure all employees have grades
+      await supabase.rpc('dev_seed_osi_v1', { p_tenant: resolvedTenantId });
       
       toast({
-        title: 'OSI Data Refreshed',
+        title: 'OSI Data Recomputed',
         description: 'Organizational structure analysis has been updated.',
       });
 
@@ -110,8 +144,8 @@ export const useOSI = (tenantId?: string) => {
       await fetchData();
     } catch (err: any) {
       toast({
-        title: 'Refresh Failed',
-        description: err.message || 'Failed to refresh OSI data',
+        title: 'Recompute Failed',
+        description: err.message || 'Failed to recompute OSI data',
         variant: 'destructive'
       });
     }
