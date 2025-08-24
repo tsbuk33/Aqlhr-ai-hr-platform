@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocale, formatNumber } from '@/i18n/locale';
 import { useOSI } from '@/hooks/useOSI';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { RefreshCw, TrendingUp, AlertTriangle, Users, DollarSign } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { OrgChart } from './OrgChart';
 
 interface OSIOverviewProps {
   tenantId?: string;
@@ -16,6 +17,7 @@ interface OSIOverviewProps {
 export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
   const { locale, t } = useLocale();
   const { overview, layers, loading, error, refresh } = useOSI(tenantId);
+  const [showOrgChart, setShowOrgChart] = useState(false);
 
   const getHealthScore = () => {
     if (!overview) return 0;
@@ -258,7 +260,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
               <RefreshCw className="h-4 w-4" />
               {t('osi', 'recompute_osi')}
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setShowOrgChart(!showOrgChart)}>
               <Users className="h-4 w-4 mr-2" />
               {t('osi', 'view_org_chart')}
             </Button>
@@ -269,6 +271,11 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Organizational Chart */}
+      {showOrgChart && overview.layers && overview.layers.length > 0 && (
+        <OrgChart layers={overview.layers} />
+      )}
 
       {/* OSI Layers by Grade */}
       {overview.layers && overview.layers.length > 0 && (
