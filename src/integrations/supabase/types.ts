@@ -12880,6 +12880,14 @@ export type Database = {
         Args: { p_tenant: string }
         Returns: undefined
       }
+      retention_drivers_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          affected_count: number
+          contribution_percentage: number
+          driver_name: string
+        }[]
+      }
       retention_get_drivers_v1: {
         Args: { p_tenant: string }
         Returns: {
