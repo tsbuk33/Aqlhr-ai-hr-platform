@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { useTenantResolver } from './useTenantResolver';
+import { getTenantIdOrDemo } from '@/lib/tenant/getTenantId';
 
 interface DashboardData {
   totalEmployees: number;
@@ -43,13 +43,34 @@ interface IntegrationStatusRow {
 }
 
 export function useDashboardData() {
-  const { tenantId, isDemoMode, loading: tenantLoading } = useTenantResolver();
+  const [tenantId, setTenantId] = useState<string | null>(null);
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [tenantLoading, setTenantLoading] = useState(true);
   const [data, setData] = useState<DashboardData | null>(null);
   const [series, setSeries] = useState<DashboardSeriesItem[]>([]);
   const [alerts, setAlerts] = useState<DashboardAlertItem[]>([]);
   const [integrations, setIntegrations] = useState<IntegrationStatusRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Resolve tenant using dev-aware helper to avoid mismatches
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      setTenantLoading(true);
+      try {
+        const id = await getTenantIdOrDemo();
+        if (mounted) setTenantId(id);
+        const { data: userRes } = await supabase.auth.getUser();
+        if (mounted) setIsDemoMode(!userRes?.user);
+      } catch {
+        // no-op
+      } finally {
+        if (mounted) setTenantLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
 
   const logUIEvent = async (level: 'info' | 'warn' | 'error', message: string, details?: any) => {
     if (!tenantId) return;

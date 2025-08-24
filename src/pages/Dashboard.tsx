@@ -136,7 +136,7 @@ export default function Dashboard() {
     <DashboardErrorBoundary>
       <div className="container mx-auto p-6 space-y-6">
         {/* Dev Callout */}
-        {isDev && hasNoEmployees && (
+        {(isDev || isDemoMode) && hasNoEmployees && (
           <DemoSeedingCallout onSeedingComplete={refetch} />
         )}
 
