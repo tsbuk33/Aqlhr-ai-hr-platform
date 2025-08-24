@@ -12429,6 +12429,10 @@ export type Database = {
         Args: { p_n?: number; p_tenant: string }
         Returns: Json
       }
+      dev_seed_retention_v1: {
+        Args: { p_tenant?: string }
+        Returns: undefined
+      }
       find_similar_chunks: {
         Args: {
           max_results?: number

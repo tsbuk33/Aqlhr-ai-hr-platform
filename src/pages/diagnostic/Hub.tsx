@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { getDemoDataStatus } from '@/lib/dev/ensureDemoData';
 import { getTenantIdOrDemo } from '@/lib/tenant/getTenantId';
 import { supabase } from '@/integrations/supabase/client';
+import { Loader2 } from 'lucide-react';
 
 export default function DiagnosticHub() {
   const params = new URLSearchParams(window.location.search);
@@ -12,6 +13,7 @@ export default function DiagnosticHub() {
   const { toast } = useToast();
   const [isSeeding, setIsSeeding] = useState(false);
   const [isRecomputing, setIsRecomputing] = useState(false);
+  const [isSeedingRetention, setIsSeedingRetention] = useState(false);
   const [isSeeded, setIsSeeded] = useState(false);
   const [tenantId, setTenantId] = useState<string | null>(null);
 
@@ -112,6 +114,40 @@ export default function DiagnosticHub() {
     }
   };
 
+  const handleSeedRetention = async () => {
+    if (!tenantId) return;
+    
+    setIsSeedingRetention(true);
+    try {
+      const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
+        p_tenant: tenantId
+      });
+      
+      if (seedError) throw seedError;
+      
+      const { error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
+        p_tenant: tenantId,
+        p_days: 365
+      });
+      
+      if (backfillError) throw backfillError;
+      
+      toast({
+        title: "Success",
+        description: "Retention data seeded successfully with exits and analytics",
+      });
+    } catch (error: any) {
+      console.error('Error seeding retention:', error);
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSeedingRetention(false);
+    }
+  };
+
   // Minimal, always-visible content so we can verify rendering
   return (
     <div className="p-6 space-y-6">
@@ -172,14 +208,42 @@ export default function DiagnosticHub() {
               disabled={isSeeding || !tenantId}
               variant="default"
             >
-              {isSeeding ? 'Seeding...' : 'Seed Demo Data'}
+              {isSeeding ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Seeding...
+                </>
+              ) : (
+                'Seed Demo Data'
+              )}
             </Button>
             <Button 
               onClick={handleRecomputeKPIs}
               disabled={isRecomputing || !tenantId}
               variant="outline"
             >
-              {isRecomputing ? 'Computing...' : 'Recompute KPIs'}
+              {isRecomputing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Computing...
+                </>
+              ) : (
+                'Recompute KPIs'
+              )}
+            </Button>
+            <Button 
+              onClick={handleSeedRetention}
+              disabled={isSeedingRetention || !tenantId}
+              variant="secondary"
+            >
+              {isSeedingRetention ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Seeding...
+                </>
+              ) : (
+                'Seed Retention (exits)'
+              )}
             </Button>
           </div>
           <p className="text-sm text-muted-foreground">

@@ -251,8 +251,18 @@ const Retention = () => {
                     setAutoSeeding(true);
                     try {
                       if (tenantId) {
-                        await retentionData.seedDemo();
+                        // Use the new retention-specific RPC
+                        const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
+                          p_tenant: tenantId
+                        });
+                        
+                        if (seedError) throw seedError;
+                        
+                        // Refresh data
+                        await retentionData.refetch();
                       }
+                    } catch (error: any) {
+                      console.error('Error seeding retention:', error);
                     } finally {
                       setAutoSeeding(false);
                     }
@@ -296,10 +306,17 @@ const Retention = () => {
                   setAutoSeeding(true);
                   try {
                     if (tenantId) {
-                      await retentionAPI.seedDemo(tenantId);
-                      await retentionAPI.computeNow(tenantId);
+                      // Use the new retention-specific RPC
+                      const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
+                        p_tenant: tenantId
+                      });
+                      
+                      if (seedError) throw seedError;
+                      
                       handleDataChanged();
                     }
+                  } catch (error: any) {
+                    console.error('Error seeding retention:', error);
                   } finally {
                     setAutoSeeding(false);
                   }
