@@ -5,10 +5,11 @@ import { useDashboardTrends } from "@/hooks/useDashboardTrends";
 import { Button } from "@/components/ui/button";
 import { RefreshCw, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
+import { useAPITranslations } from '@/hooks/useAPITranslations';
 export function DashboardTrendsChart() {
   const { series, loading, error, refetch, backfillHistoricalData } = useDashboardTrends();
   const { toast } = useToast();
+  const { t } = useAPITranslations();
 
   const chartData = useMemo(() => {
     return series.map(item => ({
@@ -48,10 +49,10 @@ export function DashboardTrendsChart() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            12-Month KPI Trends
+            {t('dashboard.trends.title')}
           </CardTitle>
           <CardDescription>
-            Historical performance indicators and trends
+            {t('dashboard.trends.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -67,10 +68,10 @@ export function DashboardTrendsChart() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="h-5 w-5" />
-            12-Month KPI Trends
+            {t('dashboard.trends.title')}
           </CardTitle>
           <CardDescription>
-            Historical performance indicators and trends
+            {t('dashboard.trends.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -93,10 +94,10 @@ export function DashboardTrendsChart() {
           <div>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              12-Month KPI Trends
+              {t('dashboard.trends.title')}
             </CardTitle>
             <CardDescription>
-              Historical performance indicators and trends
+              {t('dashboard.trends.subtitle')}
             </CardDescription>
           </div>
           <div className="flex gap-2">
@@ -134,10 +135,12 @@ export function DashboardTrendsChart() {
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip 
                   labelFormatter={(label) => `Date: ${label}`}
-                  formatter={(value: number, name: string) => [
-                    `${value.toFixed(1)}${name.includes('Rate') || name.includes('Compliance') || name.includes('Experience') ? '%' : ''}`,
-                    name
-                  ]}
+                  formatter={(value: number, _name: string, props: any) => {
+                    const key = props?.dataKey as string;
+                    const percentKeys = ['saudization', 'hse_safety', 'compliance', 'employee_exp'];
+                    const suffix = percentKeys.includes(key) ? '%' : '';
+                    return [`${(value as number).toFixed(1)}${suffix}`, props?.name || _name];
+                  }}
                 />
                 <Legend />
                 <Line 
@@ -145,7 +148,7 @@ export function DashboardTrendsChart() {
                   dataKey="saudization" 
                   stroke="hsl(var(--chart-1))" 
                   strokeWidth={2}
-                  name="Saudization Rate (%)"
+                  name={t('dashboard.trends.saudization_rate')}
                   dot={false}
                 />
                 <Line 
@@ -153,7 +156,7 @@ export function DashboardTrendsChart() {
                   dataKey="hse_safety" 
                   stroke="hsl(var(--chart-2))" 
                   strokeWidth={2}
-                  name="HSE Safety Score"
+                  name={t('dashboard.trends.hse_safety')}
                   dot={false}
                 />
                 <Line 
@@ -161,7 +164,7 @@ export function DashboardTrendsChart() {
                   dataKey="compliance" 
                   stroke="hsl(var(--chart-3))" 
                   strokeWidth={2}
-                  name="Compliance Score (%)"
+                  name={t('dashboard.trends.compliance')}
                   dot={false}
                 />
                 <Line 
@@ -169,7 +172,7 @@ export function DashboardTrendsChart() {
                   dataKey="employee_exp" 
                   stroke="hsl(var(--chart-4))" 
                   strokeWidth={2}
-                  name="Employee Experience (%)"
+                  name={t('dashboard.trends.employee_experience')}
                   dot={false}
                 />
               </LineChart>

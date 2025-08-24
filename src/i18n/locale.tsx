@@ -48,6 +48,12 @@ const bundles: Record<string, Bundle> = {
       target: 'Target',
       critical: 'Critical',
       recompute: 'Recompute',
+      recompute_osi: 'Recompute OSI',
+      view_org_chart: 'View Org Chart',
+      organizational_chart: 'Organizational Chart',
+      employees: 'employees',
+      saudi: 'Saudi',
+      no_org_data: 'No organization data available',
       no_data: 'No data yet',
       dev_mode: 'Developer Mode',
       currency: 'SAR',
@@ -107,6 +113,12 @@ const bundles: Record<string, Bundle> = {
       target: 'الهدف',
       critical: 'حرج',
       recompute: 'إعادة احتساب',
+      recompute_osi: 'إعادة احتساب مؤشر الهيكل',
+      view_org_chart: 'عرض الهيكل التنظيمي',
+      organizational_chart: 'الهيكل التنظيمي',
+      employees: 'موظفون',
+      saudi: 'سعوديون',
+      no_org_data: 'لا توجد بيانات هيكل متاحة',
       no_data: 'لا توجد بيانات حتى الآن',
       dev_mode: 'وضع المطور',
       currency: 'ريال',
@@ -133,6 +145,26 @@ const bundles: Record<string, Bundle> = {
       access_description: 'يرجى التأكد من أن لديك الأذونات اللازمة للوصول إلى بيانات OSI.',
       error: 'خطأ',
       retry: 'إعادة المحاولة'
+    },
+  },
+  dashboard: {
+    en: {
+      // Trends
+      'trends.title': '12-Month KPI Trends',
+      'trends.subtitle': 'Saudization, Safety, Compliance, Experience',
+      'trends.saudization_rate': 'Saudization Rate',
+      'trends.hse_safety': 'HSE Safety Score',
+      'trends.compliance': 'Compliance Score',
+      'trends.employee_experience': 'Employee Experience',
+    },
+    ar: {
+      // Trends
+      'trends.title': 'اتجاهات مؤشرات الأداء خلال 12 شهرًا',
+      'trends.subtitle': 'السعودة، السلامة، الالتزام، تجربة الموظف',
+      'trends.saudization_rate': 'نسبة السعودة',
+      'trends.hse_safety': 'درجة السلامة',
+      'trends.compliance': 'درجة الامتثال',
+      'trends.employee_experience': 'تجربة الموظف',
     },
   },
 };
