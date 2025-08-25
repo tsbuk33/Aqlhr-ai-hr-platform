@@ -25,7 +25,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { getCurrentLang } from '@/lib/i18n/localeDriver';
+import { localePath, resolveLang } from '@/lib/i18n/localePath';
 
 const navigationItems = [
   { title: 'Dashboard', url: '/', icon: Home },
@@ -49,16 +49,11 @@ export function AppSidebar() {
   const { open } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
-  const currentLang = getCurrentLang();
+  const lang = resolveLang();
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
     isActive ? "bg-accent text-accent-foreground font-medium" : "hover:bg-accent/50";
-
-  const toLocalized = (url: string) => {
-    if (/^\/(en|ar)\//.test(url)) return url; // already localized
-    return url === '/' ? `/${currentLang}` : `/${currentLang}${url}`;
-  };
 
   return (
     <Sidebar className={open ? "w-60" : "w-14"}>
@@ -81,7 +76,7 @@ export function AppSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={toLocalized(item.url)} end className={getNavCls}>
+                      <NavLink to={localePath(item.url, lang)} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
                     </NavLink>
@@ -101,7 +96,7 @@ export function AppSidebar() {
               {managementItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={toLocalized(item.url)} end className={getNavCls}>
+                      <NavLink to={localePath(item.url, lang)} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
                       {open && <span>{item.title}</span>}
                     </NavLink>

@@ -14,6 +14,7 @@ import {
   SidebarMenuSubButton,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { localePath, resolveLang } from '@/lib/i18n/localePath';
 import {
   LayoutDashboard,
   Crown,
@@ -209,7 +210,7 @@ const toolsItems = [
 export const SuperAdminSidebar: React.FC = () => {
   const { open } = useSidebar();
   const location = useLocation();
-const [coreHRExpanded, setCoreHRExpanded] = useState(true);
+  const [coreHRExpanded, setCoreHRExpanded] = useState(true);
   const [aiExpanded, setAiExpanded] = useState(true);
   const [govExpanded, setGovExpanded] = useState(false);
   const [complianceExpanded, setComplianceExpanded] = useState(false);
@@ -221,6 +222,8 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
   const [platformExpanded, setPlatformExpanded] = useState(false);
   const [leoGeoExpanded, setLeoGeoExpanded] = useState(false);
   const [toolsExpanded, setToolsExpanded] = useState(true);
+
+  const lang = resolveLang();
 
   const isActive = (path: string) => location.pathname === path;
   const isGroupActive = (paths: string[]) => paths.some(path => location.pathname.startsWith(path));
@@ -253,7 +256,7 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <NavLink
-                    to="/"
+                    to={localePath('/', lang)}
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
@@ -304,7 +307,7 @@ const [coreHRExpanded, setCoreHRExpanded] = useState(true);
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild>
                           <NavLink
-                            to={item.url}
+                            to={localePath(item.url, lang)}
                             className={({ isActive }) =>
                               isActive
                                 ? "bg-primary/10 text-primary font-medium"
