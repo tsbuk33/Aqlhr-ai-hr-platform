@@ -1,0 +1,23 @@
+# Global ownership
+*                   @aqlhr-maintainers
+
+# Database and backend
+/supabase/**        @aqlhr-db
+**/*.sql            @aqlhr-db
+**/migrations/**    @aqlhr-db
+**/db/**            @aqlhr-db
+/src/lib/db/**      @aqlhr-db
+
+# Frontend components
+/src/components/**  @aqlhr-frontend
+
+# Diagnostic and monitoring
+/src/components/diagnostic/** @aqlhr-diagnostic
+
+# CI/CD and tooling
+/.github/**         @aqlhr-maintainers
+/scripts/**         @aqlhr-maintainers
+
+# i18n and localization
+/src/i18n/**        @aqlhr-frontend
+/src/lib/i18n/**    @aqlhr-frontend

@@ -1,0 +1,50 @@
+name: db-gate
+
+on:
+  pull_request:
+    branches: ['*']
+
+jobs:
+  db-gate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Check for database changes
+        id: db-changes
+        run: |
+          # Check if PR touches database-related files
+          git diff --name-only origin/${{ github.base_ref }}...HEAD > changed_files.txt
+          
+          if grep -E "(supabase/|\.sql$|migrations/|/db/|src/lib/db/)" changed_files.txt; then
+            echo "db_changes=true" >> $GITHUB_OUTPUT
+            echo "Database-related files detected in PR"
+          else
+            echo "db_changes=false" >> $GITHUB_OUTPUT
+            echo "No database changes detected"
+          fi
+          
+      - name: Check DB approval
+        if: steps.db-changes.outputs.db_changes == 'true'
+        run: |
+          # Check for DB_CHANGE_APPROVED label or description
+          if [[ "${{ contains(github.event.pull_request.labels.*.name, 'DB_CHANGE_APPROVED') }}" == "true" ]]; then
+            echo "✅ DB changes approved via label"
+            exit 0
+          fi
+          
+          if echo "${{ github.event.pull_request.body }}" | grep -q "DB_CHANGE_APPROVED: YES"; then
+            echo "✅ DB changes approved via PR description"
+            exit 0
+          fi
+          
+          echo "❌ Database changes detected but not approved!"
+          echo "To approve database changes, either:"
+          echo "1. Add the 'DB_CHANGE_APPROVED' label to this PR, OR"
+          echo "2. Add 'DB_CHANGE_APPROVED: YES' to the PR description"
+          echo ""
+          echo "Files that triggered this check:"
+          grep -E "(supabase/|\.sql$|migrations/|/db/|src/lib/db/)" changed_files.txt || true
+          exit 1

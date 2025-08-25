@@ -60,6 +60,38 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Development Guidelines
+
+### Database Changes Policy
+
+**⚠️ CRITICAL: Do not change the database unless 'DB_CHANGE_APPROVED' label is present or PR description contains 'DB_CHANGE_APPROVED: YES'.**
+
+This rule is enforced by GitHub CI/CD workflows:
+- Any PR touching database files (`supabase/**`, `*.sql`, `migrations/**`, etc.) will be blocked
+- To approve database changes, either:
+  1. Add the `DB_CHANGE_APPROVED` label to the PR, OR
+  2. Add `DB_CHANGE_APPROVED: YES` to the PR description
+
+### i18n Guidelines
+
+- All UI text must be translatable (English/Arabic)
+- Use the new locale system (`src/i18n/locale.tsx`)
+- Never use legacy `SimpleLanguageContext`
+- Run `npm run i18n:verify` to check translation integrity
+
+### Required Scripts
+
+Add these scripts to `package.json`:
+
+```json
+{
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "i18n:verify": "tsx scripts/i18n-verify.ts"
+  }
+}
+```
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/1e2511c6-d68f-465b-bce5-a3f16026d868) and click on Share -> Publish.
