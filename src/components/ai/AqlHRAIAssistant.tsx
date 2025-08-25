@@ -30,7 +30,7 @@ import {
   Mic,
   Paperclip
 } from 'lucide-react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLocale } from '@/i18n/locale';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
@@ -60,7 +60,8 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   position = 'fixed',
   className = ''
 }) => {
-  const { isArabic } = useSimpleLanguage();
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   const { toast } = useToast();
   const location = useLocation();
   
