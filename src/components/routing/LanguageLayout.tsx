@@ -9,7 +9,7 @@ import { DashboardHeader } from '@/components/DashboardHeader';
 export default function LanguageLayout() {
   const { lang } = useParams();
   
-  // Apply language settings in useEffect to avoid setState during render
+  // Apply language settings in useEffect to avoid setState during render - force rebuild
   useEffect(() => {
     if (lang === 'en' || lang === 'ar') {
       localeDriver.setLang(lang);
