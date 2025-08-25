@@ -9,6 +9,7 @@ import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Toolti
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
+import AIAnalyticsInsights from '@/components/analytics/AIAnalyticsInsights';
 
 interface Employee {
   id: string;
@@ -167,6 +168,20 @@ const AnalyticsPage: React.FC = () => {
       </div>
 
       <AITestDemo />
+
+      {/* AI Analytics Insights */}
+      <AIAnalyticsInsights 
+        analyticsData={{
+          totalUsers: analytics.overview.totalEmployees,
+          totalPageViews: analytics.overview.totalEmployees * 50, // Mock page views
+          avgSessionDuration: 8.5, // Mock session duration
+          bounceRate: 25, // Mock bounce rate
+          saudizationRate: analytics.overview.saudizationRate,
+          departments: analytics.departmentChart,
+          salaryAnalytics: analytics.overview,
+          hiringTrends: analytics.hiringChart
+        }}
+      />
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
         <TabsList className="grid grid-cols-4 w-full max-w-md">
