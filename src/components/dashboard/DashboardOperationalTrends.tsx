@@ -1,11 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useDashboardTrends } from '@/hooks/useDashboardTrends';
-import { useAPITranslations } from '@/hooks/useAPITranslations';
+import { useLocale } from '@/i18n/locale';
 import { useMemo } from 'react';
 
 export function DashboardOperationalTrends() {
-  const { t } = useAPITranslations();
+  const { t } = useLocale();
   const { series, loading, error } = useDashboardTrends(365);
 
   const chartData = useMemo(() => {
@@ -36,12 +36,12 @@ export function DashboardOperationalTrends() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{t('dashboard.trends.title')}</CardTitle>
-          <CardDescription>{t('dashboard.trends.subtitle')}</CardDescription>
+          <CardTitle>{t('dashboard', 'trends.title')}</CardTitle>
+          <CardDescription>{t('dashboard', 'trends.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-64 text-muted-foreground">
-            {error ? 'Error loading trends' : 'No trend data available'}
+            {error ? t('dashboard', 'error_loading_trends') : t('dashboard', 'no_trend_data_available')}
           </div>
         </CardContent>
       </Card>
@@ -51,8 +51,8 @@ export function DashboardOperationalTrends() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('dashboard.trends.title')}</CardTitle>
-        <CardDescription>{t('dashboard.trends.subtitle')}</CardDescription>
+        <CardTitle>{t('dashboard', 'trends.title')}</CardTitle>
+        <CardDescription>{t('dashboard', 'trends.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>
@@ -81,7 +81,7 @@ export function DashboardOperationalTrends() {
               dataKey="saudization"
               stroke="hsl(var(--primary))"
               strokeWidth={2}
-              name={t('dashboard.trends.saudization_rate')}
+              name={t('dashboard', 'trends.saudization_rate')}
               dot={false}
             />
             <Line
@@ -89,7 +89,7 @@ export function DashboardOperationalTrends() {
               dataKey="safety"
               stroke="hsl(var(--destructive))"
               strokeWidth={2}
-              name={t('dashboard.trends.hse_safety')}
+              name={t('dashboard', 'trends.hse_safety')}
               dot={false}
             />
             <Line
@@ -97,7 +97,7 @@ export function DashboardOperationalTrends() {
               dataKey="compliance"
               stroke="hsl(var(--secondary))"
               strokeWidth={2}
-              name={t('dashboard.trends.compliance')}
+              name={t('dashboard', 'trends.compliance')}
               dot={false}
             />
             <Line
@@ -105,7 +105,7 @@ export function DashboardOperationalTrends() {
               dataKey="experience"
               stroke="hsl(var(--accent))"
               strokeWidth={2}
-              name={t('dashboard.trends.employee_experience')}
+              name={t('dashboard', 'trends.employee_experience')}
               dot={false}
             />
           </LineChart>

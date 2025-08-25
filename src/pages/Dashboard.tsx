@@ -46,7 +46,7 @@ export default function Dashboard() {
     try {
       const { tenantId } = await resolveTenantId(supabase);
       if (!tenantId) {
-        toast.error('Unable to determine company');
+        toast.error(t('dashboard', 'unable_to_determine_company'));
         return;
       }
 
@@ -72,10 +72,10 @@ export default function Dashboard() {
       if (error) throw error;
       
       navigator.clipboard.writeText(shareData.url);
-      toast.success('Dashboard share link copied to clipboard!');
+      toast.success(t('dashboard', 'dashboard_share_link_copied'));
     } catch (err) {
       console.error('Share error:', err);
-      toast.error('Failed to create share link');
+      toast.error(t('dashboard', 'failed_to_create_share_link'));
     }
   };
 
@@ -115,11 +115,11 @@ export default function Dashboard() {
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-2">
                 <AlertCircle className="h-5 w-5 text-destructive" />
-                <h3 className="font-semibold">Dashboard Error</h3>
+                <h3 className="font-semibold">{t('dashboard', 'dashboard_error')}</h3>
               </div>
               <p className="text-muted-foreground mb-4">{error}</p>
               <Button onClick={refetch} variant="outline">
-                Retry Loading
+                {t('dashboard', 'retry_loading')}
               </Button>
             </CardContent>
           </Card>
@@ -149,7 +149,7 @@ export default function Dashboard() {
               </h1>
               {isDemoMode && (
                 <Badge variant="outline" className="text-xs">
-                  {isArabic ? "وضع تجريبي" : "Demo Mode"}
+                  {t('dashboard', 'demo_mode')}
                 </Badge>
               )}
             </div>
@@ -158,12 +158,12 @@ export default function Dashboard() {
                 {systemsOperational ? (
                   <>
                     <CheckCircle className="h-4 w-4" />
-                    {isArabic ? "جميع الأنظمة تعمل" : "All systems operational"}
+                    {t('dashboard', 'all_systems_operational')}
                   </>
                 ) : (
                   <>
                     <AlertCircle className="h-4 w-4" />
-                    {isArabic ? "مشاكل في الأنظمة" : "System issues detected"}
+                    {t('dashboard', 'system_issues_detected')}
                     {integrations.length > 0 && (
                       <span className="text-xs">
                         ({integrations.map(int => `${int.integration_group}: ${int.connected}/${int.total}`).join(", ")})
@@ -205,7 +205,7 @@ export default function Dashboard() {
               <div>
                 <h3 className="text-2xl font-bold">{data?.totalEmployees.toLocaleString() || 0}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {isArabic ? "إجمالي الموظفين" : "Total Employees"}
+                  {t('dashboard', 'total_employees')}
                 </p>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -247,7 +247,7 @@ export default function Dashboard() {
               <div>
                 <h3 className="text-2xl font-bold">{data?.saudizationRate?.toFixed(1) || 0}%</h3>
                 <p className="text-sm text-muted-foreground">
-                  {isArabic ? "معدل التوطين" : "Saudization Rate"}
+                  {t('dashboard', 'saudization_rate')}
                 </p>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -289,7 +289,7 @@ export default function Dashboard() {
               <div>
                 <h3 className="text-2xl font-bold">{data?.hseSafetyScore?.toFixed(1) || 0}/10</h3>
                 <p className="text-sm text-muted-foreground">
-                  {isArabic ? "درجة السلامة" : "HSE Safety Score"}
+                  {t('dashboard', 'hse_safety_score')}
                 </p>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -331,7 +331,7 @@ export default function Dashboard() {
               <div>
                 <h3 className="text-2xl font-bold">{data?.employeeExperience?.toFixed(1) || 0}/10</h3>
                 <p className="text-sm text-muted-foreground">
-                  {isArabic ? "تجربة الموظفين" : "Employee Experience"}
+                  {t('dashboard', 'employee_experience')}
                 </p>
               </div>
               <ExternalLink className="h-4 w-4 text-muted-foreground" />
@@ -373,7 +373,7 @@ export default function Dashboard() {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold">
-                  {isArabic ? "المستندات المعالجة" : "Documents Processed"}
+                  {t('dashboard', 'docs_processed')}
                 </h3>
                 <p className="text-2xl font-bold">{data?.docsProcessed?.toLocaleString() || 0}</p>
               </div>
@@ -390,7 +390,7 @@ export default function Dashboard() {
               </div>
               <div className="flex-1">
                 <h3 className="text-lg font-semibold">
-                  {isArabic ? "ساعات التدريب" : "Training Hours"}
+                  {t('dashboard', 'training_hours')}
                 </h3>
                 <p className="text-2xl font-bold">{data?.trainingHours?.toFixed(1) || 0}</p>
               </div>
@@ -407,7 +407,7 @@ export default function Dashboard() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold">
-                  {isArabic ? "درجة الامتثال" : "Compliance Score"}
+                  {t('dashboard', 'compliance_score')}
                 </h3>
                 <p className="text-2xl font-bold">{data?.complianceScore?.toFixed(1) || 0}%</p>
               </div>
@@ -421,12 +421,12 @@ export default function Dashboard() {
       <UpsellModal 
         open={upsellOpen}
         onOpenChange={hideUpsell}
-        title="Unlock Growth Features"
-        description="Get advanced analytics, ROI tracking, and executive reporting capabilities."
+        title={t('dashboard', 'unlock_growth_features')}
+        description={t('dashboard', 'growth_features_description')}
         features={[
-          "Show ROI automatically",
-          "Weekly exec pdfs",
-          "Read-only snapshot links (PDPL-safe)"
+          t('dashboard', 'show_roi_automatically'),
+          t('dashboard', 'weekly_exec_pdfs'),
+          t('dashboard', 'readonly_snapshot_links')
         ]}
       />
     </DashboardErrorBoundary>

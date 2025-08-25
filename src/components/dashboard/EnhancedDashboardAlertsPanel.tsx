@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useLocale } from '@/i18n/locale';
 
 interface DashboardAlert {
   severity: string;
@@ -25,8 +25,8 @@ interface Props {
 
 export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: Props) {
   const { toast } = useToast();
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { t, locale } = useLocale();
+  const isArabic = locale === 'ar';
 
   const getSeverityColor = (severity: string) => {
     switch (severity.toLowerCase()) {
@@ -50,15 +50,13 @@ export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: 
     try {
       await onCreateTask(alert);
       toast({
-        title: isArabic ? "تم إنشاء المهمة" : "Task Created",
-        description: isArabic ? 
-          "تم إنشاء مهمة جديدة من التنبيه بنجاح" : 
-          "Task created successfully from alert"
+        title: t('dashboard', 'task_created'),
+        description: t('dashboard', 'task_created_success')
       });
     } catch (error: any) {
       toast({
-        title: isArabic ? "خطأ" : "Error",
-        description: error.message || (isArabic ? "فشل في إنشاء المهمة" : "Failed to create task"),
+        title: t('dashboard', 'error'),
+        description: error.message || t('dashboard', 'failed_to_create_task'),
         variant: "destructive"
       });
     }
@@ -68,7 +66,7 @@ export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: 
     return (
       <Card>
         <CardHeader>
-          <CardTitle>{isArabic ? "التنبيهات والقضايا" : "Issues & Alerts"}</CardTitle>
+          <CardTitle>{t('dashboard', 'issues_alerts')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
@@ -88,7 +86,7 @@ export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <AlertTriangle className="h-5 w-5" />
-          {isArabic ? "التنبيهات والقضايا" : "Issues & Alerts"}
+          {t('dashboard', 'issues_alerts')}
           {alerts.length > 0 && (
             <Badge variant="secondary">{alerts.length}</Badge>
           )}
@@ -103,10 +101,10 @@ export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: 
               </div>
             </div>
             <p className="font-medium">
-              {isArabic ? "لا توجد قضايا مكتشفة" : "No issues detected"}
+              {t('dashboard', 'no_issues_detected')}
             </p>
             <p className="text-sm text-muted-foreground">
-              {isArabic ? "جميع المؤشرات ضمن النطاقات المقبولة" : "All metrics within acceptable ranges"}
+              {t('dashboard', 'all_metrics_acceptable')}
             </p>
           </div>
         ) : (
@@ -159,7 +157,7 @@ export function EnhancedDashboardAlertsPanel({ alerts, onCreateTask, loading }: 
                         className="h-8"
                       >
                         <Plus className="h-3 w-3 mr-1" />
-                        {isArabic ? "إنشاء مهمة" : "Create Task"}
+                        {t('dashboard', 'create_task')}
                       </Button>
                     )}
                   </div>

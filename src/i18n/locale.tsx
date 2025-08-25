@@ -347,12 +347,12 @@ const bundles: Record<string, Bundle> = {
       saudi_nationals: 'Saudi nationals',
       compliance_score: 'Compliance Score',
       hse_safety_score: 'HSE Safety Score',
-      employee_experience: 'Employee Experience',
+      employee_experience: 'Employee Experience',  
       predictive_risk: 'Predictive Risk',
       high_risk: 'High Risk',
       talent_pipeline: 'Talent Pipeline',
       strength: 'Strength',
-      docs_processed: 'Docs Processed',
+      docs_processed: 'Documents Processed',
       training_hours: 'Training Hours',
       workforce_forecast: 'Workforce Forecast',
       accuracy: 'Accuracy',
@@ -364,7 +364,40 @@ const bundles: Record<string, Bundle> = {
       safety_excellence: 'demonstrates safety excellence',
       employee_satisfaction: 'employee satisfaction score',
       high_performing: 'high-performing employees',
-      strong_pipeline: 'strong talent pipeline'
+      strong_pipeline: 'strong talent pipeline',
+      
+      // System status
+      all_systems_operational: 'All systems operational',
+      system_issues_detected: 'System issues detected',
+      demo_mode: 'Demo Mode',
+      dashboard_error: 'Dashboard Error',
+      retry_loading: 'Retry Loading',
+      
+      // Trends component
+      error_loading_trends: 'Error loading trends',
+      no_trend_data_available: 'No trend data available',
+      
+      // Alerts panel
+      issues_alerts: 'Issues & Alerts',
+      no_issues_detected: 'No issues detected',
+      all_metrics_acceptable: 'All metrics within acceptable ranges',
+      task_created: 'Task Created',
+      task_created_success: 'Task created successfully from alert',
+      error: 'Error',
+      failed_to_create_task: 'Failed to create task',
+      create_task: 'Create Task',
+      
+      // Upsell modal
+      unlock_growth_features: 'Unlock Growth Features',
+      growth_features_description: 'Get advanced analytics, ROI tracking, and executive reporting capabilities.',
+      show_roi_automatically: 'Show ROI automatically',
+      weekly_exec_pdfs: 'Weekly exec pdfs',
+      readonly_snapshot_links: 'Read-only snapshot links (PDPL-safe)',
+      
+      // Misc
+      unable_to_determine_company: 'Unable to determine company',
+      dashboard_share_link_copied: 'Dashboard share link copied to clipboard!',
+      failed_to_create_share_link: 'Failed to create share link'
     },
     ar: {
       // Trends
@@ -400,7 +433,40 @@ const bundles: Record<string, Bundle> = {
       safety_excellence: 'يُظهر تميزاً في السلامة',
       employee_satisfaction: 'نقاط رضا الموظفين',
       high_performing: 'موظفون متميزون',
-      strong_pipeline: 'خط مواهب قوي'
+      strong_pipeline: 'خط مواهب قوي',
+      
+      // System status
+      all_systems_operational: 'جميع الأنظمة تعمل',
+      system_issues_detected: 'مشاكل في الأنظمة',
+      demo_mode: 'وضع تجريبي',
+      dashboard_error: 'خطأ في لوحة التحكم',
+      retry_loading: 'إعادة التحميل',
+      
+      // Trends component
+      error_loading_trends: 'خطأ في تحميل التوجهات',
+      no_trend_data_available: 'لا توجد بيانات توجهات متاحة',
+      
+      // Alerts panel
+      issues_alerts: 'التنبيهات والقضايا',
+      no_issues_detected: 'لا توجد قضايا مكتشفة',
+      all_metrics_acceptable: 'جميع المؤشرات ضمن النطاقات المقبولة',
+      task_created: 'تم إنشاء المهمة',
+      task_created_success: 'تم إنشاء مهمة جديدة من التنبيه بنجاح',
+      error: 'خطأ',
+      failed_to_create_task: 'فشل في إنشاء المهمة',
+      create_task: 'إنشاء مهمة',
+      
+      // Upsell modal
+      unlock_growth_features: 'فتح ميزات النمو',
+      growth_features_description: 'احصل على تحليلات متقدمة وتتبع العائد على الاستثمار وإمكانيات التقارير التنفيذية.',
+      show_roi_automatically: 'إظهار العائد على الاستثمار تلقائياً',
+      weekly_exec_pdfs: 'تقارير تنفيذية أسبوعية',
+      readonly_snapshot_links: 'روابط لقطات للقراءة فقط (متوافقة مع حماية البيانات)',
+      
+      // Misc
+      unable_to_determine_company: 'غير قادر على تحديد الشركة',
+      dashboard_share_link_copied: 'تم نسخ رابط مشاركة لوحة التحكم!',
+      failed_to_create_share_link: 'فشل في إنشاء رابط المشاركة'
     }
   },
 };
