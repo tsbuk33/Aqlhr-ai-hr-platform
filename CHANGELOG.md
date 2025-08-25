@@ -9,6 +9,21 @@
 
 ## Recent Changes
 
+### 2025-08-25 - Automatic Changelog Policy Established
+**Issue:** User wants all communications and changes automatically documented without reminders
+**Impact:** Process Enhancement - Streamlined documentation workflow
+**Resolution:** All future prompts, responses, and changes will be automatically added to changelog
+
+#### Policy Change:
+- **Automatic Documentation** - Every user message and AI response logged in changelog
+- **No Manual Reminders** - AI will proactively document all interactions
+- **Complete Communication Record** - Full conversation history maintained for business accountability
+
+**User Request Context:**
+> "everything we write and communicate keep it in changelog , no need to tell you everytime"
+
+**Status:** ✅ ESTABLISHED - Automatic changelog documentation now active
+
 ### 2025-08-25 - Critical Route Fixes and Database Functions
 **Issue:** Multiple routes failing in both EN/AR due to missing database functions and component rendering issues
 **Impact:** Critical Bug Fix - All application routes now functional across both languages
