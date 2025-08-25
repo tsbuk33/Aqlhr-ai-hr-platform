@@ -120,9 +120,20 @@ export default function RouteAudit() {
   };
 
   const handleRunBothAudits = async () => {
-    await handleRunAudit('en');
-    await new Promise(resolve => setTimeout(resolve, 1000)); // Brief pause
-    await handleRunAudit('ar');
+    setIsRunning(true);
+    try {
+      await handleRunAudit('en');
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Brief pause
+      await handleRunAudit('ar');
+    } catch (error) {
+      toast({
+        title: 'Audit Failed',
+        description: error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive'
+      });
+    } finally {
+      setIsRunning(false);
+    }
   };
 
   const handleQuickTest = async (routeInfo: RouteInfo, lang: 'en' | 'ar') => {
