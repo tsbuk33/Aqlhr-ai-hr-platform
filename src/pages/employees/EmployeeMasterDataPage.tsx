@@ -83,64 +83,56 @@ export default function EmployeeMasterDataPage() {
         // Log page view
         logPageView('employees', { tenantId: tenantId.slice(0, 8) });
         
-        // Load employees - use mock data for now since RPCs aren't available
-        const mockEmployees: Employee[] = [
-          {
-            id: '1',
-            employee_number: 'EMP001',
-            full_name: 'Ahmed Al-Rashid',
-            email: 'ahmed.rashid@company.com',
-            phone: '+966501234567',
-            iqama_number: '1234567890',
-            position: 'Senior Developer',
-            department: 'IT',
-            status: 'active',
-            hire_date: '2022-01-15',
-            salary: 12000,
-            is_saudi: true
-          },
-          {
-            id: '2',
-            employee_number: 'EMP002',
-            full_name: 'Sarah Johnson',
-            email: 'sarah.johnson@company.com',
-            phone: '+966512345678',
-            iqama_number: '2345678901',
-            position: 'HR Manager',
-            department: 'Human Resources',
-            status: 'active',
-            hire_date: '2021-06-01',
-            salary: 15000,
-            is_saudi: false
-          },
-          {
-            id: '3',
-            employee_number: 'EMP003',
-            full_name: 'Mohammed Al-Otaibi',
-            email: 'mohammed.otaibi@company.com',
-            phone: '+966523456789',
-            iqama_number: '3456789012',
-            position: 'Accountant',
-            department: 'Finance',
-            status: 'active',
-            hire_date: '2023-03-10',
-            salary: 8000,
-            is_saudi: true
-          }
-        ];
+        // Get employee count first
+        const { data: count, error: countError } = await supabase.rpc('hr_employees_count_v1', {
+          p_tenant: tenantId
+        });
         
-        setEmployees(mockEmployees);
+        if (countError) {
+          console.error('Count error:', countError);
+        }
         
-        // Mock stats
+        // Get employee list
+        const { data: employeeList, error: listError } = await supabase.rpc('hr_employees_list_v1', {
+          p_tenant: tenantId,
+          p_page: 1,
+          p_limit: 50
+        });
+        
+        if (listError) {
+          console.error('List error:', listError);
+        }
+        
+        // Set employees data
+        if (employeeList && Array.isArray(employeeList)) {
+          setEmployees(employeeList.map(emp => ({
+            id: emp.id,
+            employee_number: emp.employee_number,
+            full_name: emp.full_name,
+            position: emp.position || '—',
+            department: emp.department || '—',
+            status: emp.status || 'active',
+            hire_date: emp.hire_date,
+            salary: emp.salary,
+            is_saudi: emp.is_saudi
+          })));
+        }
+        
+        // Calculate stats
+        const totalCount = count || employeeList?.length || 0;
+        const activeCount = employeeList?.filter(e => e.status === 'active').length || 0;
+        const saudiCount = employeeList?.filter(e => e.is_saudi).length || 0;
+        const saudizationRate = totalCount > 0 ? Math.round((saudiCount / totalCount) * 100) : 0;
+        
         setStats({
-          total_employees: mockEmployees.length,
-          active_employees: mockEmployees.filter(e => e.status === 'active').length,
-          saudization_percentage: Math.round((mockEmployees.filter(e => e.is_saudi).length / mockEmployees.length) * 100)
+          total_employees: totalCount,
+          active_employees: activeCount,
+          saudization_percentage: saudizationRate
         });
         
       } catch (error) {
         logError('employees', 'Failed to load employee data');
-        toast.error('Failed to load employee data');
+        console.error('Load error:', error);
       } finally {
         setLoading(false);
       }

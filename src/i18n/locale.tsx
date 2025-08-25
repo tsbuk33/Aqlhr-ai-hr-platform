@@ -147,26 +147,6 @@ const bundles: Record<string, Bundle> = {
       retry: 'إعادة المحاولة'
     },
   },
-  dashboard: {
-    en: {
-      // Trends
-      'trends.title': '12-Month KPI Trends',
-      'trends.subtitle': 'Saudization, Safety, Compliance, Experience',
-      'trends.saudization_rate': 'Saudization Rate',
-      'trends.hse_safety': 'HSE Safety Score',
-      'trends.compliance': 'Compliance Score',
-      'trends.employee_experience': 'Employee Experience',
-    },
-    ar: {
-      // Trends
-      'trends.title': 'اتجاهات مؤشرات الأداء خلال 12 شهرًا',
-      'trends.subtitle': 'السعودة، السلامة، الالتزام، تجربة الموظف',
-      'trends.saudization_rate': 'نسبة السعودة',
-      'trends.hse_safety': 'درجة السلامة',
-      'trends.compliance': 'درجة الامتثال',
-      'trends.employee_experience': 'تجربة الموظف',
-    },
-  },
   employees: {
     en: {
       title: 'Employee Master Data',
@@ -213,6 +193,80 @@ const bundles: Record<string, Bundle> = {
       non_saudi: 'غير سعودي',
       pdpl_notice: 'هذه البيانات محمية بموجب قانون حماية البيانات الشخصية السعودي (PDPL).',
       privacy_notice: ' تم إخفاء المعلومات الشخصية للامتثال لقوانين الخصوصية.'
+    }
+  },
+  dashboard: {
+    en: {
+      // Trends
+      'trends.title': '12-Month KPI Trends',
+      'trends.subtitle': 'Saudization, Safety, Compliance, Experience',
+      'trends.saudization_rate': 'Saudization Rate',
+      'trends.hse_safety': 'HSE Safety Score',
+      'trends.compliance': 'Compliance Score',
+      'trends.employee_experience': 'Employee Experience',
+      
+      // Main dashboard
+      title: 'Executive Dashboard',
+      subtitle: 'Real-time organizational performance insights',
+      total_employees: 'Total Employees',
+      saudization_rate: 'Saudization Rate',
+      saudi_nationals: 'Saudi nationals',
+      compliance_score: 'Compliance Score',
+      hse_safety_score: 'HSE Safety Score',
+      employee_experience: 'Employee Experience',
+      predictive_risk: 'Predictive Risk',
+      high_risk: 'High Risk',
+      talent_pipeline: 'Talent Pipeline',
+      strength: 'Strength',
+      docs_processed: 'Docs Processed',
+      training_hours: 'Training Hours',
+      workforce_forecast: 'Workforce Forecast',
+      accuracy: 'Accuracy',
+      share_dashboard: 'Share Dashboard',
+      error_loading: 'Error Loading Dashboard',
+      retry: 'Retry',
+      loading: 'Loading dashboard data...',
+      vision_2030_alignment: 'aligns with Vision 2030 goals',
+      safety_excellence: 'demonstrates safety excellence',
+      employee_satisfaction: 'employee satisfaction score',
+      high_performing: 'high-performing employees',
+      strong_pipeline: 'strong talent pipeline'
+    },
+    ar: {
+      // Trends
+      'trends.title': 'اتجاهات مؤشرات الأداء خلال 12 شهرًا',
+      'trends.subtitle': 'السعودة، السلامة، الالتزام، تجربة الموظف',
+      'trends.saudization_rate': 'نسبة السعودة',
+      'trends.hse_safety': 'درجة السلامة',
+      'trends.compliance': 'درجة الامتثال',
+      'trends.employee_experience': 'تجربة الموظف',
+      
+      // Main dashboard
+      title: 'لوحة التحكم التنفيذية',
+      subtitle: 'رؤى الأداء التنظيمي في الوقت الفعلي',
+      total_employees: 'إجمالي الموظفين',
+      saudization_rate: 'معدل السعودة',
+      saudi_nationals: 'المواطنون السعوديون',
+      compliance_score: 'نقاط الامتثال',
+      hse_safety_score: 'نقاط السلامة والصحة المهنية',
+      employee_experience: 'تجربة الموظف',
+      predictive_risk: 'المخاطر التنبؤية',
+      high_risk: 'مخاطر عالية',
+      talent_pipeline: 'خط المواهب',
+      strength: 'القوة',
+      docs_processed: 'المستندات المعالجة',
+      training_hours: 'ساعات التدريب',
+      workforce_forecast: 'توقعات القوى العاملة',
+      accuracy: 'الدقة',
+      share_dashboard: 'مشاركة لوحة التحكم',
+      error_loading: 'خطأ في تحميل لوحة التحكم',
+      retry: 'إعادة المحاولة',
+      loading: 'جاري تحميل بيانات لوحة التحكم...',
+      vision_2030_alignment: 'يتماشى مع أهداف رؤية 2030',
+      safety_excellence: 'يُظهر تميزاً في السلامة',
+      employee_satisfaction: 'نقاط رضا الموظفين',
+      high_performing: 'موظفون متميزون',
+      strong_pipeline: 'خط مواهب قوي'
     }
   },
 };

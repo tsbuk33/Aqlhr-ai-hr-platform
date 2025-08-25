@@ -11,14 +11,14 @@ import { DemoSeedingCallout } from "@/components/dashboard/DemoSeedingCallout";
 import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDashboardAlertsPanel";
 import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
 import { LineChart, Line, ResponsiveContainer } from 'recharts';
-import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useLocale } from "@/i18n/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from 'sonner';
 import { resolveTenantId } from "@/lib/useTenant";
 
 export default function Dashboard() {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { t, locale } = useLocale();
+  const isArabic = locale === 'ar';
   const { hasAccess: hasGrowthAccess, showUpsell, hideUpsell, upsellOpen } = useFeatureGating('self_sell_growth');
   
   const { 
@@ -145,7 +145,7 @@ export default function Dashboard() {
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-3xl font-bold">
-                {isArabic ? "لوحة التحكم" : "Dashboard"}
+                {t('dashboard', 'title')}
               </h1>
               {isDemoMode && (
                 <Badge variant="outline" className="text-xs">
@@ -178,7 +178,7 @@ export default function Dashboard() {
           {/* Share Dashboard Button */}
           <Button onClick={handleShareDashboard} disabled={loading}>
             <Share2 className="h-4 w-4 mr-2" />
-            {isArabic ? "مشاركة لوحة التحكم" : "Share Dashboard"}
+            {t('dashboard', 'share_dashboard')}
           </Button>
         </div>
 
