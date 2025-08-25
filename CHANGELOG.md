@@ -9,6 +9,30 @@
 
 ## Recent Changes
 
+### 2025-08-25 - Route Sentinel (Platform Route Audit System)
+**Issue:** Need automated route auditing system to test all 300+ routes for render status, timing, and i18n compliance
+**Impact:** Major Development Tool - Automated QA for all application routes across EN/AR languages
+**Resolution:** Complete route auditing system with off-screen testing and comprehensive reporting
+
+#### Implementation:
+- **Route Audit UI** - `/en/_/route-audit` and `/ar/_/route-audit` pages with filters and controls
+- **Observability Helper** - `src/lib/observability/logUiEvent.ts` for ui_events logging with tenant handling
+- **Route Collection** - `src/lib/dev/routesIndex.ts` with navigable routes index
+- **Audit Engine** - `src/lib/dev/routeSentinel.ts` with off-screen React mounting and error interception
+- **Comprehensive Logging** - Results stored in ui_events table with route, timing, i18n, and RTL data
+
+#### Features:
+✅ Automated EN/AR route testing with mount performance timing
+✅ i18n compliance checking (missing translation detection)
+✅ RTL validation for Arabic routes
+✅ React error interception and console warning capture
+✅ Auto-run mode with ?dev=1&auto=1 parameters
+✅ Filter system by module, status, i18n issues
+✅ Quick single-route testing capability
+✅ Complete documentation in `docs/dev/route-sentinel.md`
+
+**Status:** ✅ COMPLETED - Route Sentinel system fully operational
+
 ### 2025-01-25 - Retention v1 Module Database Enhancement & Edge Function Integration
 **Issue:** Enhanced retention data seeding and created AI-powered action generation system
 **Impact:** Major Feature Enhancement - Improved data quality and AI integration for retention module

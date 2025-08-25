@@ -4,6 +4,7 @@ import DashboardPage from '@/pages/Dashboard';
 import { OSIOverview } from '@/components/diagnostic/OSIOverview';
 import RetentionPage from '@/pages/diagnostic/Retention';
 import DiagnosticHub from '@/pages/diagnostic/Hub';
+import RouteAudit from '@/pages/_/RouteAudit';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -37,6 +38,7 @@ export default function AppRoutes() {
 
         {/* smoke / health */}
         <Route path="_/ping" element={<Ping />} />
+        <Route path="_/route-audit" element={<RouteAudit />} />
 
         {/* diagnostic */}
         <Route path="diagnostic">
