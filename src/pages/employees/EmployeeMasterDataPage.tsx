@@ -30,7 +30,7 @@ export default function EmployeeMasterDataPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   
   const { exportToCSV, exportToPDF, isExporting } = useSafeExport();
-  const { shouldShowCTA, seedDemoData } = useDevSeeding(employees.length, tenantId || undefined);
+  const { shouldShowCTA, seedDemoData } = useDevSeeding(employees?.length || 0, tenantId || undefined);
 
   // Get tenant ID and auth status
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function EmployeeMasterDataPage() {
   }, [tenantId]);
 
   // Filter employees
-  const filteredEmployees = employees.filter(emp => {
+  const filteredEmployees = (employees || []).filter(emp => {
     const matchesSearch = !search || 
       emp.full_name?.toLowerCase().includes(search.toLowerCase()) ||
       emp.employee_number?.toLowerCase().includes(search.toLowerCase()) ||
