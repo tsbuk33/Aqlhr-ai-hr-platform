@@ -80,6 +80,49 @@
 
 **Status:** ✅ COMPLETED - Enhanced documentation policy implemented
 
+### 2025-01-25 - SAVEPOINT: Retention v1 Stable Baseline
+**Issue:** User requested stable restoration point for working retention system
+**Impact:** Project Milestone - Complete functional retention module ready for QA
+**Resolution:** Documented current stable configuration for future restoration reference
+
+#### Current Stable Components:
+
+**Database RPCs (Stable):**
+- `retention_overview_v1(p_tenant uuid)` - Returns aggregated risk metrics, employee counts, and 12-month exit sparkline
+- `retention_drivers_v1(p_tenant uuid)` - Returns top 5 risk drivers with contribution percentages (with JSONB type safety)
+- `retention_watchlist_v1(p_tenant uuid)` - Returns high-risk employees/units for admin access
+- `dev_seed_retention_v1(p_tenant uuid)` - Seeds comprehensive retention features and simulates realistic exits
+
+**Edge Function (Stable):**
+- `agent-retention-plan-v1` - AI-powered retention action generator
+  - Integrates with Ask Aql for contextual recommendations
+  - Processes retention context (overview, drivers, watchlist)
+  - Creates tenant-scoped tasks via `task_create_v1` RPC
+  - Handles CORS and error management
+
+**Frontend Components (Stable):**
+- `useRetention.ts` - Hook with enhanced error handling and legacy compatibility
+- `RetentionStrategyAssessment.tsx` - Main page with KPI cards and AI assistant
+- `RetentionOverview.tsx` - Risk metrics and hotspot visualization
+- `RetentionDrivers.tsx` - Bar charts and driver analysis tables
+- `RetentionWatchlist.tsx` - Employee risk list (admin-only with PDPL compliance)
+- `RetentionActions.tsx` - Action plan generation and task management
+
+**Key Features Working:**
+✅ Multi-language support (EN/AR with RTL)
+✅ Role-based access control (admin vs non-admin views)
+✅ Realistic data seeding with correlated risk factors
+✅ AI-powered action generation with task creation
+✅ Type-safe JSONB handling in database queries
+✅ Tenant isolation and data security
+
+**User Request Context:**
+> "Create savepoint — diagnostics-retention-v1-stable if everything is working as it should be"
+
+**Purpose:** This savepoint provides a complete restoration reference for the working Retention v1 system. All components are functional and ready for production QA testing per user's acceptance checklist.
+
+**Status:** 📍 SAVEPOINT CREATED - diagnostics-retention-v1-stable baseline established
+
 ### 2025-01-24 - Retention v1 Module Initial Completion
 **Issue:** Complete Retention Strategy module v1 with overview, drivers, watchlist, and AI-generated actions
 **Impact:** Major Feature Addition - Full retention analytics capability for client
