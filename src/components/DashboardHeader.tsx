@@ -1,17 +1,25 @@
 import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, Settings, PanelLeft } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Bell, Search, Settings, PanelLeft, LogOut, User } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLocale } from "@/i18n/locale";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OwnerTools } from "@/components/dev/OwnerTools";
+import { useAuth } from "@/hooks/useAuth";
 
 export function DashboardHeader() {
   const { locale } = useLocale();
   const { toggleSidebar } = useSidebar();
+  const { signOut, user } = useAuth();
   const isArabic = locale === 'ar';
+
+  const handleSignOut = async () => {
+    await signOut();
+    window.location.href = `/${locale}/auth`;
+  };
   
   return (
     <header className="h-20 border-b border-border/40 dark:border-border bg-gradient-to-r from-surface via-surface-subtle to-surface dark:from-surface dark:via-surface-subtle dark:to-surface backdrop-blur-xl supports-[backdrop-filter]:bg-surface/90 dark:supports-[backdrop-filter]:bg-surface/90 shadow-sm">
@@ -76,22 +84,41 @@ export function DashboardHeader() {
             <div className={`hidden sm:block ${isArabic ? 'text-left' : 'text-right'}`}>
               {isArabic ? (
                 <>
-                  <p className="text-sm font-semibold text-foreground">أحمد الراشد</p>
-                  <p className="text-xs text-foreground-muted">مدير الموارد البشرية</p>
+                  <p className="text-sm font-semibold text-foreground">{user?.email ? user.email.split('@')[0] : 'مستخدم'}</p>
+                  <p className="text-xs text-foreground-muted">مستخدم منصة عقل</p>
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-semibold text-foreground">Ahmed Al-Rashid</p>
-                  <p className="text-xs text-foreground-muted">HR Administrator</p>
+                  <p className="text-sm font-semibold text-foreground">{user?.email ? user.email.split('@')[0] : 'User'}</p>
+                  <p className="text-xs text-foreground-muted">AQL Platform User</p>
                 </>
               )}
             </div>
-            <Avatar className="h-10 w-10 ring-2 ring-border shadow-lg hover:ring-brand-primary transition-all duration-200">
-              <AvatarImage src="/placeholder-avatar.jpg" alt="Ahmed Al-Rashid" />
-              <AvatarFallback className="bg-gradient-to-br from-brand-primary to-brand-accent text-white text-sm font-bold">
-                AR
-              </AvatarFallback>
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="h-10 w-10 ring-2 ring-border shadow-lg hover:ring-brand-primary transition-all duration-200 cursor-pointer">
+                  <AvatarImage src="/placeholder-avatar.jpg" alt={user?.email || 'User'} />
+                  <AvatarFallback className="bg-gradient-to-br from-brand-primary to-brand-accent text-white text-sm font-bold">
+                    {user?.email ? user.email.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <User className="h-4 w-4" />
+                  {isArabic ? 'الملف الشخصي' : 'Profile'}
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
+                  {isArabic ? 'الإعدادات' : 'Settings'}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="flex items-center gap-2 text-destructive">
+                  <LogOut className="h-4 w-4" />
+                  {isArabic ? 'تسجيل الخروج' : 'Sign Out'}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>

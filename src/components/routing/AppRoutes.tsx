@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LanguageLayout from './LanguageLayout';
+import AuthPage from '@/pages/AuthPage';
+import AuthCallback from '@/pages/AuthCallback';
 import DashboardPage from '@/pages/Dashboard';
 import { OSIOverview } from '@/components/diagnostic/OSIOverview';
 import RetentionPage from '@/pages/diagnostic/Retention';
@@ -30,6 +32,9 @@ export default function AppRoutes() {
       {/* root → lang root */}
       <Route path="/" element={<Navigate to={`/${currentLang()}`} replace />} />
 
+      {/* auth callback (global) */}
+      <Route path="/auth/callback" element={<AuthCallback />} />
+
       {/* legacy (no lang prefix) redirects */}
       <Route path="/dashboard" element={<Navigate to={`/${currentLang()}/dashboard`} replace />} />
       <Route path="/diagnostic/retention/*" element={<Navigate to={`/${currentLang()}/diagnostic/retention`} replace />} />
@@ -39,6 +44,7 @@ export default function AppRoutes() {
       {/* localized tree */}
       <Route path=":lang" element={<LanguageLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="auth" element={<AuthPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
 
         {/* smoke / health */}

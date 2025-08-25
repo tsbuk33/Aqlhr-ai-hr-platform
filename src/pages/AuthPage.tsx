@@ -1,16 +1,26 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function AuthPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { user } = useAuth();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  // Redirect if already authenticated
+  if (user) {
+    const nextUrl = searchParams.get('next') || '/en/dashboard';
+    navigate(nextUrl, { replace: true });
+    return null;
+  }
 
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
@@ -78,8 +88,9 @@ export default function AuthPage() {
               setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
             }
           } else {
-            // Success → go to dashboard
-            navigate("/");
+            // Success → go to dashboard or next URL
+            const nextUrl = searchParams.get('next') || '/en/dashboard';
+            navigate(nextUrl);
           }
         } catch (err) {
           console.error("Unexpected error:", err);
@@ -110,9 +121,15 @@ export default function AuthPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
       <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-xl shadow-lg border">
-        <h2 className="text-2xl font-bold text-center">
-          Welcome to AqlHR
-        </h2>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-primary mb-2">AqlHR</h1>
+          <h2 className="text-xl font-semibold">
+            {isSignUp ? 'Create Account' : 'Welcome Back'}
+          </h2>
+          <p className="text-muted-foreground mt-2">
+            {isSignUp ? 'Sign up to access your HR platform' : 'Sign in to continue to your dashboard'}
+          </p>
+        </div>
 
         <div className="flex justify-center space-x-4">
           <button
