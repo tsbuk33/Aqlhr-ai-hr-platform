@@ -11271,30 +11271,33 @@ export type Database = {
       ui_events: {
         Row: {
           created_at: string | null
-          details: Json | null
+          event_type: string
           id: string
           level: string | null
           message: string | null
+          metadata: Json | null
           page: string
           tenant_id: string
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
-          details?: Json | null
+          event_type?: string
           id?: string
           level?: string | null
           message?: string | null
+          metadata?: Json | null
           page: string
           tenant_id: string
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
-          details?: Json | null
+          event_type?: string
           id?: string
           level?: string | null
           message?: string | null
+          metadata?: Json | null
           page?: string
           tenant_id?: string
           user_id?: string | null
