@@ -66,8 +66,7 @@ export async function ensureDemoData(): Promise<DemoDataStatus> {
     // 2) DB fallback - seed employees idempotently
     await logToUiEvents(tenantId, 'Running database fallback seeding...', 'info');
     const { data: seedData, error: seedError } = await supabase.rpc('dev_seed_employees_v1', { 
-      p_tenant: tenantId, 
-      p_n: 1000 
+      p_tenant: tenantId
     });
 
     if (seedError) {

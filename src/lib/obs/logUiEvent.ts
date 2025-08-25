@@ -8,26 +8,59 @@ interface UiEventLog {
 }
 
 /**
+ * Get user company ID safely
+ */
+async function getTenantId(): Promise<string | null> {
+  try {
+    // Try to get from existing functions or auth metadata
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+    
+    // Try to get company_id from user_roles table
+    const { data: roles } = await supabase
+      .from('user_roles')
+      .select('company_id')
+      .eq('user_id', user.id)
+      .limit(1)
+      .maybeSingle();
+    
+    return roles?.company_id || null;
+  } catch (err) {
+    return null;
+  }
+}
+
+/**
  * Log UI events for observability without including PII
  * Sanitizes all data before logging to prevent sensitive information leaks
  */
 export async function logUiEvent(event: UiEventLog) {
   try {
+    // Get tenant and user IDs
+    const { data: { user } } = await supabase.auth.getUser();
+    const tenantId = await getTenantId();
+    
+    // Skip logging if we can't identify the tenant
+    if (!tenantId) {
+      console.warn('Cannot log UI event: no tenant ID available');
+      return;
+    }
+
     // Sanitize details to remove any potential PII
     const sanitizedDetails = sanitizeDetails(event.details);
     
     // Prepare the log entry
     const logEntry = {
+      tenant_id: tenantId,
+      user_id: user?.id || null,
       level: event.level,
       page: event.page,
       message: event.message,
       details: sanitizedDetails,
-      timestamp: new Date().toISOString(),
-      user_agent: navigator.userAgent,
-      url: window.location.pathname + window.location.search
+      created_at: new Date().toISOString()
     };
 
-    // Insert into ui_events table (create if it doesn't exist)
+    // Insert into ui_events table
     const { error } = await supabase
       .from('ui_events')
       .insert([logEntry]);

@@ -12476,7 +12476,9 @@ export type Database = {
         Returns: Json
       }
       dev_seed_employees_v1: {
-        Args: Record<PropertyKey, never> | { p_n?: number; p_tenant: string }
+        Args:
+          | Record<PropertyKey, never>
+          | { p_count?: number; p_tenant: string }
         Returns: Json
       }
       dev_seed_osi_v1: {
