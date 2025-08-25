@@ -7,6 +7,8 @@ import DiagnosticHub from '@/pages/diagnostic/Hub';
 import RouteAudit from '@/pages/_/RouteAudit';
 import EmployeeMasterDataPage from '@/pages/employees/EmployeeMasterDataPage';
 import RecruitmentPage from '@/pages/RecruitmentPage';
+import EmployeeList from '@/pages/people/EmployeeList';
+import EmployeeProfile from '@/pages/people/EmployeeProfile';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -34,7 +36,7 @@ export default function AppRoutes() {
       <Route path="/diagnostic/hub" element={<Navigate to={`/${currentLang()}/diagnostic/hub`} replace />} />
 
       {/* localized tree */}
-      <Route path="/:lang" element={<LanguageLayout />}>
+      <Route path=":lang" element={<LanguageLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
 
@@ -45,6 +47,12 @@ export default function AppRoutes() {
         {/* employees */}
         <Route path="employees" element={<EmployeeMasterDataPage />} />
 
+        {/* legacy/alternate people paths */}
+        <Route path="people">
+          <Route path="employees" element={<EmployeeList />} />
+          <Route path="employees/:id" element={<EmployeeProfile />} />
+        </Route>
+
         {/* recruitment */}
         <Route path="recruitment" element={<RecruitmentPage />} />
 
@@ -53,6 +61,19 @@ export default function AppRoutes() {
           <Route path="hub" element={<DiagnosticHub />} />
           <Route path="retention" element={<RetentionPage />} />
           <Route path="osi" element={<OSIOverview />} />
+        </Route>
+
+        {/* compatibility redirects (localized) */}
+        <Route path="executive-center" element={<Navigate to="dashboard" replace />} />
+        <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />
+        <Route path="core-hr">
+          <Route index element={<Navigate to="../employees" replace />} />
+          <Route path="master-data" element={<Navigate to="../employees" replace />} />
+        </Route>
+        <Route path="analytics/*" element={<Navigate to="dashboard" replace />} />
+        <Route path="cci">
+          <Route path="survey" element={<Navigate to="../diagnostic/hub" replace />} />
+          <Route path="playbook" element={<Navigate to="../diagnostic/hub" replace />} />
         </Route>
 
         {/* 404 for localized space */}
