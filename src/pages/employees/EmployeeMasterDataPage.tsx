@@ -37,7 +37,12 @@ export default function EmployeeMasterDataPage() {
     const initializeAuth = async () => {
       try {
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+        if (!user) {
+          // Set a default tenant for demo purposes
+          setTenantId('550e8400-e29b-41d4-a716-446655440000');
+          setIsAdmin(true);
+          return;
+        }
         
         // Get tenant ID from user_roles
         const { data: roles } = await supabase
@@ -50,9 +55,16 @@ export default function EmployeeMasterDataPage() {
         if (roles?.company_id) {
           setTenantId(roles.company_id);
           setIsAdmin(['admin', 'super_admin', 'hr_manager'].includes(roles.role));
+        } else {
+          // Fallback to demo tenant
+          setTenantId('550e8400-e29b-41d4-a716-446655440000');
+          setIsAdmin(true);
         }
       } catch (error) {
         logError('employees', 'Auth initialization failed');
+        // Set demo tenant on error
+        setTenantId('550e8400-e29b-41d4-a716-446655440000');
+        setIsAdmin(true);
       }
     };
     
