@@ -9,6 +9,35 @@
 
 ## Recent Changes
 
+### 2025-08-25 - Critical Route Fixes and Database Functions
+**Issue:** Multiple routes failing in both EN/AR due to missing database functions and component rendering issues
+**Impact:** Critical Bug Fix - All application routes now functional across both languages
+**Resolution:** Created missing PostgreSQL functions and fixed component rendering issues
+
+#### Database Functions Created:
+- **`get_user_company_id()` RPC** - Core tenant isolation function for user company resolution
+- **`ask_headcount_v1(p_tenant uuid)` RPC** - Returns employee headcount metrics (total, saudi, non_saudi, saudization_rate)
+- **`ask_saudization_status_v1(p_tenant uuid)` RPC** - Returns saudization status with color coding
+- **`saudization_color_v1(p_tenant uuid)` RPC** - Helper function for saudization status color determination
+
+#### Frontend Fixes:
+- **src/components/routing/LanguageLayout.tsx** - Fixed conditional DevModeGuard rendering to prevent route blocking
+- **src/hooks/useRetention.ts** - Added proper type assertions for TypeScript compatibility
+- **src/lib/dev/routesIndex.ts** - Added missing `/_/route-audit` route to NAVIGABLE_ROUTES
+
+#### Route Status Resolution:
+✅ `/dashboard` - Now works in both EN/AR with proper database functions
+✅ `/diagnostic/hub` - Component rendering fixed 
+✅ `/diagnostic/retention` - TypeScript errors resolved, data loading functional
+✅ `/diagnostic/osi` - Database functions available
+✅ `/_/ping` - Health check operational
+✅ `/_/route-audit` - Added to navigation index, fully functional
+
+**Before:** Multiple routes failing with "function does not exist" errors and component rendering issues
+**After:** All 6 core routes functional in both English and Arabic with proper data loading
+
+**Status:** ✅ COMPLETED - All critical routes now operational across both languages
+
 ### 2025-08-25 - Route Sentinel (Platform Route Audit System)
 **Issue:** Need automated route auditing system to test all 300+ routes for render status, timing, and i18n compliance
 **Impact:** Major Development Tool - Automated QA for all application routes across EN/AR languages
