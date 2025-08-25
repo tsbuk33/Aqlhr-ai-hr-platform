@@ -12,6 +12,8 @@ import RecruitmentPage from '@/pages/RecruitmentPage';
 import EmployeeList from '@/pages/people/EmployeeList';
 import EmployeeProfile from '@/pages/people/EmployeeProfile';
 import ExecutiveIntelligenceCenter from '@/pages/ExecutiveIntelligenceCenter';
+import ProfilePage from '@/pages/ProfilePage';
+import UsersPage from '@/pages/admin/UsersPage';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -72,6 +74,10 @@ export default function AppRoutes() {
 
         {/* executive intelligence center */}
         <Route path="executive-center" element={<ExecutiveIntelligenceCenter />} />
+        
+        {/* profile & admin */}
+        <Route path="profile" element={<ProfilePage />} />
+        <Route path="admin/users" element={<UsersPage />} />
         
         {/* compatibility redirects (localized) */}
         <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />

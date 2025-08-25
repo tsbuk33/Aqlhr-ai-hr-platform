@@ -2,18 +2,21 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Bell, Search, Settings, PanelLeft, LogOut, User } from "lucide-react";
+import { Bell, Search, Settings, PanelLeft, LogOut, User, Users, Crown, Shield } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLocale } from "@/i18n/locale";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { OwnerTools } from "@/components/dev/OwnerTools";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { LinkL } from '@/lib/i18n/LinkL';
 
 export function DashboardHeader() {
   const { locale } = useLocale();
   const { toggleSidebar } = useSidebar();
   const { signOut, user } = useAuth();
+  const { profile, canManageUsers } = useUserProfile();
   const isArabic = locale === 'ar';
 
   const handleSignOut = async () => {
@@ -84,13 +87,21 @@ export function DashboardHeader() {
             <div className={`hidden sm:block ${isArabic ? 'text-left' : 'text-right'}`}>
               {isArabic ? (
                 <>
-                  <p className="text-sm font-semibold text-foreground">{user?.email ? user.email.split('@')[0] : 'مستخدم'}</p>
-                  <p className="text-xs text-foreground-muted">مستخدم منصة عقل</p>
+                  <p className="text-sm font-semibold text-foreground flex items-center gap-1">
+                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-yellow-500" />}
+                    {['admin', 'hr_manager'].includes(profile?.role || '') && <Shield className="w-3 h-3 text-blue-500" />}
+                    {profile?.first_name || user?.email?.split('@')[0] || 'مستخدم'}
+                  </p>
+                  <p className="text-xs text-foreground-muted">{profile?.role?.replace('_', ' ') || 'مستخدم منصة عقل'}</p>
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-semibold text-foreground">{user?.email ? user.email.split('@')[0] : 'User'}</p>
-                  <p className="text-xs text-foreground-muted">AQL Platform User</p>
+                  <p className="text-sm font-semibold text-foreground flex items-center gap-1">
+                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-yellow-500" />}
+                    {['admin', 'hr_manager'].includes(profile?.role || '') && <Shield className="w-3 h-3 text-blue-500" />}
+                    {profile?.first_name || user?.email?.split('@')[0] || 'User'}
+                  </p>
+                  <p className="text-xs text-foreground-muted">{profile?.role?.replace('_', ' ') || 'AQL Platform User'}</p>
                 </>
               )}
             </div>
@@ -104,10 +115,20 @@ export function DashboardHeader() {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <User className="h-4 w-4" />
-                  {isArabic ? 'الملف الشخصي' : 'Profile'}
+                <DropdownMenuItem asChild>
+                  <LinkL to="/profile" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    {isArabic ? 'الملف الشخصي' : 'Profile'}
+                  </LinkL>
                 </DropdownMenuItem>
+                {canManageUsers() && (
+                  <DropdownMenuItem asChild>
+                    <LinkL to="/admin/users" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      {isArabic ? 'إدارة المستخدمين' : 'User Management'}
+                    </LinkL>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem className="flex items-center gap-2">
                   <Settings className="h-4 w-4" />
                   {isArabic ? 'الإعدادات' : 'Settings'}
