@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import LanguageLayout from './LanguageLayout';
+import { SetupGuard } from '@/components/setup/SetupGuard';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import DashboardPage from '@/pages/Dashboard';
@@ -14,6 +15,7 @@ import EmployeeProfile from '@/pages/people/EmployeeProfile';
 import ExecutiveIntelligenceCenter from '@/pages/ExecutiveIntelligenceCenter';
 import ProfilePage from '@/pages/ProfilePage';
 import UsersPage from '@/pages/admin/UsersPage';
+import CompanySettingsPage from '@/pages/admin/CompanySettingsPage';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -47,37 +49,38 @@ export default function AppRoutes() {
       <Route path=":lang" element={<LanguageLayout />}>
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="auth" element={<AuthPage />} />
-        <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="dashboard" element={<SetupGuard><DashboardPage /></SetupGuard>} />
 
         {/* smoke / health */}
         <Route path="_/ping" element={<Ping />} />
         <Route path="_/route-audit" element={<RouteAudit />} />
 
         {/* employees */}
-        <Route path="employees" element={<EmployeeMasterDataPage />} />
+        <Route path="employees" element={<SetupGuard><EmployeeMasterDataPage /></SetupGuard>} />
 
         {/* legacy/alternate people paths */}
         <Route path="people">
-          <Route path="employees" element={<EmployeeList />} />
-          <Route path="employees/:id" element={<EmployeeProfile />} />
+          <Route path="employees" element={<SetupGuard><EmployeeList /></SetupGuard>} />
+          <Route path="employees/:id" element={<SetupGuard><EmployeeProfile /></SetupGuard>} />
         </Route>
 
         {/* recruitment */}
-        <Route path="recruitment" element={<RecruitmentPage />} />
+        <Route path="recruitment" element={<SetupGuard><RecruitmentPage /></SetupGuard>} />
 
         {/* diagnostic */}
         <Route path="diagnostic">
-          <Route path="hub" element={<DiagnosticHub />} />
-          <Route path="retention" element={<RetentionPage />} />
-          <Route path="osi" element={<OSIOverview />} />
+          <Route path="hub" element={<SetupGuard><DiagnosticHub /></SetupGuard>} />
+          <Route path="retention" element={<SetupGuard><RetentionPage /></SetupGuard>} />
+          <Route path="osi" element={<SetupGuard><OSIOverview /></SetupGuard>} />
         </Route>
 
         {/* executive intelligence center */}
-        <Route path="executive-center" element={<ExecutiveIntelligenceCenter />} />
+        <Route path="executive-center" element={<SetupGuard><ExecutiveIntelligenceCenter /></SetupGuard>} />
         
         {/* profile & admin */}
-        <Route path="profile" element={<ProfilePage />} />
-        <Route path="admin/users" element={<UsersPage />} />
+        <Route path="profile" element={<SetupGuard><ProfilePage /></SetupGuard>} />
+        <Route path="admin/users" element={<SetupGuard><UsersPage /></SetupGuard>} />
+        <Route path="admin/company" element={<SetupGuard><CompanySettingsPage /></SetupGuard>} />
         
         {/* compatibility redirects (localized) */}
         <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />

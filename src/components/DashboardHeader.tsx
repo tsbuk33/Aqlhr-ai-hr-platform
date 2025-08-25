@@ -2,7 +2,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Bell, Search, Settings, PanelLeft, LogOut, User, Users, Crown, Shield } from "lucide-react";
+import { Bell, Search, Settings, PanelLeft, LogOut, User, Users, Crown, Shield, Building2 } from "lucide-react";
 import LanguageToggle from "@/components/LanguageToggle";
 import { useLocale } from "@/i18n/locale";
 import { HijriCalendarWidget } from "@/components/calendar/HijriCalendarWidget";
@@ -122,12 +122,20 @@ export function DashboardHeader() {
                   </LinkL>
                 </DropdownMenuItem>
                 {canManageUsers() && (
-                  <DropdownMenuItem asChild>
-                    <LinkL to="/admin/users" className="flex items-center gap-2">
-                      <Users className="h-4 w-4" />
-                      {isArabic ? 'إدارة المستخدمين' : 'User Management'}
-                    </LinkL>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem asChild>
+                      <LinkL to="/admin/users" className="flex items-center gap-2">
+                        <Users className="h-4 w-4" />
+                        {isArabic ? 'إدارة المستخدمين' : 'User Management'}
+                      </LinkL>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <LinkL to="/admin/company" className="flex items-center gap-2">
+                        <Building2 className="h-4 w-4" />
+                        {isArabic ? 'إعدادات الشركة' : 'Company Settings'}
+                      </LinkL>
+                    </DropdownMenuItem>
+                  </>
                 )}
                 <DropdownMenuItem className="flex items-center gap-2">
                   <Settings className="h-4 w-4" />
