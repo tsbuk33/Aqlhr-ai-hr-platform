@@ -12949,6 +12949,16 @@ export type Database = {
         Args: { p_tenant: string }
         Returns: undefined
       }
+      retention_watchlist_v1: {
+        Args: { p_tenant: string }
+        Returns: {
+          headcount: number
+          recent_exits_12m: number
+          risk_score: number
+          unit_name: string
+          unit_type: string
+        }[]
+      }
       revoke_api_key: {
         Args: { p_key_id: string }
         Returns: boolean
