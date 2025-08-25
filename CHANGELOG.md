@@ -43,6 +43,25 @@
 
 **Status:** ✅ COMPLETED - Enhanced retention system with realistic data and AI integration
 
+### 2025-01-25 - Retention v1 Database Type Safety Fix
+**Issue:** `retention_drivers_v1` RPC failing with "function avg(text) does not exist" error
+**Impact:** Critical Bug Fix - Prevents retention data from loading in UI
+**Resolution:** Added proper type validation and JSONB field handling
+
+#### Technical Fix:
+- **Enhanced `retention_drivers_v1` RPC** - Added regex pattern matching (`~ '^[0-9\.]+$'`) to validate numeric values in JSONB fields before casting
+- **Prevented type conversion errors** - Using CASE statements to handle non-numeric values gracefully
+- **Maintained data integrity** - Ensures only valid numeric JSONB fields are processed by AVG() function
+
+#### Root Cause:
+- JSONB features in `retention_features` table can contain mixed data types
+- Direct casting `(rf.features->>'field')::numeric` fails when field contains text values
+- PostgreSQL AVG() function requires numeric input, not text
+
+**Connection to Previous Work:** This fixes a critical blocker preventing the QA testing outlined in the user's acceptance checklist. The retention UI can now properly load and display data from the enhanced seeding system implemented on 2025-01-25.
+
+**Status:** ✅ COMPLETED - Database type safety issue resolved, retention system ready for QA
+
 ### 2025-01-24 - Retention v1 Module Initial Completion
 **Issue:** Complete Retention Strategy module v1 with overview, drivers, watchlist, and AI-generated actions
 **Impact:** Major Feature Addition - Full retention analytics capability for client
