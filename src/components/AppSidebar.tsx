@@ -10,7 +10,7 @@ import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar,
 } from "@/components/ui/sidebar";
-import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
+import { useLocale } from "@/i18n/locale";
 import { HRBPSidebar } from "./HRBPSidebar";
 import LanguageToggle from "@/components/LanguageToggle";
 import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
@@ -215,7 +215,8 @@ const useHRBPMode = () => {
 
 export function AppSidebar() {
   const { state } = useSidebar();
-  const { isArabic } = useSimpleLanguage();
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   const location = useLocation();
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);

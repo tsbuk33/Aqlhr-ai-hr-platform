@@ -23,7 +23,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
+import { useLocale } from "@/i18n/locale";
 
 // Get HRBP modules function
 const getHRBPModules = (isArabic: boolean) => [
@@ -285,7 +285,8 @@ const getHRBPModules = (isArabic: boolean) => [
 
 export function HRBPSidebar() {
   const { state } = useSidebar();
-  const { isArabic } = useSimpleLanguage();
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   const location = useLocation();
   const currentPath = location.pathname;
   const [expandedGroups, setExpandedGroups] = useState<string[]>([
