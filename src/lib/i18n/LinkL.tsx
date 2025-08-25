@@ -15,7 +15,7 @@ export const useSwitchLang = () => {
     const segments = loc.pathname.split('/');
     if (segments[1] === 'en' || segments[1] === 'ar') segments[1] = lang;
     else segments.splice(1, 0, lang);
-    const next = segments.join('') ? segments.join('/') : `/${lang}`;
+    const next = segments.join('/') || `/${lang}`;
     return next + (loc.search || '');
   };
 };
