@@ -9,6 +9,7 @@ import EmployeeMasterDataPage from '@/pages/employees/EmployeeMasterDataPage';
 import RecruitmentPage from '@/pages/RecruitmentPage';
 import EmployeeList from '@/pages/people/EmployeeList';
 import EmployeeProfile from '@/pages/people/EmployeeProfile';
+import ExecutiveIntelligenceCenter from '@/pages/ExecutiveIntelligenceCenter';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -63,9 +64,10 @@ export default function AppRoutes() {
           <Route path="osi" element={<OSIOverview />} />
         </Route>
 
+        {/* executive intelligence center */}
+        <Route path="executive-center" element={<ExecutiveIntelligenceCenter />} />
+        
         {/* compatibility redirects (localized) */}
-        <Route path="executive-center" element={<Navigate to="../dashboard" replace />} />
-        <Route path="executive-center/*" element={<Navigate to="../dashboard" replace />} />
         <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />
         <Route path="core-hr">
           <Route index element={<Navigate to="../employees" replace />} />

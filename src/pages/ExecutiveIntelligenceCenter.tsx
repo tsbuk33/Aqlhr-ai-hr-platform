@@ -37,10 +37,10 @@ const ExecutiveIntelligenceCenter = () => {
                 }
               </p>
               <button 
-                onClick={() => window.location.href = '/executive-center'}
+                onClick={() => window.location.href = localePath('dashboard')}
                 className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
               >
-                {isArabic ? 'فتح المركز التنفيذي' : 'Open Executive Center'}
+                {isArabic ? 'انتقل إلى لوحة التحكم' : 'Go to Dashboard'}
               </button>
             </div>
           </div>
