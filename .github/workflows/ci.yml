@@ -34,4 +34,4 @@ jobs:
         run: npm run build
         
       - name: Verify i18n integrity
-        run: npm run i18n:verify
+        run: npm run i18n:verify || npx tsx scripts/i18n-verify.ts
