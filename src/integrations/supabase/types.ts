@@ -12476,7 +12476,7 @@ export type Database = {
         Returns: undefined
       }
       dev_seed_retention_v1: {
-        Args: { p_tenant?: string }
+        Args: { p_tenant: string }
         Returns: undefined
       }
       find_similar_chunks: {

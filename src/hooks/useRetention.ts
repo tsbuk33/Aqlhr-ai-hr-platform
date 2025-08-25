@@ -4,13 +4,48 @@ import { useToast } from '@/hooks/use-toast';
 
 export interface RetentionOverview {
   avg_risk: number;
-  pct_high: number;
-  pct_med: number;
-  pct_low: number;
-  total_employees: number;
+  high_risk_percentage: number;
   target_turnover: number;
+  low_risk_count: number;
+  med_risk_count: number;
+  high_risk_count: number;
+  last_12m_exits: number;
+  sparkline_data: Array<{ month: string; exits: number }>;
+  // Legacy compatibility
+  pct_high?: number;
+  pct_med?: number;
+  pct_low?: number;
+  total_employees?: number;
 }
 
+export interface RetentionWatchlistItem {
+  unit_name: string;
+  unit_type: string;
+  headcount: number;
+  risk_score: number;
+  recent_exits_12m: number;
+  // Legacy compatibility - for watchlist view we'll show organizational units
+  employee_id?: string;
+  employee_name_en?: string;
+  employee_name_ar?: string;
+  dept_name_en?: string;
+  dept_name_ar?: string;
+  manager_name?: string;
+  band?: string;
+  top_factors?: any;
+}
+
+export interface RetentionDriver {
+  driver_name: string;
+  contribution_percentage: number;
+  affected_count: number;
+  // Legacy compatibility
+  factor_name?: string;
+  avg_impact?: number;
+  frequency?: number;
+}
+
+// Legacy compatibility export for backward compatibility
 export interface RetentionHotspot {
   department_id: string | null;
   dept_name_en: string;
@@ -18,24 +53,6 @@ export interface RetentionHotspot {
   n: number;
   avg_risk: number;
   pct_high: number;
-}
-
-export interface RetentionDriver {
-  factor_name: string;
-  avg_impact: number;
-  frequency: number;
-}
-
-export interface RetentionWatchlistItem {
-  employee_id: string;
-  employee_name_en: string;
-  employee_name_ar: string;
-  dept_name_en: string;
-  dept_name_ar: string;
-  manager_name: string;
-  risk_score: number;
-  band: string;
-  top_factors: any;
 }
 
 export interface RetentionAction {
@@ -50,12 +67,14 @@ export interface RetentionAction {
 
 export function useRetention(tenantId: string | null) {
   const [overview, setOverview] = useState<RetentionOverview | null>(null);
-  const [hotspots, setHotspots] = useState<RetentionHotspot[]>([]);
   const [drivers, setDrivers] = useState<RetentionDriver[]>([]);
   const [watchlist, setWatchlist] = useState<RetentionWatchlistItem[]>([]);
   const [actions, setActions] = useState<RetentionAction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Legacy hotspots - derived from watchlist for backward compatibility
+  const [hotspots, setHotspots] = useState<RetentionHotspot[]>([]);
   
   const { toast } = useToast();
 
@@ -71,36 +90,77 @@ export function useRetention(tenantId: string | null) {
 
       // Fetch overview
       const { data: overviewData, error: overviewError } = await supabase
-        .rpc('retention_get_overview_v1', { p_tenant: tenantId });
+        .rpc('retention_overview_v1', { p_tenant: tenantId });
       
       if (overviewError) throw overviewError;
       
       if (overviewData && overviewData.length > 0) {
-        setOverview(overviewData[0]);
+        const overview = overviewData[0];
+        const totalEmployees = overview.low_risk_count + overview.med_risk_count + overview.high_risk_count;
+        
+        setOverview({
+          ...overview,
+          sparkline_data: Array.isArray(overview.sparkline_data) 
+            ? overview.sparkline_data.map((item: any) => ({
+                month: item.month || '',
+                exits: item.exits || 0
+              }))
+            : [],
+          // Add legacy compatibility
+          pct_high: overview.high_risk_percentage,
+          pct_med: totalEmployees > 0 ? (overview.med_risk_count / totalEmployees) * 100 : 0,
+          pct_low: totalEmployees > 0 ? (overview.low_risk_count / totalEmployees) * 100 : 0,
+          total_employees: totalEmployees
+        });
       } else {
         setOverview(null);
       }
 
-      // Fetch hotspots
-      const { data: hotspotsData, error: hotspotsError } = await supabase
-        .rpc('retention_get_hotspots_v1', { p_tenant: tenantId });
-      
-      if (hotspotsError) throw hotspotsError;
-      setHotspots(hotspotsData || []);
-
       // Fetch drivers
       const { data: driversData, error: driversError } = await supabase
-        .rpc('retention_get_drivers_v1', { p_tenant: tenantId });
+        .rpc('retention_drivers_v1', { p_tenant: tenantId });
       
       if (driversError) throw driversError;
-      setDrivers(driversData || []);
+      // Add legacy compatibility to drivers
+      const mappedDrivers = (driversData || []).map((driver: any) => ({
+        ...driver,
+        factor_name: driver.driver_name,
+        avg_impact: driver.contribution_percentage / 100,
+        frequency: driver.affected_count
+      }));
+      setDrivers(mappedDrivers);
 
       // Fetch watchlist
       const { data: watchlistData, error: watchlistError } = await supabase
-        .rpc('retention_get_watchlist_v1', { p_tenant: tenantId });
+        .rpc('retention_watchlist_v1', { p_tenant: tenantId });
       
       if (watchlistError) throw watchlistError;
-      setWatchlist(watchlistData || []);
+      // Map watchlist data for legacy compatibility - treating units as departments
+      const mappedWatchlist = (watchlistData || []).map((item: any, index: number) => ({
+        ...item,
+        employee_id: `unit_${index}`,
+        employee_name_en: item.unit_name,
+        employee_name_ar: item.unit_name,
+        dept_name_en: `${item.unit_type} - ${item.unit_name}`,
+        dept_name_ar: `${item.unit_type} - ${item.unit_name}`,
+        manager_name: 'Management',
+        band: 'organizational_unit',
+        top_factors: []
+      }));
+      setWatchlist(mappedWatchlist);
+
+      // Create legacy hotspots from watchlist data
+      const mappedHotspots = (watchlistData || [])
+        .filter((item: any) => item.unit_type === 'Department')
+        .map((item: any, index: number) => ({
+          department_id: `dept_${index}`,
+          dept_name_en: item.unit_name,
+          dept_name_ar: item.unit_name,
+          n: item.headcount,
+          avg_risk: item.risk_score,
+          pct_high: item.risk_score > 70 ? 80 : 20 // Mock percentage
+        }));
+      setHotspots(mappedHotspots);
 
       // Fetch actions
       const { data: actionsData, error: actionsError } = await supabase
@@ -118,9 +178,9 @@ export function useRetention(tenantId: string | null) {
       
       // Set safe defaults instead of keeping loading state
       setOverview(null);
-      setHotspots([]);
       setDrivers([]);
       setWatchlist([]);
+      setHotspots([]);
       setActions([]);
       
       toast({
@@ -137,20 +197,11 @@ export function useRetention(tenantId: string | null) {
     if (!tenantId) return false;
 
     try {
-      // First try retention-specific compute
-      try {
-        const { error } = await supabase
-          .rpc('retention_compute_v1', { p_tenant: tenantId });
-        
-        if (error) throw error;
-      } catch (retentionError) {
-        // Fallback to general KPI backfill
-        console.log('Retention compute failed, falling back to KPI backfill');
-        const { error: backfillError } = await supabase
-          .rpc('dev_backfill_kpis_v1', { p_tenant: tenantId, p_days: 365 });
-        
-        if (backfillError) throw backfillError;
-      }
+      // Use the new seeding function to regenerate data
+      const { error } = await supabase
+        .rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+      
+      if (error) throw error;
       
       toast({
         title: "Success", 
@@ -175,23 +226,11 @@ export function useRetention(tenantId: string | null) {
     if (!tenantId) return false;
 
     try {
-      // First try retention-specific seeding  
-      try {
-        const { error } = await supabase
-          .rpc('retention_seed_demo_v1', { p_tenant: tenantId });
-        
-        if (error) throw error;
-      } catch (retentionError) {
-        // Fallback to general employee seeding
-        console.log('Retention seed failed, falling back to employee seeding');
-        const { error: seedError } = await supabase
-          .rpc('dev_seed_employees_v1', { p_tenant: tenantId, p_n: 1000 });
-        
-        if (seedError) throw seedError;
-        
-        // Then backfill KPIs
-        await supabase.rpc('dev_backfill_kpis_v1', { p_tenant: tenantId, p_days: 365 });
-      }
+      // Use the new retention seeding function
+      const { error } = await supabase
+        .rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+      
+      if (error) throw error;
       
       toast({
         title: "Success",

@@ -35,31 +35,28 @@ serve(async (req) => {
 
     // Get current retention data to inform the plan
     const { data: overview } = await supabase
-      .rpc('retention_get_overview_v1', { p_tenant: tenantId });
+      .rpc('retention_overview_v1', { p_tenant: tenantId });
 
     const { data: drivers } = await supabase
-      .rpc('retention_get_drivers_v1', { p_tenant: tenantId });
+      .rpc('retention_drivers_v1', { p_tenant: tenantId });
 
-    const { data: hotspots } = await supabase
-      .rpc('retention_get_hotspots_v1', { p_tenant: tenantId });
+    const { data: watchlist } = await supabase
+      .rpc('retention_watchlist_v1', { p_tenant: tenantId });
 
-    // Generate action plans based on the data
-    const actionPlans = generateActionPlans(overview?.[0], drivers || [], hotspots || []);
+    // Generate action plans using task system
+    const actionPlans = generateActionPlans(overview?.[0], drivers || []);
 
-    // Insert action plans into the database
+    // Create tasks for each action plan
     for (const plan of actionPlans) {
-      await supabase
-        .from('retention_actions')
-        .insert({
-          tenant_id: tenantId,
-          period_month: new Date().toISOString().slice(0, 7) + '-01',
-          scope,
-          scope_id: scopeId || null,
-          title: plan.title,
-          description: plan.description,
-          priority: plan.priority,
-          evidence: plan.evidence
-        });
+      await supabase.rpc('task_create_v1', {
+        p_tenant_id: tenantId,
+        p_module: 'retention',
+        p_title: plan.title,
+        p_description: plan.description,
+        p_priority: plan.priority,
+        p_owner_role: 'hr_manager',
+        p_metadata: plan.evidence
+      });
     }
 
     console.log(`Generated ${actionPlans.length} action plans for tenant ${tenantId}`);
@@ -90,16 +87,16 @@ serve(async (req) => {
   }
 });
 
-function generateActionPlans(overview: any, drivers: any[], hotspots: any[]) {
+function generateActionPlans(overview: any, drivers: any[]) {
   const actions = [];
 
   // Generate actions based on overall risk level
-  if (overview && overview.pct_high > 15) {
+  if (overview && overview.high_risk_percentage > 15) {
     actions.push({
       title: "Emergency Retention Review",
-      description: `High-risk employee percentage (${overview.pct_high}%) exceeds threshold. Conduct immediate retention reviews with managers and implement stay interviews for high-risk employees.`,
+      description: `High-risk employee percentage (${overview.high_risk_percentage}%) exceeds threshold. Conduct immediate retention reviews with managers and implement stay interviews for high-risk employees.`,
       priority: "high",
-      evidence: { avg_risk: overview.avg_risk, pct_high: overview.pct_high }
+      evidence: { avg_risk: overview.avg_risk, high_risk_pct: overview.high_risk_percentage }
     });
   }
 
@@ -107,30 +104,21 @@ function generateActionPlans(overview: any, drivers: any[], hotspots: any[]) {
   if (drivers.length > 0) {
     const topDriver = drivers[0];
     
-    if (topDriver.factor_name === 'low_tenure') {
-      actions.push({
-        title: "Enhanced Onboarding Program",
-        description: `Low tenure is a key risk factor affecting ${topDriver.frequency} employees. Implement comprehensive 90-day onboarding program with regular check-ins and mentorship assignments.`,
-        priority: "high",
-        evidence: { driver: topDriver.factor_name, impact: topDriver.avg_impact, frequency: topDriver.frequency }
-      });
-    }
-
-    if (topDriver.factor_name === 'below_median_salary') {
+    if (topDriver.driver_name === 'Compensation') {
       actions.push({
         title: "Compensation Review Initiative",
-        description: `Below-median salary affects ${topDriver.frequency} employees. Conduct market salary analysis and develop pay equity adjustment plan for affected positions.`,
+        description: `Compensation issues affect ${topDriver.affected_count} employees (${topDriver.contribution_percentage.toFixed(1)}% contribution). Conduct market salary analysis and develop pay equity adjustment plan.`,
         priority: "high",
-        evidence: { driver: topDriver.factor_name, impact: topDriver.avg_impact, frequency: topDriver.frequency }
+        evidence: { driver: topDriver.driver_name, contribution: topDriver.contribution_percentage, affected: topDriver.affected_count }
       });
     }
 
-    if (topDriver.factor_name === 'no_manager') {
+    if (topDriver.driver_name === 'Manager Relationship') {
       actions.push({
-        title: "Management Structure Optimization",
-        description: `${topDriver.frequency} employees lack direct managers. Restructure reporting lines and assign clear management responsibilities to improve employee support.`,
-        priority: "med",
-        evidence: { driver: topDriver.factor_name, impact: topDriver.avg_impact, frequency: topDriver.frequency }
+        title: "Manager Training Program", 
+        description: `Manager relationship issues affect ${topDriver.affected_count} employees. Implement leadership development program and improve manager-employee communication.`,
+        priority: "high",
+        evidence: { driver: topDriver.driver_name, contribution: topDriver.contribution_percentage, affected: topDriver.affected_count }
       });
     }
   }

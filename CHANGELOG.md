@@ -9,6 +9,30 @@
 
 ## Recent Changes
 
+### 2025-01-24 - Retention v1 Module Completion
+**Issue:** Complete Retention Strategy module v1 with overview, drivers, watchlist, and AI-generated actions
+**Impact:** Major Feature Addition - Full retention analytics capability for client
+**Resolution:** Created comprehensive retention system with AI-powered action recommendations
+
+#### Database Changes:
+- Created `retention_overview_v1` RPC for avg_risk, high_risk_percentage, target_turnover, risk distribution counts, exits sparkline
+- Created `retention_drivers_v1` RPC for top 5 retention drivers with contribution percentages
+- Created `retention_watchlist_v1` RPC for organizational units above risk threshold
+- Updated `dev_seed_retention_v1` function for robust tenant-scoped data seeding
+
+#### Frontend Implementation:
+- **src/hooks/useRetention.ts** - Updated to use new RPC endpoints with legacy compatibility
+- **supabase/functions/agent-retention-plan-v1/index.ts** - Edge function for AI action generation
+- **Retention UI Components** - Enhanced with sparkline data, new driver structure, watchlist improvements
+
+#### Features Delivered:
+- **Overview**: avg_risk metrics, %high_risk, risk distribution bars, exits sparkline by month
+- **Drivers**: Top 5 drivers with contribution % (Compensation, Manager Relationship, Growth, Workload, Commute)
+- **Watchlist**: Sortable organizational units (departments/grades) above risk threshold
+- **Actions**: AI-generated playbook suggestions via Ask Aql integration, task creation system
+
+**Status:** ✅ COMPLETED - Retention v1 module fully functional with bilingual support and task integration
+
 ### 2025-01-24 - Business Communication & Documentation Protocol
 **Issue:** Client requested comprehensive record-keeping of all AI-user communications
 **Impact:** Business Critical - Client accountability and transparency requirements
