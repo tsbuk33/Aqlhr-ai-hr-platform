@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Brain, TrendingUp, AlertTriangle, Target, RefreshCw, Zap, Cpu } from 'lucide-react';
 import { huggingFaceEmbeddings } from '@/utils/huggingface-embeddings';
 import { localAI } from '@/lib/LocalAIEngine';
+import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 interface AnalyticsInsight {
@@ -33,6 +34,7 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
   const [engineStatus, setEngineStatus] = useState({
     huggingface: 'ready',
     localai: 'ready',
+    gemini: 'ready',
     fallback: 'ready'
   });
 
@@ -48,6 +50,12 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
       name: 'Local AI Engine',
       icon: <Cpu className="h-4 w-4" />,
       description: 'Multi-model local AI processing'
+    },
+    {
+      id: 'gemini',
+      name: 'Google Gemini 2.0',
+      icon: <Target className="h-4 w-4" />,
+      description: 'Advanced LLM analytics (Free tier)'
     },
     {
       id: 'fallback',
@@ -146,6 +154,44 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
     }
   };
 
+  const generateInsightsWithGemini = async (data: any): Promise<AnalyticsInsight[]> => {
+    try {
+      setEngineStatus(prev => ({ ...prev, gemini: 'processing' }));
+      
+      const { data: geminiResponse, error } = await supabase.functions.invoke('gemini-analytics', {
+        body: {
+          analyticsData: data,
+          analysisType: 'insights'
+        }
+      });
+
+      if (error) throw error;
+
+      if (!geminiResponse.success) {
+        throw new Error(geminiResponse.error || 'Gemini API failed');
+      }
+
+      // Convert Gemini response to our format
+      const geminiInsights = geminiResponse.data?.insights || [];
+      const insights: AnalyticsInsight[] = geminiInsights.map((insight: any, index: number) => ({
+        id: `gemini-${index}`,
+        title: insight.title || 'Gemini AI Analysis',
+        description: insight.description || 'Advanced AI-powered analytics insight',
+        confidence: insight.confidence || 0.85,
+        category: insight.category || 'performance',
+        priority: insight.priority || 'medium',
+        aiEngine: 'Google Gemini 2.0'
+      }));
+
+      setEngineStatus(prev => ({ ...prev, gemini: 'success' }));
+      return insights;
+    } catch (error) {
+      console.error('Gemini AI failed:', error);
+      setEngineStatus(prev => ({ ...prev, gemini: 'failed' }));
+      throw error;
+    }
+  };
+
   const generateInsightsWithFallback = async (data: any): Promise<AnalyticsInsight[]> => {
     try {
       setEngineStatus(prev => ({ ...prev, fallback: 'processing' }));
@@ -206,6 +252,7 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
 
     // Try each AI engine in sequence with fallbacks
     const engines = [
+      { name: 'Gemini', fn: generateInsightsWithGemini },
       { name: 'Hugging Face', fn: generateInsightsWithHuggingFace },
       { name: 'Local AI', fn: generateInsightsWithLocalAI },
       { name: 'Fallback', fn: generateInsightsWithFallback }

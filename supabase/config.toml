@@ -39,6 +39,9 @@ verify_jwt = false
 [functions.gpt-oss-integration]
 verify_jwt = false
 
+[functions.gemini-analytics]
+verify_jwt = false
+
 [functions.send-auth-link]
 verify_jwt = false
 
