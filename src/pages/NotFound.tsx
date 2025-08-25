@@ -1,6 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { localePath } from '@/lib/i18n/localePath';
+import { LinkL } from '@/lib/i18n/LinkL';
 
 const NotFound = () => {
   const location = useLocation();
@@ -21,9 +23,9 @@ const NotFound = () => {
         <p className="text-xl text-muted-foreground mb-6 max-w-lg mx-auto">
           {isArabic ? 'عذراً! الصفحة غير موجودة' : 'Oops! Page not found'}
         </p>
-        <Link to={`/${language}`} className="text-primary hover:text-primary/80 underline text-lg">
+        <LinkL to="/" className="text-primary hover:text-primary/80 underline text-lg">
           {isArabic ? 'العودة إلى الصفحة الرئيسية' : 'Return to Home'}
-        </Link>
+        </LinkL>
       </div>
     </div>
   );

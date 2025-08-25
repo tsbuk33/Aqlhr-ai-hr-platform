@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { LinkL } from '@/lib/i18n/LinkL';
 import { ArrowLeft, Edit, Mail, Phone, MapPin, Calendar, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -44,10 +45,10 @@ const EmployeeProfile: React.FC = () => {
           <div className="text-lg font-medium">Employee not found</div>
           <div className="text-muted-foreground">The employee you're looking for doesn't exist.</div>
           <Button asChild className="mt-4">
-            <Link to="/people/employees">
+            <LinkL to="/people/employees">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Employees
-            </Link>
+            </LinkL>
           </Button>
         </div>
       </div>
@@ -74,10 +75,10 @@ const EmployeeProfile: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="outline" asChild>
-            <Link to="/people/employees">
+            <LinkL to="/people/employees">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back
-            </Link>
+            </LinkL>
           </Button>
           <div>
             <h1 className="text-2xl font-bold">Employee Profile</h1>

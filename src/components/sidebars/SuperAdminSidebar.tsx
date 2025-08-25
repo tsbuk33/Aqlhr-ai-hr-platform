@@ -328,7 +328,7 @@ export const SuperAdminSidebar: React.FC = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <NavLink
-                    to="/executive-center"
+                    to={localePath('/executive-center', lang)}
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
@@ -619,7 +619,7 @@ export const SuperAdminSidebar: React.FC = () => {
                     {welfareItems.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild>
-                          <NavLink to={item.url} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
+                          <NavLink to={localePath(item.url, lang)} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
                             <item.icon className="h-3 w-3" />
                             <span className="text-sm">{item.title}</span>
                           </NavLink>
@@ -659,7 +659,7 @@ export const SuperAdminSidebar: React.FC = () => {
                     {localContentItems.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild>
-                          <NavLink to={item.url} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
+                          <NavLink to={localePath(item.url, lang)} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
                             <item.icon className="h-3 w-3" />
                             <span className="text-sm">{item.title}</span>
                           </NavLink>
@@ -776,7 +776,7 @@ export const SuperAdminSidebar: React.FC = () => {
                     {toolsItems.map((item) => (
                       <SidebarMenuSubItem key={item.title}>
                         <SidebarMenuSubButton asChild>
-                          <NavLink to={item.url} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
+                          <NavLink to={localePath(item.url, lang)} className={({ isActive }) => isActive ? "bg-primary/10 text-primary font-medium" : "hover:bg-muted/30"}>
                             <item.icon className="h-3 w-3" />
                             <span className="text-sm">{item.title}</span>
                           </NavLink>
@@ -791,7 +791,7 @@ export const SuperAdminSidebar: React.FC = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <NavLink
-                    to="/skills-intelligence"
+                    to={localePath('/skills-intelligence', lang)}
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"

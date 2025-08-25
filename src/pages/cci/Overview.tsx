@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { LinkL } from '@/lib/i18n/LinkL';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -147,16 +147,16 @@ const Overview: React.FC = () => {
               {isArabic ? 'احسب الآن' : 'Compute Now'}
             </Button>
             <Button asChild>
-              <Link to="/cci/survey">
+              <LinkL to="/cci/survey">
                 <FileText className="mr-2 h-4 w-4" />
                 {isArabic ? 'تشغيل التقييم الأساسي' : 'Run Baseline Assessment'}
-              </Link>
+              </LinkL>
             </Button>
             <Button variant="outline" asChild>
-              <Link to="/cci/playbook">
+              <LinkL to="/cci/playbook">
                 <Brain className="mr-2 h-4 w-4" />
                 {isArabic ? 'بدء خطة التغيير بالذكاء الاصطناعي' : 'Start AI Change Plan'}
-              </Link>
+              </LinkL>
             </Button>
           </div>
         </div>

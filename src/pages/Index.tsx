@@ -42,7 +42,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader } from "@/components/ui/dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Link } from "react-router-dom";
+import { LinkL } from '@/lib/i18n/LinkL';
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { kpiExplanations } from "@/data/kpiExplanations";
 import { useState } from "react";
@@ -541,18 +541,18 @@ const Index = () => {
                 </div>
               </div>
               <div className={`flex items-center gap-4 ${isArabic ? 'flex-row-reverse' : ''}`}>
-                <Link to="/executive-center">
+                <LinkL to="/executive-center">
                   <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg">
                     <Crown className="h-4 w-4 mr-2" />
                     {isArabic ? 'فتح المركز التنفيذي' : 'Open Executive Center'}
                   </Button>
-                </Link>
-                <Link to="/executive/mobile">
+                </LinkL>
+                <LinkL to="/executive/mobile">
                   <Button className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg">
                     <Smartphone className="h-4 w-4 mr-2" />
                     {isArabic ? 'التطبيق التنفيذي المحمول' : 'Mobile Executive App'}
                   </Button>
-                </Link>
+                </LinkL>
                 <div className={`flex items-center gap-2 text-xs text-muted-foreground ${isArabic ? 'flex-row-reverse' : ''}`}>
                   <Zap className="h-3 w-3 text-primary" />
                   <span>{isArabic ? 'متاح في جميع الوحدات' : 'Available across all modules'}</span>

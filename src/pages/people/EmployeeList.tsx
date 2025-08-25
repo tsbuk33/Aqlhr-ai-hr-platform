@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { LinkL } from '@/lib/i18n/LinkL';
 import { Search, Filter, Download, UserPlus, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,10 +93,10 @@ const EmployeeList: React.FC = () => {
             Export CSV
           </Button>
           <Button asChild>
-            <Link to="/people/employees/new">
+            <LinkL to="/people/employees/new">
               <UserPlus className="h-4 w-4 mr-2" />
               Add Employee
-            </Link>
+            </LinkL>
           </Button>
         </div>
       </div>
@@ -232,9 +232,9 @@ const EmployeeList: React.FC = () => {
                 </TableCell>
                 <TableCell>
                   <Button asChild variant="ghost" size="sm">
-                    <Link to={`/people/employees/${employee.id}`}>
+                    <LinkL to={`/people/employees/${employee.id}`}>
                       <Eye className="h-4 w-4" />
-                    </Link>
+                    </LinkL>
                   </Button>
                 </TableCell>
               </TableRow>
