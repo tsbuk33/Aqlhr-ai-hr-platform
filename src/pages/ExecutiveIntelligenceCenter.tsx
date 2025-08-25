@@ -1,11 +1,11 @@
-import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useLocale } from '@/i18n/locale';
 import { AqlHRAIAssistant } from '@/components/ai';
-import { localePath, resolveLang } from '@/lib/i18n/localePath';
+import { localePath } from '@/lib/i18n/localePath';
 
 // Executive Intelligence Center - CENTERED
 const ExecutiveIntelligenceCenter = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   
   return (
     <div className={`page-container ${isArabic ? 'rtl' : 'ltr'}`}>
