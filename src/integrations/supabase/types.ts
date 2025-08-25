@@ -12884,8 +12884,10 @@ export type Database = {
         Args: { p_tenant: string }
         Returns: {
           affected_count: number
-          contribution_percentage: number
           driver_name: string
+          impact_score: number
+          recommendation: string
+          risk_level: string
         }[]
       }
       retention_get_drivers_v1: {
@@ -12935,14 +12937,12 @@ export type Database = {
       retention_overview_v1: {
         Args: { p_tenant: string }
         Returns: {
-          avg_risk: number
-          high_risk_count: number
-          high_risk_percentage: number
-          last_12m_exits: number
-          low_risk_count: number
-          med_risk_count: number
-          sparkline_data: Json
-          target_turnover: number
+          at_risk_count: number
+          avg_tenure_months: number
+          high_performers: number
+          retention_score: number
+          total_employees: number
+          turnover_rate: number
         }[]
       }
       retention_seed_demo_v1: {
