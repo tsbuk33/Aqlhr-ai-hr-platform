@@ -5,9 +5,11 @@ import { useEffect } from 'react';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from '@/components/AppSidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
+import { useEnsureDemoSeed } from '@/hooks/useEnsureDemoSeed';
 
 export default function LanguageLayout() {
   const { lang } = useParams();
+  const demoReady = useEnsureDemoSeed();
   
   // Apply language settings in useEffect to avoid setState during render - force rebuild
   useEffect(() => {

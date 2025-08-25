@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useLocation } from 'react-router-dom';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { Brain, MapPin, Users, DollarSign, Building, Shield, TrendingUp, Bot } from 'lucide-react';
+import { localePath, resolveLang } from '@/lib/i18n/localePath';
 
 export const AITestDemo: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -164,7 +165,10 @@ export const AITestDemo: React.FC = () => {
                   className={`p-3 cursor-pointer transition-all hover:shadow-md ${
                     isActive ? 'border-primary bg-primary/10' : 'border-border hover:border-primary/50'
                   }`}
-                  onClick={() => window.location.href = route.path}
+                  onClick={() => {
+                    const href = localePath(route.path, resolveLang());
+                    window.location.href = href;
+                  }}
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <Icon className={`h-4 w-4 ${isActive ? 'text-primary' : 'text-muted-foreground'}`} />

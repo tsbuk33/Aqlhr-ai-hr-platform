@@ -15,6 +15,7 @@ import { useLocale } from "@/i18n/locale";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from 'sonner';
 import { resolveTenantId } from "@/lib/useTenant";
+import { localePath, resolveLang } from "@/lib/i18n/localePath";
 
 export default function Dashboard() {
   const { t, locale } = useLocale();
@@ -92,7 +93,8 @@ export default function Dashboard() {
 
   // Clickable drill-down handlers
   const handleDrillDown = (path: string) => {
-    window.location.href = path;
+    const href = localePath(path, resolveLang());
+    window.location.href = href;
   };
 
   // Show loading skeleton while data is being fetched
