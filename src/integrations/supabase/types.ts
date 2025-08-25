@@ -12369,6 +12369,10 @@ export type Database = {
         Args: { p_dry?: boolean; p_tenant: string }
         Returns: Json
       }
+      core_is_allowed: {
+        Args: { p_feature: string }
+        Returns: boolean
+      }
       cosine_similarity: {
         Args: { a: number[]; b: number[] }
         Returns: number
@@ -12465,6 +12469,10 @@ export type Database = {
       }
       dev_backfill_kpis_v1: {
         Args: Record<PropertyKey, never> | { p_days?: number; p_tenant: string }
+        Returns: Json
+      }
+      dev_ping_v1: {
+        Args: Record<PropertyKey, never>
         Returns: Json
       }
       dev_seed_employees_v1: {

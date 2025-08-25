@@ -19,6 +19,7 @@ export const NAVIGABLE_ROUTES: RouteInfo[] = [
   
   // Dev routes (when ?dev=1)
   { path: '/_/ping', module: 'dev', title: 'Health Check' },
+  { path: '/_/route-audit', module: 'dev', title: 'Route Audit System' },
 
   // Add more routes as the application grows
   // Examples of routes to add when implemented:
