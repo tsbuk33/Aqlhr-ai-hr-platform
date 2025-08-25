@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Plus, Filter, Download, Users, UserCheck, Target, Shield, FileText, Database } from 'lucide-react';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useLocale } from '@/i18n/locale';
 import { supabase } from '@/integrations/supabase/client';
 import { maskEmployees, type Employee } from '@/lib/pdpl/maskEmployee';
 import { useSafeExport } from '@/lib/exporter/useSafeExport';
@@ -20,7 +20,8 @@ interface EmployeeStats {
 }
 
 export default function EmployeeMasterDataPage() {
-  const { t } = useLanguage();
+  const { t, locale } = useLocale();
+  const isRTL = locale === 'ar';
   const [search, setSearch] = useState('');
   const [iqamaFilter, setIqamaFilter] = useState<number | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -218,25 +219,25 @@ export default function EmployeeMasterDataPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Dev Mode CTA */}
       {shouldShowCTA && (
         <DevSeedingCTA onSeed={seedDemoData} />
       )}
 
       {/* Header */}
-      <div className="flex justify-between items-start">
+      <div className={`flex justify-between items-start ${isRTL ? 'flex-row-reverse' : ''}`}>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Employee Master Data
+            {t('employees', 'title')}
           </h1>
           <p className="text-muted-foreground mt-2">
-            Comprehensive employee information management and analytics
+            {t('employees', 'subtitle')}
           </p>
         </div>
         <Button className="gap-2">
           <Plus className="h-4 w-4" />
-          Add Employee
+          {t('employees', 'add_employee')}
         </Button>
       </div>
 
@@ -244,13 +245,13 @@ export default function EmployeeMasterDataPage() {
       <Card>
         <CardContent className="p-6">
           <div className="flex flex-wrap gap-4 items-center">
-            <div className="relative flex-1 min-w-[200px]">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className={`relative flex-1 min-w-[200px] ${isRTL ? 'ml-4' : 'mr-4'}`}>
+              <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground`} />
               <Input
-                placeholder="Search employees..."
+                placeholder={t('employees', 'search_placeholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
+                className={isRTL ? 'pr-10' : 'pl-10'}
               />
             </div>
             
@@ -261,27 +262,27 @@ export default function EmployeeMasterDataPage() {
                 size="sm"
                 onClick={() => setIqamaFilter(iqamaFilter === 30 ? null : 30)}
               >
-                Iqama ≤30d
+                {t('employees', 'iqama_30d')}
               </Button>
               <Button
                 variant={iqamaFilter === 60 ? "default" : "outline"}
                 size="sm"
                 onClick={() => setIqamaFilter(iqamaFilter === 60 ? null : 60)}
               >
-                Iqama ≤60d
+                {t('employees', 'iqama_60d')}
               </Button>
               <Button
                 variant={iqamaFilter === 90 ? "default" : "outline"}
                 size="sm"
                 onClick={() => setIqamaFilter(iqamaFilter === 90 ? null : 90)}
               >
-                Iqama ≤90d
+                {t('employees', 'iqama_90d')}
               </Button>
             </div>
             
             <Button variant="outline" className="gap-2">
               <Filter className="h-4 w-4" />
-              Filters
+              {t('employees', 'filters')}
             </Button>
             
             {/* Export Buttons */}
@@ -312,14 +313,14 @@ export default function EmployeeMasterDataPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Employees
+              {t('employees', 'total_employees')}
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats?.total_employees || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Active workforce
+              {t('employees', 'active_workforce')}
             </p>
           </CardContent>
         </Card>
@@ -327,14 +328,14 @@ export default function EmployeeMasterDataPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Active Contracts
+              {t('employees', 'active_contracts')}
             </CardTitle>
             <UserCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats?.active_employees || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Currently employed
+              {t('employees', 'currently_employed')}
             </p>
           </CardContent>
         </Card>
@@ -342,7 +343,7 @@ export default function EmployeeMasterDataPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Saudization Rate
+              {t('employees', 'saudization_rate')}
             </CardTitle>
             <Target className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
@@ -351,7 +352,7 @@ export default function EmployeeMasterDataPage() {
               {stats?.saudization_percentage || 0}%
             </div>
             <p className="text-xs text-muted-foreground">
-              Saudi nationals
+              {t('employees', 'saudi_nationals')}
             </p>
           </CardContent>
         </Card>
@@ -359,14 +360,14 @@ export default function EmployeeMasterDataPage() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Compliance Score
+              {t('employees', 'compliance_score')}
             </CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">94%</div>
             <p className="text-xs text-muted-foreground">
-              PDPL compliant
+              {t('employees', 'pdpl_compliant')}
             </p>
           </CardContent>
         </Card>
@@ -375,7 +376,7 @@ export default function EmployeeMasterDataPage() {
       {/* Employee Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Employee Directory</CardTitle>
+          <CardTitle>{t('employees', 'employee_directory')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -407,7 +408,7 @@ export default function EmployeeMasterDataPage() {
                     {employee.status}
                   </Badge>
                   <Badge variant={employee.is_saudi ? 'default' : 'outline'}>
-                    {employee.is_saudi ? 'Saudi' : 'Non-Saudi'}
+                    {employee.is_saudi ? t('employees', 'saudi') : t('employees', 'non_saudi')}
                   </Badge>
                 </div>
               </div>
@@ -422,8 +423,8 @@ export default function EmployeeMasterDataPage() {
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Shield className="h-4 w-4" />
             <span>
-              This data is protected under Saudi Personal Data Protection Law (PDPL). 
-              {!isAdmin && " Personal information has been masked for privacy compliance."}
+              {t('employees', 'pdpl_notice')}
+              {!isAdmin && t('employees', 'privacy_notice')}
             </span>
           </div>
         </CardContent>
