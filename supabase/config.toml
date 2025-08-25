@@ -1,5 +1,8 @@
 project_id = "qcuhjcyjlkfizesndmth"
 
+[functions.ai-agent-orchestrator]
+verify_jwt = false
+
 [functions.chatgpt-5-integration]
 verify_jwt = false
 
