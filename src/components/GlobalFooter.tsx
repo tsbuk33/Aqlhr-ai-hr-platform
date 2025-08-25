@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { LinkL } from '@/lib/i18n/LinkL';
 import { PartnerLogo } from './PartnerLogo';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLocale } from '@/i18n/locale';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 import { SaudiPartnerLogos } from '@/components/saudi/SaudiPartnerLogos';
 export const GlobalFooter: React.FC = () => {
-  const { isArabic } = useSimpleLanguage();
+  const { locale } = useLocale();
+  const isArabic = locale === 'ar';
   return <footer className="bg-muted-foreground dark:bg-sidebar-background text-muted-foreground-subtle dark:text-sidebar-foreground border-t border-border dark:border-sidebar-border">
       <div className="container mx-auto px-6 py-8">
         
@@ -36,10 +37,10 @@ export const GlobalFooter: React.FC = () => {
           <div>
             <h4 className="text-sm font-semibold text-sidebar-foreground mb-4 font-saudi-heading">{isArabic ? 'روابط سريعة' : 'Quick Links'}</h4>
             <ul className="space-y-2 text-sm text-sidebar-foreground/80">
-              <li><Link to="/employees" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</Link></li>
-              <li><Link to="/payroll" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الرواتب' : 'Payroll'}</Link></li>
-              <li><Link to="/ai" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الأتمتة بالذكاء الاصطناعي' : 'AI Automation'}</Link></li>
-              <li><Link to="/company" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'التكاملات الحكومية' : 'Government'}</Link></li>
+              <li><LinkL to="/employees" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</LinkL></li>
+              <li><LinkL to="/payroll" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الرواتب' : 'Payroll'}</LinkL></li>
+              <li><LinkL to="/ai" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'الأتمتة بالذكاء الاصطناعي' : 'AI Automation'}</LinkL></li>
+              <li><LinkL to="/company" className="hover:text-sidebar-foreground transition-colors">{isArabic ? 'التكاملات الحكومية' : 'Government'}</LinkL></li>
             </ul>
           </div>
           
