@@ -1,5 +1,8 @@
 project_id = "qcuhjcyjlkfizesndmth"
 
+[functions.chatgpt-5-integration]
+verify_jwt = false
+
 [functions.ai-sync-engine]
 verify_jwt = false
 

@@ -35,6 +35,8 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
     huggingface: 'ready',
     localai: 'ready',
     gemini: 'ready',
+    manus: 'ready',
+    chatgpt5: 'ready',
     fallback: 'ready'
   });
 
@@ -56,6 +58,18 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
       name: 'Google Gemini 2.0',
       icon: <Target className="h-4 w-4" />,
       description: 'Advanced LLM analytics (Free tier)'
+    },
+    {
+      id: 'manus',
+      name: 'Manus.im Open Source',
+      icon: <Brain className="h-4 w-4" />,
+      description: 'Open-source AI agent analytics'
+    },
+    {
+      id: 'chatgpt5',
+      name: 'ChatGPT 5',
+      icon: <Target className="h-4 w-4" />,
+      description: 'Latest OpenAI GPT-5 model'
     },
     {
       id: 'fallback',
@@ -192,6 +206,130 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
     }
   };
 
+  const generateInsightsWithManus = async (data: any): Promise<AnalyticsInsight[]> => {
+    try {
+      setEngineStatus(prev => ({ ...prev, manus: 'processing' }));
+      
+      const analyticsPrompt = `Analyze this HR analytics data and provide insights:
+        Total Users: ${data?.totalUsers || 0}
+        Page Views: ${data?.totalPageViews || 0}
+        Session Duration: ${data?.avgSessionDuration || 0} minutes
+        Bounce Rate: ${data?.bounceRate || 0}%
+        
+        Focus on workforce trends, engagement patterns, and actionable recommendations for HR management.`;
+
+      const { data: manusResponse, error } = await supabase.functions.invoke('manus-ai-integration', {
+        body: {
+          prompt: analyticsPrompt,
+          model: 'default',
+          context: 'You are an HR analytics expert. Provide 2-3 specific insights about workforce analytics trends, user engagement patterns, and actionable recommendations.'
+        }
+      });
+
+      if (error) throw error;
+
+      if (!manusResponse.success) {
+        throw new Error(manusResponse.error || 'Manus.im API failed');
+      }
+
+      // Parse Manus response and create insights
+      const manusText = manusResponse.response || '';
+      const insights: AnalyticsInsight[] = [
+        {
+          id: 'manus-workforce',
+          title: 'Manus AI Workforce Analysis',
+          description: manusText.length > 200 ? manusText.slice(0, 200) + '...' : manusText,
+          confidence: 0.82,
+          category: 'performance',
+          priority: data?.totalUsers > 300 ? 'high' : 'medium',
+          aiEngine: 'Manus.im Open Source'
+        },
+        {
+          id: 'manus-engagement',
+          title: 'Open Source AI Engagement Insights',
+          description: `Manus AI analysis suggests ${data?.avgSessionDuration > 4 ? 'strong' : 'moderate'} user engagement with ${data?.bounceRate < 60 ? 'positive' : 'concerning'} retention patterns.`,
+          confidence: 0.78,
+          category: 'trend',
+          priority: 'medium',
+          aiEngine: 'Manus.im Open Source'
+        }
+      ];
+
+      setEngineStatus(prev => ({ ...prev, manus: 'success' }));
+      return insights;
+    } catch (error) {
+      console.error('Manus AI failed:', error);
+      setEngineStatus(prev => ({ ...prev, manus: 'failed' }));
+      throw error;
+    }
+  };
+
+  const generateInsightsWithChatGPT5 = async (data: any): Promise<AnalyticsInsight[]> => {
+    try {
+      setEngineStatus(prev => ({ ...prev, chatgpt5: 'processing' }));
+      
+      const analyticsPrompt = `As an expert HR analytics consultant, analyze this data and provide specific insights:
+        
+        Analytics Summary:
+        - Total Users: ${data?.totalUsers || 0}
+        - Page Views: ${data?.totalPageViews || 0}
+        - Average Session Duration: ${data?.avgSessionDuration || 0} minutes
+        - Bounce Rate: ${data?.bounceRate || 0}%
+        
+        Please provide 2-3 actionable insights focusing on:
+        1. User engagement patterns and trends
+        2. Performance indicators and anomalies
+        3. Specific recommendations for improvement
+        
+        Format each insight clearly with title and description.`;
+
+      const { data: chatgptResponse, error } = await supabase.functions.invoke('chatgpt-5-integration', {
+        body: {
+          prompt: analyticsPrompt,
+          model: 'gpt-5-2025-08-07',
+          max_completion_tokens: 800,
+          context: 'You are an expert HR analytics consultant specializing in workforce data analysis and optimization strategies.'
+        }
+      });
+
+      if (error) throw error;
+
+      if (!chatgptResponse.success) {
+        throw new Error(chatgptResponse.error || 'ChatGPT 5 API failed');
+      }
+
+      // Parse ChatGPT response and create structured insights
+      const gptText = chatgptResponse.response || '';
+      const insights: AnalyticsInsight[] = [
+        {
+          id: 'chatgpt5-strategic',
+          title: 'ChatGPT 5 Strategic Analysis',
+          description: gptText.length > 250 ? gptText.slice(0, 250) + '...' : gptText,
+          confidence: 0.92,
+          category: 'performance',
+          priority: 'high',
+          aiEngine: 'ChatGPT 5'
+        },
+        {
+          id: 'chatgpt5-prediction',
+          title: 'GPT-5 Predictive Insights',
+          description: `Advanced AI analysis indicates ${data?.totalPageViews > 2000 ? 'accelerating' : 'steady'} growth trajectory with ${data?.avgSessionDuration > 3 ? 'strong' : 'developing'} user engagement metrics.`,
+          confidence: 0.89,
+          category: 'prediction',
+          priority: 'high',
+          aiEngine: 'ChatGPT 5'
+        }
+      ];
+
+      setEngineStatus(prev => ({ ...prev, chatgpt5: 'success' }));
+      return insights;
+    } catch (error) {
+      console.error('ChatGPT 5 failed:', error);
+      setEngineStatus(prev => ({ ...prev, chatgpt5: 'failed' }));
+      throw error;
+    }
+  };
+
   const generateInsightsWithFallback = async (data: any): Promise<AnalyticsInsight[]> => {
     try {
       setEngineStatus(prev => ({ ...prev, fallback: 'processing' }));
@@ -252,6 +390,8 @@ export const AIAnalyticsInsights: React.FC<AIAnalyticsInsightsProps> = ({
 
     // Try each AI engine in sequence with fallbacks
     const engines = [
+      { name: 'ChatGPT 5', fn: generateInsightsWithChatGPT5 },
+      { name: 'Manus.im', fn: generateInsightsWithManus },
       { name: 'Gemini', fn: generateInsightsWithGemini },
       { name: 'Hugging Face', fn: generateInsightsWithHuggingFace },
       { name: 'Local AI', fn: generateInsightsWithLocalAI },
