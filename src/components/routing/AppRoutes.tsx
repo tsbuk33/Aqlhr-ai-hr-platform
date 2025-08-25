@@ -6,6 +6,7 @@ import RetentionPage from '@/pages/diagnostic/Retention';
 import DiagnosticHub from '@/pages/diagnostic/Hub';
 import RouteAudit from '@/pages/_/RouteAudit';
 import EmployeeMasterDataPage from '@/pages/employees/EmployeeMasterDataPage';
+import RecruitmentPage from '@/pages/RecruitmentPage';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -43,6 +44,9 @@ export default function AppRoutes() {
 
         {/* employees */}
         <Route path="employees" element={<EmployeeMasterDataPage />} />
+
+        {/* recruitment */}
+        <Route path="recruitment" element={<RecruitmentPage />} />
 
         {/* diagnostic */}
         <Route path="diagnostic">
