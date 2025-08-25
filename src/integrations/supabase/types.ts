@@ -12952,11 +12952,12 @@ export type Database = {
       retention_watchlist_v1: {
         Args: { p_tenant: string }
         Returns: {
-          headcount: number
-          recent_exits_12m: number
+          department: string
+          employee_id: string
+          employee_name: string
+          recommended_action: string
+          risk_factors: string[]
           risk_score: number
-          unit_name: string
-          unit_type: string
         }[]
       }
       revoke_api_key: {
