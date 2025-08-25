@@ -64,7 +64,8 @@ export default function AppRoutes() {
         </Route>
 
         {/* compatibility redirects (localized) */}
-        <Route path="executive-center" element={<Navigate to="dashboard" replace />} />
+        <Route path="executive-center" element={<Navigate to="../dashboard" replace />} />
+        <Route path="executive-center/*" element={<Navigate to="../dashboard" replace />} />
         <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />
         <Route path="core-hr">
           <Route index element={<Navigate to="../employees" replace />} />
