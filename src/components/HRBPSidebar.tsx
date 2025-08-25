@@ -24,6 +24,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useLocale } from "@/i18n/locale";
+import { localePath, resolveLang } from "@/lib/i18n/localePath";
 
 // Get HRBP modules function
 const getHRBPModules = (isArabic: boolean) => [
@@ -289,14 +290,15 @@ export function HRBPSidebar() {
   const isArabic = locale === 'ar';
   const location = useLocation();
   const currentPath = location.pathname;
+  const lang = resolveLang();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([
     isArabic ? "لوحة التحكم التنفيذية" : "Executive Dashboard"
   ]);
   
   const hrbpModules = getHRBPModules(isArabic);
   
-  const isActive = (path: string) => currentPath === path;
-  const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
+  const isActive = (path: string) => currentPath === localePath(path, lang);
+  const isGroupActive = (url: string) => currentPath.startsWith(localePath(url, lang)) && url !== "/";
 
   const toggleGroup = (title: string) => {
     setExpandedGroups(prev => 
@@ -380,7 +382,7 @@ export function HRBPSidebar() {
                       <SidebarMenuItem key={item.title} className="pl-4">
                         <SidebarMenuButton asChild className="py-1.5">
                           <NavLink 
-                            to={item.url} 
+                            to={localePath(item.url, lang)} 
                             className={({ isActive }) =>
                               `w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
                                 isActive 

@@ -14,6 +14,7 @@ import { useLocale } from "@/i18n/locale";
 import { HRBPSidebar } from "./HRBPSidebar";
 import LanguageToggle from "@/components/LanguageToggle";
 import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
+import { localePath, resolveLang } from "@/lib/i18n/localePath";
 
 const getPlatformModules = (isArabic: boolean) => [
   // Core Essentials
@@ -219,6 +220,7 @@ export function AppSidebar() {
   const isArabic = locale === 'ar';
   const location = useLocation();
   const currentPath = location.pathname;
+  const lang = resolveLang();
   const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
   const platformModules = getPlatformModules(isArabic);
   const isHRBP = useHRBPMode();
@@ -229,8 +231,8 @@ export function AppSidebar() {
     return <HRBPSidebar />;
   }
   
-  const isActive = (path: string) => currentPath === path;
-  const isGroupActive = (url: string) => currentPath.startsWith(url) && url !== "/";
+  const isActive = (path: string) => currentPath === localePath(path, lang);
+  const isGroupActive = (url: string) => currentPath.startsWith(localePath(url, lang)) && url !== "/";
   
   const getNavClasses = (isActive: boolean, isGroup = false, color?: string) => {
     const baseClasses = "w-full justify-start transition-all duration-200 text-sm relative overflow-hidden";
@@ -324,7 +326,7 @@ export function AppSidebar() {
                         )}
                       </div>
                     ) : (
-                      <NavLink to={item.url} className="w-full flex items-center group">
+                      <NavLink to={localePath(item.url, lang)} className="w-full flex items-center group">
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                           <div className="relative flex-shrink-0">
                             <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
@@ -355,7 +357,7 @@ export function AppSidebar() {
                           className="animate-in fade-in-0 slide-in-from-left-1"
                         >
                           <NavLink 
-                            to={subItem.url}
+                            to={localePath(subItem.url, lang)}
                             className={`${getNavClasses(isActive(subItem.url))} border-l-2 border-sidebar-border/50 pl-3 hover:border-primary/50 transition-all`}
                           >
                             <span className="text-xs text-sidebar-foreground/80 hover:text-sidebar-foreground">
