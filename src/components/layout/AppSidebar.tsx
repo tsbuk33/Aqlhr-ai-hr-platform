@@ -26,23 +26,24 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
+import { useLocale } from '@/i18n/locale';
 
 const navigationItems = [
-  { title: 'Dashboard', url: '/', icon: Home },
-  { title: 'Employees', url: '/employees', icon: Users },
-  { title: 'Attendance', url: '/attendance', icon: Clock },
-  { title: 'Leave', url: '/leave', icon: Calendar },
-  { title: 'Performance', url: '/performance', icon: TrendingUp },
-  { title: 'HSE', url: '/hse', icon: Shield },
-  { title: 'Payroll & GOSI', url: '/payroll', icon: DollarSign },
-  { title: 'Recruitment', url: '/recruitment', icon: Briefcase },
+  { key: 'dashboard', url: '/', icon: Home },
+  { key: 'employees', url: '/employees', icon: Users },
+  { key: 'attendance', url: '/attendance', icon: Clock },
+  { key: 'leave', url: '/leave', icon: Calendar },
+  { key: 'performance', url: '/performance', icon: TrendingUp },
+  { key: 'hse', url: '/hse', icon: Shield },
+  { key: 'payroll', url: '/payroll', icon: DollarSign },
+  { key: 'recruitment', url: '/recruitment', icon: Briefcase },
 ];
 
 const managementItems = [
-  { title: 'Analytics', url: '/analytics', icon: TrendingUp },
-  { title: 'AI Intelligence', url: '/ai', icon: Brain, adminOnly: true },
-  { title: 'Company', url: '/company', icon: Building2 },
-  { title: 'Settings', url: '/settings', icon: Settings },
+  { key: 'analytics', url: '/analytics', icon: TrendingUp },
+  { key: 'ai_intelligence', url: '/ai', icon: Brain, adminOnly: true },
+  { key: 'company', url: '/company', icon: Building2 },
+  { key: 'settings', url: '/settings', icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -50,6 +51,8 @@ export function AppSidebar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const lang = resolveLang();
+  const { t, locale } = useLocale();
+  const isArabic = locale === 'ar';
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
@@ -60,7 +63,7 @@ export function AppSidebar() {
       <SidebarContent>
         <div className="p-4">
           <h2 className={`font-bold text-lg ${open ? 'block' : 'hidden'}`}>
-            AqlHR Platform
+            {isArabic ? 'منصة عقل للموارد البشرية' : 'AqlHR Platform'}
           </h2>
           <div className={`w-8 h-8 bg-primary rounded flex items-center justify-center ${open ? 'hidden' : 'block'}`}>
             <span className="text-primary-foreground font-bold">A</span>
@@ -69,16 +72,16 @@ export function AppSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className={open ? 'block' : 'hidden'}>
-            Core Modules
+            {t('navigation', 'core_modules')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild>
                       <NavLink to={localePath(item.url, lang)} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {open && <span>{t('navigation', item.key)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -89,16 +92,16 @@ export function AppSidebar() {
 
         <SidebarGroup>
           <SidebarGroupLabel className={open ? 'block' : 'hidden'}>
-            Management
+            {t('navigation', 'management')}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {managementItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild>
                       <NavLink to={localePath(item.url, lang)} end className={getNavCls}>
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {open && <span>{t('navigation', item.key)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

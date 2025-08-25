@@ -14,6 +14,140 @@ const bundles: Record<string, Bundle> = {
     en: { language: 'English', arabic: 'Arabic', export: 'Export', overview: 'Overview' },
     ar: { language: 'الإنجليزية', arabic: 'العربية', export: 'تصدير', overview: 'نظرة عامة' },
   },
+  navigation: {
+    en: {
+      // Main navigation
+      dashboard: 'Dashboard',
+      employees: 'Employees',
+      attendance: 'Attendance',
+      leave: 'Leave',
+      performance: 'Performance',
+      hse: 'HSE',
+      payroll: 'Payroll & GOSI',
+      recruitment: 'Recruitment',
+      analytics: 'Analytics',
+      ai_intelligence: 'AI Intelligence',
+      company: 'Company',
+      settings: 'Settings',
+      
+      // Groups
+      core_modules: 'Core Modules',
+      management: 'Management',
+      administration: 'Administration',
+      team_management: 'Team Management',
+      hr_management: 'HR Management',
+      employee_portal: 'Employee Portal',
+      
+      // Employee sidebar
+      main_dashboard: 'Main Dashboard',
+      my_dashboard: 'My Dashboard',
+      my_profile: 'My Profile',
+      time_attendance: 'Time & Attendance',
+      leave_requests: 'Leave Requests',
+      my_goals: 'My Goals',
+      training_courses: 'Training Courses',
+      pay_slips: 'Pay Slips',
+      feedback: 'Feedback',
+      
+      // Manager sidebar
+      manager_dashboard: 'Manager Dashboard',
+      my_team: 'My Team',
+      team_attendance: 'Team Attendance',
+      performance_reviews: 'Performance Reviews',
+      team_goals: 'Team Goals',
+      approve_requests: 'Approve Requests',
+      team_analytics: 'Team Analytics',
+      team_feedback: 'Team Feedback',
+      
+      // HR Manager sidebar
+      hr_dashboard: 'HR Dashboard',
+      employee_directory: 'Employee Directory',
+      performance_management: 'Performance Management',
+      training_development: 'Training & Development',
+      leave_management: 'Leave Management',
+      onboarding: 'Onboarding',
+      goal_setting: 'Goal Setting',
+      hr_reports: 'HR Reports',
+      
+      // Admin sidebar
+      admin_dashboard: 'Admin Dashboard',
+      employee_management: 'Employee Management',
+      attendance_time: 'Attendance & Time',
+      payroll_management: 'Payroll Management',
+      hr_analytics: 'HR Analytics',
+      compliance: 'Compliance',
+      reports: 'Reports',
+      user_roles: 'User Roles',
+      company_settings: 'Company Settings',
+      system_health: 'System Health'
+    },
+    ar: {
+      // Main navigation
+      dashboard: 'لوحة التحكم',
+      employees: 'الموظفون',
+      attendance: 'الحضور والانصراف',
+      leave: 'الإجازات',
+      performance: 'الأداء',
+      hse: 'السلامة والصحة المهنية',
+      payroll: 'الرواتب والتأمينات',
+      recruitment: 'التوظيف',
+      analytics: 'التحليلات',
+      ai_intelligence: 'الذكاء الاصطناعي',
+      company: 'الشركة',
+      settings: 'الإعدادات',
+      
+      // Groups
+      core_modules: 'الوحدات الأساسية',
+      management: 'الإدارة',
+      administration: 'الإدارة العامة',
+      team_management: 'إدارة الفريق',
+      hr_management: 'إدارة الموارد البشرية',
+      employee_portal: 'بوابة الموظفين',
+      
+      // Employee sidebar
+      main_dashboard: 'لوحة التحكم الرئيسية',
+      my_dashboard: 'لوحة تحكمي',
+      my_profile: 'ملفي الشخصي',
+      time_attendance: 'الوقت والحضور',
+      leave_requests: 'طلبات الإجازة',
+      my_goals: 'أهدافي',
+      training_courses: 'الدورات التدريبية',
+      pay_slips: 'قسائم الراتب',
+      feedback: 'التغذية الراجعة',
+      
+      // Manager sidebar
+      manager_dashboard: 'لوحة تحكم المدير',
+      my_team: 'فريقي',
+      team_attendance: 'حضور الفريق',
+      performance_reviews: 'مراجعات الأداء',
+      team_goals: 'أهداف الفريق',
+      approve_requests: 'الموافقة على الطلبات',
+      team_analytics: 'تحليلات الفريق',
+      team_feedback: 'تغذية راجعة للفريق',
+      
+      // HR Manager sidebar
+      hr_dashboard: 'لوحة تحكم الموارد البشرية',
+      employee_directory: 'دليل الموظفين',
+      performance_management: 'إدارة الأداء',
+      training_development: 'التدريب والتطوير',
+      leave_management: 'إدارة الإجازات',
+      onboarding: 'التأهيل',
+      goal_setting: 'وضع الأهداف',
+      hr_reports: 'تقارير الموارد البشرية',
+      
+      // Admin sidebar
+      admin_dashboard: 'لوحة تحكم المشرف',
+      employee_management: 'إدارة الموظفين',
+      attendance_time: 'الحضور والوقت',
+      payroll_management: 'إدارة الرواتب',
+      hr_analytics: 'تحليلات الموارد البشرية',
+      compliance: 'الامتثال',
+      reports: 'التقارير',
+      user_roles: 'أدوار المستخدمين',
+      company_settings: 'إعدادات الشركة',
+      system_health: 'صحة النظام'
+    }
+  },
   osi: {
     en: {
       // Page titles and navigation

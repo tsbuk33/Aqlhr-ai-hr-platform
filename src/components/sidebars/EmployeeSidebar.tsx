@@ -12,6 +12,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
+import { useLocale } from '@/i18n/locale';
 import {
   LayoutDashboard,
   Calendar,
@@ -24,31 +25,32 @@ import {
 } from 'lucide-react';
 
 const employeeItems = [
-  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
-  { title: 'My Dashboard', url: '/employee-dashboard', icon: LayoutDashboard },
-  { title: 'My Profile', url: '/my-profile', icon: User },
-  { title: 'Time & Attendance', url: '/my-attendance', icon: Clock },
-  { title: 'Leave Requests', url: '/my-leave', icon: Calendar },
-  { title: 'My Goals', url: '/my-goals', icon: Target },
-  { title: 'Training Courses', url: '/my-training', icon: BookOpen },
-  { title: 'Pay Slips', url: '/my-payslips', icon: FileText },
-  { title: 'Feedback', url: '/my-feedback', icon: MessageSquare },
+  { key: 'main_dashboard', url: '/', icon: LayoutDashboard },
+  { key: 'my_dashboard', url: '/employee-dashboard', icon: LayoutDashboard },
+  { key: 'my_profile', url: '/my-profile', icon: User },
+  { key: 'time_attendance', url: '/my-attendance', icon: Clock },
+  { key: 'leave_requests', url: '/my-leave', icon: Calendar },
+  { key: 'my_goals', url: '/my-goals', icon: Target },
+  { key: 'training_courses', url: '/my-training', icon: BookOpen },
+  { key: 'pay_slips', url: '/my-payslips', icon: FileText },
+  { key: 'feedback', url: '/my-feedback', icon: MessageSquare },
 ];
 
 export const EmployeeSidebar: React.FC = () => {
   const { open } = useSidebar();
   const location = useLocation();
   const lang = resolveLang();
+  const { t } = useLocale();
 
   return (
     <Sidebar className={open ? "w-60" : "w-14"}>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Employee Portal</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('navigation', 'employee_portal')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {employeeItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={localePath(item.url, lang)}
@@ -59,7 +61,7 @@ export const EmployeeSidebar: React.FC = () => {
                       }
                     >
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {open && <span>{t('navigation', item.key)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

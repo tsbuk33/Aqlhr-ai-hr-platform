@@ -12,6 +12,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
+import { useLocale } from '@/i18n/locale';
 import {
   LayoutDashboard,
   Users,
@@ -26,34 +27,35 @@ import {
 } from 'lucide-react';
 
 const adminItems = [
-  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
-  { title: 'Admin Dashboard', url: '/admin', icon: LayoutDashboard },
-  { title: 'Employee Management', url: '/employees', icon: Users },
-  { title: 'Attendance & Time', url: '/attendance', icon: Calendar },
-  { title: 'Payroll Management', url: '/payroll', icon: DollarSign },
-  { title: 'HR Analytics', url: '/hr-analytics', icon: BarChart3 },
-  { title: 'Performance Reviews', url: '/performance', icon: TrendingUp },
-  { title: 'Compliance', url: '/compliance', icon: Shield },
-  { title: 'Reports', url: '/reports', icon: FileText },
-  { title: 'User Roles', url: '/user-roles', icon: UserCheck },
-  { title: 'Company Settings', url: '/company-settings', icon: Settings },
-  { title: 'System Health', url: '/_/health', icon: Shield },
+  { key: 'main_dashboard', url: '/', icon: LayoutDashboard },
+  { key: 'admin_dashboard', url: '/admin', icon: LayoutDashboard },
+  { key: 'employee_management', url: '/employees', icon: Users },
+  { key: 'attendance_time', url: '/attendance', icon: Calendar },
+  { key: 'payroll_management', url: '/payroll', icon: DollarSign },
+  { key: 'hr_analytics', url: '/hr-analytics', icon: BarChart3 },
+  { key: 'performance_reviews', url: '/performance', icon: TrendingUp },
+  { key: 'compliance', url: '/compliance', icon: Shield },
+  { key: 'reports', url: '/reports', icon: FileText },
+  { key: 'user_roles', url: '/user-roles', icon: UserCheck },
+  { key: 'company_settings', url: '/company-settings', icon: Settings },
+  { key: 'system_health', url: '/_/health', icon: Shield },
 ];
 
 export const AdminSidebar: React.FC = () => {
   const { open } = useSidebar();
   const location = useLocation();
   const lang = resolveLang();
+  const { t } = useLocale();
 
   return (
     <Sidebar className={open ? "w-60" : "w-14"}>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Administration</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('navigation', 'administration')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={localePath(item.url, lang)}
@@ -64,7 +66,7 @@ export const AdminSidebar: React.FC = () => {
                       }
                     >
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {open && <span>{t('navigation', item.key)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

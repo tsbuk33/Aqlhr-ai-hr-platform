@@ -12,6 +12,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
+import { useLocale } from '@/i18n/locale';
 import {
   LayoutDashboard,
   Users,
@@ -24,31 +25,32 @@ import {
 } from 'lucide-react';
 
 const managerItems = [
-  { title: 'Main Dashboard', url: '/', icon: LayoutDashboard },
-  { title: 'Manager Dashboard', url: '/manager-dashboard', icon: LayoutDashboard },
-  { title: 'My Team', url: '/my-team', icon: Users },
-  { title: 'Team Attendance', url: '/team-attendance', icon: Calendar },
-  { title: 'Performance Reviews', url: '/team-performance', icon: TrendingUp },
-  { title: 'Team Goals', url: '/team-goals', icon: Target },
-  { title: 'Approve Requests', url: '/approve-requests', icon: ClipboardCheck },
-  { title: 'Team Analytics', url: '/team-analytics', icon: BarChart3 },
-  { title: 'Team Feedback', url: '/team-feedback', icon: MessageSquare },
+  { key: 'main_dashboard', url: '/', icon: LayoutDashboard },
+  { key: 'manager_dashboard', url: '/manager-dashboard', icon: LayoutDashboard },
+  { key: 'my_team', url: '/my-team', icon: Users },
+  { key: 'team_attendance', url: '/team-attendance', icon: Calendar },
+  { key: 'performance_reviews', url: '/team-performance', icon: TrendingUp },
+  { key: 'team_goals', url: '/team-goals', icon: Target },
+  { key: 'approve_requests', url: '/approve-requests', icon: ClipboardCheck },
+  { key: 'team_analytics', url: '/team-analytics', icon: BarChart3 },
+  { key: 'team_feedback', url: '/team-feedback', icon: MessageSquare },
 ];
 
 export const ManagerSidebar: React.FC = () => {
   const { open } = useSidebar();
   const location = useLocation();
   const lang = resolveLang();
+  const { t } = useLocale();
 
   return (
     <Sidebar className={open ? "w-60" : "w-14"}>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Team Management</SidebarGroupLabel>
+          <SidebarGroupLabel>{t('navigation', 'team_management')}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {managerItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={localePath(item.url, lang)}
@@ -59,7 +61,7 @@ export const ManagerSidebar: React.FC = () => {
                       }
                     >
                       <item.icon className="h-4 w-4" />
-                      {open && <span>{item.title}</span>}
+                      {open && <span>{t('navigation', item.key)}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
