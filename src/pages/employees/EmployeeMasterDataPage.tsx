@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Search, Plus, Filter, Download, Users, UserCheck, Target, Shield, FileText, Database } from 'lucide-react';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 import { supabase } from '@/integrations/supabase/client';
 import { maskEmployees, type Employee } from '@/lib/pdpl/maskEmployee';
 import { useSafeExport } from '@/lib/exporter/useSafeExport';

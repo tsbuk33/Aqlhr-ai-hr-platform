@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 import { resolveLang } from '@/lib/i18n/localePath';
 import { maskEmployees, type Employee } from '@/lib/pdpl/maskEmployee';
 import { logUiEvent } from '@/lib/obs/logUiEvent';
