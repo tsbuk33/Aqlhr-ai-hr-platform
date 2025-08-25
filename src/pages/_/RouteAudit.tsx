@@ -100,7 +100,7 @@ export default function RouteAudit() {
       
       // Merge with existing results (replace same route+lang)
       setResults(prev => {
-        const filtered = prev.filter(r => !(r.route === auditResults[0]?.route && r.lang === lang));
+        const filtered = prev.filter(r => !(auditResults.some(ar => ar.route === r.route && ar.lang === r.lang)));
         return [...filtered, ...auditResults];
       });
       
