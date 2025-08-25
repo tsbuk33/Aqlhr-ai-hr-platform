@@ -12479,6 +12479,7 @@ export type Database = {
         Args:
           | Record<PropertyKey, never>
           | { p_count?: number; p_tenant: string }
+          | { p_tenant: string }
         Returns: Json
       }
       dev_seed_osi_v1: {
@@ -12687,6 +12688,34 @@ export type Database = {
       hnswhandler: {
         Args: { "": unknown }
         Returns: unknown
+      }
+      hr_employees_count_v1: {
+        Args: { p_tenant: string }
+        Returns: number
+      }
+      hr_employees_list_v1: {
+        Args: {
+          p_department?: string
+          p_limit?: number
+          p_page?: number
+          p_search?: string
+          p_status?: string
+          p_tenant: string
+        }
+        Returns: {
+          department: string
+          email: string
+          employee_number: string
+          full_name: string
+          hire_date: string
+          id: string
+          iqama_number: string
+          is_saudi: boolean
+          phone: string
+          position: string
+          salary: number
+          status: string
+        }[]
       }
       hr_employment_status_values: {
         Args: Record<PropertyKey, never>
