@@ -12251,6 +12251,15 @@ export type Database = {
           title: string
         }[]
       }
+      audit_data_exposure_risk: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          issue_description: string
+          recommendation: string
+          risk_level: string
+          table_name: string
+        }[]
+      }
       audit_rls_policies: {
         Args: Record<PropertyKey, never>
         Returns: {
@@ -13195,6 +13204,10 @@ export type Database = {
           scopes: string[]
           tenant_id: string
         }[]
+      }
+      validate_company_access: {
+        Args: { p_company_id: string }
+        Returns: boolean
       }
       validate_user_isolation: {
         Args: Record<PropertyKey, never>
