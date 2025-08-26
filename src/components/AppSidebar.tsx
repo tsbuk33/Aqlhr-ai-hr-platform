@@ -77,6 +77,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
       { title: isArabic ? "التحليلات التنبؤية المتقدمة" : "Advanced Predictive Analytics", url: "/ai-ecosystem/advanced-predictive-analytics" },
       { title: isArabic ? "توليد العقود الآلي" : "Automated Contract Generation", url: "/ai-ecosystem/automated-contract-generation" },
+      { title: isArabic ? "مدير الأداء المستقل" : "Autonomous Performance Manager", url: "/ai-ecosystem/autonomous-performance-manager" },
     ]
   },
   // AI Automation Engine
