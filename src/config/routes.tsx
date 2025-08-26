@@ -212,6 +212,7 @@ const PredictiveWorkforcePlannerPage = lazy(() => import('../pages/ai-ecosystem/
 const AutomatedPolicyGeneratorPage = lazy(() => import('../pages/ai-ecosystem/AutomatedPolicyGeneratorPage'));
 const AdvancedComplianceAutomatorPage = lazy(() => import('../pages/ai-ecosystem/AdvancedComplianceAutomatorPage'));
 const AdvancedPredictiveAnalyticsPage = lazy(() => import('../pages/ai-ecosystem/AdvancedPredictiveAnalyticsPage'));
+const AutomatedContractGenerationPage = lazy(() => import('../pages/ai-ecosystem/AutomatedContractGenerationPage'));
 
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
@@ -417,6 +418,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-ecosystem/policy-generator', element: AutomatedPolicyGeneratorPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/compliance-automator', element: AdvancedComplianceAutomatorPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/advanced-predictive-analytics', element: AdvancedPredictiveAnalyticsPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/automated-contract-generation', element: AutomatedContractGenerationPage, auth: true, adminOnly: true },
 
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },

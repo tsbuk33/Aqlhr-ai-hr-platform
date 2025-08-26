@@ -76,6 +76,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "مولد السياسات الآلي" : "Automated Policy Generator", url: "/ai-ecosystem/policy-generator" },
       { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
       { title: isArabic ? "التحليلات التنبؤية المتقدمة" : "Advanced Predictive Analytics", url: "/ai-ecosystem/advanced-predictive-analytics" },
+      { title: isArabic ? "توليد العقود الآلي" : "Automated Contract Generation", url: "/ai-ecosystem/automated-contract-generation" },
     ]
   },
   // AI Automation Engine
