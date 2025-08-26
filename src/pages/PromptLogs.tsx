@@ -11,6 +11,7 @@ import { usePromptLogs, type PromptLogFilters } from '@/hooks/usePromptLogs';
 import { PageSection } from '@/components/layout/PageLayout';
 import { useToast } from '@/hooks/use-toast';
 import { CreatePromptLogDialog } from '@/components/CreatePromptLogDialog';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const statusColors = {
   pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
@@ -336,6 +337,14 @@ const PromptLogs: React.FC = () => {
           </Card>
         )}
       </div>
+
+      {/* AI Integration for Prompt Logs */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="prompt-logs" 
+        companyId="demo-company" 
+        enabledFeatures={['data-analysis', 'intelligent-insights', 'workflow-automation', 'real-time-insights']}
+      />
     </PageSection>
   );
 };

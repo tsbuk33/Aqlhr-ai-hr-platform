@@ -23,6 +23,7 @@ import {
   getIntegrationStats 
 } from '@/utils/aiIntegrationAudit';
 import AqlHRAIAssistant from '@/components/ai/AqlHRAIAssistant';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AIIntegrationDashboard: React.FC = () => {
   const { language, isRTL } = useLanguage();
@@ -312,6 +313,14 @@ const AIIntegrationDashboard: React.FC = () => {
       <AqlHRAIAssistant 
         moduleContext="admin.ai-integration"
         companyId="aqlhr-platform"
+      />
+      
+      {/* AI Integration for AI Dashboard */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="ai-integration-dashboard" 
+        companyId="aqlhr-platform" 
+        enabledFeatures={['intelligent-automation', 'system-configuration', 'ai-optimization', 'platform-intelligence']}
       />
     </div>
   );

@@ -25,6 +25,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 interface SaudizationStatus {
   color: string;
@@ -759,6 +760,14 @@ export default function ComplianceAutopilot() {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Compliance Autopilot */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="compliance-autopilot" 
+        companyId="demo-company" 
+        enabledFeatures={['regulatory-compliance', 'intelligent-automation', 'audit-trails', 'compliance-monitoring']}
+      />
     </div>
   );
 }
