@@ -75,6 +75,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "مخطط القوى العاملة التنبؤي" : "Predictive Workforce Planner", url: "/ai-ecosystem/workforce-planner" },
       { title: isArabic ? "مولد السياسات الآلي" : "Automated Policy Generator", url: "/ai-ecosystem/policy-generator" },
       { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
+      { title: isArabic ? "التحليلات التنبؤية المتقدمة" : "Advanced Predictive Analytics", url: "/ai-ecosystem/advanced-predictive-analytics" },
     ]
   },
   // AI Automation Engine
