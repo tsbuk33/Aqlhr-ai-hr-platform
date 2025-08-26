@@ -75,7 +75,7 @@ const CHIPlatform = () => {
     <FocusManager autoFocus restoreFocus>
       <UnifiedGovernmentInterface
         platformName="CHI Platform Integration"
-        platformNameAr="تكامل مجلس الضمان الصحي"
+        platformNameAr="مجلس الضمان الصحي"
         description="Health insurance regulation, compliance monitoring, and digital transformation"
         descriptionAr="تنظيم التأمين الصحي ومراقبة الامتثال والتحول الرقمي"
         icon={Shield}

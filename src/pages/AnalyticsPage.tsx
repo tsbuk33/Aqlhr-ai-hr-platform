@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -25,6 +26,8 @@ interface Employee {
 
 const AnalyticsPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('overview');
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
 
   // Fetch employees data
   const { data: employees = [], isLoading } = useQuery({
@@ -162,9 +165,11 @@ const AnalyticsPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">HR Analytics Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">
+          {language === 'ar' ? 'التحليلات المتقدمة' : 'HR Analytics Dashboard'}
+        </h1>
         <p className="text-muted-foreground">
-          Comprehensive workforce analytics for Almalz Contracting Company
+          {language === 'ar' ? 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية' : 'Comprehensive workforce analytics for data-driven decisions'}
         </p>
       </div>
 
@@ -186,10 +191,10 @@ const AnalyticsPage: React.FC = () => {
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
         <TabsList className="grid grid-cols-4 w-full max-w-md">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="workforce">Workforce</TabsTrigger>
-          <TabsTrigger value="compensation">Compensation</TabsTrigger>
-          <TabsTrigger value="trends">Trends</TabsTrigger>
+          <TabsTrigger value="overview">{isArabic ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="workforce">{isArabic ? 'القوى العاملة' : 'Workforce'}</TabsTrigger>
+          <TabsTrigger value="compensation">{isArabic ? 'المكافآت' : 'Compensation'}</TabsTrigger>
+          <TabsTrigger value="trends">{isArabic ? 'الاتجاهات' : 'Trends'}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
@@ -197,7 +202,7 @@ const AnalyticsPage: React.FC = () => {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Workforce</CardTitle>
+                <CardTitle className="text-sm font-medium">{isArabic ? 'إجمالي القوى العاملة' : 'Total Workforce'}</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -210,7 +215,7 @@ const AnalyticsPage: React.FC = () => {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Saudization Rate</CardTitle>
+                <CardTitle className="text-sm font-medium">{isArabic ? 'نسبة السعودة' : 'Saudization Rate'}</CardTitle>
                 <Target className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -223,7 +228,7 @@ const AnalyticsPage: React.FC = () => {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Average Salary</CardTitle>
+                <CardTitle className="text-sm font-medium">{isArabic ? 'متوسط الراتب' : 'Average Salary'}</CardTitle>
                 <DollarSign className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -236,7 +241,7 @@ const AnalyticsPage: React.FC = () => {
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Departments</CardTitle>
+                <CardTitle className="text-sm font-medium">{isArabic ? 'الأقسام' : 'Departments'}</CardTitle>
                 <Building className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>

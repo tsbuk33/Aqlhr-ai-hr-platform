@@ -91,8 +91,8 @@ const bundles: Record<string, Bundle> = {
       hse: 'السلامة والصحة المهنية',
       payroll: 'الرواتب والتأمينات',
       recruitment: 'التوظيف',
-      analytics: 'التحليلات',
-      ai_intelligence: 'الذكاء الاصطناعي',
+      analytics: 'التحليلات المتقدمة',
+      ai_intelligence: 'الذكاء الاصطناعي والتحليلات',
       company: 'الشركة',
       settings: 'الإعدادات',
       
@@ -469,6 +469,32 @@ const bundles: Record<string, Bundle> = {
       failed_to_create_share_link: 'فشل في إنشاء رابط المشاركة'
     }
   },
+  analytics: {
+    en: {
+      title: 'Advanced Analytics',
+      description: 'Data-driven insights for strategic decision making',
+      overview: 'Overview',
+      workforce: 'Workforce', 
+      compensation: 'Compensation',
+      trends: 'Trends',
+      totalWorkforce: 'Total Workforce',
+      saudizationRate: 'Saudization Rate',
+      averageSalary: 'Average Salary',
+      departments: 'Departments'
+    },
+    ar: {
+      title: 'التحليلات المتقدمة',
+      description: 'رؤى مدفوعة بالبيانات لاتخاذ قرارات استراتيجية',
+      overview: 'نظرة عامة',
+      workforce: 'القوى العاملة',
+      compensation: 'المكافآت', 
+      trends: 'الاتجاهات',
+      totalWorkforce: 'إجمالي القوى العاملة',
+      saudizationRate: 'نسبة السعودة',
+      averageSalary: 'متوسط الراتب',
+      departments: 'الأقسام'
+    }
+  }
 };
 
 const Ctx = createContext<{
