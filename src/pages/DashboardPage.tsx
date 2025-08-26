@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { HijriCalendarWidget } from '@/components/calendar/HijriCalendarWidget';
 import { toast } from 'sonner';
 import { DeveloperTools } from '@/components/dev/DeveloperTools';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function DashboardPage() {
   const { isArabic } = useSimpleLanguage();
@@ -461,6 +462,14 @@ export default function DashboardPage() {
           backfillHistoricalData={backfillHistoricalData}
         />
       )}
+      
+      {/* AI Integration for Dashboard */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="executive-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['executive-insights', 'predictive-analytics', 'kpi-monitoring', 'workforce-optimization']}
+      />
     </div>
   );
 }

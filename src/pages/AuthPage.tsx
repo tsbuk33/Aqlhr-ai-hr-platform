@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -187,6 +188,14 @@ export default function AuthPage() {
         {message && (
           <p className="mt-4 text-sm text-center text-green-600 dark:text-green-400">{message}</p>
         )}
+        
+        {/* AI Integration for Authentication */}
+        <UniversalAIIntegrator 
+          pageType="general" 
+          moduleName="authentication" 
+          companyId="demo-company" 
+          enabledFeatures={['security-monitoring', 'fraud-detection']}
+        />
       </div>
     </div>
   );

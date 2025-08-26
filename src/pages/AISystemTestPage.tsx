@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { useAIAgentOrchestrator } from '@/hooks/useAIAgentOrchestrator';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, MessageSquare, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Loader2, MessageSquare, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function AISystemTestPage() {
   const { queryAIAgent, getProviderStatus, getBestResponse, isLoading } = useAIAgentOrchestrator();
@@ -226,7 +227,7 @@ export default function AISystemTestPage() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2 text-red-600">
-                    <AlertCircle className="h-4 w-4" />
+                    <AlertTriangle className="h-4 w-4" />
                     <span>Error: {result.error}</span>
                   </div>
                 )}
@@ -235,6 +236,14 @@ export default function AISystemTestPage() {
           ))}
         </div>
       )}
+      
+      {/* AI Integration for System Testing */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="ai-system-testing" 
+        companyId="demo-company" 
+        enabledFeatures={['system-monitoring', 'diagnostic-tools', 'performance-analysis']}
+      />
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { AqlHRAIAssistant } from '@/components/ai';
 import { ModuleDocumentUploader } from '@/components/universal';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HealthSafety = () => {
   const { language } = useLanguage();
@@ -534,6 +535,14 @@ const HealthSafety = () => {
       
       <ModuleDocumentUploader moduleKey="health-safety" />
       <AqlHRAIAssistant moduleContext="health.safety" />
+      
+      {/* AI Integration for Health & Safety */}
+      <UniversalAIIntegrator 
+        pageType="welfare" 
+        moduleName="health-safety" 
+        companyId="demo-company" 
+        enabledFeatures={['safety-monitoring', 'risk-assessment', 'compliance-tracking', 'incident-analysis']}
+      />
     </div>
   );
 };

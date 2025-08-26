@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Company: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -390,6 +391,14 @@ const Company: React.FC = () => {
       </Tabs>
       
       <AqlHRAIAssistant moduleContext="company.intelligence" />
+      
+      {/* AI Integration for Company Management */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="company-management" 
+        companyId="demo-company" 
+        enabledFeatures={['organizational-insights', 'company-analytics', 'strategic-planning']}
+      />
     </div>
   );
 };

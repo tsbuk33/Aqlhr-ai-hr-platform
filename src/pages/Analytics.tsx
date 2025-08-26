@@ -598,6 +598,14 @@ const Analytics = () => {
         moduleContext="analytics" 
         companyId="demo-company"
       />
+      
+      {/* AI Integration for Analytics */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="advanced-analytics" 
+        companyId="demo-company" 
+        enabledFeatures={['predictive-analytics', 'data-visualization', 'workforce-analytics', 'performance-insights']}
+      />
     </div>
   );
 };

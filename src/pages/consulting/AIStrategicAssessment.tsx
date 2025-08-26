@@ -37,6 +37,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { useSimpleLanguage } from "@/contexts/SimpleLanguageContext";
 import { Brain, Target, BarChart3, Trophy, Lightbulb, ArrowRight, Star, TrendingUp, CheckCircle, AlertTriangle } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 /**
  * @interface AssessmentQuestion
@@ -553,6 +554,20 @@ const AIStrategicAssessment = () => {
           <p>Analysis Engine v2.1.0 | Results processed: {new Date().toLocaleString()}</p>
           <p>Data Protection: PDPL Compliant | No PII stored or transmitted</p>
         </div>
+        
+        {/* ═══ VERSION & BUILD METADATA ════════════════════════════ */}
+        <div className="text-center text-xs text-muted-foreground mt-8 pt-4 border-t border-border/50">
+          <p>Analysis Engine v2.1.0 | Results processed: {new Date().toLocaleString()}</p>
+          <p>Data Protection: PDPL Compliant | No PII stored or transmitted</p>
+        </div>
+        
+        {/* AI Integration for Strategic Assessment */}
+        <UniversalAIIntegrator 
+          pageType="consulting" 
+          moduleName="ai-strategic-assessment" 
+          companyId="demo-company" 
+          enabledFeatures={['strategic-planning', 'organizational-assessment', 'benchmarking', 'recommendations']}
+        />
       </div>
     );
   }

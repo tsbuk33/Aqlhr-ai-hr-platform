@@ -46,6 +46,7 @@ import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import CrossModuleIntelligence from "@/components/ai/CrossModuleIntelligence";
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 // Recruitment-specific translations
 const recruitmentStrings = {
