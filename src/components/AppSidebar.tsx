@@ -98,7 +98,7 @@ const getPlatformModules = (isArabic: boolean) => [
   },
   // Government Integrations
   { 
-    title: isArabic ? "التكاملات الحكومية" : "Government Integrations", url: "/government", icon: Building2, badge: "22", color: "green",
+    title: isArabic ? "التكاملات الحكومية" : "Government Integrations", url: "/government", icon: Building2, badge: "21", color: "green",
     subItems: [
       { title: isArabic ? "تكامل قوى" : "Qiwa Integration", url: "/government/qiwa" },
       { title: isArabic ? "تكامل التأمينات الاجتماعية" : "GOSI Integration", url: "/government/gosi" },
