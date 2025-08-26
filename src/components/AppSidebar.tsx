@@ -72,6 +72,9 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "منفذ المهام المستقل" : "Autonomous Task Executor", url: "/ai-ecosystem/task-executor" },
       { title: isArabic ? "معالج الأحداث الفوري" : "Realtime Event Processor", url: "/ai-ecosystem/event-processor" },
       { title: isArabic ? "منسق سير العمل المستقل" : "Workflow Orchestrator", url: "/ai-ecosystem/workflow-orchestrator" },
+      { title: isArabic ? "مخطط القوى العاملة التنبؤي" : "Predictive Workforce Planner", url: "/ai-ecosystem/workforce-planner" },
+      { title: isArabic ? "مولد السياسات الآلي" : "Automated Policy Generator", url: "/ai-ecosystem/policy-generator" },
+      { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
     ]
   },
   // AI Automation Engine

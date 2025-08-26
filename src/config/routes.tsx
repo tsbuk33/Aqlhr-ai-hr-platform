@@ -208,6 +208,9 @@ const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/Intell
 const AutonomousTaskExecutorPage = lazy(() => import('../pages/ai-ecosystem/AutonomousTaskExecutorPage'));
 const RealtimeEventProcessorPage = lazy(() => import('../pages/ai-ecosystem/RealtimeEventProcessorPage'));
 const AutonomousWorkflowOrchestratorPage = lazy(() => import('../pages/ai-ecosystem/AutonomousWorkflowOrchestratorPage'));
+const PredictiveWorkforcePlannerPage = lazy(() => import('../pages/ai-ecosystem/PredictiveWorkforcePlannerPage'));
+const AutomatedPolicyGeneratorPage = lazy(() => import('../pages/ai-ecosystem/AutomatedPolicyGeneratorPage'));
+const AdvancedComplianceAutomatorPage = lazy(() => import('../pages/ai-ecosystem/AdvancedComplianceAutomatorPage'));
 
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
@@ -409,6 +412,9 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-ecosystem/task-executor', element: AutonomousTaskExecutorPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/event-processor', element: RealtimeEventProcessorPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/workflow-orchestrator', element: AutonomousWorkflowOrchestratorPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/workforce-planner', element: PredictiveWorkforcePlannerPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/policy-generator', element: AutomatedPolicyGeneratorPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/compliance-automator', element: AdvancedComplianceAutomatorPage, auth: true, adminOnly: true },
 
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
