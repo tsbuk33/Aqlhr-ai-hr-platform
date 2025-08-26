@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ export default function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   // Redirect if already authenticated
   if (user) {
@@ -32,6 +33,7 @@ export default function AuthPage() {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    setIsError(false);
 
     try {
       if (isSignUp) {
@@ -59,52 +61,18 @@ export default function AuthPage() {
         } else {
           setMessage(`We sent a confirmation email to ${email}. Check your inbox.`);
         }
-      } else {
-        // Inside handleAuth or your sign-in block
-        try {
-          // Attempt password login
-          const { error } = await supabase.auth.signInWithPassword({ email, password });
-
+        } else {
+          // Normal password sign-in only (no magic link fallback)
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
           if (error) {
-            console.error("Password sign-in failed, sending magic link:", error.message);
-
-            // Always send magic link if sign-in fails
-            const { data: fnData, error: fnError2 } = await supabase.functions.invoke("send-auth-link", {
-              body: {
-                email,
-                mode: "magic",
-                redirectTo: `${window.location.origin}/auth/callback`,
-              },
-            });
-
-            if (fnError2 || (fnData as any)?.error) {
-              throw new Error(fnError2?.message || (fnData as any)?.error || "Failed to send email");
-            }
-
-            if ((fnData as any)?.actionLink) {
-              const url = (fnData as any).actionLink as string;
-              const opened = window.open(url, "_blank", "noopener,noreferrer");
-              setMessage(`We sent a secure sign-in link to ${email}. If it doesn't arrive, use this link: ${url}`);
-            } else {
-              setMessage(`We sent a secure sign-in link to ${email}. Check your inbox.`);
-            }
+            console.error("Password sign-in failed:", error.message);
+            setIsError(true);
+            setMessage(error.message === 'Invalid login credentials' ? 'Invalid email or password.' : error.message);
           } else {
-            // Success → go to dashboard or next URL
             const nextUrl = searchParams.get('next') || '/en/dashboard';
             navigate(nextUrl);
           }
-        } catch (err) {
-          console.error("Unexpected error:", err);
-
-          // Fallback: Supabase OTP if Edge Function fails
-          await supabase.auth.signInWithOtp({
-            email,
-            options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-          });
-
-          setMessage(`We emailed you a secure sign-in link at ${email}.`);
         }
-      }
     } catch (err: any) {
       console.error("Auth error:", err.message);
 
@@ -186,16 +154,9 @@ export default function AuthPage() {
         </form>
 
         {message && (
-          <p className="mt-4 text-sm text-center text-green-600 dark:text-green-400">{message}</p>
+          <p className={`mt-4 text-sm text-center ${isError ? 'text-destructive' : 'text-green-600 dark:text-green-400'}`}>{message}</p>
         )}
         
-        {/* AI Integration for Authentication */}
-        <UniversalAIIntegrator 
-          pageType="general" 
-          moduleName="authentication" 
-          companyId="demo-company" 
-          enabledFeatures={['security-monitoring', 'fraud-detection']}
-        />
       </div>
     </div>
   );
