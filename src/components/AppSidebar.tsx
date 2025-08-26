@@ -77,9 +77,13 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
       { title: isArabic ? "التحليلات التنبؤية المتقدمة" : "Advanced Predictive Analytics", url: "/ai-ecosystem/advanced-predictive-analytics" },
       { title: isArabic ? "توليد العقود الآلي" : "Automated Contract Generation", url: "/ai-ecosystem/automated-contract-generation" },
-      { title: isArabic ? "مدير الأداء المستقل" : "Autonomous Performance Manager", url: "/ai-ecosystem/autonomous-performance-manager" },
-    ]
-  },
+        { title: isArabic ? "مدير الأداء المستقل" : "Autonomous Performance Manager", url: "/ai-ecosystem/autonomous-performance-manager" },
+        { title: isArabic ? "منسق الذكاء المركزي" : "Central AI Orchestrator", url: "/ai-ecosystem/central-ai-orchestrator" },
+        { title: isArabic ? "محرك التقارير المؤسسية" : "Enterprise Reporting Engine", url: "/ai-ecosystem/enterprise-reporting-engine" },
+        { title: isArabic ? "محرك الامتثال السعودي" : "Saudi Compliance Engine", url: "/ai-ecosystem/saudi-compliance-engine" },
+        { title: isArabic ? "محسن القوى العاملة الذكي" : "Super Workforce Optimizer", url: "/ai-ecosystem/super-workforce-optimizer" },
+      ]
+    },
   // AI Automation Engine
   { 
     title: isArabic ? "محرك الأتمتة الذكي" : "AI Automation Engine", url: "/ai-automation", icon: Brain, badge: "6", color: "violet",

@@ -214,6 +214,10 @@ const AdvancedComplianceAutomatorPage = lazy(() => import('../pages/ai-ecosystem
 const AdvancedPredictiveAnalyticsPage = lazy(() => import('../pages/ai-ecosystem/AdvancedPredictiveAnalyticsPage'));
 const AutomatedContractGenerationPage = lazy(() => import('../pages/ai-ecosystem/AutomatedContractGenerationPage'));
 const AutonomousPerformanceManagerPage = lazy(() => import('../pages/ai-ecosystem/AutonomousPerformanceManagerPage'));
+const AqlHRCentralAIOrchestratorPage = lazy(() => import('../pages/ai-ecosystem/AqlHRCentralAIOrchestratorPage'));
+const EnterpriseAIReportingEnginePage = lazy(() => import('../pages/ai-ecosystem/EnterpriseAIReportingEnginePage'));
+const SaudiAIComplianceEnginePage = lazy(() => import('../pages/ai-ecosystem/SaudiAIComplianceEnginePage'));
+const SuperIntelligentWorkforceOptimizerPage = lazy(() => import('../pages/ai-ecosystem/SuperIntelligentWorkforceOptimizerPage'));
 
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
@@ -421,6 +425,10 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-ecosystem/advanced-predictive-analytics', element: AdvancedPredictiveAnalyticsPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/automated-contract-generation', element: AutomatedContractGenerationPage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/autonomous-performance-manager', element: AutonomousPerformanceManagerPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/central-ai-orchestrator', element: AqlHRCentralAIOrchestratorPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/enterprise-reporting-engine', element: EnterpriseAIReportingEnginePage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/saudi-compliance-engine', element: SaudiAIComplianceEnginePage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/super-workforce-optimizer', element: SuperIntelligentWorkforceOptimizerPage, auth: true, adminOnly: true },
 
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
