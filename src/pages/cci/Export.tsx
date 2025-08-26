@@ -12,6 +12,7 @@ import { buildBoardDeck, generatePPTXFilename } from '@/modules/cci/exports/pptx
 import { exportCSV } from '@/modules/cci/exports/csvExport';
 import { FileText, Presentation, Database, Loader2, AlertTriangle } from 'lucide-react';
 import { useLocale } from '@/i18n/locale';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Export: React.FC = () => {
   const { locale } = useLocale();
@@ -179,6 +180,14 @@ const Export: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* AI Integration for CCI Export */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="cci-export" 
+        companyId="demo-company" 
+        enabledFeatures={['export-optimization', 'data-transformation', 'report-generation', 'culture-insights']}
+      />
     </FeatureGate>
   );
 };

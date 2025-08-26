@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Shield, Lock, FileText, Plus, Search } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const EvidenceManagement = () => {
   return (
@@ -28,6 +29,14 @@ const EvidenceManagement = () => {
         <Card><CardHeader><CardTitle>Digital Evidence</CardTitle><CardDescription>Emails, documents, digital records</CardDescription></CardHeader><CardContent><div className="space-y-2"><div className="flex justify-between"><span>Email Records</span><Badge className="bg-brand-success text-white">156</Badge></div><div className="flex justify-between"><span>Document Trails</span><Badge className="bg-brand-primary text-white">89</Badge></div></div></CardContent></Card>
         <Card><CardHeader><CardTitle>Physical Evidence</CardTitle><CardDescription>Documents, contracts, signed papers</CardDescription></CardHeader><CardContent><div className="space-y-2"><div className="flex justify-between"><span>Signed Contracts</span><Badge className="bg-brand-success text-white">67</Badge></div><div className="flex justify-between"><span>Witness Statements</span><Badge className="bg-brand-accent text-white">23</Badge></div></div></CardContent></Card>
       </div>
+      
+      {/* AI Integration for Evidence Management */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="evidence-management" 
+        companyId="demo-company" 
+        enabledFeatures={['evidence-management', 'audit-trails', 'compliance-monitoring', 'data-preservation']}
+      />
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Folder, Upload, Plus, Search } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const DocumentationManagement = () => {
   return (
@@ -30,6 +31,14 @@ const DocumentationManagement = () => {
         <Card><CardHeader><CardTitle>Employee Records</CardTitle><CardDescription>2,847 files</CardDescription></CardHeader><CardContent><Badge className="bg-brand-primary text-white">Secure</Badge></CardContent></Card>
         <Card><CardHeader><CardTitle>Compliance Reports</CardTitle><CardDescription>156 reports</CardDescription></CardHeader><CardContent><Badge className="bg-brand-accent text-white">Updated</Badge></CardContent></Card>
       </div>
+      
+      {/* AI Integration for Documentation Management */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="documentation-management" 
+        companyId="demo-company" 
+        enabledFeatures={['document-management', 'compliance-documentation', 'regulatory-compliance', 'data-organization']}
+      />
     </div>
   );
 };

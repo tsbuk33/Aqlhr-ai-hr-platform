@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Calendar, AlertTriangle, CheckCircle, Plus, Search, Filter, Upload } from "lucide-react";
 import EduBox from "@/components/EduBox";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const LegalDocumentTracking = () => {
   return (
@@ -291,6 +292,14 @@ const LegalDocumentTracking = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Legal Document Tracking */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="legal-document-tracking" 
+        companyId="demo-company" 
+        enabledFeatures={['document-tracking', 'legal-compliance', 'regulatory-monitoring', 'contract-management']}
+      />
     </div>
   );
 };

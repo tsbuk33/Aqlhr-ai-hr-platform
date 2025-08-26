@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Users, Clock, CheckCircle, AlertTriangle, Plus, Search, Filter } from "lucide-react";
 import EduBox from "@/components/EduBox";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const PolicyManagement = () => {
   return (
@@ -263,6 +264,14 @@ const PolicyManagement = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Policy Management */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="policy-management" 
+        companyId="demo-company" 
+        enabledFeatures={['policy-management', 'compliance-automation', 'regulatory-compliance', 'governance-oversight']}
+      />
     </div>
   );
 };

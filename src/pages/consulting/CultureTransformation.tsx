@@ -60,6 +60,14 @@ const CultureTransformation = () => {
         enabledFeatures={['culture-analysis', 'organizational-transformation', 'employee-engagement', 'change-management']}
       />
       
+      {/* AI Integration for Culture Transformation */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="culture-transformation" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-analysis', 'transformation-strategy', 'organizational-development', 'change-management']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.culture-transformation" 
         companyId="demo-company"

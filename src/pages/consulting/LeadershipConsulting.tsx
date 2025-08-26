@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import CenteredLayout from "@/components/layout/CenteredLayout";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 import HowToUsePanel from "@/components/universal/HowToUsePanel";
 import ModuleDocumentUploader from "@/components/universal/ModuleDocumentUploader";
@@ -58,6 +59,14 @@ const LeadershipConsulting = () => {
           </CardContent>
         </Card>
       </div>
+      
+      {/* AI Integration for Leadership Consulting */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="leadership-consulting" 
+        companyId="demo-company" 
+        enabledFeatures={['leadership-development', 'executive-coaching', 'strategic-guidance', 'organizational-leadership']}
+      />
       </div>
     </CenteredLayout>
   );

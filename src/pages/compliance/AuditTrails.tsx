@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Search, Download, Filter, Shield, Eye, Clock } from "lucide-react";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AuditTrails = () => {
   return (
@@ -295,6 +296,14 @@ const AuditTrails = () => {
           </CardContent>
         </Card>
       </div>
+      
+      {/* AI Integration for Audit Trails */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="audit-trails" 
+        companyId="demo-company" 
+        enabledFeatures={['audit-analysis', 'compliance-monitoring', 'risk-assessment', 'regulatory-compliance']}
+      />
       
       <AqlHRAIAssistant moduleContext="compliance.auditTrails" />
     </div>

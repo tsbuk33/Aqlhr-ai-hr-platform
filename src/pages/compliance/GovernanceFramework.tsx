@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Shield, Users, FileText, CheckCircle, Settings, Plus, Search } from "lucide-react";
 import EduBox from "@/components/EduBox";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const GovernanceFramework = () => {
   return (
@@ -259,6 +260,14 @@ const GovernanceFramework = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Governance Framework */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="governance-framework" 
+        companyId="demo-company" 
+        enabledFeatures={['governance-management', 'framework-optimization', 'compliance-oversight', 'policy-management']}
+      />
     </div>
   );
 };

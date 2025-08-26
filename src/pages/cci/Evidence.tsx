@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { useCCIEvidence } from '@/hooks/useCCIEvidence';
 import { EvidenceUploadDialog } from '@/components/cci/EvidenceUploadDialog';
 import { useLocale } from '@/i18n/locale';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   FileText, 
   Image, 
@@ -330,6 +331,14 @@ const Evidence: React.FC = () => {
           </Card>
         </div>
       </div>
+      
+      {/* AI Integration for CCI Evidence */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="cci-evidence" 
+        companyId="demo-company" 
+        enabledFeatures={['evidence-management', 'data-analysis', 'intelligent-categorization', 'culture-insights']}
+      />
     </div>
   );
 };

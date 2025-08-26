@@ -55,6 +55,14 @@ const DigitalTransformation = () => {
         enabledFeatures={['digital-transformation', 'process-automation', 'technology-integration', 'efficiency-optimization']}
       />
       
+      {/* AI Integration for Digital Transformation */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="digital-transformation" 
+        companyId="demo-company" 
+        enabledFeatures={['digital-strategy', 'technology-optimization', 'process-automation', 'innovation-management']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.digital-transformation" 
         companyId="demo-company"

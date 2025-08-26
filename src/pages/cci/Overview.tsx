@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCCIOverview } from '@/hooks/useCCIOverview';
 import { useLocale } from '@/i18n/locale';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Activity, 
   TrendingUp, 
@@ -315,6 +316,14 @@ const Overview: React.FC = () => {
           </Card>
         </div>
       </div>
+      
+      {/* AI Integration for CCI Overview */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="cci-overview" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-analytics', 'dashboard-insights', 'predictive-analytics', 'organizational-health']}
+      />
     </div>
   );
 };

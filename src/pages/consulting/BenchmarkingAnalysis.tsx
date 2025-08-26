@@ -55,6 +55,14 @@ const BenchmarkingAnalysis = () => {
         enabledFeatures={['benchmarking', 'market-analysis', 'competitive-intelligence', 'data-visualization']}
       />
       
+      {/* AI Integration for Benchmarking Analysis */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="benchmarking-analysis" 
+        companyId="demo-company" 
+        enabledFeatures={['market-analysis', 'competitive-benchmarking', 'strategic-insights', 'performance-comparison']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.benchmarking-analysis" 
         companyId="demo-company"

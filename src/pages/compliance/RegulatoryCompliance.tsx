@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { AlertTriangle, CheckCircle, Clock, Shield } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const RegulatoryCompliance = () => {
   return (
@@ -164,6 +165,14 @@ const RegulatoryCompliance = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Regulatory Compliance */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="regulatory-compliance" 
+        companyId="demo-company" 
+        enabledFeatures={['regulatory-monitoring', 'compliance-automation', 'risk-assessment', 'audit-trails']}
+      />
     </div>
   );
 };

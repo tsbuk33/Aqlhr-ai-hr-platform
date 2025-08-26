@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import HofstedeContextCard from '@/components/cci/HofstedeContextCard';
 import { useHofstedeContext } from '@/hooks/useHofstedeContext';
 import { useTranslation } from '@/hooks/useTranslation';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   BarChart3, 
   TrendingUp, 
@@ -348,6 +349,14 @@ const Analysis: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* AI Integration for CCI Analysis */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="cci-analysis" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-analytics', 'data-visualization', 'trend-analysis', 'intelligent-insights']}
+      />
     </div>
   );
 };

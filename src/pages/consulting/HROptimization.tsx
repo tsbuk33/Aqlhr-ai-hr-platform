@@ -55,6 +55,14 @@ const HROptimization = () => {
         enabledFeatures={['hr-optimization', 'process-improvement', 'efficiency-analysis', 'cost-optimization']}
       />
       
+      {/* AI Integration for HR Optimization */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="hr-optimization" 
+        companyId="demo-company" 
+        enabledFeatures={['hr-analytics', 'process-optimization', 'workforce-planning', 'performance-enhancement']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.hr-optimization" 
         companyId="demo-company"

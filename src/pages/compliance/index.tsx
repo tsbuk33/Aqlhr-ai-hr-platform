@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AlertTriangle, CheckCircle, Clock, Shield, TrendingUp, Users, FileText, AlertCircle } from "lucide-react";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useToast } from "@/hooks/use-toast";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const ComplianceOverview = () => {
   const { isArabic } = useSimpleLanguage();
@@ -176,6 +177,14 @@ const ComplianceOverview = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Compliance Overview */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="compliance-overview" 
+        companyId="demo-company" 
+        enabledFeatures={['compliance-dashboard', 'regulatory-monitoring', 'audit-oversight', 'risk-management']}
+      />
     </div>
   );
 };

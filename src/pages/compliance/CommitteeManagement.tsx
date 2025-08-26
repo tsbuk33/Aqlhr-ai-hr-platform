@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, FileText, Clock, Settings, Plus } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const CommitteeManagement = () => {
   return (
@@ -254,6 +255,14 @@ const CommitteeManagement = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Committee Management */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="committee-management" 
+        companyId="demo-company" 
+        enabledFeatures={['governance-management', 'committee-coordination', 'compliance-oversight', 'workflow-automation']}
+      />
     </div>
   );
 };

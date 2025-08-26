@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Download, Calendar, TrendingUp, Plus, Search, Filter } from "lucide-react";
 import EduBox from "@/components/EduBox";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const ComplianceReporting = () => {
   return (
@@ -318,6 +319,14 @@ const ComplianceReporting = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Compliance Reporting */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="compliance-reporting" 
+        companyId="demo-company" 
+        enabledFeatures={['report-generation', 'compliance-analytics', 'regulatory-reporting', 'data-analysis']}
+      />
     </div>
   );
 };

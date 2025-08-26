@@ -55,6 +55,14 @@ const MergerIntegration = () => {
         enabledFeatures={['merger-integration', 'organizational-change', 'synergy-realization', 'integration-planning']}
       />
       
+      {/* AI Integration for Merger Integration */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="merger-integration" 
+        companyId="demo-company" 
+        enabledFeatures={['merger-analysis', 'integration-planning', 'cultural-alignment', 'synergy-optimization']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.merger-integration" 
         companyId="demo-company"

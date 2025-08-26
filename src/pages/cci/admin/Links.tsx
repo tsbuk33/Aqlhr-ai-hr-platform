@@ -7,6 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { useUserRole } from '@/hooks/useUserRole';
 import { supabase } from '@/integrations/supabase/client';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Link, 
   Copy, 
@@ -537,6 +538,14 @@ const CCIAdminLinks: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for CCI Admin Links */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="cci-admin-links" 
+        companyId="demo-company" 
+        enabledFeatures={['survey-administration', 'link-management', 'user-engagement', 'data-collection']}
+      />
     </div>
   );
 };

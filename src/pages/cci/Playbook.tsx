@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Brain, 
   Target, 
@@ -367,11 +368,19 @@ const Playbook: React.FC = () => {
                     </p>
                   </div>
                 </div>
-              </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </CardContent>
+      </Card>
+      
+      {/* AI Integration for CCI Playbook */}
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="cci-playbook" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-guidance', 'strategic-planning', 'action-recommendations', 'change-management']}
+      />
+    </div>
     </FeatureGate>
   );
 };

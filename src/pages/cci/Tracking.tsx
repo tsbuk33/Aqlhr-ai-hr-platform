@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Activity, 
   TrendingUp, 
@@ -435,6 +436,14 @@ const Tracking: React.FC = () => {
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* AI Integration for CCI Tracking */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="cci-tracking" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-tracking', 'progress-monitoring', 'trend-analysis', 'predictive-insights']}
+      />
     </div>
   );
 };

@@ -63,6 +63,14 @@ const ExecutiveCompensation = () => {
         enabledFeatures={['compensation-analysis', 'market-benchmarking', 'pay-equity', 'executive-planning']}
       />
       
+      {/* AI Integration for Executive Compensation */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="executive-compensation" 
+        companyId="demo-company" 
+        enabledFeatures={['compensation-analysis', 'market-benchmarking', 'executive-strategy', 'performance-alignment']}
+      />
+      
       <AqlHRAIAssistant 
         moduleContext="consulting.executive-compensation" 
         companyId="demo-company"
