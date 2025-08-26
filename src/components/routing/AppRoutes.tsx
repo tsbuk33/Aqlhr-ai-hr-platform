@@ -10,6 +10,11 @@ import DiagnosticHub from '@/pages/diagnostic/Hub';
 import RouteAudit from '@/pages/_/RouteAudit';
 import EmployeeMasterDataPage from '@/pages/employees/EmployeeMasterDataPage';
 import RecruitmentPage from '@/pages/RecruitmentPage';
+import PayrollPage from '@/pages/PayrollPage';
+import PerformancePage from '@/pages/PerformancePage';
+import TrainingPage from '@/pages/TrainingPage';
+import AnalyticsPage from '@/pages/Analytics';
+import CompanyPage from '@/pages/Company';
 import EmployeeList from '@/pages/people/EmployeeList';
 import EmployeeProfile from '@/pages/people/EmployeeProfile';
 import ExecutiveIntelligenceCenter from '@/pages/ExecutiveIntelligenceCenter';
@@ -65,8 +70,13 @@ export default function AppRoutes() {
           <Route path="employees/:id" element={<SetupGuard><EmployeeProfile /></SetupGuard>} />
         </Route>
 
-        {/* recruitment */}
+        {/* core modules */}
         <Route path="recruitment" element={<SetupGuard><RecruitmentPage /></SetupGuard>} />
+        <Route path="payroll" element={<SetupGuard><PayrollPage /></SetupGuard>} />
+        <Route path="performance" element={<SetupGuard><PerformancePage /></SetupGuard>} />
+        <Route path="training" element={<SetupGuard><TrainingPage /></SetupGuard>} />
+        <Route path="analytics" element={<SetupGuard><AnalyticsPage /></SetupGuard>} />
+        <Route path="company" element={<SetupGuard><CompanyPage /></SetupGuard>} />
 
         {/* diagnostic */}
         <Route path="diagnostic">
@@ -92,7 +102,7 @@ export default function AppRoutes() {
           <Route index element={<Navigate to="../employees" replace />} />
           <Route path="master-data" element={<Navigate to="../employees" replace />} />
         </Route>
-        <Route path="analytics/*" element={<Navigate to="dashboard" replace />} />
+        <Route path="analytics/*" element={<Navigate to="../analytics" replace />} />
         <Route path="cci">
           <Route path="survey" element={<Navigate to="../diagnostic/hub" replace />} />
           <Route path="playbook" element={<Navigate to="../diagnostic/hub" replace />} />
