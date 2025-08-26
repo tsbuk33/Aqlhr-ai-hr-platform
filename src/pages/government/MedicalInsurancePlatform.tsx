@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { HeartPulse, Shield, FileText, TrendingUp } from "lucide-react";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const MedicalInsurancePlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -152,6 +153,14 @@ const MedicalInsurancePlatform = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Medical Insurance Platform */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="medical-insurance-platform" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'medical-insurance-management', 'healthcare-compliance', 'insurance-optimization']}
+      />
     </div>
   );
 };

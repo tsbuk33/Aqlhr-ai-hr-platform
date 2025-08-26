@@ -4,6 +4,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   GraduationCap, 
   FileCheck, 
@@ -206,6 +207,14 @@ const EducationMinistry = () => {
         quickActions={quickActions}
         documents={documents}
         tabs={tabs}
+      />
+      
+      {/* AI Integration for Education Ministry */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="education-ministry" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'education-verification', 'degree-validation', 'ministry-services']}
       />
     </div>
   );

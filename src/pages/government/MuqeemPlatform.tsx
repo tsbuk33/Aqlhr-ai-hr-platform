@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const MuqeemPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -290,6 +291,14 @@ const MuqeemPlatform = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Muqeem Platform */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="muqeem-platform" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'passport-services', 'resident-affairs', 'muqeem-compliance']}
+      />
     </UnifiedGovernmentInterface>
   );
 };

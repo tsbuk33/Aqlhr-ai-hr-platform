@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const MOLCompliance = () => {
   const { t, isRTL } = useLanguage();
@@ -290,6 +291,14 @@ const MOLCompliance = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for MOL Compliance */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="mol-compliance" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'labor-compliance', 'mol-reporting', 'workforce-regulations']}
+      />
     </UnifiedGovernmentInterface>
   );
 };

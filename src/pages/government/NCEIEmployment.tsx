@@ -4,6 +4,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Briefcase, 
   Users, 
@@ -206,6 +207,14 @@ const NCEIEmployment = () => {
         quickActions={quickActions}
         documents={documents}
         tabs={tabs}
+      />
+      
+      {/* AI Integration for NCEI Employment */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="ncei-employment" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'employment-services', 'workforce-development', 'job-matching']}
       />
     </div>
   );

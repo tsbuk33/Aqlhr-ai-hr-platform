@@ -7,6 +7,7 @@ import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGover
 import { Activity, CheckCircle, Clock, Shield, GraduationCap, Users, FileText, TrendingUp, Award, School } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const NCAAAAccreditation = () => {
   const { t, isRTL } = useLanguage();
@@ -213,6 +214,14 @@ const NCAAAAccreditation = () => {
             </div>
           </div>
         </div>
+        
+        {/* AI Integration for NCAAA Accreditation */}
+        <UniversalAIIntegrator 
+          pageType="government" 
+          moduleName="ncaaa-accreditation" 
+          companyId="demo-company" 
+          enabledFeatures={['government-integration', 'academic-accreditation', 'quality-assurance', 'ncaaa-services']}
+        />
       </UnifiedGovernmentInterface>
     </FocusManager>
   );

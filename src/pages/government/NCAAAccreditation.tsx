@@ -4,6 +4,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   GraduationCap, 
   Building, 
@@ -205,6 +206,14 @@ const NCAAAccreditation = () => {
         quickActions={quickActions}
         documents={documents}
         tabs={tabs}
+      />
+      
+      {/* AI Integration for NCAA Accreditation */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="ncaa-accreditation" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'academic-accreditation', 'certification-management', 'quality-standards']}
       />
     </div>
   );

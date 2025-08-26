@@ -4,6 +4,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Shield, 
   FileCheck, 
@@ -205,6 +206,14 @@ const InteriorMinistry = () => {
         quickActions={quickActions}
         documents={documents}
         tabs={tabs}
+      />
+      
+      {/* AI Integration for Interior Ministry */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="interior-ministry" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'security-clearances', 'interior-ministry-services', 'identity-verification']}
       />
     </div>
   );

@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const MudadPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -290,6 +291,14 @@ const MudadPlatform = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Mudad Platform */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="mudad-platform" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'wage-protection-compliance', 'payroll-management', 'mudad-synchronization']}
+      />
     </UnifiedGovernmentInterface>
   );
 };

@@ -4,6 +4,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   FileCheck, 
   Stamp, 
@@ -206,6 +207,14 @@ const ESNADNotarization = () => {
         quickActions={quickActions}
         documents={documents}
         tabs={tabs}
+      />
+      
+      {/* AI Integration for ESNAD Notarization */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="esnad-notarization" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'document-notarization', 'regulatory-compliance', 'esnad-services']}
       />
     </div>
   );

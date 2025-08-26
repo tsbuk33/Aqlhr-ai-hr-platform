@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AbsherPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -290,6 +291,14 @@ const AbsherPlatform = () => {
           />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Absher Platform */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="absher-platform" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'compliance-monitoring', 'regulatory-automation', 'data-synchronization']}
+      />
     </UnifiedGovernmentInterface>
   );
 };

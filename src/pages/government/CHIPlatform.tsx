@@ -10,6 +10,7 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const CHIPlatform = () => {
   const { t, isRTL } = useLanguage();
@@ -324,6 +325,14 @@ const CHIPlatform = () => {
             />
           </TabsContent>
         </Tabs>
+        
+        {/* AI Integration for CHI Platform */}
+        <UniversalAIIntegrator 
+          pageType="government" 
+          moduleName="chi-platform" 
+          companyId="demo-company" 
+          enabledFeatures={['government-integration', 'health-insurance-compliance', 'regulatory-monitoring', 'chi-synchronization']}
+        />
       </UnifiedGovernmentInterface>
     </FocusManager>
   );
