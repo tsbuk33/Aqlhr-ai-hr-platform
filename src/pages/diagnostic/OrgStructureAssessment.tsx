@@ -44,7 +44,16 @@ const OrgStructureAssessment = () => {
         </Card>
       </div>
       
+      
       <AqlHRAIAssistant moduleContext="diagnostic.orgStructureAssessment" />
+      
+      {/* AI Integration for Organization Structure Assessment */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="org-structure-assessment" 
+        companyId="demo-company" 
+        enabledFeatures={['organizational-insights', 'structure-analysis', 'diagnostic-analysis', 'optimization-recommendations']}
+      />
     </div>
   );
 };

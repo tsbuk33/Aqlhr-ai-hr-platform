@@ -6,6 +6,7 @@ import { KPIExplanationCard } from "@/components/KPIExplanationCard";
 import { SaudiHeroSection } from "@/components/saudi/SaudiHeroSection";
 import { AnnouncementsSection } from "@/components/saudi/AnnouncementsSection";
 import { VirtualAssistant } from "@/components/saudi/VirtualAssistant";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Users, 
   Calendar, 
@@ -1846,6 +1847,14 @@ const Index = () => {
         moduleContext="dashboard.executive" 
         position="fixed"
         className="dashboard-ai-agent"
+      />
+      
+      {/* AI Integration for Landing Page */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="landing-page" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'onboarding-assistance', 'feature-discovery', 'user-guidance']}
       />
     </div>
   );

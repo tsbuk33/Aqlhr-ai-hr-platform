@@ -384,7 +384,15 @@ const Retention = () => {
         feature="retention"
         requiredPlan="enterprise"
       />
-    </div>
+    
+    {/* AI Integration for Retention Analysis */}
+    <UniversalAIIntegrator 
+      pageType="diagnostic" 
+      moduleName="retention-analysis" 
+      companyId="demo-company" 
+      enabledFeatures={['retention-insights', 'predictive-analytics', 'employee-wellbeing', 'risk-assessment']}
+    />
+  </div>
   );
 };
 

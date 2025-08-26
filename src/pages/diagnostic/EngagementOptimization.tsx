@@ -105,6 +105,14 @@ const EngagementOptimization: React.FC = () => {
         featureName="Generative Engagement Optimization"
         description="Get automated engagement pulses and targeted interventions for your teams"
       />
+      
+      {/* AI Integration for Engagement Optimization */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="engagement-optimization" 
+        companyId="demo-company" 
+        enabledFeatures={['engagement-insights', 'employee-wellbeing', 'performance-optimization', 'predictive-analytics']}
+      />
     </div>
   );
 };

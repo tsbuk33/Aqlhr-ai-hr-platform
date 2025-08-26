@@ -44,7 +44,16 @@ const RetentionStrategyAssessment = () => {
         </Card>
       </div>
       
+      
       <AqlHRAIAssistant moduleContext="diagnostic.retentionStrategyAssessment" />
+      
+      {/* AI Integration for Retention Strategy Assessment */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="retention-strategy-assessment" 
+        companyId="demo-company" 
+        enabledFeatures={['retention-insights', 'strategic-planning', 'diagnostic-analysis', 'performance-optimization']}
+      />
     </div>
   );
 };

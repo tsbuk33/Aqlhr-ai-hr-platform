@@ -5,6 +5,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Users, 
@@ -315,6 +316,14 @@ const CoreHR = () => {
       <AqlHRAIAssistant 
         moduleContext="core-hr" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Core HR */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="core-hr-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'organizational-structure', 'workflow-automation']}
       />
     </div>
   );

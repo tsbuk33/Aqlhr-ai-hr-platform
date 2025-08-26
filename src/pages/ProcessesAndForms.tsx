@@ -43,6 +43,7 @@ import {
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 // Module discovery configuration for all 14 core modules
 const HR_MODULES = [
@@ -1039,6 +1040,14 @@ const ProcessesAndForms = () => {
       <AqlHRAIAssistant 
         moduleContext="processes-forms" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Processes & Forms */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="processes-forms" 
+        companyId="demo-company" 
+        enabledFeatures={['workflow-automation', 'form-intelligence', 'process-optimization', 'document-processing']}
       />
     </div>
   );

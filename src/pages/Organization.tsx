@@ -9,6 +9,7 @@ import { Building2, GitBranch, Layers, Network, Pyramid, Users, Upload, FileText
 import { useState } from "react";
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Organization = () => {
   const { language } = useLanguage();
@@ -480,6 +481,14 @@ const Organization = () => {
       <AqlHRAIAssistant 
         moduleContext="organization" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Organization Management */}
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="organization-management" 
+        companyId="demo-company" 
+        enabledFeatures={['organizational-structure', 'strategic-planning', 'workforce-optimization', 'organizational-insights']}
       />
     </div>
   );

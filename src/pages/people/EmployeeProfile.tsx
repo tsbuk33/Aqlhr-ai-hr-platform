@@ -181,6 +181,14 @@ const EmployeeProfile: React.FC = () => {
           <EmployeeLeaveTab employee={employee} />
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for People - Employee Profile */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-profile" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'performance-insights', 'career-development', 'personalized-analytics']}
+      />
     </div>
   );
 };

@@ -13,6 +13,7 @@ import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AIRecommendationCenter from "@/components/ai/AIRecommendationCenter";
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import CrossModuleIntelligence from "@/components/ai/CrossModuleIntelligence";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   DollarSign,
   Users, 
@@ -570,6 +571,14 @@ const Payroll = () => {
       <AqlHRAIAssistant 
         moduleContext="payroll" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Payroll Management */}
+      <UniversalAIIntegrator 
+        pageType="payroll" 
+        moduleName="payroll-management" 
+        companyId="demo-company" 
+        enabledFeatures={['payroll-processing', 'financial-analytics', 'compensation-insights', 'automated-calculations']}
       />
     </div>
   );

@@ -2,6 +2,7 @@ import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useLocalization } from "@/hooks/useLocalization";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Users, 
   TrendingUp, 
@@ -229,6 +230,14 @@ const Strategic = () => {
       <AqlHRAIAssistant 
         moduleContext="strategic" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Strategic Planning */}
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="strategic-planning" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'workforce-optimization', 'succession-planning', 'organizational-insights']}
       />
     </div>
   );

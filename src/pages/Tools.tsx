@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   MessageSquare, 
   FileText, 
@@ -314,6 +315,14 @@ const Tools = () => {
       <AqlHRAIAssistant 
         moduleContext="tools" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Tools & Utilities */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="tools-utilities" 
+        companyId="demo-company" 
+        enabledFeatures={['automation-tools', 'system-utilities', 'performance-monitoring', 'intelligent-assistance']}
       />
     </div>
   );

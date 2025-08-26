@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTasks, Task } from '@/hooks/useTasks';
 import { TaskDetailPanel } from '@/components/tasks/TaskDetailPanel';
 import { CreateTaskDialog } from '@/components/tasks/CreateTaskDialog';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const TaskCenter: React.FC = () => {
   const { tasks, loading, error, fetchTasks, createTask, assignTask, completeTask, sendNotification } = useTasks();
@@ -317,6 +318,14 @@ const TaskCenter: React.FC = () => {
         onOpenChange={setShowCreateDialog}
         onCreate={createTask}
         modules={modules}
+      />
+      
+      {/* AI Integration for Task Center */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="task-center" 
+        companyId="demo-company" 
+        enabledFeatures={['workflow-automation', 'task-management', 'productivity-insights', 'intelligent-scheduling']}
       />
     </div>
   );

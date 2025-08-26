@@ -105,6 +105,14 @@ const LearningOptimization: React.FC = () => {
         featureName="Learning Experience Optimization"
         description="Get AI-powered skill gap analysis and personalized learning paths"
       />
+      
+      {/* AI Integration for Diagnostic Learning Optimization */}
+      <UniversalAIIntegrator 
+        pageType="training" 
+        moduleName="learning-optimization" 
+        companyId="demo-company" 
+        enabledFeatures={['learning-optimization', 'skill-development', 'personalized-learning', 'training-analytics']}
+      />
     </div>
   );
 };

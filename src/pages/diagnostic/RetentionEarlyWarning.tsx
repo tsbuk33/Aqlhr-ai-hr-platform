@@ -342,6 +342,14 @@ const RetentionEarlyWarning = () => {
           </Button>
         </div>
       )}
+      
+      {/* AI Integration for Retention Early Warning */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="retention-early-warning" 
+        companyId="demo-company" 
+        enabledFeatures={['retention-insights', 'predictive-analytics', 'early-warning-system', 'risk-assessment']}
+      />
     </div>
   );
 };

@@ -11,6 +11,7 @@ import ModuleDiagnosticPanel from "@/components/universal/ModuleDiagnosticPanel"
 import { AqlHRAIAssistant } from "@/components/ai";
 import { useEntitlement } from "@/hooks/useEntitlement";
 import { supabase } from "@/integrations/supabase/client";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useToast } from "@/hooks/use-toast";
 import { isDeveloperMode, bypassEntitlement, getMockCaseId, logDeveloperMode } from "@/utils/developerMode";
 import { useLocale } from "@/i18n/locale";
@@ -225,7 +226,16 @@ const OrgStructureIntelligence = () => {
         </TabsContent>
       </Tabs>
 
+      
       <AqlHRAIAssistant moduleContext="diagnostic.orgStructureIntelligence" />
+      
+      {/* AI Integration for Organization Structure Intelligence */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="org-structure-intelligence" 
+        companyId="demo-company" 
+        enabledFeatures={['organizational-insights', 'structure-optimization', 'diagnostic-analysis', 'workforce-planning']}
+      />
     </div>
   );
 };

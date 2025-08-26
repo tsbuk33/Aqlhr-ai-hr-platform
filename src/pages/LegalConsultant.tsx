@@ -86,6 +86,7 @@ import {
   Scissors
 } from 'lucide-react';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const LegalConsultant: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -273,6 +274,14 @@ const LegalConsultant: React.FC = () => {
       <AqlHRAIAssistant 
         moduleContext="legal-consultant" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Legal Consultancy */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="legal-consultancy" 
+        companyId="demo-company" 
+        enabledFeatures={['legal-compliance', 'regulatory-guidance', 'expert-recommendations', 'risk-assessment']}
       />
     </div>
   );

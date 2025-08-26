@@ -248,6 +248,14 @@ const EmployeeList: React.FC = () => {
           </div>
         )}
       </Card>
+      
+      {/* AI Integration for People - Employee List */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-list" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'data-analytics', 'search-intelligence', 'workforce-insights']}
+      />
     </div>
   );
 };

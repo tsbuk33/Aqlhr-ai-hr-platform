@@ -8,6 +8,7 @@ import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   useRegions, 
   useCities, 
@@ -409,6 +410,14 @@ const Government = () => {
       <AqlHRAIAssistant 
         moduleContext="government" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Government Compliance */}
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="government-compliance" 
+        companyId="demo-company" 
+        enabledFeatures={['compliance-monitoring', 'government-integration', 'saudi-regulations', 'regulatory-compliance']}
       />
     </div>
   );

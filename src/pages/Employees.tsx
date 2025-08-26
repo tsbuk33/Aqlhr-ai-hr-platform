@@ -7,6 +7,7 @@ import { UniversalDocumentManager } from "@/components/common/UniversalDocumentM
 import AIFloatingAssistant from '@/components/ai/AIFloatingAssistant';
 import AIInsightCard from '@/components/ai/AIInsightCard';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Employees = () => {
   const { language } = useLanguage();
@@ -144,6 +145,14 @@ const Employees = () => {
       <AqlHRAIAssistant 
         moduleContext="employees" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Employee Management */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'workforce-optimization', 'predictive-analytics']}
       />
     </div>
   );

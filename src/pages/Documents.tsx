@@ -3,6 +3,7 @@ import { FileText, Shield, CheckCircle } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Documents = () => {
   const { language } = useLanguage();
@@ -152,6 +153,14 @@ const Documents = () => {
       <AqlHRAIAssistant 
         moduleContext="documents" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Document Management */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="document-management" 
+        companyId="demo-company" 
+        enabledFeatures={['document-intelligence', 'automated-classification', 'content-analysis', 'workflow-automation']}
       />
     </div>
   );
