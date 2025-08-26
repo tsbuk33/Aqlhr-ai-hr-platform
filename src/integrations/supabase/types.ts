@@ -12658,6 +12658,15 @@ export type Database = {
         Args: { p_tenant: string }
         Returns: undefined
       }
+      final_security_check: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          check_category: string
+          next_action: string
+          remaining_issues: number
+          status: string
+        }[]
+      }
       find_similar_chunks: {
         Args: {
           max_results?: number
@@ -13243,6 +13252,15 @@ export type Database = {
         Returns: {
           color: string
           rate: number
+        }[]
+      }
+      security_fixes_summary: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          description: string
+          fix_phase: string
+          impact: string
+          items_fixed: number
         }[]
       }
       security_status_report: {
