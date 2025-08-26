@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Brain, Heart, Shield, TrendingUp, Users, Award, Zap, Target } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const WelfareConsultancy = () => {
   const { isArabic } = useSimpleLanguage();
@@ -387,6 +388,13 @@ const WelfareConsultancy = () => {
           companyId="demo-company"
         />
       </div>
+      {/* AI Integration for Welfare Consultancy */}
+      <UniversalAIIntegrator 
+        pageType="welfare" 
+        moduleName="welfare-consultancy" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-wellbeing', 'safety-monitoring', 'welfare-compliance', 'health-insights']}
+      />
     </div>
   );
 };

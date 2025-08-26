@@ -72,6 +72,8 @@ interface KeyPosition {
   nationalSecurity: boolean;
 }
 
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+
 export default function SuccessionPlanning() {
   const { language, isRTL } = useLanguage();
   const { toast } = useToast();
@@ -708,6 +710,13 @@ export default function SuccessionPlanning() {
       <AqlHRAIAssistant 
         moduleContext="succession-planning" 
         companyId="demo-company"
+      />
+      {/* AI Integration for Succession Planning */}
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="succession-planning" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'succession-planning', 'talent-pipeline', 'leadership-analytics']}
       />
     </div>
   );

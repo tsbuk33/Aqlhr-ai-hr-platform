@@ -1,6 +1,7 @@
 import { useLocale } from '@/i18n/locale';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { localePath } from '@/lib/i18n/localePath';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 // Executive Intelligence Center - CENTERED
 const ExecutiveIntelligenceCenter = () => {
@@ -51,6 +52,13 @@ const ExecutiveIntelligenceCenter = () => {
         moduleContext="executive.intelligence" 
         position="fixed"
         className="executive-ai-assistant"
+      />
+      {/* AI Integration for Executive Intelligence */}
+      <UniversalAIIntegrator 
+        pageType="executive" 
+        moduleName="executive-intelligence-center" 
+        companyId="demo-company" 
+        enabledFeatures={['executive-insights', 'strategic-intelligence', 'leadership-analytics', 'predictive-analytics']}
       />
     </div>
   );
