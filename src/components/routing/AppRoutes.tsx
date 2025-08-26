@@ -16,6 +16,7 @@ import ExecutiveIntelligenceCenter from '@/pages/ExecutiveIntelligenceCenter';
 import ProfilePage from '@/pages/ProfilePage';
 import UsersPage from '@/pages/admin/UsersPage';
 import CompanySettingsPage from '@/pages/admin/CompanySettingsPage';
+import AISystemTestPage from '@/pages/AISystemTestPage';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -76,6 +77,9 @@ export default function AppRoutes() {
 
         {/* executive intelligence center */}
         <Route path="executive-center" element={<SetupGuard><ExecutiveIntelligenceCenter /></SetupGuard>} />
+        
+        {/* ai system testing */}
+        <Route path="ai-test" element={<SetupGuard><AISystemTestPage /></SetupGuard>} />
         
         {/* profile & admin */}
         <Route path="profile" element={<SetupGuard><ProfilePage /></SetupGuard>} />
