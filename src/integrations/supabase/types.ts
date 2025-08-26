@@ -5072,6 +5072,13 @@ export type Database = {
             foreignKeyName: "hr_attendance_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
+            referencedRelation: "hr_employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5294,6 +5301,13 @@ export type Database = {
             foreignKeyName: "hr_employees_manager_id_fkey"
             columns: ["manager_id"]
             isOneToOne: false
+            referencedRelation: "hr_employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5411,6 +5425,13 @@ export type Database = {
             foreignKeyName: "hr_leaves_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
+            referencedRelation: "hr_employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_leaves_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5489,6 +5510,13 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_training_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees_safe"
             referencedColumns: ["id"]
           },
           {
@@ -11920,6 +11948,106 @@ export type Database = {
           },
         ]
       }
+      hr_employees_safe: {
+        Row: {
+          allowances: number | null
+          base_salary: number | null
+          company_id: string | null
+          created_at: string | null
+          department_id: string | null
+          employee_no: string | null
+          employment_status: string | null
+          full_name_ar: string | null
+          full_name_en: string | null
+          gender: string | null
+          hire_date: string | null
+          id: string | null
+          is_saudi: boolean | null
+          manager_id: string | null
+          monthly_salary: number | null
+          nationality: string | null
+        }
+        Insert: {
+          allowances?: never
+          base_salary?: never
+          company_id?: string | null
+          created_at?: string | null
+          department_id?: never
+          employee_no?: string | null
+          employment_status?: string | null
+          full_name_ar?: never
+          full_name_en?: never
+          gender?: string | null
+          hire_date?: string | null
+          id?: string | null
+          is_saudi?: boolean | null
+          manager_id?: string | null
+          monthly_salary?: never
+          nationality?: never
+        }
+        Update: {
+          allowances?: never
+          base_salary?: never
+          company_id?: string | null
+          created_at?: string | null
+          department_id?: never
+          employee_no?: string | null
+          employment_status?: string | null
+          full_name_ar?: never
+          full_name_en?: never
+          gender?: string | null
+          hire_date?: string | null
+          id?: string | null
+          is_saudi?: boolean | null
+          manager_id?: string | null
+          monthly_salary?: never
+          nationality?: never
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "hr_employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "osi_span_v1"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_costs"
+            referencedColumns: ["employee_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_manager_spans"
+            referencedColumns: ["manager_id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "v_org_current"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       org_hierarchy_v1: {
         Row: {
           full_name_ar: string | null
@@ -12133,6 +12261,13 @@ export type Database = {
             foreignKeyName: "hr_employees_manager_id_fkey"
             columns: ["manager_id"]
             isOneToOne: false
+            referencedRelation: "hr_employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hr_employees_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -12319,6 +12454,10 @@ export type Database = {
           p_check_out: string
         }
         Returns: number
+      }
+      can_access_employee_data: {
+        Args: { p_employee_id: string }
+        Returns: boolean
       }
       cci_compute_scores_v1: {
         Args: { p_survey: string; p_tenant: string; p_wave?: string }
@@ -12565,6 +12704,10 @@ export type Database = {
       }
       get_demo_tenant_id: {
         Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      get_employee_data_access_level: {
+        Args: { p_employee_id?: string }
         Returns: string
       }
       get_gov_cron_status: {
