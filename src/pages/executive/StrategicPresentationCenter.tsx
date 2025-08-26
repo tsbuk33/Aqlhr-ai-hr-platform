@@ -273,7 +273,7 @@ const StrategicPresentationCenter = () => {
                 </div>
               </div>
               <div className="metric-card text-center p-4 bg-gradient-to-br from-brand-warning/10 to-brand-warning/5 rounded-lg">
-                <div className="metric-value text-3xl font-bold text-brand-warning mb-2">$1M+</div>
+                <div className="metric-value text-3xl font-bold text-brand-warning mb-2">SAR 3.75M+</div>
                 <div className="metric-label text-sm text-muted-foreground">
                   {isArabic ? 'الإيرادات السنوية' : 'Annual Revenue'}
                 </div>

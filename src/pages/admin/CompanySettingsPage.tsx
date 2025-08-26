@@ -140,11 +140,11 @@ export default function CompanySettingsPage() {
       title: 'Adaptive System Scaling',
       description: 'AI automatically scales system resources based on usage patterns and predictions',
       icon: Rocket,
-      scenario: 'Scaling AI analyzed usage patterns for 957 active users. Predicted peak loads with 94% accuracy. Optimized resource allocation saving $12,400 monthly.',
+      scenario: 'Scaling AI analyzed usage patterns for 957 active users. Predicted peak loads with 94% accuracy. Optimized resource allocation saving SAR 46,500 monthly.',
       metrics: {
         users_analyzed: 957,
         prediction_accuracy: '94%',
-        monthly_savings: '$12,400',
+        monthly_savings: 'SAR 46,500',
         efficiency_gain: '41%'
       }
     }

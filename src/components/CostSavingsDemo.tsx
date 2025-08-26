@@ -49,14 +49,14 @@ const CostSavingsDemo = () => {
   const costComparison = [
     {
       service: "OpenAI Embeddings",
-      cost: "$0.10 per 1M tokens",
-      monthly: "$200-500",
+      cost: "SAR 0.375 per 1M tokens",
+      monthly: "SAR 750-1,875",
       color: "destructive"
     },
     {
       service: "Hugging Face (Browser)",
       cost: "Free",
-      monthly: "$0",
+      monthly: "SAR 0",
       color: "success"
     }
   ];
@@ -84,7 +84,7 @@ const CostSavingsDemo = () => {
             <CardContent>
               <div className="text-2xl font-bold">
                 {item.monthly}
-                {item.monthly === "$0" && (
+                {item.monthly === "SAR 0" && (
                   <Badge variant="secondary" className="ml-2 bg-green-100 text-green-800">
                     HUGE SAVINGS!
                   </Badge>

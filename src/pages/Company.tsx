@@ -57,10 +57,10 @@ const Company: React.FC = () => {
       title: isArabic ? 'ذكاء الهيكل التنظيمي' : 'Organizational Intelligence',
       description: isArabic ? 'تحليل وتحسين الهيكل التنظيمي باستخدام الذكاء الاصطناعي' : 'AI-driven organizational structure analysis and optimization',
       icon: Users,
-      scenario: 'Deep learning models identified 15 organizational bottlenecks. Recommended restructuring saved $2.4M annually. Predicted 28% productivity increase through smart role alignment.',
+      scenario: 'Deep learning models identified 15 organizational bottlenecks. Recommended restructuring saved SAR 9M annually. Predicted 28% productivity increase through smart role alignment.',
       metrics: {
         bottlenecks_identified: 15,
-        annual_savings: '$2.4M',
+        annual_savings: 'SAR 9M',
         productivity_increase: '28%',
         roles_optimized: 134
       }
@@ -109,11 +109,11 @@ const Company: React.FC = () => {
       title: isArabic ? 'التحول الرقمي الذكي' : 'Smart Digital Transformation',
       description: isArabic ? 'توجيه التحول الرقمي بالذكاء الاصطناعي' : 'AI-guided digital transformation roadmap',
       icon: Rocket,
-      scenario: 'AI assessed digital maturity at 73%. Mapped transformation journey with 156 initiatives. Predicted $5.8M cost savings through intelligent automation adoption.',
+      scenario: 'AI assessed digital maturity at 73%. Mapped transformation journey with 156 initiatives. Predicted SAR 21.75M cost savings through intelligent automation adoption.',
       metrics: {
         digital_maturity: '73%',
         transformation_initiatives: 156,
-        predicted_savings: '$5.8M',
+        predicted_savings: 'SAR 21.75M',
         automation_opportunities: 89
       }
     }
