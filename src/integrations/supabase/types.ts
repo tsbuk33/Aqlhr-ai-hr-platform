@@ -12259,6 +12259,14 @@ export type Database = {
           table_name: string
         }[]
       }
+      audit_security_definer_functions: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          function_name: string
+          recommendation: string
+          security_type: string
+        }[]
+      }
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
