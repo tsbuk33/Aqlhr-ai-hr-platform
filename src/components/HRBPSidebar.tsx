@@ -64,7 +64,6 @@ const getHRBPModules = (isArabic: boolean) => [
     title: isArabic ? "اكتساب وإدارة المواهب" : "Talent Acquisition & Management", 
     url: "/recruitment", 
     icon: UserPlus, 
-    badge: "8", 
     color: "purple",
     subItems: [
       { title: isArabic ? "التوظيف والتعيين" : "Recruitment & Hiring", url: "/core-hr/recruitment" },
@@ -97,7 +96,6 @@ const getHRBPModules = (isArabic: boolean) => [
     title: isArabic ? "التعويضات والمزايا" : "Compensation & Benefits", 
     url: "/payroll", 
     icon: DollarSign, 
-    badge: "12", 
     color: "emerald",
     subItems: [
       { title: isArabic ? "معالجة الرواتب" : "Payroll Processing", url: "/payroll" },
@@ -161,7 +159,6 @@ const getHRBPModules = (isArabic: boolean) => [
     title: isArabic ? "الامتثال والقانوني" : "Compliance & Legal", 
     url: "/government", 
     icon: Shield, 
-    badge: "22", 
     color: "red",
     subItems: [
       { title: isArabic ? "امتثال وزارة العمل" : "MOL Compliance", url: "/government/mol-compliance" },
@@ -178,7 +175,6 @@ const getHRBPModules = (isArabic: boolean) => [
     title: isArabic ? "الموارد البشرية المدعومة بالذكاء الاصطناعي" : "AI-Powered HR", 
     url: "/ai-features", 
     icon: Brain, 
-    badge: "18", 
     color: "indigo",
     subItems: [
       { title: isArabic ? "محرك التوصيات الذكي" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },

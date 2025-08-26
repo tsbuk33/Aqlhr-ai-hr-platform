@@ -48,7 +48,7 @@ const getPlatformModules = (isArabic: boolean) => [
   { title: isArabic ? "تحسين المشاركة التوليدية" : "Generative Engagement Optimization", url: "/geo", icon: Sparkles, badge: "GEO", color: "pink" },
   // AI & Analytics
   { 
-    title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", url: "/analytics", icon: TrendingUp, badge: "33", color: "purple",
+    title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", url: "/analytics", icon: TrendingUp, color: "purple",
     subItems: [
       { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
       { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
