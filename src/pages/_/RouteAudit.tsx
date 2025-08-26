@@ -388,6 +388,14 @@ export default function RouteAudit() {
           </div>
         </CardContent>
       </Card>
+      
+      {/* AI Integration for Route Audit */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="route-audit" 
+        companyId="demo-company" 
+        enabledFeatures={['diagnostic-analysis', 'real-time-insights', 'performance-optimization']}
+      />
     </div>
   );
 }
