@@ -22,6 +22,11 @@ import ProfilePage from '@/pages/ProfilePage';
 import UsersPage from '@/pages/admin/UsersPage';
 import CompanySettingsPage from '@/pages/admin/CompanySettingsPage';
 import AISystemTestPage from '@/pages/AISystemTestPage';
+import ToolsPage from '@/pages/Tools';
+import GovernmentPage from '@/pages/Government';
+import IntegrationsPage from '@/pages/integrations/IntegrationsPage';
+import { SuperIntelligentWorkforceOptimizer } from '@/components/ai-ecosystem/SuperIntelligentWorkforceOptimizer';
+import { EnterpriseAIReportingEngine } from '@/components/ai-ecosystem/EnterpriseAIReportingEngine';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -90,6 +95,17 @@ export default function AppRoutes() {
         
         {/* ai system testing */}
         <Route path="ai-test" element={<SetupGuard><AISystemTestPage /></SetupGuard>} />
+        
+        {/* tools & integrations */}
+        <Route path="tools" element={<SetupGuard><ToolsPage /></SetupGuard>} />
+        <Route path="government" element={<SetupGuard><GovernmentPage /></SetupGuard>} />
+        <Route path="integrations" element={<SetupGuard><IntegrationsPage /></SetupGuard>} />
+        
+        {/* ai ecosystem */}
+        <Route path="ai-ecosystem">
+          <Route path="workforce-optimizer" element={<SetupGuard><SuperIntelligentWorkforceOptimizer /></SetupGuard>} />
+          <Route path="reporting-engine" element={<SetupGuard><EnterpriseAIReportingEngine /></SetupGuard>} />
+        </Route>
         
         {/* profile & admin */}
         <Route path="profile" element={<SetupGuard><ProfilePage /></SetupGuard>} />
