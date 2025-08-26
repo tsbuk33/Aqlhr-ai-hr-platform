@@ -144,6 +144,14 @@ const CompanyPage: React.FC = () => {
         companyId="demo-company" 
         enabledFeatures={['strategic-planning', 'organizational-insights', 'transformation-guidance']}
       />
+      
+      {/* AI Integration for Company Page */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="company-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['organizational-insights', 'company-analytics', 'strategic-intelligence', 'business-optimization']}
+      />
     </div>
   );
 };

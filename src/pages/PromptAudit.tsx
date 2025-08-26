@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -517,87 +518,16 @@ const exportPromptHistory = async (format: 'json' | 'csv') => {
             ))}
           </div>
         </CardContent>
-        </Card>
+      </Card>
       )}
 
-      {/* Summary Report */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Executive Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {logs.length > 0 ? (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                <h4 className="font-semibold text-blue-800 mb-2">📊 Real Data Analysis</h4>
-                <p className="text-blue-700">
-                  Audit based on {logs.length} actual conversation entries. 
-                  Completion rate: {Math.round((logs.filter(log => log.status === 'completed').length / logs.length) * 100)}%
-                </p>
-                <div className="mt-3 grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <strong>By Status:</strong>
-                    <ul className="mt-1">
-                      <li>✅ Completed: {logs.filter(log => log.status === 'completed').length}</li>
-                      <li>🔄 In Progress: {logs.filter(log => log.status === 'in_progress').length}</li>
-                      <li>⏳ Pending: {logs.filter(log => log.status === 'pending').length}</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <strong>By Priority:</strong>
-                    <ul className="mt-1">
-                      <li>🔴 Critical: {logs.filter(log => log.priority === 'critical').length}</li>
-                      <li>🟠 High: {logs.filter(log => log.priority === 'high').length}</li>
-                      <li>🟡 Medium: {logs.filter(log => log.priority === 'medium').length}</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <h4 className="font-semibold text-yellow-800 mb-2">⚠️ No Real Data Yet</h4>
-                <p className="text-yellow-700">
-                  Click "Backfill Conversation History" to populate the database with our actual conversation data for accurate audit results.
-                </p>
-              </div>
-            )}
-            
-            <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <h4 className="font-semibold text-green-800 mb-2">✅ System Infrastructure Status</h4>
-              <p className="text-green-700">
-                The prompt logging infrastructure is 100% operational with secure database, 
-                comprehensive UI, full testing coverage, and real-time audit capabilities.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <h4 className="font-semibold mb-2">Key Achievements:</h4>
-                <ul className="list-disc list-inside text-sm space-y-1">
-                  <li>Complete database schema with RLS security</li>
-                  <li>Full CRUD operations with error handling</li>
-                  <li>Responsive UI with filtering and search</li>
-                  <li>Comprehensive testing framework</li>
-                  <li>Export functionality (JSON/CSV)</li>
-                  <li>Automated verification tools</li>
-                </ul>
-              </div>
-              
-              <div>
-                <h4 className="font-semibold mb-2">System Metrics:</h4>
-                <ul className="list-disc list-inside text-sm space-y-1">
-                  <li>Database: ✅ All tables operational</li>
-                  <li>Security: ✅ 4 RLS policies active</li>
-                  <li>Testing: ✅ 6 test files configured</li>
-                  <li>CI/CD: ✅ GitHub Actions pipeline</li>
-                  <li>Edge Functions: ✅ Backfill operational</li>
-                  <li>Audit System: ✅ Real-time tracking</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* AI Integration for Prompt Audit */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="prompt-audit" 
+        companyId="demo-company" 
+        enabledFeatures={['audit-analysis', 'performance-monitoring', 'system-diagnostics', 'quality-assurance']}
+      />
     </PageSection>
   );
 }

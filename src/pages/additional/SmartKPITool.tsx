@@ -4,6 +4,7 @@ import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { KPIOverviewCard } from "@/components/smart-kpi/KPIOverviewCard";
 import { useSmartKPIs } from "@/hooks/useSmartKPIs";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SmartKPITool = () => {
   const { t } = useAPITranslations();
@@ -22,6 +23,14 @@ const SmartKPITool = () => {
       <KPIOverviewCard stats={stats} loading={loading} />
       
       <AqlHRAIAssistant moduleContext="additional.smartKPITool" />
+      
+      {/* AI Integration for Smart KPI Tool */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="smart-kpi-tool" 
+        companyId="demo-company" 
+        enabledFeatures={['predictive-analytics', 'data-visualization', 'performance-insights', 'intelligent-kpis']}
+      />
     </PageLayout>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { AqlHRAIAssistant } from '@/components/ai';
 import { EnhancedAIShowcase } from '@/components/ai/EnhancedAIShowcase';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
@@ -22,7 +22,13 @@ const ChatPage: React.FC = () => {
 
       <EnhancedAIShowcase />
       
-      <AqlHRAIAssistant moduleContext="chat.assistant" />
+      {/* AI Integration for Chat Page */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="chat-interface" 
+        companyId="demo-company" 
+        enabledFeatures={['intelligent-assistance', 'contextual-help', 'conversation-ai', 'natural-language']}
+      />
     </div>
   );
 };

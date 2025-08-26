@@ -1,4 +1,4 @@
-import React from 'react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { CreatePromptLogDialog } from '@/components/CreatePromptLogDialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageSection } from '@/components/layout/PageLayout';

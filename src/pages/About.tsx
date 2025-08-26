@@ -1,4 +1,4 @@
-import React from 'react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { PartnerLogo } from '@/components/PartnerLogo';
 import { useLocale } from '@/i18n/locale';
 import { AqlHRAIAssistant } from '@/components/ai';
@@ -113,8 +113,13 @@ const About = () => {
         </div>
       </div>
       
-      <ModuleDocumentUploader moduleKey="about.company" />
-      <AqlHRAIAssistant moduleContext="about.company" />
+      {/* AI Integration for About Page */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="about-page" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'company-insights', 'information-assistance']}
+      />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AqlHRConnect = () => {
   const { t } = useAPITranslations();
@@ -53,6 +54,14 @@ const AqlHRConnect = () => {
       </div>
       
       <AqlHRAIAssistant moduleContext="additional.aqlhrConnect" />
+      
+      {/* AI Integration for AqlHR Connect */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="aqlhr-connect" 
+        companyId="demo-company" 
+        enabledFeatures={['integration-management', 'system-connectivity', 'workflow-automation', 'api-intelligence']}
+      />
     </div>
   );
 };

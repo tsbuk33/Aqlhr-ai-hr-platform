@@ -474,6 +474,14 @@ const AnalyticsPage: React.FC = () => {
         companyId="demo-company" 
         enabledFeatures={['predictive-analytics', 'data-visualization', 'trend-analysis']}
       />
+      
+      {/* AI Integration for Analytics Page */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="analytics-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['predictive-analytics', 'data-visualization', 'trend-analysis', 'business-intelligence']}
+      />
     </div>
   );
 };
