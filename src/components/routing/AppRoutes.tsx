@@ -26,6 +26,7 @@ import ToolsPage from '@/pages/Tools';
 import GovernmentPage from '@/pages/Government';
 import IntegrationsPage from '@/pages/integrations/IntegrationsPage';
 import { SuperIntelligentWorkforceOptimizer } from '@/components/ai-ecosystem/SuperIntelligentWorkforceOptimizer';
+import AIIntegrationDashboard from '@/pages/admin/AIIntegrationDashboard';
 import { EnterpriseAIReportingEngine } from '@/components/ai-ecosystem/EnterpriseAIReportingEngine';
 
 // Tiny utilities (inline to avoid extra files)
@@ -95,6 +96,9 @@ export default function AppRoutes() {
         
         {/* ai system testing */}
         <Route path="ai-test" element={<SetupGuard><AISystemTestPage /></SetupGuard>} />
+        
+        {/* AI Integration Management */}
+        <Route path="admin/ai-integration" element={<SetupGuard><AIIntegrationDashboard /></SetupGuard>} />
         
         {/* tools & integrations */}
         <Route path="tools" element={<SetupGuard><ToolsPage /></SetupGuard>} />
