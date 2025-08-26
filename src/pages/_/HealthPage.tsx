@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
 import { RefreshCw, CheckCircle, XCircle, AlertCircle, Activity } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HealthPage: React.FC = () => {
   const { companyId } = useUserCompany();
@@ -287,6 +288,14 @@ const HealthPage: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for System Health */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="system-health" 
+        companyId="demo-company" 
+        enabledFeatures={['real-time-insights', 'diagnostic-analysis', 'performance-optimization']}
+      />
     </div>
   );
 };

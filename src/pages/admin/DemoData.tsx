@@ -7,6 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { Users, TrendingUp, Database, Loader2, Calendar, Building2, Play, RefreshCw } from 'lucide-react';
 import { resolveTenantId } from '@/lib/useTenant';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function DemoDataPage() {
   const { isArabic } = useSimpleLanguage();
@@ -485,6 +486,14 @@ export default function DemoDataPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for Demo Data Management */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="demo-data-management" 
+        companyId="demo-company" 
+        enabledFeatures={['intelligent-automation', 'data-analysis', 'contextual-help']}
+      />
     </div>
   );
 }

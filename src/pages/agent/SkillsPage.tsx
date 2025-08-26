@@ -18,6 +18,7 @@ import { useAgentSkills } from '@/hooks/useAgentSkills';
 import { SkillCard } from '@/components/agent/SkillCard';
 import { ExecutionHistory } from '@/components/agent/ExecutionHistory';
 import { useToast } from '@/hooks/use-toast';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SkillsPage: React.FC = () => {
   const {
@@ -284,6 +285,14 @@ const SkillsPage: React.FC = () => {
           />
         </TabsContent>
       </Tabs>
+
+      {/* AI Integration for Agent Skills */}
+      <UniversalAIIntegrator 
+        pageType="ai-ecosystem" 
+        moduleName="agent-skills" 
+        companyId="demo-company" 
+        enabledFeatures={['autonomous-operations', 'intelligent-automation', 'machine-learning']}
+      />
     </div>
   );
 };

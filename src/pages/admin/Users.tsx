@@ -8,6 +8,7 @@ import {
   Shield, Eye, Edit, Trash2, Settings
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const UsersPage = () => {
   const { isArabic } = useSimpleLanguage();
@@ -246,6 +247,14 @@ const UsersPage = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for User Management */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="user-management" 
+        companyId="demo-company" 
+        enabledFeatures={['user-management', 'security-monitoring', 'contextual-help']}
+      />
     </div>
   );
 };

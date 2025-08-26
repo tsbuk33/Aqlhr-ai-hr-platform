@@ -18,6 +18,7 @@ import {
   Activity, Lock, Rocket, Award, Target, PieChart, LineChart
 } from 'lucide-react';
 import { RoleGuard } from '@/components/rbac/RoleGuard';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const INDUSTRIES = [
   { value: 'technology', label: 'Technology' },
@@ -516,6 +517,14 @@ export default function CompanySettingsPage() {
           </TabsContent>
         ))}
       </Tabs>
+
+      {/* AI Integration for Company Settings */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="company-settings" 
+        companyId="demo-company" 
+        enabledFeatures={['intelligent-automation', 'contextual-help', 'strategic-intelligence']}
+      />
     </div>
   );
 }

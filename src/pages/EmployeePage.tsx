@@ -21,6 +21,7 @@ import {
   Mail
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const EmployeePage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -380,6 +381,14 @@ const EmployeePage: React.FC = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* AI Integration for Employee Management */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'organizational-structure']}
+      />
     </div>
   );
 };
