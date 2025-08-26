@@ -20,6 +20,7 @@ import { supabase } from '@/integrations/supabase/client';
 import * as retentionAPI from '@/lib/api/retention';
 import { Database, Target, Shield, RefreshCw, AlertTriangle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Retention = () => {
   const { lang } = useParams();

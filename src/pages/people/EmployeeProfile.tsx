@@ -14,6 +14,7 @@ import { EmployeeOrgTab } from '@/components/people/EmployeeOrgTab';
 import { EmployeeDocumentsTab } from '@/components/people/EmployeeDocumentsTab';
 import { EmployeeTrainingTab } from '@/components/people/EmployeeTrainingTab';
 import { EmployeeLeaveTab } from '@/components/people/EmployeeLeaveTab';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const EmployeeProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();

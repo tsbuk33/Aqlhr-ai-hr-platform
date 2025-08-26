@@ -17,6 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import REWOverview from "@/components/diagnostic/REWOverview";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 interface HighRiskManager {
   manager_id: string;

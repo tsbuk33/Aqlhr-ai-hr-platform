@@ -5,6 +5,7 @@ import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import LEOOverview from '@/components/diagnostic/LEOOverview';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const LearningOptimization: React.FC = () => {
   const [caseId, setCaseId] = useState<string>('');

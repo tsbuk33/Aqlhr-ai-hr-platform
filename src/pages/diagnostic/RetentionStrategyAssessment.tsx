@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const RetentionStrategyAssessment = () => {
   return (

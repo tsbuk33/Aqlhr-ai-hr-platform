@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useEnhancedEmployees } from '@/hooks/useEnhancedEmployees';
 import { useDepartments } from '@/hooks/useDepartments';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const EmployeeList: React.FC = () => {
   const { employees, loading, error } = useEnhancedEmployees();

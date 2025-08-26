@@ -5,6 +5,7 @@ import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import GEOOverview from '@/components/diagnostic/GEOOverview';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const EngagementOptimization: React.FC = () => {
   const [caseId, setCaseId] = useState<string>('');
