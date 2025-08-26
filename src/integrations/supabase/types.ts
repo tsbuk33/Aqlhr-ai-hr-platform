@@ -12907,6 +12907,16 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      identify_security_issues: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          description: string
+          fix_command: string
+          issue_type: string
+          object_name: string
+          severity: string
+        }[]
+      }
       integrations_overview_v2: {
         Args: { p_tenant: string }
         Returns: {
@@ -13233,6 +13243,16 @@ export type Database = {
         Returns: {
           color: string
           rate: number
+        }[]
+      }
+      security_status_report: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          category: string
+          issues_found: number
+          secure_items: number
+          security_score: number
+          total_items: number
         }[]
       }
       simulate_gov_api_call: {
