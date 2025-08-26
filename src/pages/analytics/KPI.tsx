@@ -7,6 +7,7 @@ import {
   Clock, Target, Award, AlertCircle, CheckCircle,
   BarChart3, Activity, Zap
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const KPIPage = () => {
@@ -234,6 +235,14 @@ const KPIPage = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for KPI Analytics */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="kpi-analytics" 
+        companyId="demo-company" 
+        enabledFeatures={['performance-optimization', 'predictive-analytics', 'contextual-help', 'data-visualization']}
+      />
     </div>
   );
 };

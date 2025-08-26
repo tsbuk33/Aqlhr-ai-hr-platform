@@ -9,6 +9,7 @@ import HowToUsePanel from '@/components/universal/HowToUsePanel';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import ModuleAIChat from '@/components/universal/ModuleAIChat';
 import ModuleDiagnosticPanel from '@/components/universal/ModuleDiagnosticPanel';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 
 const EsgHrPage = () => {
@@ -113,6 +114,14 @@ const EsgHrPage = () => {
             }}
           />
         )}
+
+        {/* AI Integration for ESG HR */}
+        <UniversalAIIntegrator 
+          pageType="compliance" 
+          moduleName="esg-hr" 
+          companyId="demo-company" 
+          enabledFeatures={['regulatory-compliance', 'esg-monitoring', 'contextual-help', 'audit-trails']}
+        />
       </div>
     </CenteredLayout>
   );

@@ -9,6 +9,7 @@ import {
   BarChart3, PieChart, LineChart, Table,
   Filter, Calendar, Users, DollarSign
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const ReportBuilderPage = () => {
@@ -264,6 +265,14 @@ const ReportBuilderPage = () => {
           </Card>
         </div>
       </div>
+
+      {/* AI Integration for Report Builder */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="report-builder" 
+        companyId="demo-company" 
+        enabledFeatures={['data-visualization', 'intelligent-automation', 'contextual-help', 'predictive-analytics']}
+      />
     </div>
   );
 };

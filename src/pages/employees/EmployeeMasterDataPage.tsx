@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Plus, Search, Filter, Users, UserCheck, Award, AlertTriangle } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useLocale, formatNumber } from '@/i18n/locale';
 import { useEmployeesData } from '@/hooks/useEmployeesData';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
@@ -360,6 +361,14 @@ const EmployeeMasterDataPage = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for Employee Master Data */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-master-data" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'data-visualization', 'contextual-help']}
+      />
     </DevModeGuard>
   );
 };

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { ModuleDocumentUploader } from '@/components/universal';
 
 interface Employee {
@@ -602,6 +603,14 @@ const EmployeesPage: React.FC = () => {
       
       <ModuleDocumentUploader moduleKey="employees" />
       <AqlHRAIAssistant moduleContext="employees.management" />
+
+      {/* AI Integration for Employees */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employees-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'organizational-structure', 'contextual-help']}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { supabase } from '@/integrations/supabase/client';
 
 export default function HealthPage() {
@@ -22,10 +23,17 @@ export default function HealthPage() {
         <Card title="Processing" value={stats?.processing ?? '—'} />
         <Card title="Failed" value={stats?.failed ?? '—'} />
         <Card title="Last Audit" value={stats?.last_audit_at ?? '—'} />
-      </div>
-      <p className="text-sm text-gray-500">PDPL-safe: shows aggregate kernel stats only.</p>
     </div>
-  );
+
+    {/* AI Integration for Health */}
+    <UniversalAIIntegrator 
+      pageType="platform" 
+      moduleName="system-health-kernel" 
+      companyId="demo-company" 
+      enabledFeatures={['real-time-insights', 'diagnostic-analysis', 'performance-optimization']}
+    />
+  </div>
+);
 }
 
 function Card({ title, value }: { title: string; value: any }) {

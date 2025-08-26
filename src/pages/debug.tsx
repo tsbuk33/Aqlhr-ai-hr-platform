@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { supabase } from '@/integrations/supabase/client';
 
 interface SmokeTestResult {
@@ -187,6 +188,14 @@ export default function DebugPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* AI Integration for Debug */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="debug-analytics" 
+        companyId="demo-company" 
+        enabledFeatures={['diagnostic-analysis', 'intelligent-automation', 'contextual-help']}
+      />
     </div>
   );
 }

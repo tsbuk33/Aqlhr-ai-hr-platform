@@ -7,6 +7,7 @@ import {
   FileText, Download, Eye, Share2,
   BarChart3, PieChart, LineChart, Activity
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const ExecutiveAnalyticsPage = () => {
@@ -221,6 +222,14 @@ const ExecutiveAnalyticsPage = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for Executive Analytics */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="executive-analytics" 
+        companyId="demo-company" 
+        enabledFeatures={['executive-insights', 'strategic-intelligence', 'predictive-analytics', 'data-visualization']}
+      />
     </div>
   );
 };

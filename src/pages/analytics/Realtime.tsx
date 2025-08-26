@@ -7,6 +7,7 @@ import {
   Zap, Eye, RefreshCw, AlertCircle,
   CheckCircle, XCircle, Pause
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
 const RealtimeAnalyticsPage = () => {
@@ -302,6 +303,14 @@ const RealtimeAnalyticsPage = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* AI Integration for Realtime Analytics */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="realtime-analytics" 
+        companyId="demo-company" 
+        enabledFeatures={['real-time-insights', 'predictive-analytics', 'data-visualization', 'contextual-help']}
+      />
     </div>
   );
 };

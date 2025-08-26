@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import TestHarness from '@/components/TestHarness';
 import AISystemValidator from '@/components/AISystemValidator';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const TestHarnessPage = () => {
@@ -27,6 +28,14 @@ const TestHarnessPage = () => {
       </Tabs>
       
       <AqlHRAIAssistant moduleContext="testHarness.validation" />
+
+      {/* AI Integration for Test Harness */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="test-harness" 
+        companyId="demo-company" 
+        enabledFeatures={['intelligent-automation', 'contextual-help', 'real-time-insights']}
+      />
     </div>
   );
 };
