@@ -68,6 +68,10 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "محرك سير العمل الآلي" : "Automated Workflow Engine", url: "/ai-automation/automated-workflow" },
       { title: isArabic ? "مركز قيادة الذكاء الاصطناعي" : "AI Command Center", url: "/ai-ecosystem/command-center" },
       { title: isArabic ? "نواة عقل أقل" : "AqlMind Core", url: "/ai-ecosystem/aql-mind-core" },
+      { title: isArabic ? "محرك القرار الذكي" : "AI Decision Engine", url: "/ai-ecosystem/decision-engine" },
+      { title: isArabic ? "منفذ المهام المستقل" : "Autonomous Task Executor", url: "/ai-ecosystem/task-executor" },
+      { title: isArabic ? "معالج الأحداث الفوري" : "Realtime Event Processor", url: "/ai-ecosystem/event-processor" },
+      { title: isArabic ? "منسق سير العمل المستقل" : "Workflow Orchestrator", url: "/ai-ecosystem/workflow-orchestrator" },
     ]
   },
   // AI Automation Engine

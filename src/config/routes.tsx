@@ -205,6 +205,9 @@ const AqlMindCorePage = lazy(() => import('../pages/ai-ecosystem/AqlMindCorePage
 const AIDecisionEnginePage = lazy(() => import('../pages/ai-ecosystem/AIDecisionEnginePage'));
 const LearningEnginePage = lazy(() => import('../pages/ai-ecosystem/LearningEnginePage'));
 const IntelligenceGathererPage = lazy(() => import('../pages/ai-ecosystem/IntelligenceGathererPage'));
+const AutonomousTaskExecutorPage = lazy(() => import('../pages/ai-ecosystem/AutonomousTaskExecutorPage'));
+const RealtimeEventProcessorPage = lazy(() => import('../pages/ai-ecosystem/RealtimeEventProcessorPage'));
+const AutonomousWorkflowOrchestratorPage = lazy(() => import('../pages/ai-ecosystem/AutonomousWorkflowOrchestratorPage'));
 
 // Additional modules
 import SmartKPITool from '../pages/additional/SmartKPITool';
@@ -403,6 +406,9 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-ecosystem/decision-engine', element: AIDecisionEnginePage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/learning-engine', element: LearningEnginePage, auth: true, adminOnly: true },
   { path: '/ai-ecosystem/intelligence-gatherer', element: IntelligenceGathererPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/task-executor', element: AutonomousTaskExecutorPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/event-processor', element: RealtimeEventProcessorPage, auth: true, adminOnly: true },
+  { path: '/ai-ecosystem/workflow-orchestrator', element: AutonomousWorkflowOrchestratorPage, auth: true, adminOnly: true },
 
   // AI & Automation Routes - admin only
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
