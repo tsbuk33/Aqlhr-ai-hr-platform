@@ -9,6 +9,7 @@ import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 import CenteredLayout from '@/components/layout/CenteredLayout';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const IPOReadinessDiagnostic = () => {
   const { t } = useAPITranslations();
@@ -103,6 +104,14 @@ const IPOReadinessDiagnostic = () => {
           />
         )}
       </div>
+      
+      {/* AI Integration for IPO Readiness Diagnostic */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="ipo-readiness-diagnostic" 
+        companyId="demo-company" 
+        enabledFeatures={['financial-readiness', 'compliance-assessment', 'strategic-planning', 'risk-analysis']}
+      />
     </CenteredLayout>
   );
 };

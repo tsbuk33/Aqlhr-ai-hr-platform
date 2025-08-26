@@ -15,6 +15,7 @@ import {
   Zap,
   Lock
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function AdminOverview() {
   return (
@@ -214,6 +215,14 @@ export default function AdminOverview() {
       >
         <AdminJobQueue />
       </EntitlementGate>
+      
+      {/* AI Integration for Admin Overview */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="admin-overview" 
+        companyId="demo-company" 
+        enabledFeatures={['system-administration', 'platform-analytics', 'admin-insights', 'user-management']}
+      />
     </div>
   );
 }

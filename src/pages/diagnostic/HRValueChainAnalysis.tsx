@@ -3,6 +3,7 @@ import { ModuleTooltip, HowToUsePanel, ModuleDocumentUploader, ModuleAIChat, Mod
 import CenteredLayout from '@/components/layout/CenteredLayout';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HRValueChainAnalysis = () => {
   const { t } = useAPITranslations();
@@ -65,6 +66,14 @@ const HRValueChainAnalysis = () => {
           </CardContent>
         </Card>
       </div>
+      
+      {/* AI Integration for HR Value Chain Analysis */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="hr-value-chain-analysis" 
+        companyId="demo-company" 
+        enabledFeatures={['value-chain-optimization', 'process-analysis', 'efficiency-measurement', 'strategic-insights']}
+      />
     </div>
     </CenteredLayout>
   );

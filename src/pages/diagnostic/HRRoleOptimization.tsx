@@ -9,6 +9,7 @@ import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 import CenteredLayout from '@/components/layout/CenteredLayout';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HRRoleOptimization = () => {
   const { t } = useAPITranslations();
@@ -103,6 +104,14 @@ const HRRoleOptimization = () => {
           />
         )}
       </div>
+      
+      {/* AI Integration for HR Role Optimization */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="hr-role-optimization" 
+        companyId="demo-company" 
+        enabledFeatures={['role-analysis', 'job-optimization', 'workforce-planning', 'skill-gap-analysis']}
+      />
     </CenteredLayout>
   );
 };

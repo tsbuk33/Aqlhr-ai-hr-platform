@@ -8,6 +8,7 @@ import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 import CenteredLayout from '@/components/layout/CenteredLayout';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const CultureChangeTracker = () => {
   const { language } = useLanguage();
@@ -103,6 +104,14 @@ const CultureChangeTracker = () => {
           />
         )}
       </div>
+      
+      {/* AI Integration for Culture Change Tracker */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="culture-change-tracker" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-analytics', 'change-management', 'organizational-insights', 'trend-analysis']}
+      />
     </CenteredLayout>
   );
 };

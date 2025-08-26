@@ -9,6 +9,7 @@ import { useModuleFeatures } from '@/hooks/useModuleFeatures';
 import CenteredLayout from '@/components/layout/CenteredLayout';
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HRProcessImprovement = () => {
   const { t } = useAPITranslations();
@@ -103,6 +104,14 @@ const HRProcessImprovement = () => {
           />
         )}
       </div>
+      
+      {/* AI Integration for HR Process Improvement */}
+      <UniversalAIIntegrator 
+        pageType="diagnostic" 
+        moduleName="hr-process-improvement" 
+        companyId="demo-company" 
+        enabledFeatures={['process-optimization', 'workflow-analysis', 'efficiency-insights', 'automation-recommendations']}
+      />
     </CenteredLayout>
   );
 };

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Key, Eye, EyeOff, Copy, Trash2 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const ApiKeys = () => {
   const apiKeys = [
@@ -105,6 +106,14 @@ const ApiKeys = () => {
           </Card>
         ))}
       </div>
+      
+      {/* AI Integration for API Keys Management */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="api-keys-management" 
+        companyId="demo-company" 
+        enabledFeatures={['security-monitoring', 'api-management', 'access-control', 'system-administration']}
+      />
     </div>
   );
 };
