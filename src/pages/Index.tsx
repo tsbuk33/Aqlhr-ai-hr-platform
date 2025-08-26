@@ -81,6 +81,12 @@ const Index = () => {
                   {isArabic ? 'جميع الأنظمة تعمل' : 'All Systems Operational'}
                 </span>
               </div>
+              <LinkL to="/auth" className="no-underline">
+                <Button variant="default" className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
+                  <UserCheck className="h-4 w-4" />
+                  {isArabic ? 'تسجيل الدخول' : 'Sign In'}
+                </Button>
+              </LinkL>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline" className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
