@@ -11,6 +11,8 @@ import { useFeatureGating } from '@/hooks/useFeatureGating';
 import { UpsellModal } from '@/components/ui/upsell-modal';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 interface OnboardingStep {
   id: string;
@@ -412,6 +414,19 @@ const Onboarding = () => {
           </div>
         </DialogContent>
       </Dialog>
+      
+      {/* AI Integration for Onboarding */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="onboarding" 
+        companyId="demo-company" 
+        enabledFeatures={['intelligent-guidance', 'contextual-help', 'workflow-automation']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="onboarding" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

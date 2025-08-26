@@ -10,6 +10,7 @@ import EduBox from "@/components/EduBox";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { ModuleAIChat, ModuleDocumentUploader } from '@/components/universal';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AIFeatures = () => {
   const { language } = useLanguage();
@@ -180,6 +181,14 @@ const AIFeatures = () => {
       <AqlHRAIAssistant 
         moduleContext="ai-features" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for AI Features */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="ai-features" 
+        companyId="demo-company" 
+        enabledFeatures={['ai-automation', 'intelligent-assistance', 'data-analysis', 'predictive-insights']}
       />
     </>
   );

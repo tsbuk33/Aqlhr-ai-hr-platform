@@ -8,6 +8,7 @@ import { Brain, Target, BarChart3, Trophy, Lightbulb, ArrowRight, Star, Users, B
 import { useNavigate } from "react-router-dom";
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Consulting = () => {
   const { t, language } = useLanguage();
@@ -303,6 +304,14 @@ const Consulting = () => {
       
       <ModuleDocumentUploader moduleKey="consulting.services" />
       <AqlHRAIAssistant moduleContext="consulting.services" />
+      
+      {/* AI Integration for Consulting Services */}
+      <UniversalAIIntegrator 
+        pageType="consulting" 
+        moduleName="consulting-services" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-consulting', 'executive-insights', 'benchmarking-analysis', 'organizational-assessment']}
+      />
     </div>
   );
 };

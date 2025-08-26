@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SuperAdminDashboard: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -352,6 +353,14 @@ const SuperAdminDashboard: React.FC = () => {
       </Tabs>
 
       <AqlHRAIAssistant moduleContext="super.admin.dashboard" />
+      
+      {/* AI Integration for Super Admin Dashboard */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="super-admin-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['system-monitoring', 'admin-insights', 'user-management', 'security-analysis']}
+      />
     </div>
   );
 };

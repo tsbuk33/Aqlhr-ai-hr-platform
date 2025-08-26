@@ -13,6 +13,7 @@ import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Users, 
   TrendingUp, 
@@ -71,8 +72,6 @@ interface KeyPosition {
   governmentReporting: boolean;
   nationalSecurity: boolean;
 }
-
-import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function SuccessionPlanning() {
   const { language, isRTL } = useLanguage();

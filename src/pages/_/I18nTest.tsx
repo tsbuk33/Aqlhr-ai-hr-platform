@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { getCurrentLang, isRTL, setCurrentLang } from '@/lib/i18n/localeDriver';
 import { useSwitchLang } from '@/lib/i18n/LinkL';
 import { resolveLang } from '@/lib/i18n/localePath';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   formatNumber, 
   formatCurrency, 
@@ -245,6 +246,14 @@ const I18nTest: React.FC = () => {
             </pre>
           </CardContent>
         </Card>
+        
+        {/* AI Integration for I18n Testing */}
+        <UniversalAIIntegrator 
+          pageType="platform" 
+          moduleName="i18n-testing" 
+          companyId="demo-company" 
+          enabledFeatures={['contextual-help']}
+        />
       </div>
     </div>
   );

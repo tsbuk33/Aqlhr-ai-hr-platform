@@ -6,6 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Clock, Users, CheckCircle, Shield, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 interface ShareData {
   dashboard_data: any;
@@ -223,6 +224,14 @@ export default function ShareView() {
           CCI survey responses maintain anonymity with n≥7 respondent threshold.
         </AlertDescription>
       </Alert>
+      
+      {/* AI Integration for Share View */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="shared-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['data-visualization', 'contextual-insights']}
+      />
     </div>
   );
 }

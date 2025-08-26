@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
@@ -39,12 +40,22 @@ export default function AuthCallback() {
 
   // Show loading while processing
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <h2 className="text-lg font-semibold mb-2">Completing sign in...</h2>
-        <p className="text-muted-foreground">Please wait while we authenticate you.</p>
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <h2 className="text-lg font-semibold mb-2">Completing sign in...</h2>
+          <p className="text-muted-foreground">Please wait while we authenticate you.</p>
+        </div>
       </div>
-    </div>
+      
+      {/* AI Integration for Auth Callback */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="authentication-callback" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help']}
+      />
+    </>
   );
 }
