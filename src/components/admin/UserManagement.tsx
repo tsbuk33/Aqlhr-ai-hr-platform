@@ -23,27 +23,33 @@ interface CompanyUser {
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
+  founder: 'Founder',
+  admin: 'Admin',
+  hr_manager: 'HR Manager',
+  manager: 'Manager',
+  employee: 'Employee',
+  user: 'User',
   owner: 'Owner',
   ceo: 'CEO',
   vp: 'Vice President',
   director: 'Director',
-  hr_manager: 'HR Manager',
   hrbp: 'HR Business Partner',
-  line_manager: 'Line Manager',
-  admin: 'Admin',
-  employee: 'Employee'
+  line_manager: 'Line Manager'
 };
 
 const ROLE_COLORS: Record<UserRole, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+  founder: 'destructive',
+  admin: 'default',
+  hr_manager: 'default',
+  manager: 'secondary',
+  employee: 'outline',
+  user: 'outline',
   owner: 'destructive',
   ceo: 'destructive',
   vp: 'secondary',
   director: 'secondary',
-  hr_manager: 'default',
   hrbp: 'default',
-  line_manager: 'outline',
-  admin: 'default',
-  employee: 'outline'
+  line_manager: 'outline'
 };
 
 export function UserManagement() {

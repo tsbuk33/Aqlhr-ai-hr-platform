@@ -10,15 +10,18 @@ import { toast } from 'sonner';
 import { User, Save, Crown, Shield } from 'lucide-react';
 
 const ROLE_LABELS = {
+  founder: 'Founder',
+  admin: 'Admin',
+  hr_manager: 'HR Manager',
+  manager: 'Manager',
+  employee: 'Employee',
+  user: 'User',
   owner: 'Owner',
   ceo: 'CEO',
   vp: 'Vice President',
   director: 'Director',
-  hr_manager: 'HR Manager',
   hrbp: 'HR Business Partner',
-  line_manager: 'Line Manager',
-  admin: 'Admin',
-  employee: 'Employee'
+  line_manager: 'Line Manager'
 };
 
 export function UserProfileForm() {
@@ -47,12 +50,8 @@ export function UserProfileForm() {
     setIsUpdating(true);
 
     try {
-      const success = await updateProfile(formData);
-      if (success) {
-        toast.success('Profile updated successfully');
-      } else {
-        toast.error('Failed to update profile');
-      }
+      updateProfile(formData);
+      toast.success('Profile updated successfully');
     } catch (error) {
       toast.error('An error occurred while updating profile');
     } finally {
