@@ -1,5 +1,6 @@
 import { GovHubDashboard } from '@/components/government/GovHubDashboard';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 export const GovIntegrationHub = () => {
   return (
@@ -12,6 +13,11 @@ export const GovIntegrationHub = () => {
         moduleName="gov-integration-hub" 
         companyId="demo-company" 
         enabledFeatures={['compliance-monitoring', 'government-integration', 'saudi-regulations', 'regulatory-compliance']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="government.integration-hub" 
+        companyId="demo-company"
       />
     </div>
   );

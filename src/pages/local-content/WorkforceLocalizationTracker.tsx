@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const WorkforceLocalizationTracker = () => {
   return (
@@ -42,6 +44,18 @@ const WorkforceLocalizationTracker = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="workforce-localization-tracker" 
+        companyId="demo-company" 
+        enabledFeatures={['workforce-optimization', 'saudization-tracking', 'localization', 'training-programs']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="local-content.workforce-localization" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

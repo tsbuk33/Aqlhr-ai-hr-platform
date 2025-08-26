@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const TalentStrategy = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const TalentStrategy = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="talent-strategy" 
+        companyId="demo-company" 
+        enabledFeatures={['talent-management', 'workforce-planning', 'recruitment-optimization', 'pipeline-development']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.talent-strategy" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const SupplierDevelopmentMonitor = () => {
   return (
@@ -42,6 +44,18 @@ const SupplierDevelopmentMonitor = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="supplier-development-monitor" 
+        companyId="demo-company" 
+        enabledFeatures={['supplier-management', 'development-tracking', 'local-content', 'performance-monitoring']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="local-content.supplier-development" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

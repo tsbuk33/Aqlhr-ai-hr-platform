@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const DigitalTransformation = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const DigitalTransformation = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="digital-transformation" 
+        companyId="demo-company" 
+        enabledFeatures={['digital-transformation', 'process-automation', 'technology-integration', 'efficiency-optimization']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.digital-transformation" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const ChangeManagement = () => {
   const { language } = useLanguage();
@@ -52,6 +54,18 @@ const ChangeManagement = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="change-management" 
+        companyId="demo-company" 
+        enabledFeatures={['change-management', 'organizational-transformation', 'strategic-planning', 'employee-engagement']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.change-management" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

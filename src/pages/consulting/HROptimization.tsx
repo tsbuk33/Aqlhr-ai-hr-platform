@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const HROptimization = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const HROptimization = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="hr-optimization" 
+        companyId="demo-company" 
+        enabledFeatures={['hr-optimization', 'process-improvement', 'efficiency-analysis', 'cost-optimization']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.hr-optimization" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const LocalizationStrategicPlanning = () => {
   return (
@@ -42,6 +44,18 @@ const LocalizationStrategicPlanning = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="localization-strategic-planning" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'localization', 'workforce-planning', 'milestone-tracking']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="local-content.localization-planning" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

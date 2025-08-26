@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Upload, Download } from "lucide-react";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const ExecutiveCompensation = () => {
   const { t } = useAPITranslations();
@@ -53,6 +55,18 @@ const ExecutiveCompensation = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="executive-compensation" 
+        companyId="demo-company" 
+        enabledFeatures={['compensation-analysis', 'market-benchmarking', 'pay-equity', 'executive-planning']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.executive-compensation" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

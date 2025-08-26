@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const StrategicPlanning = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const StrategicPlanning = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="strategic-planning" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'goal-setting', 'performance-tracking', 'roi-analysis']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.strategic-planning" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

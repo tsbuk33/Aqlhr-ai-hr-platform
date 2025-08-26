@@ -7,6 +7,8 @@ import { Separator } from '@/components/ui/separator';
 import { Calendar, GitCommit, Download, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 interface PromptEntry {
   id: string;
@@ -247,6 +249,18 @@ export default function PromptLog() {
           ))}
         </div>
       </ScrollArea>
+      
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="prompt-log" 
+        companyId="demo-company" 
+        enabledFeatures={['data-analysis', 'export-optimization', 'intelligent-insights', 'prompt-analytics']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="analytics.prompt-log" 
+        companyId="demo-company"
+      />
     </div>
   );
 }

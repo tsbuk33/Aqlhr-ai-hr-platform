@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const InvestmentTrackingSystem = () => {
   return (
@@ -42,6 +44,18 @@ const InvestmentTrackingSystem = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="investment-tracking-system" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'financial-tracking', 'investment-analysis', 'data-visualization']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="local-content.investment-tracking" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

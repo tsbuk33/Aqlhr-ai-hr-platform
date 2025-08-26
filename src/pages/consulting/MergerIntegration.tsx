@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const MergerIntegration = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const MergerIntegration = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="merger-integration" 
+        companyId="demo-company" 
+        enabledFeatures={['merger-integration', 'organizational-change', 'synergy-realization', 'integration-planning']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.merger-integration" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

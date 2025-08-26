@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const BenchmarkingAnalysis = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const BenchmarkingAnalysis = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="benchmarking-analysis" 
+        companyId="demo-company" 
+        enabledFeatures={['benchmarking', 'market-analysis', 'competitive-intelligence', 'data-visualization']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.benchmarking-analysis" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

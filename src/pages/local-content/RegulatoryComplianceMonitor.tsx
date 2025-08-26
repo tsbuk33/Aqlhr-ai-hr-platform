@@ -1,4 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const RegulatoryComplianceMonitor = () => {
   return (
@@ -42,6 +44,18 @@ const RegulatoryComplianceMonitor = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="regulatory-compliance-monitor" 
+        companyId="demo-company" 
+        enabledFeatures={['compliance-monitoring', 'regulatory-compliance', 'saudi-regulations', 'audit-trails']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="local-content.regulatory-compliance" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAPITranslations } from "@/hooks/useAPITranslations";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const RiskAssessment = () => {
   const { t } = useAPITranslations();
@@ -45,6 +47,18 @@ const RiskAssessment = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="risk-assessment" 
+        companyId="demo-company" 
+        enabledFeatures={['risk-analysis', 'compliance-monitoring', 'risk-mitigation', 'predictive-analytics']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.risk-assessment" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

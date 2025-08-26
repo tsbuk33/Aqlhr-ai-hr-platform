@@ -1,5 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const CultureTransformation = () => {
   const { language } = useLanguage();
@@ -50,6 +52,18 @@ const CultureTransformation = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="culture-transformation" 
+        companyId="demo-company" 
+        enabledFeatures={['culture-analysis', 'organizational-transformation', 'employee-engagement', 'change-management']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="consulting.culture-transformation" 
+        companyId="demo-company"
+      />
     </div>
   );
 };
