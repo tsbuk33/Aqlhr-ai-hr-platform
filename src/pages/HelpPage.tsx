@@ -419,7 +419,55 @@ const HelpPage: React.FC = () => {
         }
       />
 
-      {/* Search and Stats */}
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">{isArabic ? 'المجموع' : 'Total Items'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-brand-primary">40</div>
+            <p className="text-sm text-muted-foreground">
+              {isArabic ? 'موضوع مساعدة' : 'Help topics'}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">{isArabic ? 'الفئات' : 'Categories'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-brand-success">6</div>
+            <p className="text-sm text-muted-foreground">
+              {isArabic ? 'فئات مختلفة' : 'Different categories'}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">{isArabic ? 'المعروض' : 'Showing'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-brand-accent">{filteredItems.length}</div>
+            <p className="text-sm text-muted-foreground">
+              {isArabic ? 'عنصر مطابق' : 'Matching items'}
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">{isArabic ? 'التفاعلية' : 'Interactive'}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold text-brand-warning">✨</div>
+            <p className="text-sm text-muted-foreground">
+              {isArabic ? 'مساعدة ذكية' : 'Smart help'}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -431,11 +479,8 @@ const HelpPage: React.FC = () => {
           />
         </div>
         <div className="flex gap-2 items-center">
-          <Badge variant="secondary">
-            {filteredItems.length} {isArabic ? 'عنصر' : 'items'}
-          </Badge>
-          <Badge variant="outline">
-            40 {isArabic ? 'المجموع' : 'total'}
+          <Badge variant="secondary" className="text-lg px-3 py-1">
+            {filteredItems.length} / 40
           </Badge>
         </div>
       </div>
