@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Settings, User, Bell, Shield, Globe, Database, Palette, Monitor } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SettingsPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -159,6 +160,14 @@ const SettingsPage: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* AI Integration for Settings */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="system-settings" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'workflow-automation', 'real-time-insights']}
+      />
     </div>
   );
 };

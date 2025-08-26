@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Building, Users, Globe, Target, Award, BarChart3 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const CompanyPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -135,6 +136,14 @@ const CompanyPage: React.FC = () => {
           </Card>
         ))}
       </div>
+
+      {/* AI Integration */}
+      <UniversalAIIntegrator 
+        pageType="strategic" 
+        moduleName="company-management" 
+        companyId="demo-company" 
+        enabledFeatures={['strategic-planning', 'organizational-insights', 'transformation-guidance']}
+      />
     </div>
   );
 };

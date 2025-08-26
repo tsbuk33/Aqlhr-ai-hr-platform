@@ -10,6 +10,7 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import AIAnalyticsInsights from '@/components/analytics/AIAnalyticsInsights';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 interface Employee {
   id: string;
@@ -465,6 +466,14 @@ const AnalyticsPage: React.FC = () => {
       <AIToolsTester moduleContext="analytics.dashboard" />
       
       <AqlHRAIAssistant moduleContext="analytics.dashboard" />
+
+      {/* Universal AI Integration */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="analytics-dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['predictive-analytics', 'data-visualization', 'trend-analysis']}
+      />
     </div>
   );
 };

@@ -19,6 +19,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const HRPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -307,6 +308,14 @@ const HRPage: React.FC = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* AI Integration */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="hr-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'organizational-structure']}
+      />
     </div>
   );
 };

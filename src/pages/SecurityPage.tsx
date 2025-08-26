@@ -4,6 +4,7 @@ import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import PageHeader from '@/components/common/PageHeader';
 import AuditLogViewer from '@/components/security/AuditLogViewer';
 import SecurityConfigPanel from '@/components/security/SecurityConfigPanel';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SecurityPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -36,6 +37,14 @@ const SecurityPage: React.FC = () => {
           <SecurityConfigPanel />
         </TabsContent>
       </Tabs>
+
+      {/* AI Integration for Security */}
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="security-management" 
+        companyId="demo-company" 
+        enabledFeatures={['regulatory-compliance', 'audit-trails', 'risk-assessment']}
+      />
     </div>
   );
 };

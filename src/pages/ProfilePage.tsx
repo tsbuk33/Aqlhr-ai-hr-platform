@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserProfileForm } from '@/components/profile/UserProfileForm';
 import { RoleGuard } from '@/components/rbac/RoleGuard';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function ProfilePage() {
   return (
@@ -17,6 +18,14 @@ export default function ProfilePage() {
       <RoleGuard showError={false}>
         <UserProfileForm />
       </RoleGuard>
+
+      {/* AI Integration for Profile */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="user-profile" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'real-time-insights']}
+      />
     </div>
   );
 }

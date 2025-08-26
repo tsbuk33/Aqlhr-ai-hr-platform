@@ -16,6 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from 'sonner';
 import { resolveTenantId } from "@/lib/useTenant";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 export default function Dashboard() {
   const { t, locale } = useLocale();
@@ -430,6 +431,14 @@ export default function Dashboard() {
           t('dashboard', 'weekly_exec_pdfs'),
           t('dashboard', 'readonly_snapshot_links')
         ]}
+      />
+      
+      {/* AI Integration */}
+      <UniversalAIIntegrator 
+        pageType="analytics" 
+        moduleName="dashboard" 
+        companyId="demo-company" 
+        enabledFeatures={['real-time-insights', 'predictive-analytics', 'executive-intelligence']}
       />
     </DashboardErrorBoundary>
   );

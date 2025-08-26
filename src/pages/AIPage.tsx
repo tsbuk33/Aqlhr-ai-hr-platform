@@ -8,6 +8,7 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AIPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -144,6 +145,14 @@ const AIPage: React.FC = () => {
       </div>
       
       <AqlHRAIAssistant moduleContext="ai.platform" />
+
+      {/* Universal AI Integration */}
+      <UniversalAIIntegrator 
+        pageType="ai-ecosystem" 
+        moduleName="ai-platform" 
+        companyId="demo-company" 
+        enabledFeatures={['autonomous-operations', 'intelligent-automation', 'machine-learning']}
+      />
     </div>
   );
 };
