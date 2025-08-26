@@ -12121,6 +12121,25 @@ export type Database = {
           },
         ]
       }
+      user_profiles_with_roles: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          current_role: string | null
+          department: string | null
+          email: string | null
+          first_name: string | null
+          id: string | null
+          is_active: boolean | null
+          language: string | null
+          last_name: string | null
+          role: string | null
+          role_assigned_at: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
       v_costs: {
         Row: {
           employee_id: string | null
@@ -12777,6 +12796,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: string
+      }
       get_user_subscription_tier: {
         Args: { p_user_id?: string }
         Returns: string
@@ -12844,10 +12867,9 @@ export type Database = {
         Returns: boolean
       }
       has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
+        Args:
+          | { _role: Database["public"]["Enums"]["app_role"]; _user_id: string }
+          | { _role: string; _user_id: string }
         Returns: boolean
       }
       has_sku_access: {
