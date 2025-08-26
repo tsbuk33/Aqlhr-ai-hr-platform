@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const PerformancePage = () => {
   const { isArabic } = useSimpleLanguage();
@@ -248,6 +249,14 @@ const PerformancePage = () => {
       <AqlHRAIAssistant 
         moduleContext="performance" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Performance */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="performance-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'performance-optimization', 'predictive-analytics', 'strategic-planning']}
       />
     </div>
   );

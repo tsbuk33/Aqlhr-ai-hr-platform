@@ -3,6 +3,7 @@ import ObservabilityDashboard from '@/components/analytics/ObservabilityDashboar
 import FeedbackWidget from '@/components/feedback/FeedbackWidget';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const DebugPage: React.FC = () => {
   return (
@@ -61,6 +62,14 @@ const DebugPage: React.FC = () => {
 
       {/* AI Assistant */}
       <AqlHRAIAssistant moduleContext="debug.testing" />
+      
+      {/* AI Integration for Debug */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="debug-testing" 
+        companyId="demo-company" 
+        enabledFeatures={['diagnostic-analysis', 'performance-optimization', 'real-time-insights']}
+      />
     </div>
   );
 };

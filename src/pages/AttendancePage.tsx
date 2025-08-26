@@ -15,6 +15,7 @@ import {
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { ModuleDocumentUploader } from '@/components/universal';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AttendancePage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -178,6 +179,14 @@ const AttendancePage: React.FC = () => {
 
       <ModuleDocumentUploader moduleKey="attendance" />
       <AqlHRAIAssistant moduleContext="attendance.management" />
+      
+      {/* AI Integration for Attendance */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="attendance-management" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'hr-processes', 'predictive-analytics', 'real-time-insights']}
+      />
     </div>
   );
 };

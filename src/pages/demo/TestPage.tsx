@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import ModuleAIChat from '@/components/universal/ModuleAIChat';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const TestPage: React.FC = () => {
   const { language } = useSimpleLanguage();
@@ -47,6 +48,14 @@ const TestPage: React.FC = () => {
           className="w-80 h-96 shadow-2xl rounded-lg"
         />
       </div>
+      
+      {/* AI Integration for Test Page */}
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="test-page" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'real-time-insights', 'diagnostic-analysis']}
+      />
     </>
   );
 };

@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const PayrollPage = () => {
   const { isArabic } = useSimpleLanguage();
@@ -249,6 +250,14 @@ const PayrollPage = () => {
       <AqlHRAIAssistant 
         moduleContext="payroll" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Payroll */}
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="payroll-finance" 
+        companyId="demo-company" 
+        enabledFeatures={['payroll-processing', 'financial-analytics', 'compensation-insights', 'intelligent-automation']}
       />
     </div>
   );

@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
 import { Crown, Check, Sparkles, Zap, Shield, Brain } from 'lucide-react';
 import { toast } from 'sonner';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 interface PlanBundle {
   id: string;
@@ -349,6 +350,14 @@ const PlansPage: React.FC = () => {
           </CardContent>
         </Card>
       )}
+      
+      {/* AI Integration for Plans */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="plans-billing" 
+        companyId="demo-company" 
+        enabledFeatures={['real-time-insights', 'contextual-help', 'strategic-planning']}
+      />
     </div>
   );
 };

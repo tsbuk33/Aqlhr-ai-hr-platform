@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Play
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const IntegrationsPage: React.FC = () => {
   const { language, isRTL } = useLanguage();
@@ -310,6 +311,14 @@ const IntegrationsPage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      {/* AI Integration for Integrations */}
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="integrations-tools" 
+        companyId="demo-company" 
+        enabledFeatures={['real-time-insights', 'intelligent-automation', 'workflow-automation', 'contextual-help']}
+      />
     </div>
   );
 };

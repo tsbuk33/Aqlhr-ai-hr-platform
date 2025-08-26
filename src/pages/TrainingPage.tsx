@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const TrainingPage = () => {
   const { isArabic } = useSimpleLanguage();
@@ -248,6 +249,14 @@ const TrainingPage = () => {
       <AqlHRAIAssistant 
         moduleContext="training" 
         companyId="demo-company"
+      />
+      
+      {/* AI Integration for Training */}
+      <UniversalAIIntegrator 
+        pageType="training" 
+        moduleName="training-development" 
+        companyId="demo-company" 
+        enabledFeatures={['learning-optimization', 'skill-development', 'training-analytics', 'employee-management']}
       />
     </div>
   );
