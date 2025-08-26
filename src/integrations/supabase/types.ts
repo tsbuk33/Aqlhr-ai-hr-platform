@@ -12411,6 +12411,15 @@ export type Database = {
           security_type: string
         }[]
       }
+      audit_security_status: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          category: string
+          issue_count: number
+          recommendation: string
+          status: string
+        }[]
+      }
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
