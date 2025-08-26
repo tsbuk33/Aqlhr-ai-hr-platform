@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Building, Globe, Clock, Currency } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const CompanySettings = () => {
   return (
@@ -114,6 +116,18 @@ const CompanySettings = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="company-settings" 
+        companyId="demo-company" 
+        enabledFeatures={['system-configuration', 'company-management', 'regional-settings', 'intelligent-assistance']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="admin.company-settings" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

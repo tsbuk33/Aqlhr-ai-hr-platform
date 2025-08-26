@@ -35,6 +35,7 @@ import {
   Eye
 } from "lucide-react";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SelfService = () => {
   const { t, language, isRTL } = useLanguage();
@@ -728,6 +729,13 @@ const SelfService = () => {
       <AqlHRAIAssistant 
         moduleContext="self-service" 
         companyId="demo-company"
+      />
+      
+      <UniversalAIIntegrator 
+        pageType="core-hr" 
+        moduleName="employee-self-service" 
+        companyId="demo-company" 
+        enabledFeatures={['employee-management', 'self-service-tools', 'document-management', 'contextual-help']}
       />
     </div>
   );

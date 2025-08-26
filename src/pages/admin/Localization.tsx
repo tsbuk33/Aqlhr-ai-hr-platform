@@ -22,6 +22,8 @@ import {
   Languages,
   MapPin
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 interface LocalizationPrefs {
   default_language: string;
@@ -565,6 +567,18 @@ const Localization = () => {
           </Card>
         </div>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="localization-settings" 
+        companyId="demo-company" 
+        enabledFeatures={['localization-management', 'multi-language', 'regional-settings', 'format-configuration']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="admin.localization" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

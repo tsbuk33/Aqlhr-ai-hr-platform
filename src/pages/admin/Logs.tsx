@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Clock, Activity, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { useTranslation } from '@/hooks/useTranslation';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 interface AgentAction {
   id: string;
@@ -187,6 +189,18 @@ const Logs: React.FC = () => {
           </CardContent>
         </Card>
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="system-logs" 
+        companyId="demo-company" 
+        enabledFeatures={['system-monitoring', 'log-analysis', 'performance-tracking', 'diagnostic-tools']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="admin.system-logs" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

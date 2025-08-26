@@ -3,6 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, Shield, Settings } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const UserRoles = () => {
   const roles = [
@@ -51,6 +53,18 @@ const UserRoles = () => {
           </Card>
         ))}
       </div>
+      
+      <UniversalAIIntegrator 
+        pageType="platform" 
+        moduleName="user-roles-management" 
+        companyId="demo-company" 
+        enabledFeatures={['user-management', 'role-administration', 'permission-control', 'security-management']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="admin.user-roles" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

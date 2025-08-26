@@ -24,6 +24,8 @@ import {
   RefreshCw,
   MonitorSpeaker
 } from 'lucide-react';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { AqlHRAIAssistant } from '@/components/ai';
 
 const GovernmentIntegration = () => {
   const { lang } = useParams();
@@ -510,6 +512,18 @@ const GovernmentIntegration = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <UniversalAIIntegrator 
+        pageType="government" 
+        moduleName="government-integration-admin" 
+        companyId="demo-company" 
+        enabledFeatures={['government-integration', 'api-management', 'compliance-monitoring', 'system-administration']}
+      />
+      
+      <AqlHRAIAssistant 
+        moduleContext="admin.government-integration" 
+        companyId="demo-company"
+      />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { Settings2, User, Shield, Bell, Globe, Database, Palette, Key, Users, Us
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { RoleBasedAccessMatrix } from '@/components/RoleBasedAccessMatrix';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Settings: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -131,6 +132,13 @@ const Settings: React.FC = () => {
         </div>
         
         <AqlHRAIAssistant moduleContext="settings.management" />
+        
+        <UniversalAIIntegrator 
+          pageType="platform" 
+          moduleName="system-settings" 
+          companyId="demo-company" 
+          enabledFeatures={['system-configuration', 'security-management', 'user-administration', 'intelligent-assistance']}
+        />
         </TabsContent>
 
         <TabsContent value="roles" className="mt-6">

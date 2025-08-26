@@ -42,9 +42,10 @@ import {
   X
 } from 'lucide-react';
 
-import { PageLayout, PageSection, PageCard } from '@/components/layout/PageLayout';
+import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const Help = () => {
   const { language, isRTL } = useLanguage();
@@ -1037,6 +1038,13 @@ const Help = () => {
       
       <ModuleDocumentUploader moduleKey="help.interactiveGuide" />
       <AqlHRAIAssistant moduleContext="help.interactiveGuide" />
+      
+      <UniversalAIIntegrator 
+        pageType="general" 
+        moduleName="help-center" 
+        companyId="demo-company" 
+        enabledFeatures={['contextual-help', 'interactive-guides', 'smart-assistance', 'knowledge-management']}
+      />
     </div>
   );
 };

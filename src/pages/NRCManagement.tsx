@@ -9,6 +9,7 @@ import { Calendar, Upload, Users, FileText, AlertTriangle, CheckCircle, Trending
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const NRCManagement = () => {
   const { isArabic } = useSimpleLanguage();
@@ -507,6 +508,13 @@ const NRCManagement = () => {
       
       <ModuleDocumentUploader moduleKey="nrcManagement.governance" />
       <AqlHRAIAssistant moduleContext="nrcManagement.governance" />
+      
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="nrc-management" 
+        companyId="demo-company" 
+        enabledFeatures={['governance', 'remuneration-committee', 'compliance-monitoring', 'regulatory-compliance']}
+      />
     </div>
   );
 };

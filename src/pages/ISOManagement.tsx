@@ -3,6 +3,7 @@ import { useLocalization } from '@/hooks/useLocalization';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -993,6 +994,13 @@ const ISOManagement = () => {
       
       <ModuleDocumentUploader moduleKey="isoManagement.compliance" />
       <AqlHRAIAssistant moduleContext="isoManagement.compliance" />
+      
+      <UniversalAIIntegrator 
+        pageType="compliance" 
+        moduleName="iso-management" 
+        companyId="demo-company" 
+        enabledFeatures={['compliance-monitoring', 'iso-standards', 'quality-management', 'audit-management']}
+      />
     </div>
   );
 };
