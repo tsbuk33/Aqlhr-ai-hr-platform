@@ -28,6 +28,7 @@ import IntegrationsPage from '@/pages/integrations/IntegrationsPage';
 import { SuperIntelligentWorkforceOptimizer } from '@/components/ai-ecosystem/SuperIntelligentWorkforceOptimizer';
 import AIIntegrationDashboard from '@/pages/admin/AIIntegrationDashboard';
 import { EnterpriseAIReportingEngine } from '@/components/ai-ecosystem/EnterpriseAIReportingEngine';
+import Auth from '@/pages/Auth';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }
@@ -75,6 +76,8 @@ export default function AppRoutes() {
           <Route path="employees" element={<SetupGuard><EmployeeList /></SetupGuard>} />
           <Route path="employees/:id" element={<SetupGuard><EmployeeProfile /></SetupGuard>} />
         </Route>
+
+        <Route path="auth" element={<Auth />} />
 
         {/* core modules */}
         <Route path="recruitment" element={<SetupGuard><RecruitmentPage /></SetupGuard>} />
