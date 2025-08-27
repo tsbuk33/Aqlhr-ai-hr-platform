@@ -29,7 +29,8 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   }
 
   // For non-authenticated users, redirect to auth page unless already there
-  if (!user && !location.pathname.includes('/auth')) {
+  if (!user && !location.pathname.includes('/auth') && !isLoading) {
+    window.location.href = `/en/auth?from=${encodeURIComponent(location.pathname)}`;
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center space-y-4">
