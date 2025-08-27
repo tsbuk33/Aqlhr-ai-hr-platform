@@ -24,12 +24,21 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   }
 
   // Allow auth routes to render without the dashboard shell
-  if (location.pathname.startsWith('/auth')) {
+  if (location.pathname.startsWith('/auth') || location.pathname.includes('/auth')) {
     return <>{children}</>;
   }
 
-  // Authentication gating disabled: all routes are accessible
-  // regardless of authentication status.
+  // For non-authenticated users, redirect to auth page unless already there
+  if (!user && !location.pathname.includes('/auth')) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Redirecting to authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <DashboardLayout>
