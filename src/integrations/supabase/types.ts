@@ -4517,31 +4517,58 @@ export type Database = {
       }
       gov_documents: {
         Row: {
+          ai_tags: string[] | null
+          checksum: string | null
           created_at: string | null
+          entity_id: string | null
+          file_size: number | null
           id: string
           meta: Json | null
+          mime_type: string | null
+          module: string | null
           storage_path: string | null
           system: string
+          tags: string[] | null
           tenant_id: string
           title: string | null
+          uploaded_at: string | null
+          uploaded_by: string | null
         }
         Insert: {
+          ai_tags?: string[] | null
+          checksum?: string | null
           created_at?: string | null
+          entity_id?: string | null
+          file_size?: number | null
           id?: string
           meta?: Json | null
+          mime_type?: string | null
+          module?: string | null
           storage_path?: string | null
           system: string
+          tags?: string[] | null
           tenant_id: string
           title?: string | null
+          uploaded_at?: string | null
+          uploaded_by?: string | null
         }
         Update: {
+          ai_tags?: string[] | null
+          checksum?: string | null
           created_at?: string | null
+          entity_id?: string | null
+          file_size?: number | null
           id?: string
           meta?: Json | null
+          mime_type?: string | null
+          module?: string | null
           storage_path?: string | null
           system?: string
+          tags?: string[] | null
           tenant_id?: string
           title?: string | null
+          uploaded_at?: string | null
+          uploaded_by?: string | null
         }
         Relationships: []
       }
