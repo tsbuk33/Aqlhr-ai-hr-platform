@@ -7279,6 +7279,48 @@ export type Database = {
         }
         Relationships: []
       }
+      medical_data_audit_log: {
+        Row: {
+          access_type: string
+          company_id: string
+          created_at: string | null
+          data_accessed: Json | null
+          employee_id: string
+          id: string
+          ip_address: unknown | null
+          justification: string | null
+          table_name: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          access_type: string
+          company_id: string
+          created_at?: string | null
+          data_accessed?: Json | null
+          employee_id: string
+          id?: string
+          ip_address?: unknown | null
+          justification?: string | null
+          table_name?: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          access_type?: string
+          company_id?: string
+          created_at?: string | null
+          data_accessed?: Json | null
+          employee_id?: string
+          id?: string
+          ip_address?: unknown | null
+          justification?: string | null
+          table_name?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       mobile_attendance_sessions: {
         Row: {
           break_duration: number | null
@@ -12487,6 +12529,10 @@ export type Database = {
         Args: { p_employee_id: string }
         Returns: boolean
       }
+      can_access_medical_data: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       cci_compute_scores_v1: {
         Args: { p_survey: string; p_tenant: string; p_wave?: string }
         Returns: Json
@@ -12543,6 +12589,10 @@ export type Database = {
           p_window_minutes?: number
         }
         Returns: boolean
+      }
+      cleanup_expired_medical_data: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
       }
       cleanup_old_compliance_logs: {
         Args: Record<PropertyKey, never>
@@ -12759,6 +12809,23 @@ export type Database = {
           nodeport: number
           schedule: string
           username: string
+        }[]
+      }
+      get_masked_medical_data: {
+        Args: { p_employee_id: string }
+        Returns: {
+          created_at: string
+          employee_id: string
+          examination_date: string
+          examination_type: string
+          fitness_status: string
+          follow_up_required: boolean
+          id: string
+          medical_provider: string
+          next_examination_date: string
+          recommendations: string
+          restrictions: string
+          updated_at: string
         }[]
       }
       get_tenant_localization_prefs: {
@@ -13019,6 +13086,15 @@ export type Database = {
           p_user_id: string
         }
         Returns: string
+      }
+      log_medical_access: {
+        Args: {
+          p_access_type: string
+          p_data_accessed?: Json
+          p_employee_id: string
+          p_justification?: string
+        }
+        Returns: undefined
       }
       osi_compute_case_v1: {
         Args: { p_case_id: string }
