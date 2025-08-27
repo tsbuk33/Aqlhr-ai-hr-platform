@@ -2,11 +2,14 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PlayCircle, Clock, CheckCircle, AlertCircle } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
+import { PlayCircle, Clock, CheckCircle, AlertCircle, Square } from "lucide-react";
 import { getLang } from '@/lib/i18n/getLang';
 import { RetentionAction } from '@/hooks/useRetention';
-import { supabase } from '@/integrations/supabase/client';
+import { useAIStream } from '@/lib/ai/useAIStream';
 import { useToast } from '@/hooks/use-toast';
+
+const PHASES = ['planning', 'generating', 'saving', 'ready'] as const;
 
 interface Props {
   actions: RetentionAction[];
@@ -24,7 +27,7 @@ export const RetentionActions: React.FC<Props> = ({
   const lang = getLang();
   const isRTL = lang === 'ar';
   const { toast } = useToast();
-  const [generating, setGenerating] = React.useState(false);
+  const { start, cancel, isStreaming, partial, phase, pct, error, meta } = useAIStream();
 
   const t = (key: string) => {
     const translations: Record<string, any> = {
@@ -92,34 +95,14 @@ export const RetentionActions: React.FC<Props> = ({
   const handleGeneratePlaybook = async () => {
     if (!tenantId) return;
 
-    setGenerating(true);
-    try {
-      // Call the edge function to generate retention playbook
-      const { data, error } = await supabase.functions.invoke('agent-retention-plan-v1', {
-        body: { tenantId }
-      });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: lang === 'ar' 
-          ? "تم توليد خطة الإجراءات بنجاح" 
-          : "Action plan generated successfully"
-      });
-
-      // Refresh actions list
-      await refetch();
-    } catch (error: any) {
-      console.error('Error generating playbook:', error);
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive"
-      });
-    } finally {
-      setGenerating(false);
-    }
+    start({
+      tenantId,
+      userId: 'auto', 
+      lang: lang as 'en' | 'ar',
+      moduleContext: 'retention.plan',
+      pageType: 'retention_actions',
+      intent: 'retention action plan'
+    }, `https://qcuhjcyjlkfizesndmth.functions.supabase.co/agent-retention-plan-v1`);
   };
 
   if (loading) {
@@ -138,18 +121,103 @@ export const RetentionActions: React.FC<Props> = ({
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <span>{t('retention.actions.title')}</span>
-            <Button 
-              onClick={handleGeneratePlaybook} 
-              disabled={generating || !tenantId}
-              size="sm"
-            >
-              <PlayCircle className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-              {generating ? t('retention.ui.generating') : t('retention.actions.generate')}
-            </Button>
+            {isStreaming ? (
+              <Button 
+                onClick={cancel} 
+                variant="destructive"
+                size="sm"
+              >
+                <Square className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                {lang === 'ar' ? 'إيقاف' : 'Stop'}
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleGeneratePlaybook} 
+                disabled={!tenantId}
+                size="sm"
+              >
+                <PlayCircle className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+                {t('retention.actions.generate')}
+              </Button>
+            )}
           </CardTitle>
           <CardDescription>{t('retention.actions.description')}</CardDescription>
         </CardHeader>
       </Card>
+
+      {/* Progress Section */}
+      {(isStreaming || phase) && (
+        <Card>
+          <CardContent className="pt-6">
+            {/* Phase Steps */}
+            <div className="flex items-center gap-3 mb-4">
+              {PHASES.map((p, index) => (
+                <div key={p} className={`flex items-center gap-2 ${phase === p ? 'text-primary' : phase && PHASES.indexOf(phase) > index ? 'text-green-600' : 'text-muted-foreground'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    phase === p ? 'bg-primary text-primary-foreground' :
+                    phase && PHASES.indexOf(phase) > index ? 'bg-green-600 text-white' : 'bg-muted'
+                  }`}>
+                    {phase && PHASES.indexOf(phase) > index ? <CheckCircle className="h-4 w-4" /> : index + 1}
+                  </div>
+                  <span className="text-sm font-medium">
+                    {lang === 'ar' 
+                      ? p === 'planning' ? 'التخطيط'
+                      : p === 'generating' ? 'جاري التوليد'  
+                      : p === 'saving' ? 'جاري الحفظ'
+                      : 'جاهز'
+                      : p === 'planning' ? 'Planning'
+                      : p === 'generating' ? 'Generating'
+                      : p === 'saving' ? 'Saving'
+                      : 'Ready'
+                    }
+                  </span>
+                  {index < PHASES.length - 1 && <div className="w-8 h-px bg-border" />}
+                </div>
+              ))}
+              <div className="ml-auto text-sm text-muted-foreground">
+                {meta?.provider && (
+                  <Badge variant="outline" className="ml-2">
+                    {lang === 'ar' ? 'مباشر' : 'Live'} · {meta.provider}
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <Progress value={pct} className="mb-4" />
+
+            {/* Live Transcript */}
+            {partial && (
+              <div className="p-4 bg-muted/50 rounded-lg">
+                <div className="text-sm text-muted-foreground mb-2">
+                  {lang === 'ar' ? 'جاري البث المباشر...' : 'Streaming live...'}
+                </div>
+                <div className="whitespace-pre-wrap text-sm leading-relaxed max-h-32 overflow-y-auto">
+                  {partial}
+                </div>
+              </div>
+            )}
+
+            {/* Error Display */}
+            {error && (
+              <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                <div className="text-sm font-medium text-destructive">
+                  {lang === 'ar' ? 'خطأ' : 'Error'}
+                </div>
+                <div className="text-sm text-destructive/80">{error}</div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="mt-2" 
+                  onClick={handleGeneratePlaybook}
+                >
+                  {lang === 'ar' ? 'إعادة المحاولة' : 'Retry'}
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Actions List */}
       <Card>

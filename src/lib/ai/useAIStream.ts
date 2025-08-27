@@ -8,7 +8,9 @@ interface StreamPayload {
   moduleContext?: string;
   pageType?: string;
   intent?: string;
-  message: string;
+  message?: string;
+  surveyId?: string;
+  waveId?: string;
 }
 
 interface StreamMeta {
@@ -16,15 +18,20 @@ interface StreamMeta {
   model?: string;
   sessionId?: string;
   estimatedTokens?: number;
+  lang?: 'en' | 'ar';
 }
 
+export type AIProgressPhase = 'planning' | 'generating' | 'saving' | 'ready';
+
 interface StreamResult {
-  start: (payload: StreamPayload) => Promise<void>;
+  start: (payload: StreamPayload, endpoint?: string) => Promise<void>;
   cancel: () => void;
   isStreaming: boolean;
   error: string | null;
   partial: string;
   meta: StreamMeta | null;
+  phase: AIProgressPhase | null;
+  pct: number;
 }
 
 export const useAIStream = (): StreamResult => {
@@ -32,6 +39,8 @@ export const useAIStream = (): StreamResult => {
   const [error, setError] = useState<string | null>(null);
   const [partial, setPartial] = useState('');
   const [meta, setMeta] = useState<StreamMeta | null>(null);
+  const [phase, setPhase] = useState<AIProgressPhase | null>(null);
+  const [pct, setPct] = useState<number>(0);
   
   const abortControllerRef = useRef<AbortController | null>(null);
   const readerRef = useRef<ReadableStreamDefaultReader | null>(null);
@@ -46,11 +55,13 @@ export const useAIStream = (): StreamResult => {
     setIsStreaming(false);
   }, []);
 
-  const start = useCallback(async (payload: StreamPayload) => {
+  const start = useCallback(async (payload: StreamPayload, endpoint?: string) => {
     // Reset state
     setError(null);
     setPartial('');
     setMeta(null);
+    setPhase(null);
+    setPct(0);
     setIsStreaming(true);
 
     // Create abort controller
@@ -58,8 +69,9 @@ export const useAIStream = (): StreamResult => {
 
     try {
       // First try SSE streaming
+      const streamEndpoint = endpoint || `https://qcuhjcyjlkfizesndmth.functions.supabase.co/ai-agent-orchestrator`;
       const response = await fetch(
-        `https://qcuhjcyjlkfizesndmth.functions.supabase.co/ai-agent-orchestrator`,
+        streamEndpoint,
         {
           method: 'POST',
           headers: {
@@ -127,7 +139,17 @@ export const useAIStream = (): StreamResult => {
                   model: parsed.model,
                   sessionId: parsed.sessionId,
                   estimatedTokens: parsed.estimatedTokens,
+                  lang: parsed.lang,
                 });
+              } else if (parsed.type === 'progress') {
+                // Progress events injected by edge agents
+                setPhase(parsed.phase);
+                if (typeof parsed.pct === 'number') setPct(parsed.pct);
+                // We do not append progress text to partial
+              } else if (parsed.type === 'ready') {
+                // Final ready state
+                setPhase('ready');
+                setPct((p) => (p < 100 ? 100 : p));
               } else if (parsed.type === 'chunk') {
                 setPartial(prev => prev + (parsed.content || ''));
               } else if (parsed.type === 'final') {
@@ -192,5 +214,7 @@ export const useAIStream = (): StreamResult => {
     error,
     partial,
     meta,
+    phase,
+    pct,
   };
 };

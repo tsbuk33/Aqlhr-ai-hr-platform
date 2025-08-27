@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { useAIStream } from '@/lib/ai/useAIStream';
 import { 
   Brain, 
   Target, 
@@ -18,15 +19,19 @@ import {
   Pause,
   Settings,
   Loader2,
-  Sparkles
+  Sparkles,
+  Square
 } from 'lucide-react';
 import { useCCIPlaybook } from '@/hooks/useCCIPlaybook';
 import { useTaskIntegration } from '@/hooks/useTaskIntegration';
 import { useLocale } from '@/i18n/locale';
 
+const PHASES = ['planning', 'generating', 'saving', 'ready'] as const;
+
 const Playbook: React.FC = () => {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const isArabic = locale === 'ar';
+  const { start, cancel, isStreaming, partial, phase, pct, error: streamError, meta } = useAIStream();
   
   // Mock data for now - replace with actual tenant/survey/wave from context
   const tenantId = "mock-tenant-id"; // TODO: Get from auth context
@@ -38,7 +43,7 @@ const Playbook: React.FC = () => {
     playbooks, 
     loading, 
     generating, 
-    error,
+    error: playbookError,
     generatePlaybook,
     updatePlaybookStatus 
   } = useCCIPlaybook(tenantId, surveyId, waveId);
@@ -48,7 +53,16 @@ const Playbook: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'high' | 'medium' | 'low'>('all');
 
   const handleGeneratePlaybook = async () => {
-    await generatePlaybook({ tenantId, surveyId, waveId });
+    start({
+      tenantId,
+      userId: 'auto',
+      lang: locale,
+      surveyId,
+      waveId,
+      moduleContext: 'cci.playbook',
+      pageType: 'playbook',
+      intent: 'cci change plan 90 day'
+    }, `https://qcuhjcyjlkfizesndmth.functions.supabase.co/agent-cci-change-plan-v1`);
   };
 
   const handleStartInitiative = async (initiativeId: string) => {
@@ -141,30 +155,102 @@ const Playbook: React.FC = () => {
       upsellDescription="Unlock AI-powered culture change initiatives and recommendations"
     >
       <div className={`min-h-screen bg-background p-6 ${isArabic ? 'rtl' : 'ltr'}`}>
-        {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold">{isArabic ? 'كتيب التغيير الذكي' : 'AI Change Playbook'}</h1>
             <p className="text-muted-foreground">{isArabic ? 'مبادرات التغيير المقترحة بالذكاء الاصطناعي' : 'AI-powered change initiatives and recommendations'}</p>
           </div>
           <div className="flex gap-2">
-            <Button 
-              onClick={handleGeneratePlaybook}
-              disabled={generating}
-            >
-              {generating ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Sparkles className="mr-2 h-4 w-4" />
-              )}
-              {isArabic ? 'توليد مبادرات جديدة' : 'Generate New Initiatives'}
-            </Button>
+            {isStreaming ? (
+              <Button 
+                onClick={cancel}
+                variant="destructive"
+              >
+                <Square className="mr-2 h-4 w-4" />
+                {t('dashboard', 'cci.playbook.stop')}
+              </Button>
+            ) : (
+              <Button 
+                onClick={handleGeneratePlaybook}
+                disabled={generating}
+              >
+                {generating ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Sparkles className="mr-2 h-4 w-4" />
+                )}
+                {t('dashboard', 'cci.playbook.generate')}
+              </Button>
+            )}
             <Button variant="outline">
               <Settings className="mr-2 h-4 w-4" />
               {isArabic ? 'إعدادات الذكاء الاصطناعي' : 'AI Settings'}
             </Button>
           </div>
         </div>
+
+        {/* Progress Section */}
+        {(isStreaming || phase) && (
+          <Card className="mb-6">
+            <CardContent className="pt-6">
+              {/* Phase Steps */}
+              <div className="flex items-center gap-3 mb-4">
+                {PHASES.map((p, index) => (
+                  <div key={p} className={`flex items-center gap-2 ${phase === p ? 'text-primary' : phase && PHASES.indexOf(phase) > index ? 'text-green-600' : 'text-muted-foreground'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      phase === p ? 'bg-primary text-primary-foreground' :
+                      phase && PHASES.indexOf(phase) > index ? 'bg-green-600 text-white' : 'bg-muted'
+                    }`}>
+                      {phase && PHASES.indexOf(phase) > index ? <CheckCircle className="h-4 w-4" /> : index + 1}
+                    </div>
+                    <span className="text-sm font-medium">
+                      {t('dashboard', `cci.playbook.phase.${p}`)}
+                    </span>
+                    {index < PHASES.length - 1 && <div className="w-8 h-px bg-border" />}
+                  </div>
+                ))}
+                <div className="ml-auto text-sm text-muted-foreground">
+                  {meta?.provider && (
+                    <Badge variant="outline" className="ml-2">
+                      {t('dashboard', 'cci.playbook.live')} · {meta.provider}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <Progress value={pct} className="mb-4" />
+
+              {/* Live Transcript */}
+              {partial && (
+                <div className="p-4 bg-muted/50 rounded-lg">
+                  <div className="text-sm text-muted-foreground mb-2">
+                    {t('dashboard', 'cci.playbook.streaming')}
+                  </div>
+                  <div className="whitespace-pre-wrap text-sm leading-relaxed max-h-32 overflow-y-auto">
+                    {partial}
+                  </div>
+                </div>
+              )}
+
+              {/* Error Display */}
+              {streamError && (
+                <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                  <div className="text-sm font-medium text-destructive">Error</div>
+                  <div className="text-sm text-destructive/80">{streamError}</div>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="mt-2" 
+                    onClick={handleGeneratePlaybook}
+                  >
+                    {t('dashboard', 'retry')}
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">

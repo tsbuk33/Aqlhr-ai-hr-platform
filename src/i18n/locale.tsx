@@ -366,6 +366,27 @@ const bundles: Record<string, Bundle> = {
       high_performing: 'high-performing employees',
       strong_pipeline: 'strong talent pipeline',
       
+      // Streaming labels
+      'cci.playbook.generate': 'Generate New Initiatives',
+      'cci.playbook.stop': 'Stop',
+      'cci.playbook.live': 'Live',
+      'cci.playbook.provider': 'Provider',
+      'cci.playbook.phase.planning': 'Planning',
+      'cci.playbook.phase.generating': 'Generating',
+      'cci.playbook.phase.saving': 'Saving', 
+      'cci.playbook.phase.ready': 'Ready',
+      'cci.playbook.streaming': 'Streaming live...',
+      'cci.playbook.canceled': 'Canceled',
+      'retention.plan.generate': 'Generate Retention Plan',
+      'retention.plan.stop': 'Stop',
+      'retention.plan.live': 'Live',
+      'retention.plan.phase.planning': 'Planning',
+      'retention.plan.phase.generating': 'Generating', 
+      'retention.plan.phase.saving': 'Saving',
+      'retention.plan.phase.ready': 'Ready',
+      'retention.plan.streaming': 'Streaming live...',
+      'retention.plan.canceled': 'Canceled',
+      
       // System status
       all_systems_operational: 'All systems operational',
       system_issues_detected: 'System issues detected',
