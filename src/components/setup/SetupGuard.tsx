@@ -11,6 +11,13 @@ export function SetupGuard({ children }: SetupGuardProps) {
   const { profile, loading: profileLoading } = useUserProfile();
   const { setupStatus, loading: setupLoading } = useCompanySetup();
 
+  // Dev bypass: allow rendering with ?dev=1 even if setup incomplete
+  const dev = new URLSearchParams(window.location.search).get('dev') === '1';
+  if (dev) {
+    console.info('AqlHR: SetupGuard bypassed via ?dev=1');
+    return <>{children}</>;
+  }
+
   // Show loading while checking setup status
   if (profileLoading || setupLoading) {
     return (

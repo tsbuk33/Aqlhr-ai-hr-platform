@@ -46,6 +46,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     );
   }
 
+  // Dev bypass: allow rendering with ?dev=1 without requiring auth
+  const devBypass = new URLSearchParams(location.search).get('dev') === '1';
+  if (devBypass) {
+    console.info('AqlHR: ProtectedRoute bypassed via ?dev=1');
+    return <>{children}</>;
+  }
+
   if (!user || !session) {
     // User is not authenticated, redirect to auth page
     const currentLang = resolveLang();
