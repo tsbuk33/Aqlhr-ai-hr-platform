@@ -108,9 +108,8 @@ const AskAqlChat: React.FC = () => {
     }
   };
 
-  const handleStopStreaming = () => {
-    cancelStream();
-    setCurrentStreamingMessage(null);
+  const handleCancel = () => {
+    setPendingConfirmation(null);
   };
 
   const handleStopStreaming = () => {
@@ -327,13 +326,23 @@ const AskAqlChat: React.FC = () => {
               className="flex-1"
               dir={isArabic ? 'rtl' : 'ltr'}
             />
-            <Button 
-              onClick={() => handleSend()} 
-              disabled={isLoading || !userInput.trim() || !!pendingConfirmation}
-              size="sm"
-            >
-              {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
-            </Button>
+            {isStreaming ? (
+              <Button
+                onClick={handleStopStreaming}
+                variant="destructive"
+                size="sm"
+              >
+                <Square className="w-4 h-4" />
+              </Button>
+            ) : (
+              <Button 
+                onClick={() => handleSend()} 
+                disabled={isLoading || !userInput.trim() || !!pendingConfirmation}
+                size="sm"
+              >
+                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+              </Button>
+            )}
           </div>
           
           {/* Footer */}
