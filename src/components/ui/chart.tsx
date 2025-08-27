@@ -65,6 +65,19 @@ const ChartContainer = React.forwardRef<
 })
 ChartContainer.displayName = "Chart"
 
+// Sanitize CSS color values to prevent XSS
+function sanitizeColor(color: string): string {
+  // Only allow valid CSS color formats (hex, rgb, hsl, named colors)
+  const colorRegex = /^(#[0-9a-f]{3,8}|rgb\([\d\s,]+\)|rgba\([\d\s,.]+\)|hsl\([\d\s,%]+\)|hsla\([\d\s,%.]+\)|[a-z]+)$/i
+  return colorRegex.test(color.trim()) ? color.trim() : 'transparent'
+}
+
+// Sanitize CSS selector to prevent injection
+function sanitizeSelector(selector: string): string {
+  // Only allow alphanumeric, hyphens, and basic CSS selector characters
+  return selector.replace(/[^a-zA-Z0-9\-_.#[\] ]/g, '')
+}
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([_, config]) => config.theme || config.color
@@ -74,28 +87,35 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     return null
   }
 
-  return (
-    <style
-      dangerouslySetInnerHTML={{
-        __html: Object.entries(THEMES)
-          .map(
-            ([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-  .map(([key, itemConfig]) => {
-    const color =
-      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||
-      itemConfig.color
-    return color ? `  --color-${key}: ${color};` : null
-  })
-  .join("\n")}
-}
-`
-          )
-          .join("\n"),
-      }}
-    />
-  )
+  // Create CSS custom properties safely using React.CSSProperties
+  const cssVariables = React.useMemo(() => {
+    const variables: Record<string, string> = {}
+    
+    colorConfig.forEach(([key, itemConfig]) => {
+      Object.entries(THEMES).forEach(([theme]) => {
+        const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color
+        if (color) {
+          const sanitizedColor = sanitizeColor(color)
+          const sanitizedKey = sanitizeSelector(key)
+          variables[`--color-${sanitizedKey}`] = sanitizedColor
+        }
+      })
+    })
+    
+    return variables
+  }, [colorConfig])
+
+  // Apply CSS variables directly to the chart container via style prop
+  React.useEffect(() => {
+    const chartElement = document.querySelector(`[data-chart="${sanitizeSelector(id)}"]`) as HTMLElement
+    if (chartElement) {
+      Object.entries(cssVariables).forEach(([property, value]) => {
+        chartElement.style.setProperty(property, value)
+      })
+    }
+  }, [id, cssVariables])
+
+  return null
 }
 
 const ChartTooltip = RechartsPrimitive.Tooltip
