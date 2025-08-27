@@ -1,12 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAskAqlV2 } from '@/hooks/useAskAqlV2';
+import { useAIStream } from '@/lib/ai/useAIStream';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Send, MessageSquare, User, Bot, ChevronDown, ChevronUp, ExternalLink, Download, Eye } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Loader2, Send, MessageSquare, User, Bot, ChevronDown, ChevronUp, ExternalLink, Download, Eye, Square } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLocale } from '@/i18n/locale';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { toast } from 'sonner';
 
@@ -17,51 +20,85 @@ interface PendingConfirmation {
 
 const AskAqlChat: React.FC = () => {
   const { isArabic, language } = useSimpleLanguage();
+  const { t } = useLocale();
   const { messages, isLoading, sendMessage, clearChat } = useAskAqlV2();
+  const { start: startStream, cancel: cancelStream, isStreaming, error: streamError, partial, meta } = useAIStream();
   const [userInput, setUserInput] = useState('');
   const [pendingConfirmation, setPendingConfirmation] = useState<PendingConfirmation | null>(null);
   const [lastResponse, setLastResponse] = useState<any>(null);
+  const [useStreaming, setUseStreaming] = useState(true);
+  const [currentStreamingMessage, setCurrentStreamingMessage] = useState<string | null>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
+  // Auto-scroll effect
   useEffect(() => {
     if (scrollAreaRef.current) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, partial]);
+
+  // Complete streaming message when done
+  useEffect(() => {
+    if (!isStreaming && currentStreamingMessage && partial) {
+      setCurrentStreamingMessage(null);
+    }
+  }, [isStreaming, currentStreamingMessage, partial]);
 
   const handleSend = async (confirm = false) => {
     if (!userInput.trim() && !confirm) return;
+    if (isLoading || isStreaming) return;
     
     const input = confirm && pendingConfirmation ? pendingConfirmation.originalQuery : userInput;
     if (!confirm) setUserInput('');
     
     try {
-      const response = await sendMessage(input, confirm);
-      setLastResponse(response);
-      
-      // Handle confirmation requests
-      if (response && 'needsConfirmation' in response && response.needsConfirmation && !confirm) {
-        setPendingConfirmation({
-          message: response.text,
-          originalQuery: input
+      if (useStreaming && !confirm) {
+        // Start streaming response
+        setCurrentStreamingMessage(Date.now().toString());
+        await startStream({
+          lang: language,
+          moduleContext: 'assistant',
+          pageType: 'chat',
+          intent: 'general',
+          message: input,
         });
       } else {
-        setPendingConfirmation(null);
+        // Fall back to non-streaming
+        const response = await sendMessage(input, confirm);
+        setLastResponse(response);
         
-        // Handle actions
-        if (response && 'actions' in response && response.actions) {
-          response.actions.forEach((action: any) => {
-            if (action.type === 'download' && action.href) {
-              window.open(action.href, '_blank');
-            } else if (action.type === 'navigate' && action.href) {
-              window.location.href = action.href;
-            }
+        // Handle confirmation requests
+        if (response && 'needsConfirmation' in response && response.needsConfirmation && !confirm) {
+          setPendingConfirmation({
+            message: response.text,
+            originalQuery: input
           });
+        } else {
+          setPendingConfirmation(null);
+          
+          // Handle actions
+          if (response && 'actions' in response && response.actions) {
+            response.actions.forEach((action: any) => {
+              if (action.type === 'download' && action.href) {
+                window.open(action.href, '_blank');
+              } else if (action.type === 'navigate' && action.href) {
+                window.location.href = action.href;
+              }
+            });
+          }
         }
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      toast.error(isArabic ? 'حدث خطأ في إرسال الرسالة' : 'Error sending message');
+      
+      // Fall back to non-streaming on error
+      if (useStreaming && !confirm) {
+        setUseStreaming(false);
+        const response = await sendMessage(input, confirm);
+        setLastResponse(response);
+      } else {
+        toast.error(isArabic ? 'حدث خطأ في إرسال الرسالة' : 'Error sending message');
+      }
     }
   };
 
@@ -71,8 +108,14 @@ const AskAqlChat: React.FC = () => {
     }
   };
 
-  const handleCancel = () => {
-    setPendingConfirmation(null);
+  const handleStopStreaming = () => {
+    cancelStream();
+    setCurrentStreamingMessage(null);
+  };
+
+  const handleStopStreaming = () => {
+    cancelStream();
+    setCurrentStreamingMessage(null);
   };
 
   const renderCitations = (citations: any[]) => {
@@ -176,6 +219,38 @@ const AskAqlChat: React.FC = () => {
                 </div>
               </div>
             ))}
+
+            {/* Streaming message */}
+            {currentStreamingMessage && (
+              <div className="flex justify-start">
+                <div className="flex gap-3 max-w-[80%]">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center bg-muted text-muted-foreground">
+                    <Bot className="w-4 h-4" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-start">
+                    <div className="p-3 rounded-lg bg-muted text-muted-foreground">
+                      <p className="text-sm whitespace-pre-wrap">
+                        {partial || t('ai_streaming.streaming', 'Streaming...')}
+                        {isStreaming && (
+                          <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse ml-1" />
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2 px-1">
+                      <span className="text-xs text-muted-foreground">
+                        {new Date().toLocaleTimeString()}
+                      </span>
+                      {meta?.provider && (
+                        <Badge variant="secondary" className="text-xs">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse" />
+                          {t('ai_streaming.live', 'Live')} · {meta.provider}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             
             {pendingConfirmation && (
               <div className="flex justify-center">

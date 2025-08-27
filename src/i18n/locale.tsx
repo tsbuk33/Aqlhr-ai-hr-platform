@@ -469,6 +469,28 @@ const bundles: Record<string, Bundle> = {
       failed_to_create_share_link: 'فشل في إنشاء رابط المشاركة'
     }
   },
+  ai_streaming: {
+    en: {
+      stop: 'Stop',
+      live: 'Live',
+      provider: 'Provider',
+      retry: 'Retry',
+      canceled: 'Canceled',
+      streaming: 'Streaming...',
+      connecting: 'Connecting...',
+      error_fallback: 'Streaming failed, using fallback response'
+    },
+    ar: {
+      stop: 'إيقاف',
+      live: 'مباشر',
+      provider: 'المزوّد',
+      retry: 'إعادة المحاولة',
+      canceled: 'أُلغيت',
+      streaming: 'بث مباشر...',
+      connecting: 'جاري الاتصال...',
+      error_fallback: 'فشل البث المباشر، استخدام الاستجابة البديلة'
+    }
+  },
   analytics: {
     en: {
       title: 'Advanced Analytics',

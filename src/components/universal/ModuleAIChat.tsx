@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, MessageCircle, X, Minimize2, Maximize2, Sparkles, Check, X as XIcon } from 'lucide-react';
+import { Send, Bot, User, MessageCircle, X, Minimize2, Sparkles, Check, X as XIcon, Square } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { useAPITranslations } from '@/hooks/useAPITranslations';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useToast } from '@/hooks/use-toast';
+import { useAIStream } from '@/lib/ai/useAIStream';
+import { useLocale } from '@/i18n/locale';
 import { supabase } from '@/integrations/supabase/client';
 
 interface ChatMessage {
@@ -54,9 +56,13 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
   const [spellingSuggestions, setSpellingSuggestions] = useState<SpellingSuggestion[]>([]);
   const [isSpellChecking, setIsSpellChecking] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [useStreaming, setUseStreaming] = useState(true);
+  const [currentStreamingMessage, setCurrentStreamingMessage] = useState<string | null>(null);
   const { t } = useAPITranslations();
+  const { t: localeT } = useLocale();
   const { language } = useLanguage();
   const { toast } = useToast();
+  const { start: startStream, cancel: cancelStream, isStreaming, error: streamError, partial, meta } = useAIStream();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const isArabic = language === 'ar';
@@ -94,7 +100,7 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
   };
 
   const sendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+    if (!inputValue.trim() || isLoading || isStreaming) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
@@ -104,51 +110,74 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const input = inputValue.trim();
     setInputValue('');
-    setIsLoading(true);
-
-    // Add typing indicator
-    const typingMessage: ChatMessage = {
-      id: 'typing',
-      role: 'assistant',
-      content: getLocalizedText('aiChat.typing', isArabic ? 'يكتب...' : 'Typing...'),
-      timestamp: new Date(),
-      isTyping: true,
-    };
-    setMessages(prev => [...prev, typingMessage]);
 
     try {
-      const { data, error } = await supabase.functions.invoke('ai-agent-orchestrator', {
-        body: {
-          query: inputValue.trim(),
-          context: {
-            module: moduleKey,
-            language,
-            ...context,
+      if (useStreaming) {
+        // Start streaming response
+        setCurrentStreamingMessage(userMessage.id + '_stream');
+        await startStream({
+          lang: language as 'en' | 'ar',
+          moduleContext: moduleKey,
+          pageType: 'module_chat',
+          intent: 'general',
+          message: input,
+        });
+      } else {
+        // Fall back to non-streaming
+        setIsLoading(true);
+
+        // Add typing indicator
+        const typingMessage: ChatMessage = {
+          id: 'typing',
+          role: 'assistant',
+          content: getLocalizedText('aiChat.typing', isArabic ? 'يكتب...' : 'Typing...'),
+          timestamp: new Date(),
+          isTyping: true,
+        };
+        setMessages(prev => [...prev, typingMessage]);
+
+        const { data, error } = await supabase.functions.invoke('ai-agent-orchestrator', {
+          body: {
+            query: input,
+            context: {
+              module: moduleKey,
+              language,
+              ...context,
+            },
+            action: 'query',
           },
-          action: 'query',
-        },
-      });
+        });
 
-      if (error) throw error;
+        if (error) throw error;
 
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: data.response || getLocalizedText('aiChat.defaultError', isArabic ? 'عذراً، حدث خطأ في المعالجة' : 'Sorry, there was an error processing your request'),
-        timestamp: new Date(),
-      };
+        const assistantMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.response || getLocalizedText('aiChat.defaultError', isArabic ? 'عذراً، حدث خطأ في المعالجة' : 'Sorry, there was an error processing your request'),
+          timestamp: new Date(),
+        };
 
-      // Remove typing indicator and add response
-      setMessages(prev => [
-        ...prev.filter(m => m.id !== 'typing'),
-        assistantMessage,
-      ]);
-
+        // Remove typing indicator and add response
+        setMessages(prev => [
+          ...prev.filter(m => m.id !== 'typing'),
+          assistantMessage,
+        ]);
+      }
     } catch (error) {
       console.error('AI Chat Error:', error);
       
-      // Remove typing indicator and add error message
+      // Fall back to non-streaming on error
+      if (useStreaming) {
+        setUseStreaming(false);
+        toast({
+          title: localeT('ai_streaming.error_fallback', 'Streaming failed, using fallback response'),
+          variant: 'default',
+        });
+      }
+      
+      // Remove typing indicator
       setMessages(prev => prev.filter(m => m.id !== 'typing'));
       
       toast({
@@ -167,6 +196,31 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
       sendMessage();
     }
   };
+
+  const handleStopStreaming = () => {
+    cancelStream();
+    setCurrentStreamingMessage(null);
+  };
+
+  // Auto-scroll to bottom when messages change or streaming updates
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, partial]);
+
+  // Complete streaming message when done
+  useEffect(() => {
+    if (!isStreaming && currentStreamingMessage && partial) {
+      const assistantMessage: ChatMessage = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: partial,
+        timestamp: new Date(),
+      };
+      
+      setMessages(prev => [...prev, assistantMessage]);
+      setCurrentStreamingMessage(null);
+    }
+  }, [isStreaming, currentStreamingMessage, partial]);
 
   const performSpellCheck = async (text: string) => {
     if (!text.trim() || text.length < 3) {
@@ -360,6 +414,37 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
                 )}
               </div>
             ))}
+
+            {/* Streaming message */}
+            {currentStreamingMessage && (
+              <div className="flex gap-3 justify-start">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bot className="h-4 w-4 text-primary" />
+                  </div>
+                </div>
+                
+                <div className="max-w-[80%]">
+                  <div className="bg-muted rounded-lg px-3 py-2 text-sm">
+                    {partial || localeT('ai_streaming.streaming', 'Streaming...')}
+                    {isStreaming && (
+                      <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse ml-1" />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 mt-1 px-1">
+                    <p className="text-xs text-muted-foreground">
+                      {formatTime(new Date())}
+                    </p>
+                    {meta?.provider && (
+                      <Badge variant="secondary" className="text-xs">
+                        <div className="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse" />
+                        {localeT('ai_streaming.live', 'Live')} · {meta.provider}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
             <div ref={messagesEndRef} />
           </div>
         </ScrollArea>
@@ -460,13 +545,23 @@ const ModuleAIChat: React.FC<ModuleAIChatProps> = ({
               )}
             </div>
             
-            <Button
-              onClick={sendMessage}
-              disabled={!inputValue.trim() || isLoading}
-              size="icon"
-            >
-              <Send className="h-4 w-4" />
-            </Button>
+            {isStreaming ? (
+              <Button
+                onClick={handleStopStreaming}
+                variant="destructive"
+                size="icon"
+              >
+                <Square className="h-4 w-4" />
+              </Button>
+            ) : (
+              <Button
+                onClick={sendMessage}
+                disabled={!inputValue.trim() || isLoading}
+                size="icon"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            )}
           </div>
         </div>
       </CardContent>
