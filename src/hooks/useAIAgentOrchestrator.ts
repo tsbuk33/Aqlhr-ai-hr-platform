@@ -102,7 +102,7 @@ export const useAIAgentOrchestrator = () => {
     config: AIAgentConfig
   ): Promise<AIResponse> => {
     // Try multiple providers and return the best response
-    const providers = ['openai', 'claude', 'gemini'];
+    const providers = ['chatgpt5', 'genspark', 'manus'];
     const responses = await queryMultipleAgents(query, config, providers);
     
     if (responses.length === 0) {

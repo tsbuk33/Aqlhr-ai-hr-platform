@@ -38,9 +38,10 @@ serve(async (req) => {
     // Handle status requests
     if (action === 'status') {
       return new Response(JSON.stringify({
-        providers: ['chatgpt5', 'manus', 'fallback'],
+        providers: ['chatgpt5', 'genspark', 'manus', 'fallback'],
         status: {
           chatgpt5: { available: true, model: 'gpt-5-2025-08-07' },
+          genspark: { available: true, model: 'gpt-5' },
           manus: { available: true, model: 'open-source-agent' },
           fallback: { available: true, model: 'local-fallback' }
         }
@@ -77,6 +78,10 @@ serve(async (req) => {
           aiResponse = await queryChatGPT5(supabase, query, context);
           break;
           
+        case 'genspark':
+          aiResponse = await queryGenspark(supabase, query, context);
+          break;
+          
         case 'manus':
         case 'claude': // Fallback mapping
         case 'gemini': // Fallback mapping
@@ -84,12 +89,17 @@ serve(async (req) => {
           break;
           
         default:
-          // Try ChatGPT 5 first, then Manus as fallback
+          // Try ChatGPT 5 first, then Genspark, then Manus as fallback
           try {
             aiResponse = await queryChatGPT5(supabase, query, context);
           } catch (error) {
-            console.log('ChatGPT 5 failed, trying Manus:', error);
-            aiResponse = await queryManus(supabase, query, context);
+            console.log('ChatGPT 5 failed, trying Genspark:', error);
+            try {
+              aiResponse = await queryGenspark(supabase, query, context);
+            } catch (gensparkError) {
+              console.log('Genspark failed, trying Manus:', gensparkError);
+              aiResponse = await queryManus(supabase, query, context);
+            }
           }
       }
     } catch (error) {
@@ -127,6 +137,13 @@ serve(async (req) => {
 // Provider selection logic
 function selectBestProvider(query: string, context: any): string {
   const queryLower = query.toLowerCase();
+  
+  // Use Genspark for cost-sensitive queries
+  if (queryLower.includes('cost') || queryLower.includes('cheap') || 
+      queryLower.includes('economy') || queryLower.includes('budget') ||
+      queryLower.includes('efficient')) {
+    return 'genspark';
+  }
   
   // Use ChatGPT 5 for complex analytical queries
   if (queryLower.includes('analyze') || queryLower.includes('predict') || 
@@ -172,6 +189,37 @@ Please provide a helpful, accurate response specific to Saudi HR practices.`;
     provider: 'chatgpt5',
     model: data.model || 'gpt-5-2025-08-07',
     confidence: 0.9,
+    timestamp: new Date().toISOString()
+  };
+}
+
+// Query Genspark AI integration
+async function queryGenspark(supabase: any, query: string, context: any): Promise<AIResponse> {
+  const enhancedPrompt = `Module: ${context.module}
+Language: ${context.language}
+Context: ${context.user_context}
+
+Query: ${query}
+
+Provide cost-effective, practical Saudi HR guidance with efficient insights.`;
+
+  const { data, error } = await supabase.functions.invoke('genspark-ai-integration', {
+    body: {
+      prompt: enhancedPrompt,
+      model: 'gpt-5',
+      temperature: 0.2,
+      max_tokens: 1024,
+      context: `Cost-effective Saudi HR specialist for ${context.module}`
+    }
+  });
+
+  if (error) throw new Error(`Genspark AI error: ${error.message}`);
+
+  return {
+    response: data.content || data.response || 'No response generated',
+    provider: 'genspark',
+    model: data.model || 'genspark:gpt-5',
+    confidence: 0.85,
     timestamp: new Date().toISOString()
   };
 }
