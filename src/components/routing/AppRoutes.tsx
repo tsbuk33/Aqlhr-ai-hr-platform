@@ -78,8 +78,6 @@ export default function AppRoutes() {
           <Route path="employees/:id" element={<SetupGuard><EmployeeProfile /></SetupGuard>} />
         </Route>
 
-        <Route path="auth" element={<Auth />} />
-
         {/* core modules */}
         <Route path="recruitment" element={<SetupGuard><RecruitmentPage /></SetupGuard>} />
         <Route path="payroll" element={<SetupGuard><PayrollPage /></SetupGuard>} />
