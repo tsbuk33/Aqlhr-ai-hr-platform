@@ -6,8 +6,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route, useParams, Navigate } from 'react-router-dom';
 import { unifiedLocaleDriver, useRouteLangSync } from '@/lib/i18n/unifiedLocaleSystem';
 import AppRoutes from './AppRoutes';
-import Welcome from '@/pages/Welcome';
-
 /**
  * Localized App Wrapper - handles language synchronization
  */
@@ -32,11 +30,12 @@ function NonLocalizedRedirect() {
   
   console.log('[UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', currentPath);
   
-  // Root path shows welcome page
   if (currentPath === '/') {
-    return <Welcome />;
+    const currentLang = unifiedLocaleDriver.getLang();
+    const redirectPath = `/${currentLang}/welcome${search}`;
+    console.log('[UnifiedLanguageRouter] Redirecting root to:', redirectPath);
+    return <Navigate to={redirectPath} replace />;
   }
-  
   // Already localized paths should not redirect
   if (currentPath.startsWith('/en') || currentPath.startsWith('/ar')) {
     return null;
