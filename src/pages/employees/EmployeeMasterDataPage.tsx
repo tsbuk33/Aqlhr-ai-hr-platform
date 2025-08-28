@@ -3,11 +3,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Plus, Search, Filter, Users, UserCheck, Award, AlertTriangle } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Plus, Search, Filter, Users, UserCheck, Award, AlertTriangle, Database } from 'lucide-react';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useLocale, formatNumber } from '@/i18n/locale';
 import { useEmployeesData } from '@/hooks/useEmployeesData';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
+import { DocumentUploader } from '@/components/docs/DocumentUploader';
 import DevModeGuard from '@/lib/dev/DevModeGuard';
 
 const EmployeeMasterDataPage = () => {
@@ -329,6 +331,28 @@ const EmployeeMasterDataPage = () => {
                 </p>
               </div>
             )}
+          </CardContent>
+        </Card>
+
+        {/* Document Management - Employee Documents */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              {locale === 'ar' ? 'مستندات الموظفين' : 'Employee Documents'}
+            </CardTitle>
+            <CardDescription>
+              {locale === 'ar' 
+                ? 'رفع وإدارة مستندات الموظفين مع الامتثال للائحة حماية البيانات الشخصية'
+                : 'Upload and manage employee documents with PDPL compliance'
+              }
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <DocumentUploader 
+              module="employee"
+              className="border-primary/10"
+            />
           </CardContent>
         </Card>
 

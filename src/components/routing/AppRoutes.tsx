@@ -8,6 +8,8 @@ import { OSIOverview } from '@/components/diagnostic/OSIOverview';
 import RetentionPage from '@/pages/diagnostic/Retention';
 import DiagnosticHub from '@/pages/diagnostic/Hub';
 import RouteAudit from '@/pages/_/RouteAudit';
+import SmokeTest from '@/pages/_/SmokeTest';
+import DemoDataPanel from '@/pages/admin/DemoDataPanel';
 import EmployeeMasterDataPage from '@/pages/employees/EmployeeMasterDataPage';
 import RecruitmentPage from '@/pages/RecruitmentPage';
 import PayrollPage from '@/pages/PayrollPage';
@@ -65,9 +67,10 @@ export default function AppRoutes() {
         <Route path="auth" element={<AuthPage />} />
         <Route path="dashboard" element={<SetupGuard><DashboardPage /></SetupGuard>} />
 
-        {/* smoke / health */}
+        {/* dev / smoke test */}
         <Route path="_/ping" element={<Ping />} />
         <Route path="_/route-audit" element={<RouteAudit />} />
+        <Route path="_/smoke" element={<SmokeTest />} />
 
         {/* employees */}
         <Route path="employees" element={<SetupGuard><EmployeeMasterDataPage /></SetupGuard>} />
@@ -116,8 +119,6 @@ export default function AppRoutes() {
         
         {/* profile & admin */}
         <Route path="profile" element={<SetupGuard><ProfilePage /></SetupGuard>} />
-        <Route path="admin/users" element={<SetupGuard><UsersPage /></SetupGuard>} />
-        <Route path="admin/company" element={<SetupGuard><CompanySettingsPage /></SetupGuard>} />
         
         {/* compatibility redirects (localized) */}
         <Route path="executive/mobile" element={<Navigate to="dashboard" replace />} />

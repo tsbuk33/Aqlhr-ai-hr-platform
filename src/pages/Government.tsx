@@ -9,6 +9,7 @@ import AIInsightCard from '@/components/ai/AIInsightCard';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { DocumentUploader } from '@/components/docs/DocumentUploader';
 import { 
   useRegions, 
   useCities, 
@@ -388,18 +389,53 @@ const Government = () => {
         tabs={tabs}
       />
       
-      {/* Government Document Management */}
-      <UniversalDocumentManager
-        moduleName="Government Integration Hub"
-        moduleNameAr="مركز التكامل الحكومي"
-        description="Upload government compliance documents, certificates, and official correspondence"
-        descriptionAr="رفع مستندات الامتثال الحكومي والشهادات والمراسلات الرسمية"
-        platform="government"
-        moduleType="government"
-        acceptedTypes={['.pdf', '.docx', '.xlsx', '.jpg', '.png', '.xml']}
-        maxFileSize={100 * 1024 * 1024}
-        maxFiles={40}
-      />
+      {/* Government Document Management - PDPL Safe */}
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              {language === 'ar' ? 'إدارة مستندات الجهات الحكومية' : 'Government Documents Management'}
+            </CardTitle>
+            <CardDescription>
+              {language === 'ar' 
+                ? 'رفع وإدارة المستندات الحكومية مع الامتثال للائحة حماية البيانات الشخصية'
+                : 'Upload and manage government documents with PDPL compliance'
+              }
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Qiwa Documents */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg">{language === 'ar' ? 'مستندات قيوى' : 'Qiwa Documents'}</h4>
+                <DocumentUploader 
+                  module="qiwa"
+                  className="border-primary/20"
+                />
+              </div>
+              
+              {/* GOSI Documents */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg">{language === 'ar' ? 'مستندات التأمينات الاجتماعية' : 'GOSI Documents'}</h4>
+                <DocumentUploader 
+                  module="gosi"
+                  className="border-green-500/20"
+                />
+              </div>
+              
+              {/* Absher Documents */}
+              <div className="space-y-4">
+                <h4 className="font-semibold text-lg">{language === 'ar' ? 'مستندات أبشر' : 'Absher Documents'}</h4>
+                <DocumentUploader 
+                  module="absher"
+                  className="border-blue-500/20"
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <AIFloatingAssistant 
         moduleContext="government"
