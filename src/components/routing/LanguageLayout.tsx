@@ -32,8 +32,8 @@ export default function LanguageLayout() {
     return <Navigate to="/en" replace />;
   }
 
-  // Don't protect the auth page itself
-  const isAuthPage = location.pathname.includes('/auth');
+  // Don't protect the auth page itself and allow public welcome page
+  const isAuthPage = location.pathname.includes('/auth') || location.pathname.includes('/welcome');
 
   const content = (
     <DevModeGuard>

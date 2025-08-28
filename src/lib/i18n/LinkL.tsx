@@ -5,7 +5,11 @@ import { localePath } from './localePath';
 type Props = Omit<LinkProps, 'to'> & { to: string; lang?: 'en'|'ar' };
 export const LinkL: React.FC<Props> = ({ to, lang, ...rest }) => {
   const href = localePath(to, lang);
-  return <Link to={href} {...rest} />;
+  console.log('[LinkL] render →', { to, lang, href });
+  return <Link to={href} {...rest} onClick={(e) => {
+    console.log('[LinkL] click →', href);
+    rest.onClick?.(e);
+  }} />;
 };
 
 // Optional helper: keep current path and switch language
