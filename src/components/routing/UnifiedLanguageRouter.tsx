@@ -24,28 +24,34 @@ function LocalizedApp() {
 function NonLocalizedRedirect() {
   const rawPath = window.location.pathname || '/';
   const search = window.location.search || '';
-  
+
   // Normalize multiple slashes
-  const currentPath = rawPath.replace(/\/{2,}/g, '/');
-  
-  console.log('[UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', currentPath);
-  
-  if (currentPath === '/') {
+  const normalized = rawPath.replace(/\/{2,}/g, '/');
+
+  console.log('AqlHR: [UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', normalized);
+
+  // Root → send to localized welcome
+  if (normalized === '/') {
     const currentLang = unifiedLocaleDriver.getLang();
     const redirectPath = `/${currentLang}/welcome${search}`;
-    console.log('[UnifiedLanguageRouter] Redirecting root to:', redirectPath);
+    console.log('AqlHR: [UnifiedLanguageRouter] Redirecting root to:', redirectPath);
     return <Navigate to={redirectPath} replace />;
   }
-  // Already localized paths should not redirect
-  if (currentPath.startsWith('/en') || currentPath.startsWith('/ar')) {
-    return null;
+
+  // If the path contains a language anywhere (including malformed prefixes), sanitize it
+  const langMatch = normalized.match(/\/?(en|ar)(\/[A-Za-z0-9_\-\/]+)?/);
+  if (langMatch) {
+    const lang = langMatch[1] as 'en' | 'ar';
+    const rest = langMatch[2] || '/welcome';
+    const redirectPath = `/${lang}${rest}${search}`;
+    console.log('AqlHR: [UnifiedLanguageRouter] Sanitizing to localized path:', redirectPath);
+    return <Navigate to={redirectPath} replace />;
   }
-  
-  // Get current language preference and redirect
+
+  // Fallback: prefix current preference to whatever path remains
   const currentLang = unifiedLocaleDriver.getLang();
-  const redirectPath = `/${currentLang}${currentPath}${search}`;
-  
-  console.log('[UnifiedLanguageRouter] Redirecting to:', redirectPath);
+  const redirectPath = `/${currentLang}${normalized}${search}`;
+  console.log('AqlHR: [UnifiedLanguageRouter] Redirecting to:', redirectPath);
   return <Navigate to={redirectPath} replace />;
 }
 
