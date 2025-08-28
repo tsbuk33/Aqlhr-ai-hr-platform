@@ -2,7 +2,7 @@ import React from 'react';
 import { useDocSearch, useRecentDocs, getSignedUrl } from '@/hooks/useSemanticSearch';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/integrations/supabase/client';
 
 interface SearchResult {
   doc_id: string;

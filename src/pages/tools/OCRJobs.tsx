@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabaseClient';
+import { supabase } from '@/integrations/supabase/client';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 
 interface OCRJob {
@@ -40,7 +40,7 @@ export default function OCRJobs() {
   });
 
   const runNow = useMutation({
-    mutationFn: async (batch = 3) => {
+    mutationFn: async (batch: number = 3) => {
       const tok = (await supabase.auth.getSession()).data.session?.access_token;
       const res = await fetch('/functions/v1/ocr-dispatcher-v1', {
         method: 'POST',
