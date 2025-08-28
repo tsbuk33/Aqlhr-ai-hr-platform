@@ -31,9 +31,9 @@ export default function LanguageLayout() {
     <DevModeGuard>
       <SidebarProvider>
         <div className="min-h-screen flex w-full bg-background text-foreground">
-          {!isAuthPage && <AppSidebar />}
+          <AppSidebar />
           <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
-            {!isAuthPage && <DashboardHeader />}
+            <DashboardHeader />
             <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : 'p-6'}`}>
               <Outlet />
             </div>
