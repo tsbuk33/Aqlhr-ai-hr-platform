@@ -64,7 +64,8 @@ export default function UnifiedLanguageRouter() {
       {/* Localized routes - MUST come first for proper matching */}
       <Route path=":lang(en|ar)/*" element={<LocalizedApp />} />
       
-      {/* Non-localized fallback routes */}
+      {/* Non-localized root and fallback routes */}
+      <Route path="/" element={<NonLocalizedRedirect />} />
       <Route path="*" element={<NonLocalizedRedirect />} />
     </Routes>
   );

@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-
+import { localePath, resolveLang } from "@/lib/i18n/localePath";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -18,11 +18,11 @@ export default function AuthPage() {
   const [isError, setIsError] = useState(false);
 
   // Redirect if already authenticated
-  if (user) {
-    const nextUrl = searchParams.get('next') || '/en/dashboard';
-    navigate(nextUrl, { replace: true });
-    return null;
-  }
+if (user) {
+  const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
+  navigate(nextUrl, { replace: true });
+  return null;
+}
 
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
@@ -46,7 +46,7 @@ export default function AuthPage() {
           body: {
             email,
             mode: "signup",
-            redirectTo: `${window.location.origin}/auth/callback`,
+redirectTo: `${window.location.origin}/${resolveLang()}/auth/callback`,
           },
         });
 
@@ -69,8 +69,8 @@ export default function AuthPage() {
             setIsError(true);
             setMessage(error.message === 'Invalid login credentials' ? 'Invalid email or password.' : error.message);
           } else {
-            const nextUrl = searchParams.get('next') || '/en/dashboard';
-            navigate(nextUrl);
+const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
+navigate(nextUrl);
           }
         }
     } catch (err: any) {
@@ -79,7 +79,7 @@ export default function AuthPage() {
       // Final fallback: OTP via Supabase if Edge Function fails
       await supabase.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/callback` },
       });
       setMessage(`We emailed you a secure link at ${email}.`);
     } finally {

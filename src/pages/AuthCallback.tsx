@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
+import { localePath, resolveLang } from '@/lib/i18n/localePath';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
-
 export default function AuthCallback() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -16,22 +16,22 @@ export default function AuthCallback() {
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
-          console.error('Auth callback error:', error);
-          navigate('/en/auth?error=callback_failed');
-          return;
+console.error('Auth callback error:', error);
+navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
+return;
         }
 
         if (data.session) {
           // Get the next URL or default to dashboard
-          const next = searchParams.get('next') || '/en/dashboard';
-          navigate(next, { replace: true });
+const next = searchParams.get('next') || localePath('dashboard', resolveLang());
+navigate(next, { replace: true });
         } else {
           // No session, redirect to auth
-          navigate('/en/auth');
+navigate(localePath('auth', resolveLang()));
         }
       } catch (error) {
         console.error('Auth callback error:', error);
-        navigate('/en/auth?error=callback_failed');
+navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
       }
     };
 

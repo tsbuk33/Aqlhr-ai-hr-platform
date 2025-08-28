@@ -2,13 +2,13 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building2, Users, BarChart3, Shield, Zap, Globe } from 'lucide-react';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import LanguageToggle from '@/components/LanguageToggle';
 import { LinkL } from '@/lib/i18n/LinkL';
 
 const Welcome = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
 
   const features = [
