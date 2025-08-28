@@ -255,6 +255,7 @@ const GenerativeEngagementOptimization = lazy(() => import('../pages/geo/Generat
 const Tools = lazy(() => import('../pages/Tools'));
 const ImportCenter = lazy(() => import('../pages/tools/ImportCenter'));
 const KnowledgeSearch = lazy(() => import('../pages/tools/KnowledgeSearch'));
+const OCRJobs = lazy(() => import('../pages/tools/OCRJobs'));
 
 // Legal Consultant module
 const LegalConsultant = lazy(() => import('../pages/LegalConsultant'));
@@ -488,6 +489,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
   { path: '/tools/imports', element: ImportCenter, auth: true },
   { path: '/tools/search', element: KnowledgeSearch, auth: true },
+  { path: '/tools/ocr', element: OCRJobs, auth: true },
   { path: '/test-harness', element: TestHarness, auth: true, adminOnly: true },
   
   // Super Admin Dashboard

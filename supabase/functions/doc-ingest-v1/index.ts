@@ -50,16 +50,11 @@ Deno.serve(async (req) => {
           text = (jr.text || '').toString();
         }
       } catch (_) { /* ignore */ }
-      if (!text) return j({ ok:true, queued:true, note:'pdf_requires_ocr_pipeline' }, 202);
     } else {
-      // unsupported binary types for now
-      return j({ ok:true, queued:true, note:'binary_requires_ocr_pipeline' }, 202);
+      // unsupported binary types: we'll handle after upsert
     }
 
-    const chunks = chunkText(text, 1200, 200);
-    if (!chunks.length) return j({ ok:false, error:'no_text_content' }, 400);
-
-    // Upsert corpus row
+    // Upsert corpus row first (needed for OCR enqueue)
     const up = await admin.from('doc_corpus').upsert({
       tenant_id, storage_bucket: bucket, storage_path: path,
       source: body.source ?? 'manual',
@@ -72,6 +67,15 @@ Deno.serve(async (req) => {
 
     if (up.error) return j({ ok:false, error:'catalog_upsert_failed', details: up.error.message }, 500);
     const doc_id = up.data.id as string;
+
+    // If we had no text (binary/PDF without text), enqueue OCR and return
+    if (!text || text.trim().length === 0) {
+      await admin.rpc('doc_enqueue_ocr_v1', { p_doc_id: doc_id, p_provider: null });
+      return j({ ok:true, queued:true, doc_id: doc_id, note:'ocr_enqueued' }, 202);
+    }
+
+    const chunks = chunkText(text, 1200, 200);
+    if (!chunks.length) return j({ ok:false, error:'no_text_content' }, 400);
 
     // Embeddings
     const embeds = await embedBatch(chunks, { provider: EMBED_PROVIDER, openaiKey: OPENAI_API_KEY });

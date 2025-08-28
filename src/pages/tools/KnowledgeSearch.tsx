@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDocSearch, useRecentDocs, getSignedUrl } from '@/hooks/useSemanticSearch';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabaseClient';
 
 interface SearchResult {
   doc_id: string;
@@ -32,6 +34,20 @@ export default function KnowledgeSearch() {
   const recent = useRecentDocs();
 
   const strings = isRTL ? AR : EN;
+
+  // Check for OCR jobs in progress
+  const ocrStatus = useQuery({
+    queryKey: ['ocr_status'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('doc_ocr_queue')
+        .select('status')
+        .in('status', ['queued', 'processing']);
+      if (error) throw error;
+      return data || [];
+    },
+    refetchInterval: 10000 // Check every 10 seconds
+  });
 
   const onSearch = (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -105,6 +121,16 @@ export default function KnowledgeSearch() {
           {search.isPending ? strings.searching : strings.search}
         </button>
       </form>
+
+      {/* OCR Status Notice */}
+      {ocrStatus.data && ocrStatus.data.length > 0 && (
+        <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <div className="flex items-center gap-2 text-blue-800 dark:text-blue-200 text-sm">
+            <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+            {strings.ocrInProgress} ({ocrStatus.data.length} {strings.documentsProcessing})
+          </div>
+        </div>
+      )}
 
       {/* Search Results */}
       {search.isSuccess && Array.isArray((search.data as any)?.results) && (
@@ -295,7 +321,9 @@ const EN = {
   searchError: 'Search failed. Please try again.',
   relevance: 'Relevance',
   openDocument: 'Open Document',
-  openError: 'Failed to open document. Please try again.'
+  openError: 'Failed to open document. Please try again.',
+  ocrInProgress: 'OCR processing in progress - new documents will appear in search when ready',
+  documentsProcessing: 'documents processing'
 };
 
 const AR = {
@@ -319,5 +347,7 @@ const AR = {
   searchError: 'فشل البحث. يرجى المحاولة مرة أخرى.',
   relevance: 'الملاءمة',
   openDocument: 'فتح المستند',
-  openError: 'فشل في فتح المستند. يرجى المحاولة مرة أخرى.'
+  openError: 'فشل في فتح المستند. يرجى المحاولة مرة أخرى.',
+  ocrInProgress: 'معالجة OCR قيد التنفيذ - ستظهر المستندات الجديدة في البحث عند اكتمالها',
+  documentsProcessing: 'مستندات قيد المعالجة'
 };
