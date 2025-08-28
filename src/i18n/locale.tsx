@@ -537,6 +537,42 @@ const bundles: Record<string, Bundle> = {
       averageSalary: 'متوسط الراتب',
       departments: 'الأقسام'
     }
+  },
+  knowledge_search: {
+    en: {
+      title: 'Knowledge Search',
+      subtitle: 'Search across your uploaded government and HR documents using semantic understanding.',
+      placeholder: 'Search e.g., "expiring iqama policy" or "Saudi labor contract terms"…',
+      search: 'Search',
+      searching: 'Searching...',
+      recent: 'Recent Documents',
+      no_results: 'No results found. Try different keywords or filters.',
+      relevance: 'Relevance',
+      open_document: 'Open Document',
+      all_portals: 'All Portals',
+      all_sources: 'All Sources',
+      gov_source: 'Government',
+      hr_source: 'HR Documents',
+      import_source: 'Imported Data',
+      manual_source: 'Manual Uploads'
+    },
+    ar: {
+      title: 'بحث المعرفة',
+      subtitle: 'ابحث عبر مستنداتك الحكومية والموارد البشرية باستخدام الفهم الدلالي.',
+      placeholder: 'ابحث مثلًا: "سياسة الإقامات المنتهية" أو "بنود عقد العمل السعودي"...',
+      search: 'بحث',
+      searching: 'جاري البحث...',
+      recent: 'المستندات الحديثة',
+      no_results: 'لم يتم العثور على نتائج. جرب كلمات مفتاحية أو مرشحات مختلفة.',
+      relevance: 'الملاءمة',
+      open_document: 'فتح المستند',
+      all_portals: 'جميع المنصات',
+      all_sources: 'جميع المصادر',
+      gov_source: 'المستندات الحكومية',
+      hr_source: 'مستندات الموارد البشرية',
+      import_source: 'البيانات المستوردة',
+      manual_source: 'الرفع اليدوي'
+    }
   }
 };
 
