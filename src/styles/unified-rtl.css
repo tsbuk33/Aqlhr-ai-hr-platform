@@ -1,0 +1,580 @@
+/**
+ * AqlHR Unified RTL System - Phase 1B
+ * Comprehensive Right-to-Left support for Arabic language
+ * Professional HR platform styling by 35-year industry expert
+ */
+
+/* =============================================================================
+   FOUNDATIONAL RTL SETUP
+   ============================================================================= */
+
+/* Arabic Font Loading - Professional Saudi HR fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+/* Document-level RTL configuration */
+html[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Arabic-specific font stack */
+html.arabic {
+  font-family: 'Tajawal', 'Cairo', 'Noto Sans Arabic', 'Segoe UI Arabic', sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+html.english {
+  font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* =============================================================================
+   LAYOUT SYSTEM - RTL MIRRORING
+   ============================================================================= */
+
+/* Flexbox Direction Reversals */
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row;
+}
+
+/* CSS Logical Properties for Modern RTL */
+.margin-inline-start-2 { margin-inline-start: 0.5rem; }
+.margin-inline-start-3 { margin-inline-start: 0.75rem; }
+.margin-inline-start-4 { margin-inline-start: 1rem; }
+.margin-inline-start-6 { margin-inline-start: 1.5rem; }
+
+.margin-inline-end-2 { margin-inline-end: 0.5rem; }
+.margin-inline-end-3 { margin-inline-end: 0.75rem; }
+.margin-inline-end-4 { margin-inline-end: 1rem; }
+.margin-inline-end-6 { margin-inline-end: 1.5rem; }
+
+.padding-inline-start-2 { padding-inline-start: 0.5rem; }
+.padding-inline-start-3 { padding-inline-start: 0.75rem; }
+.padding-inline-start-4 { padding-inline-start: 1rem; }
+.padding-inline-start-6 { padding-inline-start: 1.5rem; }
+
+.padding-inline-end-2 { padding-inline-end: 0.5rem; }
+.padding-inline-end-3 { padding-inline-end: 0.75rem; }
+.padding-inline-end-4 { padding-inline-end: 1rem; }
+.padding-inline-end-6 { padding-inline-end: 1.5rem; }
+
+/* Border Radius RTL */
+[dir="rtl"] .rounded-l-lg {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+[dir="rtl"] .rounded-r-lg {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+/* =============================================================================
+   NAVIGATION COMPONENTS - RTL
+   ============================================================================= */
+
+/* Sidebar RTL */
+[dir="rtl"] .sidebar {
+  right: 0;
+  left: auto;
+  border-left: 1px solid hsl(var(--border));
+  border-right: none;
+}
+
+[dir="rtl"] .sidebar-content {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+/* Navigation Menu RTL */
+[dir="rtl"] .nav-menu-item {
+  text-align: right;
+  padding-left: 1rem;
+  padding-right: 0.5rem;
+}
+
+[dir="rtl"] .nav-menu-icon {
+  margin-right: 0;
+  margin-left: 0.75rem;
+}
+
+/* Breadcrumbs RTL */
+[dir="rtl"] .breadcrumb {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .breadcrumb-separator::before {
+  content: "\\";
+  transform: scaleX(-1);
+}
+
+/* =============================================================================
+   FORM COMPONENTS - RTL
+   ============================================================================= */
+
+/* Input Fields RTL */
+[dir="rtl"] .form-input {
+  text-align: right;
+  padding-right: 0.75rem;
+  padding-left: 2.5rem; /* For icons */
+}
+
+[dir="rtl"] .form-input-icon {
+  right: auto;
+  left: 0.75rem;
+}
+
+/* Labels RTL */
+[dir="rtl"] .form-label {
+  text-align: right;
+}
+
+/* Form Grid RTL */
+[dir="rtl"] .form-grid {
+  direction: rtl;
+}
+
+/* Select Dropdown RTL */
+[dir="rtl"] .select-trigger {
+  text-align: right;
+  padding-right: 0.75rem;
+  padding-left: 2rem;
+}
+
+[dir="rtl"] .select-trigger .select-icon {
+  right: auto;
+  left: 0.5rem;
+}
+
+/* Checkbox/Radio RTL */
+[dir="rtl"] .checkbox-wrapper,
+[dir="rtl"] .radio-wrapper {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .checkbox-label,
+[dir="rtl"] .radio-label {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* =============================================================================
+   TABLE COMPONENTS - RTL
+   ============================================================================= */
+
+/* Data Tables RTL */
+[dir="rtl"] .table-container {
+  direction: rtl;
+}
+
+[dir="rtl"] .table th {
+  text-align: right;
+}
+
+[dir="rtl"] .table td {
+  text-align: right;
+}
+
+/* Table Actions RTL */
+[dir="rtl"] .table-actions {
+  justify-content: flex-start;
+}
+
+/* Sorting Icons RTL */
+[dir="rtl"] .sort-icon {
+  margin-right: 0;
+  margin-left: 0.25rem;
+}
+
+/* =============================================================================
+   MODAL & DIALOG COMPONENTS - RTL
+   ============================================================================= */
+
+/* Modal Content RTL */
+[dir="rtl"] .modal-content {
+  text-align: right;
+}
+
+/* Modal Header RTL */
+[dir="rtl"] .modal-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .modal-close-button {
+  right: auto;
+  left: 1rem;
+}
+
+/* Dialog Actions RTL */
+[dir="rtl"] .dialog-actions {
+  flex-direction: row-reverse;
+}
+
+/* =============================================================================
+   BUTTON COMPONENTS - RTL
+   ============================================================================= */
+
+/* Button with Icon RTL */
+[dir="rtl"] .btn-with-icon {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn-icon {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Button Groups RTL */
+[dir="rtl"] .btn-group {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn-group .btn:first-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+[dir="rtl"] .btn-group .btn:last-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
+}
+
+/* =============================================================================
+   DASHBOARD COMPONENTS - RTL
+   ============================================================================= */
+
+/* KPI Cards RTL */
+[dir="rtl"] .kpi-card {
+  text-align: right;
+}
+
+[dir="rtl"] .kpi-card-icon {
+  right: 1rem;
+  left: auto;
+}
+
+[dir="rtl"] .kpi-card-content {
+  padding-right: 4rem;
+  padding-left: 1rem;
+}
+
+/* Chart Containers RTL */
+[dir="rtl"] .chart-container {
+  direction: ltr; /* Keep charts LTR for data integrity */
+}
+
+[dir="rtl"] .chart-legend {
+  direction: rtl;
+  text-align: right;
+}
+
+/* =============================================================================
+   ICON SYSTEM - RTL FLIPPING
+   ============================================================================= */
+
+/* Icons that should flip for RTL */
+[dir="rtl"] .icon-flip {
+  transform: scaleX(-1);
+}
+
+/* Specific icons that need flipping */
+[dir="rtl"] .lucide-chevron-right {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lucide-chevron-left {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lucide-arrow-right {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .lucide-arrow-left {
+  transform: scaleX(-1);
+}
+
+/* Icons that should NOT flip */
+[dir="rtl"] .icon-no-flip {
+  transform: none;
+}
+
+/* =============================================================================
+   ANIMATION SYSTEM - RTL
+   ============================================================================= */
+
+/* Slide animations RTL */
+@keyframes slideInRight-rtl {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+[dir="rtl"] .slide-in-right {
+  animation: slideInRight-rtl 0.3s ease-out;
+}
+
+[dir="rtl"] .slide-in-left {
+  animation: slideInLeft-rtl 0.3s ease-out;
+}
+
+/* Progress bars RTL */
+[dir="rtl"] .progress-bar {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .progress-bar-fill {
+  transform: scaleX(-1);
+}
+
+/* =============================================================================
+   TYPOGRAPHY - ARABIC OPTIMIZATIONS
+   ============================================================================= */
+
+/* Arabic text optimizations */
+.arabic-text {
+  line-height: 1.8; /* Better for Arabic script */
+  letter-spacing: 0; /* No letter spacing for Arabic */
+  word-spacing: 0.1em; /* Slight word spacing */
+}
+
+/* Arabic headings */
+.arabic h1, .arabic h2, .arabic h3, .arabic h4, .arabic h5, .arabic h6 {
+  font-weight: 600; /* Arabic fonts look better with medium weight */
+  line-height: 1.4;
+}
+
+/* Arabic numbers (Eastern Arabic numerals) */
+.arabic-numerals {
+  font-feature-settings: "lnum" 0; /* Use Eastern Arabic numerals */
+}
+
+/* =============================================================================
+   RESPONSIVE RTL
+   ============================================================================= */
+
+/* Mobile RTL adjustments */
+@media (max-width: 768px) {
+  [dir="rtl"] .mobile-nav {
+    right: 0;
+    left: auto;
+  }
+  
+  [dir="rtl"] .mobile-menu-button {
+    right: 1rem;
+    left: auto;
+  }
+  
+  [dir="rtl"] .mobile-drawer {
+    right: 0;
+    left: auto;
+    transform: translateX(100%);
+  }
+  
+  [dir="rtl"] .mobile-drawer.open {
+    transform: translateX(0);
+  }
+}
+
+/* =============================================================================
+   ACCESSIBILITY - RTL
+   ============================================================================= */
+
+/* Screen reader support for RTL */
+[dir="rtl"] .sr-only-rtl {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus indicators RTL */
+[dir="rtl"] *:focus-visible {
+  outline-offset: 2px;
+}
+
+/* =============================================================================
+   HR PLATFORM SPECIFIC - RTL
+   ============================================================================= */
+
+/* Employee cards RTL */
+[dir="rtl"] .employee-card {
+  text-align: right;
+}
+
+[dir="rtl"] .employee-avatar {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+/* HR metrics RTL */
+[dir="rtl"] .metric-label {
+  text-align: right;
+}
+
+[dir="rtl"] .metric-value {
+  text-align: right;
+}
+
+/* Saudi government forms RTL (Qiwa, GOSI, etc.) */
+[dir="rtl"] .gov-form {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .gov-form-section {
+  border-right: 2px solid hsl(var(--primary));
+  border-left: none;
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+/* Compliance indicators RTL */
+[dir="rtl"] .compliance-indicator {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .compliance-status {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* =============================================================================
+   PRINT STYLES - RTL
+   ============================================================================= */
+
+@media print {
+  [dir="rtl"] .print-container {
+    direction: rtl;
+    text-align: right;
+  }
+  
+  [dir="rtl"] .print-header {
+    flex-direction: row-reverse;
+  }
+  
+  [dir="rtl"] .print-footer {
+    flex-direction: row-reverse;
+  }
+}
+
+/* =============================================================================
+   DARK MODE RTL COMPATIBILITY
+   ============================================================================= */
+
+.dark [dir="rtl"] .sidebar {
+  border-left-color: hsl(var(--border));
+}
+
+.dark [dir="rtl"] .nav-menu-item:hover {
+  background: hsl(var(--accent));
+}
+
+/* =============================================================================
+   UTILITY CLASSES
+   ============================================================================= */
+
+/* RTL-specific utility classes */
+.rtl-only {
+  display: none;
+}
+
+[dir="rtl"] .rtl-only {
+  display: block;
+}
+
+.ltr-only {
+  display: block;
+}
+
+[dir="rtl"] .ltr-only {
+  display: none;
+}
+
+/* Text alignment utilities */
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+/* Flexbox utilities for RTL */
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+/* =============================================================================
+   FIXES FOR COMMON RTL ISSUES
+   ============================================================================= */
+
+/* Fix for Tailwind margin/padding conflicts */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Fix for dropdown positioning */
+[dir="rtl"] .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+/* Fix for tooltip positioning */
+[dir="rtl"] .tooltip {
+  transform-origin: center;
+}
+
+/* Fix for floating elements */
+[dir="rtl"] .float-right {
+  float: left;
+}
+
+[dir="rtl"] .float-left {
+  float: right;
+}

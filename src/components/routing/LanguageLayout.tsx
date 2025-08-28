@@ -1,9 +1,13 @@
+/**
+ * AqlHR Language Layout - Updated for Unified Locale System
+ * Professional HR platform layout with proper Arabic RTL support
+ */
 import { Navigate, Outlet, useParams, useLocation } from 'react-router-dom';
-import { localeDriver } from '@/lib/i18n/localeDriver';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import DevModeGuard from '@/lib/dev/DevModeGuard';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { useEffect } from 'react';
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from '@/components/AppSidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { useEnsureDemoSeed } from '@/hooks/useEnsureDemoSeed';
@@ -12,17 +16,21 @@ export default function LanguageLayout() {
   const { lang } = useParams();
   const location = useLocation();
   const demoReady = useEnsureDemoSeed();
+  const { setLang, isRTL } = useUnifiedLocale();
   
-  // Apply language settings in useEffect to avoid setState during render - force rebuild
+  // Sync route language with unified locale system
   useEffect(() => {
     if (lang === 'en' || lang === 'ar') {
-      localeDriver.setLang(lang);
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      console.log('[LanguageLayout] Syncing route language:', lang);
+      setLang(lang);
     }
-  }, [lang]);
+  }, [lang, setLang]);
   
-  if (lang !== 'en' && lang !== 'ar') return <Navigate to="/en" replace />;
+  // Validate language parameter
+  if (lang !== 'en' && lang !== 'ar') {
+    console.log('[LanguageLayout] Invalid language, redirecting to /en');
+    return <Navigate to="/en" replace />;
+  }
 
   // Don't protect the auth page itself
   const isAuthPage = location.pathname.includes('/auth');
@@ -30,7 +38,10 @@ export default function LanguageLayout() {
   const content = (
     <DevModeGuard>
       <SidebarProvider>
-        <div className="min-h-screen flex w-full bg-background text-foreground">
+        <div 
+          className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
+          dir={isRTL ? 'rtl' : 'ltr'}
+        >
           <AppSidebar />
           <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
             <DashboardHeader />

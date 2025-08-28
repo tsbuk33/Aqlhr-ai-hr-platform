@@ -3,11 +3,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/toaster';
-import { LocaleProvider } from '@/i18n/locale';
+import { UnifiedLocaleProvider } from '@/lib/i18n/unifiedLocaleSystem';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { AuthProvider } from '@/hooks/useAuth.tsx';
 import { ensureDevTenant } from '@/lib/dev/DevModeGuard';
-import { localeDriver } from '@/lib/i18n/localeDriver';
 
 interface AppProvidersProps {
   children: React.ReactNode;
@@ -27,12 +26,10 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   // Initialize dev tenant on mount
   useEffect(() => {
     ensureDevTenant();
-    // Initialize locale driver
-    localeDriver.resolveLang();
   }, []);
 
   return (
-    <LocaleProvider>
+    <UnifiedLocaleProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
@@ -41,6 +38,6 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
           <Toaster />
         </QueryClientProvider>
       </ThemeProvider>
-    </LocaleProvider>
+    </UnifiedLocaleProvider>
   );
 };
