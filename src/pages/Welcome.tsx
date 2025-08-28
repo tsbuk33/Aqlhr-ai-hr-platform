@@ -1,21 +1,15 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building2, Users, BarChart3, Shield, Zap, Globe } from 'lucide-react';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 import LanguageToggle from '@/components/LanguageToggle';
-import { resolveLang } from '@/lib/i18n/localePath';
+import { LinkL } from '@/lib/i18n/LinkL';
 
 const Welcome = () => {
-  const navigate = useNavigate();
   const { language } = useLanguage();
   const isArabic = language === 'ar';
 
-  const handleGetStarted = () => {
-    const currentLang = resolveLang();
-    navigate(`/${currentLang}/auth`);
-  };
 
   const features = [
     {
@@ -74,8 +68,8 @@ const Welcome = () => {
           </div>
 
           <div className="flex items-center justify-center gap-4">
-            <Button size="lg" onClick={handleGetStarted} className="text-lg px-8 py-3">
-              {isArabic ? 'ابدأ الآن' : 'Get Started'}
+            <Button size="lg" asChild className="text-lg px-8 py-3">
+              <LinkL to="/auth">{isArabic ? 'ابدأ الآن' : 'Get Started'}</LinkL>
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8 py-3">
               {isArabic ? 'شاهد العرض التوضيحي' : 'Watch Demo'}
@@ -132,9 +126,11 @@ const Welcome = () => {
                 }
               </p>
               <div className="flex items-center justify-center gap-4">
-                <Button size="lg" onClick={handleGetStarted}>
-                  <Globe className="mr-2 h-5 w-5" />
-                  {isArabic ? 'الوصول إلى المنصة' : 'Access Platform'}
+                <Button size="lg" asChild>
+                  <LinkL to="/auth">
+                    <Globe className="mr-2 h-5 w-5" />
+                    {isArabic ? 'الوصول إلى المنصة' : 'Access Platform'}
+                  </LinkL>
                 </Button>
               </div>
             </div>
