@@ -142,9 +142,12 @@ const getPlatformModules = (isArabic: boolean) => [
     color: "blue"
   },
   // Consulting Services
-  { 
+  {
     title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", url: "/consulting", icon: GraduationCap, badge: "NEW", color: "teal",
     subItems: [
+      { title: isArabic ? "مراجعة السياسات بالذكاء الاصطناعي" : "AI Policy Review", url: "/policy-review", badge: "AI" },
+      { title: isArabic ? "رحلة الموظف الذكية" : "Smart Employee Journey", url: "/employee-lifecycle", badge: "AI" },
+      { title: isArabic ? "محرك مقارنة الرواتب" : "Salary Benchmarking Engine", url: "/salary-benchmarking", badge: "AI" },
       { title: isArabic ? "التقييم الاستراتيجي الذكي" : "AI Strategic Assessment", url: "/consulting/ai-assessment", badge: "NEW" },
       { title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/consulting/strategic-planning" },
       { title: isArabic ? "التحول الرقمي" : "Digital Transformation", url: "/consulting/digital-transformation" },
