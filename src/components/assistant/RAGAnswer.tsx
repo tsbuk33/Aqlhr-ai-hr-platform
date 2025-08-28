@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRAGStream, type Citation } from '../../hooks/useRAGStream';
-import { supabase } from '../../lib/supabase';
-import { FileText, Download, ExternalLink, Loader2, Send, Copy, Check, AlertCircle, Calendar, Tag, Globe } from 'lucide-react';
+import { supabase } from '../../lib/supabaseClient';
+import { FileText, Download, ExternalLink, Loader2, Send, Copy, Check, AlertCircle, Calendar, Tag, Globe, Plus, Save, ThumbsUp, ThumbsDown, Clock, User } from 'lucide-react';
 
 interface RAGAnswerProps {
   className?: string;
@@ -15,6 +15,17 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
   const [exportingCsv, setExportingCsv] = useState(false);
   const [exportingPdf, setExportingPdf] = useState(false);
   
+  // Phase 24: Evidence -> Action state
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const [taskDue, setTaskDue] = useState<string>('');
+  const [taskPriority, setTaskPriority] = useState<'low' | 'medium' | 'high'>('medium');
+  const [taskAssignee, setTaskAssignee] = useState<string>('');
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackHelpful, setFeedbackHelpful] = useState<boolean | null>(null);
+  const [feedbackReason, setFeedbackReason] = useState<string>('');
+  const [saving, setSaving] = useState(false);
+  const [lastAskedQuestion, setLastAskedQuestion] = useState<string>('');
+  
   const { citations, text, running, askQuestion, abortStream } = useRAGStream();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -24,7 +35,9 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
     e.preventDefault();
     if (!question.trim() || running) return;
     
-    askQuestion(question.trim());
+    const q = question.trim();
+    setLastAskedQuestion(q);
+    askQuestion(q);
     setQuestion('');
   };
 
@@ -247,6 +260,86 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
               </div>
             )}
 
+            {/* Phase 24: Action Bar */}
+            {text.trim() && (
+              <div className="bg-white border border-gray-200 rounded-lg p-4">
+                <div className="flex flex-wrap gap-3 items-center justify-between">
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => setShowTaskModal(true)}
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                      disabled={saving}
+                    >
+                      <Plus className="w-4 h-4" />
+                      {t('rag.actions.createTask', 'Create Task')}
+                    </button>
+                    <button
+                      onClick={handleSaveNote}
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                      disabled={saving}
+                    >
+                      <Save className="w-4 h-4" />
+                      {t('rag.actions.saveNote', 'Save Note')}
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600">
+                      {t('rag.actions.wasHelpful', 'Was this helpful?')}
+                    </span>
+                    <button
+                      onClick={() => handleFeedback(true)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        feedbackHelpful === true
+                          ? 'bg-green-100 text-green-600 border border-green-200'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                      }`}
+                      title={t('rag.actions.helpful', 'Helpful')}
+                    >
+                      <ThumbsUp className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleFeedback(false)}
+                      className={`p-2 rounded-lg transition-colors ${
+                        feedbackHelpful === false
+                          ? 'bg-red-100 text-red-600 border border-red-200'
+                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border border-gray-200'
+                      }`}
+                      title={t('rag.actions.notHelpful', 'Not helpful')}
+                    >
+                      <ThumbsDown className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* No Evidence Alert */}
+            {!running && text.trim() && citations.length === 0 && (
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex-none">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-yellow-800 mb-1">
+                      {t('rag.noEvidence.title', 'No supporting evidence found')}
+                    </h4>
+                    <p className="text-sm text-yellow-700 mb-3">
+                      {t('rag.noEvidence.description', 'We could not find any supporting documents for this answer. You may want to upload relevant documents or request them from government portals.')}
+                    </p>
+                    <button
+                      onClick={handleRequestEvidence}
+                      className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-yellow-800 bg-yellow-100 border border-yellow-300 rounded-lg hover:bg-yellow-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                      {t('rag.noEvidence.requestEvidence', 'Request Evidence Task')}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {running && (
               <div className="flex items-center gap-2 text-blue-600 bg-blue-50 p-3 rounded-lg">
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -382,6 +475,315 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
           </div>
         )}
       </div>
+
+      {/* Create Task Modal */}
+      {showTaskModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                {t('rag.actions.createTask', 'Create Task from Answer')}
+              </h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('rag.task.dueDate', 'Due Date (Optional)')}
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={taskDue}
+                    onChange={(e) => setTaskDue(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('rag.task.priority', 'Priority')}
+                  </label>
+                  <select
+                    value={taskPriority}
+                    onChange={(e) => setTaskPriority(e.target.value as 'low' | 'medium' | 'high')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="low">{t('rag.task.low', 'Low')}</option>
+                    <option value="medium">{t('rag.task.medium', 'Medium')}</option>
+                    <option value="high">{t('rag.task.high', 'High')}</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {t('rag.task.assignee', 'Assignee (Optional)')}
+                  </label>
+                  <input
+                    type="text"
+                    value={taskAssignee}
+                    onChange={(e) => setTaskAssignee(e.target.value)}
+                    placeholder={t('rag.task.assigneePlaceholder', 'Enter user ID or leave empty')}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
+                <button
+                  onClick={() => setShowTaskModal(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                  disabled={saving}
+                >
+                  {t('common.cancel', 'Cancel')}
+                </button>
+                <button
+                  onClick={handleCreateTask}
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                  disabled={saving}
+                >
+                  {saving ? t('common.saving', 'Saving...') : t('common.create', 'Create')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {feedbackOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                {t('rag.feedback.title', 'Help us improve')}
+              </h3>
+              <p className="text-sm text-gray-600 mb-4">
+                {t('rag.feedback.description', 'What could be improved about this answer?')}
+              </p>
+              
+              <textarea
+                value={feedbackReason}
+                onChange={(e) => setFeedbackReason(e.target.value)}
+                placeholder={t('rag.feedback.placeholder', 'Please describe what was missing or incorrect...')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-h-[100px]"
+                rows={4}
+              />
+
+              <div className="flex justify-end gap-3 mt-4 pt-4 border-t">
+                <button
+                  onClick={() => setFeedbackOpen(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                  disabled={saving}
+                >
+                  {t('common.cancel', 'Cancel')}
+                </button>
+                <button
+                  onClick={handleSubmitFeedback}
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 transition-colors"
+                  disabled={saving}
+                >
+                  {saving ? t('common.submitting', 'Submitting...') : t('common.submit', 'Submit')}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
+
+  // Phase 24: Action Handler Functions
+  const handleFeedback = (helpful: boolean) => {
+    setFeedbackHelpful(helpful);
+    if (helpful) {
+      // Positive feedback - submit immediately
+      handleSubmitFeedback(true);
+    } else {
+      // Negative feedback - open modal for reason
+      setFeedbackOpen(true);
+    }
+  };
+
+  const handleSubmitFeedback = async (helpfulOverride?: boolean) => {
+    setSaving(true);
+    try {
+      const helpful = helpfulOverride ?? feedbackHelpful ?? false;
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+
+      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/assistant-actions-v1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({
+          op: 'feedback',
+          session_id: null,
+          message_id: null,
+          question: lastAskedQuestion,
+          answer: text,
+          helpful,
+          reason: helpful ? null : feedbackReason || null
+        })
+      });
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error || 'Feedback submission failed');
+      }
+
+      setFeedbackOpen(false);
+      setFeedbackReason('');
+      
+      // Show success message
+      const message = helpful 
+        ? t('rag.feedback.thanksPositive', 'Thank you for the positive feedback!')
+        : t('rag.feedback.thanksNegative', 'Thank you for helping us improve!');
+      
+      // You could show a toast notification here
+      console.log(message);
+    } catch (error) {
+      console.error('Feedback submission error:', error);
+      // You could show an error notification here
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCreateTask = async () => {
+    setSaving(true);
+    try {
+      const title = `[AqlHR] ${t('rag.task.titlePrefix', 'Follow-up on evidence answer')} — ${lastAskedQuestion.slice(0, 60)}`;
+      const description = [
+        t('rag.task.autoGenerated', 'Auto-generated by AqlHR Assistant (evidence-backed)'),
+        '',
+        `**${t('rag.task.question', 'Question:')}** ${lastAskedQuestion}`,
+        '',
+        `**${t('rag.task.answer', 'Answer:')}**`,
+        text,
+        '',
+        `**${t('rag.task.citations', 'Citations:')}**`,
+        ...citations.map(c => `- [${c.n}] ${c.title} (${c.portal || '-'} / ${c.doc_type || '-'})`)
+      ].join('\n');
+
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+
+      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/assistant-actions-v1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({
+          op: 'create_task',
+          title,
+          description,
+          priority: taskPriority,
+          due_at: taskDue ? new Date(taskDue).toISOString() : null,
+          assignee: taskAssignee || null,
+          labels: ['assistant', 'evidence', 'rag']
+        })
+      });
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error || 'Task creation failed');
+      }
+
+      setShowTaskModal(false);
+      setTaskDue('');
+      setTaskPriority('medium');
+      setTaskAssignee('');
+      
+      // Show success message
+      console.log(t('rag.task.created', 'Task created successfully!'));
+    } catch (error) {
+      console.error('Task creation error:', error);
+      // Show error message
+      console.error(t('rag.task.error', 'Failed to create task'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleSaveNote = async () => {
+    setSaving(true);
+    try {
+      const title = lastAskedQuestion.slice(0, 120);
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+
+      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/assistant-actions-v1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({
+          op: 'save_note',
+          title,
+          content: text,
+          lang: i18n.language,
+          citations
+        })
+      });
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error || 'Note save failed');
+      }
+
+      // Show success message
+      console.log(t('rag.note.saved', 'Note saved successfully!'));
+    } catch (error) {
+      console.error('Note save error:', error);
+      // Show error message
+      console.error(t('rag.note.error', 'Failed to save note'));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleRequestEvidence = async () => {
+    setSaving(true);
+    try {
+      const title = `[AqlHR] ${t('rag.evidence.requestTitle', 'Document request for missing evidence')}`;
+      const description = `${t('rag.evidence.requestDescription', 'Please upload the official documents related to this query:')}\n\n${t('rag.task.question', 'Question:')} ${lastAskedQuestion}`;
+
+      const session = await supabase.auth.getSession();
+      const token = session.data.session?.access_token;
+
+      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/assistant-actions-v1`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({
+          op: 'create_task',
+          title,
+          description,
+          priority: 'high',
+          due_at: null,
+          assignee: null,
+          labels: ['document', 'request', 'government', 'evidence']
+        })
+      });
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error || 'Evidence request task creation failed');
+      }
+
+      // Show success message
+      console.log(t('rag.evidence.created', 'Evidence request task created!'));
+    } catch (error) {
+      console.error('Evidence request error:', error);
+      // Show error message
+      console.error(t('rag.evidence.error', 'Failed to create evidence request'));
+    } finally {
+      setSaving(false);
+    }
+  };
 }
