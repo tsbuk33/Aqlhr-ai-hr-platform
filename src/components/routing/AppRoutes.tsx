@@ -32,6 +32,8 @@ import AIIntegrationDashboard from '@/pages/admin/AIIntegrationDashboard';
 import { EnterpriseAIReportingEngine } from '@/components/ai-ecosystem/EnterpriseAIReportingEngine';
 import HelpPage from '@/pages/HelpPage';
 import Auth from '@/pages/Auth';
+import AssistantPage from '@/pages/AssistantPage';
+import RAGPage from '@/pages/RAGPage';
 
 // Tiny utilities (inline to avoid extra files)
 function Ping() { return <div style={{padding:16}}>OK — routing alive.</div>; }

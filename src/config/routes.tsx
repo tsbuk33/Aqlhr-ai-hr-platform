@@ -234,6 +234,7 @@ const CCITracking = lazy(() => import('../pages/cci/Tracking'));
 const CCIExport = lazy(() => import('../pages/cci/Export'));
 const AgentSkills = lazy(() => import('../pages/agent/SkillsPage'));
 const AssistantPage = lazy(() => import('../pages/AssistantPage'));
+const RAGPage = lazy(() => import('../pages/RAGPage'));
 const TestHarness = lazy(() => import('../pages/TestHarness'));
 const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
@@ -620,6 +621,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/agent/skills', element: AgentSkills, auth: false },
   { path: '/integrations', element: lazy(() => import('../pages/integrations/IntegrationsPage')), auth: true },
   { path: '/assistant', element: AssistantPage, auth: true },
+  { path: '/assistant/rag', element: RAGPage, auth: true },
   { path: '/security', element: lazy(() => import('../pages/SecurityPage')), auth: true },
   
   // I18n Test Page

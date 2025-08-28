@@ -401,5 +401,34 @@
       },
       "integrationTitle": "Integrated ESG-HR Platform",
       "integrationDescription": "Seamlessly combining environmental responsibility, social impact, and governance excellence with comprehensive HR management for sustainable business success."
+    },
+    "assistant": {
+      "tabs": {
+        "chat": "General Chat",
+        "rag": "Ask with Evidence"
+      }
+    },
+    "rag": {
+      "title": "Ask with Evidence",
+      "subtitle": "Get answers backed by your uploaded documents",
+      "answer": "Answer",
+      "citations": "Citations",
+      "portal": "Portal",
+      "type": "Type",
+      "date": "Date",
+      "viewDocument": "View Document",
+      "questionPlaceholder": "Ask a question about your documents...",
+      "placeholder": "Ask a question to get evidence-based answers",
+      "searching": "Searching documents and generating answer...",
+      "exportCsv": "Export citations as CSV",
+      "exportPdf": "Export answer as PDF",
+      "export": {
+        "citation": "Citation",
+        "title": "Title",
+        "portal": "Portal",
+        "type": "Type", 
+        "date": "Date",
+        "pdfTitle": "RAG Answer with Evidence"
+      }
     }
 }
