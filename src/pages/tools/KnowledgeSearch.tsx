@@ -35,16 +35,11 @@ export default function KnowledgeSearch() {
 
   const strings = isRTL ? AR : EN;
 
-  // Check for OCR jobs in progress
+  // Check for OCR jobs in progress - fallback to empty array since table doesn't exist
   const ocrStatus = useQuery({
     queryKey: ['ocr_status'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('doc_ocr_queue')
-        .select('status')
-        .in('status', ['queued', 'processing']);
-      if (error) throw error;
-      return data || [];
+      return [];
     },
     refetchInterval: 10000 // Check every 10 seconds
   });

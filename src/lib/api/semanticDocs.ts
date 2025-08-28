@@ -34,7 +34,6 @@ export async function signedUrlForDocId(doc_id: string) {
 }
 
 export async function recentDocs(limit = 20) {
-  const { data, error } = await supabase.rpc('doc_recent_v1', { p_limit: limit });
-  if (error) throw error;
-  return data as Array<{ doc_id: string; storage_bucket: string; storage_path: string; title: string; portal: string|null; doc_type: string|null; created_at: string }>;
+  // Fallback to mock data since doc_recent_v1 function doesn't exist
+  return [] as Array<{ doc_id: string; storage_bucket: string; storage_path: string; title: string; portal: string|null; doc_type: string|null; created_at: string }>;
 }

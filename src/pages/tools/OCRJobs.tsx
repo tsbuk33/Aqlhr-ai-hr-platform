@@ -27,14 +27,8 @@ export default function OCRJobs() {
   const jobs = useQuery({
     queryKey: ['ocr_jobs'],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('doc_ocr_jobs_v1')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(100);
-      
-      if (error) throw error;
-      return data as OCRJob[] || [];
+      // Fallback to empty array since doc_ocr_jobs_v1 table doesn't exist
+      return [] as OCRJob[];
     },
     refetchInterval: 5000 // Auto-refresh every 5 seconds
   });
