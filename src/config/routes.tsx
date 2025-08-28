@@ -253,6 +253,7 @@ const GenerativeEngagementOptimization = lazy(() => import('../pages/geo/Generat
 
 // Tools & Integrations module
 const Tools = lazy(() => import('../pages/Tools'));
+const ImportCenter = lazy(() => import('../pages/tools/ImportCenter'));
 
 // Legal Consultant module
 const LegalConsultant = lazy(() => import('../pages/LegalConsultant'));
@@ -484,6 +485,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/tools/smart-kpi', element: SmartKPITool, auth: true },
   { path: '/additional/smart-kpi', element: SmartKPITool, auth: true }, // Alternative route
   { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
+  { path: '/tools/imports', element: ImportCenter, auth: true },
   { path: '/test-harness', element: TestHarness, auth: true, adminOnly: true },
   
   // Super Admin Dashboard

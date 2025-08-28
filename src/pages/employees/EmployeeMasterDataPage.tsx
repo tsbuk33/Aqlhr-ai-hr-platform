@@ -112,7 +112,7 @@ const EmployeeMasterDataPage = () => {
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
-              {t('common', 'search') || 'Search'}
+              {t('employees.filters.apply')}
             </Button>
             <Button variant="outline" className="flex items-center gap-2">
               <Filter className="h-4 w-4" />
@@ -130,35 +130,35 @@ const EmployeeMasterDataPage = () => {
               className="cursor-pointer"
               onClick={() => setStatusFilter('all')}
             >
-              {locale === 'ar' ? 'الكل' : 'All'}
+              {t('employees.filters.all')}
             </Badge>
             <Badge 
               variant={statusFilter === 'active' ? 'default' : 'secondary'}
               className="cursor-pointer"
               onClick={() => setStatusFilter('active')}
             >
-              {locale === 'ar' ? 'نشط' : 'Active'}
+              {t('employees.status.active')}
             </Badge>
             <Badge 
               variant={statusFilter === 'probation' ? 'default' : 'secondary'}
               className="cursor-pointer"
               onClick={() => setStatusFilter('probation')}
             >
-              {locale === 'ar' ? 'تحت التجربة' : 'Probation'}
+              {t('employees.status.probation')}
             </Badge>
             <Badge 
               variant={statusFilter === 'terminated' ? 'default' : 'secondary'}
               className="cursor-pointer"
               onClick={() => setStatusFilter('terminated')}
             >
-              {locale === 'ar' ? 'منتهي الخدمة' : 'Terminated'}
+              {t('employees.status.terminated')}
             </Badge>
             <Badge 
               variant={statusFilter === 'resigned' ? 'default' : 'secondary'}
               className="cursor-pointer"
               onClick={() => setStatusFilter('resigned')}
             >
-              {locale === 'ar' ? 'مستقيل' : 'Resigned'}
+              {t('employees.status.inactive')}
             </Badge>
           </div>
 
@@ -169,7 +169,7 @@ const EmployeeMasterDataPage = () => {
               className="cursor-pointer"
               onClick={() => setNationalityFilter('all')}
             >
-              {locale === 'ar' ? 'جميع الجنسيات' : 'All Nationalities'}
+              {t('employees.filters.allDepartments')}
             </Badge>
             <Badge 
               variant={nationalityFilter === 'saudi' ? 'default' : 'secondary'}
@@ -271,7 +271,7 @@ const EmployeeMasterDataPage = () => {
             {filteredEmployees && filteredEmployees.length > 0 ? (
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground">
-                  {formatNumber(filteredEmployees.length, locale)} {locale === 'ar' ? 'موظف معروض' : 'employees shown'}
+                  {formatNumber(filteredEmployees.length, locale)} {t('employees.page.noEmployees')}
                 </div>
                 
                 <div className="grid gap-4">
@@ -290,12 +290,12 @@ const EmployeeMasterDataPage = () => {
                               : employee.full_name_en || 'Unknown'}
                           </p>
                           <p className="text-sm text-muted-foreground">
-                            {locale === 'ar' ? 'رقم الموظف' : 'ID'}: {employee.employee_no || 'N/A'}
+                            {t('employees.table.employeeId')}: {employee.employee_no || 'N/A'}
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {employee.hr_departments?.name_ar && locale === 'ar' 
                               ? employee.hr_departments.name_ar 
-                              : employee.hr_departments?.name_en || 'No Department'}
+                              : employee.hr_departments?.name_en || t('employees.table.department')}
                           </p>
                         </div>
                       </div>
@@ -304,9 +304,9 @@ const EmployeeMasterDataPage = () => {
                           {employee.is_saudi ? t('employees', 'saudi') : t('employees', 'non_saudi')}
                         </Badge>
                         <Badge variant="outline">
-                          {employee.employment_status === 'active' ? (locale === 'ar' ? 'نشط' : 'Active') :
-                           employee.employment_status === 'probation' ? (locale === 'ar' ? 'تحت التجربة' : 'Probation') :
-                           employee.employment_status || 'unknown'}
+                          {employee.employment_status === 'active' ? t('employees.status.active') :
+                           employee.employment_status === 'probation' ? t('employees.status.probation') :
+                           employee.employment_status || t('employees.status.inactive')}
                         </Badge>
                       </div>
                     </div>
@@ -316,7 +316,7 @@ const EmployeeMasterDataPage = () => {
                 {filteredEmployees.length > 10 && (
                   <div className="text-center pt-4">
                     <Button variant="outline">
-                      {locale === 'ar' ? 'تحميل المزيد' : 'Load More'} ({formatNumber(filteredEmployees.length - 10, locale)} {locale === 'ar' ? 'أكثر' : 'more'})
+                      {t('employees.actions.bulkActions')} ({formatNumber(filteredEmployees.length - 10, locale)} {t('employees.bulk.selected')})
                     </Button>
                   </div>
                 )}
@@ -325,8 +325,8 @@ const EmployeeMasterDataPage = () => {
               <div className="text-center py-8">
                 <p className="text-muted-foreground">
                   {searchTerm || statusFilter !== 'all' || nationalityFilter !== 'all'
-                    ? (locale === 'ar' ? 'لا يوجد موظفون يطابقون المرشح' : 'No employees match the current filter')
-                    : (locale === 'ar' ? 'لا يوجد موظفون حتى الآن' : 'No employees yet')
+                    ? t('employees.filters.apply')
+                    : t('employees.page.noEmployees')
                   }
                 </p>
               </div>
@@ -374,7 +374,7 @@ const EmployeeMasterDataPage = () => {
               <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5 flex-shrink-0" />
               <div className="space-y-1">
                 <p className="text-sm font-medium">
-                  {locale === 'ar' ? 'إشعار الخصوصية' : 'Privacy Notice'}
+                  {t('employees.page.title')}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {t('employees', 'pdpl_notice')}

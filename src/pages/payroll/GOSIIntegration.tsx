@@ -1,5 +1,7 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
+import { GovDocSection } from "@/components/government/GovDocSection";
+import { useGovAdapterStatus } from '@/hooks/useGovAdapterStatus';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -47,6 +49,47 @@ const GOSIIntegration = () => {
   const [employees, setEmployees] = useState<GOSIEmployee[]>([]);
   const [summary, setSummary] = useState<GOSISummary | null>(null);
   const [loading, setLoading] = useState(true);
+  const { status: adapterStatus, isLoading: statusLoading } = useGovAdapterStatus('GOSI');
+  
+  // GOSI document types
+  const gosiDocTypes = [
+    'Monthly Contribution Report',
+    'Employee Registration Form',
+    'Salary Certificate',
+    'Employment Contract',
+    'Wage Protection Certificate',
+    'Compliance Report',
+    'Other GOSI Document'
+  ];
+  
+  // Mock GOSI documents
+  const mockGosiDocuments = [
+    {
+      id: 'gosi_001',
+      fileName: 'monthly_contributions_report_2024_08.pdf',
+      fileUrl: '/mock/gosi/monthly_report.pdf',
+      docType: 'Monthly Contribution Report',
+      uploadedAt: '2024-08-25T10:00:00Z',
+      refId: 'GOSI-2024-MCR-001',
+      status: 'active' as const
+    }
+  ];
+  
+  const handleDocumentUpload = (fileUrl: string, metadata: any) => {
+    console.log('GOSI Document uploaded:', { fileUrl, metadata });
+    toast({
+      title: isRTL ? "تم رفع وثيقة التأمينات بنجاح" : "GOSI document uploaded successfully",
+      description: isRTL ? "تم رفع الوثيقة إلى نظام التأمينات" : "Document uploaded to GOSI system"
+    });
+  };
+  
+  const handleDocumentView = (doc: any) => {
+    console.log('Opening GOSI document:', doc);
+    toast({
+      title: isRTL ? "عرض وثيقة التأمينات" : "View GOSI Document",
+      description: isRTL ? "جارٍ فتح الوثيقة..." : "Opening document..."
+    });
+  };
 
   const handleTestConnection = async () => {
     toast({
@@ -422,6 +465,7 @@ const GOSIIntegration = () => {
           <TabsTrigger value="employees">Employee Breakdown</TabsTrigger>
           <TabsTrigger value="schedule">Rate Schedule</TabsTrigger>
           <TabsTrigger value="compliance">Compliance</TabsTrigger>
+          <TabsTrigger value="documents">Documents</TabsTrigger>
         </TabsList>
         
         <TabsContent value="test" className="space-y-4">
@@ -570,6 +614,20 @@ const GOSIIntegration = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+        
+        <TabsContent value="documents" className="space-y-6">
+          <GovDocSection
+            portalName="GOSI"
+            portalIcon={<Shield className="h-5 w-5" />}
+            description="Saudi Social Insurance Platform - Royal Decree M/273"
+            docTypes={gosiDocTypes}
+            existingDocs={mockGosiDocuments}
+            onDocumentUpload={handleDocumentUpload}
+            onDocumentView={handleDocumentView}
+            showUploader={true}
+            adapterStatus={adapterStatus}
+          />
         </TabsContent>
       </Tabs>
     </UnifiedGovernmentInterface>

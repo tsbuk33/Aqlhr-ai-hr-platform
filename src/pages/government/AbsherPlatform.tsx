@@ -1,6 +1,9 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useTranslation } from 'react-i18next';
 import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import { GovDocSection } from "@/components/government/GovDocSection";
+import { useGovAdapterStatus } from '@/hooks/useGovAdapterStatus';
 import { Users, Building, Shield, FileText, TrendingUp, CheckCircle, CreditCard, UserCheck } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +14,63 @@ import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const AbsherPlatform = () => {
   const { t, isRTL } = useLanguage();
+  const { t: tFunc } = useTranslation();
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const { status: adapterStatus, isLoading: statusLoading } = useGovAdapterStatus('Absher');
+
+  // Absher document types
+  const absherDocTypes = [
+    'Iqama (Residence Permit)',
+    'Passport Copy',
+    'Exit Re-entry Permit',
+    'Family Visit Visa',
+    'Employment Contract',
+    'Salary Certificate',
+    'Medical Insurance',
+    'Birth Certificate',
+    'Family Certificate',
+    'Address Proof',
+    'Other Absher Document'
+  ];
+
+  // Mock Absher documents
+  const mockAbsherDocuments = [
+    {
+      id: 'abs_001',
+      fileName: 'iqama_renewal_application.pdf',
+      fileUrl: '/mock/absher/iqama_renewal.pdf',
+      docType: 'Iqama (Residence Permit)',
+      uploadedAt: '2024-08-25T11:30:00Z',
+      expiresOn: '2025-08-25',
+      refId: 'ABS-2024-IQ-001',
+      status: 'active' as const
+    },
+    {
+      id: 'abs_002',
+      fileName: 'exit_reentry_permit_request.pdf',
+      fileUrl: '/mock/absher/exit_reentry.pdf',
+      docType: 'Exit Re-entry Permit',
+      uploadedAt: '2024-08-20T09:15:00Z',
+      refId: 'ABS-2024-ER-002',
+      status: 'pending' as const
+    }
+  ];
+
+  const handleDocumentUpload = (fileUrl: string, metadata: any) => {
+    console.log('Absher Document uploaded:', { fileUrl, metadata });
+    toast({
+      title: isRTL ? "تم رفع الوثيقة بنجاح" : "Document uploaded successfully",
+      description: isRTL ? "تم رفع الوثيقة إلى منصة أبشر" : "Document uploaded to Absher platform"
+    });
+  };
+
+  const handleDocumentView = (doc: any) => {
+    console.log('Opening Absher document:', doc);
+    toast({
+      title: isRTL ? "عرض الوثيقة" : "View Document",
+      description: isRTL ? "جارٍ فتح الوثيقة..." : "Opening document..."
+    });
+  };
 
   const handleTestConnection = async () => {
     toast({
@@ -45,8 +104,9 @@ const AbsherPlatform = () => {
       onSyncNow={handleSyncNow}
     >
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="documents">{tFunc('government.documents.title')}</TabsTrigger>
           <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
         </TabsList>
         
@@ -275,6 +335,20 @@ const AbsherPlatform = () => {
           </div>
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="documents" className="space-y-6">
+          <GovDocSection
+            portalName="Absher"
+            portalIcon={<Shield className="h-5 w-5" />}
+            description={tFunc('government.absher.description')}
+            docTypes={absherDocTypes}
+            existingDocs={mockAbsherDocuments}
+            onDocumentUpload={handleDocumentUpload}
+            onDocumentView={handleDocumentView}
+            showUploader={true}
+            adapterStatus={adapterStatus}
+          />
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">

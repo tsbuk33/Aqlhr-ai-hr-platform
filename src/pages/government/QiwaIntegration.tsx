@@ -59,7 +59,7 @@ const QiwaIntegration = () => {
       >
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+            <TabsTrigger value="overview">{t('government.hub.integrationStatus')}</TabsTrigger>
             <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
           </TabsList>
           
@@ -97,7 +97,7 @@ const QiwaIntegration = () => {
           <MemoizedMetricCard
             title={isRTL ? "درجة امتثال النطاقات" : "Nitaqat Compliance Score"}
             value="87.5%"
-            description={isRTL ? "مستوى الامتثال الإجمالي" : "Overall compliance level"}
+            description={t('government.common.compliance')}
             icon={<TrendingUp className="h-6 w-6" />}
             variant="warning"
           />
@@ -164,7 +164,7 @@ const QiwaIntegration = () => {
               onFileProcessed={(file) => {
                 setUploadedFiles(prev => [...prev, file]);
                 toast({
-                  title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
+                  title: t('documents.uploader.success'),
                   description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
                 });
               }}

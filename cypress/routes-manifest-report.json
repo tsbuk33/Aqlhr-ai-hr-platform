@@ -1,0 +1,1478 @@
+{
+  "generated_at": "2025-08-28T03:27:34.574Z",
+  "total_routes": 315,
+  "discovered_routes": 305,
+  "fallback_routes": 14,
+  "method": "optimized-regex-ast",
+  "routes": [
+    {
+      "path": "",
+      "file": "essential-routes"
+    },
+    {
+      "path": "_/health",
+      "file": "src/config/routes.tsx",
+      "line": 631
+    },
+    {
+      "path": "_/i18n",
+      "file": "src/config/routes.tsx",
+      "line": 628
+    },
+    {
+      "path": "about",
+      "file": "src/config/routes.tsx",
+      "line": 340
+    },
+    {
+      "path": "additional/smart-kpi",
+      "file": "src/config/routes.tsx",
+      "line": 489
+    },
+    {
+      "path": "admin",
+      "file": "src/config/routes.tsx",
+      "line": 327
+    },
+    {
+      "path": "admin/demo-data",
+      "file": "src/config/routes.tsx",
+      "line": 330
+    },
+    {
+      "path": "admin/government-integration",
+      "file": "src/config/routes.tsx",
+      "line": 331
+    },
+    {
+      "path": "admin/localization",
+      "file": "src/config/routes.tsx",
+      "line": 332
+    },
+    {
+      "path": "admin/logs",
+      "file": "src/config/routes.tsx",
+      "line": 329
+    },
+    {
+      "path": "admin/users",
+      "file": "src/config/routes.tsx",
+      "line": 328
+    },
+    {
+      "path": "admin/users",
+      "file": "src/config/routes.tsx",
+      "line": 592
+    },
+    {
+      "path": "agent/skills",
+      "file": "src/config/routes.tsx",
+      "line": 622
+    },
+    {
+      "path": "ai",
+      "file": "src/config/routes.tsx",
+      "line": 347
+    },
+    {
+      "path": "ai-automation/arabic-english-nlp",
+      "file": "src/config/routes.tsx",
+      "line": 442
+    },
+    {
+      "path": "ai-automation/automated-workflow",
+      "file": "src/config/routes.tsx",
+      "line": 443
+    },
+    {
+      "path": "ai-automation/document-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 441
+    },
+    {
+      "path": "ai-automation/predictive-analytics",
+      "file": "src/config/routes.tsx",
+      "line": 440
+    },
+    {
+      "path": "ai-automation/smart-recommendations",
+      "file": "src/config/routes.tsx",
+      "line": 439
+    },
+    {
+      "path": "ai-automation/sync-engine",
+      "file": "src/config/routes.tsx",
+      "line": 438
+    },
+    {
+      "path": "ai-automation/workflow-automation",
+      "file": "src/config/routes.tsx",
+      "line": 360
+    },
+    {
+      "path": "ai-ecosystem/advanced-predictive-analytics",
+      "file": "src/config/routes.tsx",
+      "line": 429
+    },
+    {
+      "path": "ai-ecosystem/aql-mind-core",
+      "file": "src/config/routes.tsx",
+      "line": 419
+    },
+    {
+      "path": "ai-ecosystem/automated-contract-generation",
+      "file": "src/config/routes.tsx",
+      "line": 430
+    },
+    {
+      "path": "ai-ecosystem/autonomous-performance-manager",
+      "file": "src/config/routes.tsx",
+      "line": 431
+    },
+    {
+      "path": "ai-ecosystem/central-ai-orchestrator",
+      "file": "src/config/routes.tsx",
+      "line": 432
+    },
+    {
+      "path": "ai-ecosystem/command-center",
+      "file": "src/config/routes.tsx",
+      "line": 418
+    },
+    {
+      "path": "ai-ecosystem/compliance-automator",
+      "file": "src/config/routes.tsx",
+      "line": 428
+    },
+    {
+      "path": "ai-ecosystem/decision-engine",
+      "file": "src/config/routes.tsx",
+      "line": 420
+    },
+    {
+      "path": "ai-ecosystem/enterprise-reporting-engine",
+      "file": "src/config/routes.tsx",
+      "line": 433
+    },
+    {
+      "path": "ai-ecosystem/event-processor",
+      "file": "src/config/routes.tsx",
+      "line": 424
+    },
+    {
+      "path": "ai-ecosystem/intelligence-gatherer",
+      "file": "src/config/routes.tsx",
+      "line": 422
+    },
+    {
+      "path": "ai-ecosystem/learning-engine",
+      "file": "src/config/routes.tsx",
+      "line": 421
+    },
+    {
+      "path": "ai-ecosystem/policy-generator",
+      "file": "src/config/routes.tsx",
+      "line": 427
+    },
+    {
+      "path": "ai-ecosystem/saudi-compliance-engine",
+      "file": "src/config/routes.tsx",
+      "line": 434
+    },
+    {
+      "path": "ai-ecosystem/super-workforce-optimizer",
+      "file": "src/config/routes.tsx",
+      "line": 435
+    },
+    {
+      "path": "ai-ecosystem/task-executor",
+      "file": "src/config/routes.tsx",
+      "line": 423
+    },
+    {
+      "path": "ai-ecosystem/workflow-orchestrator",
+      "file": "src/config/routes.tsx",
+      "line": 425
+    },
+    {
+      "path": "ai-ecosystem/workforce-planner",
+      "file": "src/config/routes.tsx",
+      "line": 426
+    },
+    {
+      "path": "ai-executive-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 320
+    },
+    {
+      "path": "ai-features",
+      "file": "src/config/routes.tsx",
+      "line": 379
+    },
+    {
+      "path": "analytics",
+      "file": "src/config/routes.tsx",
+      "line": 337
+    },
+    {
+      "path": "analytics",
+      "file": "src/config/routes.tsx",
+      "line": 383
+    },
+    {
+      "path": "analytics/benchmarking",
+      "file": "src/config/routes.tsx",
+      "line": 586
+    },
+    {
+      "path": "analytics/compliance",
+      "file": "src/config/routes.tsx",
+      "line": 583
+    },
+    {
+      "path": "analytics/cost",
+      "file": "src/config/routes.tsx",
+      "line": 582
+    },
+    {
+      "path": "analytics/custom",
+      "file": "src/config/routes.tsx",
+      "line": 587
+    },
+    {
+      "path": "analytics/employee-reports",
+      "file": "src/config/routes.tsx",
+      "line": 589
+    },
+    {
+      "path": "analytics/executive",
+      "file": "src/config/routes.tsx",
+      "line": 581
+    },
+    {
+      "path": "analytics/kpi",
+      "file": "src/config/routes.tsx",
+      "line": 580
+    },
+    {
+      "path": "analytics/performance",
+      "file": "src/config/routes.tsx",
+      "line": 584
+    },
+    {
+      "path": "analytics/predictive",
+      "file": "src/config/routes.tsx",
+      "line": 578
+    },
+    {
+      "path": "analytics/realtime",
+      "file": "src/config/routes.tsx",
+      "line": 579
+    },
+    {
+      "path": "analytics/turnover",
+      "file": "src/config/routes.tsx",
+      "line": 585
+    },
+    {
+      "path": "analytics/visualization",
+      "file": "src/config/routes.tsx",
+      "line": 588
+    },
+    {
+      "path": "analytics/workforce",
+      "file": "src/config/routes.tsx",
+      "line": 577
+    },
+    {
+      "path": "assistant",
+      "file": "src/config/routes.tsx",
+      "line": 624
+    },
+    {
+      "path": "attendance",
+      "file": "src/config/routes.tsx",
+      "line": 338
+    },
+    {
+      "path": "attendance",
+      "file": "src/config/routes.tsx",
+      "line": 356
+    },
+    {
+      "path": "auth/login",
+      "file": "essential-routes"
+    },
+    {
+      "path": "auth/logout",
+      "file": "essential-routes"
+    },
+    {
+      "path": "auth/register",
+      "file": "essential-routes"
+    },
+    {
+      "path": "automation-workflows",
+      "file": "src/config/routes.tsx",
+      "line": 359
+    },
+    {
+      "path": "cci/analysis",
+      "file": "src/config/routes.tsx",
+      "line": 618
+    },
+    {
+      "path": "cci/evidence",
+      "file": "src/config/routes.tsx",
+      "line": 617
+    },
+    {
+      "path": "cci/export",
+      "file": "src/config/routes.tsx",
+      "line": 621
+    },
+    {
+      "path": "cci/overview",
+      "file": "src/config/routes.tsx",
+      "line": 614
+    },
+    {
+      "path": "cci/playbook",
+      "file": "src/config/routes.tsx",
+      "line": 619
+    },
+    {
+      "path": "cci/respond",
+      "file": "src/config/routes.tsx",
+      "line": 616
+    },
+    {
+      "path": "cci/survey",
+      "file": "src/config/routes.tsx",
+      "line": 615
+    },
+    {
+      "path": "cci/tracking",
+      "file": "src/config/routes.tsx",
+      "line": 620
+    },
+    {
+      "path": "chat",
+      "file": "src/config/routes.tsx",
+      "line": 348
+    },
+    {
+      "path": "company",
+      "file": "src/config/routes.tsx",
+      "line": 350
+    },
+    {
+      "path": "Company",
+      "file": "src/pages/Company.tsx"
+    },
+    {
+      "path": "CompanyPage",
+      "file": "src/pages/CompanyPage.tsx"
+    },
+    {
+      "path": "compliance",
+      "file": "src/config/routes.tsx",
+      "line": 387
+    },
+    {
+      "path": "compliance/audit-trails",
+      "file": "src/config/routes.tsx",
+      "line": 391
+    },
+    {
+      "path": "compliance/autopilot",
+      "file": "src/config/routes.tsx",
+      "line": 388
+    },
+    {
+      "path": "compliance/committees",
+      "file": "src/config/routes.tsx",
+      "line": 390
+    },
+    {
+      "path": "compliance/documentation",
+      "file": "src/config/routes.tsx",
+      "line": 397
+    },
+    {
+      "path": "compliance/evidence",
+      "file": "src/config/routes.tsx",
+      "line": 398
+    },
+    {
+      "path": "compliance/governance",
+      "file": "src/config/routes.tsx",
+      "line": 394
+    },
+    {
+      "path": "compliance/legal-docs",
+      "file": "src/config/routes.tsx",
+      "line": 396
+    },
+    {
+      "path": "compliance/policies",
+      "file": "src/config/routes.tsx",
+      "line": 393
+    },
+    {
+      "path": "compliance/regulatory",
+      "file": "src/config/routes.tsx",
+      "line": 389
+    },
+    {
+      "path": "compliance/reporting",
+      "file": "src/config/routes.tsx",
+      "line": 395
+    },
+    {
+      "path": "compliance/risk-management",
+      "file": "src/config/routes.tsx",
+      "line": 392
+    },
+    {
+      "path": "consulting",
+      "file": "src/config/routes.tsx",
+      "line": 382
+    },
+    {
+      "path": "Consulting",
+      "file": "src/pages/Consulting.tsx"
+    },
+    {
+      "path": "consulting/ai-assessment",
+      "file": "src/config/routes.tsx",
+      "line": 554
+    },
+    {
+      "path": "consulting/benchmarking",
+      "file": "src/config/routes.tsx",
+      "line": 572
+    },
+    {
+      "path": "consulting/change",
+      "file": "src/config/routes.tsx",
+      "line": 566
+    },
+    {
+      "path": "consulting/change-management",
+      "file": "src/config/routes.tsx",
+      "line": 567
+    },
+    {
+      "path": "consulting/culture",
+      "file": "src/config/routes.tsx",
+      "line": 557
+    },
+    {
+      "path": "consulting/culture-transformation",
+      "file": "src/config/routes.tsx",
+      "line": 558
+    },
+    {
+      "path": "consulting/digital",
+      "file": "src/config/routes.tsx",
+      "line": 561
+    },
+    {
+      "path": "consulting/digital-transformation",
+      "file": "src/config/routes.tsx",
+      "line": 562
+    },
+    {
+      "path": "consulting/executive-compensation",
+      "file": "src/config/routes.tsx",
+      "line": 555
+    },
+    {
+      "path": "consulting/hr-optimization",
+      "file": "src/config/routes.tsx",
+      "line": 569
+    },
+    {
+      "path": "consulting/leadership",
+      "file": "src/config/routes.tsx",
+      "line": 565
+    },
+    {
+      "path": "consulting/merger",
+      "file": "src/config/routes.tsx",
+      "line": 559
+    },
+    {
+      "path": "consulting/merger-integration",
+      "file": "src/config/routes.tsx",
+      "line": 560
+    },
+    {
+      "path": "consulting/optimization",
+      "file": "src/config/routes.tsx",
+      "line": 568
+    },
+    {
+      "path": "consulting/planning",
+      "file": "src/config/routes.tsx",
+      "line": 573
+    },
+    {
+      "path": "consulting/restructuring",
+      "file": "src/config/routes.tsx",
+      "line": 556
+    },
+    {
+      "path": "consulting/risk",
+      "file": "src/config/routes.tsx",
+      "line": 570
+    },
+    {
+      "path": "consulting/risk-assessment",
+      "file": "src/config/routes.tsx",
+      "line": 571
+    },
+    {
+      "path": "consulting/strategic-planning",
+      "file": "src/config/routes.tsx",
+      "line": 574
+    },
+    {
+      "path": "consulting/talent",
+      "file": "src/config/routes.tsx",
+      "line": 563
+    },
+    {
+      "path": "consulting/talent-strategy",
+      "file": "src/config/routes.tsx",
+      "line": 564
+    },
+    {
+      "path": "core-hr",
+      "file": "src/config/routes.tsx",
+      "line": 373
+    },
+    {
+      "path": "core-hr/benefits",
+      "file": "src/config/routes.tsx",
+      "line": 402
+    },
+    {
+      "path": "core-hr/compensation",
+      "file": "src/config/routes.tsx",
+      "line": 410
+    },
+    {
+      "path": "core-hr/compensation-management",
+      "file": "src/config/routes.tsx",
+      "line": 404
+    },
+    {
+      "path": "core-hr/documents",
+      "file": "src/config/routes.tsx",
+      "line": 377
+    },
+    {
+      "path": "core-hr/employees",
+      "file": "src/config/routes.tsx",
+      "line": 374
+    },
+    {
+      "path": "core-hr/leave",
+      "file": "src/config/routes.tsx",
+      "line": 407
+    },
+    {
+      "path": "core-hr/master-data",
+      "file": "src/config/routes.tsx",
+      "line": 401
+    },
+    {
+      "path": "core-hr/mobile",
+      "file": "src/config/routes.tsx",
+      "line": 412
+    },
+    {
+      "path": "core-hr/organization",
+      "file": "src/config/routes.tsx",
+      "line": 375
+    },
+    {
+      "path": "core-hr/performance",
+      "file": "src/config/routes.tsx",
+      "line": 406
+    },
+    {
+      "path": "core-hr/recruitment",
+      "file": "src/config/routes.tsx",
+      "line": 409
+    },
+    {
+      "path": "core-hr/saudization",
+      "file": "src/config/routes.tsx",
+      "line": 413
+    },
+    {
+      "path": "core-hr/self-service",
+      "file": "src/config/routes.tsx",
+      "line": 376
+    },
+    {
+      "path": "core-hr/succession-planning",
+      "file": "src/config/routes.tsx",
+      "line": 403
+    },
+    {
+      "path": "core-hr/time-attendance",
+      "file": "src/config/routes.tsx",
+      "line": 405
+    },
+    {
+      "path": "core-hr/training",
+      "file": "src/config/routes.tsx",
+      "line": 408
+    },
+    {
+      "path": "core-hr/workflow",
+      "file": "src/config/routes.tsx",
+      "line": 411
+    },
+    {
+      "path": "CoreHR",
+      "file": "src/pages/CoreHR.tsx"
+    },
+    {
+      "path": "cross-module-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 361
+    },
+    {
+      "path": "dashboard",
+      "file": "src/config/routes.tsx",
+      "line": 324
+    },
+    {
+      "path": "Dashboard",
+      "file": "src/pages/Dashboard.tsx"
+    },
+    {
+      "path": "DashboardPage",
+      "file": "src/pages/DashboardPage.tsx"
+    },
+    {
+      "path": "debug",
+      "file": "src/pages/debug.tsx"
+    },
+    {
+      "path": "debug",
+      "file": "src/config/routes.tsx",
+      "line": 343
+    },
+    {
+      "path": "DebugPage",
+      "file": "src/pages/DebugPage.tsx"
+    },
+    {
+      "path": "demo/test-page",
+      "file": "src/config/routes.tsx",
+      "line": 344
+    },
+    {
+      "path": "diagnostic/culture-change",
+      "file": "src/config/routes.tsx",
+      "line": 470
+    },
+    {
+      "path": "diagnostic/engagement",
+      "file": "src/config/routes.tsx",
+      "line": 469
+    },
+    {
+      "path": "diagnostic/hr-process-improvement",
+      "file": "src/config/routes.tsx",
+      "line": 461
+    },
+    {
+      "path": "diagnostic/hr-role-optimization",
+      "file": "src/config/routes.tsx",
+      "line": 462
+    },
+    {
+      "path": "diagnostic/hr-value-chain",
+      "file": "src/config/routes.tsx",
+      "line": 463
+    },
+    {
+      "path": "diagnostic/hub",
+      "file": "src/config/routes.tsx",
+      "line": 457
+    },
+    {
+      "path": "diagnostic/ipo-readiness",
+      "file": "src/config/routes.tsx",
+      "line": 471
+    },
+    {
+      "path": "diagnostic/learning",
+      "file": "src/config/routes.tsx",
+      "line": 468
+    },
+    {
+      "path": "diagnostic/org-structure-assessment",
+      "file": "src/config/routes.tsx",
+      "line": 464
+    },
+    {
+      "path": "diagnostic/org-structure-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 465
+    },
+    {
+      "path": "diagnostic/osi",
+      "file": "src/config/routes.tsx",
+      "line": 466
+    },
+    {
+      "path": "diagnostic/retention",
+      "file": "src/config/routes.tsx",
+      "line": 467
+    },
+    {
+      "path": "diagnostic/retention-strategy",
+      "file": "src/config/routes.tsx",
+      "line": 456
+    },
+    {
+      "path": "Documents",
+      "file": "src/pages/Documents.tsx"
+    },
+    {
+      "path": "employee",
+      "file": "src/config/routes.tsx",
+      "line": 355
+    },
+    {
+      "path": "EmployeePage",
+      "file": "src/pages/EmployeePage.tsx"
+    },
+    {
+      "path": "employees",
+      "file": "src/config/routes.tsx",
+      "line": 333
+    },
+    {
+      "path": "Employees",
+      "file": "src/pages/Employees.tsx"
+    },
+    {
+      "path": "EmployeesPage",
+      "file": "src/pages/EmployeesPage.tsx"
+    },
+    {
+      "path": "esg-hr",
+      "file": "src/config/routes.tsx",
+      "line": 602
+    },
+    {
+      "path": "executive-center",
+      "file": "src/config/routes.tsx",
+      "line": 605
+    },
+    {
+      "path": "executive/mobile",
+      "file": "src/config/routes.tsx",
+      "line": 606
+    },
+    {
+      "path": "executive/strategic-presentations",
+      "file": "src/config/routes.tsx",
+      "line": 607
+    },
+    {
+      "path": "ExecutiveIntelligenceCenter",
+      "file": "src/pages/ExecutiveIntelligenceCenter.tsx"
+    },
+    {
+      "path": "founder/super-admin",
+      "file": "src/config/routes.tsx",
+      "line": 608
+    },
+    {
+      "path": "geo",
+      "file": "src/config/routes.tsx",
+      "line": 599
+    },
+    {
+      "path": "government",
+      "file": "src/config/routes.tsx",
+      "line": 380
+    },
+    {
+      "path": "Government",
+      "file": "src/pages/Government.tsx"
+    },
+    {
+      "path": "government-ai-integration",
+      "file": "src/config/routes.tsx",
+      "line": 363
+    },
+    {
+      "path": "government/absher",
+      "file": "src/config/routes.tsx",
+      "line": 498
+    },
+    {
+      "path": "government/chi",
+      "file": "src/config/routes.tsx",
+      "line": 507
+    },
+    {
+      "path": "government/education",
+      "file": "src/config/routes.tsx",
+      "line": 515
+    },
+    {
+      "path": "government/elm",
+      "file": "src/config/routes.tsx",
+      "line": 505
+    },
+    {
+      "path": "government/esnad",
+      "file": "src/config/routes.tsx",
+      "line": 519
+    },
+    {
+      "path": "government/gosi",
+      "file": "src/config/routes.tsx",
+      "line": 508
+    },
+    {
+      "path": "government/health-insurance",
+      "file": "src/config/routes.tsx",
+      "line": 509
+    },
+    {
+      "path": "government/integration-hub",
+      "file": "src/config/routes.tsx",
+      "line": 514
+    },
+    {
+      "path": "government/interior",
+      "file": "src/config/routes.tsx",
+      "line": 518
+    },
+    {
+      "path": "government/medical-insurance",
+      "file": "src/config/routes.tsx",
+      "line": 510
+    },
+    {
+      "path": "government/mol",
+      "file": "src/config/routes.tsx",
+      "line": 503
+    },
+    {
+      "path": "government/mudad",
+      "file": "src/config/routes.tsx",
+      "line": 500
+    },
+    {
+      "path": "government/muqeem",
+      "file": "src/config/routes.tsx",
+      "line": 499
+    },
+    {
+      "path": "government/ncei",
+      "file": "src/config/routes.tsx",
+      "line": 517
+    },
+    {
+      "path": "government/nitaqat",
+      "file": "src/config/routes.tsx",
+      "line": 501
+    },
+    {
+      "path": "government/qiwa",
+      "file": "src/config/routes.tsx",
+      "line": 497
+    },
+    {
+      "path": "government/qiyas",
+      "file": "src/config/routes.tsx",
+      "line": 513
+    },
+    {
+      "path": "government/saudi-engineering",
+      "file": "src/config/routes.tsx",
+      "line": 523
+    },
+    {
+      "path": "government/saudi-post",
+      "file": "src/config/routes.tsx",
+      "line": 520
+    },
+    {
+      "path": "government/seha",
+      "file": "src/config/routes.tsx",
+      "line": 506
+    },
+    {
+      "path": "government/taqat",
+      "file": "src/config/routes.tsx",
+      "line": 516
+    },
+    {
+      "path": "government/tawakkalna",
+      "file": "src/config/routes.tsx",
+      "line": 521
+    },
+    {
+      "path": "government/tvtc",
+      "file": "src/config/routes.tsx",
+      "line": 502
+    },
+    {
+      "path": "government/umm-al-qura",
+      "file": "src/config/routes.tsx",
+      "line": 522
+    },
+    {
+      "path": "growth/roi",
+      "file": "src/config/routes.tsx",
+      "line": 314
+    },
+    {
+      "path": "health-safety",
+      "file": "src/config/routes.tsx",
+      "line": 414
+    },
+    {
+      "path": "HealthSafety",
+      "file": "src/pages/HealthSafety.tsx"
+    },
+    {
+      "path": "help",
+      "file": "src/config/routes.tsx",
+      "line": 342
+    },
+    {
+      "path": "Help",
+      "file": "src/pages/Help.tsx"
+    },
+    {
+      "path": "HelpPage",
+      "file": "src/pages/HelpPage.tsx"
+    },
+    {
+      "path": "hr",
+      "file": "src/config/routes.tsx",
+      "line": 354
+    },
+    {
+      "path": "HRPage",
+      "file": "src/pages/HRPage.tsx"
+    },
+    {
+      "path": "hse",
+      "file": "src/config/routes.tsx",
+      "line": 415
+    },
+    {
+      "path": "Index",
+      "file": "src/pages/Index.tsx"
+    },
+    {
+      "path": "integrations",
+      "file": "src/config/routes.tsx",
+      "line": 623
+    },
+    {
+      "path": "iso-management",
+      "file": "src/config/routes.tsx",
+      "line": 369
+    },
+    {
+      "path": "ISOManagement",
+      "file": "src/pages/ISOManagement.tsx"
+    },
+    {
+      "path": "leave",
+      "file": "src/config/routes.tsx",
+      "line": 339
+    },
+    {
+      "path": "legal-consultant",
+      "file": "src/config/routes.tsx",
+      "line": 367
+    },
+    {
+      "path": "LegalConsultant",
+      "file": "src/pages/LegalConsultant.tsx"
+    },
+    {
+      "path": "leo",
+      "file": "src/config/routes.tsx",
+      "line": 598
+    },
+    {
+      "path": "local-content/ai-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 477
+    },
+    {
+      "path": "local-content/investment-tracking",
+      "file": "src/config/routes.tsx",
+      "line": 476
+    },
+    {
+      "path": "local-content/regulatory-compliance",
+      "file": "src/config/routes.tsx",
+      "line": 478
+    },
+    {
+      "path": "local-content/strategic-planning",
+      "file": "src/config/routes.tsx",
+      "line": 479
+    },
+    {
+      "path": "local-content/supplier-development",
+      "file": "src/config/routes.tsx",
+      "line": 475
+    },
+    {
+      "path": "local-content/workforce-localization",
+      "file": "src/config/routes.tsx",
+      "line": 474
+    },
+    {
+      "path": "mobile-ai-assistant",
+      "file": "src/config/routes.tsx",
+      "line": 362
+    },
+    {
+      "path": "NotFound",
+      "file": "src/pages/NotFound.tsx"
+    },
+    {
+      "path": "nrc-management",
+      "file": "src/config/routes.tsx",
+      "line": 368
+    },
+    {
+      "path": "NRCManagement",
+      "file": "src/pages/NRCManagement.tsx"
+    },
+    {
+      "path": "onboarding",
+      "file": "src/config/routes.tsx",
+      "line": 315
+    },
+    {
+      "path": "Onboarding",
+      "file": "src/pages/Onboarding.tsx"
+    },
+    {
+      "path": "Organization",
+      "file": "src/pages/Organization.tsx"
+    },
+    {
+      "path": "payroll",
+      "file": "src/config/routes.tsx",
+      "line": 378
+    },
+    {
+      "path": "Payroll",
+      "file": "src/pages/Payroll.tsx"
+    },
+    {
+      "path": "payroll/analytics",
+      "file": "src/config/routes.tsx",
+      "line": 531
+    },
+    {
+      "path": "payroll/banking",
+      "file": "src/config/routes.tsx",
+      "line": 532
+    },
+    {
+      "path": "payroll/budgeting",
+      "file": "src/config/routes.tsx",
+      "line": 533
+    },
+    {
+      "path": "payroll/eosb",
+      "file": "src/config/routes.tsx",
+      "line": 528
+    },
+    {
+      "path": "payroll/expenses",
+      "file": "src/config/routes.tsx",
+      "line": 530
+    },
+    {
+      "path": "payroll/gosi",
+      "file": "src/config/routes.tsx",
+      "line": 527
+    },
+    {
+      "path": "payroll/wps",
+      "file": "src/config/routes.tsx",
+      "line": 526
+    },
+    {
+      "path": "PayrollPage",
+      "file": "src/pages/PayrollPage.tsx"
+    },
+    {
+      "path": "people/employees",
+      "file": "src/config/routes.tsx",
+      "line": 334
+    },
+    {
+      "path": "people/employees/:id",
+      "file": "src/config/routes.tsx",
+      "line": 335
+    },
+    {
+      "path": "performance",
+      "file": "src/config/routes.tsx",
+      "line": 384
+    },
+    {
+      "path": "PerformancePage",
+      "file": "src/pages/PerformancePage.tsx"
+    },
+    {
+      "path": "plans/pricing",
+      "file": "src/config/routes.tsx",
+      "line": 317
+    },
+    {
+      "path": "platform/api-gateway",
+      "file": "src/config/routes.tsx",
+      "line": 485
+    },
+    {
+      "path": "platform/language-toggle",
+      "file": "src/config/routes.tsx",
+      "line": 482
+    },
+    {
+      "path": "platform/mobile-app",
+      "file": "src/config/routes.tsx",
+      "line": 483
+    },
+    {
+      "path": "platform/security-framework",
+      "file": "src/config/routes.tsx",
+      "line": 484
+    },
+    {
+      "path": "processes-forms",
+      "file": "src/config/routes.tsx",
+      "line": 370
+    },
+    {
+      "path": "ProcessesAndForms",
+      "file": "src/pages/ProcessesAndForms.tsx"
+    },
+    {
+      "path": "profile",
+      "file": "essential-routes"
+    },
+    {
+      "path": "ProfilePage",
+      "file": "src/pages/ProfilePage.tsx"
+    },
+    {
+      "path": "prompt-audit",
+      "file": "src/config/routes.tsx",
+      "line": 322
+    },
+    {
+      "path": "prompt-logs",
+      "file": "src/config/routes.tsx",
+      "line": 321
+    },
+    {
+      "path": "PromptAudit",
+      "file": "src/pages/PromptAudit.tsx"
+    },
+    {
+      "path": "PromptLog",
+      "file": "src/pages/PromptLog.tsx"
+    },
+    {
+      "path": "PromptLogs",
+      "file": "src/pages/PromptLogs.tsx"
+    },
+    {
+      "path": "PromptLogsTest",
+      "file": "src/pages/PromptLogsTest.tsx"
+    },
+    {
+      "path": "readiness",
+      "file": "src/config/routes.tsx",
+      "line": 550
+    },
+    {
+      "path": "readiness/role",
+      "file": "src/config/routes.tsx",
+      "line": 551
+    },
+    {
+      "path": "recruitment",
+      "file": "src/config/routes.tsx",
+      "line": 349
+    },
+    {
+      "path": "RecruitmentPage",
+      "file": "src/pages/RecruitmentPage.tsx"
+    },
+    {
+      "path": "reports",
+      "file": "essential-routes"
+    },
+    {
+      "path": "reports/builder",
+      "file": "src/config/routes.tsx",
+      "line": 595
+    },
+    {
+      "path": "retention",
+      "file": "src/config/routes.tsx",
+      "line": 460
+    },
+    {
+      "path": "security",
+      "file": "src/config/routes.tsx",
+      "line": 625
+    },
+    {
+      "path": "SecurityPage",
+      "file": "src/pages/SecurityPage.tsx"
+    },
+    {
+      "path": "SelfService",
+      "file": "src/pages/SelfService.tsx"
+    },
+    {
+      "path": "settings",
+      "file": "src/config/routes.tsx",
+      "line": 351
+    },
+    {
+      "path": "Settings",
+      "file": "src/pages/Settings.tsx"
+    },
+    {
+      "path": "SettingsPage",
+      "file": "src/pages/SettingsPage.tsx"
+    },
+    {
+      "path": "share/:token",
+      "file": "src/config/routes.tsx",
+      "line": 316
+    },
+    {
+      "path": "ShareView",
+      "file": "src/pages/ShareView.tsx"
+    },
+    {
+      "path": "skills-intelligence",
+      "file": "src/config/routes.tsx",
+      "line": 364
+    },
+    {
+      "path": "strategic",
+      "file": "src/config/routes.tsx",
+      "line": 381
+    },
+    {
+      "path": "Strategic",
+      "file": "src/pages/Strategic.tsx"
+    },
+    {
+      "path": "strategic/change-management",
+      "file": "src/config/routes.tsx",
+      "line": 546
+    },
+    {
+      "path": "strategic/compensation",
+      "file": "src/config/routes.tsx",
+      "line": 541
+    },
+    {
+      "path": "strategic/culture",
+      "file": "src/config/routes.tsx",
+      "line": 547
+    },
+    {
+      "path": "strategic/diversity",
+      "file": "src/config/routes.tsx",
+      "line": 542
+    },
+    {
+      "path": "strategic/experience",
+      "file": "src/config/routes.tsx",
+      "line": 544
+    },
+    {
+      "path": "strategic/leadership",
+      "file": "src/config/routes.tsx",
+      "line": 543
+    },
+    {
+      "path": "strategic/org-development",
+      "file": "src/config/routes.tsx",
+      "line": 539
+    },
+    {
+      "path": "strategic/performance",
+      "file": "src/config/routes.tsx",
+      "line": 540
+    },
+    {
+      "path": "strategic/succession",
+      "file": "src/config/routes.tsx",
+      "line": 537
+    },
+    {
+      "path": "strategic/talent-acquisition",
+      "file": "src/config/routes.tsx",
+      "line": 538
+    },
+    {
+      "path": "strategic/transformation",
+      "file": "src/config/routes.tsx",
+      "line": 545
+    },
+    {
+      "path": "strategic/workforce-planning",
+      "file": "src/config/routes.tsx",
+      "line": 536
+    },
+    {
+      "path": "succession-planning",
+      "file": "src/config/routes.tsx",
+      "line": 365
+    },
+    {
+      "path": "SuccessionPlanning",
+      "file": "src/pages/SuccessionPlanning.tsx"
+    },
+    {
+      "path": "super-admin",
+      "file": "src/config/routes.tsx",
+      "line": 494
+    },
+    {
+      "path": "SuperAdminDashboard",
+      "file": "src/pages/SuperAdminDashboard.tsx"
+    },
+    {
+      "path": "system-engineer",
+      "file": "src/config/routes.tsx",
+      "line": 611
+    },
+    {
+      "path": "SystemEngineer",
+      "file": "src/pages/SystemEngineer.tsx"
+    },
+    {
+      "path": "TaskCenter",
+      "file": "src/pages/TaskCenter.tsx"
+    },
+    {
+      "path": "tasks",
+      "file": "src/config/routes.tsx",
+      "line": 336
+    },
+    {
+      "path": "test-harness",
+      "file": "src/config/routes.tsx",
+      "line": 491
+    },
+    {
+      "path": "TestHarness",
+      "file": "src/pages/TestHarness.tsx"
+    },
+    {
+      "path": "tools",
+      "file": "src/config/routes.tsx",
+      "line": 341
+    },
+    {
+      "path": "Tools",
+      "file": "src/pages/Tools.tsx"
+    },
+    {
+      "path": "tools/aqlhr-connect",
+      "file": "src/config/routes.tsx",
+      "line": 490
+    },
+    {
+      "path": "tools/smart-kpi",
+      "file": "src/config/routes.tsx",
+      "line": 488
+    },
+    {
+      "path": "TrainingPage",
+      "file": "src/pages/TrainingPage.tsx"
+    },
+    {
+      "path": "Welcome",
+      "file": "src/pages/Welcome.tsx"
+    },
+    {
+      "path": "welfare-consultancy",
+      "file": "src/config/routes.tsx",
+      "line": 366
+    },
+    {
+      "path": "welfare-safety/ai-diagnosis",
+      "file": "src/config/routes.tsx",
+      "line": 451
+    },
+    {
+      "path": "welfare-safety/compliance-dashboard",
+      "file": "src/config/routes.tsx",
+      "line": 446
+    },
+    {
+      "path": "welfare-safety/compliance-framework",
+      "file": "src/config/routes.tsx",
+      "line": 452
+    },
+    {
+      "path": "welfare-safety/ethics-score",
+      "file": "src/config/routes.tsx",
+      "line": 450
+    },
+    {
+      "path": "welfare-safety/food-housing-transport",
+      "file": "src/config/routes.tsx",
+      "line": 448
+    },
+    {
+      "path": "welfare-safety/grievance-reporting",
+      "file": "src/config/routes.tsx",
+      "line": 447
+    },
+    {
+      "path": "welfare-safety/multi-view-dashboards",
+      "file": "src/config/routes.tsx",
+      "line": 453
+    },
+    {
+      "path": "welfare-safety/wellbeing-tracker",
+      "file": "src/config/routes.tsx",
+      "line": 449
+    },
+    {
+      "path": "WelfareConsultancy",
+      "file": "src/pages/WelfareConsultancy.tsx"
+    }
+  ]
+}
