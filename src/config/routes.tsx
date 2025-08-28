@@ -622,6 +622,10 @@ export const ROUTES: RouteConfig[] = [
   { path: '/assistant', element: AssistantPage, auth: true },
   { path: '/security', element: lazy(() => import('../pages/SecurityPage')), auth: true },
   
+  // Authentication routes
+  { path: '/auth', element: lazy(() => import('../pages/AuthPage')), auth: false },
+  { path: '/auth/callback', element: lazy(() => import('../pages/AuthCallback')), auth: false },
+  
   // I18n Test Page
   { path: '/_/i18n', element: I18nTest, auth: false },
   
