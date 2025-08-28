@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { AppProviders } from '@/components/providers/AppProviders';
-import AppRoutes from '@/components/routing/AppRoutes';
+import UnifiedLanguageRouter from '@/components/routing/UnifiedLanguageRouter';
 import { RootErrorBoundary } from '@/components/system/RootErrorBoundary';
 
 export default function App() {
@@ -8,7 +8,7 @@ export default function App() {
     <RootErrorBoundary>
       <BrowserRouter>
         <AppProviders>
-          <AppRoutes />
+          <UnifiedLanguageRouter />
         </AppProviders>
       </BrowserRouter>
     </RootErrorBoundary>

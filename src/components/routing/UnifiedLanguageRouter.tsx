@@ -24,10 +24,13 @@ function LocalizedApp() {
  * Non-localized Route Handler
  */
 function NonLocalizedRedirect() {
-  const currentPath = window.location.pathname;
-  const search = window.location.search;
+  const rawPath = window.location.pathname || '/';
+  const search = window.location.search || '';
   
-  console.log('[UnifiedLanguageRouter] Handling non-localized path:', currentPath);
+  // Normalize multiple slashes
+  const currentPath = rawPath.replace(/\/{2,}/g, '/');
+  
+  console.log('[UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', currentPath);
   
   // Root path shows welcome page
   if (currentPath === '/') {
