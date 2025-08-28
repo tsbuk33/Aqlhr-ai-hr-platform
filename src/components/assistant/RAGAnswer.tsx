@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRAGStream, type Citation } from '../../hooks/useRAGStream';
 import { supabase } from '../../lib/supabaseClient';
-import { FileText, Download, ExternalLink, Loader2, Send, Copy, Check, AlertCircle, Calendar, Tag, Globe, Plus, Save, ThumbsUp, ThumbsDown, Clock, User } from 'lucide-react';
+import { FileText, Download, ExternalLink, Loader2, Send, Copy, Check, AlertCircle, Calendar, Tag, Globe, Plus, Save, ThumbsUp, ThumbsDown, Clock, User, Package } from 'lucide-react';
+import { exportAnswerPDF, exportCitationsCSV, exportPPTX, requestEvidenceBundleZip } from '../../lib/export/evidence';
 
 interface RAGAnswerProps {
   className?: string;
@@ -14,6 +15,8 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
   const [copied, setCopied] = useState(false);
   const [exportingCsv, setExportingCsv] = useState(false);
   const [exportingPdf, setExportingPdf] = useState(false);
+  const [exportingPptx, setExportingPptx] = useState(false);
+  const [exportingZip, setExportingZip] = useState(false);
   
   // Phase 24: Evidence -> Action state
   const [showTaskModal, setShowTaskModal] = useState(false);
@@ -65,37 +68,11 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
     
     setExportingCsv(true);
     try {
-      const headers = [
-        t('rag.export.citation'),
-        t('rag.export.title'), 
-        t('rag.export.portal'),
-        t('rag.export.type'),
-        t('rag.export.date')
-      ];
-      
-      const rows = citations.map(citation => [
-        `[${citation.n}]`,
-        citation.title,
-        citation.portal || '',
-        citation.doc_type || '',
-        new Date(citation.created_at).toLocaleDateString(i18n.language)
-      ]);
-      
-      const csvContent = [
-        headers.join(','),
-        ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
-      ].join('\n');
-      
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `rag-citations-${new Date().toISOString().split('T')[0]}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      exportCitationsCSV({
+        citations,
+        lang: i18n.language as 'en' | 'ar',
+        filename: `rag-citations-${new Date().toISOString().split('T')[0]}.csv`
+      });
     } catch (error) {
       console.error('CSV export failed:', error);
     } finally {
@@ -108,74 +85,55 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
     
     setExportingPdf(true);
     try {
-      // Use browser's print functionality for PDF export
-      const printWindow = window.open('', '_blank');
-      if (!printWindow) return;
-      
-      const css = `
-        <style>
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; }
-          h1 { color: #1f2937; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
-          .answer { margin: 20px 0; white-space: pre-wrap; }
-          .citations { margin-top: 30px; }
-          .citation { margin: 10px 0; padding: 10px; border-left: 3px solid #3b82f6; background: #f8fafc; }
-          .citation-number { font-weight: bold; color: #3b82f6; }
-          .citation-title { font-weight: 600; }
-          .citation-meta { font-size: 0.875rem; color: #6b7280; }
-          @media print { body { padding: 0; } }
-          ${isRtl ? 'body { direction: rtl; text-align: right; }' : ''}
-        </style>
-      `;
-      
-      const content = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <meta charset="utf-8">
-          <title>${t('rag.export.pdfTitle')}</title>
-          ${css}
-        </head>
-        <body>
-          <h1>${t('rag.export.pdfTitle')}</h1>
-          
-          ${text.trim() ? `
-            <h2>${t('rag.answer')}</h2>
-            <div class="answer">${text}</div>
-          ` : ''}
-          
-          ${citations.length ? `
-            <h2>${t('rag.citations')} (${citations.length})</h2>
-            <div class="citations">
-              ${citations.map(citation => `
-                <div class="citation">
-                  <div class="citation-number">[${citation.n}]</div>
-                  <div class="citation-title">${citation.title}</div>
-                  <div class="citation-meta">
-                    ${citation.portal ? `${t('rag.portal')}: ${citation.portal} • ` : ''}
-                    ${citation.doc_type ? `${t('rag.type')}: ${citation.doc_type} • ` : ''}
-                    ${t('rag.date')}: ${new Date(citation.created_at).toLocaleDateString(i18n.language)}
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          ` : ''}
-          
-          <script>
-            window.onload = () => {
-              window.print();
-              setTimeout(() => window.close(), 1000);
-            };
-          </script>
-        </body>
-        </html>
-      `;
-      
-      printWindow.document.write(content);
-      printWindow.document.close();
+      await exportAnswerPDF({
+        lang: i18n.language as 'en' | 'ar',
+        question: lastAskedQuestion,
+        answer: text,
+        citations,
+        tenant: 'AqlHR'
+      });
     } catch (error) {
       console.error('PDF export failed:', error);
     } finally {
       setExportingPdf(false);
+    }
+  };
+
+  const handleExportPptx = async () => {
+    if (!text.trim() && !citations.length) return;
+    
+    setExportingPptx(true);
+    try {
+      await exportPPTX({
+        lang: i18n.language as 'en' | 'ar',
+        question: lastAskedQuestion,
+        answer: text,
+        citations,
+        filename: `rag-evidence-report-${new Date().toISOString().split('T')[0]}.pptx`
+      });
+    } catch (error) {
+      console.error('PPTX export failed:', error);
+    } finally {
+      setExportingPptx(false);
+    }
+  };
+
+  const handleExportZip = async () => {
+    if (!text.trim() && !citations.length) return;
+    
+    setExportingZip(true);
+    try {
+      await requestEvidenceBundleZip({
+        lang: i18n.language as 'en' | 'ar',
+        question: lastAskedQuestion,
+        answer: text,
+        citations,
+        tenant: 'AqlHR'
+      });
+    } catch (error) {
+      console.error('ZIP export failed:', error);
+    } finally {
+      setExportingZip(false);
     }
   };
 
@@ -406,19 +364,35 @@ export function RAGAnswer({ className = '' }: RAGAnswerProps) {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={handleExportCsv}
-                    disabled={exportingCsv}
-                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors"
-                    title={t('rag.exportCsv')}
+                    disabled={exportingCsv || (!citations.length)}
+                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={t('rag.export.csv', 'Export Citations CSV')}
                   >
                     {exportingCsv ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
                   </button>
                   <button
                     onClick={handleExportPdf}
-                    disabled={exportingPdf}
-                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors"
-                    title={t('rag.exportPdf')}
+                    disabled={exportingPdf || (!text.trim())}
+                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={t('rag.export.pdf', 'Export Answer PDF')}
                   >
                     {exportingPdf ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={handleExportPptx}
+                    disabled={exportingPptx || (!text.trim())}
+                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={t('rag.export.pptx', 'Export PowerPoint')}
+                  >
+                    {exportingPptx ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+                  </button>
+                  <button
+                    onClick={handleExportZip}
+                    disabled={exportingZip || (!text.trim() && !citations.length)}
+                    className="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    title={t('rag.export.zip', 'Export Evidence Bundle')}
+                  >
+                    {exportingZip ? <Loader2 className="w-4 h-4 animate-spin" /> : <Package className="w-4 h-4" />}
                   </button>
                 </div>
               </div>

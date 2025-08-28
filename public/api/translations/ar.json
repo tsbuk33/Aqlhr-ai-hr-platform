@@ -439,7 +439,16 @@
         "portal": "البوابة",
         "type": "النوع",
         "date": "التاريخ",
-        "pdfTitle": "إجابة RAG مع الأدلة"
+        "pdfTitle": "إجابة RAG مع الأدلة",
+        "csv": "تصدير المصادر CSV",
+        "pdf": "تصدير الإجابة PDF",
+        "pptx": "تصدير عرض PowerPoint",
+        "zip": "تصدير حزمة الأدلة",
+        "downloading": "جاري تحضير التنزيل...",
+        "exportMenu": "خيارات التصدير",
+        "evidenceBundle": "حزمة الأدلة الكاملة",
+        "citationsOnly": "المصادر فقط",
+        "boardReady": "وثائق جاهزة لمجلس الإدارة"
       },
       "actions": {
         "createTask": "إنشاء مهمة",

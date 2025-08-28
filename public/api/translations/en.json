@@ -433,7 +433,16 @@
         "portal": "Portal",
         "type": "Type", 
         "date": "Date",
-        "pdfTitle": "RAG Answer with Evidence"
+        "pdfTitle": "RAG Answer with Evidence",
+        "csv": "Export Citations CSV",
+        "pdf": "Export Answer PDF", 
+        "pptx": "Export PowerPoint",
+        "zip": "Export Evidence Bundle",
+        "downloading": "Preparing download...",
+        "exportMenu": "Export Options",
+        "evidenceBundle": "Complete Evidence Package",
+        "citationsOnly": "Citations Only",
+        "boardReady": "Board-Ready Documentation"
       },
       "actions": {
         "createTask": "Create Task",
