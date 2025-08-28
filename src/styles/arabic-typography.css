@@ -1,0 +1,50 @@
+/* Arabic font stack */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-arabic: 'Noto Sans Arabic', 'Cairo', 'Tahoma', sans-serif;
+  --font-english: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* Language-specific font application */
+html[lang="ar"] {
+  font-family: var(--font-arabic);
+}
+
+html[lang="en"] {
+  font-family: var(--font-english);
+}
+
+/* Arabic text optimization */
+.arabic-text {
+  font-family: var(--font-arabic);
+  line-height: 1.8;
+  letter-spacing: 0;
+  word-spacing: 0.1em;
+}
+
+/* English text in Arabic context */
+.english-text {
+  font-family: var(--font-english);
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Mixed content handling */
+.mixed-content {
+  unicode-bidi: plaintext;
+}
+
+/* Arabic numerals */
+.arabic-numerals {
+  font-feature-settings: "lnum" 1;
+}
+
+/* Responsive Arabic typography */
+@media (max-width: 768px) {
+  html[lang="ar"] {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}

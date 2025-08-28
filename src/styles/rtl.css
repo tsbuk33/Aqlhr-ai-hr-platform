@@ -1,231 +1,110 @@
-/* Enhanced RTL Styles for Arabic Language Support */
-
-/* Direction-aware utilities */
-.rtl-container {
+/* CRITICAL: Base RTL setup */
+html[dir="rtl"] {
   direction: rtl;
   text-align: right;
 }
 
-.ltr-container {
+html[dir="ltr"] {
   direction: ltr;
   text-align: left;
 }
 
-/* RTL-aware spacing and positioning */
-[dir="rtl"] .mr-auto {
-  margin-right: 0;
-  margin-left: auto;
-}
-
-[dir="rtl"] .ml-auto {
-  margin-left: 0;
-  margin-right: auto;
-}
-
-/* RTL-aware layout adjustments for sidebar */
-[dir="rtl"] .flex-1 {
-  margin-right: 0;
-  margin-left: 0;
-}
-
-[dir="rtl"] main {
-  margin-left: 1rem;
-  margin-right: 0;
-}
-
-/* RTL-aware sidebar positioning */
-[dir="rtl"] .sidebar {
-  order: 2;
-}
-
-[dir="rtl"] .pr-4 {
-  padding-right: 0;
-  padding-left: 1rem;
-}
-
-[dir="rtl"] .pl-4 {
-  padding-left: 0;
-  padding-right: 1rem;
-}
-
-/* RTL-aware flex layouts */
-[dir="rtl"] .flex-row {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .justify-start {
-  justify-content: flex-end;
-}
-
-[dir="rtl"] .justify-end {
-  justify-content: flex-start;
-}
-
-/* RTL-aware text alignment */
-[dir="rtl"] .text-left {
+/* Body classes for additional targeting */
+body.rtl {
+  direction: rtl;
   text-align: right;
 }
 
-[dir="rtl"] .text-right {
+body.ltr {
+  direction: ltr;
   text-align: left;
 }
 
-/* RTL-aware borders */
-[dir="rtl"] .border-l {
-  border-left: none;
-  border-right: 1px solid;
+/* CRITICAL: CSS Logical Properties for automatic RTL support */
+.container {
+  margin-inline: auto;
+  padding-inline: 1rem;
 }
 
-[dir="rtl"] .border-r {
-  border-right: none;
-  border-left: 1px solid;
+.text-start {
+  text-align: start;
 }
 
-/* RTL-aware rounded corners */
-[dir="rtl"] .rounded-l {
-  border-radius: 0;
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
+.text-end {
+  text-align: end;
 }
 
-[dir="rtl"] .rounded-r {
-  border-radius: 0;
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
+.margin-start-4 {
+  margin-inline-start: 1rem;
 }
 
-/* RTL-aware transforms for icons */
-[dir="rtl"] .rtl-flip {
-  transform: scaleX(-1);
+.margin-end-4 {
+  margin-inline-end: 1rem;
 }
 
-/* Arabic typography enhancements */
-[dir="rtl"] {
-  font-family: 'Noto Sans Arabic', 'Cairo', 'Tajawal', 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  line-height: 1.8; /* Increased line height for Arabic readability */
+.padding-start-4 {
+  padding-inline-start: 1rem;
 }
 
-/* Arabic number styling */
-[dir="rtl"] .arabic-numerals {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
+.padding-end-4 {
+  padding-inline-end: 1rem;
 }
 
-/* RTL-aware dropdown menus */
-[dir="rtl"] .dropdown-menu {
-  left: auto;
-  right: 0;
+/* CRITICAL: Navigation RTL */
+.nav-horizontal {
+  display: flex;
+  flex-direction: row;
 }
 
-/* RTL-aware tooltips */
-[dir="rtl"] .tooltip {
-  text-align: right;
-}
-
-/* RTL-aware form inputs */
-[dir="rtl"] input[type="text"],
-[dir="rtl"] input[type="email"],
-[dir="rtl"] input[type="password"],
-[dir="rtl"] textarea {
-  text-align: right;
-  padding-left: 0.75rem;
-  padding-right: 2.5rem;
-}
-
-[dir="rtl"] input[type="search"] {
-  text-align: right;
-}
-
-/* RTL-aware navigation */
-[dir="rtl"] .nav-breadcrumb {
+html[dir="rtl"] .nav-horizontal {
   flex-direction: row-reverse;
 }
 
-[dir="rtl"] .nav-breadcrumb::before {
-  content: "‹";
-  transform: scaleX(-1);
+.nav-item {
+  margin-inline-end: 1rem;
 }
 
-/* RTL-aware cards and components */
-[dir="rtl"] .card-header {
+.nav-item:last-child {
+  margin-inline-end: 0;
+}
+
+/* CRITICAL: Form RTL support */
+.form-group {
+  text-align: start;
+}
+
+.form-label {
+  display: block;
+  margin-block-end: 0.5rem;
+  text-align: start;
+}
+
+.form-input {
+  width: 100%;
+  text-align: start;
+  direction: inherit;
+}
+
+html[dir="rtl"] .form-input {
   text-align: right;
 }
 
-[dir="rtl"] .metric-card .value {
-  text-align: right;
+/* CRITICAL: Sidebar RTL support */
+.sidebar {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  height: 100vh;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
 }
 
-/* RTL-aware data tables */
-[dir="rtl"] .data-table {
-  direction: rtl;
+html[dir="rtl"] .sidebar {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
+  transform: translateX(100%);
 }
 
-[dir="rtl"] .data-table th,
-[dir="rtl"] .data-table td {
-  text-align: right;
-}
-
-[dir="rtl"] .data-table th:first-child,
-[dir="rtl"] .data-table td:first-child {
-  text-align: right;
-}
-
-/* Enhanced accessibility for screen readers */
-[dir="rtl"] .sr-only-arabic {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  direction: rtl;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  [dir="rtl"] {
-    border-color: hsl(var(--border));
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-  }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  [dir="rtl"] * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* Focus visible improvements for RTL */
-[dir="rtl"] *:focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-}
-
-/* Enhanced button styles for RTL */
-[dir="rtl"] .btn-with-icon {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] .btn-with-icon .icon {
-  margin-left: 0;
-  margin-right: 0.5rem;
-}
-
-/* Print styles for RTL */
-@media print {
-  [dir="rtl"] {
-    direction: rtl;
-    text-align: right;
-  }
-  
-  [dir="rtl"] .print-hidden-rtl {
-    display: none;
-  }
+.sidebar.open {
+  transform: translateX(0);
 }
