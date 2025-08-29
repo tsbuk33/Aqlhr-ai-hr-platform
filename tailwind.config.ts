@@ -149,4 +149,8 @@ export default {
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
+	corePlugins: {
+		// Ensure our nuclear CSS loads last
+		preflight: false,
+	},
 } satisfies Config;

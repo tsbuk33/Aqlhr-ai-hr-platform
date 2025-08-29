@@ -14,14 +14,31 @@ const RoleBasedSidebar: React.FC = () => {
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { isRTL } = useUnifiedLocale();
   
+  const centerStyle = {
+    textAlign: 'center' as const,
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '100%',
+    maxWidth: '1400px',
+    padding: '20px'
+  };
+  
   return (
     <SidebarProvider>
       <div className="min-h-screen w-full flex bg-background">
         <RoleBasedSidebar />
         <div className="flex-1 flex flex-col overflow-hidden">
           <DashboardHeader />
-          <main className="flex-1 overflow-auto">
-            <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
+          <main className="flex-1 overflow-auto" style={centerStyle}>
+            <div 
+              style={centerStyle} 
+              dir={isRTL ? 'rtl' : 'ltr'}
+              className="force-center"
+            >
               {children}
             </div>
           </main>
