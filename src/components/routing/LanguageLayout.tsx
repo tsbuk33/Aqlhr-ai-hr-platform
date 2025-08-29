@@ -51,11 +51,11 @@ export default function LanguageLayout() {
           {!isAuthPage && <AppSidebar />}
           <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
             {!isAuthPage && <DashboardHeader />}
-            <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : 'p-6'}`}>
+            <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : ''}`}>
               {isAuthPage ? (
                 <Outlet />
               ) : (
-                <div className={isRTL ? 'container mx-auto max-w-7xl space-y-6' : ''}>
+                <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
                   <Outlet />
                 </div>
               )}
