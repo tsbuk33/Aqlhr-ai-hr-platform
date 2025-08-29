@@ -19,7 +19,7 @@ const NotFound = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className={`min-h-screen flex items-center justify-center bg-background ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
         <div className="text-center max-w-2xl mx-auto p-6">
           <h1 className="text-4xl font-bold mb-4 text-foreground">404</h1>
           <p className="text-xl text-muted-foreground mb-6 max-w-lg mx-auto">

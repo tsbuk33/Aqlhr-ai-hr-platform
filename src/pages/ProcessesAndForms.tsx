@@ -305,7 +305,7 @@ const ProcessesAndForms = () => {
   );
 
   return (
-    <div className={`min-h-screen bg-background p-6 ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">

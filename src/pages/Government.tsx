@@ -10,6 +10,7 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { DocumentUploader } from '@/components/docs/DocumentUploader';
+import PageHeader from "@/components/common/PageHeader";
 import { 
   useRegions, 
   useCities, 
@@ -35,6 +36,7 @@ import {
 
 const Government = () => {
   const { t, language } = useLanguage();
+  const isArabic = language === 'ar';
 
   const stats = [
     {
@@ -368,7 +370,13 @@ const Government = () => {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <PageHeader 
+        title={isArabic ? 'التكاملات الحكومية' : 'Government Integrations'}
+        description={isArabic ? 'ربط سلس مع الأنظمة الحكومية السعودية' : 'Seamless integration with Saudi government systems'}
+      />
+
+      <div className="space-y-6">
       <AITestDemo />
       
       <AIInsightCard 
@@ -455,6 +463,7 @@ const Government = () => {
         companyId="demo-company" 
         enabledFeatures={['compliance-monitoring', 'government-integration', 'saudi-regulations', 'regulatory-compliance']}
       />
+      </div>
     </div>
   );
 };

@@ -4,11 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
+import { useLanguage } from '@/hooks/useLanguageCompat';
 
 export default function AuthPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const { language } = useLanguage();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,7 +90,7 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
+    <div className={`flex items-center justify-center min-h-screen bg-background text-foreground ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <div className="w-full max-w-md p-8 space-y-6 bg-card rounded-xl shadow-lg border">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-primary mb-2">AqlHR</h1>

@@ -152,7 +152,7 @@ const AnalyticsPage: React.FC = () => {
 
   if (!analytics) {
     return (
-      <div className="space-y-6">
+      <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">HR Analytics</h1>
           <p className="text-muted-foreground">No employee data available for analysis</p>
@@ -162,7 +162,8 @@ const AnalyticsPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="space-y-6">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">
@@ -456,16 +457,16 @@ const AnalyticsPage: React.FC = () => {
                 <DollarSign className="h-5 w-5 text-orange-600 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-orange-900">Compensation Range</h4>
-                  <p className="text-sm text-orange-700">
-                    Salary range spans {formatCurrency(analytics.overview.maxSalary - analytics.overview.minSalary)} 
-                    from {formatCurrency(analytics.overview.minSalary)} to {formatCurrency(analytics.overview.maxSalary)}.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                   <p className="text-sm text-orange-700">
+                     Salary range spans {formatCurrency(analytics.overview.maxSalary - analytics.overview.minSalary)} 
+                     from {formatCurrency(analytics.overview.minSalary)} to {formatCurrency(analytics.overview.maxSalary)}.
+                   </p>
+                 </div>
+               </div>
+             </CardContent>
+           </Card>
+         </TabsContent>
+       </Tabs>
       
       {/* AI Tools Testing Suite */}
       <AIToolsTester moduleContext="analytics.dashboard" />
@@ -487,6 +488,7 @@ const AnalyticsPage: React.FC = () => {
         companyId="demo-company" 
         enabledFeatures={['predictive-analytics', 'data-visualization', 'trend-analysis', 'business-intelligence']}
       />
+      </div>
     </div>
   );
 };

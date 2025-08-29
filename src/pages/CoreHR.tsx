@@ -268,7 +268,8 @@ const CoreHR = () => {
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-6 p-4 sm:p-6">
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="w-full max-w-7xl mx-auto space-y-6 p-4 sm:p-6">
       <AITestDemo />
       
       <EnhancedPageLayout
@@ -325,6 +326,7 @@ const CoreHR = () => {
         companyId="demo-company" 
         enabledFeatures={['employee-management', 'hr-processes', 'organizational-structure', 'workflow-automation']}
       />
+      </div>
     </div>
   );
 };

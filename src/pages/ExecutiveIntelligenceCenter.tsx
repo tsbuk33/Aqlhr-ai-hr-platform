@@ -9,7 +9,7 @@ const ExecutiveIntelligenceCenter = () => {
   const isArabic = locale === 'ar';
   
   return (
-    <div className={`page-container ${isArabic ? 'rtl' : 'ltr'}`}>
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="executive-header text-center">
         <h1 className="text-4xl font-bold text-center mb-4">
           {isArabic ? 'مركز الذكاء التنفيذي عقل HR' : 'AqlHR Executive Intelligence Center'}

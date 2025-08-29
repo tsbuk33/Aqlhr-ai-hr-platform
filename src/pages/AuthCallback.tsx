@@ -4,10 +4,12 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { useLanguage } from '@/hooks/useLanguageCompat';
 export default function AuthCallback() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
+  const { language } = useLanguage();
 
   useEffect(() => {
     const handleAuthCallback = async () => {
@@ -41,7 +43,7 @@ navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
   // Show loading while processing
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className={`min-h-screen flex items-center justify-center bg-background ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <h2 className="text-lg font-semibold mb-2">Completing sign in...</h2>

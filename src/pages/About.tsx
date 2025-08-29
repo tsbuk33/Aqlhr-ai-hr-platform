@@ -3,13 +3,16 @@ import { PartnerLogo } from '@/components/PartnerLogo';
 import { useLocale } from '@/i18n/locale';
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import PageHeader from "@/components/common/PageHeader";
 
 const About = () => {
   const { locale } = useLocale();
   const isArabic = locale === 'ar';
 
   return (
-    <div className="p-6 space-y-8 bg-background min-h-full">
+    <div className={`min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10 ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto px-4 py-12 max-w-7xl">
+        <div className="p-6 space-y-8 bg-background min-h-full">
       {/* Hero Section */}
       <div className="bg-gradient-hero rounded-2xl p-8 text-white">
         <div className="max-w-4xl">
@@ -110,8 +113,10 @@ const About = () => {
             <h3 className="font-semibold text-foreground mb-2">{isArabic ? 'الهاتف' : 'Phone'}</h3>
             <p className="text-muted-foreground">+966 11 XXX XXXX</p>
           </div>
+          </div>
         </div>
       </div>
+    </div>
       
       {/* AI Integration for About Page */}
       <UniversalAIIntegrator 

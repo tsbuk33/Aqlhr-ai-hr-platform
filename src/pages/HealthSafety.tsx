@@ -235,8 +235,11 @@ const HealthSafety = () => {
     }
   };
 
+  const isArabic = language === 'ar';
+
   return (
-    <div className="space-y-6">
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="space-y-6">
       {/* Revolutionary AI-Enhanced Header */}
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
         <div className="space-y-3">
@@ -543,6 +546,7 @@ const HealthSafety = () => {
         companyId="demo-company" 
         enabledFeatures={['safety-monitoring', 'risk-assessment', 'compliance-tracking', 'incident-analysis']}
       />
+      </div>
     </div>
   );
 };
