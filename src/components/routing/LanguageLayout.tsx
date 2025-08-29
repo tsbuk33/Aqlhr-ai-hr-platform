@@ -32,6 +32,32 @@ export default function LanguageLayout() {
     }
   }, [routeLang, setLang]);
   
+  // Set body attributes for proper RTL layout
+  useEffect(() => {
+    const body = document.body;
+    const html = document.documentElement;
+    
+    if (isRTL) {
+      body.setAttribute('dir', 'rtl');
+      body.classList.add('arabic-layout');
+      html.setAttribute('dir', 'rtl');
+      html.setAttribute('lang', 'ar');
+    } else {
+      body.setAttribute('dir', 'ltr');
+      body.classList.remove('arabic-layout');
+      html.setAttribute('dir', 'ltr');
+      html.setAttribute('lang', 'en');
+    }
+    
+    return () => {
+      // Cleanup on unmount
+      body.removeAttribute('dir');
+      body.classList.remove('arabic-layout');
+      html.removeAttribute('dir');
+      html.removeAttribute('lang');
+    };
+  }, [isRTL]);
+  
   // Validate language parameter
   if (!routeLang) {
     console.log('[LanguageLayout] Invalid/missing language, redirecting to /en');
@@ -44,23 +70,25 @@ export default function LanguageLayout() {
   const content = (
     <DevModeGuard>
       <SidebarProvider>
-        <div 
-          className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
-          dir={isRTL ? 'rtl' : 'ltr'}
-        >
-          {!isAuthPage && <AppSidebar />}
-          <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
-            {!isAuthPage && <DashboardHeader />}
-            <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : ''}`}>
-              {isAuthPage ? (
-                <Outlet />
-              ) : (
-                <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className={isRTL ? 'arabic-content' : ''}>
+          <div 
+            className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
+            dir={isRTL ? 'rtl' : 'ltr'}
+          >
+            {!isAuthPage && <AppSidebar />}
+            <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
+              {!isAuthPage && <DashboardHeader />}
+              <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : ''}`}>
+                {isAuthPage ? (
                   <Outlet />
-                </div>
-              )}
-            </div>
-          </main>
+                ) : (
+                  <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
+                    <Outlet />
+                  </div>
+                )}
+              </div>
+            </main>
+          </div>
         </div>
       </SidebarProvider>
     </DevModeGuard>
