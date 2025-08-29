@@ -1,18 +1,36 @@
-/* Perfect Centered Layout - Match Image 3 Style for ALL Pages */
+/* NUCLEAR OPTION - Force Center Everything for Both Languages */
 
-/* 1. Global Reset and Centering Foundation */
+/* 1. Override ALL existing text alignment */
 * {
     text-align: center !important;
-    margin: 0 auto;
 }
 
-/* 2. Main Content Area Centering */
+body {
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* 2. Main layout containers */
+.layout-content,
+.main-area,
+.content-area,
+main {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* 3. Page content wrappers */
+.arabic-content,
+.english-content,
 .main-content,
 .page-content,
-.content-wrapper,
-.dashboard-content,
-.arabic-content,
-.english-content {
+.content-wrapper {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -24,97 +42,70 @@
     text-align: center !important;
 }
 
-/* 3. Page Headers - Exactly like Image 3 */
-.page-title {
-    font-size: 2.5rem !important;
-    font-weight: bold !important;
+/* 4. All headings centered */
+h1, h2, h3, h4, h5, h6 {
     text-align: center !important;
-    margin-bottom: 10px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: block !important;
 }
 
-.page-subtitle,
-.page-description {
-    font-size: 1.1rem !important;
-    opacity: 0.8 !important;
+/* 5. All paragraphs and text centered */
+p, span, div, label {
     text-align: center !important;
-    margin-bottom: 30px !important;
 }
 
-/* 4. Statistics Cards Row - Like Image 3 */
-.stats-container,
-.metrics-container,
-.cards-container {
+/* 6. Statistics cards row - force center */
+[class*="stats"],
+[class*="metrics"],
+[class*="cards"],
+.grid,
+.flex {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     flex-wrap: wrap !important;
-    gap: 20px !important;
     width: 100% !important;
-    max-width: 1200px !important;
-    margin: 30px auto !important;
-}
-
-.stat-card,
-.metric-card,
-.dashboard-card,
-.card {
-    flex: 1 !important;
-    min-width: 250px !important;
-    max-width: 300px !important;
-    padding: 25px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-radius: 12px !important;
+    margin: 20px auto !important;
     text-align: center !important;
-    margin: 10px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
 }
 
-/* 5. Quick Actions Grid - Like Image 3 */
-.quick-actions,
-.actions-grid,
-.button-grid {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    flex-wrap: wrap !important;
-    gap: 20px !important;
-    width: 100% !important;
-    max-width: 1000px !important;
-    margin: 30px auto !important;
-}
-
-.action-card,
-.quick-action-card {
-    flex: 1 !important;
-    min-width: 200px !important;
-    max-width: 250px !important;
-    padding: 30px 20px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-radius: 12px !important;
+/* 7. Individual cards - force center */
+[class*="card"],
+[class*="stat"],
+[class*="metric"] {
     text-align: center !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
+    margin: 10px auto !important;
 }
 
-/* 6. Override Sidebar (Keep Normal) */
+/* 8. RTL specific overrides */
+[dir="rtl"] * {
+    text-align: center !important;
+    direction: rtl;
+}
+
+/* 9. LTR specific overrides */
+[dir="ltr"] * {
+    text-align: center !important;
+    direction: ltr;
+}
+
+/* 10. Exception: Keep sidebar normal */
 .sidebar,
-.sidebar * {
+.sidebar *,
+[class*="sidebar"],
+[class*="sidebar"] *,
+nav.sidebar,
+nav.sidebar * {
     text-align: left !important;
 }
 
-/* 7. Force Center Everything Else */
-body * {
-    text-align: center !important;
-}
-
-/* 8. Arabic/RTL Support with Centering */
-[dir="rtl"] .main-content,
-[lang="ar"] .main-content {
-    direction: rtl !important;
+/* 11. Final nuclear option */
+body > * {
     text-align: center !important;
 }
