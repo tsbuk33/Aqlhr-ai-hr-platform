@@ -46,8 +46,8 @@ export function useEnsureDemoSeed() {
             await (supabase.functions as any).invoke('hr_seed_demo_1000_v1', { body: { tenantId } });
           } catch {
             try { await (supabase.functions as any).invoke('dev_seed_employees_v1', { body: { tenantId } }); } catch {}
-            try { await (supabase.rpc as any)('dev_seed_employees_v1', { p_tenant: tenantId }); } catch {}
-            try { await (supabase.rpc as any)('dev_seed_employees_v1', { p_tenant_id: tenantId }); } catch {}
+            try { await (supabase.rpc as any)('dev_seed_employees_v1', { p_tenant: tenantId, p_count: 1000 }); } catch {}
+            try { await (supabase.rpc as any)('dev_seed_employees_v1', { p_tenant_id: tenantId, p_count: 1000 }); } catch {}
           }
 
           // 3) Backfill KPIs
