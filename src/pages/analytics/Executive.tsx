@@ -14,7 +14,7 @@ const ExecutiveAnalyticsPage = () => {
   const { isArabic } = useSimpleLanguage();
 
   useEffect(() => {
-    document.title = isArabic ? 'التحليلات التنفيذية - سند' : 'Executive Analytics - SanadHR';
+    document.title = isArabic ? 'التحليلات التنفيذية - عقل' : 'Executive Analytics - AqlHR';
   }, [isArabic]);
 
   const executiveMetrics = [

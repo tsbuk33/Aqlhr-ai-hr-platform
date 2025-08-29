@@ -14,7 +14,7 @@ const KPIPage = () => {
   const { isArabic } = useSimpleLanguage();
 
   useEffect(() => {
-    document.title = isArabic ? 'مؤشرات الأداء الرئيسية - سند' : 'Key Performance Indicators - SanadHR';
+    document.title = isArabic ? 'مؤشرات الأداء الرئيسية - عقل' : 'Key Performance Indicators - AqlHR';
   }, [isArabic]);
 
   const kpis = [

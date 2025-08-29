@@ -24,20 +24,20 @@ const QiwaIntegration = () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     toast({
       title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-      description: isRTL ? "تم ربط منصة قوى مع سند الموارد البشرية بنجاح" : "Qiwa platform successfully connected with SanadHR"
+      description: isRTL ? "تم ربط منصة قوى مع عقل الموارد البشرية بنجاح" : "Qiwa platform successfully connected with AqlHR"
     });
   };
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة قوى مع سند" : "Qiwa-SanadHR Sync",
+      title: isRTL ? "مزامنة قوى مع عقل" : "Qiwa-AqlHR Sync",
       description: isRTL ? "جاري مزامنة بيانات الموظفين وعقود العمل..." : "Syncing employee data and work contracts..."
     });
     // Simulate comprehensive sync with SanadHR
     await new Promise(resolve => setTimeout(resolve, 2500));
     toast({
       title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-      description: isRTL ? "تم تحديث جميع البيانات في سند الموارد البشرية" : "All data updated in SanadHR system"
+      description: isRTL ? "تم تحديث جميع البيانات في عقل الموارد البشرية" : "All data updated in AqlHR system"
     });
   };
 
@@ -108,7 +108,7 @@ const QiwaIntegration = () => {
           <div className="p-6 border rounded-lg">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              {isRTL ? "خدمات قوى المتصلة بسند" : "Qiwa Services Connected to SanadHR"}
+              {isRTL ? "خدمات قوى المتصلة بعقل" : "Qiwa Services Connected to AqlHR"}
             </h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">
@@ -133,7 +133,7 @@ const QiwaIntegration = () => {
           <div className="p-6 border rounded-lg">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              {isRTL ? "مزايا التكامل مع سند" : "SanadHR Integration Benefits"}
+              {isRTL ? "مزايا التكامل مع عقل" : "AqlHR Integration Benefits"}
             </h3>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2">

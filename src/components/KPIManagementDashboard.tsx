@@ -198,7 +198,7 @@ const KPIManagementDashboard = () => {
             KPI Management Dashboard
           </h1>
           <p className="text-lg text-muted-foreground">
-            Monitor performance across all 106 SanadHR modules
+            Monitor performance across all 106 AqlHR modules
           </p>
         </div>
         <div className="flex gap-3">

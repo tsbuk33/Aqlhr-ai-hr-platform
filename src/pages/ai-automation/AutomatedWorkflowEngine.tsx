@@ -13,7 +13,7 @@ const translations = {
   en: {
     title: "Automated Workflow Engine",
     subtitle: "AI-powered intelligent automation for seamless HR process management",
-    howItWorks: "How SanadHR Automates Your Workflows",
+    howItWorks: "How AqlHR Automates Your Workflows",
     processIntelligence: "Real-time process intelligence and optimization",
     dataCapture: "Data Capture",
     dataCaptureDesc: "AI monitors all HR activities and captures process patterns in real-time",
@@ -55,7 +55,7 @@ const translations = {
   ar: {
     title: "محرك سير العمل الآلي",
     subtitle: "أتمتة ذكية مدعومة بالذكاء الاصطناعي لإدارة سلسة لعمليات الموارد البشرية",
-    howItWorks: "كيف يقوم سند للموارد البشرية بأتمتة سير العمل",
+    howItWorks: "كيف يقوم عقل للموارد البشرية بأتمتة سير العمل",
     processIntelligence: "ذكاء العمليات والتحسين في الوقت الفعلي",
     dataCapture: "التقاط البيانات",
     dataCaptureDesc: "يراقب الذكاء الاصطناعي جميع أنشطة الموارد البشرية ويلتقط أنماط العمليات في الوقت الفعلي",

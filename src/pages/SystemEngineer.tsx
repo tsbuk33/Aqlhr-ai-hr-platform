@@ -5,7 +5,7 @@ import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SystemEngineerPage = () => {
   useEffect(() => {
-    document.title = 'SanadHR System Engineer - Auto-Adaptive AI SuperIntelligence';
+    document.title = 'AqlHR System Engineer - Auto-Adaptive AI SuperIntelligence';
   }, []);
 
   return (

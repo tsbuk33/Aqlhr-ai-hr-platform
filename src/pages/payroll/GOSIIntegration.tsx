@@ -181,7 +181,7 @@ const GOSIIntegration = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <Shield className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - منصة التأمينات الاجتماعية' : 'Direct SanadHR Integration - GOSI Platform'}
+            {isRTL ? 'التكامل المباشر مع عقل الموارد البشرية - منصة التأمينات الاجتماعية' : 'Direct AqlHR Integration - GOSI Platform'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

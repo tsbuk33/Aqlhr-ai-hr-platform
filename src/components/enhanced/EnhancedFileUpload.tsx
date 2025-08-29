@@ -436,7 +436,7 @@ export const EnhancedFileUpload = ({
                 <li>• Automatic file compression and optimization</li>
                 <li>• Batch upload with progress tracking</li>
                 <li>• Drag & drop, URL, and cloud storage support</li>
-                <li>• Real-time integration with SanadHR modules</li>
+                <li>• Real-time integration with AqlHR modules</li>
               </ul>
             </div>
           </div>

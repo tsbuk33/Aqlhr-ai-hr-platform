@@ -626,7 +626,7 @@ const MobileExecutiveDashboard: React.FC = () => {
               </h2>
               <p className="text-muted-foreground">
                 {isSuperAdmin 
-                  ? (isArabic ? 'مؤسس منصة سند الموارد البشرية' : 'AqlHR Platform Founder')
+                  ? (isArabic ? 'مؤسس منصة عقل الموارد البشرية' : 'AqlHR Platform Founder')
                   : (isArabic ? `الرئيس التنفيذي، ${companyData.name}` : `CEO, ${companyData.name}`)
                 }
               </p>

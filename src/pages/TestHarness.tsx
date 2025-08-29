@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const TestHarnessPage = () => {
   useEffect(() => {
-    document.title = 'SanadHR Test Harness - System Validation';
+    document.title = 'AqlHR Test Harness - System Validation';
   }, []);
 
   return (

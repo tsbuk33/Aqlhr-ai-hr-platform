@@ -14,7 +14,7 @@ const UsersPage = () => {
   const { isArabic } = useSimpleLanguage();
 
   useEffect(() => {
-    document.title = isArabic ? 'إدارة المستخدمين - سند' : 'User Management - SanadHR';
+    document.title = isArabic ? 'إدارة المستخدمين - عقل' : 'User Management - AqlHR';
   }, [isArabic]);
 
   const users = [

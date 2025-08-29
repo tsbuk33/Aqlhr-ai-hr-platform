@@ -30,7 +30,7 @@ const QiyasAssessment = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-        description: isRTL ? "تم ربط منصة قياس مع سند الموارد البشرية بنجاح" : "Qiyas platform successfully connected with SanadHR"
+        description: isRTL ? "تم ربط منصة قياس مع عقل الموارد البشرية بنجاح" : "Qiyas platform successfully connected with AqlHR"
       });
     } catch (error) {
       toast({
@@ -42,7 +42,7 @@ const QiyasAssessment = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة قياس مع سند" : "Qiyas-SanadHR Sync",
+      title: isRTL ? "مزامنة قياس مع عقل" : "Qiyas-AqlHR Sync",
       description: isRTL ? "جاري مزامنة نتائج التقييمات والشهادات..." : "Syncing assessment results and certificates..."
     });
     
@@ -60,7 +60,7 @@ const QiyasAssessment = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع بيانات التقييمات في سند الموارد البشرية" : "All assessment data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع بيانات التقييمات في عقل الموارد البشرية" : "All assessment data updated in AqlHR system"
       });
     } catch (error) {
       toast({
@@ -167,7 +167,7 @@ const QiyasAssessment = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "تكامل قياس مع سند الموارد البشرية" : "Qiyas-SanadHR Integration"}
+                {isRTL ? "تكامل قياس مع عقل الموارد البشرية" : "Qiyas-AqlHR Integration"}
               </h3>
             </div>
             <div className="space-y-4">

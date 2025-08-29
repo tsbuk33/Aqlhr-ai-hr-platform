@@ -31,7 +31,7 @@ const CHIPlatform = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-        description: isRTL ? "تم ربط مجلس الضمان الصحي مع سند الموارد البشرية بنجاح" : "CHI platform successfully connected with SanadHR"
+        description: isRTL ? "تم ربط مجلس الضمان الصحي مع عقل الموارد البشرية بنجاح" : "CHI platform successfully connected with AqlHR"
       });
     } catch (error) {
       toast({
@@ -43,7 +43,7 @@ const CHIPlatform = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة مجلس الضمان الصحي مع سند" : "CHI-SanadHR Sync",
+      title: isRTL ? "مزامنة مجلس الضمان الصحي مع عقل" : "CHI-AqlHR Sync",
       description: isRTL ? "جاري مزامنة بيانات التأمين الصحي والامتثال..." : "Syncing health insurance data and compliance information..."
     });
     
@@ -61,7 +61,7 @@ const CHIPlatform = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع بيانات التأمين الصحي في سند الموارد البشرية" : "All health insurance data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع بيانات التأمين الصحي في عقل الموارد البشرية" : "All health insurance data updated in AqlHR system"
       });
     } catch (error) {
       toast({
@@ -194,7 +194,7 @@ const CHIPlatform = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "تكامل CHI مع سند الموارد البشرية" : "CHI-SanadHR Integration"}
+                {isRTL ? "تكامل CHI مع عقل الموارد البشرية" : "CHI-AqlHR Integration"}
               </h3>
             </div>
             <div className="space-y-4">

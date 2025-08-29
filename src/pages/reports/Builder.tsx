@@ -17,7 +17,7 @@ const ReportBuilderPage = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = isArabic ? 'منشئ التقارير - سند' : 'Report Builder - SanadHR';
+    document.title = isArabic ? 'منشئ التقارير - عقل' : 'Report Builder - AqlHR';
   }, [isArabic]);
 
   const reportTemplates = [

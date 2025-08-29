@@ -94,7 +94,7 @@ const TVTCIntegration = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <GraduationCap className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - نظام التدريب والتطوير' : 'Direct SanadHR Integration - Training & Development System'}
+            {isRTL ? 'التكامل المباشر مع عقل الموارد البشرية - نظام التدريب والتطوير' : 'Direct AqlHR Integration - Training & Development System'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

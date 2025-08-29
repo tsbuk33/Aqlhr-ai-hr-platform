@@ -43,7 +43,7 @@ const AIFeatures = () => {
           <Brain className="h-8 w-8 text-brand-primary" />
           {isArabic ? 'ميزات الذكاء الاصطناعي والأتمتة' : 'AI Features & Automation'}
           <EduBox
-            title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'SanadHR AI Suite'}
+            title={isArabic ? 'مجموعة أدوات الذكاء الاصطناعي' : 'AqlHR AI Suite'}
             description={isArabic ? 'وحدات ذكية متقدمة تؤتمت عمليات الموارد البشرية وتوفر التحليلات التنبؤية والتوصيات الذكية' : 'Advanced AI modules that automate HR processes, provide predictive analytics, and generate intelligent recommendations'}
             howToUse={isArabic ? 'تنقل عبر ميزات الذكاء الاصطناعي المختلفة باستخدام التبويبات أدناه' : 'Navigate through different AI features using the tabs below'}
             linkedFeatures={isArabic ? ['محرك المزامنة الذكي', 'التوصيات الذكية', 'التحليلات التنبؤية', 'ذكاء المستندات'] : ['AI SYNC ENGINE', 'Smart Recommendations', 'Predictive Analytics', 'DOCUMENT INTELLIGENCE']}

@@ -27,7 +27,7 @@ const NCAAAAccreditation = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-        description: isRTL ? "تم ربط مركز الاعتماد الأكاديمي مع سند الموارد البشرية بنجاح" : "NCAAA platform successfully connected with SanadHR"
+        description: isRTL ? "تم ربط مركز الاعتماد الأكاديمي مع عقل الموارد البشرية بنجاح" : "NCAAA platform successfully connected with AqlHR"
       });
     } catch (error) {
       toast({
@@ -39,7 +39,7 @@ const NCAAAAccreditation = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة NCAAA مع سند" : "NCAAA-SanadHR Sync",
+      title: isRTL ? "مزامنة NCAAA مع عقل" : "NCAAA-AqlHR Sync",
       description: isRTL ? "جاري مزامنة بيانات الاعتماد الأكاديمي..." : "Syncing academic accreditation data..."
     });
     
@@ -57,7 +57,7 @@ const NCAAAAccreditation = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع بيانات الاعتماد في سند الموارد البشرية" : "All accreditation data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع بيانات الاعتماد في عقل الموارد البشرية" : "All accreditation data updated in AqlHR system"
       });
     } catch (error) {
       toast({
@@ -157,7 +157,7 @@ const NCAAAAccreditation = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "تكامل NCAAA مع سند الموارد البشرية" : "NCAAA-SanadHR Integration"}
+                {isRTL ? "تكامل NCAAA مع عقل الموارد البشرية" : "NCAAA-AqlHR Integration"}
               </h3>
             </div>
             <div className="space-y-4">

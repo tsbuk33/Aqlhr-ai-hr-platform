@@ -122,7 +122,7 @@ const PolicyUploadSystem = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with SanadHR AI SuperIntelligence Branding */}
+      {/* Header with AqlHR AI SuperIntelligence Branding */}
       <Card className="border-brand-primary bg-gradient-to-r from-brand-primary/5 to-brand-accent/5">
         <CardHeader>
           <CardTitle className="flex items-center gap-3 text-2xl">

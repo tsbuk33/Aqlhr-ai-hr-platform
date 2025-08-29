@@ -15,7 +15,7 @@ const RealtimeAnalyticsPage = () => {
   const [lastUpdate, setLastUpdate] = useState(new Date());
 
   useEffect(() => {
-    document.title = isArabic ? 'التحليلات الفورية - سند' : 'Real-time Analytics - SanadHR';
+    document.title = isArabic ? 'التحليلات الفورية - عقل' : 'Real-time Analytics - AqlHR';
     
     // Simulate real-time updates
     const interval = setInterval(() => {

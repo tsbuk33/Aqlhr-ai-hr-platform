@@ -59,7 +59,7 @@ const SystemEngineerDashboard = () => {
 
   const translations = {
     en: {
-      title: "SanadHR System Engineer",
+      title: "AqlHR System Engineer",
       subtitle: "Auto-Adaptive AI SuperIntelligence for Future-Proof HR Management",
       overallHealth: "Overall System Health",
       moduleHealth: "Module Health Status",
@@ -103,7 +103,7 @@ const SystemEngineerDashboard = () => {
       realTimeAnalysis: "Real-Time Analysis"
     },
     ar: {
-      title: "مهندس نظام سند للموارد البشرية",
+      title: "مهندس نظام عقل للموارد البشرية",
       subtitle: "الذكاء الاصطناعي الفائق التكيفي التلقائي لإدارة الموارد البشرية المقاومة للمستقبل",
       overallHealth: "الصحة العامة للنظام",
       moduleHealth: "حالة صحة الوحدات",

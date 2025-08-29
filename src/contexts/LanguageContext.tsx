@@ -36,7 +36,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   useEffect(() => {
     // Load saved language preference
-    const savedLanguage = localStorage.getItem('sanadhr_language') as 'ar' | 'en';
+    const savedLanguage = localStorage.getItem('aqlhr_language') as 'ar' | 'en';
     if (savedLanguage) {
       setLanguage(savedLanguage);
     }
@@ -62,7 +62,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ar: {
         // Dashboard
         dashboard: {
-          title: 'نظام سند للموارد البشرية',
+          title: 'نظام عقل للموارد البشرية',
           subtitle: 'منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية',
           all_systems_operational: 'جميع الأنظمة تعمل بشكل طبيعي',
           modules_active: 'وحدة نشطة',
@@ -101,9 +101,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         // Upload
         upload: {
           company_data_integration: 'تكامل بيانات الشركة',
-          company_data_integration_desc: 'رفع ملفات بيانات الشركة للتكامل التلقائي مع جميع وحدات سند والأنظمة الذكية',
+          company_data_integration_desc: 'رفع ملفات بيانات الشركة للتكامل التلقائي مع جميع وحدات عقل والأنظمة الذكية',
           integration_complete: 'اكتمال التكامل',
-          integration_complete_desc: 'تم معالجة وتكامل بيانات الشركة من {filename} في أنظمة سند. جميع الوحدات وأدوات الذكاء الاصطناعي محدثة الآن.',
+          integration_complete_desc: 'تم معالجة وتكامل بيانات الشركة من {filename} في أنظمة عقل. جميع الوحدات وأدوات الذكاء الاصطناعي محدثة الآن.',
           processing_data: 'معالجة بيانات الشركة...',
           integrating_systems: 'التكامل مع وحدات الموارد البشرية والأنظمة الذكية',
           complete: 'مكتمل',
@@ -223,7 +223,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       en: {
         // Dashboard
         dashboard: {
-          title: 'SanadHR System',
+          title: 'AqlHR System',
           subtitle: 'Advanced Intelligent Platform for Human Resources Management in Saudi Arabia',
           all_systems_operational: 'All systems operational',
           modules_active: 'modules active',
@@ -262,7 +262,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         // Upload
         upload: {
           company_data_integration: 'Company Data Integration',
-          company_data_integration_desc: 'Upload company data files to automatically integrate with all SanadHR modules and AI systems',
+          company_data_integration_desc: 'Upload company data files to automatically integrate with all AqlHR modules and AI systems',
           integration_complete: 'Data Integration Complete',
           integration_complete_desc: 'Company data from {filename} has been processed and integrated into SanadHR systems. All modules and AI tools are now updated.',
           processing_data: 'Processing Company Data...',

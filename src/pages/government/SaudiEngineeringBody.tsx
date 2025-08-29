@@ -30,7 +30,7 @@ const SaudiEngineeringBody = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful", 
-        description: isRTL ? "تم ربط المجلس السعودي للمهندسين مع سند الموارد البشرية بنجاح" : "Saudi Council of Engineers successfully connected with SanadHR"
+        description: isRTL ? "تم ربط المجلس السعودي للمهندسين مع عقل الموارد البشرية بنجاح" : "Saudi Council of Engineers successfully connected with AqlHR"
       });
     } catch (error) {
       toast({
@@ -42,7 +42,7 @@ const SaudiEngineeringBody = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة المجلس السعودي للمهندسين مع سند" : "Saudi Council of Engineers-SanadHR Sync",
+      title: isRTL ? "مزامنة المجلس السعودي للمهندسين مع عقل" : "Saudi Council of Engineers-AqlHR Sync",
       description: isRTL ? "جاري مزامنة أرقام المهندسين وبيانات الاعتماد المهني..." : "Syncing engineer numbers and professional accreditation data..."
     });
     
@@ -60,7 +60,7 @@ const SaudiEngineeringBody = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع بيانات المهندسين في سند الموارد البشرية" : "All engineer data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع بيانات المهندسين في عقل الموارد البشرية" : "All engineer data updated in AqlHR system"
       });
     } catch (error) {
       toast({
@@ -168,7 +168,7 @@ const SaudiEngineeringBody = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "حالة التكامل مع سند" : "SanadHR Integration Status"}
+                {isRTL ? "حالة التكامل مع عقل" : "AqlHR Integration Status"}
               </h3>
             </div>
             <div className="space-y-4">

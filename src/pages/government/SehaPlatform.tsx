@@ -30,7 +30,7 @@ const SehaPlatform = () => {
       
       toast({
         title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful", 
-        description: isRTL ? "تم ربط منصة صحة مع سند الموارد البشرية بنجاح" : "Seha platform successfully connected with SanadHR"
+        description: isRTL ? "تم ربط منصة صحة مع عقل الموارد البشرية بنجاح" : "Seha platform successfully connected with AqlHR"
       });
     } catch (error) {
       toast({
@@ -42,7 +42,7 @@ const SehaPlatform = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة صحة مع سند" : "Seha-SanadHR Sync",
+      title: isRTL ? "مزامنة صحة مع عقل" : "Seha-AqlHR Sync",
       description: isRTL ? "جاري مزامنة بيانات التأمين الصحي والوصفات الطبية..." : "Syncing health insurance data and medical prescriptions..."
     });
     
@@ -60,7 +60,7 @@ const SehaPlatform = () => {
       
       toast({
         title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-        description: isRTL ? "تم تحديث جميع البيانات الصحية في سند الموارد البشرية" : "All health data updated in SanadHR system"
+        description: isRTL ? "تم تحديث جميع البيانات الصحية في عقل الموارد البشرية" : "All health data updated in AqlHR system"
       });
     } catch (error) {
       toast({
@@ -167,7 +167,7 @@ const SehaPlatform = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "حالة التكامل مع سند" : "SanadHR Integration Status"}
+                {isRTL ? "حالة التكامل مع عقل" : "AqlHR Integration Status"}
               </h3>
             </div>
             <div className="space-y-4">

@@ -125,7 +125,7 @@ const UmmAlQuraCalendar = () => {
 
   const handleSyncNow = async () => {
     toast({
-      title: isRTL ? "مزامنة تقويم أم القرى مع سند" : "Umm Al-Qura-SanadHR Sync",
+      title: isRTL ? "مزامنة تقويم أم القرى مع عقل" : "Umm Al-Qura-AqlHR Sync",
       description: isRTL ? "جاري مزامنة بيانات التقويم الهجري والمناسبات..." : "Syncing Hijri calendar data and occasions..."
     });
     
@@ -257,7 +257,7 @@ const UmmAlQuraCalendar = () => {
             <div className="flex items-center gap-3 mb-4">
               <Activity className="h-6 w-6 text-success" />
               <h3 className="text-lg font-semibold">
-                {isRTL ? "حالة التكامل مع سند" : "SanadHR Integration Status"}
+                {isRTL ? "حالة التكامل مع عقل" : "AqlHR Integration Status"}
               </h3>
             </div>
             <div className="space-y-4">
@@ -355,7 +355,7 @@ const UmmAlQuraCalendar = () => {
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CheckCircle className="h-4 w-4 text-success" />
-                <span>{isRTL ? "مزامنة تلقائية مع سند" : "Auto-sync with SanadHR"}</span>
+                <span>{isRTL ? "مزامنة تلقائية مع عقل" : "Auto-sync with AqlHR"}</span>
               </div>
             </div>
             <div className="space-y-3">

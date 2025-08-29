@@ -25,7 +25,7 @@ export const OfficialLogos: React.FC = () => {
         />
       </div>
       <p className="text-xs text-muted-foreground text-center mt-4">
-        SanadHR - Supporting Saudi Arabia's Vision for the Future
+        AqlHR - Supporting Saudi Arabia's Vision for the Future
       </p>
     </div>
   );

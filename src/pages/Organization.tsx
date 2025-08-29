@@ -283,7 +283,7 @@ const Organization = () => {
                 {t('ai_recommendation')}
               </CardTitle>
               <CardDescription>
-                Get personalized organizational structure recommendations based on SanadHR expertise
+                Get personalized organizational structure recommendations based on AqlHR expertise
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -464,7 +464,7 @@ const Organization = () => {
               <UniversalDocumentManager 
                 moduleName="Organization"
                 moduleNameAr="الهيكل التنظيمي"
-                platform="sanadhr"
+                platform="aqlhr"
                 moduleType="hr"
                 description="Upload organizational charts and documents"
                 descriptionAr="رفع المخططات التنظيمية والمستندات"
