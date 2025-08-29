@@ -509,6 +509,43 @@ html.english {
    UTILITY CLASSES
    ============================================================================= */
 
+/* Container classes for RTL/LTR layout control */
+.rtl-container {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr-container {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Ensure RTL containers have proper flex direction */
+.rtl-container .flex {
+  flex-direction: row-reverse;
+}
+
+.ltr-container .flex {
+  flex-direction: row;
+}
+
+/* Text alignment in containers */
+.rtl-container .text-left {
+  text-align: right;
+}
+
+.rtl-container .text-right {
+  text-align: left;
+}
+
+.ltr-container .text-left {
+  text-align: left;
+}
+
+.ltr-container .text-right {
+  text-align: right;
+}
+
 /* RTL-specific utility classes */
 .rtl-only {
   display: none;
