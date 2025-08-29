@@ -47,6 +47,9 @@ const EmployeesPage: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState('all');
   const queryClient = useQueryClient();
 
+  // Language detection
+  const isArabic = window.location.pathname.includes('/ar');
+
   // Fetch employees
   const { data: employees = [], isLoading } = useQuery({
     queryKey: ['employees'],
@@ -173,7 +176,7 @@ const EmployeesPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* AI-Enhanced Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-2">

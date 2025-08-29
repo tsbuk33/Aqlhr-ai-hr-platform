@@ -497,90 +497,190 @@ html.english {
    CONTENT CENTERING FOR ARABIC PAGES
    ============================================================================= */
 
-/* Center content layout for Arabic pages - similar to benefits page */
+/* =============================================================================
+   ARABIC (RTL) PAGE CENTERING SYSTEM
+   Universal centering for all Arabic pages similar to benefits page
+   ============================================================================= */
+
+/* Universal page wrapper for Arabic pages - ALWAYS CENTER CONTENT */
 [dir="rtl"] .page-container,
-[dir="rtl"] .main-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+[dir="rtl"] .main-content,
+[dir="rtl"] .container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding-inline: 1rem !important;
 }
 
-/* Center specific page content while maintaining card layouts */
-[dir="rtl"] .content-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  width: 100%;
+/* Force centering on common container classes */
+[dir="rtl"] .space-y-6,
+[dir="rtl"] .space-y-8,
+[dir="rtl"] .space-y-4 {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  gap: 1.5rem !important;
 }
 
-/* Center cards and components within the centered layout */
-[dir="rtl"] .card-grid {
-  display: grid;
-  justify-content: center;
-  gap: 1.5rem;
+/* Center all grid layouts in Arabic */
+[dir="rtl"] .grid {
+  display: grid !important;
+  place-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+
+/* Center card grids and maintain responsive layout */
+[dir="rtl"] .grid.gap-4,
+[dir="rtl"] .grid.gap-6 {
+  display: grid !important;
+  justify-content: center !important;
+  place-content: center !important;
+}
+
+/* Center metrics and KPI cards */
+[dir="rtl"] .grid-cols-1,
+[dir="rtl"] .md\\:grid-cols-2,
+[dir="rtl"] .lg\\:grid-cols-3,
+[dir="rtl"] .lg\\:grid-cols-4,
+[dir="rtl"] .lg\\:grid-cols-5 {
+  justify-content: center !important;
+  place-content: center !important;
+}
+
+/* Center dashboard headers and sections */
+[dir="rtl"] .flex.items-center,
+[dir="rtl"] .flex.justify-between {
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Center all cards within their containers */
+[dir="rtl"] .card,
+[dir="rtl"] .Card {
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
 /* Center form layouts */
-[dir="rtl"] .form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
+[dir="rtl"] .form-container,
+[dir="rtl"] .form-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  max-width: 800px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
-/* Center dashboard metrics */
-[dir="rtl"] .metrics-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-/* Center table containers */
-[dir="rtl"] .table-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
+/* Center table containers while maintaining functionality */
+[dir="rtl"] .table-wrapper,
 [dir="rtl"] .table-container {
-  width: 100%;
-  max-width: 1400px;
+  display: flex !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
 }
 
-/* Navigation remains at edges but content centers */
-[dir="rtl"] .main-layout {
-  display: flex;
-  min-height: 100vh;
+/* Center tabs and navigation within content */
+[dir="rtl"] .tabs-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
-[dir="rtl"] .content-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-}
-
-/* Center organizational chart and complex layouts */
+/* Center organizational charts and complex layouts */
 [dir="rtl"] .org-chart-container,
 [dir="rtl"] .chart-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
 }
 
-/* Responsive centering */
+/* Center AI and analytics components */
+[dir="rtl"] .ai-dashboard,
+[dir="rtl"] .analytics-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+}
+
+/* Responsive centering for all screen sizes */
+@media (max-width: 1536px) {
+  [dir="rtl"] .container,
+  [dir="rtl"] .page-container {
+    max-width: 1200px !important;
+  }
+}
+
+@media (max-width: 1280px) {
+  [dir="rtl"] .container,
+  [dir="rtl"] .page-container {
+    max-width: 1024px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  [dir="rtl"] .container,
+  [dir="rtl"] .page-container {
+    max-width: 768px !important;
+  }
+}
+
 @media (max-width: 768px) {
-  [dir="rtl"] .content-wrapper {
-    padding: 0 1rem;
+  [dir="rtl"] .container,
+  [dir="rtl"] .page-container,
+  [dir="rtl"] .space-y-6,
+  [dir="rtl"] .space-y-8 {
+    padding-inline: 0.5rem !important;
+    max-width: 100% !important;
   }
   
-  [dir="rtl"] .content-area {
-    padding: 1rem;
+  [dir="rtl"] .grid {
+    grid-template-columns: 1fr !important;
+    place-items: center !important;
   }
+}
+
+/* Utility classes for manual centering */
+.rtl-centered {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+[dir="rtl"] .rtl-centered {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
 }
   border-left-color: hsl(var(--border));
 }

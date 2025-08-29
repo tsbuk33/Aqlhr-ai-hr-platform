@@ -267,7 +267,7 @@ export default function DashboardPage() {
   const statData = getStatData();
 
   return (
-    <div className={`space-y-8 ${isArabic ? 'rtl' : 'ltr'}`}>
+    <div className={`container mx-auto p-6 space-y-8 max-w-7xl ${isArabic ? 'rtl' : 'ltr'}`} dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className={`${isArabic ? 'text-right' : 'text-left'}`}>
         <div className="flex items-center justify-between">
