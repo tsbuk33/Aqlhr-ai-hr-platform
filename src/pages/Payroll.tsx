@@ -213,7 +213,7 @@ const Payroll = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-8 max-w-7xl">
+    <div className="container mx-auto p-6 space-y-8 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Hero Section */}
       <div className="text-center mb-8 relative">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-3xl -z-10"></div>

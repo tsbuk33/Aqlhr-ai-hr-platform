@@ -110,7 +110,7 @@ const Tools = () => {
   const totalTools = toolCategories.reduce((sum, category) => sum + category.count, 0);
 
   return (
-    <div className={`container mx-auto p-6 space-y-8 max-w-6xl ${isRTL ? 'rtl' : 'ltr'}`}>
+    <div className={`container mx-auto p-6 space-y-8 max-w-7xl ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">

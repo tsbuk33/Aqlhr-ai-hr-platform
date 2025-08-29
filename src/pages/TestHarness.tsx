@@ -11,7 +11,7 @@ const TestHarnessPage = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 max-w-7xl" dir="ltr">
       <Tabs defaultValue="ai-validation" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="ai-validation">🤖 AI System Validation</TabsTrigger>

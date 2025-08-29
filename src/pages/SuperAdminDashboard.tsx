@@ -200,7 +200,7 @@ const SuperAdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="flex flex-col space-y-2">
         <div className="flex items-center gap-3">

@@ -37,7 +37,7 @@ const AIFeatures = () => {
         />
       </div>
 
-      <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+      <div className="container mx-auto p-6 space-y-6 max-w-6xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-foreground flex items-center justify-center gap-3 mb-4">
           <Brain className="h-8 w-8 text-brand-primary" />

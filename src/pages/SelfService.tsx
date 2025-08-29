@@ -231,7 +231,7 @@ const SelfService = () => {
   ];
 
   return (
-    <div className={`container mx-auto p-4 space-y-6 max-w-6xl ${directionClasses.container}`}>
+    <div className={`container mx-auto p-4 space-y-6 max-w-7xl ${directionClasses.container}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       {/* Header with Employee Info - Centered */}
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-4">

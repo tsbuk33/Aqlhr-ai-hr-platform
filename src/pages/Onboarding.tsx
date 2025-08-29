@@ -26,6 +26,7 @@ interface OnboardingStep {
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const isArabic = window.location.pathname.includes('/ar');
   const [steps, setSteps] = useState<OnboardingStep[]>([]);
   const [tenantId, setTenantId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -263,7 +264,7 @@ const Onboarding = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold">AqlHR Onboarding</h1>

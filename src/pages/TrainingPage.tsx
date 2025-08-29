@@ -144,7 +144,7 @@ const TrainingPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="container mx-auto p-6 space-y-8 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="flex items-center justify-center gap-3 mb-4">

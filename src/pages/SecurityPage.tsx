@@ -10,7 +10,7 @@ const SecurityPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <PageHeader
         title={isArabic ? 'إدارة الأمان' : 'Security Management'}
         description={isArabic 

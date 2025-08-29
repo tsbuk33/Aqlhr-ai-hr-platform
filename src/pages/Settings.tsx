@@ -3,13 +3,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Settings2, User, Shield, Bell, Globe, Database, Palette, Key, Users, UserCheck } from 'lucide-react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { RoleBasedAccessMatrix } from '@/components/RoleBasedAccessMatrix';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
-const Settings: React.FC = () => {
-  const { isArabic } = useSimpleLanguage();
+const Settings = () => {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
 
   const settingsModules = [
     {
@@ -70,7 +71,7 @@ const Settings: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="flex flex-col space-y-2">
         <h1 className="text-3xl font-bold">
           {isArabic ? 'الإعدادات' : 'Settings'}

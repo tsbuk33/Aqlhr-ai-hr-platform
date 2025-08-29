@@ -125,7 +125,7 @@ export default function AISystemTestPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
       <div className="flex items-center gap-2">
         <MessageSquare className="h-6 w-6" />
         <h1 className="text-2xl font-bold">AI System Test Center</h1>

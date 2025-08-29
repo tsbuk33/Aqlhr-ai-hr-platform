@@ -115,7 +115,7 @@ export default function ShareView() {
   const timeUntilExpiry = expiresAt ? Math.ceil((expiresAt.getTime() - new Date().getTime()) / (1000 * 60 * 60)) : null;
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
       {/* Header with expiry notice */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">

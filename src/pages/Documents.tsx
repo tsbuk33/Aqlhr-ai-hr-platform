@@ -10,7 +10,7 @@ const Documents = () => {
   const isArabic = language === 'ar';
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+    <div className="container mx-auto p-6 space-y-6 max-w-6xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div>
         <h1 className="text-3xl font-bold text-foreground">
           {isArabic ? 'إدارة الوثائق' : 'Document Management'}

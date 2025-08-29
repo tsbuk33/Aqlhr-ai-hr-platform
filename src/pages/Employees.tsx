@@ -14,7 +14,7 @@ const Employees = () => {
   const isArabic = language === 'ar';
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-6xl">
+    <div className="container mx-auto p-6 space-y-6 max-w-6xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-foreground mb-4">
           {isArabic ? 'البيانات الأساسية للموظفين' : 'Employee Master Data'}

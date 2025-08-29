@@ -7,7 +7,7 @@ import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const DebugPage: React.FC = () => {
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
       <Card>
         <CardHeader>
           <CardTitle>🐛 Debug & Analytics Testing</CardTitle>

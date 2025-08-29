@@ -201,7 +201,7 @@ const Company: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="flex flex-col space-y-2">
         <div className="flex items-center gap-3">
           <Brain className="h-8 w-8 text-primary animate-pulse" />

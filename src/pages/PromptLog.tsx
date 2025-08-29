@@ -127,7 +127,7 @@ export default function PromptLog() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="container mx-auto py-8 px-4">
+    <div className="container mx-auto py-8 px-4 max-w-7xl" dir="ltr">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">AqlHR Instruction Inventory</h1>
         <p className="text-muted-foreground">

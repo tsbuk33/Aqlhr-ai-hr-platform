@@ -8,7 +8,7 @@ const AssistantPage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
 
   return (
-    <div className="container mx-auto p-6 h-full flex flex-col space-y-6">
+    <div className="container mx-auto p-6 h-full flex flex-col space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <PageHeader
         title={isArabic ? 'مساعد عقل الذكي' : 'Ask Aql Assistant'}
         description={isArabic 
