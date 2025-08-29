@@ -109,7 +109,7 @@ export const EnhancedPageLayout: React.FC<EnhancedPageLayoutProps> = ({
   };
 
   return (
-    <div className={`w-full max-w-7xl mx-auto space-y-6 ${directionClasses.container}`}>
+    <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${isRTL ? 'rtl' : 'ltr'} ${directionClasses.container}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Enhanced Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div className={`${showUserInfo ? 'flex items-center gap-4' : ''} ${directionClasses.flex}`}>
