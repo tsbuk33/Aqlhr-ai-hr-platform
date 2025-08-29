@@ -95,7 +95,7 @@ const ELMPlatform = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <Database className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - منصة عِلم' : 'Direct SanadHR Integration - ELM Platform'}
+            {isRTL ? 'التكامل المباشر مع عقل للموارد البشرية - منصة عِلم' : 'Direct AqlHR Integration - ELM Platform'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

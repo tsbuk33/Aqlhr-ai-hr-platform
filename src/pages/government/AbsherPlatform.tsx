@@ -95,7 +95,7 @@ const AbsherPlatform = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <Shield className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - منصة أبشر أعمال' : 'Direct SanadHR Integration - Absher Business Platform'}
+            {isRTL ? 'التكامل المباشر مع عقل للموارد البشرية - منصة أبشر أعمال' : 'Direct AqlHR Integration - Absher Business Platform'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

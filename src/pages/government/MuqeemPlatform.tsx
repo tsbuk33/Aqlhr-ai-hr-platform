@@ -95,7 +95,7 @@ const MuqeemPlatform = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <Plane className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - منصة مقيم' : 'Direct SanadHR Integration - Muqeem Platform'}
+            {isRTL ? 'التكامل المباشر مع عقل للموارد البشرية - منصة مقيم' : 'Direct AqlHR Integration - Muqeem Platform'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

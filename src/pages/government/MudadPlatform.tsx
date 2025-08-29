@@ -95,7 +95,7 @@ const MudadPlatform = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <CreditCard className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - منصة مُدد' : 'Direct SanadHR Integration - Mudad Platform'}
+            {isRTL ? 'التكامل المباشر مع عقل للموارد البشرية - منصة مُدد' : 'Direct AqlHR Integration - Mudad Platform'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 

@@ -95,7 +95,7 @@ const MOLCompliance = () => {
         <CardHeader>
           <CardTitle className="text-primary flex items-center gap-2">
             <Users className="h-6 w-6" />
-            {isRTL ? 'التكامل المباشر مع سند الموارد البشرية - نظام الامتثال العمالي' : 'Direct SanadHR Integration - Labor Compliance System'}
+            {isRTL ? 'التكامل المباشر مع عقل للموارد البشرية - نظام الامتثال العمالي' : 'Direct AqlHR Integration - Labor Compliance System'}
           </CardTitle>
           <CardDescription>
             {isRTL ? 
