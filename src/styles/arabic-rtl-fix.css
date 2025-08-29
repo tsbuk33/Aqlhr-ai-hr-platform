@@ -1,83 +1,96 @@
-/* Arabic RTL Layout Fix - Complete Solution (scoped import, catch-all disabled to avoid overriding centering) */
+/* Centered Layout for Both Arabic and English - Complete Solution */
 
-/* 1. Global RTL Setup */
-html[lang="ar"], 
-html[dir="rtl"],
-.arabic-content,
-.rtl-content {
-    direction: rtl;
-    text-align: right;
+/* 1. Global Centered Setup for All Languages */
+html,
+body {
+    text-align: center;
+    direction: ltr; /* Default to LTR, but content will be centered */
 }
 
-/* 2. Body and Main Container Setup */
-body.arabic-layout,
+/* 2. Arabic Language Specific Settings */
+html[lang="ar"], 
+html[dir="rtl"],
+body[lang="ar"],
 body[dir="rtl"] {
-    direction: rtl;
-    text-align: right;
+    direction: rtl; /* Maintain RTL for proper text rendering */
+    text-align: center; /* But center the content */
     font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
 }
 
-/* 3. Force RTL on All Text Elements */
-.arabic-content h1,
-.arabic-content h2,
-.arabic-content h3,
-.arabic-content h4,
-.arabic-content h5,
-.arabic-content h6,
-.arabic-content p,
-.arabic-content div,
-.arabic-content span,
-.arabic-content li,
-.arabic-content td,
-.arabic-content th,
-.arabic-content label,
-.arabic-content button,
-.arabic-content input,
-.arabic-content textarea,
-.arabic-content select {
-    direction: rtl;
-    text-align: right;
-    unicode-bidi: embed;
+/* 3. English Language Specific Settings */
+html[lang="en"], 
+html[dir="ltr"],
+body[lang="en"],
+body[dir="ltr"] {
+    direction: ltr;
+    text-align: center; /* Center English content too */
+    font-family: 'Inter', 'Arial', sans-serif;
 }
 
-/* 4. Container and Layout Elements */
-.container,
+/* 4. Universal Content Centering */
+.arabic-content,
+.english-content,
+.rtl-content,
+.ltr-content,
 .main-content,
-.content-wrapper,
 .page-content,
+.content-wrapper {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 5. All Text Elements Centered */
+h1, h2, h3, h4, h5, h6,
+p, div, span, li, td, th,
+label, button, input, textarea, select {
+    text-align: center;
+}
+
+/* 6. Container and Layout Elements */
+.container,
 .section,
 .card,
-.panel {
-    direction: rtl;
-    text-align: right;
+.panel,
+.box,
+.tile {
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* 5. Navigation and Menu Items */
+/* 7. Navigation and Menu Items Centered */
 nav,
 .navbar,
 .menu,
 .nav-item,
 .menu-item,
 .breadcrumb {
-    direction: rtl;
-    text-align: right;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.nav ul,
-.menu ul,
-.nav li,
-.menu li {
-    direction: rtl;
-    text-align: right;
-    float: right;
-}
-
-/* 6. Form Elements Alignment */
+/* 8. Form Elements Centered */
 form,
 .form-group,
 .form-field {
-    direction: rtl;
-    text-align: right;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 input[type="text"],
@@ -87,166 +100,75 @@ input[type="search"],
 input[type="tel"],
 textarea,
 select {
-    direction: rtl;
-    text-align: right;
-    padding-right: 12px;
-    padding-left: 8px;
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-/* 7. Buttons and Interactive Elements */
+/* 9. Buttons Centered */
 button,
 .btn,
 .button,
 a.button {
-    direction: rtl;
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+    padding: 12px 24px;
+    border-radius: 8px;
+    max-width: 200px;
+}
+
+/* 10. Auth/Login Page Specific Centering */
+.auth-container,
+.login-container,
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+.auth-form,
+.login-form,
+.signup-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
     text-align: center;
 }
 
-/* 8. Tables */
-table {
-    direction: rtl;
+/* 11. Welcome Page Centering */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 40px 20px;
 }
 
-th,
-td {
-    text-align: right;
-    direction: rtl;
+/* 12. Dashboard Centering */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
 }
 
-/* 9. Flexbox Corrections for RTL */
-.flex-container,
-.d-flex,
-.flex {
-    direction: rtl;
-}
-
-.flex-container > *,
-.d-flex > *,
-.flex > * {
-    text-align: right;
-}
-
-/* 10. Grid Layout Corrections */
-.grid,
-.row,
-.col,
-[class*="col-"] {
-    direction: rtl;
-    text-align: right;
-}
-
-/* 11. Specific Page Elements */
-.header,
-.footer,
-.sidebar,
-.main,
-.content {
-    direction: rtl;
-    text-align: right;
-}
-
-/* 12. Cards and Panels */
-.card,
-.panel,
-.box,
-.tile {
-    direction: rtl;
-    text-align: right;
-}
-
-.card-header,
-.card-body,
-.card-footer,
-.panel-header,
-.panel-body,
-.panel-footer {
-    direction: rtl;
-    text-align: right;
-}
-
-/* 13. Lists */
-ul,
-ol,
-li {
-    direction: rtl;
-    text-align: right;
-    list-style-position: inside;
-}
-
-/* 14. Icons and Images Adjustments */
-.icon {
-    margin-left: 8px;
-    margin-right: 0;
-}
-
-/* 15. Margin and Padding Adjustments for RTL */
-.ml-auto { margin-left: 0 !important; margin-right: auto !important; }
-.mr-auto { margin-right: 0 !important; margin-left: auto !important; }
-.pl-3 { padding-left: 0 !important; padding-right: 1rem !important; }
-.pr-3 { padding-right: 0 !important; padding-left: 1rem !important; }
-
-/* 16. Text Direction Override for Mixed Content */
-.ltr-content {
-    direction: ltr;
-    text-align: left;
-}
-
-.rtl-content {
-    direction: rtl;
-    text-align: right;
-}
-
-/* 17. Responsive Adjustments */
-@media (max-width: 768px) {
-    .mobile-rtl {
-        direction: rtl;
-        text-align: right;
-    }
-    
-    .container,
-    .row,
-    .col {
-        direction: rtl;
-        text-align: right;
-    }
-}
-
-/* 18. Override for Persistent Elements */
-.force-rtl,
-.arabic-force {
-    direction: rtl !important;
-    text-align: right !important;
-    unicode-bidi: bidi-override;
-}
-
-/* 19. Floating Elements Fix */
-.float-left {
-    float: right !important;
-}
-
-.float-right {
-    float: left !important;
-}
-
-/* 20. Final Catch-All Rule - DISABLED to avoid overriding centered Arabic pages globally
-[lang="ar"] *,
-[dir="rtl"] *,
-.arabic-content * {
-    direction: rtl;
-    text-align: right;
-}
-*/
-
-/* Exception for elements that should remain LTR */
-.keep-ltr,
-.ltr-only,
-[dir="ltr"],
-code,
-pre,
-.code,
-.email,
-.url,
-.phone {
-    direction: ltr !important;
-    text-align: left !important;
+/* 13. Final Universal Centering Rule */
+* {
+    text-align: center;
 }
