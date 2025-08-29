@@ -52,7 +52,13 @@ export default function LanguageLayout() {
           <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
             {!isAuthPage && <DashboardHeader />}
             <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : 'p-6'}`}>
-              <Outlet />
+              {isAuthPage ? (
+                <Outlet />
+              ) : (
+                <div className={isRTL ? 'container mx-auto max-w-7xl space-y-6' : ''}>
+                  <Outlet />
+                </div>
+              )}
             </div>
           </main>
         </div>
