@@ -520,14 +520,15 @@ html.english {
   text-align: left;
 }
 
-/* Ensure RTL containers have proper flex direction for main layout elements */
-.rtl-container > .flex:not(.preserve-flex-direction) {
+/* Ensure RTL containers reverse the root flex layout (LanguageLayout) */
+.rtl-container.flex {
   flex-direction: row-reverse;
 }
 
-.ltr-container > .flex:not(.preserve-flex-direction) {
+.ltr-container.flex {
   flex-direction: row;
 }
+
 
 /* Grid layouts should maintain their structure in RTL */
 .rtl-container .grid {
