@@ -7,7 +7,7 @@ import { AlertCircle, Clock, Users, CheckCircle, Shield, TrendingUp } from "luci
 import { supabase } from "@/integrations/supabase/client";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
-
+import { useLanguage } from "@/hooks/useLanguageCompat";
 interface ShareData {
   dashboard_data: any;
   kpi_summary: {
@@ -23,6 +23,8 @@ interface ShareData {
 }
 
 export default function ShareView() {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
   const { token } = useParams<{ token: string }>();
   const [shareData, setShareData] = useState<ShareData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -115,7 +117,7 @@ export default function ShareView() {
   const timeUntilExpiry = expiresAt ? Math.ceil((expiresAt.getTime() - new Date().getTime()) / (1000 * 60 * 60)) : null;
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Header with expiry notice */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">

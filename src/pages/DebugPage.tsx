@@ -4,10 +4,13 @@ import FeedbackWidget from '@/components/feedback/FeedbackWidget';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const DebugPage: React.FC = () => {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <Card>
         <CardHeader>
           <CardTitle>🐛 Debug & Analytics Testing</CardTitle>

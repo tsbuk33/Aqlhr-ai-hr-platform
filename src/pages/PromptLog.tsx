@@ -9,6 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { AqlHRAIAssistant } from '@/components/ai';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 interface PromptEntry {
   id: string;
@@ -89,6 +90,8 @@ const priorityColors = {
 };
 
 export default function PromptLog() {
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
   const [prompts, setPrompts] = useState<PromptEntry[]>(initialPrompts);
   const [filter, setFilter] = useState<string>('all');
   const [isExporting, setIsExporting] = useState(false);
@@ -127,7 +130,7 @@ export default function PromptLog() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-7xl" dir="ltr">
+    <div className="container mx-auto py-8 px-4 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">AqlHR Instruction Inventory</h1>
         <p className="text-muted-foreground">

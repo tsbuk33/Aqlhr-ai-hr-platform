@@ -8,13 +8,16 @@ import { useAIAgentOrchestrator } from '@/hooks/useAIAgentOrchestrator';
 import { supabase } from '@/integrations/supabase/client';
 import { Loader2, MessageSquare, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
-
+import { useLanguage } from "@/hooks/useLanguageCompat";
 export default function AISystemTestPage() {
   const { queryAIAgent, getProviderStatus, getBestResponse, isLoading } = useAIAgentOrchestrator();
   const [testQuery, setTestQuery] = useState('What is the current Saudization rate and how can we improve it?');
   const [results, setResults] = useState<any[]>([]);
   const [providerStatus, setProviderStatus] = useState<any>(null);
   const [statusLoading, setStatusLoading] = useState(false);
+
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
 
   const testOrchestrator = async () => {
     setResults([]);
@@ -125,7 +128,7 @@ export default function AISystemTestPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir="ltr">
+    <div className="container mx-auto p-6 space-y-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="flex items-center gap-2">
         <MessageSquare className="h-6 w-6" />
         <h1 className="text-2xl font-bold">AI System Test Center</h1>

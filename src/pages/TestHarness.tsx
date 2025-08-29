@@ -4,14 +4,17 @@ import AISystemValidator from '@/components/AISystemValidator';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useLanguage } from "@/hooks/useLanguageCompat";
 
 const TestHarnessPage = () => {
   useEffect(() => {
     document.title = 'AqlHR Test Harness - System Validation';
   }, []);
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl" dir="ltr">
+    <div className="container mx-auto p-6 max-w-7xl" dir={isArabic ? 'rtl' : 'ltr'}>
       <Tabs defaultValue="ai-validation" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="ai-validation">🤖 AI System Validation</TabsTrigger>
