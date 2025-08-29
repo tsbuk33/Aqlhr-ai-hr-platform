@@ -401,5 +401,138 @@
       },
       "integrationTitle": "Integrated ESG-HR Platform",
       "integrationDescription": "Seamlessly combining environmental responsibility, social impact, and governance excellence with comprehensive HR management for sustainable business success."
+    },
+    "policy": {
+      "intelligence": {
+        "title": "Policy Intelligence",
+        "description": "AI-powered policy risk analysis with bilingual support and comprehensive mitigation strategies"
+      },
+      "tabs": {
+        "analyze": "Analyze",
+        "history": "History & Trends"
+      },
+      "table": {
+        "title": "Policy Assessments",
+        "createdAt": "Created",
+        "overall": "Overall",
+        "actions": "Actions"
+      },
+      "action": {
+        "view": "View",
+        "reanalyze": "Re-analyze",
+        "reanalyzing": "Re-analyzing...",
+        "exportRow": "Export Row"
+      },
+      "filters": {
+        "title": "Filters & Search",
+        "description": "Filter policy assessments by date range, search terms, and sorting options",
+        "search": "Search policies…",
+        "from": "From",
+        "to": "To",
+        "sort": "Sort by",
+        "clear": "Clear Filters",
+        "desc": "Desc",
+        "asc": "Asc"
+      },
+      "export": "Export",
+      "export": {
+        "csv": "Export CSV",
+        "xlsx": "Export XLSX"
+      },
+      "trends": {
+        "title": "Risk Trends",
+        "description": "Historical risk analysis and trend visualization",
+        "overall": "Overall",
+        "saudiLabor": "Saudi Labor Law",
+        "dataProtection": "Data Protection",
+        "financial": "Financial Impact",
+        "changeMgmt": "Change Management",
+        "refresh": "Refresh Trends",
+        "series": "Display Series",
+        "date": "Date",
+        "noData": "No trend data available",
+        "noDataDesc": "Complete policy assessments to see trends",
+        "stats": {
+          "latest": "Latest Score",
+          "trend": "7-Day Trend",
+          "assessments": "Total Assessments",
+          "period": "Days",
+          "days": "days"
+        },
+        "breakdown": {
+          "title": "Risk Breakdown",
+          "description": "Current risk distribution across dimensions"
+        }
+      },
+      "family": {
+        "compliance": "Compliance Risk",
+        "business": "Business Risk",
+        "implementation": "Implementation Risk"
+      },
+      "dim": {
+        "saudiLaborLaw": "Saudi Labor Law",
+        "workplaceRights": "Workplace Rights",
+        "discriminationPrevention": "Discrimination Prevention",
+        "dataProtection": "Data Protection",
+        "operationalComplexity": "Operational Complexity",
+        "resourceRequirements": "Resource Requirements",
+        "stakeholderImpact": "Stakeholder Impact",
+        "financialImplications": "Financial Implications",
+        "systemComplexity": "System Complexity",
+        "changeResistance": "Change Resistance",
+        "trainingRequirements": "Training Requirements",
+        "monitoringDifficulty": "Monitoring Difficulty"
+      },
+      "mitigation": {
+        "priority": "Priority",
+        "effort": "Effort Level",
+        "impact": "Expected Impact",
+        "timeline": "Timeline",
+        "roi": "ROI",
+        "createTask": "Create Task",
+        "viewCitations": "View Citations",
+        "high": "High",
+        "medium": "Medium",
+        "low": "Low",
+        "weeks": "weeks"
+      },
+      "citations": {
+        "title": "Supporting Citations",
+        "relevance": "Relevance",
+        "source": "Source",
+        "excerpt": "Relevant Excerpt"
+      },
+      "history": {
+        "description": "Review historical policy assessments, analyze trends, and export data",
+        "table": {
+          "title": "Policy Assessment History",
+          "description": "Paginated list of all policy risk assessments",
+          "total": "policies",
+          "noData": "No policy assessments found",
+          "showing": "Showing",
+          "of": "of",
+          "page": "Page"
+        }
+      },
+      "details": {
+        "overview": "Assessment Overview",
+        "scores": "Risk Scores"
+      },
+      "tips": {
+        "title": "Quick Tips",
+        "upload": "Upload policy documents for analysis",
+        "paste": "Or paste policy text directly",
+        "streaming": "Watch real-time analysis progress",
+        "mitigation": "Create tasks from mitigation strategies"
+      },
+      "mitigations": "mitigations",
+      "citations": "citations",
+      "toast": {
+        "refreshingTrends": "Refreshing risk trends…",
+        "reanalyze": {
+          "started": "Re-analysis started",
+          "done": "Re-analysis completed"
+        }
+      }
     }
 }

@@ -144,6 +144,8 @@ const RegulatoryCompliance = lazy(() => import('../pages/compliance/RegulatoryCo
 const CommitteeManagement = lazy(() => import('../pages/compliance/CommitteeManagement'));
 const AuditTrails = lazy(() => import('../pages/compliance/AuditTrails'));
 const PolicyManagement = lazy(() => import('../pages/compliance/PolicyManagement'));
+const PolicyIntelligencePage = lazy(() => import('../pages/compliance/PolicyIntelligencePage'));
+const PolicyRiskHistoryPage = lazy(() => import('../pages/compliance/PolicyRiskHistoryPage'));
 const RiskManagement = lazy(() => import('../pages/compliance/RiskManagement'));
 const GovernanceFramework = lazy(() => import('../pages/compliance/GovernanceFramework'));
 const ComplianceReporting = lazy(() => import('../pages/compliance/ComplianceReporting'));
@@ -390,6 +392,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/compliance/audit-trails', element: AuditTrails, auth: true, adminOnly: true },
   { path: '/compliance/risk-management', element: RiskManagement, auth: true, adminOnly: true },
   { path: '/compliance/policies', element: PolicyManagement, auth: true, adminOnly: true },
+  { path: '/compliance/policy-intel', element: PolicyIntelligencePage, auth: true },
+  { path: '/compliance/policy-intel/:tab', element: PolicyIntelligencePage, auth: true },
   { path: '/compliance/governance', element: GovernanceFramework, auth: true, adminOnly: true },
   { path: '/compliance/reporting', element: ComplianceReporting, auth: true, adminOnly: true },
   { path: '/compliance/legal-docs', element: LegalDocumentTracking, auth: true, adminOnly: true },

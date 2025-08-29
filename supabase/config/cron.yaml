@@ -1,0 +1,9 @@
+# Supabase Edge Functions Cron Jobs Configuration
+jobs:
+  # Policy Risk Analytics - Refresh materialized view every 30 minutes
+  - name: policy_risk_daily_refresh
+    schedule: "*/30 * * * *"  # Every 30 minutes
+    endpoint: "/functions/v1/policy-risk-refresh-mv-v1"
+    method: POST
+    auth: service_role
+    description: "Refresh policy risk analytics materialized view for trend analysis"
