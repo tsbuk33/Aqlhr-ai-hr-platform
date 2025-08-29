@@ -70,7 +70,7 @@ export default function LanguageLayout() {
   const content = (
     <DevModeGuard>
       <SidebarProvider>
-        <div className={isRTL ? 'arabic-content' : ''}>
+        <div className={isRTL ? 'arabic-content' : 'english-content'}>
           <div 
             className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
             dir={isRTL ? 'rtl' : 'ltr'}
