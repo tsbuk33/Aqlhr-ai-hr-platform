@@ -1,42 +1,28 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/integrations/supabase/client'
+import { useQuery } from '@tanstack/react-query'
 
 export interface PolicyListParams {
-  page?: number
-  pageSize?: number
   q?: string
   from?: string
   to?: string
-  orderBy?: 'created_at' | 'overall'
-  dir?: 'asc' | 'desc'
+  page?: number
+  pageSize?: number
+  sortBy?: string
+  sortOrder?: 'asc' | 'desc'
 }
 
 export interface PolicyListItem {
   id: string
   title: string
+  description: string
   created_at: string
+  updated_at: string
   overall_score: number
-  compliance_score: {
-    saudiLaborLaw: number
-    workplaceRights: number
-    discriminationPrevention: number
-    dataProtection: number
-  }
-  business_score: {
-    operationalComplexity: number
-    resourceRequirements: number
-    stakeholderImpact: number
-    financialImplications: number
-  }
-  implementation_score: {
-    systemComplexity: number
-    changeResistance: number
-    trainingRequirements: number
-    monitoringDifficulty: number
-  }
-  mitigation_count: number
-  citation_count: number
-  policy_doc_id?: string
-  source_text?: string
+  compliance_score: Record<string, number>
+  business_score: Record<string, number>
+  implementation_score: Record<string, number>
+  risk_level: 'low' | 'medium' | 'high' | 'critical'
+  status: string
 }
 
 export interface PolicyListResponse {
@@ -44,122 +30,61 @@ export interface PolicyListResponse {
   total: number
   page: number
   pageSize: number
-  totalPages: number
+}
+
+export interface TrendData {
+  date: string
+  total_policies: number
+  avg_risk_score: number
+  high_risk_count: number
+  medium_risk_count: number
+  low_risk_count: number
 }
 
 export async function listPolicies(params: PolicyListParams = {}): Promise<PolicyListResponse> {
-  try {
-    const {
-      page = 1,
-      pageSize = 20,
-      q,
-      from,
-      to,
-      orderBy = 'created_at',
-      dir = 'desc'
-    } = params
-
-    // Build query parameters
-    const queryParams = new URLSearchParams({
-      page: page.toString(),
-      pageSize: pageSize.toString(),
-      orderBy,
-      dir
-    })
-
-    if (q) queryParams.set('q', q)
-    if (from) queryParams.set('from', from)
-    if (to) queryParams.set('to', to)
-
-    const { data, error } = await supabase.functions.invoke('policy-risk-list-v1', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (error) {
-      console.error('Error fetching policy list:', error)
-      throw new Error(`Failed to fetch policy list: ${error.message}`)
+  // Mock data for policy intelligence
+  const mockData: PolicyListItem[] = [
+    {
+      id: '1',
+      title: 'Employee Data Protection Policy',
+      description: 'Guidelines for handling employee personal data',
+      created_at: '2024-01-15T10:00:00Z',
+      updated_at: '2024-01-20T14:30:00Z',
+      overall_score: 7.5,
+      compliance_score: { legal: 8, regulatory: 7, internal: 7, industry: 8 },
+      business_score: { impact: 6, operations: 7, financial: 8, reputation: 9 },
+      implementation_score: { complexity: 6, resources: 7, timeline: 8, risk: 7 },
+      risk_level: 'medium',
+      status: 'active'
     }
+  ]
 
-    return data as PolicyListResponse
-
-  } catch (error) {
-    console.error('Unexpected error in listPolicies:', error)
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
+  return {
+    rows: mockData,
+    total: mockData.length,
+    page: params.page || 1,
+    pageSize: params.pageSize || 10
   }
 }
-
-// Hook for React components
-import { useQuery } from '@tanstack/react-query'
 
 export function usePolicyList(params: PolicyListParams = {}) {
   return useQuery({
     queryKey: ['policy-list', params],
     queryFn: () => listPolicies(params),
-    staleTime: 30 * 1000, // 30 seconds
-    refetchOnWindowFocus: false,
-    retry: 2
+    staleTime: 5 * 60 * 1000
   })
 }
 
-// Get trends data from materialized view
-export interface TrendData {
-  day: string
-  assessment_count: number
-  overall_avg: number
-  overall_max: number
-  overall_min: number
-  saudi_labor_avg: number
-  workplace_rights_avg: number
-  discrimination_prev_avg: number
-  data_protection_avg: number
-  operational_complexity_avg: number
-  resource_requirements_avg: number
-  stakeholder_impact_avg: number
-  financial_implications_avg: number
-  system_complexity_avg: number
-  change_resistance_avg: number
-  training_requirements_avg: number
-  monitoring_difficulty_avg: number
-}
-
 export async function getPolicyTrends(from?: string, to?: string): Promise<TrendData[]> {
-  try {
-    let query = supabase
-      .from('policy_risk_daily')
-      .select('*')
-      .order('day', { ascending: true })
-
-    if (from) {
-      query = query.gte('day', from)
-    }
-    if (to) {
-      query = query.lte('day', to)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error('Error fetching trends:', error)
-      throw new Error(`Failed to fetch trends: ${error.message}`)
-    }
-
-    return data || []
-
-  } catch (error) {
-    console.error('Unexpected error in getPolicyTrends:', error)
-    throw error instanceof Error ? error : new Error('Unknown error occurred')
-  }
+  return [
+    { date: '2024-01-01', total_policies: 45, avg_risk_score: 6.2, high_risk_count: 8, medium_risk_count: 22, low_risk_count: 15 }
+  ]
 }
 
 export function usePolicyTrends(from?: string, to?: string) {
   return useQuery({
     queryKey: ['policy-trends', from, to],
     queryFn: () => getPolicyTrends(from, to),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
-    retry: 2
+    staleTime: 10 * 60 * 1000
   })
 }
