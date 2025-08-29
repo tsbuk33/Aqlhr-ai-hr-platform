@@ -64,8 +64,9 @@ export default function LanguageLayout() {
     return <Navigate to="/en" replace />;
   }
 
-  // Don't protect the auth page itself and allow public welcome page
-  const isAuthPage = location.pathname.includes('/auth') || location.pathname.includes('/welcome');
+  // Page type detection
+  const isAuthPage = location.pathname.includes('/auth');
+  const isWelcomePage = location.pathname.includes('/welcome') || location.pathname === `/${routeLang}` || location.pathname === `/${routeLang}/`;
 
   const content = (
     <DevModeGuard>
@@ -75,11 +76,13 @@ export default function LanguageLayout() {
             className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
             dir={isRTL ? 'rtl' : 'ltr'}
           >
-            {!isAuthPage && <AppSidebar />}
+            {!isAuthPage && !isWelcomePage && <AppSidebar />}
             <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
-              {!isAuthPage && <DashboardHeader />}
+              {!isAuthPage && !isWelcomePage && <DashboardHeader />}
               <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : ''}`}>
                 {isAuthPage ? (
+                  <Outlet />
+                ) : isWelcomePage ? (
                   <Outlet />
                 ) : (
                   <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
@@ -94,6 +97,6 @@ export default function LanguageLayout() {
     </DevModeGuard>
   );
 
-  // Wrap non-auth pages with ProtectedRoute
-  return isAuthPage ? content : <ProtectedRoute>{content}</ProtectedRoute>;
+  // Wrap non-auth and non-welcome pages with ProtectedRoute
+  return (isAuthPage || isWelcomePage) ? content : <ProtectedRoute>{content}</ProtectedRoute>;
 }

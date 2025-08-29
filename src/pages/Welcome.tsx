@@ -37,14 +37,14 @@ const Welcome = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10">
       {/* Header */}
-      <header className="container mx-auto px-4 py-6 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Building2 className="h-8 w-8 text-primary" />
+      <header className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-primary/10">
+            <Building2 className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">{isArabic ? 'عقل HR' : 'AqlHR'}</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-xl font-bold">{isArabic ? 'عقل HR' : 'AqlHR'}</h1>
+            <p className="text-xs text-muted-foreground">
               {isArabic ? 'منصة الموارد البشرية الذكية' : 'Smart HR Platform'}
             </p>
           </div>
@@ -53,13 +53,13 @@ const Welcome = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-16 text-center">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="space-y-4">
-            <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <section className="max-w-4xl mx-auto px-4 py-8 text-center">
+        <div className="space-y-6">
+          <div className="space-y-3">
+            <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               {isArabic ? 'مستقبل الموارد البشرية' : 'The Future of HR'}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base text-muted-foreground max-w-xl mx-auto">
               {isArabic 
                 ? 'منصة شاملة للموارد البشرية مدعومة بالذكاء الاصطناعي، مصممة خصيصاً للشركات السعودية'
                 : 'AI-powered comprehensive HR platform designed specifically for Saudi companies'
@@ -67,11 +67,11 @@ const Welcome = () => {
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-4">
-            <Button size="lg" asChild className="text-lg px-8 py-3">
+          <div className="flex items-center justify-center gap-3">
+            <Button asChild>
               <LinkL to="/auth">{isArabic ? 'ابدأ الآن' : 'Get Started'}</LinkL>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-3">
+            <Button variant="outline">
               {isArabic ? 'شاهد العرض التوضيحي' : 'Watch Demo'}
             </Button>
           </div>
@@ -79,12 +79,12 @@ const Welcome = () => {
       </section>
 
       {/* Features Section */}
-      <section className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold mb-4">
+      <section className="max-w-4xl mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <h3 className="text-xl font-bold mb-3">
             {isArabic ? 'لماذا تختار عقل HR؟' : 'Why Choose AqlHR?'}
           </h3>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground max-w-lg mx-auto">
             {isArabic 
               ? 'نوفر حلولاً متقدمة ومتكاملة لإدارة الموارد البشرية تتماشى مع رؤية المملكة 2030'
               : 'We provide advanced and integrated HR management solutions aligned with Saudi Vision 2030'
@@ -92,17 +92,17 @@ const Welcome = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {features.map((feature, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader className="text-center">
-                <div className="mx-auto p-3 rounded-full bg-primary/10 w-fit">
-                  <feature.icon className="h-8 w-8 text-primary" />
+              <CardHeader className="text-center pb-3">
+                <div className="mx-auto p-2 rounded-full bg-primary/10 w-fit">
+                  <feature.icon className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle className="text-lg">{feature.title}</CardTitle>
+                <CardTitle className="text-base">{feature.title}</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center">
+              <CardContent className="pt-0">
+                <CardDescription className="text-center text-sm">
                   {feature.description}
                 </CardDescription>
               </CardContent>
@@ -112,23 +112,23 @@ const Welcome = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-16">
+      <section className="max-w-4xl mx-auto px-4 py-8">
         <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
-          <CardContent className="p-12 text-center">
-            <div className="max-w-2xl mx-auto space-y-6">
-              <h3 className="text-3xl font-bold">
+          <CardContent className="p-6 text-center">
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold">
                 {isArabic ? 'ابدأ رحلتك الرقمية اليوم' : 'Start Your Digital Journey Today'}
               </h3>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {isArabic 
                   ? 'انضم إلى آلاف الشركات التي تثق في منصتنا لإدارة مواردها البشرية بكفاءة وذكاء'
                   : 'Join thousands of companies that trust our platform to manage their human resources efficiently and intelligently'
                 }
               </p>
-              <div className="flex items-center justify-center gap-4">
-                <Button size="lg" asChild>
+              <div className="flex items-center justify-center">
+                <Button asChild>
                   <LinkL to="/auth">
-                    <Globe className="mr-2 h-5 w-5" />
+                    <Globe className="mr-2 h-4 w-4" />
                     {isArabic ? 'الوصول إلى المنصة' : 'Access Platform'}
                   </LinkL>
                 </Button>
@@ -139,9 +139,9 @@ const Welcome = () => {
       </section>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 border-t">
+      <footer className="max-w-4xl mx-auto px-4 py-6 border-t">
         <div className="text-center text-muted-foreground">
-          <p>
+          <p className="text-sm">
             {isArabic 
               ? '© 2024 عقل HR. جميع الحقوق محفوظة.' 
               : '© 2024 AqlHR. All rights reserved.'
