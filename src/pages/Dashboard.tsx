@@ -103,7 +103,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <DashboardErrorBoundary>
-      <div className={`container mx-auto p-6 max-w-7xl ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
           <DashboardSkeleton />
         </div>
       </DashboardErrorBoundary>
@@ -114,7 +114,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <DashboardErrorBoundary>
-        <div className={`container mx-auto p-6 max-w-7xl ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
+        <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
           <Card className="border-destructive">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-2">
@@ -138,7 +138,7 @@ export default function Dashboard() {
 
   return (
     <DashboardErrorBoundary>
-      <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
         {/* Dev Callout */}
         {(isDev || isDemoMode) && hasNoEmployees && (
           <DemoSeedingCallout onSeedingComplete={refetch} />
