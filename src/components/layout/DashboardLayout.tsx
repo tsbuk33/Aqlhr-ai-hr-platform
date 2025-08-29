@@ -1,17 +1,15 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { DashboardHeader } from '../DashboardHeader';
 import { SuperAdminSidebar } from '@/components/sidebars/SuperAdminSidebar';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
-interface DashboardLayoutProps {
-  children: React.ReactNode;
-}
 
 const RoleBasedSidebar: React.FC = () => {
   return <SuperAdminSidebar />;
 };
 
-export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+export const DashboardLayout: React.FC = () => {
   const { isRTL } = useUnifiedLocale();
   
   return (
@@ -25,7 +23,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
               dir={isRTL ? 'rtl' : 'ltr'}
               className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-6"
             >
-              {children}
+              <Outlet />
             </div>
           </main>
         </div>

@@ -1,7 +1,6 @@
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import { Outlet } from "react-router-dom";
 import RouteDebug from "@/components/dev/RouteDebug";
-import { centerStyleObject } from '@/hooks/useForceCenterStyle';
 
 // Navigation - Keep sidebar but center main content
 const MainLayout = () => {
@@ -10,10 +9,10 @@ const MainLayout = () => {
   
   return (
     <div className={`main-layout ${isArabic ? 'rtl' : 'ltr'}`}>
-      <main className="main-content" style={centerStyleObject}>
-        <div className="content-wrapper" style={centerStyleObject}>
+      <main className="main-content">
+        <div className="content-wrapper">
           <RouteDebug />
-          <div style={centerStyleObject} className="force-center">
+          <div className="flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4 min-h-screen">
             <Outlet />
           </div>
         </div>

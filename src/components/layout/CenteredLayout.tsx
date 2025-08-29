@@ -1,16 +1,17 @@
+import { Outlet } from 'react-router-dom';
+import { ReactNode } from 'react';
 import { useLanguage } from "@/hooks/useLanguageCompat";
 import PageHeader from "@/components/common/PageHeader";
-import { ReactNode } from "react";
 
 interface CenteredLayoutProps {
   title?: string;
   description?: string;
-  children: ReactNode;
   className?: string;
+  children?: ReactNode;
 }
 
 // Universal Centered Layout - ALWAYS CENTER EVERYTHING
-const CenteredLayout = ({ title, description, children, className = "" }: CenteredLayoutProps) => {
+const CenteredLayout = ({ title, description, className = "", children }: CenteredLayoutProps) => {
   const { language } = useLanguage();
   const isArabic = language === 'ar';
   
@@ -23,7 +24,7 @@ const CenteredLayout = ({ title, description, children, className = "" }: Center
         <PageHeader title={title} description={description} />
       )}
       <div className="w-full flex flex-col items-center justify-center text-center space-y-6">
-        {children}
+        {children || <Outlet />}
       </div>
     </div>
   );
