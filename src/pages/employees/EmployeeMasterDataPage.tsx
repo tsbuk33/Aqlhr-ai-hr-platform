@@ -84,7 +84,7 @@ const EmployeeMasterDataPage = () => {
 
   return (
     <DevModeGuard>
-      <div className={`container mx-auto p-6 space-y-6 max-w-7xl ${locale === 'ar' ? 'rtl' : 'ltr'}`} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto p-6 space-y-6 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-4">
