@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { OrganizationalChartRenderer } from "@/components/organizational-charts/OrganizationalChartRenderer";
 
 const Organization = () => {
   const { language } = useLanguage();
@@ -43,6 +44,14 @@ const Organization = () => {
       flat_desc: "Minimal hierarchy with few management levels",
       network: "Network",
       network_desc: "Decentralized structure with interconnected teams",
+      hybrid: "Hybrid",
+      hybrid_desc: "Combination of multiple organizational structures",
+      team_based: "Team-Based",
+      team_based_desc: "Self-organizing teams with minimal hierarchy",
+      geographic: "Geographic",
+      geographic_desc: "Organized by geographical locations or regions",
+      product_based: "Product-Based",
+      product_based_desc: "Organized around specific products or services",
       upload_documents: "Upload Documents",
       upload_org_docs: "Upload organizational charts and documents",
       recommended: "Recommended",
@@ -62,7 +71,11 @@ const Organization = () => {
       divisional_help: "Best for: Companies with multiple products/regions. Ideal for Saudi businesses expanding across different markets or product lines. Each division can have its own structure.",
       matrix_help: "Best for: Project-based companies. Suitable for consulting firms or tech companies in Saudi Arabia. Employees report to both functional and project managers.",
       flat_help: "Best for: Startups and small companies. Ideal for innovative Saudi companies wanting quick decision-making. Minimal management layers promote collaboration.",
-      network_help: "Best for: Modern, agile companies. Perfect for tech startups or companies working with external partners. Emphasizes teamwork and flexibility."
+      network_help: "Best for: Modern, agile companies. Perfect for tech startups or companies working with external partners. Emphasizes teamwork and flexibility.",
+      hybrid_help: "Best for: Large complex organizations. Combines benefits of multiple structures. Ideal for Saudi conglomerates with diverse business units.",
+      team_based_help: "Best for: Agile organizations. Perfect for software development companies or creative agencies. Teams self-organize around projects.",
+      geographic_help: "Best for: Multi-location companies. Ideal for Saudi businesses operating across different cities or regions. Each location has autonomy.",
+      product_based_help: "Best for: Multi-product companies. Perfect for businesses with distinct product lines. Each product division operates independently."
     },
     ar: {
       structure: "الهيكل التنظيمي",
@@ -88,6 +101,14 @@ const Organization = () => {
       flat_desc: "تسلسل هرمي بحد أدنى مع مستويات إدارية قليلة",
       network: "شبكي",
       network_desc: "هيكل لامركزي مع فرق مترابطة",
+      hybrid: "مختلط",
+      hybrid_desc: "مزيج من عدة هياكل تنظيمية",
+      team_based: "قائم على الفرق",
+      team_based_desc: "فرق ذاتية التنظيم مع حد أدنى من التسلسل الهرمي",
+      geographic: "جغرافي",
+      geographic_desc: "منظم حسب المواقع الجغرافية أو المناطق",
+      product_based: "قائم على المنتج",
+      product_based_desc: "منظم حول منتجات أو خدمات محددة",
       upload_documents: "رفع المستندات",
       upload_org_docs: "رفع المخططات التنظيمية والمستندات",
       recommended: "موصى به",
@@ -107,7 +128,11 @@ const Organization = () => {
       divisional_help: "الأفضل لـ: الشركات متعددة المنتجات/المناطق. مثالي للشركات السعودية التي تتوسع عبر أسواق أو خطوط منتجات مختلفة.",
       matrix_help: "الأفضل لـ: الشركات القائمة على المشاريع. مناسب لشركات الاستشارات أو التكنولوجيا في السعودية.",
       flat_help: "الأفضل لـ: الشركات الناشئة والشركات الصغيرة. مثالي للشركات السعودية المبتكرة التي تريد اتخاذ قرارات سريعة.",
-      network_help: "الأفضل لـ: الشركات الحديثة والمرنة. مثالي للشركات التقنية الناشئة أو الشركات التي تعمل مع شركاء خارجيين."
+      network_help: "الأفضل لـ: الشركات الحديثة والمرنة. مثالي للشركات التقنية الناشئة أو الشركات التي تعمل مع شركاء خارجيين.",
+      hybrid_help: "الأفضل لـ: المؤسسات الكبيرة المعقدة. يجمع فوائد عدة هياكل. مثالي للتكتلات السعودية ذات وحدات الأعمال المتنوعة.",
+      team_based_help: "الأفضل لـ: المنظمات المرنة. مثالي لشركات تطوير البرمجيات أو الوكالات الإبداعية. الفرق تنظم نفسها حول المشاريع.",
+      geographic_help: "الأفضل لـ: الشركات متعددة المواقع. مثالي للشركات السعودية العاملة في مدن أو مناطق مختلفة. كل موقع له استقلالية.",
+      product_based_help: "الأفضل لـ: الشركات متعددة المنتجات. مثالي للشركات ذات خطوط المنتجات المميزة. كل قسم منتج يعمل بشكل مستقل."
     }
   };
 
@@ -165,6 +190,42 @@ const Organization = () => {
       helpKey: "network_help",
       recommended: false,
       color: "bg-secondary border-secondary-foreground text-secondary-foreground"
+    },
+    {
+      id: "hybrid",
+      icon: Building2,
+      nameKey: "hybrid",
+      descKey: "hybrid_desc",
+      helpKey: "hybrid_help",
+      recommended: false,
+      color: "bg-purple-100 border-purple-300 text-purple-800"
+    },
+    {
+      id: "team_based",
+      icon: Users,
+      nameKey: "team_based",
+      descKey: "team_based_desc",
+      helpKey: "team_based_help",
+      recommended: false,
+      color: "bg-teal-100 border-teal-300 text-teal-800"
+    },
+    {
+      id: "geographic",
+      icon: Network,
+      nameKey: "geographic",
+      descKey: "geographic_desc",
+      helpKey: "geographic_help",
+      recommended: false,
+      color: "bg-indigo-100 border-indigo-300 text-indigo-800"
+    },
+    {
+      id: "product_based",
+      icon: Layers,
+      nameKey: "product_based",
+      descKey: "product_based_desc",
+      helpKey: "product_based_help",
+      recommended: false,
+      color: "bg-rose-100 border-rose-300 text-rose-800"
     }
   ];
 
@@ -427,21 +488,14 @@ const Organization = () => {
             </CardHeader>
             <CardContent>
               {selectedStructure ? (
-                <div className="text-center py-12 space-y-4">
-                  <div className="inline-flex items-center gap-2 text-brand-primary">
-                    {(() => {
-                      const structure = organizationalStructures.find(s => s.id === selectedStructure);
-                      const IconComponent = structure?.icon;
-                      return IconComponent ? <IconComponent className="h-8 w-8" /> : null;
-                    })()}
-                    <h3 className="text-xl font-semibold">
-                      {t(organizationalStructures.find(s => s.id === selectedStructure)?.nameKey || '')}
-                    </h3>
-                  </div>
-                  <p className="text-muted-foreground max-w-md mx-auto">
-                    Interactive organizational chart for {t(organizationalStructures.find(s => s.id === selectedStructure)?.nameKey || '')} structure will be displayed here
-                  </p>
-                </div>
+                <OrganizationalChartRenderer 
+                  structureType={selectedStructure} 
+                  companyData={{
+                    totalEmployees: 280,
+                    saudiEmployees: 188,
+                    departments: 28
+                  }}
+                />
               ) : (
                 <p className="text-center text-muted-foreground py-8">
                   {t('select_structure')} to view the organizational chart
