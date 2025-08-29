@@ -3,14 +3,16 @@
  * Route-first language system with proper state synchronization
  */
 import React, { useEffect } from 'react';
-import { Routes, Route, useParams, Navigate } from 'react-router-dom';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { unifiedLocaleDriver, useRouteLangSync } from '@/lib/i18n/unifiedLocaleSystem';
 import AppRoutes from './AppRoutes';
 /**
  * Localized App Wrapper - handles language synchronization
  */
 function LocalizedApp() {
-  const { lang } = useParams();
+  const { pathname } = useLocation();
+  const seg = pathname.split('/')[1];
+  const lang = seg === 'en' || seg === 'ar' ? (seg as 'en' | 'ar') : undefined;
   
   // Sync route language with locale system
   useRouteLangSync(lang);

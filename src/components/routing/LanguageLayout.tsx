@@ -13,22 +13,28 @@ import { DashboardHeader } from '@/components/DashboardHeader';
 import { useEnsureDemoSeed } from '@/hooks/useEnsureDemoSeed';
 
 export default function LanguageLayout() {
-  const { lang } = useParams();
+  const { lang: paramLang } = useParams();
   const location = useLocation();
   const demoReady = useEnsureDemoSeed();
   const { setLang, isRTL } = useUnifiedLocale();
+
+  // Derive language from param OR path segment fallback
+  const seg = location.pathname.split('/')[1];
+  const routeLang = (paramLang === 'en' || paramLang === 'ar')
+    ? (paramLang as 'en' | 'ar')
+    : (seg === 'en' || seg === 'ar' ? (seg as 'en' | 'ar') : undefined);
   
   // Sync route language with unified locale system
   useEffect(() => {
-    if (lang === 'en' || lang === 'ar') {
-      console.log('[LanguageLayout] Syncing route language:', lang);
-      setLang(lang);
+    if (routeLang) {
+      console.log('[LanguageLayout] Syncing route language:', routeLang);
+      setLang(routeLang);
     }
-  }, [lang, setLang]);
+  }, [routeLang, setLang]);
   
   // Validate language parameter
-  if (lang !== 'en' && lang !== 'ar') {
-    console.log('[LanguageLayout] Invalid language, redirecting to /en');
+  if (!routeLang) {
+    console.log('[LanguageLayout] Invalid/missing language, redirecting to /en');
     return <Navigate to="/en" replace />;
   }
 
