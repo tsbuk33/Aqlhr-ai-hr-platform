@@ -1,3 +1,4 @@
+@import './styles/arabic-rtl-fix.css';
 @import './styles/centered-layout.css';
 @tailwind base;
 @tailwind components;

@@ -1,0 +1,252 @@
+/* Arabic RTL Layout Fix - Complete Solution (scoped import, catch-all disabled to avoid overriding centering) */
+
+/* 1. Global RTL Setup */
+html[lang="ar"], 
+html[dir="rtl"],
+.arabic-content,
+.rtl-content {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 2. Body and Main Container Setup */
+body.arabic-layout,
+body[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+    font-family: 'Noto Sans Arabic', 'Arial', sans-serif;
+}
+
+/* 3. Force RTL on All Text Elements */
+.arabic-content h1,
+.arabic-content h2,
+.arabic-content h3,
+.arabic-content h4,
+.arabic-content h5,
+.arabic-content h6,
+.arabic-content p,
+.arabic-content div,
+.arabic-content span,
+.arabic-content li,
+.arabic-content td,
+.arabic-content th,
+.arabic-content label,
+.arabic-content button,
+.arabic-content input,
+.arabic-content textarea,
+.arabic-content select {
+    direction: rtl;
+    text-align: right;
+    unicode-bidi: embed;
+}
+
+/* 4. Container and Layout Elements */
+.container,
+.main-content,
+.content-wrapper,
+.page-content,
+.section,
+.card,
+.panel {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 5. Navigation and Menu Items */
+nav,
+.navbar,
+.menu,
+.nav-item,
+.menu-item,
+.breadcrumb {
+    direction: rtl;
+    text-align: right;
+}
+
+.nav ul,
+.menu ul,
+.nav li,
+.menu li {
+    direction: rtl;
+    text-align: right;
+    float: right;
+}
+
+/* 6. Form Elements Alignment */
+form,
+.form-group,
+.form-field {
+    direction: rtl;
+    text-align: right;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+textarea,
+select {
+    direction: rtl;
+    text-align: right;
+    padding-right: 12px;
+    padding-left: 8px;
+}
+
+/* 7. Buttons and Interactive Elements */
+button,
+.btn,
+.button,
+a.button {
+    direction: rtl;
+    text-align: center;
+}
+
+/* 8. Tables */
+table {
+    direction: rtl;
+}
+
+th,
+td {
+    text-align: right;
+    direction: rtl;
+}
+
+/* 9. Flexbox Corrections for RTL */
+.flex-container,
+.d-flex,
+.flex {
+    direction: rtl;
+}
+
+.flex-container > *,
+.d-flex > *,
+.flex > * {
+    text-align: right;
+}
+
+/* 10. Grid Layout Corrections */
+.grid,
+.row,
+.col,
+[class*="col-"] {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 11. Specific Page Elements */
+.header,
+.footer,
+.sidebar,
+.main,
+.content {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 12. Cards and Panels */
+.card,
+.panel,
+.box,
+.tile {
+    direction: rtl;
+    text-align: right;
+}
+
+.card-header,
+.card-body,
+.card-footer,
+.panel-header,
+.panel-body,
+.panel-footer {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 13. Lists */
+ul,
+ol,
+li {
+    direction: rtl;
+    text-align: right;
+    list-style-position: inside;
+}
+
+/* 14. Icons and Images Adjustments */
+.icon {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+/* 15. Margin and Padding Adjustments for RTL */
+.ml-auto { margin-left: 0 !important; margin-right: auto !important; }
+.mr-auto { margin-right: 0 !important; margin-left: auto !important; }
+.pl-3 { padding-left: 0 !important; padding-right: 1rem !important; }
+.pr-3 { padding-right: 0 !important; padding-left: 1rem !important; }
+
+/* 16. Text Direction Override for Mixed Content */
+.ltr-content {
+    direction: ltr;
+    text-align: left;
+}
+
+.rtl-content {
+    direction: rtl;
+    text-align: right;
+}
+
+/* 17. Responsive Adjustments */
+@media (max-width: 768px) {
+    .mobile-rtl {
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .container,
+    .row,
+    .col {
+        direction: rtl;
+        text-align: right;
+    }
+}
+
+/* 18. Override for Persistent Elements */
+.force-rtl,
+.arabic-force {
+    direction: rtl !important;
+    text-align: right !important;
+    unicode-bidi: bidi-override;
+}
+
+/* 19. Floating Elements Fix */
+.float-left {
+    float: right !important;
+}
+
+.float-right {
+    float: left !important;
+}
+
+/* 20. Final Catch-All Rule - DISABLED to avoid overriding centered Arabic pages globally
+[lang="ar"] *,
+[dir="rtl"] *,
+.arabic-content * {
+    direction: rtl;
+    text-align: right;
+}
+*/
+
+/* Exception for elements that should remain LTR */
+.keep-ltr,
+.ltr-only,
+[dir="ltr"],
+code,
+pre,
+.code,
+.email,
+.url,
+.phone {
+    direction: ltr !important;
+    text-align: left !important;
+}
