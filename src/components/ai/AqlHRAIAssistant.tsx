@@ -28,7 +28,15 @@ import {
   Presentation,
   Table,
   Mic,
-  Paperclip
+  Paperclip,
+  User,
+  Square,
+  ChevronDown,
+  ChevronUp,
+  Eye,
+  Target,
+  Zap,
+  Activity
 } from 'lucide-react';
 import { useLocale } from '@/i18n/locale';
 import { useLocation } from 'react-router-dom';
@@ -37,12 +45,51 @@ import { useDocumentAwareAI } from '@/hooks/useDocumentAwareAI';
 import { DocumentUploadWidget } from '@/components/DocumentUploadWidget';
 import { useAIAgentOrchestrator } from '@/hooks/useAIAgentOrchestrator';
 import { useToast } from '@/hooks/use-toast';
+import { useRAGChat } from '@/hooks/useRAGChat';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+// Context Engineering Engine Integration
+import { useContextEngine } from '@/hooks/useContextEngine';
+import { detectModuleContext } from '@/lib/ai/context/moduleContext';
+import { 
+  getIntentName, 
+  getIntentColor, 
+  formatUrgency, 
+  formatComplexity, 
+  formatConfidence, 
+  formatRiskLevel,
+  getRiskColor,
+  getUrgencyColor,
+  getComplexityColor,
+  getConfidenceColor
+} from '@/lib/ai/context/utils';
 
 interface AqlHRAIAssistantProps {
   moduleContext?: string;
   companyId?: string;
   position?: 'fixed' | 'static';
   className?: string;
+}
+
+interface Citation {
+  docId: string;
+  filename: string;
+  score: number;
+  portal?: string;
+  employee_id?: string;
+  doc_type?: string;
+  chunk?: string;
+  pageNumber?: number;
+  uploadedAt?: string;
+}
+
+interface RAGFilters {
+  portal?: string;
+  employee_id?: string;
+  doc_type?: string;
+  uploadedAfter?: string;
 }
 
 interface ChatMessage {
@@ -52,6 +99,8 @@ interface ChatMessage {
   timestamp: Date;
   module?: string;
   confidence?: number;
+  citations?: Citation[];
+  filters?: RAGFilters;
 }
 
 const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({ 
@@ -92,6 +141,42 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isGatheringIntelligence, setIsGatheringIntelligence] = useState(false);
   const [showDocumentUpload, setShowDocumentUpload] = useState(false);
+  const [useRAG, setUseRAG] = useState(true);
+  const [ragFilters, setRAGFilters] = useState<RAGFilters>({});
+  const [selectedDocumentId, setSelectedDocumentId] = useState<string | null>(null);
+  
+  // Context Engineering Engine Integration
+  const contextEngineModule = detectModuleContext(location.pathname);
+  const {
+    intent,
+    routingPlan,
+    isClassifying,
+    isRouting,
+    isExecuting,
+    executeQuery,
+    reset: resetContextEngine
+  } = useContextEngine({
+    defaultCostTarget: 'balanced',
+    defaultStreaming: true,
+    autoExecute: false, // We'll control execution manually
+    debug: false
+  });
+  
+  // Intent badges display state
+  const [showIntentBadges, setShowIntentBadges] = useState(false);
+  
+  // RAG Chat Integration
+  const {
+    messages: ragMessages,
+    isStreaming: ragStreaming,
+    error: ragError,
+    partial: ragPartial,
+    meta: ragMeta,
+    citations: currentCitations,
+    sendMessage: sendRAGMessage,
+    clearChat: clearRAGChat,
+    stopStream: stopRAGStream,
+  } = useRAGChat();
   
   // AI Agent Orchestrator integration
   const { 
@@ -103,6 +188,32 @@ const AqlHRAIAssistant: React.FC<AqlHRAIAssistantProps> = ({
   
   // Enhanced contextual greetings with page-specific expertise
   const contextualGreetings = {
+    'policy': {
+      ar: `🛡️ **مرحباً! أنا مساعدك الذكي في ذكاء السياسات والامتثال**
+
+أساعدك في:
+• تقييم وتحليل السياسات
+• ضمان الامتثال للقوانين واللوائح
+• إدارة المخاطر التنظيمية
+• مراجعة وتحديث السياسات
+• تحليل الفجوات في الامتثال
+• التوجيه في أفضل الممارسات
+• التكامل مع الأنظمة الحكومية
+
+**أي سياسة أو إجراء امتثال تحتاج مساعدة به؟**`,
+      en: `🛡️ **Hello! I'm your Policy Intelligence & Compliance AI Assistant**
+
+I help you with:
+• Policy assessment and analysis
+• Regulatory compliance assurance
+• Risk management and mitigation
+• Policy review and updates
+• Compliance gap analysis
+• Best practices guidance
+• Government systems integration
+
+**Which policy or compliance matter do you need help with?**`
+    },
     'executive': {
       ar: `🎯 **مرحباً! أنا مساعدك الذكي في مركز الذكاء التنفيذي عقل HR**
 
@@ -646,88 +757,137 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
   };
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
+    if (!inputValue.trim() || isLoading || ragStreaming || isClassifying || isRouting || isExecuting) return;
 
+    const currentQuery = inputValue.trim();
+    setInputValue('');
+    
+    // If using RAG, delegate to RAG system with CEE integration
+    if (useRAG) {
+      try {
+        // Show intent badges as we process
+        setShowIntentBadges(true);
+        
+        // Use Context Engineering Engine for RAG queries too
+        await executeQuery(currentQuery, contextEngineModule, {
+          costTarget: 'balanced',
+          streaming: true,
+          context: `RAG Query with filters: ${JSON.stringify(ragFilters)}`,
+          metadata: { 
+            useRAG: true, 
+            ragFilters,
+            moduleContext: contextEngineModule 
+          }
+        });
+        
+        // Also send through RAG system for document awareness
+        await sendRAGMessage(currentQuery, ragFilters);
+      } catch (error) {
+        console.error('CEE+RAG message error:', error);
+        toast({
+          title: isArabic ? "خطأ في النظام الذكي" : "AI System Error",
+          description: isArabic ? "حدث خطأ أثناء المعالجة الذكية للاستعلام" : "Error occurred during intelligent query processing",
+          variant: "destructive",
+        });
+      }
+      return;
+    }
+    
+    // Enhanced AI Assistant flow with Context Engineering Engine
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       type: 'user',
-      content: inputValue.trim(),
+      content: currentQuery,
       timestamp: new Date(),
       module: currentModule
     };
 
     setMessages(prev => [...prev, userMessage]);
-    const currentQuery = inputValue.trim();
-    setInputValue('');
     setIsLoading(true);
     setIsGatheringIntelligence(true);
+    setShowIntentBadges(true);
 
     try {
-      // Detect query language first
-      const queryLanguage = detectQueryLanguage(currentQuery);
-      
-      // Enhanced context for better AI responses - use detected language and current route
-      const aiContext = {
-        module: currentModule,
-        current_page: location.pathname,
-        language: queryLanguage,
-        company_id: companyId || 'demo-company',
-        user_context: `HR Professional using ${currentModule} module on ${location.pathname} page`,
-        user_location: 'saudi_arabia',
-        specialization: 'comprehensive_hr_expert',
-        page_expertise: getPageExpertise(currentModule)
-      };
+      // Use Context Engineering Engine with SSE streaming
+      const { intent: intentResult, result } = await executeQuery(currentQuery, {
+        moduleContext: contextEngineModule,
+        companyId: companyId || 'demo-company',
+        useStreaming: moduleConfig.streaming,
+        lang: isArabic ? 'ar' : 'en',
+        costTarget: moduleConfig.costTarget,
+        temperature: moduleConfig.temperature,
+        streamingOptions: {
+          endpoint: '/functions/v1/ai-route-v1',
+          method: 'POST',
+          params: { stream: 'sse' },
+          fallbackToNonStream: true
+        },
+        context: `HR Professional using ${currentModule} module on ${location.pathname} page`,
+        metadata: {
+          companyId: companyId || 'demo-company',
+          userLocation: 'saudi_arabia',
+          language: isArabic ? 'ar' : 'en',
+          specialization: 'comprehensive_hr_expert',
+          pageExpertise: getPageExpertise(currentModule)
+        }
+      });
 
-      let response;
-      let responseSource = '';
+      // Extract response from CEE result with enhanced metadata
+      let responseText: string;
+      let responseSource = 'Context Engineering Engine';
+      let providerInfo = 'Unknown';
       
-      // Try multiple AI sources with proper fallback
-      try {
-        // Use the AI context with already detected language
-        const contextWithLanguage = aiContext;
+      if (result && typeof result === 'object' && 'response' in result) {
+        const executeResult = result as any;
+        responseText = executeResult.response || executeResult.content || executeResult.answer;
+        providerInfo = executeResult.metadata?.provider || executeResult.provider || 'Unknown';
+        responseSource = `${responseSource} (${providerInfo})`;
+        
+        // Show success toast with provider information
+        toast({
+          title: isArabic ? 'تم الاستعلام بنجاح' : 'Query Successful',
+          description: isArabic 
+            ? `موجه عبر ${providerInfo} بتكلفة ${moduleConfig.costTarget}`
+            : `Routed via ${providerInfo} with ${moduleConfig.costTarget} cost target`,
+        });
+      } else {
+        // Fallback to legacy system if CEE fails
+        console.log('CEE did not return expected result, falling back to legacy system');
+        
+        // Show fallback warning
+        toast({
+          title: isArabic ? 'تحذير' : 'Warning',
+          description: isArabic 
+            ? 'تم التبديل إلى النظام الاحتياطي'
+            : 'Switched to fallback system',
+          variant: 'destructive'
+        });
+        
+        const queryLanguage = detectQueryLanguage(currentQuery);
+        const aiContext = {
+          module: currentModule,
+          current_page: location.pathname,
+          language: queryLanguage,
+          company_id: companyId || 'demo-company',
+          user_context: `HR Professional using ${currentModule} module on ${location.pathname} page`,
+          user_location: 'saudi_arabia',
+          specialization: 'comprehensive_hr_expert',
+          page_expertise: getPageExpertise(currentModule)
+        };
 
-        // Always use AI orchestrator for all queries - no more translation handling
         try {
-          // Use AI Agent Orchestrator with the enhanced context
-          response = await queryAIAgent(currentQuery, {
+          const response = await queryAIAgent(currentQuery, {
             provider: 'gemini',
             module: currentModule,
-            context: contextWithLanguage
+            context: aiContext
           });
-        } catch (aiAgentError) {
-          console.log('AI Agent failed, trying next option:', aiAgentError);
-          // Try without specific provider
-          response = await queryAIAgent(currentQuery, {
-            module: currentModule,
-            context: contextWithLanguage
-          });
-        }
-        responseSource = 'AI Agent Orchestrator';
-      } catch (orchestratorError) {
-        console.log('AI Orchestrator failed, trying document-aware AI:', orchestratorError);
-        
-        try {
-          // Second try: Document-aware AI
-          response = await queryWithDocuments(currentQuery, {
-            includeAllDocs: true,
-            language: isArabic ? 'ar' : 'en'
-          });
-          responseSource = 'Document-aware AI';
-        } catch (documentAIError) {
-          console.log('Document-aware AI failed, using local fallback:', documentAIError);
-          
-          // Final fallback: Local response generation
-          response = {
-            response: generateLocalFallbackResponse(currentQuery, isArabic, currentModule),
-            provider: 'AqlHR Local Fallback',
-            confidence: 75
-          };
+          responseText = response?.response || response?.answer || generateLocalFallbackResponse(currentQuery, isArabic, currentModule);
+          responseSource = 'Legacy AI Agent Orchestrator (Fallback)';
+        } catch (legacyError) {
+          responseText = generateLocalFallbackResponse(currentQuery, isArabic, currentModule);
           responseSource = 'Local Fallback';
         }
       }
-
-      // Ensure we have a valid response
-      const responseText = response?.response || response?.answer || generateLocalFallbackResponse(currentQuery, isArabic, currentModule);
 
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -776,28 +936,385 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
       setIsGatheringIntelligence(false);
     }
   };
+  
+  // Document Preview Handler
+  const handleDocumentPreview = async (docId: string) => {
+    setSelectedDocumentId(docId);
+    // Note: In a full implementation, you'd fetch document content here
+    // For now, we'll just show the dialog with the document ID
+  };
+  
+  // Citations Renderer
+  const renderCitations = (citations?: Citation[]) => {
+    if (!citations || citations.length === 0) return null;
+    
+    return (
+      <Collapsible>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" size="sm" className="mt-2 h-8 px-2 text-xs hover:bg-muted/50">
+            <FileText className="w-3 h-3 mr-1" />
+            {isArabic ? `المصادر (${citations.length})` : `Sources (${citations.length})`}
+            <RefreshCw className="w-3 h-3 ml-1" />
+          </Button>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-2">
+          <div className="text-xs space-y-2 max-h-48 overflow-y-auto">
+            {citations.map((citation, idx) => (
+              <div key={idx} className="border rounded-lg p-2 bg-muted/30">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-medium text-sm truncate flex-1">
+                    {citation.filename}
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <Badge variant="secondary" className="text-xs">
+                      {Math.round(citation.score * 100)}%
+                    </Badge>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-6 w-6 p-0"
+                      onClick={() => handleDocumentPreview(citation.docId)}
+                    >
+                      <Eye className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1 text-xs text-muted-foreground">
+                  {citation.portal && (
+                    <Badge variant="outline" className="text-xs">
+                      {citation.portal}
+                    </Badge>
+                  )}
+                  {citation.doc_type && (
+                    <Badge variant="outline" className="text-xs">
+                      {citation.doc_type}
+                    </Badge>
+                  )}
+                  {citation.pageNumber && (
+                    <span>Page {citation.pageNumber}</span>
+                  )}
+                </div>
+                {citation.chunk && (
+                  <div className="text-xs mt-1 p-1 bg-background rounded border-l-2 border-primary/20">
+                    "{citation.chunk.substring(0, 100)}..."
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    );
+  };
+  
+  // Filter Controls Renderer
+  const renderFilterControls = () => {
+    if (!useRAG) return null;
+    
+    return (
+      <div className="p-3 border-t bg-muted/20">
+        <div className="text-xs font-medium mb-2 text-muted-foreground">
+          {isArabic ? 'مرشحات البحث في المستندات:' : 'Document Search Filters:'}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <Select
+            value={ragFilters.portal || ''}
+            onValueChange={(value) => setRAGFilters(prev => ({ ...prev, portal: value || undefined }))}
+          >
+            <SelectTrigger className="h-8 text-xs">
+              <SelectValue placeholder={isArabic ? "البوابة" : "Portal"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="qiwa">{isArabic ? "قوى" : "Qiwa"}</SelectItem>
+              <SelectItem value="gosi">{isArabic ? "جوسي" : "GOSI"}</SelectItem>
+              <SelectItem value="absher">{isArabic ? "أبشر" : "Absher"}</SelectItem>
+              <SelectItem value="mudad">{isArabic ? "مدد" : "Mudad"}</SelectItem>
+              <SelectItem value="mol">{isArabic ? "وزارة العمل" : "MOL"}</SelectItem>
+            </SelectContent>
+          </Select>
+          
+          <Select
+            value={ragFilters.doc_type || ''}
+            onValueChange={(value) => setRAGFilters(prev => ({ ...prev, doc_type: value || undefined }))}
+          >
+            <SelectTrigger className="h-8 text-xs">
+              <SelectValue placeholder={isArabic ? "نوع المستند" : "Doc Type"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="contract">{isArabic ? "عقد" : "Contract"}</SelectItem>
+              <SelectItem value="permit">{isArabic ? "تصريح" : "Permit"}</SelectItem>
+              <SelectItem value="certificate">{isArabic ? "شهادة" : "Certificate"}</SelectItem>
+              <SelectItem value="report">{isArabic ? "تقرير" : "Report"}</SelectItem>
+              <SelectItem value="policy">{isArabic ? "سياسة" : "Policy"}</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        
+        <div className="flex justify-between items-center mt-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setRAGFilters({})}
+            className="h-6 px-2 text-xs"
+          >
+            {isArabic ? 'مسح المرشحات' : 'Clear Filters'}
+          </Button>
+          
+          {ragMeta && (
+            <div className="text-xs text-muted-foreground">
+              {isArabic ? `تم البحث في ${ragMeta.documentsSearched || 0} مستند` : `Searched ${ragMeta.documentsSearched || 0} docs`}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
+  
+  // Get effective messages (RAG or legacy)
+  const effectiveMessages = useRAG ? ragMessages : messages;
+  const effectiveIsLoading = useRAG ? ragStreaming : isLoading;
+  const effectivePartial = useRAG ? ragPartial : '';
+  const effectiveCitations = useRAG ? currentCitations : [];
+  
+  const clearChat = () => {
+    // Reset Context Engineering Engine
+    resetContextEngine();
+    setShowIntentBadges(false);
+    
+    if (useRAG) {
+      clearRAGChat();
+    } else {
+      setMessages([]);
+      // Re-initialize with welcome message
+      const welcomeText = contextualGreetings[currentModule as keyof typeof contextualGreetings] || contextualGreetings['default'];
+      const welcomeMessage: ChatMessage = {
+        id: 'welcome-message-' + Date.now(),
+        type: 'assistant',
+        content: welcomeText[isArabic ? 'ar' : 'en'],
+        timestamp: new Date(),
+        module: currentModule
+      };
+      setMessages([welcomeMessage]);
+    }
+  };
 
   const handleSuggestionClick = (suggestion: string) => {
     setInputValue(suggestion);
   };
 
-  const clearChat = () => {
-    setMessages([]);
-    // Re-initialize with welcome message
-    const welcomeText = contextualGreetings[currentModule as keyof typeof contextualGreetings] || contextualGreetings['default'];
-    const welcomeMessage: ChatMessage = {
-      id: 'welcome-message-' + Date.now(),
-      type: 'assistant',
-      content: welcomeText[isArabic ? 'ar' : 'en'],
-      timestamp: new Date(),
-      module: currentModule
-    };
-    setMessages([welcomeMessage]);
-  };
+
 
   const suggestions = getContextualSuggestions();
   const currentSuggestions = suggestions[isArabic ? 'ar' : 'en'];
 
+  // Support Dialog mode for embedding in pages
+  if (open !== undefined || onOpenChange) {
+    const dialogContent = (
+      <Card className="w-full h-[600px] max-w-4xl mx-auto" data-testid="ai-assistant-modal">
+        <CardHeader className="pb-2 bg-primary text-primary-foreground rounded-t-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bot className="h-5 w-5" />
+              <CardTitle className="text-sm font-medium">
+                {isArabic ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
+              </CardTitle>
+            </div>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary" className="bg-primary-foreground/20 text-primary-foreground text-xs" data-testid="module-badge">
+                {currentModule === 'policy' ? (isArabic ? 'السياسات' : 'Policy') : currentModule}
+              </Badge>
+            </div>
+          </div>
+        </CardHeader>
+        
+        <CardContent className="p-0 flex flex-col h-full">
+          {/* CEE Intent Badges */}
+          {showIntentBadges && intent && (
+            <div className="p-3 bg-muted/20 border-b" data-testid="intent-badges">
+              <div className="text-xs font-medium mb-2 text-muted-foreground">
+                {isArabic ? 'تحليل النية والتعقيد:' : 'Intent & Complexity Analysis:'}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {/* Intent Badge */}
+                <Badge 
+                  variant="outline"
+                  style={{ borderColor: getIntentColor(intent.intent) }}
+                  className="text-xs"
+                  data-testid="intent-badge"
+                >
+                  <Target className="w-3 h-3 mr-1" style={{ color: getIntentColor(intent.intent) }} />
+                  {getIntentName(intent.intent, isArabic ? 'ar' : 'en')}
+                </Badge>
+
+                {/* Urgency Badge */}
+                <Badge 
+                  variant="outline"
+                  style={{ borderColor: getUrgencyColor(intent.urgency) }}
+                  className="text-xs"
+                  data-testid="urgency-badge"
+                >
+                  <Zap className="w-3 h-3 mr-1" style={{ color: getUrgencyColor(intent.urgency) }} />
+                  {formatUrgency(intent.urgency, isArabic ? 'ar' : 'en')}
+                </Badge>
+
+                {/* Complexity Badge */}
+                <Badge 
+                  variant="outline"
+                  style={{ borderColor: getComplexityColor(intent.complexity) }}
+                  className="text-xs"
+                  data-testid="complexity-badge"
+                >
+                  <Brain className="w-3 h-3 mr-1" style={{ color: getComplexityColor(intent.complexity) }} />
+                  {formatComplexity(intent.complexity, isArabic ? 'ar' : 'en')}
+                </Badge>
+
+                {/* Confidence Badge */}
+                <Badge 
+                  variant="outline"
+                  style={{ borderColor: getConfidenceColor(intent.confidence) }}
+                  className="text-xs"
+                  data-testid="confidence-badge"
+                >
+                  <Activity className="w-3 h-3 mr-1" style={{ color: getConfidenceColor(intent.confidence) }} />
+                  {formatConfidence(intent.confidence, isArabic ? 'ar' : 'en')}
+                </Badge>
+
+                {/* Processing Status */}
+                {(isClassifying || isRouting || isExecuting) && (
+                  <Badge variant="secondary" className="text-xs animate-pulse">
+                    <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                    {isClassifying 
+                      ? (isArabic ? 'تصنيف النية...' : 'Classifying...') 
+                      : isRouting 
+                      ? (isArabic ? 'إنشاء الخطة...' : 'Planning...') 
+                      : (isArabic ? 'التنفيذ...' : 'Executing...')
+                    }
+                  </Badge>
+                )}
+              </div>
+              
+              {/* Routing Plan */}
+              {routingPlan && (
+                <div className="mt-2 p-2 bg-background/50 rounded-lg" data-testid="routing-plan">
+                  <div className="text-xs font-medium text-muted-foreground mb-1">
+                    {isArabic ? 'خطة التوجيه:' : 'Routing Plan:'}
+                  </div>
+                  <div className="flex items-center gap-2 text-xs">
+                    <span data-testid="primary-provider">
+                      {isArabic ? 'المزود الأساسي:' : 'Primary:'} {routingPlan.primaryProvider}
+                    </span>
+                    <span className="text-muted-foreground">•</span>
+                    <span data-testid="cost-target">
+                      {isArabic ? 'هدف التكلفة:' : 'Cost:'} 
+                      {routingPlan.costTarget === 'low' ? (isArabic ? 'منخفض' : 'Low') :
+                       routingPlan.costTarget === 'high' ? (isArabic ? 'عالي' : 'High') : 
+                       (isArabic ? 'متوازن' : 'Balanced')}
+                    </span>
+                    {routingPlan.streaming && (
+                      <>
+                        <span className="text-muted-foreground">•</span>
+                        <span data-testid="response-mode">{isArabic ? 'بث مباشر' : 'Streaming'}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4" data-testid="messages-area">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] p-3 rounded-lg ${
+                    message.type === 'user'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-foreground border'
+                  }`}
+                >
+                  <div className="text-sm whitespace-pre-wrap" data-testid={message.type === 'assistant' ? 'ai-response' : 'user-message'}>
+                    {message.content}
+                  </div>
+                  {message.confidence && (
+                    <div className="text-xs opacity-70 mt-1">
+                      {isArabic ? `الثقة: ${message.confidence}%` : `Confidence: ${message.confidence}%`}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            {isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-muted text-foreground p-3 rounded-lg border">
+                  <div className="flex items-center gap-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                    <span className="text-sm">
+                      {isGatheringIntelligence 
+                        ? (isArabic ? 'جمع المعلومات...' : 'Gathering intelligence...') 
+                        : (isArabic ? 'جاري التفكير...' : 'Thinking...')
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Input Area */}
+          <div className="p-4 border-t">
+            <div className="flex gap-2">
+              <Textarea
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...'}
+                className="min-h-[80px] resize-none"
+                data-testid="ai-input"
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <div className="flex flex-col gap-2">
+                <Button
+                  onClick={handleSendMessage}
+                  disabled={!inputValue.trim() || isLoading}
+                  className="h-12 w-12 p-0"
+                  data-testid="ai-submit"
+                >
+                  <Send className="h-5 w-5" />
+                </Button>
+                <Button
+                  onClick={clearChat}
+                  variant="outline"
+                  className="h-12 w-12 p-0"
+                >
+                  <Trash2 className="h-5 w-5" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+    
+    return (
+      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+        <DialogContent className="max-w-5xl max-h-[90vh] p-0">
+          <DialogHeader className="sr-only">
+            <DialogTitle>{isArabic ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}</DialogTitle>
+          </DialogHeader>
+          {dialogContent}
+        </DialogContent>
+      </Dialog>
+    );
+  }
+  
   if (position === 'fixed') {
     // Fixed position version (original chat widget)
     if (isMinimized) {
@@ -806,6 +1323,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
           <Button
             onClick={() => setIsMinimized(false)}
             className="rounded-full w-14 h-14 bg-primary shadow-lg hover:bg-primary/90"
+            data-testid="ai-assistant-trigger"
           >
             <MessageCircle className="h-6 w-6" />
           </Button>
@@ -848,28 +1366,115 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
           <CardContent className="p-0 flex flex-col h-[calc(100%-60px)]">
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message) => (
+              {effectiveMessages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div
-                    className={`max-w-[80%] p-3 rounded-lg ${
-                      message.type === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-foreground border'
-                    }`}
-                  >
-                    <div className="text-sm whitespace-pre-wrap">{message.content}</div>
-                    {message.confidence && (
-                      <div className="text-xs opacity-70 mt-1">
-                        {isArabic ? `الثقة: ${message.confidence}%` : `Confidence: ${message.confidence}%`}
+                  <div className={`flex gap-2 max-w-[85%] ${message.type === 'user' ? 'flex-row-reverse' : ''}`}>
+                    {/* Avatar */}
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center mt-1 ${
+                      message.type === 'user' 
+                        ? 'bg-primary text-primary-foreground' 
+                        : 'bg-muted text-muted-foreground'
+                    }`}>
+                      {message.type === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                    </div>
+                    
+                    {/* Message Content */}
+                    <div className={`flex flex-col ${message.type === 'user' ? 'items-end' : 'items-start'}`}>
+                      <div
+                        className={`p-3 rounded-lg ${
+                          message.type === 'user'
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted text-foreground border'
+                        }`}
+                      >
+                        <div className="text-sm whitespace-pre-wrap">{message.content}</div>
+                        {message.confidence && (
+                          <div className="text-xs opacity-70 mt-1">
+                            {isArabic ? `الثقة: ${message.confidence}%` : `Confidence: ${message.confidence}%`}
+                          </div>
+                        )}
+                        
+                        {/* Show filters used for user messages */}
+                        {message.type === 'user' && message.filters && Object.keys(message.filters).length > 0 && (
+                          <div className="text-xs opacity-70 mt-1 flex gap-1 flex-wrap">
+                            {Object.entries(message.filters).map(([key, value]) => value && (
+                              <Badge key={key} variant="secondary" className="text-xs">
+                                {key}: {value}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
+                      
+                      {/* Citations for assistant messages */}
+                      {message.type === 'assistant' && message.citations && (
+                        <div className="mt-1 w-full">
+                          {renderCitations(message.citations)}
+                        </div>
+                      )}
+                      
+                      {/* Meta information */}
+                      {message.type === 'assistant' && message.meta && (
+                        <div className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
+                          {message.meta.provider && (
+                            <Badge variant="secondary" className="text-xs">
+                              {message.meta.provider}
+                            </Badge>
+                          )}
+                          {message.meta.documentsSearched && (
+                            <span>
+                              {isArabic ? `تم البحث في ${message.meta.documentsSearched} مستند` : `${message.meta.documentsSearched} docs searched`}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
-              {isLoading && (
+              
+              {/* Streaming message for RAG */}
+              {useRAG && ragStreaming && ragPartial && (
+                <div className="flex justify-start">
+                  <div className="flex gap-2 max-w-[85%]">
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center mt-1 bg-muted text-muted-foreground">
+                      <Bot className="w-4 h-4" />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <div className="bg-muted text-foreground p-3 rounded-lg border">
+                        <div className="text-sm whitespace-pre-wrap">
+                          {ragPartial}
+                          <span className="inline-block w-2 h-4 bg-primary/60 animate-pulse ml-1" />
+                        </div>
+                      </div>
+                      {ragMeta && (
+                        <div className="text-xs text-muted-foreground mt-1 flex items-center gap-2">
+                          <Badge variant="secondary" className="text-xs">
+                            <div className="w-2 h-2 bg-green-500 rounded-full mr-1 animate-pulse" />
+                            {ragMeta.provider || 'RAG'}
+                          </Badge>
+                          {ragMeta.documentsSearched && (
+                            <span>
+                              {isArabic ? `جاري البحث في ${ragMeta.documentsSearched} مستند...` : `Searching ${ragMeta.documentsSearched} docs...`}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                      {effectiveCitations.length > 0 && (
+                        <div className="mt-1 w-full">
+                          {renderCitations(effectiveCitations)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Legacy loading indicator */}
+              {!useRAG && isLoading && (
                 <div className="flex justify-start">
                   <div className="bg-muted text-foreground p-3 rounded-lg border">
                     <div className="flex items-center gap-2">
@@ -887,13 +1492,28 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
             </div>
 
             {/* Quick Suggestions */}
-            {!isLoading && messages.length <= 1 && (
+            {!effectiveIsLoading && effectiveMessages.length <= 1 && (
               <div className="p-4 border-t">
                 <div className="text-sm font-medium mb-2 text-muted-foreground">
                   {isArabic ? 'اقتراحات سريعة:' : 'Quick suggestions:'}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {currentSuggestions.slice(0, 3).map((suggestion, index) => (
+                  {useRAG ? [
+                    isArabic ? 'ما هي مستندات التوظيف المطلوبة؟' : 'What hiring documents are required?',
+                    isArabic ? 'أظهر عقود الموظفين الجديدة' : 'Show new employee contracts',
+                    isArabic ? 'ابحث عن تقارير GOSI' : 'Search for GOSI reports'
+                  ].map((suggestion, index) => (
+                    <Button
+                      key={index}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      className="text-xs h-8"
+                    >
+                      <FileText className="w-3 h-3 mr-1" />
+                      {suggestion}
+                    </Button>
+                  )) : currentSuggestions.slice(0, 3).map((suggestion, index) => (
                     <Button
                       key={index}
                       variant="outline"
@@ -907,14 +1527,57 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
                 </div>
               </div>
             )}
+            
+            {/* RAG Filters */}
+            {useRAG && renderFilterControls()}
 
             {/* Input Area */}
             <div className="p-4 border-t">
+              {/* Mode Toggle */}
+              <div className="flex justify-between items-center mb-3">
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant={useRAG ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setUseRAG(true)}
+                    className="h-7 px-3 text-xs"
+                  >
+                    <FileText className="w-3 h-3 mr-1" />
+                    {t('documents', 'smart_search')}
+                  </Button>
+                  <Button
+                    variant={!useRAG ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setUseRAG(false)}
+                    className="h-7 px-3 text-xs"
+                  >
+                    <Bot className="w-3 h-3 mr-1" />
+                    {t('documents', 'general_ai')}
+                  </Button>
+                </div>
+                
+                {useRAG && ragStreaming && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={stopRAGStream}
+                    className="h-7 px-3 text-xs"
+                  >
+                    <Square className="w-3 h-3 mr-1" />
+                    {isArabic ? 'إيقاف' : 'Stop'}
+                  </Button>
+                )}
+              </div>
+              
               <div className="flex gap-2">
                 <Textarea
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...'}
+                  placeholder={
+                    useRAG 
+                      ? t('documents', 'ask_about_documents')
+                      : t('common', 'type_message_here') || (isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...')
+                  }
                   className="min-h-[80px] resize-none"
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -922,15 +1585,20 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
                       handleSendMessage();
                     }
                   }}
+                  disabled={effectiveIsLoading}
                 />
                 <div className="flex flex-col gap-2">
                   <Button
                     onClick={handleSendMessage}
-                    disabled={!inputValue.trim() || isLoading}
+                    disabled={!inputValue.trim() || effectiveIsLoading}
                     size="sm"
                     className="h-10 w-10 p-0"
                   >
-                    <Send className="h-4 w-4" />
+                    {effectiveIsLoading ? (
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
                   </Button>
                   <Button
                     onClick={clearChat}
@@ -943,15 +1611,39 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
                 </div>
               </div>
             </div>
+            
+            {/* Document Preview Dialog */}
+            <Dialog open={!!selectedDocumentId} onOpenChange={() => setSelectedDocumentId(null)}>
+              <DialogContent className="max-w-4xl max-h-[80vh]">
+                <DialogHeader>
+                  <DialogTitle>
+                    {isArabic ? 'معاينة المستند' : 'Document Preview'}
+                  </DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="h-[60vh] w-full">
+                  <div className="p-4 text-center text-muted-foreground">
+                    {isArabic 
+                      ? `معاينة المستند: ${selectedDocumentId}` 
+                      : `Document Preview: ${selectedDocumentId}`}
+                    <br />
+                    <span className="text-xs">
+                      {isArabic 
+                        ? 'يتم تطوير معاينة المحتوى...' 
+                        : 'Content preview coming soon...'}
+                    </span>
+                  </div>
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  // Static version for embedding in pages
+  // Static version for embedding in pages  
   return (
-    <Card className={`w-full max-w-4xl mx-auto ${className}`}>
+    <Card className={`w-full max-w-4xl mx-auto ${className}`} data-testid="ai-assistant-static">
       <CardHeader className="bg-primary text-primary-foreground">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -1028,6 +1720,82 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
           </div>
         )}
 
+        {/* Intent Badges */}
+        {showIntentBadges && intent && (
+          <div className="px-4 py-2 border-t bg-gray-50/50 dark:bg-gray-800/50">
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-xs font-medium text-gray-600 dark:text-gray-300">
+                {isArabic ? 'تحليل الذكاء الاصطناعي:' : 'AI Analysis:'}
+              </span>
+              
+              {/* Intent Badge */}
+              <Badge 
+                variant="outline" 
+                style={{ borderColor: getIntentColor(intent.intent as any) }}
+                className="text-xs"
+              >
+                <Target className="w-3 h-3 mr-1" style={{ color: getIntentColor(intent.intent as any) }} />
+                {getIntentName(intent.intent as any, isArabic ? 'ar' : 'en')}
+              </Badge>
+
+              {/* Urgency Badge */}
+              <Badge 
+                variant="outline"
+                style={{ borderColor: getUrgencyColor(intent.urgency) }}
+                className="text-xs"
+              >
+                <Zap className="w-3 h-3 mr-1" style={{ color: getUrgencyColor(intent.urgency) }} />
+                {formatUrgency(intent.urgency, isArabic ? 'ar' : 'en')}
+              </Badge>
+
+              {/* Complexity Badge */}
+              <Badge 
+                variant="outline"
+                style={{ borderColor: getComplexityColor(intent.complexity) }}
+                className="text-xs"
+              >
+                <Brain className="w-3 h-3 mr-1" style={{ color: getComplexityColor(intent.complexity) }} />
+                {formatComplexity(intent.complexity, isArabic ? 'ar' : 'en')}
+              </Badge>
+
+              {/* Confidence Badge */}
+              <Badge 
+                variant="outline"
+                style={{ borderColor: getConfidenceColor(intent.confidence) }}
+                className="text-xs"
+              >
+                <Activity className="w-3 h-3 mr-1" style={{ color: getConfidenceColor(intent.confidence) }} />
+                {formatConfidence(intent.confidence, isArabic ? 'ar' : 'en')}
+              </Badge>
+
+              {/* Risk Level Badge */}
+              {intent.riskHints && intent.riskHints.length > 0 && (
+                <Badge 
+                  variant="outline"
+                  style={{ borderColor: getRiskColor(intent.riskHints) }}
+                  className="text-xs"
+                >
+                  <AlertTriangle className="w-3 h-3 mr-1" style={{ color: getRiskColor(intent.riskHints) }} />
+                  {formatRiskLevel(intent.riskHints, isArabic ? 'ar' : 'en')}
+                </Badge>
+              )}
+
+              {/* Processing Status */}
+              {(isClassifying || isRouting || isExecuting) && (
+                <Badge variant="secondary" className="text-xs animate-pulse">
+                  <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                  {isClassifying 
+                    ? (isArabic ? 'تصنيف النية...' : 'Classifying...') 
+                    : isRouting 
+                    ? (isArabic ? 'إنشاء الخطة...' : 'Planning...') 
+                    : (isArabic ? 'التنفيذ...' : 'Executing...')
+                  }
+                </Badge>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Input Area */}
         <div className="p-4 border-t">
           <div className="flex gap-2">
@@ -1036,6 +1804,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
               onChange={(e) => setInputValue(e.target.value)}
               placeholder={isArabic ? 'اكتب رسالتك هنا...' : 'Type your message here...'}
               className="min-h-[100px] resize-none"
+              data-testid="ai-input"
               onKeyPress={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -1048,6 +1817,7 @@ Rate = (Saudi Employees ÷ Total Employees) × 100`;
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || isLoading}
                 className="h-12 w-12 p-0"
+                data-testid="ai-submit"
               >
                 <Send className="h-5 w-5" />
               </Button>

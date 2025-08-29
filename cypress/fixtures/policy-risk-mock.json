@@ -1,0 +1,73 @@
+{
+  "policyRiskResult": {
+    "overallScore": 65,
+    "riskMatrix": {
+      "compliance": {
+        "saudiLaborLaw": 7.2,
+        "workplaceRights": 6.8,
+        "discriminationPrevention": 5.5,
+        "dataProtection": 8.1
+      },
+      "business": {
+        "operationalComplexity": 6.0,
+        "resourceRequirements": 7.5,
+        "stakeholderImpact": 5.2,
+        "financialImplications": 6.8
+      },
+      "implementation": {
+        "systemComplexity": 5.8,
+        "changeResistance": 6.5,
+        "trainingRequirements": 7.0,
+        "monitoringDifficulty": 6.2
+      }
+    },
+    "mitigationStrategies": [
+      {
+        "title": "Enhance Data Protection Compliance",
+        "description": "Implement comprehensive data protection measures to align with Saudi data protection regulations.",
+        "priority": "high",
+        "effort": "medium",
+        "impact": "high",
+        "timeline": "6-8 weeks",
+        "roi": 85,
+        "rationale": "Critical gap in data handling and privacy protection requirements",
+        "citations": [
+          {
+            "source": "Saudi Data Protection Regulation",
+            "relevance": 95,
+            "excerpt": "Organizations must implement appropriate technical and organizational measures to protect personal data."
+          }
+        ]
+      },
+      {
+        "title": "Streamline Resource Requirements",
+        "description": "Optimize resource allocation and reduce operational overhead through process automation.",
+        "priority": "medium", 
+        "effort": "high",
+        "impact": "medium",
+        "timeline": "8-12 weeks",
+        "roi": 72,
+        "rationale": "High resource demands may impact implementation feasibility",
+        "citations": [
+          {
+            "source": "HR Best Practices Guide",
+            "relevance": 78,
+            "excerpt": "Efficient resource management is key to successful policy implementation."
+          }
+        ]
+      }
+    ],
+    "citations": [
+      {
+        "source": "Saudi Labor Law - Article 25",
+        "relevance": 92,
+        "excerpt": "Working hours shall not exceed eight hours per day or forty-eight hours per week."
+      },
+      {
+        "source": "Saudi Data Protection Regulation",
+        "relevance": 88,
+        "excerpt": "Personal data processing must be lawful, fair, and transparent."
+      }
+    ]
+  }
+}

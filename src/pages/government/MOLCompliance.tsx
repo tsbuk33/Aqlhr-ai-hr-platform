@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { GovernmentDocPanel } from "@/components/government/GovernmentDocPanel";
 
 const MOLCompliance = () => {
   const { t, isRTL } = useLanguage();
@@ -45,8 +46,9 @@ const MOLCompliance = () => {
       onSyncNow={handleSyncNow}
     >
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
+          <TabsTrigger value="documents">{isRTL ? 'إدارة المستندات' : 'Document Management'}</TabsTrigger>
           <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
         </TabsList>
         
@@ -275,6 +277,15 @@ const MOLCompliance = () => {
           </div>
         </CardContent>
       </Card>
+        </TabsContent>
+        
+        <TabsContent value="documents" className="space-y-6">
+          <GovernmentDocPanel
+            platform="mol"
+            platformName="MOL Compliance Platform"
+            platformNameAr="منصة امتثال وزارة العمل"
+            companyId="demo-company"
+          />
         </TabsContent>
         
         <TabsContent value="upload" className="space-y-6">

@@ -11,6 +11,7 @@ import { useEmployeesData } from '@/hooks/useEmployeesData';
 import { UniversalDocumentManager } from '@/components/common/UniversalDocumentManager';
 import { DocumentUploader } from '@/components/docs/DocumentUploader';
 import DevModeGuard from '@/lib/dev/DevModeGuard';
+import { EmployeeDocSection } from '@/components/employees/EmployeeDocSection';
 
 const EmployeeMasterDataPage = () => {
   const { t, locale } = useLocale();
@@ -334,38 +335,13 @@ const EmployeeMasterDataPage = () => {
           </CardContent>
         </Card>
 
-        {/* Document Management - Employee Documents */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Database className="h-5 w-5" />
-              {locale === 'ar' ? 'مستندات الموظفين' : 'Employee Documents'}
-            </CardTitle>
-            <CardDescription>
-              {locale === 'ar' 
-                ? 'رفع وإدارة مستندات الموظفين مع الامتثال للائحة حماية البيانات الشخصية'
-                : 'Upload and manage employee documents with PDPL compliance'
-              }
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DocumentUploader 
-              module="employee"
-              className="border-primary/10"
-            />
-          </CardContent>
-        </Card>
-
-        {/* Document Management */}
-        <UniversalDocumentManager
-          moduleName={t('employees', 'title')}
-          description={t('employees', 'documents_description') || 'Upload employee resumes, contracts, certifications, and personal documents'}
-          platform="employees"
-          moduleType="hr"
-          acceptedTypes={['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.xlsx']}
-          maxFileSize={25 * 1024 * 1024}
-          maxFiles={15}
+        {/* Enhanced Document Management with RAG Integration */}
+        <EmployeeDocSection
+          companyId="demo-company"
+          className=""
         />
+
+
         
         {/* PDPL Notice */}
         <Card className="bg-muted/30">

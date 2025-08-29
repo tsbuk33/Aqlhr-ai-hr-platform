@@ -99,7 +99,70 @@ export const translations = {
       uploadedOn: 'Uploaded on',
       policyCompliance: 'Compliance',
       noPolicies: 'No policies uploaded yet',
-      uploadFirst: 'Upload your first policy'
+      uploadFirst: 'Upload your first policy',
+      // Policy Risk Analysis
+      analyze: 'Analyze Policy',
+      source: {
+        upload: 'Use uploaded document',
+        paste: 'Paste policy text',
+        selectFile: 'Select a file to analyze',
+        pasteText: 'Paste policy text here...'
+      },
+      analyzing: 'Analyzing Policy Risk...',
+      analysisProgress: {
+        initializing: 'Initializing analysis engine...',
+        extracting: 'Extracting policy content...',
+        searching: 'Searching relevant documents...',
+        analyzing: 'Analyzing compliance dimensions...',
+        scoring: 'Calculating risk scores...',
+        generating: 'Generating mitigation strategies...',
+        finalizing: 'Finalizing analysis report...'
+      },
+      results: {
+        title: 'Policy Risk Analysis Results',
+        overallScore: 'Overall Risk Score',
+        riskMatrix: 'Risk Matrix',
+        mitigationStrategies: 'Mitigation Strategies',
+        citations: 'Supporting Evidence'
+      },
+      family: {
+        compliance: 'Compliance Risk',
+        business: 'Business Risk',
+        implementation: 'Implementation Risk'
+      },
+      dim: {
+        saudiLaborLaw: 'Saudi Labor Law',
+        workplaceRights: 'Workplace Rights',
+        discriminationPrevention: 'Discrimination Prevention',
+        dataProtection: 'Data Protection',
+        operationalComplexity: 'Operational Complexity',
+        resourceRequirements: 'Resource Requirements',
+        stakeholderImpact: 'Stakeholder Impact',
+        financialImplications: 'Financial Implications',
+        systemComplexity: 'System Complexity',
+        changeResistance: 'Change Resistance',
+        trainingRequirements: 'Training Requirements',
+        monitoringDifficulty: 'Monitoring Difficulty'
+      },
+      mitigation: {
+        priority: 'Priority',
+        effort: 'Effort Level',
+        impact: 'Expected Impact',
+        timeline: 'Timeline',
+        roi: 'ROI',
+        createTask: 'Create Task',
+        viewCitations: 'View Citations',
+        high: 'High',
+        medium: 'Medium',
+        low: 'Low',
+        weeks: 'weeks'
+      },
+      citations: {
+        title: 'Supporting Citations',
+        relevance: 'Relevance',
+        source: 'Source',
+        excerpt: 'Relevant Excerpt'
+      }
     },
     journey: {
       dashboard: {
@@ -303,6 +366,153 @@ export const translations = {
       asian: 'Asian',
       western: 'Western',
       other: 'Other'
+    },
+    // AI Context Engineering Engine
+    ai: {
+      controlRoom: {
+        title: 'AI Control Room',
+        description: 'Monitor and configure AI system performance and settings',
+        intentDistribution: 'Intent Distribution',
+        intentDistributionDesc: 'Distribution of AI request intents across modules',
+        providerMix: 'Provider Mix',
+        providerMixDesc: 'AI provider usage distribution',
+        latencyByProvider: 'Latency by Provider',
+        successRateByProvider: 'Success Rate by Provider',
+        errorDistribution: 'Error Distribution',
+        hourlyActivity: 'Hourly Activity',
+        hourlyActivityDesc: 'AI request volume throughout the day',
+        totalRequests: 'Total Requests',
+        avgLatency: 'Average Latency',
+        successRate: 'Success Rate',
+        estimatedCost: 'Estimated Cost',
+        last7Days: 'Last 7 Days',
+        p95Latency: 'p95: {{latency}}ms',
+        reliability: 'Reliability',
+        monthlyProjection: 'Monthly Projection',
+        vsLastWeek: 'vs last week',
+        autoRefresh: 'Auto Refresh',
+        lastRefresh: 'Last refreshed',
+        overview: 'Overview',
+        performance: 'Performance',
+        configuration: 'Configuration',
+        logs: 'Logs',
+        globalSettings: 'Global Settings',
+        globalSettingsDesc: 'System-wide AI orchestrator configuration',
+        moduleSettings: 'Module Settings',
+        moduleSettingsDesc: 'Per-module configuration overrides',
+        gensparkFirst: 'Genspark First',
+        allowStreaming: 'Allow Streaming',
+        enableAnalytics: 'Enable Analytics',
+        enableControlRoom: 'Enable Control Room',
+        defaultCostTarget: 'Default Cost Target',
+        costTarget: 'Cost Target',
+        streaming: 'Streaming',
+        maxTokens: 'Max Tokens',
+        realtimeLogs: 'Real-time Logs',
+        realtimeLogsDesc: 'Live AI system activity and performance logs',
+        adminAccess: 'Admin Access'
+      },
+      badges: {
+        intent: 'Intent',
+        urgency: 'Urgency',
+        complexity: 'Complexity',
+        confidence: 'Confidence',
+        riskLevel: 'Risk Level'
+      },
+      intents: {
+        question: 'Question',
+        task: 'Task',
+        analysis: 'Analysis',
+        generation: 'Generation',
+        search: 'Search',
+        conversation: 'Conversation',
+        troubleshooting: 'Troubleshooting',
+        other: 'Other'
+      },
+      urgency: {
+        veryUrgent: 'Very Urgent',
+        urgent: 'Urgent',
+        medium: 'Medium',
+        low: 'Low',
+        notUrgent: 'Not Urgent'
+      },
+      complexity: {
+        veryComplex: 'Very Complex',
+        complex: 'Complex',
+        medium: 'Medium',
+        simple: 'Simple',
+        verySimple: 'Very Simple'
+      },
+      confidence: {
+        veryHigh: 'Very High',
+        high: 'High',
+        medium: 'Medium',
+        low: 'Low',
+        veryLow: 'Very Low'
+      },
+      risk: {
+        low: 'Low Risk',
+        medium: 'Medium Risk',
+        high: 'High Risk'
+      },
+      costTarget: {
+        low: 'Low Cost',
+        balanced: 'Balanced',
+        high: 'High Performance'
+      },
+      providers: {
+        genspark: 'GenSpark AI',
+        openai: 'OpenAI',
+        manus: 'Manus AI',
+        gemini: 'Google Gemini'
+      },
+      modules: {
+        'gov.qiwa': 'QIWA Integration',
+        'gov.gosi': 'GOSI Integration', 
+        'gov.mudad': 'Mudad Platform',
+        'gov.absher': 'Absher Integration',
+        'employee': 'Employee Management',
+        'payroll': 'Payroll & Benefits',
+        'policy': 'Policy Management',
+        'compliance': 'Compliance & Legal',
+        'analytics': 'Analytics & Insights',
+        'reports': 'Reports & Documentation',
+        'documents': 'Document Management',
+        'ask-aql': 'Ask Aql Assistant',
+        'general': 'General Assistant'
+      },
+      assistant: {
+        askAql: 'Ask Aql',
+        openAssistant: 'Open Assistant',
+        closeAssistant: 'Close Assistant',
+        policyIntelligence: 'Policy Intelligence Assistant',
+        getHelp: 'Get intelligent assistance with policy analysis and compliance',
+        classifyingIntent: 'Classifying intent...',
+        generatingPlan: 'Generating routing plan...',
+        executing: 'Executing query...',
+        streamingResponse: 'Streaming response...',
+        intentClassified: 'Intent classified',
+        planGenerated: 'Plan generated',
+        responseComplete: 'Response complete',
+        querySuccessful: 'Query Successful',
+        routedTo: 'Routed to {{provider}}',
+        routedVia: 'Routed via {{provider}} with {{costTarget}} cost target',
+        switchedToFallback: 'Switched to fallback system',
+        warning: 'Warning',
+        typePlaceholder: 'Type your message here...',
+        aiAnalysis: 'AI Analysis',
+        streaming: 'Streaming',
+        batch: 'Batch'
+      }
+    },
+    admin: {
+      title: 'Administration',
+      accessDenied: {
+        title: 'Access Denied',
+        description: 'You do not have permission to access this admin area.',
+        requiredRole: 'Admin or Super-Admin access required',
+        currentRole: 'Your current role: {{role}}'
+      }
     }
   },
   ar: {
@@ -404,7 +614,70 @@ export const translations = {
       uploadedOn: 'تم الرفع في',
       policyCompliance: 'الامتثال',
       noPolicies: 'لم يتم رفع سياسات بعد',
-      uploadFirst: 'ارفع سياستك الأولى'
+      uploadFirst: 'ارفع سياستك الأولى',
+      // تحليل مخاطر السياسات
+      analyze: 'تحليل السياسة',
+      source: {
+        upload: 'استخدم وثيقة مرفوعة',
+        paste: 'ألصق نص السياسة',
+        selectFile: 'اختر ملفاً للتحليل',
+        pasteText: 'ألصق نص السياسة هنا...'
+      },
+      analyzing: 'جاري تحليل مخاطر السياسة...',
+      analysisProgress: {
+        initializing: 'جاري تهيئة محرك التحليل...',
+        extracting: 'جاري استخراج محتوى السياسة...',
+        searching: 'جاري البحث عن الوثائق ذات الصلة...',
+        analyzing: 'جاري تحليل أبعاد الامتثال...',
+        scoring: 'جاري حساب نتائج المخاطر...',
+        generating: 'جاري إنشاء استراتيجيات التخفيف...',
+        finalizing: 'جاري الانتهاء من تقرير التحليل...'
+      },
+      results: {
+        title: 'نتائج تحليل مخاطر السياسة',
+        overallScore: 'نتيجة المخاطر الإجمالية',
+        riskMatrix: 'مصفوفة المخاطر',
+        mitigationStrategies: 'استراتيجيات التخفيف',
+        citations: 'الأدلة المساندة'
+      },
+      family: {
+        compliance: 'مخاطر الامتثال',
+        business: 'مخاطر الأعمال',
+        implementation: 'مخاطر التنفيذ'
+      },
+      dim: {
+        saudiLaborLaw: 'قانون العمل السعودي',
+        workplaceRights: 'حقوق مكان العمل',
+        discriminationPrevention: 'منع التمييز',
+        dataProtection: 'حماية البيانات',
+        operationalComplexity: 'التعقيد التشغيلي',
+        resourceRequirements: 'متطلبات الموارد',
+        stakeholderImpact: 'تأثير أصحاب المصلحة',
+        financialImplications: 'الآثار المالية',
+        systemComplexity: 'تعقيد النظام',
+        changeResistance: 'مقاومة التغيير',
+        trainingRequirements: 'متطلبات التدريب',
+        monitoringDifficulty: 'صعوبة المراقبة'
+      },
+      mitigation: {
+        priority: 'الأولوية',
+        effort: 'مستوى الجهد',
+        impact: 'التأثير المتوقع',
+        timeline: 'الجدول الزمني',
+        roi: 'عائد الاستثمار',
+        createTask: 'إنشاء مهمة',
+        viewCitations: 'عرض المراجع',
+        high: 'عالي',
+        medium: 'متوسط',
+        low: 'منخفض',
+        weeks: 'أسابيع'
+      },
+      citations: {
+        title: 'المراجع المساندة',
+        relevance: 'الصلة',
+        source: 'المصدر',
+        excerpt: 'المقتطف ذو الصلة'
+      }
     },
     journey: {
       dashboard: {
@@ -608,6 +881,153 @@ export const translations = {
       asian: 'آسيوي',
       western: 'غربي',
       other: 'أخرى'
+    },
+    // محرك هندسة السياق للذكاء الاصطناعي
+    ai: {
+      controlRoom: {
+        title: 'غرفة التحكم في الذكاء الاصطناعي',
+        description: 'مراقبة وتكوين أداء نظام الذكاء الاصطناعي والإعدادات',
+        intentDistribution: 'توزيع النوايا',
+        intentDistributionDesc: 'توزيع نوايا طلبات الذكاء الاصطناعي عبر الوحدات',
+        providerMix: 'مزج المزودين',
+        providerMixDesc: 'توزيع استخدام مزودي الذكاء الاصطناعي',
+        latencyByProvider: 'زمن الاستجابة حسب المزود',
+        successRateByProvider: 'معدل النجاح حسب المزود',
+        errorDistribution: 'توزيع الأخطاء',
+        hourlyActivity: 'النشاط بالساعة',
+        hourlyActivityDesc: 'حجم طلبات الذكاء الاصطناعي على مدار اليوم',
+        totalRequests: 'إجمالي الطلبات',
+        avgLatency: 'متوسط زمن الاستجابة',
+        successRate: 'معدل النجاح',
+        estimatedCost: 'التكلفة المقدرة',
+        last7Days: 'آخر ٧ أيام',
+        p95Latency: 'النسبة المئوية ٩٥: {{latency}} مللي ثانية',
+        reliability: 'الموثوقية',
+        monthlyProjection: 'الإسقاط الشهري',
+        vsLastWeek: 'مقارنة بالأسبوع الماضي',
+        autoRefresh: 'التحديث التلقائي',
+        lastRefresh: 'آخر تحديث',
+        overview: 'نظرة عامة',
+        performance: 'الأداء',
+        configuration: 'التكوين',
+        logs: 'السجلات',
+        globalSettings: 'الإعدادات العامة',
+        globalSettingsDesc: 'تكوين منسق الذكاء الاصطناعي على مستوى النظام',
+        moduleSettings: 'إعدادات الوحدة',
+        moduleSettingsDesc: 'تجاوزات التكوين لكل وحدة',
+        gensparkFirst: 'جين سبارك أولاً',
+        allowStreaming: 'السماح بالتدفق',
+        enableAnalytics: 'تمكين التحليلات',
+        enableControlRoom: 'تمكين غرفة التحكم',
+        defaultCostTarget: 'هدف التكلفة الافتراضي',
+        costTarget: 'هدف التكلفة',
+        streaming: 'التدفق',
+        maxTokens: 'الحد الأقصى للرموز',
+        realtimeLogs: 'السجلات المباشرة',
+        realtimeLogsDesc: 'نشاط نظام الذكاء الاصطناعي المباشر وسجلات الأداء',
+        adminAccess: 'وصول المسؤول'
+      },
+      badges: {
+        intent: 'النية',
+        urgency: 'الإلحاح',
+        complexity: 'التعقيد',
+        confidence: 'الثقة',
+        riskLevel: 'مستوى المخاطر'
+      },
+      intents: {
+        question: 'سؤال',
+        task: 'مهمة',
+        analysis: 'تحليل',
+        generation: 'إنشاء',
+        search: 'بحث',
+        conversation: 'محادثة',
+        troubleshooting: 'حل المشاكل',
+        other: 'أخرى'
+      },
+      urgency: {
+        veryUrgent: 'عاجل جداً',
+        urgent: 'عاجل',
+        medium: 'متوسط',
+        low: 'منخفض',
+        notUrgent: 'غير عاجل'
+      },
+      complexity: {
+        veryComplex: 'معقد جداً',
+        complex: 'معقد',
+        medium: 'متوسط',
+        simple: 'بسيط',
+        verySimple: 'بسيط جداً'
+      },
+      confidence: {
+        veryHigh: 'عالية جداً',
+        high: 'عالية',
+        medium: 'متوسطة',
+        low: 'منخفضة',
+        veryLow: 'منخفضة جداً'
+      },
+      risk: {
+        low: 'مخاطر منخفضة',
+        medium: 'مخاطر متوسطة',
+        high: 'مخاطر عالية'
+      },
+      costTarget: {
+        low: 'تكلفة منخفضة',
+        balanced: 'متوازن',
+        high: 'أداء عالي'
+      },
+      providers: {
+        genspark: 'جين سبارك للذكاء الاصطناعي',
+        openai: 'أوبن إيه آي',
+        manus: 'مانوس للذكاء الاصطناعي',
+        gemini: 'جوجل جيميناي'
+      },
+      modules: {
+        'gov.qiwa': 'تكامل قوى',
+        'gov.gosi': 'تكامل التأمينات الاجتماعية',
+        'gov.mudad': 'منصة مداد',
+        'gov.absher': 'تكامل أبشر',
+        'employee': 'إدارة الموظفين',
+        'payroll': 'الرواتب والمزايا',
+        'policy': 'إدارة السياسات',
+        'compliance': 'الامتثال والقانونية',
+        'analytics': 'التحليلات والرؤى',
+        'reports': 'التقارير والتوثيق',
+        'documents': 'إدارة الوثائق',
+        'ask-aql': 'مساعد اسأل عقل',
+        'general': 'المساعد العام'
+      },
+      assistant: {
+        askAql: 'اسأل عقل',
+        openAssistant: 'فتح المساعد',
+        closeAssistant: 'إغلاق المساعد',
+        policyIntelligence: 'مساعد ذكاء السياسات',
+        getHelp: 'احصل على مساعدة ذكية في تحليل السياسات وضمان الامتثال',
+        classifyingIntent: 'جاري تصنيف النية...',
+        generatingPlan: 'جاري إنشاء خطة التوجيه...',
+        executing: 'جاري تنفيذ الاستعلام...',
+        streamingResponse: 'جاري تدفق الاستجابة...',
+        intentClassified: 'تم تصنيف النية',
+        planGenerated: 'تم إنشاء الخطة',
+        responseComplete: 'اكتملت الاستجابة',
+        querySuccessful: 'تم الاستعلام بنجاح',
+        routedTo: 'موجه إلى {{provider}}',
+        routedVia: 'موجه عبر {{provider}} بتكلفة {{costTarget}}',
+        switchedToFallback: 'تم التبديل إلى النظام الاحتياطي',
+        warning: 'تحذير',
+        typePlaceholder: 'اكتب رسالتك هنا...',
+        aiAnalysis: 'تحليل بالذكاء الاصطناعي',
+        streaming: 'بث مباشر',
+        batch: 'دفعة واحدة'
+      }
+    },
+    admin: {
+      title: 'الإدارة',
+      accessDenied: {
+        title: 'تم رفض الوصول',
+        description: 'ليس لديك إذن للوصول إلى هذه المنطقة الإدارية.',
+        requiredRole: 'يتطلب وصول مسؤول أو مسؤول فائق',
+        currentRole: 'دورك الحالي: {{role}}'
+      }
     }
   }
 };

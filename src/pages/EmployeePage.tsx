@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { EmployeeDocSection } from '@/components/employees/EmployeeDocSection';
 
 const EmployeePage: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -146,7 +147,7 @@ const EmployeePage: React.FC = () => {
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="overview">
             {isArabic ? 'نظرة عامة' : 'Overview'}
           </TabsTrigger>
@@ -155,6 +156,9 @@ const EmployeePage: React.FC = () => {
           </TabsTrigger>
           <TabsTrigger value="departments">
             {isArabic ? 'الأقسام' : 'Departments'}
+          </TabsTrigger>
+          <TabsTrigger value="documents">
+            {isArabic ? 'المستندات' : 'Documents'}
           </TabsTrigger>
           <TabsTrigger value="reports">
             {isArabic ? 'التقارير' : 'Reports'}
@@ -315,6 +319,12 @@ const EmployeePage: React.FC = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="documents" className="space-y-6 mt-6">
+          <EmployeeDocSection
+            companyId="demo-company"
+          />
         </TabsContent>
 
         <TabsContent value="reports" className="space-y-6 mt-6">

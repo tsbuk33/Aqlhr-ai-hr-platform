@@ -573,6 +573,324 @@ const bundles: Record<string, Bundle> = {
       import_source: 'البيانات المستوردة',
       manual_source: 'الرفع اليدوي'
     }
+  },
+  documents: {
+    en: {
+      // Document Management
+      title: 'Document Management',
+      subtitle: 'Manage documents with AI-powered search and processing',
+      smart_search: 'Smart Search',
+      general_ai: 'General AI',
+      document_management: 'Document Management',
+      upload_documents: 'Upload Documents',
+      ai_search: 'AI Search',
+      
+      // Document Types
+      contract: 'Contract',
+      permit: 'Permit',
+      certificate: 'Certificate',
+      report: 'Report',
+      policy: 'Policy',
+      resume: 'Resume',
+      identification: 'ID Document',
+      passport: 'Passport',
+      visa: 'Visa',
+      qualification: 'Qualification',
+      
+      // Document Status
+      completed: 'Completed',
+      processing: 'Processing',
+      error: 'Error',
+      pending: 'Pending',
+      
+      // Actions
+      view: 'View',
+      download: 'Download',
+      preview: 'Preview',
+      search_documents: 'Search documents...',
+      search_employee_documents: 'Search employee documents...',
+      clear_filters: 'Clear Filters',
+      document_type: 'Document Type',
+      all_types: 'All Types',
+      status: 'Status',
+      all_status: 'All Status',
+      
+      // Statistics
+      documents_searched: 'docs searched',
+      documents_found: 'Documents Found',
+      no_documents: 'No Documents Found',
+      no_documents_filters: 'No documents match the selected filters',
+      no_documents_uploaded: 'No documents uploaded yet',
+      no_employee_documents: 'No documents uploaded for this employee yet',
+      
+      // Upload
+      upload_success: 'File uploaded successfully',
+      upload_error: 'Error uploading file',
+      processing_with_ai: 'Processing with AI',
+      ai_processing: 'AI processing and embedding generation in progress',
+      
+      // RAG Search
+      smart_document_search: 'Smart Document Search',
+      ask_about_documents: 'Ask about documents using AI',
+      ask_about_employee_documents: 'Ask about employee documents using AI',
+      search_and_ask: 'Search and ask about documents using AI',
+      document_preview: 'Document Preview',
+      content_preview_coming_soon: 'Content preview coming soon...',
+      
+      // Citations and Sources
+      sources: 'Sources',
+      citations: 'Citations',
+      relevance: 'Relevance',
+      page: 'Page',
+      chunk_preview: 'Preview',
+      
+      // File Information
+      file_size: 'File Size',
+      uploaded_at: 'Uploaded At',
+      employee_id: 'Employee ID',
+      
+      // Government Platform Documents
+      government_documents: 'Government Documents',
+      platform_documents: 'Platform Documents',
+      manage_track_documents: 'Manage and track platform documents with smart search',
+      
+      // Employee Documents
+      employee_documents: 'Employee Documents',
+      employee_personal_documents: 'Employee Personal Documents',
+      all_employee_documents: 'All Employee Documents',
+      manage_employee_documents_pdpl: 'Manage employee personal documents with PDPL compliance',
+      manage_all_employee_documents: 'Manage all employee documents with smart search and PDPL compliance',
+      
+      // PDPL Compliance
+      pdpl_compliance: 'PDPL Compliance',
+      pdpl_protected_notice: 'All employee documents are protected according to Saudi PDPL regulations with comprehensive encryption and access control.',
+      data_protection_notice: 'This data is protected under Saudi Personal Data Protection Law (PDPL).',
+      privacy_compliance: 'Personal information has been masked for privacy compliance.',
+      
+      // Filters and Search
+      filter_by_portal: 'Filter by Portal',
+      filter_by_employee: 'Filter by Employee',
+      filter_by_type: 'Filter by Type',
+      filter_by_status: 'Filter by Status',
+      portal: 'Portal',
+      
+      // Platforms
+      qiwa: 'Qiwa',
+      gosi: 'GOSI',
+      absher: 'Absher',
+      mudad: 'Mudad',
+      mol: 'MOL',
+      
+      // Messages and States
+      loading_documents: 'Loading documents...',
+      system_error: 'System Error',
+      unexpected_error: 'Unexpected error occurred',
+      document_operations: 'Document Operations',
+      processing_complete: 'Processing Complete',
+      
+      // AI Integration
+      ai_powered_processing: 'AI-powered processing',
+      smart_categorization: 'Smart categorization and secure processing',
+      intelligent_document_processing: 'Intelligent document processing with AI',
+      
+      // Statistics and Metrics
+      total_documents: 'Total Documents',
+      documents_this_month: 'Documents This Month',
+      processing_success_rate: 'Processing Success Rate',
+      average_processing_time: 'Average Processing Time',
+      
+      // Quick Actions and Suggestions
+      quick_actions: 'Quick Actions',
+      suggested_searches: 'Suggested Searches',
+      what_documents_required: 'What documents are required?',
+      show_recent_uploads: 'Show recent uploads',
+      find_employee_contracts: 'Find employee contracts',
+      search_policy_documents: 'Search policy documents',
+      
+      // Error Messages
+      error_loading_documents: 'Error Loading Documents',
+      failed_to_load_documents: 'Failed to load documents',
+      rag_system_error: 'RAG System Error',
+      error_searching_documents: 'Error occurred while searching documents',
+      
+      // Success Messages
+      document_uploaded_successfully: 'Document uploaded successfully',
+      documents_processed_successfully: 'Documents processed successfully',
+      search_completed: 'Search completed',
+      
+      // Help and Guidance
+      document_help: 'Document Help',
+      upload_guidelines: 'Upload Guidelines',
+      supported_formats: 'Supported Formats',
+      max_file_size: 'Maximum File Size',
+      ai_search_tips: 'AI Search Tips',
+      how_to_search: 'How to Search Documents',
+      
+      // Accessibility
+      document_icon: 'Document icon',
+      search_icon: 'Search icon',
+      filter_icon: 'Filter icon',
+      upload_icon: 'Upload icon',
+      ai_icon: 'AI icon'
+    },
+    ar: {
+      // Document Management
+      title: 'إدارة المستندات',
+      subtitle: 'إدارة المستندات مع البحث والمعالجة بالذكاء الاصطناعي',
+      smart_search: 'البحث الذكي',
+      general_ai: 'المساعد العام',
+      document_management: 'إدارة المستندات',
+      upload_documents: 'رفع مستندات',
+      ai_search: 'البحث الذكي',
+      
+      // Document Types
+      contract: 'عقد',
+      permit: 'تصريح',
+      certificate: 'شهادة',
+      report: 'تقرير',
+      policy: 'سياسة',
+      resume: 'سيرة ذاتية',
+      identification: 'وثيقة هوية',
+      passport: 'جواز سفر',
+      visa: 'فيزا',
+      qualification: 'مؤهل',
+      
+      // Document Status
+      completed: 'مكتمل',
+      processing: 'قيد المعالجة',
+      error: 'خطأ',
+      pending: 'معلق',
+      
+      // Actions
+      view: 'عرض',
+      download: 'تحميل',
+      preview: 'معاينة',
+      search_documents: 'البحث في المستندات...',
+      search_employee_documents: 'البحث في مستندات الموظفين...',
+      clear_filters: 'مسح المرشحات',
+      document_type: 'نوع المستند',
+      all_types: 'جميع الأنواع',
+      status: 'الحالة',
+      all_status: 'جميع الحالات',
+      
+      // Statistics
+      documents_searched: 'مستند تم البحث فيه',
+      documents_found: 'المستندات الموجودة',
+      no_documents: 'لا توجد مستندات',
+      no_documents_filters: 'لا توجد مستندات تطابق المرشحات المحددة',
+      no_documents_uploaded: 'لم يتم رفع مستندات بعد',
+      no_employee_documents: 'لم يتم رفع مستندات لهذا الموظف بعد',
+      
+      // Upload
+      upload_success: 'تم رفع الملف بنجاح',
+      upload_error: 'خطأ في رفع الملف',
+      processing_with_ai: 'المعالجة بالذكاء الاصطناعي',
+      ai_processing: 'جاري المعالجة بالذكاء الاصطناعي وتوليد التضمينات',
+      
+      // RAG Search
+      smart_document_search: 'البحث الذكي في المستندات',
+      ask_about_documents: 'اسأل عن المستندات باستخدام الذكاء الاصطناعي',
+      ask_about_employee_documents: 'اسأل عن مستندات الموظفين باستخدام الذكاء الاصطناعي',
+      search_and_ask: 'ابحث واسأل عن المستندات باستخدام الذكاء الاصطناعي',
+      document_preview: 'معاينة المستند',
+      content_preview_coming_soon: 'معاينة المحتوى قريباً...',
+      
+      // Citations and Sources
+      sources: 'المصادر',
+      citations: 'الاستشهادات',
+      relevance: 'الصلة',
+      page: 'صفحة',
+      chunk_preview: 'معاينة',
+      
+      // File Information
+      file_size: 'حجم الملف',
+      uploaded_at: 'تاريخ الرفع',
+      employee_id: 'رقم الموظف',
+      
+      // Government Platform Documents
+      government_documents: 'المستندات الحكومية',
+      platform_documents: 'مستندات المنصة',
+      manage_track_documents: 'إدارة ومتابعة مستندات المنصة مع البحث الذكي',
+      
+      // Employee Documents
+      employee_documents: 'مستندات الموظفين',
+      employee_personal_documents: 'المستندات الشخصية للموظف',
+      all_employee_documents: 'جميع مستندات الموظفين',
+      manage_employee_documents_pdpl: 'إدارة مستندات الموظف الشخصية مع الامتثال للائحة حماية البيانات',
+      manage_all_employee_documents: 'إدارة جميع مستندات الموظفين مع البحث الذكي والامتثال للائحة حماية البيانات',
+      
+      // PDPL Compliance
+      pdpl_compliance: 'الامتثال للائحة حماية البيانات الشخصية',
+      pdpl_protected_notice: 'جميع مستندات الموظفين محمية وفقاً للائحة حماية البيانات الشخصية السعودية مع تشفير شامل وتحكم في الوصول.',
+      data_protection_notice: 'هذه البيانات محمية بموجب قانون حماية البيانات الشخصية السعودي (PDPL).',
+      privacy_compliance: 'تم إخفاء المعلومات الشخصية للامتثال لقوانين الخصوصية.',
+      
+      // Filters and Search
+      filter_by_portal: 'تصفية حسب المنصة',
+      filter_by_employee: 'تصفية حسب الموظف',
+      filter_by_type: 'تصفية حسب النوع',
+      filter_by_status: 'تصفية حسب الحالة',
+      portal: 'المنصة',
+      
+      // Platforms
+      qiwa: 'قوى',
+      gosi: 'جوسي',
+      absher: 'أبشر',
+      mudad: 'مُدد',
+      mol: 'وزارة العمل',
+      
+      // Messages and States
+      loading_documents: 'جاري تحميل المستندات...',
+      system_error: 'خطأ في النظام',
+      unexpected_error: 'حدث خطأ غير متوقع',
+      document_operations: 'عمليات المستندات',
+      processing_complete: 'اكتملت المعالجة',
+      
+      // AI Integration
+      ai_powered_processing: 'معالجة بالذكاء الاصطناعي',
+      smart_categorization: 'تصنيف ذكي ومعالجة آمنة',
+      intelligent_document_processing: 'معالجة ذكية للمستندات بالذكاء الاصطناعي',
+      
+      // Statistics and Metrics
+      total_documents: 'إجمالي المستندات',
+      documents_this_month: 'المستندات هذا الشهر',
+      processing_success_rate: 'معدل نجاح المعالجة',
+      average_processing_time: 'متوسط وقت المعالجة',
+      
+      // Quick Actions and Suggestions
+      quick_actions: 'إجراءات سريعة',
+      suggested_searches: 'اقتراحات البحث',
+      what_documents_required: 'ما هي المستندات المطلوبة؟',
+      show_recent_uploads: 'أظهر آخر المرفوعات',
+      find_employee_contracts: 'ابحث عن عقود الموظفين',
+      search_policy_documents: 'ابحث في مستندات السياسات',
+      
+      // Error Messages
+      error_loading_documents: 'خطأ في تحميل المستندات',
+      failed_to_load_documents: 'فشل في تحميل المستندات',
+      rag_system_error: 'خطأ في النظام الذكي',
+      error_searching_documents: 'حدث خطأ أثناء البحث في المستندات',
+      
+      // Success Messages
+      document_uploaded_successfully: 'تم رفع المستند بنجاح',
+      documents_processed_successfully: 'تم معالجة المستندات بنجاح',
+      search_completed: 'اكتمل البحث',
+      
+      // Help and Guidance
+      document_help: 'مساعدة المستندات',
+      upload_guidelines: 'إرشادات الرفع',
+      supported_formats: 'الصيغ المدعومة',
+      max_file_size: 'الحد الأقصى لحجم الملف',
+      ai_search_tips: 'نصائح البحث الذكي',
+      how_to_search: 'كيفية البحث في المستندات',
+      
+      // Accessibility
+      document_icon: 'رمز المستند',
+      search_icon: 'رمز البحث',
+      filter_icon: 'رمز المرشح',
+      upload_icon: 'رمز الرفع',
+      ai_icon: 'رمز الذكاء الاصطناعي'
+    }
   }
 };
 
