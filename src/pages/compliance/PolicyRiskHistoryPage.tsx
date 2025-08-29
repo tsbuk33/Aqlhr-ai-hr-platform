@@ -1,354 +1,155 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { 
-  Search, 
-  Download, 
-  RefreshCw,
-  Calendar,
-  Filter,
-  ChevronDown
-} from 'lucide-react'
-import { RiskTrendChart } from '../../features/policy-intel/components/RiskTrendChart'
-import { PolicyRiskTable } from '../../features/policy-intel/components/PolicyRiskTable'
-import { useExportPolicies } from '../../features/policy-intel/api/exportPolicies'
-import type { PolicyListItem } from '../../features/policy-intel/api/listPolicies'
+import { Badge } from '@/components/ui/badge'
+import { CalendarIcon, TrendingUp, FileText, Download } from 'lucide-react'
+import { RiskTrendChart } from '@/features/policy-intel/components/RiskTrendChart'
 
 export default function PolicyRiskHistoryPage() {
   const { t, i18n } = useTranslation()
-  const isRTL = i18n.language === 'ar'
-  
-  // Filter state
-  const [searchQuery, setSearchQuery] = useState('')
-  const [dateFrom, setDateFrom] = useState('')
-  const [dateTo, setDateTo] = useState('')
-  const [orderBy, setOrderBy] = useState<'created_at' | 'overall'>('created_at')
-  const [orderDir, setOrderDir] = useState<'asc' | 'desc'>('desc')
-  
-  // View state
-  const [selectedPolicy, setSelectedPolicy] = useState<PolicyListItem | null>(null)
-  
-  const exportPolicies = useExportPolicies()
+  const [dateRange, setDateRange] = useState({ from: '', to: '' })
 
-  const handleExport = (format: 'csv' | 'xlsx') => {
-    exportPolicies.mutate({
-      format,
-      lang: i18n.language as 'en' | 'ar',
-      from: dateFrom || undefined,
-      to: dateTo || undefined
-    })
-  }
-
-  const handleRefreshTrends = () => {
-    // This will be handled by the RiskTrendChart component's refetch
-  }
-
-  const clearFilters = () => {
-    setSearchQuery('')
-    setDateFrom('')
-    setDateTo('')
-    setOrderBy('created_at')
-    setOrderDir('desc')
-  }
-
-  const formatDateForInput = (date: Date) => {
-    return date.toISOString().split('T')[0]
-  }
-
-  // Set default date range (last 30 days)
-  const defaultFromDate = formatDateForInput(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
-  const defaultToDate = formatDateForInput(new Date())
+  const mockHistoryData = [
+    {
+      id: '1',
+      date: '2024-01-15',
+      title: 'Employee Handbook Update',
+      riskScore: 7.2,
+      changes: ['Added remote work policy', 'Updated leave policies'],
+      status: 'reviewed'
+    },
+    {
+      id: '2', 
+      date: '2024-01-10',
+      title: 'Data Protection Policy',
+      riskScore: 8.5,
+      changes: ['GDPR compliance updates', 'New data retention rules'],
+      status: 'pending'
+    }
+  ]
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-6">
-      {/* Page Header */}
+    <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">{t('policy.tabs.history')}</h1>
-          <p className="text-muted-foreground mt-2">
-            {t('policy.history.description')}
+          <h1 className="text-3xl font-bold tracking-tight">Policy Risk History</h1>
+          <p className="text-muted-foreground mt-1">
+            Track policy changes and risk assessments over time
           </p>
         </div>
-        
-        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-          <Button
-            variant="outline"
-            onClick={handleRefreshTrends}
-          >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            {t('policy.trends.refresh')}
-          </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button>
-                <Download className="h-4 w-4 mr-2" />
-                {t('policy.export')}
-                <ChevronDown className="h-4 w-4 ml-2" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align={isRTL ? "start" : "end"}>
-              <DropdownMenuItem onClick={() => handleExport('csv')}>
-                <Download className="h-4 w-4 mr-2" />
-                {t('policy.export.csv')}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleExport('xlsx')}>
-                <Download className="h-4 w-4 mr-2" />
-                {t('policy.export.xlsx')}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <Button variant="outline" className="flex items-center gap-2">
+          <Download className="h-4 w-4" />
+          Export History
+        </Button>
       </div>
 
-      {/* Filters */}
+      {/* Date Range Filter */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2 rtl:space-x-reverse">
-            <Filter className="h-5 w-5" />
-            <span>{t('policy.filters.title')}</span>
+          <CardTitle className="flex items-center gap-2">
+            <CalendarIcon className="h-5 w-5" />
+            Date Range Filter
           </CardTitle>
-          <CardDescription>
-            {t('policy.filters.description')}
-          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Search Query */}
-            <div className="space-y-2">
-              <Label htmlFor="search">{t('policy.filters.search')}</Label>
-              <div className="relative">
-                <Search className="absolute left-3 rtl:left-auto rtl:right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="search"
-                  type="text"
-                  placeholder={t('policy.filters.search')}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 rtl:pl-3 rtl:pr-10"
-                />
-              </div>
+          <div className="flex gap-4 flex-wrap">
+            <div className="flex gap-2">
+              <Input
+                type="date"
+                placeholder="From"
+                value={dateRange.from}
+                onChange={(e) => setDateRange(prev => ({ ...prev, from: e.target.value }))}
+              />
+              <Input
+                type="date"
+                placeholder="To"
+                value={dateRange.to}
+                onChange={(e) => setDateRange(prev => ({ ...prev, to: e.target.value }))}
+              />
             </div>
-
-            {/* Date From */}
-            <div className="space-y-2">
-              <Label htmlFor="dateFrom">{t('policy.filters.from')}</Label>
-              <div className="relative">
-                <Calendar className="absolute left-3 rtl:left-auto rtl:right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="dateFrom"
-                  type="date"
-                  value={dateFrom || defaultFromDate}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="pl-10 rtl:pl-3 rtl:pr-10"
-                />
-              </div>
-            </div>
-
-            {/* Date To */}
-            <div className="space-y-2">
-              <Label htmlFor="dateTo">{t('policy.filters.to')}</Label>
-              <div className="relative">
-                <Calendar className="absolute left-3 rtl:left-auto rtl:right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="dateTo"
-                  type="date"
-                  value={dateTo || defaultToDate}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="pl-10 rtl:pl-3 rtl:pr-10"
-                />
-              </div>
-            </div>
-
-            {/* Sort Options */}
-            <div className="space-y-2">
-              <Label>{t('policy.filters.sort')}</Label>
-              <div className="flex space-x-2 rtl:space-x-reverse">
-                <Select
-                  value={orderBy}
-                  onValueChange={(value: 'created_at' | 'overall') => setOrderBy(value)}
-                >
-                  <SelectTrigger className="flex-1">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="created_at">{t('policy.table.createdAt')}</SelectItem>
-                    <SelectItem value="overall">{t('policy.table.overall')}</SelectItem>
-                  </SelectContent>
-                </Select>
-                
-                <Select
-                  value={orderDir}
-                  onValueChange={(value: 'asc' | 'desc') => setOrderDir(value)}
-                >
-                  <SelectTrigger className="w-20">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="desc">{t('policy.filters.desc')}</SelectItem>
-                    <SelectItem value="asc">{t('policy.filters.asc')}</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-end mt-4">
-            <Button
-              variant="outline"
-              onClick={clearFilters}
-              size="sm"
-            >
-              {t('policy.filters.clear')}
-            </Button>
+            <Button variant="secondary">Apply Filter</Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Risk Trend Chart */}
-      <RiskTrendChart 
-        dateFrom={dateFrom || defaultFromDate}
-        dateTo={dateTo || defaultToDate}
-        onRefresh={handleRefreshTrends}
-      />
+      {/* Risk Trends Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <TrendingUp className="h-5 w-5" />
+            Risk Trends Over Time
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <RiskTrendChart 
+            from={dateRange.from}
+            to={dateRange.to}
+            onRefresh={() => window.location.reload()}
+          />
+        </CardContent>
+      </Card>
 
-      {/* Policy Risk Table */}
-      <PolicyRiskTable
-        searchQuery={searchQuery}
-        dateFrom={dateFrom || defaultFromDate}
-        dateTo={dateTo || defaultToDate}
-        orderBy={orderBy}
-        orderDir={orderDir}
-        onViewPolicy={(policy) => setSelectedPolicy(policy)}
-      />
-
-      {/* Policy Details Modal/Panel */}
-      {selectedPolicy && (
-        <Card className="fixed inset-x-4 bottom-4 top-4 z-50 overflow-auto">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>{selectedPolicy.title}</CardTitle>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSelectedPolicy(null)}
-              >
-                {t('common.close')}
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium mb-2">{t('policy.details.overview')}</h4>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="text-muted-foreground">{t('policy.table.createdAt')}: </span>
-                    <span>{new Date(selectedPolicy.created_at).toLocaleDateString()}</span>
+      {/* History Timeline */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Policy History Timeline
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {mockHistoryData.map((item, index) => (
+              <div key={item.id} className="flex items-start gap-4 pb-4 border-b last:border-b-0">
+                <div className="flex flex-col items-center">
+                  <div className="w-3 h-3 bg-primary rounded-full" />
+                  {index < mockHistoryData.length - 1 && (
+                    <div className="w-0.5 h-16 bg-muted mt-2" />
+                  )}
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h4 className="font-semibold text-sm">{item.title}</h4>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(item.date).toLocaleDateString()}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <Badge 
+                        variant={item.riskScore >= 8 ? 'destructive' : item.riskScore >= 6 ? 'secondary' : 'default'}
+                        className="shrink-0"
+                      >
+                        Risk: {item.riskScore}
+                      </Badge>
+                      <Badge 
+                        variant={item.status === 'approved' ? 'default' : item.status === 'pending' ? 'secondary' : 'outline'}
+                        className="shrink-0"
+                      >
+                        {item.status}
+                      </Badge>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-muted-foreground">{t('policy.table.overall')}: </span>
-                    <span className="font-medium">{selectedPolicy.overall_score.toFixed(1)}</span>
+                  
+                  <div className="mt-2">
+                    <p className="text-sm text-muted-foreground mb-2">Key Changes:</p>
+                    <ul className="text-sm list-disc list-inside space-y-1">
+                      {item.changes.map((change, i) => (
+                        <li key={i} className="text-muted-foreground">{change}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
-
-              <div>
-                <h4 className="font-medium mb-2">{t('policy.details.scores')}</h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-3 border rounded">
-                    <h5 className="font-medium text-sm mb-2">{t('policy.family.compliance')}</h5>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.saudiLaborLaw')}</span>
-                        <span>{selectedPolicy.compliance_score.saudiLaborLaw.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.workplaceRights')}</span>
-                        <span>{selectedPolicy.compliance_score.workplaceRights.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.discriminationPrevention')}</span>
-                        <span>{selectedPolicy.compliance_score.discriminationPrevention.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.dataProtection')}</span>
-                        <span>{selectedPolicy.compliance_score.dataProtection.toFixed(1)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3 border rounded">
-                    <h5 className="font-medium text-sm mb-2">{t('policy.family.business')}</h5>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.operationalComplexity')}</span>
-                        <span>{selectedPolicy.business_score.operationalComplexity.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.resourceRequirements')}</span>
-                        <span>{selectedPolicy.business_score.resourceRequirements.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.stakeholderImpact')}</span>
-                        <span>{selectedPolicy.business_score.stakeholderImpact.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.financialImplications')}</span>
-                        <span>{selectedPolicy.business_score.financialImplications.toFixed(1)}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3 border rounded">
-                    <h5 className="font-medium text-sm mb-2">{t('policy.family.implementation')}</h5>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.systemComplexity')}</span>
-                        <span>{selectedPolicy.implementation_score.systemComplexity.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.changeResistance')}</span>
-                        <span>{selectedPolicy.implementation_score.changeResistance.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.trainingRequirements')}</span>
-                        <span>{selectedPolicy.implementation_score.trainingRequirements.toFixed(1)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('policy.dim.monitoringDifficulty')}</span>
-                        <span>{selectedPolicy.implementation_score.monitoringDifficulty.toFixed(1)}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

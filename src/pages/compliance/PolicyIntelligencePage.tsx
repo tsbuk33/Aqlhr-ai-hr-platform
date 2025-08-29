@@ -85,7 +85,6 @@ export default function PolicyIntelligencePage() {
               {/* AI Assistant Sidebar */}
               <div className="space-y-6">
                 <AqlHRAIAssistant 
-                  context="policy-intelligence"
                   className="sticky top-6"
                 />
                 
