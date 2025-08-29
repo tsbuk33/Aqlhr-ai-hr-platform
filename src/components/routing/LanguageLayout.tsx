@@ -77,20 +77,22 @@ export default function LanguageLayout() {
             dir={isRTL ? 'rtl' : 'ltr'}
           >
             {!isAuthPage && !isWelcomePage && <AppSidebar />}
-            <main className={`flex-1 flex flex-col ${isAuthPage ? 'items-center justify-center' : ''}`}>
-              {!isAuthPage && !isWelcomePage && <DashboardHeader />}
-              <div className={`flex-1 ${isAuthPage ? 'flex items-center justify-center' : ''}`}>
-                {isAuthPage ? (
-                  <Outlet />
-                ) : isWelcomePage ? (
-                  <Outlet />
-                ) : (
-                  <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
+            {isAuthPage ? (
+              <Outlet />
+            ) : (
+              <main className="flex-1 flex flex-col">
+                {!isWelcomePage && <DashboardHeader />}
+                <div className="flex-1">
+                  {isWelcomePage ? (
                     <Outlet />
-                  </div>
-                )}
-              </div>
-            </main>
+                  ) : (
+                    <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
+                      <Outlet />
+                    </div>
+                  )}
+                </div>
+              </main>
+            )}
           </div>
         </div>
       </SidebarProvider>
