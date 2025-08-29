@@ -7,11 +7,16 @@ import { centerStyleObject } from '@/hooks/useForceCenterStyle';
 function AppContent() {
   const location = useLocation();
   const isAuthRoute = location.pathname.includes('/auth');
+  const isDashboardRoute = location.pathname.includes('/dashboard') || 
+    location.pathname === '/en' || location.pathname === '/ar' || 
+    location.pathname === '/en/' || location.pathname === '/ar/';
   
-  if (isAuthRoute) {
+  // No global centering for auth or complex layout routes like dashboard
+  if (isAuthRoute || isDashboardRoute) {
     return <UnifiedLanguageRouter />;
   }
   
+  // Apply centering only for simple content pages like welcome
   return (
     <div style={centerStyleObject} className="force-center">
       <UnifiedLanguageRouter />
