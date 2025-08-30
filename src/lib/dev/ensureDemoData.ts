@@ -71,7 +71,14 @@ export async function ensureDemoData(): Promise<DemoDataStatus> {
     });
 
     if (seedError) {
-      await logToUiEvents(tenantId, `Database seeding failed: ${seedError.message}`, 'error');
+      const msg = seedError.message || '';
+      await logToUiEvents(tenantId, `Database seeding failed: ${msg}`, 'error');
+      if (msg.includes('iqama_expiry') || (msg.toLowerCase().includes('column') && msg.toLowerCase().includes('does not exist'))) {
+        await logToUiEvents(tenantId, 'Ignoring missing iqama_expiry during seeding; proceeding without demo data', 'info');
+        // Mark as seeded to avoid noisy retries; user can force reseed via manualSeedDemo()
+        localStorage.setItem(cacheKey, '1');
+        return { seeded: false, backfilled: false, tenantId };
+      }
       return { seeded: false, backfilled: false, tenantId, error: seedError.message };
     }
 

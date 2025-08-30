@@ -17,13 +17,12 @@ export async function logUiEvent(options: UiEventOptions): Promise<void> {
   try {
     let tenantId = options.tenantId;
     
-    // Handle dev mode tenant resolution
     if (!tenantId) {
-      const isDevMode = new URLSearchParams(window.location.search).has('dev');
+      const isDevMode = new URLSearchParams(window.location.search).get('dev') === '1';
       if (isDevMode) {
         await ensureDevTenant();
+        tenantId = await getTenantIdOrDemo();
       }
-      tenantId = await getTenantIdOrDemo();
     }
 
     await supabase.from('ui_events').insert({

@@ -4,7 +4,7 @@ import { ensureDemoData } from './ensureDemoData';
 
 export async function ensureDevTenant() {
   const url = new URL(window.location.href);
-  const dev = url.searchParams.get('dev') === '1' || import.meta.env.MODE === 'development';
+  const dev = url.searchParams.get('dev') === '1';
   if (!dev) return;
   // Cache to avoid repeated RPC
   const cached = localStorage.getItem('aqlhr.demoTenant');
@@ -24,7 +24,7 @@ export default function DevModeGuard({ children }: DevModeGuardProps) {
   useEffect(() => {
     async function initializeDevMode() {
       const url = new URL(window.location.href);
-      const dev = url.searchParams.get('dev') === '1' || import.meta.env.MODE === 'development';
+      const dev = url.searchParams.get('dev') === '1';
       
       if (!dev) return;
 
