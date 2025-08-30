@@ -13,10 +13,11 @@ export default function AppRoutes() {
   // Localized child routes under ":lang/*" from UnifiedLanguageRouter
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/en/welcome-accessible" replace />} />
       <Route element={<LanguageLayout />}>
         {/* Welcome pages with their own layout */}
         <Route path="welcome" element={<Welcome />} />
-        <Route index element={<Welcome />} />
+        <Route index element={<AccessibleWelcome />} />
 
         {/* Routes that need CENTERED layout */}
         <Route element={<CenteredLayout />}>

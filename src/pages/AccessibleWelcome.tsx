@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Building2, Users, BarChart3, Shield, Zap } from 'lucide-react';
-import { LinkL } from '@/lib/i18n/LinkL';
+import { LinkL, useSwitchLang } from '@/lib/i18n/LinkL';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 // Accessible, self-contained welcome page with full-width header/footer
@@ -9,6 +9,8 @@ import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 export default function AccessibleWelcome() {
   const { lang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
+
+  const switchLang = useSwitchLang();
 
   // SEO: title, description, canonical, and JSON-LD
   const seo = useMemo(() => {
@@ -85,7 +87,7 @@ export default function AccessibleWelcome() {
           <nav aria-label={isArabic ? 'تبديل اللغة' : 'Language switcher'}>
             {/* We keep LanguageToggle simple: the project already has a component; use LinkL-based switch if needed */}
             {/* Using LinkL: /en/* and /ar/* are handled globally */}
-            <LinkL to={isArabic ? window.location.pathname.replace('/ar', '/en') : window.location.pathname.replace('/en', '/ar')} className="inline-flex items-center gap-2 px-3 py-1 rounded border hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring">
+            <LinkL to={switchLang(isArabic ? 'en' : 'ar')} className="inline-flex items-center gap-2 px-3 py-1 rounded border hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring">
               <span aria-hidden>🌐</span>
               <span className="text-sm font-medium">{isArabic ? 'English' : 'عربي'}</span>
               <span className="text-xs opacity-60">({isArabic ? 'EN' : 'AR'})</span>
