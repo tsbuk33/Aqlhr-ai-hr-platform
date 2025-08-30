@@ -10,7 +10,7 @@ interface CenteredLayoutProps {
 
 export default function CenteredLayout({ title, description, className = "", children }: CenteredLayoutProps) {
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-red-500 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center p-4">
       {children || <Outlet />}
     </div>
   );
