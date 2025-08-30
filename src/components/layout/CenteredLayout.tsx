@@ -1,7 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import { ReactNode } from 'react';
-import { useLanguage } from "@/hooks/useLanguageCompat";
-import PageHeader from "@/components/common/PageHeader";
 
 interface CenteredLayoutProps {
   title?: string;
@@ -10,36 +8,10 @@ interface CenteredLayoutProps {
   children?: ReactNode;
 }
 
-// Universal Centered Layout - ALWAYS CENTER EVERYTHING
-const CenteredLayout = ({ title, description, className = "", children }: CenteredLayoutProps) => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
-  
+export default function CenteredLayout({ title, description, className = "", children }: CenteredLayoutProps) {
   return (
-    <div 
-      className={`flex flex-col items-center justify-center text-center mx-auto max-w-screen-xl p-4 min-h-screen ${isArabic ? 'rtl' : 'ltr'} ${className}`}
-      dir={isArabic ? 'rtl' : 'ltr'}
-    >
-      {title && (
-        <PageHeader title={title} description={description} />
-      )}
-      <div className="w-full flex flex-col items-center justify-center text-center space-y-6">
-        {children || <Outlet />}
-      </div>
+    <div className="flex min-h-screen w-full items-center justify-center bg-red-500 p-4">
+      {children || <Outlet />}
     </div>
   );
-};
-
-export default CenteredLayout;
-
-// Export a HOC for easy wrapping
-export const withCenteredLayout = <P extends object>(
-  Component: React.ComponentType<P>,
-  layoutProps?: Omit<CenteredLayoutProps, 'children'>
-) => {
-  return (props: P) => (
-    <CenteredLayout {...layoutProps}>
-      <Component {...props} />
-    </CenteredLayout>
-  );
-};
+}
