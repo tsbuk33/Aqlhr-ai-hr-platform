@@ -18,104 +18,118 @@ const Welcome = () => {
   ];
 
   return (
-    <main className="w-full max-w-4xl mx-auto px-4 py-10 space-y-12">
-      <header className="flex justify-between items-center w-full">
-        <div className="flex items-center gap-2">
-          <Building2 className="h-8 w-8 text-primary" />
-          <span className="text-2xl font-bold">{isArabic ? 'نظام الموارد البشرية' : 'AqlHR'}</span>
+    <div className="flex min-h-screen flex-col bg-background" dir={isArabic ? 'rtl' : 'ltr'}>
+      {/* HEADER: Full-width */}
+      <header className="w-full border-b">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-2">
+            <Building2 className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold">{isArabic ? 'نظام الموارد البشرية' : 'AqlHR'}</span>
+          </div>
+          <LanguageToggle />
         </div>
-        <LanguageToggle />
       </header>
 
-      <section className="text-center w-full">
-        <div className="space-y-6">
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              {isArabic ? 'مستقبل الموارد البشرية' : 'The Future of HR'}
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              {isArabic 
-                ? 'منصة شاملة لإدارة الموارد البشرية مصممة خصيصاً للسوق السعودي مع تقنيات الذكاء الاصطناعي المتقدمة'
-                : 'A comprehensive HR management platform designed specifically for the Saudi market with advanced AI capabilities'
-              }
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <LinkL to="/dashboard">
-              <Button size="lg" className="min-w-40">
-                {isArabic ? 'ابدأ الآن' : 'Get Started'}
-              </Button>
-            </LinkL>
-            <Button variant="outline" size="lg" className="min-w-40">
-              {isArabic ? 'تعرف أكثر' : 'Learn More'}
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* MAIN CONTENT: Centered vertically and horizontally */}
+      <main className="flex flex-1 flex-col items-center justify-center px-4">
+        <div className="w-full max-w-6xl space-y-16 py-16">
+          {/* Hero Section */}
+          <section className="text-center">
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+                  {isArabic ? 'مستقبل الموارد البشرية' : 'The Future of HR'}
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                  {isArabic 
+                    ? 'منصة شاملة لإدارة الموارد البشرية مصممة خصيصاً للسوق السعودي مع تقنيات الذكاء الاصطناعي المتقدمة'
+                    : 'A comprehensive HR management platform designed specifically for the Saudi market with advanced AI capabilities'
+                  }
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <LinkL to="/dashboard">
+                  <Button size="lg" className="min-w-40">
+                    {isArabic ? 'ابدأ الآن' : 'Get Started'}
+                  </Button>
+                </LinkL>
+                <Button variant="outline" size="lg" className="min-w-40">
+                  {isArabic ? 'تعرف أكثر' : 'Learn More'}
+                </Button>
+              </div>
+            </div>
+          </section>
 
-      <section className="w-full">
-        <div className="grid md:grid-cols-2 gap-6">
-          {features.map((feature, index) => (
-            <Card key={index} className="h-full">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <feature.icon className="h-8 w-8 text-primary" />
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
+          {/* Features Section */}
+          <section>
+            <div className="grid md:grid-cols-2 gap-6">
+              {features.map((feature, index) => (
+                <Card key={index} className="h-full">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <feature.icon className="h-8 w-8 text-primary" />
+                      <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base leading-relaxed">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section>
+            <Card className="text-center">
+              <CardContent className="pt-6">
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold">
+                    {isArabic ? 'جاهز للبدء؟' : 'Ready to Get Started?'}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {isArabic 
+                      ? 'انضم إلى مئات الشركات التي تثق في منصتنا لإدارة مواردها البشرية'
+                      : 'Join hundreds of companies that trust our platform for their HR management'
+                    }
+                  </p>
+                  <LinkL to="/auth/signup">
+                    <Button size="lg" className="min-w-40">
+                      {isArabic ? 'إنشاء حساب' : 'Create Account'}
+                    </Button>
+                  </LinkL>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-base leading-relaxed">
-                  {feature.description}
-                </CardDescription>
               </CardContent>
             </Card>
-          ))}
+          </section>
         </div>
-      </section>
+      </main>
 
-      <section className="w-full">
-        <Card className="text-center">
-          <CardContent className="pt-6">
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">
-                {isArabic ? 'جاهز للبدء؟' : 'Ready to Get Started?'}
-              </h2>
-              <p className="text-muted-foreground">
-                {isArabic 
-                  ? 'انضم إلى مئات الشركات التي تثق في منصتنا لإدارة مواردها البشرية'
-                  : 'Join hundreds of companies that trust our platform for their HR management'
-                }
-              </p>
-              <LinkL to="/auth/signup">
-                <Button size="lg" className="min-w-40">
-                  {isArabic ? 'إنشاء حساب' : 'Create Account'}
-                </Button>
-              </LinkL>
+      {/* FOOTER: Full-width */}
+      <footer className="w-full border-t">
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4" />
+              <span>{isArabic ? '© 2024 نظام الموارد البشرية. جميع الحقوق محفوظة.' : '© 2024 AqlHR. All rights reserved.'}</span>
             </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      <footer className="border-t pt-6 w-full">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Globe className="h-4 w-4" />
-            <span>{isArabic ? '© 2024 نظام الموارد البشرية. جميع الحقوق محفوظة.' : '© 2024 AqlHR. All rights reserved.'}</span>
-          </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-foreground transition-colors">
-              {isArabic ? 'الخصوصية' : 'Privacy'}
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              {isArabic ? 'الشروط' : 'Terms'}
-            </a>
-            <a href="#" className="hover:text-foreground transition-colors">
-              {isArabic ? 'الدعم' : 'Support'}
-            </a>
+            <div className="flex gap-6">
+              <a href="#" className="hover:text-foreground transition-colors">
+                {isArabic ? 'الخصوصية' : 'Privacy'}
+              </a>
+              <a href="#" className="hover:text-foreground transition-colors">
+                {isArabic ? 'الشروط' : 'Terms'}
+              </a>
+              <a href="#" className="hover:text-foreground transition-colors">
+                {isArabic ? 'الدعم' : 'Support'}
+              </a>
+            </div>
           </div>
         </div>
       </footer>
-    </main>
+    </div>
   );
 };
 

@@ -12,12 +12,14 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route element={<LanguageLayout />}>
+        {/* Welcome pages with their own layout */}
+        <Route path="welcome" element={<Welcome />} />
+        <Route index element={<Welcome />} />
+
         {/* Routes that need CENTERED layout */}
         <Route element={<CenteredLayout />}>
-          <Route path="welcome" element={<Welcome />} />
           <Route path="auth" element={<AuthPage />} />
           <Route path="auth/callback" element={<AuthCallback />} />
-          <Route index element={<Welcome />} />
         </Route>
 
         {/* Routes that need DASHBOARD layout */}
