@@ -35,9 +35,9 @@ const Welcome = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10">
+<>
       {/* Header */}
-      <header className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+      <header className="px-4 py-4 flex justify-between items-center w-full max-w-4xl">
         <div className="flex items-center gap-2">
           <div className="p-1.5 rounded-lg bg-primary/10">
             <Building2 className="h-6 w-6 text-primary" />
@@ -53,7 +53,7 @@ const Welcome = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-4xl mx-auto px-4 py-8 text-center">
+      <section className="px-4 py-8 text-center w-full max-w-4xl">
         <div className="space-y-6">
           <div className="space-y-3">
             <h2 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -79,7 +79,7 @@ const Welcome = () => {
       </section>
 
       {/* Features Section */}
-      <section className="max-w-4xl mx-auto px-4 py-8">
+      <section className="px-4 py-8 w-full max-w-4xl">
         <div className="text-center mb-8">
           <h3 className="text-xl font-bold mb-3">
             {isArabic ? 'لماذا تختار عقل HR؟' : 'Why Choose AqlHR?'}
@@ -112,7 +112,7 @@ const Welcome = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="max-w-4xl mx-auto px-4 py-8">
+      <section className="px-4 py-8 w-full max-w-4xl">
         <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
           <CardContent className="p-6 text-center">
             <div className="space-y-4">
@@ -139,7 +139,7 @@ const Welcome = () => {
       </section>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto px-4 py-6 border-t">
+      <footer className="px-4 py-6 border-t w-full max-w-4xl">
         <div className="text-center text-muted-foreground">
           <p className="text-sm">
             {isArabic 
@@ -149,7 +149,7 @@ const Welcome = () => {
           </p>
         </div>
       </footer>
-    </div>
+    </>
   );
 };
 
