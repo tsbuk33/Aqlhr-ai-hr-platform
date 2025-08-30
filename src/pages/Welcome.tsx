@@ -21,7 +21,7 @@ const Welcome = () => {
     <div className="flex min-h-screen flex-col bg-background" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* HEADER: Full-width */}
       <header className="w-full border-b">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <div className="mx-auto w-full max-w-6xl flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-2">
             <Building2 className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold">{isArabic ? 'نظام الموارد البشرية' : 'AqlHR'}</span>
