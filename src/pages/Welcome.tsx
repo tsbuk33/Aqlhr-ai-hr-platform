@@ -18,8 +18,8 @@ const Welcome = () => {
   ];
 
   return (
-    <>
-      <header className="px-4 py-4 flex justify-between items-center w-full max-w-4xl">
+    <main className="w-full max-w-4xl mx-auto px-4 py-10 space-y-12">
+      <header className="flex justify-between items-center w-full">
         <div className="flex items-center gap-2">
           <Building2 className="h-8 w-8 text-primary" />
           <span className="text-2xl font-bold">{isArabic ? 'نظام الموارد البشرية' : 'AqlHR'}</span>
@@ -27,7 +27,7 @@ const Welcome = () => {
         <LanguageToggle />
       </header>
 
-      <section className="px-4 py-8 text-center w-full max-w-4xl">
+      <section className="text-center w-full">
         <div className="space-y-6">
           <div className="space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
@@ -53,7 +53,7 @@ const Welcome = () => {
         </div>
       </section>
 
-      <section className="px-4 py-8 w-full max-w-4xl">
+      <section className="w-full">
         <div className="grid md:grid-cols-2 gap-6">
           {features.map((feature, index) => (
             <Card key={index} className="h-full">
@@ -73,7 +73,7 @@ const Welcome = () => {
         </div>
       </section>
 
-      <section className="px-4 py-8 w-full max-w-4xl">
+      <section className="w-full">
         <Card className="text-center">
           <CardContent className="pt-6">
             <div className="space-y-4">
@@ -96,7 +96,7 @@ const Welcome = () => {
         </Card>
       </section>
 
-      <footer className="px-4 py-6 border-t w-full max-w-4xl">
+      <footer className="border-t pt-6 w-full">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
@@ -115,7 +115,7 @@ const Welcome = () => {
           </div>
         </div>
       </footer>
-    </>
+    </main>
   );
 };
 
