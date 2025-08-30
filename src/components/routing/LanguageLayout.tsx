@@ -68,6 +68,15 @@ export default function LanguageLayout() {
   const isAuthPage = location.pathname.includes('/auth');
   const isWelcomePage = location.pathname.includes('/welcome') || location.pathname === `/${routeLang}` || location.pathname === `/${routeLang}/`;
 
+  // Early return for AUTH and WELCOME pages → let CenteredLayout control layout
+  if (isAuthPage || isWelcomePage) {
+    return (
+      <DevModeGuard>
+        <Outlet />
+      </DevModeGuard>
+    );
+  }
+
   const content = (
     <DevModeGuard>
       <SidebarProvider>
@@ -100,5 +109,5 @@ export default function LanguageLayout() {
   );
 
   // Wrap non-auth and non-welcome pages with ProtectedRoute
-  return (isAuthPage || isWelcomePage) ? content : <ProtectedRoute>{content}</ProtectedRoute>;
+  return <ProtectedRoute>{content}</ProtectedRoute>;
 }
