@@ -7,17 +7,17 @@ import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
 import Welcome from '@/pages/Welcome';
-import AccessibleWelcome from '@/pages/AccessibleWelcome';
+import AqlHRWelcome from '@/pages/AqlHRWelcome';
 
 export default function AppRoutes() {
   // Localized child routes under ":lang/*" from UnifiedLanguageRouter
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/en/welcome-accessible" replace />} />
+      <Route path="/" element={<Navigate to="/en/" replace />} />
       <Route element={<LanguageLayout />}>
         {/* Welcome pages with their own layout */}
         <Route path="welcome" element={<Welcome />} />
-        <Route index element={<AccessibleWelcome />} />
+        <Route index element={<AqlHRWelcome />} />
 
         {/* Routes that need CENTERED layout */}
         <Route element={<CenteredLayout />}>
@@ -25,16 +25,13 @@ export default function AppRoutes() {
           <Route path="auth/callback" element={<AuthCallback />} />
         </Route>
 
-        {/* New accessible welcome page (independent layout) */}
-        <Route path="welcome-accessible" element={<AccessibleWelcome />} />
-
         {/* Routes that need DASHBOARD layout */}
         <Route element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="welcome-accessible" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
