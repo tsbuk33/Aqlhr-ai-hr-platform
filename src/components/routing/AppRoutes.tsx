@@ -28,6 +28,7 @@ export default function AppRoutes() {
         {/* Routes that need DASHBOARD layout */}
         <Route element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="main-dashboard" element={<Dashboard />} />
         </Route>
 
         {/* Fallback */}
