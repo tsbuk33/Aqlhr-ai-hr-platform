@@ -348,6 +348,30 @@ export const SuperAdminSidebar: React.FC = () => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
+              {/* Executive Strategic Dashboard */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to={localePath('/executive/strategic-dashboard', lang)}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "hover:bg-muted/50 text-foreground"
+                    }
+                  >
+                    <Target className="h-4 w-4 text-foreground" />
+                    {open && (
+                      <div className="flex items-center justify-between w-full">
+                        <span className="text-foreground">Executive Strategic Dashboard</span>
+                        <Badge className="bg-blue-600 hover:bg-blue-600 text-xs px-2 py-0">
+                          C-LEVEL
+                        </Badge>
+                      </div>
+                    )}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
               {/* Core HR - Expandable */}
               <SidebarMenuItem>
                 <SidebarMenuButton

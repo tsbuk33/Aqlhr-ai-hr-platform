@@ -241,6 +241,7 @@ const SystemEngineer = lazy(() => import('../pages/SystemEngineer'));
 const ExecutiveCenter = lazy(() => import('../pages/executive/ExecutiveCenter'));
 const StrategicPresentationCenter = lazy(() => import('../pages/executive/StrategicPresentationCenter'));
 const ExecutiveMobileApp = lazy(() => import('../pages/executive/ExecutiveMobileApp'));
+const ExecutiveStrategicDashboard = lazy(() => import('../pages/executive/ExecutiveStrategicDashboard'));
 const SuperAdminDashboard = lazy(() => import('../pages/SuperAdminDashboard'));
 const AIEnhancedExecutiveIntelligence = lazy(() => import('../pages/ai/AIEnhancedExecutiveIntelligence'));
 const AutomationWorkflowEngine = lazy(() => import('../components/ai/AutomationWorkflowEngine'));
@@ -605,6 +606,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Executive Intelligence Center - Enterprise only (feature gated)
   { path: '/executive-center', element: ExecutiveCenter, auth: true },
+  { path: '/executive/strategic-dashboard', element: ExecutiveStrategicDashboard, auth: true },
   { path: '/executive/mobile', element: ExecutiveMobileApp, auth: true },
   { path: '/executive/strategic-presentations', element: StrategicPresentationCenter, auth: true },
   { path: '/founder/super-admin', element: SuperAdminDashboard, auth: true, adminOnly: true },
