@@ -9,10 +9,11 @@ import {
   ArrowUpRight, ArrowDownRight, Minus
 } from 'lucide-react';
 import { UniversalAIIntegrator } from '@/components/ai/UniversalAIIntegrator';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
+import { useLanguage } from '@/hooks/useLanguageCompat';
 
 const ExecutiveStrategicDashboard = () => {
-  const { isArabic } = useSimpleLanguage();
+  const { language } = useLanguage();
+  const isArabic = language === 'ar';
   const [timeFrame, setTimeFrame] = useState('quarterly');
 
   useEffect(() => {
