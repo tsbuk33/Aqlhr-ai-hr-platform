@@ -11,6 +11,7 @@ import Welcome from '@/pages/Welcome';
 import AqlHRWelcome from '@/pages/AqlHRWelcome';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
+import CoreBusinessTest from '@/pages/CoreBusinessTest';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -71,6 +72,7 @@ export default function AppRoutes() {
           <Route path="main-dashboard" element={<Dashboard />} />
           <Route path="test-ai" element={<TestAI />} />
           <Route path="data-foundation-test" element={<DataFoundationTest />} />
+          <Route path="core-business-test" element={<CoreBusinessTest />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
