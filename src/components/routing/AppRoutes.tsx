@@ -14,6 +14,7 @@ import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
 import ComprehensivePhaseTest from '@/pages/ComprehensivePhaseTest';
 import AutonomousGOSITest from '@/pages/AutonomousGOSITest';
+import IntelligentVisaTest from '@/pages/IntelligentVisaTest';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -77,6 +78,7 @@ export default function AppRoutes() {
           <Route path="core-business-test" element={<CoreBusinessTest />} />
           <Route path="comprehensive-test" element={<ComprehensivePhaseTest />} />
           <Route path="autonomous-gosi-test" element={<AutonomousGOSITest />} />
+          <Route path="intelligent-visa-test" element={<IntelligentVisaTest />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
