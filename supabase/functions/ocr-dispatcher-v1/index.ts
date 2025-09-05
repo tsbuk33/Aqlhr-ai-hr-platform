@@ -142,7 +142,7 @@ async function extractWithProvider(provider: string, fileUrl: string, job: any):
         const lines: string[] = [];
         const pages = jr.analyzeResult?.readResults || jr.analyzeResult?.pages || [];
         for (const p of pages) {
-          const pls = p.lines || p.lines ?? [];
+          const pls = p.lines ?? [];
           for (const l of pls) lines.push(l.text || '');
         }
         return lines.join('\n');
