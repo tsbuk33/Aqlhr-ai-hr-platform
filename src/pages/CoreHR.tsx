@@ -313,11 +313,6 @@ const CoreHR = () => {
           />
         </TabsContent>
       </Tabs>
-
-      <AqlHRAIAssistant 
-        moduleContext="core-hr" 
-        companyId="demo-company"
-      />
       
       {/* AI Integration for Core HR */}
       <UniversalAIIntegrator 

@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Brain, Zap, Bot, TrendingUp, Shield, Users, ArrowRight, Play } from 'lucide-react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { AqlHRAIAssistant } from '@/components/ai';
+
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -143,8 +143,6 @@ const AIPage: React.FC = () => {
       <div className="mt-8">
         <AIToolsTester moduleContext="ai.platform" />
       </div>
-      
-      <AqlHRAIAssistant moduleContext="ai.platform" />
 
       {/* Universal AI Integration */}
       <UniversalAIIntegrator 

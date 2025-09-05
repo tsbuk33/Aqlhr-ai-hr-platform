@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Users, DollarSign, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
-import { AqlHRAIAssistant } from '@/components/ai';
+
 import { AITestDemo } from '@/components/AITestDemo';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import AIAnalyticsInsights from '@/components/analytics/AIAnalyticsInsights';
@@ -470,8 +470,6 @@ const AnalyticsPage: React.FC = () => {
       
       {/* AI Tools Testing Suite */}
       <AIToolsTester moduleContext="analytics.dashboard" />
-      
-      <AqlHRAIAssistant moduleContext="analytics.dashboard" />
 
       {/* Universal AI Integration */}
       <UniversalAIIntegrator 

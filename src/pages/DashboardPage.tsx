@@ -452,9 +452,6 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* AI Assistant */}
-      <AqlHRAIAssistant moduleContext="dashboard.executive" />
-
       {/* Developer Tools (shows in dev mode or demo/impersonation) */}
       {(demoMode || isImpersonated) && (
         <DeveloperTools 

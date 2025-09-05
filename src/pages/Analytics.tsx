@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/hooks/useLanguageCompat";
-import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import AIQueryInterface from "@/components/ai/AIQueryInterface";
 import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
@@ -594,11 +593,6 @@ const Analytics = () => {
           <ModuleDocumentUploader moduleKey="analytics" />
         </TabsContent>
       </Tabs>
-
-      <AqlHRAIAssistant 
-        moduleContext="analytics" 
-        companyId="demo-company"
-      />
       
       {/* AI Integration for Analytics */}
       <UniversalAIIntegrator 

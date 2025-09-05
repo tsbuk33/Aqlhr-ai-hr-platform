@@ -1,5 +1,4 @@
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
-import { AqlHRAIAssistant } from '@/components/ai';
 import { EnhancedAIShowcase } from '@/components/ai/EnhancedAIShowcase';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 

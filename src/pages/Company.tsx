@@ -390,8 +390,6 @@ const Company: React.FC = () => {
         ))}
       </Tabs>
       
-      <AqlHRAIAssistant moduleContext="company.intelligence" />
-      
       {/* AI Integration for Company Management */}
       <UniversalAIIntegrator 
         pageType="general" 

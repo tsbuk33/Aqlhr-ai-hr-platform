@@ -303,7 +303,6 @@ const Consulting = () => {
       </Tabs>
       
       <ModuleDocumentUploader moduleKey="consulting.services" />
-      <AqlHRAIAssistant moduleContext="consulting.services" />
       
       {/* AI Integration for Consulting Services */}
       <UniversalAIIntegrator 

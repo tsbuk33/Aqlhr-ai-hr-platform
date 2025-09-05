@@ -2,7 +2,6 @@ import React from 'react';
 import ObservabilityDashboard from '@/components/analytics/ObservabilityDashboard';
 import FeedbackWidget from '@/components/feedback/FeedbackWidget';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useLanguage } from "@/hooks/useLanguageCompat";
 
@@ -63,8 +62,6 @@ const DebugPage: React.FC = () => {
         position="fixed"
       />
 
-      {/* AI Assistant */}
-      <AqlHRAIAssistant moduleContext="debug.testing" />
       
       {/* AI Integration for Debug */}
       <UniversalAIIntegrator 
