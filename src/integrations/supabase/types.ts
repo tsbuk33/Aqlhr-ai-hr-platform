@@ -1661,6 +1661,57 @@ export type Database = {
         }
         Relationships: []
       }
+      automation_metrics: {
+        Row: {
+          action: string
+          automation_score: number
+          autonomy_level: number
+          command_type: string
+          complexity: string
+          created_at: string
+          execution_time: string
+          id: string
+          metadata: Json | null
+          module: string | null
+          success: boolean
+          tasks_completed: string[]
+          tenant_id: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          automation_score?: number
+          autonomy_level?: number
+          command_type: string
+          complexity?: string
+          created_at?: string
+          execution_time?: string
+          id?: string
+          metadata?: Json | null
+          module?: string | null
+          success?: boolean
+          tasks_completed?: string[]
+          tenant_id: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          automation_score?: number
+          autonomy_level?: number
+          command_type?: string
+          complexity?: string
+          created_at?: string
+          execution_time?: string
+          id?: string
+          metadata?: Json | null
+          module?: string | null
+          success?: boolean
+          tasks_completed?: string[]
+          tenant_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       benefit_plans: {
         Row: {
           annual_premium: number | null
@@ -12800,6 +12851,17 @@ export type Database = {
           id: string
           name_ar: string
           name_en: string
+        }[]
+      }
+      get_automation_metrics_v1: {
+        Args: { p_days?: number; p_tenant_id: string }
+        Returns: {
+          automation_rate: number
+          avg_automation_score: number
+          daily_metrics: Json
+          successful_commands: number
+          top_automated_actions: string[]
+          total_commands: number
         }[]
       }
       get_cities_by_region: {
