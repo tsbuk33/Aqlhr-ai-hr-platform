@@ -9,6 +9,7 @@ import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
 import Welcome from '@/pages/Welcome';
 import AqlHRWelcome from '@/pages/AqlHRWelcome';
+import { TestAI } from '@/pages/TestAI';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -67,6 +68,7 @@ export default function AppRoutes() {
         <Route element={<DashboardLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="main-dashboard" element={<Dashboard />} />
+          <Route path="test-ai" element={<TestAI />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
