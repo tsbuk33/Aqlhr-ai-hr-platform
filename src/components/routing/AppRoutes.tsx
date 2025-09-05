@@ -13,6 +13,7 @@ import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
 import ComprehensivePhaseTest from '@/pages/ComprehensivePhaseTest';
+import AutonomousGOSITest from '@/pages/AutonomousGOSITest';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -75,6 +76,7 @@ export default function AppRoutes() {
           <Route path="data-foundation-test" element={<DataFoundationTest />} />
           <Route path="core-business-test" element={<CoreBusinessTest />} />
           <Route path="comprehensive-test" element={<ComprehensivePhaseTest />} />
+          <Route path="autonomous-gosi-test" element={<AutonomousGOSITest />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
