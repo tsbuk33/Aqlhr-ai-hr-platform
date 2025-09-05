@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import SystemEngineerDashboard from '@/components/SystemEngineerDashboard';
-import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
 const SystemEngineerPage = () => {
@@ -11,7 +10,6 @@ const SystemEngineerPage = () => {
   return (
     <>
       <SystemEngineerDashboard />
-      <AqlHRAIAssistant moduleContext="systemEngineer.dashboard" />
       
       {/* AI Integration for System Engineer */}
       <UniversalAIIntegrator 
