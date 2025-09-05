@@ -63,7 +63,7 @@ export const UnifiedBackendMonitor: React.FC = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState('24h');
 
   // Fetch backend metrics
-  const { data: metrics, isLoading, error } = useUnifiedQuery<BackendMetrics>(
+  const { data: metrics, isLoading, error } = useUnifiedQuery(
     ['backend', 'metrics', selectedTimeframe],
     '/system/backend/metrics',
     { timeframe: selectedTimeframe },

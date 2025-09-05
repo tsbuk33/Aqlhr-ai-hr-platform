@@ -26,12 +26,12 @@ export const useUnifiedAPI = () => {
   /**
    * Execute API request with role-based access control
    */
-  const executeRequest = useCallback(async <T = any>(
+  const executeRequest = useCallback(async (
     endpoint: string,
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
     data?: any,
     params?: Record<string, any>
-  ): Promise<APIResponse<T>> => {
+  ): Promise<APIResponse> => {
     if (!tenantInfo?.tenantId) {
       throw new Error('Tenant information not available');
     }
@@ -45,13 +45,13 @@ export const useUnifiedAPI = () => {
       tenantId: tenantInfo.tenantId
     };
 
-    return unifiedAPI.execute<T>(request);
+    return unifiedAPI.execute(request);
   }, [userRole, tenantInfo?.tenantId]);
 
   /**
    * React Query hook for GET requests
    */
-  const useUnifiedQuery = <T = any>(
+  const useUnifiedQuery = (
     queryKey: string[],
     endpoint: string,
     params?: Record<string, any>,
@@ -59,7 +59,7 @@ export const useUnifiedAPI = () => {
   ) => {
     return useQuery({
       queryKey: [...queryKey, userRole, tenantInfo?.tenantId],
-      queryFn: () => executeRequest<T>(endpoint, 'GET', undefined, params),
+      queryFn: () => executeRequest(endpoint, 'GET', undefined, params),
       enabled: options?.enabled !== false && !!tenantInfo?.tenantId,
       staleTime: options?.staleTime || 5 * 60 * 1000, // 5 minutes
       retry: options?.retry !== false,
@@ -70,18 +70,18 @@ export const useUnifiedAPI = () => {
   /**
    * React Query mutation hook for write operations
    */
-  const useUnifiedMutation = <T = any, V = any>(
+  const useUnifiedMutation = (
     endpoint: string,
     method: 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'POST',
     options?: {
-      onSuccess?: (data: T) => void;
+      onSuccess?: (data: any) => void;
       onError?: (error: Error) => void;
       invalidateQueries?: string[];
     }
   ) => {
     return useMutation({
-      mutationFn: (variables: { data?: V; params?: Record<string, any> }) =>
-        executeRequest<T>(endpoint, method, variables.data, variables.params),
+      mutationFn: (variables: { data?: any; params?: Record<string, any> }) =>
+        executeRequest(endpoint, method, variables.data, variables.params),
       onSuccess: (response) => {
         if (response.success && options?.onSuccess) {
           options.onSuccess(response.data);
