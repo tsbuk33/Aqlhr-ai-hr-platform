@@ -2,11 +2,30 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import { DashboardHeader } from '../DashboardHeader';
-import { SuperAdminSidebar } from '@/components/sidebars/SuperAdminSidebar';
+import { useUserRole } from '@/hooks/useUserRole';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { SuperAdminSidebar } from '@/components/sidebars/SuperAdminSidebar';
+import { AdminSidebar } from '@/components/sidebars/AdminSidebar';
+import { HRManagerSidebar } from '@/components/sidebars/HRManagerSidebar';
+import { ManagerSidebar } from '@/components/sidebars/ManagerSidebar';
+import { EmployeeSidebar } from '@/components/sidebars/EmployeeSidebar';
 
 const RoleBasedSidebar: React.FC = () => {
-  return <SuperAdminSidebar />;
+  const { userRole } = useUserRole();
+  
+  switch (userRole) {
+    case 'super_admin':
+      return <SuperAdminSidebar />;
+    case 'admin':
+      return <AdminSidebar />;
+    case 'hr_manager':
+      return <HRManagerSidebar />;
+    case 'manager':
+      return <ManagerSidebar />;
+    case 'employee':
+    default:
+      return <EmployeeSidebar />;
+  }
 };
 
 export const DashboardLayout: React.FC = () => {
