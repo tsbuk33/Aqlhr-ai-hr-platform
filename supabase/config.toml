@@ -98,3 +98,6 @@ verify_jwt = false
 
 [functions.kernel-worker-v1]
 verify_jwt = false
+
+[functions.ai-assistant]
+verify_jwt = false
