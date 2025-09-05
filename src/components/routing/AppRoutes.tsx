@@ -15,6 +15,8 @@ import CoreBusinessTest from '@/pages/CoreBusinessTest';
 import ComprehensivePhaseTest from '@/pages/ComprehensivePhaseTest';
 import AutonomousGOSITest from '@/pages/AutonomousGOSITest';
 import IntelligentVisaTest from '@/pages/IntelligentVisaTest';
+import SaudizationOptimizationTest from '@/pages/SaudizationOptimizationTest';
+import WPSAutomationTest from '@/pages/WPSAutomationTest';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -79,6 +81,8 @@ export default function AppRoutes() {
           <Route path="comprehensive-test" element={<ComprehensivePhaseTest />} />
           <Route path="autonomous-gosi-test" element={<AutonomousGOSITest />} />
           <Route path="intelligent-visa-test" element={<IntelligentVisaTest />} />
+          <Route path="saudization-optimization-test" element={<SaudizationOptimizationTest />} />
+          <Route path="wps-automation-test" element={<WPSAutomationTest />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
