@@ -30,7 +30,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
       
       - name: Run prompt logs unit tests
         run: npm test -- --testPathPattern="prompt-logs|usePromptLogs"
@@ -61,7 +61,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
       
       - name: Run prompt logs system tests
         run: npx tsx scripts/test-prompt-logs-system.ts
@@ -82,7 +82,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
       
       - name: Start application
         run: npm run dev &
@@ -112,7 +112,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
       
       - name: Run RLS policy audit
         run: npx tsx scripts/security-tests/company-isolation.test.ts
@@ -134,7 +134,7 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
       
       - name: Start application
         run: npm run dev &

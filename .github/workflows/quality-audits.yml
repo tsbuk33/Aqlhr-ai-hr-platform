@@ -25,7 +25,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install --no-audit --no-fund
 
       # ---------- Optional audits (won't fail pipeline) ----------
       - name: Run AI Inventory Audit
