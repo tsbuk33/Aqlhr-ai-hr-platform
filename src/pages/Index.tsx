@@ -5,7 +5,7 @@ import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
 import { SaudiHeroSection } from "@/components/saudi/SaudiHeroSection";
 import { AnnouncementsSection } from "@/components/saudi/AnnouncementsSection";
-import { VirtualAssistant } from "@/components/saudi/VirtualAssistant";
+import { VirtualAssistant as AdvancedVirtualAssistant } from "@/components/ai/VirtualAssistant";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
   Users, 
@@ -1845,8 +1845,14 @@ const Index = () => {
         </div>
       </div>
       
-      {/* Virtual Assistant */}
-      <VirtualAssistant />
+      {/* Advanced Virtual Assistant with Autonomous AI */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <AdvancedVirtualAssistant 
+          moduleContext="homepage_assistant" 
+          companyId="demo-company"
+          className="w-96 h-[500px] shadow-2xl"
+        />
+      </div>
       
       {/* Super-Intelligent AI Agent */}
       <AqlHRAIAssistant 

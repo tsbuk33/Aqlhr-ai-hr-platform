@@ -388,6 +388,7 @@ export const ROUTES: RouteConfig[] = [
 
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
+  { path: '/compliance/predictor', element: CompliancePredictor, auth: true, adminOnly: true },
   { path: '/compliance/autopilot', element: lazy(() => import('../pages/compliance/ComplianceAutopilotGated')), auth: true },
   { path: '/compliance/regulatory', element: RegulatoryCompliance, auth: true, adminOnly: true },
   { path: '/compliance/committees', element: CommitteeManagement, auth: true, adminOnly: true },

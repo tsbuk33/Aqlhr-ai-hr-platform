@@ -33,6 +33,9 @@ class SimpleEventEmitter {
   }
 }
 
+import { ModelPrediction, ValidatedPrediction, EnhancedDecision } from './EnhancedDecisionTypes';
+import { EnhancedDecisionMethods } from './EnhancedDecisionMethods';
+
 // Decision interfaces
 export interface DecisionContext {
   tenantId: string;
