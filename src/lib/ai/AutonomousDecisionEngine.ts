@@ -4,7 +4,34 @@
  * Combines Random Forest, Neural Network, and Rule-based models for maximum accuracy
  */
 
-import { EventEmitter } from 'events';
+// Simple event system for browser compatibility
+class SimpleEventEmitter {
+  private listeners: Map<string, Function[]> = new Map();
+
+  on(event: string, listener: Function) {
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
+    }
+    this.listeners.get(event)!.push(listener);
+  }
+
+  emit(event: string, data?: any) {
+    const eventListeners = this.listeners.get(event);
+    if (eventListeners) {
+      eventListeners.forEach(listener => listener(data));
+    }
+  }
+
+  off(event: string, listener: Function) {
+    const eventListeners = this.listeners.get(event);
+    if (eventListeners) {
+      const index = eventListeners.indexOf(listener);
+      if (index > -1) {
+        eventListeners.splice(index, 1);
+      }
+    }
+  }
+}
 
 // Decision interfaces
 export interface DecisionContext {
@@ -94,7 +121,7 @@ export interface ModelPerformance {
   reliability: number;
 }
 
-export class AutonomousDecisionEngine extends EventEmitter {
+export class AutonomousDecisionEngine extends SimpleEventEmitter {
   public isInitialized: boolean = false;
   private models: {
     randomForest: any;

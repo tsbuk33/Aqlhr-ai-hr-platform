@@ -4,7 +4,35 @@
  * Integrates with the main Autonomous Decision Engine for maximum accuracy
  */
 
-import { EventEmitter } from 'events';
+// Simple event system for browser compatibility
+class SimpleEventEmitter {
+  private listeners: Map<string, Function[]> = new Map();
+
+  on(event: string, listener: Function) {
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
+    }
+    this.listeners.get(event)!.push(listener);
+  }
+
+  emit(event: string, data?: any) {
+    const eventListeners = this.listeners.get(event);
+    if (eventListeners) {
+      eventListeners.forEach(listener => listener(data));
+    }
+  }
+
+  off(event: string, listener: Function) {
+    const eventListeners = this.listeners.get(event);
+    if (eventListeners) {
+      const index = eventListeners.indexOf(listener);
+      if (index > -1) {
+        eventListeners.splice(index, 1);
+      }
+    }
+  }
+}
+
 import { autonomousDecisionEngine, DecisionContext, DecisionResult } from './AutonomousDecisionEngine';
 
 export interface GOSIEmployeeData {
@@ -53,7 +81,7 @@ export interface GOSIAutomationMetrics {
   costSavings: number;
 }
 
-export class AutonomousGOSIEngine extends EventEmitter {
+export class AutonomousGOSIEngine extends SimpleEventEmitter {
   private isInitialized: boolean = false;
   private employees: Map<string, GOSIEmployeeData> = new Map();
   private detectedErrors: Map<string, GOSIError> = new Map();
