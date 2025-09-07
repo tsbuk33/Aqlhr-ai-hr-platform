@@ -93,7 +93,7 @@ const getPlatformModules = (isArabic: boolean) => [
       { title: isArabic ? "معالجة اللغة العربية/الإنجليزية" : "Arabic/English NLP", url: "/ai-automation/arabic-english-nlp" },
       { title: isArabic ? "سير العمل التلقائي" : "Automated Workflows", url: "/ai-automation/automated-workflow" },
       { title: isArabic ? "مساعد التوظيف" : "Onboarding Assistant", url: "/ai-automation/onboarding-assistant" },
-      { title: isArabic ? "محرك التوافق" : "Compliance Predictor", url: "/ai-automation/compliance-predictor" },
+      { title: isArabic ? "محرك التوافق" : "Compliance Predictor", url: "/compliance/predictor" },
     ]
   },
   // Government Integrations

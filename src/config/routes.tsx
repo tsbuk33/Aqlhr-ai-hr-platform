@@ -388,7 +388,7 @@ export const ROUTES: RouteConfig[] = [
 
   // Compliance routes - admin only
   { path: '/compliance', element: ComplianceOverview, auth: true, adminOnly: true },
-  { path: '/compliance/predictor', element: CompliancePredictor, auth: true, adminOnly: true },
+  { path: '/compliance/predictor', element: CompliancePredictor, auth: true },
   { path: '/compliance/autopilot', element: lazy(() => import('../pages/compliance/ComplianceAutopilotGated')), auth: true },
   { path: '/compliance/regulatory', element: RegulatoryCompliance, auth: true, adminOnly: true },
   { path: '/compliance/committees', element: CommitteeManagement, auth: true, adminOnly: true },
@@ -447,7 +447,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-automation/document-intelligence', element: DocumentIntelligence, auth: true, adminOnly: true },
   { path: '/ai-automation/arabic-english-nlp', element: ArabicEnglishNLP, auth: true, adminOnly: true },
   { path: '/ai-automation/automated-workflow', element: AutomatedWorkflowEngine, auth: true, adminOnly: true },
-  { path: '/ai-automation/compliance-predictor', element: CompliancePredictor, auth: true, adminOnly: true },
+  
   
   // Employee Welfare & Safety Routes
   { path: '/welfare-safety/compliance-dashboard', element: WelfareComplianceDashboard, auth: true },
