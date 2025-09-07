@@ -1,12 +1,18 @@
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Shield, AlertTriangle, TrendingDown, CheckCircle, Brain, Activity } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Shield, AlertTriangle, TrendingDown, CheckCircle, Brain, Activity, Zap, Target, TrendingUp, Clock } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguageCompat";
+import { useToast } from "@/hooks/use-toast";
 import EduBox from "@/components/EduBox";
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
+import { VirtualAssistant } from '@/components/ai/VirtualAssistant';
+import { autonomousDecisionEngine } from '@/lib/ai/AutonomousDecisionEngine';
+import { autonomousGOSIEngine } from '@/lib/ai/AutonomousGOSIEngine';
 
 const CompliancePredictor = () => {
   const { t } = useLanguage();
