@@ -30,7 +30,7 @@ jobs:
         id: ai-audit
         run: |
           echo "::group::AI Inventory Audit"
-          npm run audit:ai || echo "ai_audit_failed=true" >> $GITHUB_OUTPUT
+          npx tsx scripts/audit-ai-inventory.ts || echo "ai_audit_failed=true" >> $GITHUB_OUTPUT
           echo "::endgroup::"
         continue-on-error: true
         
@@ -38,7 +38,7 @@ jobs:
         id: reliability-check
         run: |
           echo "::group::Reliability Verification"
-          npm run verify:uptime || echo "reliability_failed=true" >> $GITHUB_OUTPUT
+          npx tsx scripts/verify-uptime.ts || echo "reliability_failed=true" >> $GITHUB_OUTPUT
           echo "::endgroup::"
         continue-on-error: true
         
@@ -46,14 +46,14 @@ jobs:
         id: locale-audit
         run: |
           echo "::group::Locale Compliance Audit" 
-          npm run audit:locale || echo "locale_audit_failed=true" >> $GITHUB_OUTPUT
+          npx tsx scripts/audit-edge-locale.ts || echo "locale_audit_failed=true" >> $GITHUB_OUTPUT
           echo "::endgroup::"
         continue-on-error: true
         
       - name: Generate Comprehensive Report
         run: |
           echo "::group::Comprehensive Report Generation"
-          npm run audit:all
+          npx tsx scripts/run-comprehensive-audit.ts
           echo "::endgroup::"
           
       - name: Upload Audit Reports
