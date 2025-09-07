@@ -160,6 +160,7 @@ const PredictiveAnalyticsEngine = lazy(() => import('../pages/ai-automation/Pred
 const DocumentIntelligence = lazy(() => import('../pages/ai-automation/DocumentIntelligence'));
 const ArabicEnglishNLP = lazy(() => import('../pages/ai-automation/ArabicEnglishNLP'));
 const AutomatedWorkflowEngine = lazy(() => import('../pages/ai-automation/AutomatedWorkflowEngine'));
+const CompliancePredictor = lazy(() => import('../pages/ai-automation/CompliancePredictor'));
 
 // Employee Welfare & Safety modules
 const WelfareComplianceDashboard = lazy(() => import('../pages/welfare-safety/WelfareComplianceDashboard'));
@@ -445,6 +446,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-automation/document-intelligence', element: DocumentIntelligence, auth: true, adminOnly: true },
   { path: '/ai-automation/arabic-english-nlp', element: ArabicEnglishNLP, auth: true, adminOnly: true },
   { path: '/ai-automation/automated-workflow', element: AutomatedWorkflowEngine, auth: true, adminOnly: true },
+  { path: '/ai-automation/compliance-predictor', element: CompliancePredictor, auth: true, adminOnly: true },
   
   // Employee Welfare & Safety Routes
   { path: '/welfare-safety/compliance-dashboard', element: WelfareComplianceDashboard, auth: true },
