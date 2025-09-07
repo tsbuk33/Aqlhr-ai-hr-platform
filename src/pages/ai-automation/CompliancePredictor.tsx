@@ -11,8 +11,6 @@ import EduBox from "@/components/EduBox";
 import { AqlHRAIAssistant } from '@/components/ai';
 import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
 import { VirtualAssistant } from '@/components/ai/VirtualAssistant';
-import { autonomousDecisionEngine } from '@/lib/ai/AutonomousDecisionEngine';
-import { autonomousGOSIEngine } from '@/lib/ai/AutonomousGOSIEngine';
 
 const CompliancePredictor = () => {
   const { t } = useLanguage();
@@ -27,12 +25,6 @@ const CompliancePredictor = () => {
       try {
         setIsMonitoring(true);
         
-        // Connect to autonomous engines
-        await Promise.all([
-          autonomousDecisionEngine.isInitialized ? Promise.resolve() : new Promise(resolve => setTimeout(resolve, 1000)),
-          autonomousGOSIEngine ? Promise.resolve() : new Promise(resolve => setTimeout(resolve, 500))
-        ]);
-
         // Generate real-time predictions
         generateCompliancePredictions();
         
@@ -57,16 +49,6 @@ const CompliancePredictor = () => {
   }, []);
 
   const generateCompliancePredictions = async () => {
-    const context = {
-      tenantId: 'demo-company',
-      userId: 'system',
-      moduleContext: 'compliance_prediction',
-      requestType: 'risk_forecast',
-      inputData: { timeframe: '90_days', modules: ['gosi', 'qiwa', 'mol'] },
-      priority: 'critical' as const,
-      requiredAccuracy: 0.999
-    };
-
     const predictions = [
       {
         id: 'pred_001',
@@ -189,60 +171,122 @@ const CompliancePredictor = () => {
           </CardContent>
         </Card>
       )}
-      <Card className="border-brand-warning/20">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Brain className="h-5 w-5 text-brand-warning" />
-            ChatGPT Configuration
-          </CardTitle>
-          <CardDescription>AI parameters for compliance risk prediction</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-muted-foreground">Model</div>
-              <Badge variant="outline" className="bg-blue-50 text-blue-700">gpt-4-turbo-instruct</Badge>
-            </div>
-            <div className="space-y-2">
-              <div className="text-sm font-medium text-muted-foreground">Temperature</div>
-              <Badge variant="outline" className="bg-green-50 text-green-700">0.0</Badge>
-            </div>
-          </div>
-          <div className="pt-4 border-t">
-            <div className="text-sm font-medium text-muted-foreground mb-2">Prompt Template</div>
-            <div className="p-3 bg-muted rounded-md text-sm font-mono">
-              "Analyze compliance risk patterns from historical data: &#123;&#123; audit_history &#125;&#125;. Current status: &#123;&#123; current_metrics &#125;&#125;. Predict potential violations and recommend preventive actions."
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
-      {/* KPI Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Risk Prediction Precision</CardTitle>
-            <Shield className="h-4 w-4 text-brand-success" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-brand-success">91.8%</div>
-            <p className="text-xs text-muted-foreground">Accuracy in identifying actual risks</p>
-            <Progress value={91.8} className="h-2 mt-2" />
-          </CardContent>
-        </Card>
+      {/* Government Regulations Monitoring */}
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="mol">MOL</TabsTrigger>
+          <TabsTrigger value="gosi">GOSI</TabsTrigger>
+          <TabsTrigger value="qiwa">Qiwa</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-4">
+          <Card className="border-brand-warning/20">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Brain className="h-5 w-5 text-brand-warning" />
+                AI Risk Assessment Matrix
+              </CardTitle>
+              <CardDescription>Predictive compliance scoring across all government platforms</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">MOL Compliance</div>
+                  <Progress value={96.8} className="h-3" />
+                  <Badge variant="outline" className="bg-green-50 text-green-700">96.8% - Excellent</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">GOSI Integration</div>
+                  <Progress value={94.2} className="h-3" />
+                  <Badge variant="outline" className="bg-green-50 text-green-700">94.2% - Good</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">Qiwa Portal</div>
+                  <Progress value={91.5} className="h-3" />
+                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700">91.5% - Needs Attention</Badge>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">False Positive Rate</CardTitle>
-            <TrendingDown className="h-4 w-4 text-brand-accent" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-brand-accent">4.2%</div>
-            <p className="text-xs text-muted-foreground">Lower is better - target &lt;5%</p>
-            <Progress value={4.2} className="h-2 mt-2" />
-          </CardContent>
-        </Card>
-      </div>
+        <TabsContent value="mol" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Ministry of Labor (MOL) Compliance</CardTitle>
+              <CardDescription>Real-time monitoring of labor law compliance</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Labor Contract Compliance</div>
+                    <div className="text-2xl font-bold text-green-600">98.5%</div>
+                    <div className="text-sm text-muted-foreground">All contracts properly documented</div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Working Hours Compliance</div>
+                    <div className="text-2xl font-bold text-yellow-600">85.2%</div>
+                    <div className="text-sm text-muted-foreground">3 violations detected this month</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="gosi" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>GOSI Integration Status</CardTitle>
+              <CardDescription>General Organization for Social Insurance monitoring</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Contribution Payments</div>
+                    <div className="text-2xl font-bold text-green-600">100%</div>
+                    <div className="text-sm text-muted-foreground">All payments up to date</div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Registration Status</div>
+                    <div className="text-2xl font-bold text-blue-600">94.7%</div>
+                    <div className="text-sm text-muted-foreground">2 employees need registration</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="qiwa" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Qiwa Platform Integration</CardTitle>
+              <CardDescription>Saudi employment platform compliance monitoring</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Saudization Rate</div>
+                    <div className="text-2xl font-bold text-green-600">76.3%</div>
+                    <div className="text-sm text-muted-foreground">Above minimum requirement</div>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <div className="font-medium">Visa Utilization</div>
+                    <div className="text-2xl font-bold text-orange-600">89.1%</div>
+                    <div className="text-sm text-muted-foreground">High utilization rate</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
 
       {/* Risk Dashboard */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -315,60 +359,53 @@ const CompliancePredictor = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-brand-success" />
-              Preventive Actions
+              Automated Compliance Alerts
             </CardTitle>
-            <CardDescription>AI-recommended compliance measures</CardDescription>
+            <CardDescription>Real-time notifications and preventive actions</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
                 {
-                  action: "Update GOSI Payment Schedule",
-                  priority: "Urgent",
-                  effort: "Low",
-                  impact: "High",
-                  deadline: "3 days"
+                  alert: "GOSI Payment Due Reminder",
+                  status: "Active",
+                  severity: "High",
+                  action: "Payment scheduled for tomorrow",
+                  time: "2 hours ago"
                 },
                 {
-                  action: "Review Saudization Targets",
-                  priority: "High",
-                  effort: "Medium", 
-                  impact: "High",
-                  deadline: "1 week"
+                  alert: "Saudization Rate Warning",
+                  status: "Resolved",
+                  severity: "Medium", 
+                  action: "New Saudi employee hired",
+                  time: "1 day ago"
                 },
                 {
-                  action: "Complete Employment Contract Audit",
-                  priority: "Critical",
-                  effort: "High",
-                  impact: "Very High", 
-                  deadline: "2 days"
+                  alert: "Training Compliance Check",
+                  status: "Pending",
+                  severity: "Low",
+                  action: "Schedule employee training",
+                  time: "3 hours ago"
                 },
-              ].map((action, index) => (
+              ].map((alert, index) => (
                 <div key={index} className="p-4 border rounded-lg space-y-3">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="font-medium text-foreground">{action.action}</div>
-                      <div className="text-sm text-muted-foreground">Due in {action.deadline}</div>
+                      <div className="font-medium text-foreground">{alert.alert}</div>
+                      <div className="text-sm text-muted-foreground">{alert.action}</div>
                     </div>
-                    <Badge 
-                      variant={action.priority === 'Critical' ? 'destructive' : action.priority === 'Urgent' ? 'default' : 'secondary'}
-                      className="text-xs"
-                    >
-                      {action.priority}
-                    </Badge>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <div className="text-muted-foreground">Effort Required</div>
-                      <div className="font-medium">{action.effort}</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground">Expected Impact</div>
-                      <div className="font-medium text-brand-success">{action.impact}</div>
+                    <div className="flex flex-col items-end gap-1">
+                      <Badge 
+                        variant={alert.status === 'Active' ? 'default' : alert.status === 'Resolved' ? 'secondary' : 'outline'}
+                        className="text-xs"
+                      >
+                        {alert.status}
+                      </Badge>
+                      <span className="text-xs text-muted-foreground">{alert.time}</span>
                     </div>
                   </div>
-                  <Button size="sm" className="w-full">
-                    Start Action
+                  <Button size="sm" className="w-full" disabled={alert.status === 'Resolved'}>
+                    {alert.status === 'Resolved' ? 'Completed' : 'Take Action'}
                   </Button>
                 </div>
               ))}
@@ -381,27 +418,27 @@ const CompliancePredictor = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Activity className="h-5 w-5 text-brand-primary" />
-            Compliance Trend Analysis
+            <TrendingUp className="h-5 w-5 text-brand-primary" />
+            Predictive Analytics Summary
           </CardTitle>
-          <CardDescription>Historical patterns and future projections</CardDescription>
+          <CardDescription>AI-powered compliance forecasting and trend analysis</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-brand-success">96.8%</div>
+              <div className="text-3xl font-bold text-brand-success">96.8%</div>
               <div className="text-sm text-muted-foreground">Current Compliance Score</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-brand-warning">3</div>
+              <div className="text-3xl font-bold text-brand-warning">3</div>
               <div className="text-sm text-muted-foreground">Predicted Risks This Month</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-brand-accent">12</div>
+              <div className="text-3xl font-bold text-brand-accent">12</div>
               <div className="text-sm text-muted-foreground">Preventive Actions Taken</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-brand-primary">99.2%</div>
+              <div className="text-3xl font-bold text-brand-primary">99.2%</div>
               <div className="text-sm text-muted-foreground">Projected Score (Next Month)</div>
             </div>
           </div>
