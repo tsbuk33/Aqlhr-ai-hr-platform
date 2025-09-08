@@ -1,0 +1,127 @@
+{
+  "timestamp": "2025-09-08T14:49:54.122010",
+  "base_url": "https://xlhyimcdyljv.manus.space",
+  "tests": {
+    "ssl_certificate": {
+      "status": "PASS",
+      "subject": [
+        [
+          [
+            "commonName",
+            "manus.space"
+          ]
+        ]
+      ],
+      "issuer": [
+        [
+          [
+            "countryName",
+            "US"
+          ]
+        ],
+        [
+          [
+            "organizationName",
+            "Google Trust Services"
+          ]
+        ],
+        [
+          [
+            "commonName",
+            "WE1"
+          ]
+        ]
+      ],
+      "version": 3,
+      "not_after": "Nov 23 03:22:57 2025 GMT",
+      "not_before": "Aug 25 02:24:22 2025 GMT"
+    },
+    "security_headers": {
+      "X-Content-Type-Options": {
+        "status": "MISSING"
+      },
+      "X-Frame-Options": {
+        "status": "MISSING"
+      },
+      "X-XSS-Protection": {
+        "status": "MISSING"
+      },
+      "Strict-Transport-Security": {
+        "status": "MISSING"
+      },
+      "Content-Security-Policy": {
+        "status": "MISSING"
+      },
+      "Referrer-Policy": {
+        "status": "MISSING"
+      }
+    },
+    "api_authentication": {
+      "/api/health": {
+        "status_code": 200,
+        "requires_auth": false
+      },
+      "/api/ai/status": {
+        "status_code": 200,
+        "requires_auth": false
+      },
+      "/api/employees/statistics/summary": {
+        "status_code": 200,
+        "requires_auth": false
+      },
+      "/api/vision2030/kpis": {
+        "status_code": 200,
+        "requires_auth": false
+      },
+      "/api/gosi/status": {
+        "status_code": 200,
+        "requires_auth": false
+      }
+    },
+    "input_validation": {
+      "sql_injection": "TESTED",
+      "xss_protection": "TESTED"
+    },
+    "rate_limiting": {
+      "status": "DISABLED"
+    }
+  },
+  "vulnerabilities": [
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing X-Content-Type-Options header"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing X-Frame-Options header"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing X-XSS-Protection header"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing Strict-Transport-Security header"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing Content-Security-Policy header"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "Security Headers",
+      "description": "Missing Referrer-Policy header"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "Rate Limiting",
+      "description": "Implement rate limiting to prevent DDoS attacks"
+    }
+  ]
+}
