@@ -1,0 +1,455 @@
+/* Universal Language Support CSS for AQLHR Platform */
+
+/* Root Variables for RTL/LTR Support */
+:root {
+  --text-align-start: left;
+  --text-align-end: right;
+  --margin-start: margin-left;
+  --margin-end: margin-right;
+  --padding-start: padding-left;
+  --padding-end: padding-right;
+  --border-start: border-left;
+  --border-end: border-right;
+  --transform-scale-x: 1;
+}
+
+/* Arabic RTL Layout */
+[dir="rtl"] {
+  --text-align-start: right;
+  --text-align-end: left;
+  --margin-start: margin-right;
+  --margin-end: margin-left;
+  --padding-start: padding-right;
+  --padding-end: padding-left;
+  --border-start: border-right;
+  --border-end: border-left;
+  --transform-scale-x: -1;
+}
+
+/* Universal Language Wrapper */
+.universal-language-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+}
+
+/* Arabic Layout Styles */
+.ar-layout {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.ar-layout * {
+  text-align: inherit;
+}
+
+.ar-layout .text-center {
+  text-align: center !important;
+}
+
+.ar-layout .text-left {
+  text-align: right !important;
+}
+
+.ar-layout .text-right {
+  text-align: left !important;
+}
+
+/* English Layout Styles */
+.en-layout {
+  direction: ltr;
+  text-align: left;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.en-layout * {
+  text-align: inherit;
+}
+
+.en-layout .text-center {
+  text-align: center !important;
+}
+
+.en-layout .text-left {
+  text-align: left !important;
+}
+
+.en-layout .text-right {
+  text-align: right !important;
+}
+
+/* RTL Layout Specific Styles */
+.rtl-layout {
+  direction: rtl;
+}
+
+.rtl-layout .flex {
+  flex-direction: row-reverse;
+}
+
+.rtl-layout .grid {
+  direction: rtl;
+}
+
+.rtl-layout .space-x-2 > * + * {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+.rtl-layout .space-x-4 > * + * {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+.rtl-layout .ml-2 {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+.rtl-layout .ml-4 {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+.rtl-layout .mr-2 {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+.rtl-layout .mr-4 {
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+.rtl-layout .pl-4 {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+.rtl-layout .pr-4 {
+  padding-left: 1rem;
+  padding-right: 0;
+}
+
+/* LTR Layout Specific Styles */
+.ltr-layout {
+  direction: ltr;
+}
+
+.ltr-layout .flex {
+  flex-direction: row;
+}
+
+.ltr-layout .grid {
+  direction: ltr;
+}
+
+/* Center Alignment for All Content */
+.universal-language-wrapper .max-w-7xl,
+.universal-language-wrapper .max-w-6xl,
+.universal-language-wrapper .max-w-5xl,
+.universal-language-wrapper .max-w-4xl,
+.universal-language-wrapper .max-w-3xl,
+.universal-language-wrapper .max-w-2xl,
+.universal-language-wrapper .max-w-xl {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Professional Typography */
+.ar-layout {
+  font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.ar-layout h1, .ar-layout h2, .ar-layout h3, .ar-layout h4, .ar-layout h5, .ar-layout h6 {
+  font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', sans-serif;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.en-layout {
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.en-layout h1, .en-layout h2, .en-layout h3, .en-layout h4, .en-layout h5, .en-layout h6 {
+  font-family: 'Inter', 'Roboto', 'Segoe UI', sans-serif;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Navigation and Sidebar RTL Support */
+.rtl-layout .sidebar {
+  right: 0;
+  left: auto;
+}
+
+.rtl-layout .sidebar-item {
+  text-align: right;
+  padding-right: 1rem;
+  padding-left: 0.5rem;
+}
+
+.rtl-layout .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+/* Button and Form RTL Support */
+.rtl-layout .btn-group {
+  flex-direction: row-reverse;
+}
+
+.rtl-layout .form-group {
+  text-align: right;
+}
+
+.rtl-layout .form-label {
+  text-align: right;
+  display: block;
+}
+
+.rtl-layout .form-control {
+  text-align: right;
+}
+
+/* Table RTL Support */
+.rtl-layout table {
+  direction: rtl;
+}
+
+.rtl-layout th, .rtl-layout td {
+  text-align: right;
+}
+
+.rtl-layout .table-responsive {
+  direction: rtl;
+}
+
+/* Card and Content RTL Support */
+.rtl-layout .card-header {
+  text-align: right;
+}
+
+.rtl-layout .card-body {
+  text-align: right;
+}
+
+.rtl-layout .card-footer {
+  text-align: right;
+}
+
+/* Modal RTL Support */
+.rtl-layout .modal-header {
+  text-align: right;
+}
+
+.rtl-layout .modal-body {
+  text-align: right;
+}
+
+.rtl-layout .modal-footer {
+  flex-direction: row-reverse;
+}
+
+/* Tabs RTL Support */
+.rtl-layout .tabs-list {
+  flex-direction: row-reverse;
+}
+
+.rtl-layout .tab-trigger {
+  text-align: center;
+}
+
+/* Progress Bar RTL Support */
+.rtl-layout .progress {
+  direction: ltr; /* Keep progress bars LTR for consistency */
+}
+
+/* Badge and Status RTL Support */
+.rtl-layout .badge {
+  text-align: center;
+}
+
+.rtl-layout .status-indicator {
+  text-align: right;
+}
+
+/* Animation and Transition Support */
+.universal-language-wrapper * {
+  transition: all 0.2s ease;
+}
+
+/* Responsive Design for Both Languages */
+@media (max-width: 768px) {
+  .universal-language-wrapper {
+    padding: 0.5rem;
+  }
+  
+  .ar-layout, .en-layout {
+    font-size: 14px;
+  }
+  
+  .rtl-layout .sidebar {
+    width: 100%;
+    position: relative;
+  }
+}
+
+@media (max-width: 480px) {
+  .ar-layout, .en-layout {
+    font-size: 13px;
+  }
+  
+  .universal-language-wrapper .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Print Support for Both Languages */
+@media print {
+  .ar-layout {
+    font-family: 'Arial Unicode MS', Arial, sans-serif;
+  }
+  
+  .en-layout {
+    font-family: Arial, sans-serif;
+  }
+  
+  .universal-language-wrapper {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Accessibility Support */
+.universal-language-wrapper:focus-within {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.ar-layout [aria-label],
+.en-layout [aria-label] {
+  position: relative;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .universal-language-wrapper {
+    background: white;
+    color: black;
+  }
+  
+  .universal-language-wrapper .card {
+    border: 2px solid black;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .universal-language-wrapper * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Dark Mode Support for Both Languages */
+@media (prefers-color-scheme: dark) {
+  .universal-language-wrapper {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .universal-language-wrapper .card {
+    background: #2a2a2a;
+    border-color: #404040;
+  }
+}
+
+/* Force Center Alignment for Main Content */
+.universal-language-wrapper .main-content,
+.universal-language-wrapper .page-content,
+.universal-language-wrapper .container,
+.universal-language-wrapper .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Ensure all text content is properly aligned */
+.ar-layout .main-content * {
+  text-align: center;
+}
+
+.en-layout .main-content * {
+  text-align: center;
+}
+
+/* Override any left/right alignment in main content */
+.universal-language-wrapper .main-content .text-left,
+.universal-language-wrapper .main-content .text-right {
+  text-align: center !important;
+}
+
+/* Specific fixes for common components */
+.universal-language-wrapper .card-title,
+.universal-language-wrapper .card-description,
+.universal-language-wrapper .page-title,
+.universal-language-wrapper .page-description {
+  text-align: center !important;
+  width: 100%;
+  display: block;
+}
+
+/* Tab content center alignment */
+.universal-language-wrapper .tabs-content {
+  text-align: center;
+  width: 100%;
+}
+
+.universal-language-wrapper .tab-content {
+  text-align: center;
+  width: 100%;
+}
+
+/* Button center alignment */
+.universal-language-wrapper .button-group,
+.universal-language-wrapper .btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Form center alignment */
+.universal-language-wrapper .form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grid center alignment */
+.universal-language-wrapper .grid {
+  justify-items: center;
+  align-items: center;
+}
+
+/* Flex center alignment */
+.universal-language-wrapper .flex {
+  justify-content: center;
+  align-items: center;
+}
+
