@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "name": "aqlhr-backend",
+  "alias": ["api.aqlhr.com"],
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/**/*.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/ai/(.*)",
+      "dest": "/api/ai/index.js"
+    },
+    {
+      "src": "/api/employees/(.*)",
+      "dest": "/api/employees/index.js"
+    },
+    {
+      "src": "/api/dashboard/(.*)",
+      "dest": "/api/dashboard/index.js"
+    },
+    {
+      "src": "/api/vision2030/(.*)",
+      "dest": "/api/vision2030/index.js"
+    },
+    {
+      "src": "/api/gosi/(.*)",
+      "dest": "/api/government/gosi.js"
+    },
+    {
+      "src": "/api/hrsd/(.*)",
+      "dest": "/api/government/hrsd.js"
+    },
+    {
+      "src": "/api/qiwa/(.*)",
+      "dest": "/api/government/qiwa.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Requested-With"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "ENVIRONMENT": "production",
+    "FRONTEND_URL": "https://www.aqlhr.com",
+    "API_URL": "https://api.aqlhr.com"
+  },
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30
+    },
+    "api/**/*.py": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1", "fra1"],
+  "framework": null
+}
+
