@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { useRTLLanguage } from '@/contexts/RTLLanguageContext';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 
 interface RTLSidebarProps {
   children: React.ReactNode;
@@ -22,41 +22,40 @@ export const RTLSidebar: React.FC<RTLSidebarProps> = ({
   isCollapsed = false,
   onToggle
 }) => {
-  const { direction, isArabic, t } = useRTLLanguage();
+  const { isRTL, t } = useLanguage();
 
   return (
     <aside
-      dir={direction}
+      dir={isRTL ? 'rtl' : 'ltr'}
       className={cn(
         // Base styles
         'flex flex-col bg-gray-900 text-white transition-all duration-300 ease-in-out',
         
         // RTL-specific positioning
-        isArabic ? 'border-l border-gray-700' : 'border-r border-gray-700',
+        isRTL ? 'border-l border-gray-700' : 'border-r border-gray-700',
         
         // Width management
         isCollapsed ? 'w-16' : 'w-64',
         
         // RTL text alignment
-        isArabic ? 'text-right' : 'text-left',
+        isRTL ? 'text-right' : 'text-left',
         
         // Custom classes
         className
       )}
       style={{
-        direction: direction,
-        textAlign: isArabic ? 'right' : 'left'
+        direction: isRTL ? 'rtl' : 'ltr',
+        textAlign: isRTL ? 'right' : 'left'
       }}
     >
-      {/* Sidebar Header */}
       <div className={cn(
         'flex items-center justify-between p-4 border-b border-gray-700',
-        isArabic ? 'flex-row-reverse' : 'flex-row'
+        isRTL ? 'flex-row-reverse' : 'flex-row'
       )}>
         {!isCollapsed && (
           <div className={cn(
             'flex items-center space-x-3',
-            isArabic ? 'space-x-reverse' : ''
+            isRTL ? 'space-x-reverse' : ''
           )}>
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">A</span>
@@ -64,12 +63,12 @@ export const RTLSidebar: React.FC<RTLSidebarProps> = ({
             <div>
               <h1 className={cn(
                 'text-xl font-bold',
-                isArabic ? 'font-cairo' : 'font-sans'
+                isRTL ? 'font-cairo' : 'font-sans'
               )}>
-                {t('nav.aqlhr', 'عقل HR')}
+                {t('nav.aqlhr') || 'عقل HR'}
               </h1>
               <p className="text-xs text-gray-400">
-                {t('nav.subtitle', 'منصة الموارد البشرية الذكية')}
+                {t('nav.subtitle') || 'منصة الموارد البشرية الذكية'}
               </p>
             </div>
           </div>
@@ -82,12 +81,12 @@ export const RTLSidebar: React.FC<RTLSidebarProps> = ({
               'p-2 rounded-lg hover:bg-gray-800 transition-colors',
               isCollapsed ? 'mx-auto' : ''
             )}
-            aria-label={t('nav.toggleSidebar', 'تبديل الشريط الجانبي')}
+            aria-label={t('nav.toggleSidebar') || 'تبديل الشريط الجانبي'}
           >
             <svg
               className={cn(
                 'w-5 h-5 transition-transform',
-                isArabic && !isCollapsed ? 'rotate-180' : ''
+                isRTL && !isCollapsed ? 'rotate-180' : ''
               )}
               fill="none"
               stroke="currentColor"
@@ -97,17 +96,16 @@ export const RTLSidebar: React.FC<RTLSidebarProps> = ({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d={isArabic ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                d={isRTL ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
               />
             </svg>
           </button>
         )}
       </div>
 
-      {/* Sidebar Content */}
       <div className={cn(
         'flex-1 overflow-y-auto',
-        isArabic ? 'scrollbar-rtl' : 'scrollbar-ltr'
+        isRTL ? 'scrollbar-rtl' : 'scrollbar-ltr'
       )}>
         <nav className="p-4 space-y-2">
           {children}
@@ -117,12 +115,12 @@ export const RTLSidebar: React.FC<RTLSidebarProps> = ({
       {/* Sidebar Footer */}
       <div className={cn(
         'p-4 border-t border-gray-700',
-        isArabic ? 'text-right' : 'text-left'
+        isRTL ? 'text-right' : 'text-left'
       )}>
         {!isCollapsed && (
           <div className="text-xs text-gray-400">
-            <p>{t('nav.version', 'الإصدار')} 3.0.0</p>
-            <p>{t('nav.allRightsReserved', 'جميع الحقوق محفوظة')}</p>
+            <p>{t('nav.version') || 'الإصدار'} 3.0.0</p>
+            <p>{t('nav.allRightsReserved') || 'جميع الحقوق محفوظة'}</p>
           </div>
         )}
       </div>
@@ -152,7 +150,7 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
   badge,
   children
 }) => {
-  const { direction, isArabic, t } = useRTLLanguage();
+  const { isRTL, t } = useLanguage();
 
   const content = (
     <div
@@ -161,7 +159,7 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
         'flex items-center p-3 rounded-lg transition-all duration-200 cursor-pointer group',
         
         // RTL layout
-        isArabic ? 'flex-row-reverse' : 'flex-row',
+        isRTL ? 'flex-row-reverse' : 'flex-row',
         
         // Active state
         isActive
@@ -172,12 +170,12 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
         isCollapsed ? 'justify-center' : 'justify-between'
       )}
       onClick={onClick}
-      dir={direction}
+      dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className={cn(
         'flex items-center',
-        isArabic ? 'flex-row-reverse' : 'flex-row',
-        isCollapsed ? '' : isArabic ? 'space-x-reverse space-x-3' : 'space-x-3'
+        isRTL ? 'flex-row-reverse' : 'flex-row',
+        isCollapsed ? '' : isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'
       )}>
         {icon && (
           <div className={cn(
@@ -191,7 +189,7 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
         {!isCollapsed && (
           <span className={cn(
             'font-medium transition-colors',
-            isArabic ? 'font-cairo text-right' : 'font-sans text-left'
+            isRTL ? 'font-cairo text-right' : 'font-sans text-left'
           )}>
             {label}
           </span>
@@ -225,7 +223,7 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
       {children && !isCollapsed && (
         <div className={cn(
           'ml-8 mt-2 space-y-1',
-          isArabic ? 'mr-8 ml-0' : 'ml-8'
+          isRTL ? 'mr-8 ml-0' : 'ml-8'
         )}>
           {children}
         </div>
@@ -238,23 +236,23 @@ export const RTLNavItem: React.FC<RTLNavItemProps> = ({
 export const RTLLanguageSwitcher: React.FC<{ isCollapsed?: boolean }> = ({ 
   isCollapsed = false 
 }) => {
-  const { language, toggleLanguage, isArabic, t } = useRTLLanguage();
+  const { language, setLanguage, isRTL, t } = useLanguage();
 
   return (
     <button
-      onClick={toggleLanguage}
+      onClick={() => setLanguage(language === 'ar' ? 'en' : 'ar')}
       className={cn(
         'flex items-center p-3 rounded-lg transition-all duration-200',
         'text-gray-300 hover:bg-gray-800 hover:text-white',
-        isArabic ? 'flex-row-reverse' : 'flex-row',
+        isRTL ? 'flex-row-reverse' : 'flex-row',
         isCollapsed ? 'justify-center' : 'justify-between w-full'
       )}
-      title={t('nav.switchLanguage', 'تبديل اللغة')}
+      title={t('nav.switchLanguage') || 'تبديل اللغة'}
     >
       <div className={cn(
         'flex items-center',
-        isArabic ? 'flex-row-reverse' : 'flex-row',
-        isCollapsed ? '' : isArabic ? 'space-x-reverse space-x-3' : 'space-x-3'
+        isRTL ? 'flex-row-reverse' : 'flex-row',
+        isCollapsed ? '' : isRTL ? 'space-x-reverse space-x-3' : 'space-x-3'
       )}>
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

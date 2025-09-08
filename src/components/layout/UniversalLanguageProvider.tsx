@@ -1,5 +1,17 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { translations, detectLanguage, setLanguage } from '@/utils/comprehensive-translations';
+import { getLang } from '@/lib/i18n/getLang';
+
+// Simple language detection and setting functions
+const detectLanguage = (): 'ar' | 'en' => {
+  const saved = localStorage.getItem('aqlhr.locale');
+  return (saved === 'ar' || saved === 'en') ? saved : 'en';
+};
+
+const setLanguage = (lang: 'ar' | 'en') => {
+  localStorage.setItem('aqlhr.locale', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+};
 
 interface LanguageContextType {
   language: 'ar' | 'en';
@@ -44,6 +56,40 @@ export const UniversalLanguageProvider: React.FC<UniversalLanguageProviderProps>
   };
 
   const t = (key: string): string => {
+    // Simple translation fallback - in production this would connect to i18n system
+    const translations: Record<string, Record<string, string>> = {
+      ar: {
+        'leo.title': 'ليو - تحسين تجربة التعلم',
+        'leo.dashboard': 'لوحة التحكم',
+        'leo.my_learning': 'تعلمي',
+        'leo.skills_progress': 'تقدم المهارات',
+        'leo.learning_paths': 'مسارات التعلم',
+        'leo.smart_ai': 'الذكاء الذكي',
+        'leo.analytics': 'التحليلات',
+        'leo.overview': 'نظرة عامة',
+        'leo.setting_up': 'جاري الإعداد...',
+        'leo.upgrade_message': 'يتطلب هذا المحتوى ترقية الباقة للوصول إلى ميزات تحسين تجربة التعلم المتقدمة.',
+        'leo.description': 'تحسين تجربة التعلم باستخدام الذكاء الاصطناعي والتحليلات المتقدمة',
+        'recruitment.title': 'التوظيف والإدماج',
+        'recruitment.dashboard': 'لوحة تحكم التوظيف'
+      },
+      en: {
+        'leo.title': 'LEO - Learning Experience Optimization',
+        'leo.dashboard': 'Dashboard',
+        'leo.my_learning': 'My Learning',
+        'leo.skills_progress': 'Skills Progress',
+        'leo.learning_paths': 'Learning Paths',
+        'leo.smart_ai': 'Smart AI',
+        'leo.analytics': 'Analytics',
+        'leo.overview': 'Overview',
+        'leo.setting_up': 'Setting up...',
+        'leo.upgrade_message': 'This content requires a plan upgrade to access advanced learning experience optimization features.',
+        'leo.description': 'Optimize learning experience using AI and advanced analytics',
+        'recruitment.title': 'Recruitment & Onboarding',
+        'recruitment.dashboard': 'Recruitment Dashboard'
+      }
+    };
+    
     const keys = key.split('.');
     let value: any = translations[language];
     
