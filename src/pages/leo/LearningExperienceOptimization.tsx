@@ -1,17 +1,45 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { isRTL } from '../../i18n';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle, Globe, BarChart3, FileText, User, Briefcase, Calendar } from 'lucide-react';
-import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
-import { AqlHRAIAssistant } from '@/components/ai';
 
 const LearningExperienceOptimization: React.FC = () => {
-  const { t, language, isRTL } = useLanguage();
+  const { t, i18n } = useTranslation();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isLoading, setIsLoading] = useState(true);
+  const rtl = isRTL();
 
-  // Learning stats with proper translations
+  // Simulate data loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Ensure HTML direction is set correctly
+  useEffect(() => {
+    document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = i18n.language;
+  }, [rtl, i18n.language]);
+
+  if (isLoading) {
+    return (
+      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${rtl ? 'font-arabic' : ''}`}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">{t('common.loading')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Learning stats
   const learningStats = {
     completedModules: 24,
     skillsAcquired: 8,
@@ -24,76 +52,40 @@ const LearningExperienceOptimization: React.FC = () => {
   const activeModules = [
     {
       id: '1',
-      title: language === 'ar' ? 'تحليل البيانات المتقدم' : 'Advanced Data Analytics',
+      title: t('leo.modules.leadership.title'),
       duration: 12,
       progress: 75,
-      type: language === 'ar' ? 'تقني' : 'Technical',
-      nextLesson: language === 'ar' ? 'أساسيات التعلم الآلي' : 'Machine Learning Basics'
+      type: t('leo.modules.leadership.subtitle'),
+      nextLesson: t('leo.modules.leadership.description')
     },
     {
       id: '2', 
-      title: language === 'ar' ? 'القيادة في الثقافة السعودية' : 'Leadership in Saudi Culture',
+      title: t('leo.modules.digitalTransformation.title'),
       duration: 8,
       progress: 30,
-      type: language === 'ar' ? 'سلوكي' : 'Behavioral',
-      nextLesson: language === 'ar' ? 'الذكاء الثقافي' : 'Cultural Intelligence'
+      type: t('leo.modules.digitalTransformation.subtitle'),
+      nextLesson: t('leo.modules.digitalTransformation.description')
     },
     {
       id: '3',
-      title: language === 'ar' ? 'تنفيذ رؤية 2030' : 'Vision 2030 Implementation',
+      title: t('leo.modules.safetyProtocols.title'),
       duration: 10,
       progress: 90,
-      type: language === 'ar' ? 'استراتيجي' : 'Strategic',
-      nextLesson: language === 'ar' ? 'التحول الاقتصادي' : 'Economic Transformation'
-    }
-  ];
-
-  const recommendations = [
-    {
-      id: '1',
-      title: language === 'ar' ? 'الذكاء الاصطناعي في تحول الموارد البشرية' : 'AI in HR Transformation',
-      description: language === 'ar' ? 'تعلم كيف يحدث الذكاء الاصطناعي ثورة في ممارسات الموارد البشرية في المملكة العربية السعودية' : 'Learn how AI is revolutionizing HR practices in Saudi Arabia',
-      duration: 15,
-      relevanceScore: 95,
-      skillArea: language === 'ar' ? 'تقنية الموارد البشرية' : 'HR Technology',
-      priority: language === 'ar' ? 'عالي' : 'High',
-      type: language === 'ar' ? 'فيديو' : 'video'
-    },
-    {
-      id: '2',
-      title: language === 'ar' ? 'التواصل عبر الثقافات' : 'Cross-Cultural Communication',
-      description: language === 'ar' ? 'إتقان التواصل عبر خلفيات ثقافية متنوعة' : 'Master communication across diverse cultural backgrounds',
-      duration: 20,
-      relevanceScore: 88,
-      skillArea: language === 'ar' ? 'التواصل' : 'Communication',
-      priority: language === 'ar' ? 'متوسط' : 'Medium',
-      type: language === 'ar' ? 'تفاعلي' : 'interactive'
-    },
-    {
-      id: '3',
-      title: language === 'ar' ? 'إدارة المشاريع الرقمية' : 'Digital Project Management',
-      description: language === 'ar' ? 'إدارة المشاريع المتقدمة للتحول الرقمي' : 'Advanced project management for digital transformation',
-      duration: 25,
-      relevanceScore: 82,
-      skillArea: language === 'ar' ? 'إدارة المشاريع' : 'Project Management',
-      priority: language === 'ar' ? 'متوسط' : 'Medium',
-      type: language === 'ar' ? 'ورشة عمل' : 'workshop'
+      type: t('leo.modules.safetyProtocols.subtitle'),
+      nextLesson: t('leo.modules.safetyProtocols.description')
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 main-content" dir={isRTL ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 main-content ${rtl ? 'font-arabic text-right' : 'text-left'}`} dir={rtl ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header Section - FIXED WITH PROPER TRANSLATIONS */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {language === 'ar' ? 'ليو - تحسين تجربة التعلم' : 'LEO - Learning Experience Optimization'}
+            {t('leo.title')}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {language === 'ar' 
-              ? 'التعلم المصغر المدعوم بالذكاء الاصطناعي، المسارات التكيفية وتطوير المهارات الشخصية'
-              : 'AI-Powered Micro-Learning, Adaptive Pathways & Personalized Skill Development'
-            }
+            {t('leo.subtitle')}
           </p>
         </div>
 
@@ -105,7 +97,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.engagementScore}%
               </div>
               <div className="text-sm text-gray-600">
-                {language === 'ar' ? 'نقاط المشاركة' : 'Engagement Score'}
+                {t('leo.metrics.engagementScore')}
               </div>
             </CardContent>
           </Card>
@@ -116,7 +108,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.totalHours}
               </div>
               <div className="text-sm text-gray-600">
-                {language === 'ar' ? 'ساعات التعلم' : 'Learning Hours'}
+                {t('leo.metrics.learningHours')}
               </div>
             </CardContent>
           </Card>
@@ -127,7 +119,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.learningStreak}
               </div>
               <div className="text-sm text-gray-600">
-                {language === 'ar' ? 'أيام متتالية' : 'Day Streak'}
+                {t('leo.metrics.dayStreak')}
               </div>
             </CardContent>
           </Card>
@@ -138,7 +130,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.skillsAcquired}
               </div>
               <div className="text-sm text-gray-600">
-                {language === 'ar' ? 'المهارات المكتسبة' : 'Skills Acquired'}
+                {t('leo.metrics.skillsAcquired')}
               </div>
             </CardContent>
           </Card>
@@ -149,7 +141,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.completedModules}
               </div>
               <div className="text-sm text-gray-600">
-                {language === 'ar' ? 'الوحدات المكتملة' : 'Modules Completed'}
+                {t('leo.metrics.modulesCompleted')}
               </div>
             </CardContent>
           </Card>
@@ -159,22 +151,22 @@ const LearningExperienceOptimization: React.FC = () => {
         <Tabs defaultValue="dashboard" className="w-full">
           <TabsList className="grid w-full grid-cols-6 justify-center">
             <TabsTrigger value="dashboard">
-              {language === 'ar' ? 'لوحة التحكم' : 'Dashboard'}
+              {t('leo.tabs.dashboard')}
             </TabsTrigger>
             <TabsTrigger value="learning">
-              {language === 'ar' ? 'تعلمي' : 'My Learning'}
+              {t('leo.tabs.myLearning')}
             </TabsTrigger>
             <TabsTrigger value="progress">
-              {language === 'ar' ? 'تقدم المهارات' : 'Skills Progress'}
+              {t('leo.tabs.skillsProgress')}
             </TabsTrigger>
             <TabsTrigger value="paths">
-              {language === 'ar' ? 'مسارات التعلم' : 'Learning Paths'}
+              {t('leo.tabs.learningPaths')}
             </TabsTrigger>
             <TabsTrigger value="ai">
-              {language === 'ar' ? 'الذكاء الذكي' : 'Smart AI'}
+              {t('leo.tabs.smartAI')}
             </TabsTrigger>
             <TabsTrigger value="analytics">
-              {language === 'ar' ? 'التحليلات' : 'Analytics'}
+              {t('leo.tabs.analytics')}
             </TabsTrigger>
           </TabsList>
 
@@ -186,18 +178,15 @@ const LearningExperienceOptimization: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 justify-center">
                     <Activity className="h-5 w-5 text-green-500" />
-                    {language === 'ar' ? 'بيانات العرض التوضيحي المباشر نشطة' : 'Live Demo Data Active'}
+                    {t('leo.demo.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-sm text-gray-600 mb-4">
-                    {language === 'ar' 
-                      ? 'عرض 5 وحدات تدريبية، 5 سجلات تعلم، و6 ملفات شخصية للموظفين مع تتبع التقدم في الوقت الفعلي'
-                      : 'Viewing 5 training modules, 5 learning records, and 6 employee profiles with real-time progress tracking'
-                    }
+                    {t('leo.demo.description')}
                   </p>
                   <Badge variant="outline" className="bg-green-50 text-green-700">
-                    {language === 'ar' ? 'تم تحميل البيانات' : 'Data Loaded'}
+                    {t('leo.demo.dataLoaded')}
                   </Badge>
                 </CardContent>
               </Card>
@@ -206,7 +195,7 @@ const LearningExperienceOptimization: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-center">
-                    {language === 'ar' ? 'متابعة التعلم' : 'Continue Learning'}
+                    {t('leo.modules.title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -214,10 +203,10 @@ const LearningExperienceOptimization: React.FC = () => {
                     <div key={module.id} className="border rounded-lg p-4">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="font-semibold">{module.title}</h4>
-                        <Badge variant="secondary">{module.type}</Badge>
+                        <Badge variant="secondary">{t('leo.modules.leadership.active')}</Badge>
                       </div>
                       <p className="text-sm text-gray-600 mb-2">
-                        {language === 'ar' ? 'التالي: ' : 'Next: '}{module.nextLesson}
+                        {module.nextLesson}
                       </p>
                       <div className="flex items-center justify-between">
                         <Progress value={module.progress} className="flex-1 ml-4" />
@@ -225,10 +214,10 @@ const LearningExperienceOptimization: React.FC = () => {
                       </div>
                       <div className="flex justify-between items-center mt-2">
                         <span className="text-xs text-gray-500">
-                          {module.duration} {language === 'ar' ? 'دقيقة' : 'min'}
+                          {module.duration} {rtl ? 'دقيقة' : 'min'}
                         </span>
                         <Button size="sm" variant="outline">
-                          {language === 'ar' ? 'متابعة' : 'Continue'}
+                          {t('common.next')}
                         </Button>
                       </div>
                     </div>
@@ -236,45 +225,6 @@ const LearningExperienceOptimization: React.FC = () => {
                 </CardContent>
               </Card>
             </div>
-
-            {/* AI Recommendations */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 justify-center">
-                  <Brain className="h-5 w-5 text-purple-500" />
-                  {language === 'ar' ? 'توصيات الذكاء الاصطناعي' : 'AI Recommendations'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {recommendations.map((rec) => (
-                    <div key={rec.id} className="border rounded-lg p-4 text-center">
-                      <div className="flex justify-between items-start mb-2">
-                        <Badge 
-                          variant={rec.priority === (language === 'ar' ? 'عالي' : 'High') ? 'destructive' : 'secondary'}
-                          className="mb-2"
-                        >
-                          {rec.priority}
-                        </Badge>
-                        <span className="text-sm font-bold text-blue-600">
-                          {rec.relevanceScore}% {language === 'ar' ? 'تطابق' : 'match'}
-                        </span>
-                      </div>
-                      <h4 className="font-semibold mb-2">{rec.title}</h4>
-                      <p className="text-sm text-gray-600 mb-3">{rec.description}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs text-gray-500">
-                          ⏱️ {rec.duration} {language === 'ar' ? 'دقيقة' : 'min'}
-                        </span>
-                        <Button size="sm">
-                          {language === 'ar' ? 'ابدأ' : 'Start'}
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Other tabs with complete translations and center alignment */}
@@ -282,13 +232,13 @@ const LearningExperienceOptimization: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-center">
-                  {language === 'ar' ? 'وحدات التدريب النشطة (5 إجمالي)' : 'Active Training Modules (5 total)'}
+                  {t('leo.modules.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'محتوى التعلم الخاص بك' : 'Your learning content'}
+                    {t('leo.tabs.myLearning')}
                   </p>
                 </div>
               </CardContent>
@@ -299,13 +249,13 @@ const LearningExperienceOptimization: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-center">
-                  {language === 'ar' ? 'تقدم التعلم الفردي' : 'Individual Learning Progress'}
+                  {t('leo.tabs.skillsProgress')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'تقدم مهاراتك' : 'Your skills progress'}
+                    {t('leo.tabs.skillsProgress')}
                   </p>
                 </div>
               </CardContent>
@@ -316,13 +266,13 @@ const LearningExperienceOptimization: React.FC = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="text-center">
-                  {language === 'ar' ? 'مسارات التعلم المخصصة' : 'Personalized Learning Paths'}
+                  {t('leo.tabs.learningPaths')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'مساراتك التعليمية' : 'Your learning paths'}
+                    {t('leo.tabs.learningPaths')}
                   </p>
                 </div>
               </CardContent>
@@ -334,13 +284,13 @@ const LearningExperienceOptimization: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 justify-center">
                   <Brain className="h-5 w-5 text-purple-500" />
-                  {language === 'ar' ? 'مساعد الذكاء الاصطناعي للتعلم' : 'AI Learning Assistant'}
+                  {t('leo.tabs.smartAI')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'مساعدك الذكي للتعلم' : 'Your smart learning assistant'}
+                    {t('leo.tabs.smartAI')}
                   </p>
                 </div>
               </CardContent>
@@ -352,32 +302,19 @@ const LearningExperienceOptimization: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 justify-center">
                   <BarChart3 className="h-5 w-5 text-blue-500" />
-                  {language === 'ar' ? 'تحليلات التعلم' : 'Learning Analytics'}
+                  {t('leo.tabs.analytics')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8">
                   <p className="text-gray-600">
-                    {language === 'ar' ? 'تحليلات التعلم والأداء' : 'Learning and performance analytics'}
+                    {t('leo.tabs.analytics')}
                   </p>
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
-
-        {/* AI Assistant Integration */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 justify-center">
-              <Brain className="h-5 w-5 text-purple-500" />
-              {language === 'ar' ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <AqlHRAIAssistant />
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

@@ -1,0 +1,88 @@
+{
+  "leo": {
+    "title": "LEO - Learning Experience Optimization",
+    "subtitle": "AI-Powered Micro-Learning, Adaptive Pathways & Personalized Skill Development",
+    "tabs": {
+      "dashboard": "Dashboard",
+      "myLearning": "My Learning",
+      "skillsProgress": "Skills Progress",
+      "learningPaths": "Learning Paths",
+      "smartAI": "Smart AI",
+      "analytics": "Analytics"
+    },
+    "metrics": {
+      "engagementScore": "Engagement Score",
+      "learningHours": "Learning Hours",
+      "dayStreak": "Day Streak",
+      "skillsAcquired": "Skills Acquired",
+      "modulesCompleted": "Modules Completed"
+    },
+    "demo": {
+      "title": "Live Demo Data Active",
+      "description": "Viewing 5 training modules, 5 learning records, and 6 employee profiles with real-time progress tracking",
+      "dataLoaded": "Data Loaded"
+    },
+    "modules": {
+      "title": "Active Training Modules (5 total)",
+      "leadership": {
+        "title": "Leadership Excellence",
+        "subtitle": "Leadership Excellence",
+        "description": "Advanced leadership skills for managers",
+        "required": "Required",
+        "active": "active"
+      },
+      "digitalTransformation": {
+        "title": "Digital Transformation",
+        "subtitle": "Digital Transformation",
+        "description": "Understanding digital tools and processes",
+        "active": "active"
+      },
+      "safetyProtocols": {
+        "title": "Safety Protocols",
+        "subtitle": "Safety Protocols",
+        "description": "Workplace safety and emergency procedures",
+        "required": "Required",
+        "active": "active"
+      }
+    }
+  },
+  "geo": {
+    "title": "GEO - Generative Engagement Optimization",
+    "subtitle": "AI-Powered Engagement Platform for Enhanced Employee Experience",
+    "tabs": {
+      "dashboard": "Dashboard",
+      "engagement": "Engagement",
+      "feedback": "Feedback",
+      "surveys": "Surveys",
+      "insights": "Insights",
+      "analytics": "Analytics"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "description": "Comprehensive analytics and performance insights",
+    "metrics": "Metrics",
+    "reports": "Reports",
+    "insights": "Insights"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh"
+  }
+}
+
