@@ -1,0 +1,95 @@
+{
+  "version": 2,
+  "name": "aqlhr-backend-5layer",
+  "builds": [
+    {
+      "src": "layer2-ai-orchestration/main.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
+    },
+    {
+      "src": "layer3-business-logic/hr-microservices/employee_service.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
+    },
+    {
+      "src": "layer4-integration/government-connectors/gosi_connector.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
+    },
+    {
+      "src": "layer1-presentation/web-interfaces/executive_dashboard.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/ai/(.*)",
+      "dest": "/layer2-ai-orchestration/main.py"
+    },
+    {
+      "src": "/api/employees/(.*)",
+      "dest": "/layer3-business-logic/hr-microservices/employee_service.py"
+    },
+    {
+      "src": "/api/gosi/(.*)",
+      "dest": "/layer4-integration/government-connectors/gosi_connector.py"
+    },
+    {
+      "src": "/dashboard/(.*)",
+      "dest": "/layer1-presentation/web-interfaces/executive_dashboard.py"
+    },
+    {
+      "src": "/api/health",
+      "dest": "/layer2-ai-orchestration/main.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/layer2-ai-orchestration/main.py"
+    }
+  ],
+  "env": {
+    "ENVIRONMENT": "production",
+    "LOG_LEVEL": "INFO",
+    "OPENAI_API_KEY": "@openai_api_key",
+    "GOSI_CLIENT_ID": "@gosi_client_id",
+    "GOSI_CLIENT_SECRET": "@gosi_client_secret",
+    "HRSD_CLIENT_ID": "@hrsd_client_id",
+    "HRSD_CLIENT_SECRET": "@hrsd_client_secret",
+    "QIWA_CLIENT_ID": "@qiwa_client_id",
+    "QIWA_CLIENT_SECRET": "@qiwa_client_secret",
+    "ESTABLISHMENT_ID": "@establishment_id",
+    "JWT_SECRET_KEY": "@jwt_secret_key",
+    "ENCRYPTION_KEY": "@encryption_key"
+  },
+  "functions": {
+    "layer2-ai-orchestration/main.py": {
+      "maxDuration": 30
+    },
+    "layer3-business-logic/hr-microservices/employee_service.py": {
+      "maxDuration": 30
+    },
+    "layer4-integration/government-connectors/gosi_connector.py": {
+      "maxDuration": 30
+    },
+    "layer1-presentation/web-interfaces/executive_dashboard.py": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"],
+  "framework": null
+}
+

@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "name": "aqlhr-backend",
+  "builds": [
+    {
+      "src": "backend/api/index.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb",
+        "runtime": "python3.11"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/api/index.py"
+    },
+    {
+      "src": "/dashboard/(.*)",
+      "dest": "/backend/api/index.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/backend/api/index.py"
+    }
+  ],
+  "env": {
+    "ENVIRONMENT": "production",
+    "LOG_LEVEL": "INFO"
+  },
+  "functions": {
+    "backend/api/index.py": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  },
+  "regions": ["iad1"],
+  "framework": null,
+  "installCommand": "pip install -r backend/requirements.txt"
+}
+

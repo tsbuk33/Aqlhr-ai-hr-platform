@@ -1,0 +1,372 @@
+version: '3.8'
+
+services:
+  # Layer 1: Presentation Layer
+  api-gateway:
+    build:
+      context: ./layer1-presentation/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ENVIRONMENT=development
+      - LOG_LEVEL=INFO
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+      - ai-orchestration
+      - employee-service
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  executive-dashboard:
+    build:
+      context: ./layer1-presentation/web-interfaces
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - API_GATEWAY_URL=http://api-gateway:8080
+    depends_on:
+      - api-gateway
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  mobile-api:
+    build:
+      context: ./layer1-presentation/mobile-apps
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=development
+      - API_GATEWAY_URL=http://api-gateway:8080
+    depends_on:
+      - api-gateway
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Layer 2: AI Orchestration Layer
+  ai-orchestration:
+    build:
+      context: ./layer2-ai-orchestration
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - ENVIRONMENT=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://aqlhr:password@postgres:5432/aqlhr_ai
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+    volumes:
+      - ./ai-models:/app/models
+      - ./ai-data:/app/data
+
+  nlp-engine:
+    build:
+      context: ./layer2-ai-orchestration/nlp-engine
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+    environment:
+      - ENVIRONMENT=development
+      - MODEL_PATH=/app/models
+    volumes:
+      - ./ai-models:/app/models
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Layer 3: Business Logic Layer
+  employee-service:
+    build:
+      context: ./layer3-business-logic/hr-microservices
+      dockerfile: Dockerfile.employee
+    ports:
+      - "8003:8003"
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_URL=postgresql://aqlhr:password@postgres:5432/aqlhr_hr
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  payroll-service:
+    build:
+      context: ./layer3-business-logic/hr-microservices
+      dockerfile: Dockerfile.payroll
+    ports:
+      - "8004:8004"
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_URL=postgresql://aqlhr:password@postgres:5432/aqlhr_payroll
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  compliance-service:
+    build:
+      context: ./layer3-business-logic/compliance-services
+      dockerfile: Dockerfile
+    ports:
+      - "8005:8005"
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_URL=postgresql://aqlhr:password@postgres:5432/aqlhr_compliance
+    depends_on:
+      - postgres
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  analytics-service:
+    build:
+      context: ./layer3-business-logic/analytics-services
+      dockerfile: Dockerfile
+    ports:
+      - "8006:8006"
+    environment:
+      - ENVIRONMENT=development
+      - POSTGRES_URL=postgresql://aqlhr:password@postgres:5432/aqlhr_analytics
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - postgres
+      - elasticsearch
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Layer 4: Integration Layer
+  gosi-connector:
+    build:
+      context: ./layer4-integration/government-connectors
+      dockerfile: Dockerfile.gosi
+    ports:
+      - "8007:8007"
+    environment:
+      - ENVIRONMENT=development
+      - GOSI_API_URL=${GOSI_API_URL}
+      - GOSI_CLIENT_ID=${GOSI_CLIENT_ID}
+      - GOSI_CLIENT_SECRET=${GOSI_CLIENT_SECRET}
+      - ESTABLISHMENT_ID=${ESTABLISHMENT_ID}
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  hrsd-connector:
+    build:
+      context: ./layer4-integration/government-connectors
+      dockerfile: Dockerfile.hrsd
+    ports:
+      - "8008:8008"
+    environment:
+      - ENVIRONMENT=development
+      - HRSD_API_URL=${HRSD_API_URL}
+      - HRSD_CLIENT_ID=${HRSD_CLIENT_ID}
+      - HRSD_CLIENT_SECRET=${HRSD_CLIENT_SECRET}
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  qiwa-connector:
+    build:
+      context: ./layer4-integration/government-connectors
+      dockerfile: Dockerfile.qiwa
+    ports:
+      - "8009:8009"
+    environment:
+      - ENVIRONMENT=development
+      - QIWA_API_URL=${QIWA_API_URL}
+      - QIWA_CLIENT_ID=${QIWA_CLIENT_ID}
+      - QIWA_CLIENT_SECRET=${QIWA_CLIENT_SECRET}
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  banking-connector:
+    build:
+      context: ./layer4-integration/banking-integration
+      dockerfile: Dockerfile
+    ports:
+      - "8010:8010"
+    environment:
+      - ENVIRONMENT=development
+      - BANK_API_URLS=${BANK_API_URLS}
+      - BANK_CREDENTIALS=${BANK_CREDENTIALS}
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Layer 5: Data Layer
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=aqlhr
+      - POSTGRES_USER=aqlhr
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_MULTIPLE_DATABASES=aqlhr_ai,aqlhr_hr,aqlhr_payroll,aqlhr_compliance,aqlhr_analytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 1gb --maxmemory-policy allkeys-lru
+
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=aqlhr
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=aqlhr_documents
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Monitoring and Observability
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Message Queue
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=aqlhr
+      - RABBITMQ_DEFAULT_PASS=password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+  # Load Balancer
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - api-gateway
+      - executive-dashboard
+    networks:
+      - aqlhr-network
+    restart: unless-stopped
+
+networks:
+  aqlhr-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  mongodb_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+
