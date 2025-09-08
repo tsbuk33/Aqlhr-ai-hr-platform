@@ -9,6 +9,7 @@ import { PlanUpsellModal } from '@/components/plans/PlanUpsellModal';
 import { supabase } from '@/integrations/supabase/client';
 import { Brain, BookOpen, Target, TrendingUp, Play, Users } from 'lucide-react';
 import { toast } from 'sonner';
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 
 interface LEOData {
   score: number;
@@ -41,6 +42,7 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
   const [data, setData] = useState<LEOData | null>(null);
   const [loading, setLoading] = useState(false);
   const { hasAccess, isTrialAccess, showUpsell, upsellOpen, hideUpsell, requestTrial, trialExpiresAt } = usePlanAccess('SKU_LEO');
+  const { t, isRTL } = useLanguage();
 
   const runLEOAnalysis = async () => {
     if (!hasAccess) {
@@ -57,10 +59,10 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
       if (error) throw error;
 
       setData(result);
-      toast.success('LEO analysis completed successfully');
+      toast.success(t('leo.analysis_completed'));
     } catch (error) {
       console.error('Error running LEO analysis:', error);
-      toast.error('Failed to run LEO analysis');
+      toast.error(t('leo.analysis_failed'));
     } finally {
       setLoading(false);
     }
@@ -78,20 +80,26 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
     return 'default';
   };
 
+  const getRiskText = (score: number) => {
+    if (score >= 70) return t('leo.critical_risk');
+    if (score >= 40) return t('leo.moderate_risk');
+    return t('leo.low_risk');
+  };
+
   return (
-    <div className="space-y-6">
+    <div className={`space-y-6 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Upsell Ribbon */}
       {!hasAccess && (
         <UpsellRibbon
-          title="Learning Experience Optimization"
-          description="Combine diagnostics to get stronger decisions with AI-powered skill gap analysis"
+          title={t('leo.title')}
+          description={t('leo.upgrade_description')}
           onRequestTrial={showUpsell}
         />
       )}
       
       {hasAccess && isTrialAccess && (
         <UpsellRibbon
-          title="LEO Trial Active"
+          title={t('leo.trial_active')}
           description=""
           onRequestTrial={() => {}}
           isTrialAccess={true}
@@ -100,12 +108,12 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
       )}
 
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className={`flex items-center justify-between ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <Brain className="h-8 w-8 text-primary" />
-          <div>
-            <h2 className="text-2xl font-bold">Learning Experience Optimization</h2>
-            <p className="text-muted-foreground">AI-powered skill gap analysis and learning paths</p>
+          <div className={isRTL ? 'text-right' : 'text-left'}>
+            <h2 className="text-2xl font-bold">{t('leo.title')}</h2>
+            <p className="text-muted-foreground">{t('leo.subtitle')}</p>
           </div>
         </div>
         <Button 
@@ -114,7 +122,7 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
           className="gap-2"
         >
           <Play className="h-4 w-4" />
-          {loading ? 'Analyzing...' : 'Run LEO Analysis'}
+          {loading ? t('leo.analyzing') : t('leo.run_analysis')}
         </Button>
       </div>
 
@@ -123,26 +131,26 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
           {/* Risk Score */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+              <CardTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <Target className="h-5 w-5" />
-                Skill Gap Risk Score
+                {t('leo.skill_gap_risk_score')}
               </CardTitle>
               <CardDescription>
-                Overall assessment of learning and skill development risks
+                {t('leo.risk_assessment_description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center justify-between mb-4">
+              <div className={`flex items-center justify-between mb-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
                 <span className="text-2xl font-bold">
                   {data.score}/100
                 </span>
                 <Badge variant={getScoreVariant(data.score)}>
-                  {data.score >= 70 ? 'Critical' : data.score >= 40 ? 'Moderate' : 'Low'} Risk
+                  {getRiskText(data.score)}
                 </Badge>
               </div>
               <Progress value={data.score} className="h-2" />
-              <p className="text-sm text-muted-foreground mt-2">
-                Last computed: {data.computed_at ? new Date(data.computed_at).toLocaleString() : 'Never'}
+              <p className={`text-sm text-muted-foreground mt-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                {t('leo.last_computed')}: {data.computed_at ? new Date(data.computed_at).toLocaleString() : t('leo.never')}
               </p>
             </CardContent>
           </Card>
@@ -151,29 +159,29 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
           {data.details.skill_gaps && data.details.skill_gaps.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <BookOpen className="h-5 w-5" />
-                  Critical Skill Gaps
+                  {t('leo.critical_skill_gaps')}
                 </CardTitle>
                 <CardDescription>
-                  Skills requiring immediate attention across grades
+                  {t('leo.skills_attention_description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   {data.details.skill_gaps.slice(0, 5).map((gap, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                      <div>
+                    <div key={index} className={`flex items-center justify-between p-3 bg-muted rounded-lg ${isRTL ? 'flex-row-reverse' : ''}`}>
+                      <div className={isRTL ? 'text-right' : 'text-left'}>
                         <h4 className="font-medium">{gap.skill}</h4>
-                        <p className="text-sm text-muted-foreground">Grade: {gap.grade}</p>
+                        <p className="text-sm text-muted-foreground">{t('leo.grade')}: {gap.grade}</p>
                       </div>
-                      <div className="text-right">
+                      <div className={isRTL ? 'text-left' : 'text-right'}>
                         <div className="font-medium text-warning">
-                          {gap.hours_needed}h needed
+                          {gap.hours_needed}{t('leo.hours_needed')}
                         </div>
                         {gap.last_training && (
                           <p className="text-xs text-muted-foreground">
-                            Last: {new Date(gap.last_training).toLocaleDateString()}
+                            {t('leo.last')}: {new Date(gap.last_training).toLocaleDateString()}
                           </p>
                         )}
                       </div>
@@ -188,28 +196,28 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
           {data.paths && data.paths.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <TrendingUp className="h-5 w-5" />
-                  Recommended Learning Paths
+                  {t('leo.recommended_learning_paths')}
                 </CardTitle>
                 <CardDescription>
-                  AI-generated micro-learning paths for skill development
+                  {t('leo.ai_generated_paths_description')}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {data.paths.slice(0, 4).map((path) => (
                     <div key={path.id} className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-3">
+                      <div className={`flex items-center justify-between mb-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
                         <h4 className="font-medium">{path.skill}</h4>
                         <Badge variant="outline">{path.grade}</Badge>
                       </div>
                       <div className="space-y-2">
                         {path.path.map((step, stepIndex) => (
-                          <div key={stepIndex} className="flex items-center gap-2 text-sm">
+                          <div key={stepIndex} className={`flex items-center gap-2 text-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
                             <div className="w-2 h-2 rounded-full bg-primary" />
                             <span>{step.title}</span>
-                            <span className="text-muted-foreground">({step.duration}min)</span>
+                            <span className="text-muted-foreground">({step.duration}{t('leo.minutes')})</span>
                           </div>
                         ))}
                       </div>
@@ -223,26 +231,26 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
       )}
 
       {!data && !loading && !hasAccess && (
-        <div className="text-center py-12">
+        <div className={`text-center py-12 ${isRTL ? 'rtl' : 'ltr'}`}>
           <Brain className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-lg font-medium mb-2">Premium Feature</h3>
+          <h3 className="text-lg font-medium mb-2">{t('leo.premium_feature')}</h3>
           <p className="text-muted-foreground mb-4">
-            Learning Experience Optimization requires a premium plan
+            {t('leo.premium_required')}
           </p>
         </div>
       )}
 
       {!data && !loading && hasAccess && (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className={`flex flex-col items-center justify-center py-12 ${isRTL ? 'rtl' : 'ltr'}`}>
             <Brain className="h-16 w-16 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-medium mb-2">No LEO Analysis Yet</h3>
+            <h3 className="text-lg font-medium mb-2">{t('leo.no_analysis_yet')}</h3>
             <p className="text-muted-foreground text-center mb-4">
-              Run your first Learning Experience Optimization analysis to identify skill gaps and learning opportunities.
+              {t('leo.first_analysis_description')}
             </p>
             <Button onClick={runLEOAnalysis} disabled={loading}>
-              <Play className="h-4 w-4 mr-2" />
-              Start LEO Analysis
+              <Play className={`h-4 w-4 ${isRTL ? 'ml-2' : 'mr-2'}`} />
+              {t('leo.start_analysis')}
             </Button>
           </CardContent>
         </Card>
@@ -252,8 +260,8 @@ const LEOOverview: React.FC<LEOOverviewProps> = ({ caseId }) => {
         isOpen={upsellOpen}
         onClose={hideUpsell}
         skuCode="SKU_LEO"
-        featureName="Learning Experience Optimization"
-        description="AI-powered skill gap analysis and personalized learning paths"
+        featureName={t('leo.title')}
+        description={t('leo.description')}
       />
     </div>
   );
