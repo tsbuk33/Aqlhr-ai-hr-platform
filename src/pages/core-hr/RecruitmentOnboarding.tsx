@@ -1,74 +1,93 @@
-import { useState, useEffect } from "react";
-import { useLanguage } from "@/hooks/useLanguageCompat";
-import { useToast } from "@/hooks/use-toast";
-import { EnhancedPageLayout } from "@/components/enhanced/EnhancedPageLayout";
-import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  LocationForm, 
-  SectorActivityForm, 
-  CompanySelect 
-} from "@/components/forms/SaudiReferenceSelects";
+/**
+ * AQLHR Platform - Enhanced Recruitment & Onboarding Module with Expert RTL Support
+ * Professional Arabic/English Recruitment Management System
+ * @author AQLHR Development Team
+ * @version 3.0.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useRTLLanguage } from '@/contexts/RTLLanguageContext';
+import RTLMainLayout from '@/components/layout/RTLMainLayout';
+import { cn } from '@/lib/utils';
 import { 
   Users, 
   UserPlus, 
-  FileCheck, 
-  Clock,
-  Target,
-  CheckCircle,
+  FileText, 
+  Calendar, 
+  CheckCircle, 
+  Clock, 
   AlertCircle,
-  Briefcase,
-  MapPin,
-  Building,
-  Upload,
-  FileText,
+  TrendingUp,
   Globe,
   MessageSquare,
   Shield,
   BarChart3,
   ExternalLink,
-  Star,
-  Search,
-  Filter,
-  Send,
   Phone,
   Mail,
-  Calendar,
-  TrendingUp,
+  MapPin,
+  Star,
   Award,
-  Zap
-} from "lucide-react";
-import { JobOfferManagement } from "@/components/job-offer/JobOfferManagement";
-import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { AqlHRAIAssistant } from '@/components/ai';
+  Target,
+  Zap,
+  Activity,
+  Eye,
+  Download,
+  Upload,
+  Filter,
+  Search,
+  RefreshCw,
+  Settings,
+  Bell,
+  ChevronRight,
+  ChevronDown,
+  Plus,
+  Edit,
+  Trash2,
+  Send,
+  Archive,
+  BookOpen,
+  Briefcase,
+  GraduationCap,
+  Building,
+  DollarSign,
+  User,
+  UserCheck,
+  UserX,
+  Building2,
+  Globe2,
+  Smartphone,
+  Laptop,
+  Code,
+  Database,
+  Server,
+  Cloud,
+  Lock,
+  Key,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Info,
+  HelpCircle,
+  ArrowRight,
+  ArrowLeft,
+  MoreHorizontal
+} from 'lucide-react';
 
-const RecruitmentOnboarding = () => {
-  const { language } = useLanguage();
-  const { toast } = useToast();
+const RecruitmentOnboardingRTL = () => {
+  const { direction, isArabic, t } = useRTLLanguage();
   const [activeTab, setActiveTab] = useState('dashboard');
-  
-  // Form state for demonstration
-  const [formData, setFormData] = useState({
-    region: '',
-    city: '',
-    sector: '',
-    activity: '',
-    company: '',
-    position: '',
-    description: '',
-    requirements: ''
-  });
+  const [loading, setLoading] = useState(false);
 
-  // Translation helper
-  const t = (arText: string, enText: string) => language === 'ar' ? arText : enText;
-
-  // Local Saudi Recruitment Platforms Data
+  // Enhanced Local Saudi Recruitment Platforms Data
   const localPlatforms = [
     {
       id: 'qiwa',
@@ -82,7 +101,9 @@ const RecruitmentOnboarding = () => {
       lastSync: new Date('2024-01-15T14:30:00'),
       candidates: 15420,
       description: 'Ministry of Labor platform',
-      descriptionAr: 'منصة وزارة العمل'
+      descriptionAr: 'منصة وزارة العمل',
+      compliance: 98.5,
+      apiStatus: 'connected'
     },
     {
       id: 'gosi',
@@ -96,7 +117,9 @@ const RecruitmentOnboarding = () => {
       lastSync: new Date('2024-01-15T13:45:00'),
       candidates: 8750,
       description: 'Social Insurance platform',
-      descriptionAr: 'منصة التأمينات الاجتماعية'
+      descriptionAr: 'منصة التأمينات الاجتماعية',
+      compliance: 96.2,
+      apiStatus: 'connected'
     },
     {
       id: 'mol',
@@ -106,28 +129,48 @@ const RecruitmentOnboarding = () => {
       status: 'active',
       category: 'Government',
       categoryAr: 'حكومي',
-      activeJobs: 1650,
+      activeJobs: 1250,
       lastSync: new Date('2024-01-15T12:20:00'),
       candidates: 12300,
       description: 'Ministry of Labor',
-      descriptionAr: 'وزارة العمل والتنمية الاجتماعية'
+      descriptionAr: 'وزارة العمل والتنمية الاجتماعية',
+      compliance: 94.8,
+      apiStatus: 'connected'
     },
     {
       id: 'hrsd',
       name: 'HRSD',
-      nameAr: 'الموارد البشرية والتنمية الاجتماعية',
+      nameAr: 'وزارة الموارد البشرية',
       url: 'https://hrsd.gov.sa',
       status: 'active',
       category: 'Government',
       categoryAr: 'حكومي',
       activeJobs: 780,
       lastSync: new Date('2024-01-15T11:15:00'),
-      candidates: 6890,
+      candidates: 9850,
       description: 'Human Resources Development',
-      descriptionAr: 'تنمية الموارد البشرية'
+      descriptionAr: 'وزارة الموارد البشرية والتنمية الاجتماعية',
+      compliance: 92.1,
+      apiStatus: 'connected'
     },
     {
-      id: 'bayt_sa',
+      id: 'absher',
+      name: 'Absher',
+      nameAr: 'أبشر',
+      url: 'https://absher.sa',
+      status: 'active',
+      category: 'Government',
+      categoryAr: 'حكومي',
+      activeJobs: 450,
+      lastSync: new Date('2024-01-15T10:30:00'),
+      candidates: 6200,
+      description: 'Digital Government Platform',
+      descriptionAr: 'منصة الحكومة الرقمية',
+      compliance: 97.3,
+      apiStatus: 'connected'
+    },
+    {
+      id: 'bayt',
       name: 'Bayt.com Saudi',
       nameAr: 'بيت.كوم السعودية',
       url: 'https://www.bayt.com/en/saudi-arabia/',
@@ -135,495 +178,604 @@ const RecruitmentOnboarding = () => {
       category: 'Commercial',
       categoryAr: 'تجاري',
       activeJobs: 3200,
-      lastSync: new Date('2024-01-15T10:30:00'),
-      candidates: 18500,
+      lastSync: new Date('2024-01-15T15:45:00'),
+      candidates: 28500,
       description: 'Leading job portal in MENA',
-      descriptionAr: 'بوابة الوظائف الرائدة في المنطقة'
+      descriptionAr: 'البوابة الرائدة للوظائف في المنطقة',
+      compliance: 89.7,
+      apiStatus: 'connected'
     },
     {
-      id: 'linkedin_sa',
-      name: 'LinkedIn Saudi Arabia',
+      id: 'linkedin',
+      name: 'LinkedIn Saudi',
       nameAr: 'لينكد إن السعودية',
-      url: 'https://www.linkedin.com/jobs/search/?location=Saudi%20Arabia',
+      url: 'https://www.linkedin.com/jobs/saudi-arabia-jobs/',
       status: 'active',
       category: 'International',
       categoryAr: 'دولي',
-      activeJobs: 2800,
-      lastSync: new Date('2024-01-15T09:45:00'),
-      candidates: 22100,
+      activeJobs: 4100,
+      lastSync: new Date('2024-01-15T16:20:00'),
+      candidates: 45200,
       description: 'Professional networking platform',
-      descriptionAr: 'منصة الشبكات المهنية'
+      descriptionAr: 'منصة الشبكات المهنية',
+      compliance: 91.4,
+      apiStatus: 'connected'
     },
     {
-      id: 'gulftalent_sa',
-      name: 'GulfTalent Saudi',
-      nameAr: 'جلف تالنت السعودية',
+      id: 'gulftalent',
+      name: 'GulfTalent',
+      nameAr: 'جلف تالنت',
       url: 'https://www.gulftalent.com/saudi-arabia',
       status: 'active',
       category: 'Regional',
       categoryAr: 'إقليمي',
-      activeJobs: 1450,
-      lastSync: new Date('2024-01-15T08:20:00'),
-      candidates: 9800,
-      description: 'Gulf region recruitment',
-      descriptionAr: 'توظيف منطقة الخليج'
+      activeJobs: 1850,
+      lastSync: new Date('2024-01-15T14:10:00'),
+      candidates: 18700,
+      description: 'Gulf region job portal',
+      descriptionAr: 'بوابة الوظائف في منطقة الخليج',
+      compliance: 87.9,
+      apiStatus: 'connected'
     },
     {
-      id: 'naukrigulf_sa',
-      name: 'Naukrigulf Saudi',
-      nameAr: 'نوكري جلف السعودية',
+      id: 'naukrigulf',
+      name: 'Naukrigulf',
+      nameAr: 'نوكري جلف',
       url: 'https://www.naukrigulf.com/saudi-arabia-jobs',
       status: 'active',
-      category: 'International',
-      categoryAr: 'دولي',
-      activeJobs: 1890,
-      lastSync: new Date('2024-01-15T07:30:00'),
-      candidates: 14200,
-      description: 'Gulf job opportunities',
-      descriptionAr: 'فرص العمل في الخليج'
+      category: 'Regional',
+      categoryAr: 'إقليمي',
+      activeJobs: 2100,
+      lastSync: new Date('2024-01-15T13:25:00'),
+      candidates: 22400,
+      description: 'Gulf job search platform',
+      descriptionAr: 'منصة البحث عن الوظائف في الخليج',
+      compliance: 86.3,
+      apiStatus: 'connected'
     },
     {
-      id: 'indeed_sa',
-      name: 'Indeed Saudi Arabia',
+      id: 'indeed',
+      name: 'Indeed Saudi',
       nameAr: 'إنديد السعودية',
       url: 'https://sa.indeed.com/',
       status: 'active',
       category: 'International',
       categoryAr: 'دولي',
-      activeJobs: 2100,
-      lastSync: new Date('2024-01-15T06:15:00'),
-      candidates: 16700,
+      activeJobs: 3800,
+      lastSync: new Date('2024-01-15T15:30:00'),
+      candidates: 35600,
       description: 'Global job search engine',
-      descriptionAr: 'محرك البحث العالمي للوظائف'
+      descriptionAr: 'محرك البحث العالمي للوظائف',
+      compliance: 88.1,
+      apiStatus: 'connected'
     },
     {
-      id: 'monster_sa',
-      name: 'Monster Saudi Arabia',
+      id: 'monster',
+      name: 'Monster Saudi',
       nameAr: 'مونستر السعودية',
       url: 'https://www.monster.com.sa/',
       status: 'active',
       category: 'International',
       categoryAr: 'دولي',
-      activeJobs: 1320,
-      lastSync: new Date('2024-01-15T05:45:00'),
-      candidates: 11200,
-      description: 'Career advancement platform',
-      descriptionAr: 'منصة تطوير المهن'
+      activeJobs: 2650,
+      lastSync: new Date('2024-01-15T12:45:00'),
+      candidates: 24800,
+      description: 'Global career platform',
+      descriptionAr: 'منصة المهن العالمية',
+      compliance: 85.7,
+      apiStatus: 'connected'
     },
     {
       id: 'tanqeeb',
       name: 'Tanqeeb',
       nameAr: 'تنقيب',
       url: 'https://www.tanqeeb.com/saudi-arabia',
-      status: 'active',
+      status: 'maintenance',
       category: 'Regional',
       categoryAr: 'إقليمي',
-      activeJobs: 980,
-      lastSync: new Date('2024-01-15T04:30:00'),
-      candidates: 7600,
-      description: 'MENA job search',
-      descriptionAr: 'البحث عن الوظائف في المنطقة'
+      activeJobs: 1200,
+      lastSync: new Date('2024-01-14T18:20:00'),
+      candidates: 14500,
+      description: 'MENA job search platform',
+      descriptionAr: 'منصة البحث عن الوظائف في المنطقة',
+      compliance: 82.4,
+      apiStatus: 'maintenance'
     },
     {
       id: 'akhtaboot',
       name: 'Akhtaboot',
-      nameAr: 'أختبوط',
+      nameAr: 'أختابوت',
       url: 'https://www.akhtaboot.com/saudi-arabia',
-      status: 'active',
+      status: 'inactive',
       category: 'Regional',
       categoryAr: 'إقليمي',
-      activeJobs: 750,
-      lastSync: new Date('2024-01-15T03:20:00'),
-      candidates: 5800,
-      description: 'Regional recruitment platform',
-      descriptionAr: 'منصة التوظيف الإقليمية'
+      activeJobs: 850,
+      lastSync: new Date('2024-01-13T16:30:00'),
+      candidates: 11200,
+      description: 'Regional job portal',
+      descriptionAr: 'بوابة الوظائف الإقليمية',
+      compliance: 79.6,
+      apiStatus: 'error'
     },
     {
       id: 'mihnati',
       name: 'Mihnati',
       nameAr: 'مهنتي',
-      url: 'https://www.mihnati.com/',
-      status: 'maintenance',
+      url: 'https://mihnati.com/',
+      status: 'active',
       category: 'Local',
       categoryAr: 'محلي',
-      activeJobs: 0,
-      lastSync: new Date('2024-01-14T20:00:00'),
-      candidates: 3200,
-      description: 'Local career platform',
-      descriptionAr: 'منصة المهن المحلية'
-    },
-    {
-      id: 'jadara',
-      name: 'Jadara',
-      nameAr: 'جدارة',
-      url: 'https://www.jadara.gov.sa/',
-      status: 'maintenance',
-      category: 'Government',
-      categoryAr: 'حكومي',
-      activeJobs: 0,
-      lastSync: new Date('2024-01-14T18:30:00'),
-      candidates: 4500,
-      description: 'Government jobs platform',
-      descriptionAr: 'منصة الوظائف الحكومية'
+      activeJobs: 950,
+      lastSync: new Date('2024-01-15T11:50:00'),
+      candidates: 8900,
+      description: 'Saudi local job platform',
+      descriptionAr: 'منصة الوظائف المحلية السعودية',
+      compliance: 90.2,
+      apiStatus: 'connected'
     }
   ];
 
-  // International Recruitment Agents Data with Functional Links
-  const internationalAgents = [
+  // International Recruitment Clusters
+  const internationalClusters = [
     {
-      id: 'gcc_cluster',
-      name: 'GCC Recruitment Cluster',
-      nameAr: 'مجموعة التوظيف الخليجية',
-      region: 'GCC',
+      id: 'gcc',
+      name: 'GCC Cluster',
+      nameAr: 'مجموعة دول الخليج',
+      region: 'Gulf Cooperation Council',
+      regionAr: 'مجلس التعاون الخليجي',
       agents: 25,
-      activeCandidates: 450,
-      responseTime: '2.5 hours',
-      rating: 4.8,
-      specializations: ['Executive', 'Engineering', 'Healthcare', 'Finance'],
-      countries: ['UAE', 'Kuwait', 'Bahrain', 'Qatar', 'Oman'],
+      candidates: 450,
+      specializations: ['Engineering', 'Healthcare', 'Finance', 'IT', 'Management'],
+      specializationsAr: ['الهندسة', 'الرعاية الصحية', 'المالية', 'تقنية المعلومات', 'الإدارة'],
       platforms: [
-        { name: 'Bayt.com UAE', url: 'https://www.bayt.com/en/uae/', active: true },
-        { name: 'GulfTalent UAE', url: 'https://www.gulftalent.com/uae', active: true },
-        { name: 'Naukrigulf UAE', url: 'https://www.naukrigulf.com/uae-jobs', active: true },
-        { name: 'LinkedIn UAE', url: 'https://www.linkedin.com/jobs/search/?location=United%20Arab%20Emirates', active: true },
-        { name: 'Indeed UAE', url: 'https://ae.indeed.com/', active: true }
-      ]
+        { name: 'Bayt.com UAE', url: 'https://www.bayt.com/en/uae/', status: 'active' },
+        { name: 'GulfTalent', url: 'https://www.gulftalent.com/', status: 'active' },
+        { name: 'Naukrigulf', url: 'https://www.naukrigulf.com/', status: 'active' },
+        { name: 'LinkedIn UAE', url: 'https://www.linkedin.com/jobs/uae-jobs/', status: 'active' },
+        { name: 'Indeed UAE', url: 'https://ae.indeed.com/', status: 'active' }
+      ],
+      averageResponseTime: '2.3 hours',
+      successRate: 78.5,
+      costPerHire: '$2,850'
     },
     {
-      id: 'south_asian_cluster',
-      name: 'South Asian Recruitment Network',
-      nameAr: 'شبكة التوظيف لجنوب آسيا',
-      region: 'South Asia',
+      id: 'south_asian',
+      name: 'South Asian Network',
+      nameAr: 'الشبكة الآسيوية الجنوبية',
+      region: 'India, Pakistan, Bangladesh, Sri Lanka',
+      regionAr: 'الهند، باكستان، بنغلاديش، سريلانكا',
       agents: 40,
-      activeCandidates: 1200,
-      responseTime: '1.8 hours',
-      rating: 4.6,
-      specializations: ['IT', 'Engineering', 'Healthcare', 'Manufacturing'],
-      countries: ['India', 'Pakistan', 'Bangladesh', 'Sri Lanka', 'Nepal'],
+      candidates: 1200,
+      specializations: ['IT', 'Engineering', 'Healthcare', 'Education', 'Manufacturing'],
+      specializationsAr: ['تقنية المعلومات', 'الهندسة', 'الرعاية الصحية', 'التعليم', 'التصنيع'],
       platforms: [
-        { name: 'Naukri.com', url: 'https://www.naukri.com/', active: true },
-        { name: 'Monster India', url: 'https://www.monsterindia.com/', active: true },
-        { name: 'Rozee.pk', url: 'https://www.rozee.pk/', active: true },
-        { name: 'BDJobs.com', url: 'https://www.bdjobs.com/', active: true },
-        { name: 'TopJobs.lk', url: 'https://www.topjobs.lk/', active: true }
-      ]
+        { name: 'Naukri.com', url: 'https://www.naukri.com/', status: 'active' },
+        { name: 'Monster India', url: 'https://www.monsterindia.com/', status: 'active' },
+        { name: 'Rozee.pk', url: 'https://www.rozee.pk/', status: 'active' },
+        { name: 'BDJobs.com', url: 'https://www.bdjobs.com/', status: 'active' },
+        { name: 'TopJobs.lk', url: 'https://www.topjobs.lk/', status: 'active' }
+      ],
+      averageResponseTime: '4.1 hours',
+      successRate: 82.3,
+      costPerHire: '$1,950'
     },
     {
-      id: 'western_cluster',
-      name: 'Western Talent Acquisition',
-      nameAr: 'استقطاب المواهب الغربية',
-      region: 'Western',
+      id: 'western',
+      name: 'Western Talent',
+      nameAr: 'المواهب الغربية',
+      region: 'USA, Canada, UK, Australia, Europe',
+      regionAr: 'الولايات المتحدة، كندا، المملكة المتحدة، أستراليا، أوروبا',
       agents: 15,
-      activeCandidates: 180,
-      responseTime: '4.2 hours',
-      rating: 4.9,
-      specializations: ['Executive', 'Consulting', 'Technology', 'Research'],
-      countries: ['USA', 'Canada', 'UK', 'Germany', 'Australia'],
+      candidates: 180,
+      specializations: ['Executive', 'Consulting', 'Technology', 'Research', 'Innovation'],
+      specializationsAr: ['تنفيذي', 'استشارات', 'التكنولوجيا', 'البحث', 'الابتكار'],
       platforms: [
-        { name: 'LinkedIn USA', url: 'https://www.linkedin.com/jobs/search/?location=United%20States', active: true },
-        { name: 'Indeed USA', url: 'https://www.indeed.com/', active: true },
-        { name: 'Monster USA', url: 'https://www.monster.com/', active: true },
-        { name: 'Reed.co.uk', url: 'https://www.reed.co.uk/', active: true },
-        { name: 'Seek.com.au', url: 'https://www.seek.com.au/', active: true }
-      ]
+        { name: 'LinkedIn USA', url: 'https://www.linkedin.com/jobs/united-states-jobs/', status: 'active' },
+        { name: 'Indeed USA', url: 'https://www.indeed.com/', status: 'active' },
+        { name: 'Monster USA', url: 'https://www.monster.com/', status: 'active' },
+        { name: 'Reed.co.uk', url: 'https://www.reed.co.uk/', status: 'active' },
+        { name: 'Seek.com.au', url: 'https://www.seek.com.au/', status: 'active' }
+      ],
+      averageResponseTime: '6.8 hours',
+      successRate: 71.2,
+      costPerHire: '$4,200'
     },
     {
-      id: 'african_cluster',
-      name: 'African Recruitment Alliance',
-      nameAr: 'تحالف التوظيف الأفريقي',
-      region: 'Africa',
+      id: 'african',
+      name: 'African Alliance',
+      nameAr: 'التحالف الأفريقي',
+      region: 'Egypt, Morocco, Tunisia, Nigeria, South Africa',
+      regionAr: 'مصر، المغرب، تونس، نيجيريا، جنوب أفريقيا',
       agents: 30,
-      activeCandidates: 680,
-      responseTime: '3.1 hours',
-      rating: 4.5,
-      specializations: ['Healthcare', 'Education', 'Engineering', 'Agriculture'],
-      countries: ['Egypt', 'Morocco', 'Tunisia', 'Sudan', 'Nigeria'],
+      candidates: 680,
+      specializations: ['Healthcare', 'Education', 'Agriculture', 'Mining', 'Tourism'],
+      specializationsAr: ['الرعاية الصحية', 'التعليم', 'الزراعة', 'التعدين', 'السياحة'],
       platforms: [
-        { name: 'Wuzzuf Egypt', url: 'https://wuzzuf.net/jobs/egypt', active: true },
-        { name: 'Rekrute.com', url: 'https://www.rekrute.com/', active: true },
-        { name: 'Jobberman', url: 'https://www.jobberman.com/', active: true },
-        { name: 'Tanitjobs', url: 'https://www.tanitjobs.com/', active: true },
-        { name: 'Bayt Egypt', url: 'https://www.bayt.com/en/egypt/', active: true }
-      ]
+        { name: 'Wuzzuf Egypt', url: 'https://wuzzuf.net/', status: 'active' },
+        { name: 'Rekrute.com', url: 'https://www.rekrute.com/', status: 'active' },
+        { name: 'Jobberman', url: 'https://www.jobberman.com/', status: 'active' },
+        { name: 'Tanitjobs', url: 'https://www.tanitjobs.com/', status: 'active' },
+        { name: 'Bayt Egypt', url: 'https://www.bayt.com/en/egypt/', status: 'active' }
+      ],
+      averageResponseTime: '3.7 hours',
+      successRate: 75.8,
+      costPerHire: '$2,100'
     }
   ];
 
-  // Saudi Compliance Services Data
+  // Saudi Compliance Services
   const complianceServices = [
     {
-      id: 'gosi',
-      name: 'GOSI',
-      nameAr: 'التأمينات الاجتماعية',
-      description: 'General Organization for Social Insurance',
-      descriptionAr: 'المؤسسة العامة للتأمينات الاجتماعية',
-      score: 95,
-      status: 'compliant',
-      lastCheck: new Date('2024-01-15T14:00:00'),
-      issues: 0,
-      url: 'https://gosi.gov.sa'
-    },
-    {
-      id: 'qiwa',
-      name: 'Qiwa',
-      nameAr: 'قوى',
-      description: 'Ministry of Labor Platform',
-      descriptionAr: 'منصة وزارة العمل',
-      score: 92,
-      status: 'compliant',
-      lastCheck: new Date('2024-01-15T13:30:00'),
-      issues: 1,
-      url: 'https://qiwa.sa'
-    },
-    {
-      id: 'mol',
-      name: 'MOL',
-      nameAr: 'وزارة العمل',
-      description: 'Ministry of Labor',
-      descriptionAr: 'وزارة العمل والتنمية الاجتماعية',
-      score: 88,
-      status: 'compliant',
-      lastCheck: new Date('2024-01-15T12:45:00'),
+      id: 'gosi_compliance',
+      name: 'GOSI Compliance',
+      nameAr: 'امتثال التأمينات الاجتماعية',
+      score: 94.2,
+      status: 'excellent',
+      lastCheck: new Date('2024-01-15T16:00:00'),
       issues: 2,
-      url: 'https://mol.gov.sa'
+      description: 'Social Insurance compliance monitoring',
+      descriptionAr: 'مراقبة امتثال التأمينات الاجتماعية'
     },
     {
-      id: 'hrsd',
-      name: 'HRSD',
-      nameAr: 'الموارد البشرية',
-      description: 'Human Resources Development',
-      descriptionAr: 'تنمية الموارد البشرية والتنمية الاجتماعية',
-      score: 90,
-      status: 'compliant',
-      lastCheck: new Date('2024-01-15T11:20:00'),
+      id: 'qiwa_compliance',
+      name: 'Qiwa Compliance',
+      nameAr: 'امتثال قوى',
+      score: 96.8,
+      status: 'excellent',
+      lastCheck: new Date('2024-01-15T15:30:00'),
       issues: 1,
-      url: 'https://hrsd.gov.sa'
+      description: 'Labor platform compliance',
+      descriptionAr: 'امتثال منصة العمل'
     },
     {
-      id: 'absher',
-      name: 'Absher',
-      nameAr: 'أبشر',
-      description: 'Digital Government Platform',
-      descriptionAr: 'منصة الحكومة الرقمية',
-      score: 94,
-      status: 'compliant',
-      lastCheck: new Date('2024-01-15T10:15:00'),
-      issues: 0,
-      url: 'https://absher.sa'
-    },
-    {
-      id: 'wps',
-      name: 'WPS',
-      nameAr: 'نظام حماية الأجور',
-      description: 'Wage Protection System',
-      descriptionAr: 'نظام حماية الأجور',
-      score: 87,
-      status: 'warning',
-      lastCheck: new Date('2024-01-15T09:30:00'),
+      id: 'mol_compliance',
+      name: 'MOL Compliance',
+      nameAr: 'امتثال وزارة العمل',
+      score: 91.5,
+      status: 'good',
+      lastCheck: new Date('2024-01-15T14:45:00'),
       issues: 3,
-      url: 'https://wps.mol.gov.sa'
+      description: 'Ministry of Labor compliance',
+      descriptionAr: 'امتثال وزارة العمل'
     },
     {
-      id: 'nitaqat',
-      name: 'Nitaqat',
-      nameAr: 'نطاقات',
-      description: 'Saudization Program',
-      descriptionAr: 'برنامج التوطين',
-      score: 85,
-      status: 'warning',
-      lastCheck: new Date('2024-01-15T08:45:00'),
+      id: 'hrsd_compliance',
+      name: 'HRSD Compliance',
+      nameAr: 'امتثال الموارد البشرية',
+      score: 88.7,
+      status: 'good',
+      lastCheck: new Date('2024-01-15T13:20:00'),
       issues: 4,
-      url: 'https://nitaqat.mol.gov.sa'
+      description: 'Human Resources compliance',
+      descriptionAr: 'امتثال الموارد البشرية'
+    },
+    {
+      id: 'absher_compliance',
+      name: 'Absher Compliance',
+      nameAr: 'امتثال أبشر',
+      score: 93.1,
+      status: 'excellent',
+      lastCheck: new Date('2024-01-15T12:10:00'),
+      issues: 2,
+      description: 'Digital government compliance',
+      descriptionAr: 'امتثال الحكومة الرقمية'
+    },
+    {
+      id: 'wps_compliance',
+      name: 'WPS Compliance',
+      nameAr: 'امتثال نظام حماية الأجور',
+      score: 89.9,
+      status: 'good',
+      lastCheck: new Date('2024-01-15T11:30:00'),
+      issues: 3,
+      description: 'Wage Protection System compliance',
+      descriptionAr: 'امتثال نظام حماية الأجور'
+    },
+    {
+      id: 'nitaqat_compliance',
+      name: 'Nitaqat Compliance',
+      nameAr: 'امتثال نطاقات',
+      score: 85.4,
+      status: 'warning',
+      lastCheck: new Date('2024-01-15T10:15:00'),
+      issues: 6,
+      description: 'Saudization program compliance',
+      descriptionAr: 'امتثال برنامج السعودة'
     }
   ];
 
-  const stats = [
-    {
-      title: t('المرشحون النشطون', 'Active Candidates'),
-      value: 1247,
-      icon: Users,
-      variant: "primary" as const,
-      trend: { value: "+12%", isPositive: true }
-    },
-    {
-      title: t('الوظائف المفتوحة', 'Open Positions'),
-      value: 89,
-      icon: Briefcase,
-      variant: "accent" as const,
-      trend: { value: "+5", isPositive: true }
-    },
-    {
-      title: t('عمليات التوظيف هذا الشهر', 'Hires This Month'),
-      value: 34,
-      icon: UserPlus,
-      variant: "success" as const,
-      trend: { value: "+8", isPositive: true }
-    },
-    {
-      title: t('متوسط وقت التوظيف', 'Average Time to Hire'),
-      value: '18 ' + t('يوم', 'days'),
-      icon: Clock,
-      variant: "warning" as const,
-      trend: { value: "-3 days", isPositive: true }
-    }
-  ];
+  // Dashboard metrics
+  const dashboardMetrics = {
+    activeCandidates: 139770,
+    openPositions: 18450,
+    hiresThisMonth: 342,
+    averageTimeToHire: 18,
+    platformsActive: 12,
+    platformsTotal: 14,
+    internationalAgents: 110,
+    totalCandidatesInternational: 2510,
+    complianceScore: 89.3,
+    activeConversations: 24,
+    responseRate: 94.2
+  };
+
+  // Status badge component
+  const StatusBadge = ({ status }: { status: string }) => {
+    const getStatusColor = (status: string) => {
+      switch (status) {
+        case 'active': return 'bg-green-100 text-green-800 border-green-200';
+        case 'inactive': return 'bg-red-100 text-red-800 border-red-200';
+        case 'maintenance': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        case 'error': return 'bg-red-100 text-red-800 border-red-200';
+        case 'connected': return 'bg-blue-100 text-blue-800 border-blue-200';
+        case 'excellent': return 'bg-green-100 text-green-800 border-green-200';
+        case 'good': return 'bg-blue-100 text-blue-800 border-blue-200';
+        case 'warning': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+        default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      }
+    };
+
+    const getStatusText = (status: string) => {
+      const statusMap = {
+        active: { ar: 'نشط', en: 'Active' },
+        inactive: { ar: 'غير نشط', en: 'Inactive' },
+        maintenance: { ar: 'صيانة', en: 'Maintenance' },
+        error: { ar: 'خطأ', en: 'Error' },
+        connected: { ar: 'متصل', en: 'Connected' },
+        excellent: { ar: 'ممتاز', en: 'Excellent' },
+        good: { ar: 'جيد', en: 'Good' },
+        warning: { ar: 'تحذير', en: 'Warning' }
+      };
+      return statusMap[status]?.[isArabic ? 'ar' : 'en'] || status;
+    };
+
+    return (
+      <Badge className={cn('border', getStatusColor(status))}>
+        {getStatusText(status)}
+      </Badge>
+    );
+  };
 
   // Dashboard Tab Component
   const DashboardTab = () => (
-    <div className="space-y-6">
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <Card key={index} className="hover:shadow-md transition-shadow">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <stat.icon className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className={`text-xs ${stat.trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                {stat.trend.value} {t('من الشهر الماضي', 'from last month')}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+        <Card className={cn('border-l-4 border-l-blue-500', isArabic ? 'border-r-4 border-r-blue-500 border-l-0' : '')}>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">
+                  {t('metrics.activeCandidates', 'المرشحون النشطون')}
+                </p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {dashboardMetrics.activeCandidates.toLocaleString()}
+                </p>
+                <p className="text-sm text-green-600 flex items-center mt-1">
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                  +12% {t('common.thisMonth', 'هذا الشهر')}
+                </p>
+              </div>
+              <Users className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className={cn('border-l-4 border-l-green-500', isArabic ? 'border-r-4 border-r-green-500 border-l-0' : '')}>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">
+                  {t('metrics.openPositions', 'الوظائف المفتوحة')}
+                </p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {dashboardMetrics.openPositions.toLocaleString()}
+                </p>
+                <p className="text-sm text-green-600 flex items-center mt-1">
+                  <Target className="w-4 h-4 mr-1" />
+                  +8% {t('common.thisWeek', 'هذا الأسبوع')}
+                </p>
+              </div>
+              <Briefcase className="w-12 h-12 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className={cn('border-l-4 border-l-purple-500', isArabic ? 'border-r-4 border-r-purple-500 border-l-0' : '')}>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">
+                  {t('metrics.hiresThisMonth', 'عمليات التوظيف هذا الشهر')}
+                </p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {dashboardMetrics.hiresThisMonth}
+                </p>
+                <p className="text-sm text-purple-600 flex items-center mt-1">
+                  <UserCheck className="w-4 h-4 mr-1" />
+                  +15% {t('common.vsLastMonth', 'مقارنة بالشهر الماضي')}
+                </p>
+              </div>
+              <UserPlus className="w-12 h-12 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className={cn('border-l-4 border-l-orange-500', isArabic ? 'border-r-4 border-r-orange-500 border-l-0' : '')}>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">
+                  {t('metrics.averageTimeToHire', 'متوسط وقت التوظيف')}
+                </p>
+                <p className="text-3xl font-bold text-gray-900">
+                  {dashboardMetrics.averageTimeToHire} {t('metrics.days', 'يوم')}
+                </p>
+                <p className="text-sm text-orange-600 flex items-center mt-1">
+                  <Clock className="w-4 h-4 mr-1" />
+                  -3 {t('common.days', 'أيام')} {t('common.improved', 'تحسن')}
+                </p>
+              </div>
+              <Clock className="w-12 h-12 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Quick Actions */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('الإجراءات السريعة', 'Quick Actions')}</CardTitle>
-          <CardDescription>
-            {t('الإجراءات الأكثر استخداماً في التوظيف', 'Most used recruitment actions')}
-          </CardDescription>
+          <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+            <Zap className="w-5 h-5 mr-2" />
+            {t('actions.title', 'الإجراءات السريعة')}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <UserPlus className="h-6 w-6" />
-              {t('إضافة وظيفة جديدة', 'Add New Position')}
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Plus className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.addPosition', 'إضافة وظيفة جديدة')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.addPositionDesc', 'إنشاء وظيفة جديدة مع التكامل مع قوى')}</p>
+                </div>
+              </div>
             </Button>
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <FileCheck className="h-6 w-6" />
-              {t('مراجعة السير الذاتية', 'Review CVs')}
+
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Eye className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.reviewCVs', 'مراجعة السير الذاتية')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.reviewCVsDesc', 'مراجعة السير الذاتية المقدمة')}</p>
+                </div>
+              </div>
             </Button>
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <Users className="h-6 w-6" />
-              {t('إعداد موظف جديد', 'Onboard Employee')}
+
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <UserPlus className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.onboardEmployee', 'إعداد موظف جديد')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.onboardEmployeeDesc', 'بدء عملية إعداد موظف جديد')}</p>
+                </div>
+              </div>
             </Button>
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <FileText className="h-6 w-6" />
-              {t('إنشاء عرض عمل', 'Create Job Offer')}
+
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <FileText className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.createJobOffer', 'إنشاء عرض عمل')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.createJobOfferDesc', 'إنشاء عرض عمل شامل مع سير عمل الموافقة')}</p>
+                </div>
+              </div>
             </Button>
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <BarChart3 className="h-6 w-6" />
-              {t('تقارير التوظيف', 'Recruitment Reports')}
+
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <BarChart3 className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.recruitmentReports', 'تقارير التوظيف')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.recruitmentReportsDesc', 'عرض تقارير وتحليلات التوظيف')}</p>
+                </div>
+              </div>
             </Button>
-            <Button className="h-20 flex flex-col gap-2" variant="outline">
-              <MessageSquare className="h-6 w-6" />
-              {t('مركز التواصل', 'Communication Hub')}
+
+            <Button 
+              variant="outline" 
+              className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}
+            >
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <MessageSquare className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('actions.communicationHub', 'مركز الاتصالات')}</p>
+                  <p className="text-sm text-gray-500">{t('actions.communicationHubDesc', 'إدارة الاتصالات مع المرشحين والوكلاء')}</p>
+                </div>
+              </div>
             </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="hover:shadow-md transition-shadow">
+      {/* Platform Status Overview */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-success" />
-                {t('التوظيف النشط', 'Active Recruitment')}
+            <CardTitle className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Globe className="w-5 h-5 mr-2" />
+                {t('dashboard.platformStatus', 'حالة المنصات')}
               </div>
-              <Badge variant="outline" className="bg-success/10 text-success">
-                {t('جاري', 'Ongoing')}
+              <Badge variant="outline">
+                {dashboardMetrics.platformsActive}/{dashboardMetrics.platformsTotal} {t('common.active', 'نشط')}
               </Badge>
             </CardTitle>
-            <CardDescription>
-              {t('عمليات التوظيف الجارية', 'Ongoing recruitment processes')}
-            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-success rounded-full"></div>
-              <span className="text-sm text-muted-foreground">
-                {t('89 وظيفة مفتوحة', '89 open positions')}
-              </span>
+            <div className="space-y-3">
+              {localPlatforms.slice(0, 5).map((platform) => (
+                <div key={platform.id} className={cn('flex items-center justify-between p-3 bg-gray-50 rounded-lg', isArabic ? 'flex-row-reverse' : '')}>
+                  <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                    <div className={cn('w-3 h-3 rounded-full mr-3', 
+                      platform.status === 'active' ? 'bg-green-500' : 
+                      platform.status === 'maintenance' ? 'bg-yellow-500' : 'bg-red-500'
+                    )} />
+                    <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                      <p className="font-medium">{isArabic ? platform.nameAr : platform.name}</p>
+                      <p className="text-sm text-gray-500">{platform.activeJobs.toLocaleString()} {t('common.jobs', 'وظيفة')}</p>
+                    </div>
+                  </div>
+                  <StatusBadge status={platform.status} />
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
 
-        <Card className="hover:shadow-md transition-shadow">
+        <Card>
           <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Users className="h-5 w-5 text-primary" />
-                {t('بنك المواهب', 'Talent Pool')}
+            <CardTitle className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Globe2 className="w-5 h-5 mr-2" />
+                {t('dashboard.internationalAgents', 'الوكلاء الدوليون')}
               </div>
-              <Badge variant="outline" className="bg-primary/10 text-primary">
-                {t('نشط', 'Active')}
+              <Badge variant="outline">
+                {dashboardMetrics.internationalAgents} {t('common.agents', 'وكيل')}
               </Badge>
             </CardTitle>
-            <CardDescription>
-              {t('قاعدة بيانات المرشحين', 'Candidate database')}
-            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-primary rounded-full"></div>
-              <span className="text-sm text-muted-foreground">
-                {t('1,247 مرشح', '1,247 candidates')}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileCheck className="h-5 w-5 text-accent" />
-                {t('الإعداد والتهيئة', 'Onboarding')}
-              </div>
-              <Badge variant="outline" className="bg-accent/10 text-accent">
-                {t('متقدم', 'Advanced')}
-              </Badge>
-            </CardTitle>
-            <CardDescription>
-              {t('عملية إعداد الموظفين الجدد', 'New employee onboarding process')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-accent rounded-full"></div>
-              <span className="text-sm text-muted-foreground">
-                {t('12 موظف في الإعداد', '12 employees onboarding')}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="hover:shadow-md transition-shadow">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Target className="h-5 w-5 text-warning" />
-                {t('أهداف التوطين', 'Saudization Goals')}
-              </div>
-              <Badge variant="outline" className="bg-warning/10 text-warning">
-                {t('في المسار', 'On Track')}
-              </Badge>
-            </CardTitle>
-            <CardDescription>
-              {t('تحقيق أهداف التوطين', 'Meeting Saudization targets')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-warning rounded-full"></div>
-              <span className="text-sm text-muted-foreground">
-                {t('67% نسبة التوطين', '67% Saudization rate')}
-              </span>
+            <div className="space-y-3">
+              {internationalClusters.map((cluster) => (
+                <div key={cluster.id} className={cn('flex items-center justify-between p-3 bg-gray-50 rounded-lg', isArabic ? 'flex-row-reverse' : '')}>
+                  <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                    <div className="w-3 h-3 rounded-full bg-blue-500 mr-3" />
+                    <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                      <p className="font-medium">{isArabic ? cluster.nameAr : cluster.name}</p>
+                      <p className="text-sm text-gray-500">{cluster.agents} {t('common.agents', 'وكيل')} • {cluster.candidates} {t('common.candidates', 'مرشح')}</p>
+                    </div>
+                  </div>
+                  <Badge variant="outline" className="bg-green-50 text-green-700">
+                    {cluster.successRate}%
+                  </Badge>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -633,893 +785,741 @@ const RecruitmentOnboarding = () => {
 
   // Local Platforms Tab Component
   const LocalPlatformsTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">
-            {t('منصات التوظيف السعودية المحلية', 'Local Saudi Recruitment Platforms')}
-          </h3>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-green-100 text-green-800">
-              {t('12 منصة نشطة', '12 Active Platforms')}
-            </Badge>
-            <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
-              {t('2 في الصيانة', '2 Under Maintenance')}
-            </Badge>
-          </div>
-        </div>
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+      {/* Platform Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('platforms.totalPlatforms', 'إجمالي المنصات')}</p>
+                <p className="text-3xl font-bold text-gray-900">{localPlatforms.length}</p>
+              </div>
+              <Building className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Platform Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">14</div>
-            <div className="text-sm text-gray-600">
-              {t('إجمالي المنصات', 'Total Platforms')}
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('platforms.activePlatforms', 'المنصات النشطة')}</p>
+                <p className="text-3xl font-bold text-green-600">
+                  {localPlatforms.filter(p => p.status === 'active').length}
+                </p>
+              </div>
+              <CheckCircle className="w-12 h-12 text-green-500" />
             </div>
-          </div>
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">18,450</div>
-            <div className="text-sm text-gray-600">
-              {t('الوظائف النشطة', 'Active Jobs')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">137,260</div>
-            <div className="text-sm text-gray-600">
-              {t('إجمالي المرشحين', 'Total Candidates')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600">85.7%</div>
-            <div className="text-sm text-gray-600">
-              {t('معدل التشغيل', 'Uptime Rate')}
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Platforms Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {localPlatforms.map((platform) => (
-            <div key={platform.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-semibold text-gray-900">
-                    {language === 'ar' ? platform.nameAr : platform.name}
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    {language === 'ar' ? platform.categoryAr : platform.category}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${
-                    platform.status === 'active' ? 'bg-green-500' : 'bg-yellow-500'
-                  }`}></div>
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    platform.status === 'active' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {platform.status === 'active' ? t('نشط', 'Active') : t('صيانة', 'Maintenance')}
-                  </span>
-                </div>
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('platforms.uptime', 'وقت التشغيل')}</p>
+                <p className="text-3xl font-bold text-blue-600">
+                  {((localPlatforms.filter(p => p.status === 'active').length / localPlatforms.length) * 100).toFixed(1)}%
+                </p>
               </div>
-              
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('الوظائف النشطة', 'Active Jobs')}:</span>
-                  <span className="font-medium">{platform.activeJobs.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('المرشحين', 'Candidates')}:</span>
-                  <span className="font-medium">{platform.candidates.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('آخر مزامنة', 'Last Sync')}:</span>
-                  <span className="font-medium">{platform.lastSync.toLocaleTimeString()}</span>
-                </div>
-              </div>
-              
-              <p className="text-xs text-gray-500 mb-3">
-                {language === 'ar' ? platform.descriptionAr : platform.description}
-              </p>
-              
-              <div className="flex gap-2">
-                <a 
-                  href={platform.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 flex items-center justify-center gap-1"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  {t('زيارة المنصة', 'Visit Platform')}
-                </a>
-                <Button variant="outline" size="sm" className="px-3">
-                  {t('مزامنة', 'Sync')}
-                </Button>
-              </div>
+              <Activity className="w-12 h-12 text-blue-500" />
             </div>
-          ))}
-        </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Platform List */}
+      <Card>
+        <CardHeader>
+          <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+            <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+              <Globe className="w-5 h-5 mr-2" />
+              {t('platforms.saudiPlatforms', 'المنصات السعودية')}
+            </CardTitle>
+            <div className={cn('flex items-center space-x-2', isArabic ? 'space-x-reverse' : '')}>
+              <Button variant="outline" size="sm">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                {t('common.refresh', 'تحديث')}
+              </Button>
+              <Button variant="outline" size="sm">
+                <Filter className="w-4 h-4 mr-2" />
+                {t('common.filter', 'تصفية')}
+              </Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {localPlatforms.map((platform) => (
+              <div key={platform.id} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+                  <div className={cn('flex items-center space-x-4', isArabic ? 'space-x-reverse' : '')}>
+                    <div className={cn('w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-lg')}>
+                      {(isArabic ? platform.nameAr : platform.name).charAt(0)}
+                    </div>
+                    <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                      <h3 className="font-semibold text-lg">{isArabic ? platform.nameAr : platform.name}</h3>
+                      <p className="text-gray-600">{isArabic ? platform.descriptionAr : platform.description}</p>
+                      <div className={cn('flex items-center space-x-4 mt-2', isArabic ? 'space-x-reverse' : '')}>
+                        <span className="text-sm text-gray-500">
+                          {platform.activeJobs.toLocaleString()} {t('common.jobs', 'وظيفة')}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {platform.candidates.toLocaleString()} {t('common.candidates', 'مرشح')}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {isArabic ? platform.categoryAr : platform.category}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={cn('flex items-center space-x-3', isArabic ? 'space-x-reverse' : '')}>
+                    <div className={cn('text-right', isArabic ? 'text-left' : '')}>
+                      <StatusBadge status={platform.status} />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {t('platforms.lastSync', 'آخر مزامنة')}: {platform.lastSync.toLocaleTimeString()}
+                      </p>
+                      <div className="flex items-center mt-1">
+                        <div className={cn('w-2 h-2 rounded-full mr-1', 
+                          platform.apiStatus === 'connected' ? 'bg-green-500' : 
+                          platform.apiStatus === 'maintenance' ? 'bg-yellow-500' : 'bg-red-500'
+                        )} />
+                        <span className="text-xs text-gray-500">API {platform.apiStatus}</span>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={platform.url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+                
+                {/* Compliance Score */}
+                <div className="mt-4 pt-4 border-t">
+                  <div className={cn('flex items-center justify-between mb-2', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-sm font-medium">{t('platforms.complianceScore', 'نتيجة الامتثال')}</span>
+                    <span className="text-sm font-bold">{platform.compliance}%</span>
+                  </div>
+                  <Progress value={platform.compliance} className="h-2" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 
   // International Agents Tab Component
   const InternationalAgentsTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">
-            {t('الوكلاء الدوليون للتوظيف', 'International Recruitment Agents')}
-          </h3>
-          <Button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-            {t('إضافة وكيل', 'Add Agent')}
-          </Button>
-        </div>
-
-        {/* International Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">4</div>
-            <div className="text-sm text-gray-600">
-              {t('المجموعات الإقليمية', 'Regional Clusters')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">110</div>
-            <div className="text-sm text-gray-600">
-              {t('إجمالي الوكلاء', 'Total Agents')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">2,510</div>
-            <div className="text-sm text-gray-600">
-              {t('المرشحين النشطين', 'Active Candidates')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600">2.8h</div>
-            <div className="text-sm text-gray-600">
-              {t('متوسط وقت الاستجابة', 'Avg Response Time')}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {internationalAgents.map((cluster) => (
-            <div key={cluster.id} className="border rounded-lg p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h4 className="font-semibold text-gray-900">
-                    {language === 'ar' ? cluster.nameAr : cluster.name}
-                  </h4>
-                  <p className="text-sm text-gray-600">{cluster.region}</p>
-                </div>
-                <div className="flex items-center">
-                  <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                  <span className="text-sm font-medium">{cluster.rating}</span>
-                </div>
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+      {/* International Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('international.totalClusters', 'إجمالي المجموعات')}</p>
+                <p className="text-3xl font-bold text-gray-900">{internationalClusters.length}</p>
               </div>
-              
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t('الوكلاء', 'Agents')}:
-                  </span>
-                  <span className="font-medium">{cluster.agents}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t('المرشحين النشطين', 'Active Candidates')}:
-                  </span>
-                  <span className="font-medium">{cluster.activeCandidates.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t('وقت الاستجابة', 'Response Time')}:
-                  </span>
-                  <span className="font-medium">{cluster.responseTime}</span>
-                </div>
-              </div>
-              
-              <div className="mt-4">
-                <p className="text-sm text-gray-600 mb-2">
-                  {t('التخصصات', 'Specializations')}:
+              <Globe2 className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('international.totalAgents', 'إجمالي الوكلاء')}</p>
+                <p className="text-3xl font-bold text-blue-600">
+                  {internationalClusters.reduce((sum, cluster) => sum + cluster.agents, 0)}
                 </p>
-                <div className="flex flex-wrap gap-1">
-                  {cluster.specializations.map((spec) => (
-                    <span key={spec} className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">
-                      {spec}
-                    </span>
-                  ))}
-                </div>
               </div>
+              <Users className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
 
-              {/* Platform Links */}
-              {cluster.platforms && (
-                <div className="mt-4">
-                  <p className="text-sm text-gray-600 mb-2">
-                    {t('منصات التوظيف', 'Recruitment Platforms')}:
-                  </p>
-                  <div className="space-y-1">
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('international.totalCandidates', 'إجمالي المرشحين')}</p>
+                <p className="text-3xl font-bold text-green-600">
+                  {internationalClusters.reduce((sum, cluster) => sum + cluster.candidates, 0).toLocaleString()}
+                </p>
+              </div>
+              <UserCheck className="w-12 h-12 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('international.avgSuccessRate', 'متوسط معدل النجاح')}</p>
+                <p className="text-3xl font-bold text-purple-600">
+                  {(internationalClusters.reduce((sum, cluster) => sum + cluster.successRate, 0) / internationalClusters.length).toFixed(1)}%
+                </p>
+              </div>
+              <Award className="w-12 h-12 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* International Clusters */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {internationalClusters.map((cluster) => (
+          <Card key={cluster.id} className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+                <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                  <Globe2 className="w-5 h-5 mr-2" />
+                  {isArabic ? cluster.nameAr : cluster.name}
+                </div>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700">
+                  {cluster.successRate}% {t('common.success', 'نجاح')}
+                </Badge>
+              </CardTitle>
+              <CardDescription className={cn(isArabic ? 'text-right' : 'text-left')}>
+                {isArabic ? cluster.regionAr : cluster.region}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {/* Cluster Statistics */}
+                <div className="grid grid-cols-3 gap-4">
+                  <div className={cn('text-center', isArabic ? 'text-right' : 'text-left')}>
+                    <p className="text-2xl font-bold text-blue-600">{cluster.agents}</p>
+                    <p className="text-sm text-gray-600">{t('international.agents', 'وكيل')}</p>
+                  </div>
+                  <div className={cn('text-center', isArabic ? 'text-right' : 'text-left')}>
+                    <p className="text-2xl font-bold text-green-600">{cluster.candidates}</p>
+                    <p className="text-sm text-gray-600">{t('international.candidates', 'مرشح')}</p>
+                  </div>
+                  <div className={cn('text-center', isArabic ? 'text-right' : 'text-left')}>
+                    <p className="text-2xl font-bold text-purple-600">{cluster.costPerHire}</p>
+                    <p className="text-sm text-gray-600">{t('international.costPerHire', 'تكلفة التوظيف')}</p>
+                  </div>
+                </div>
+
+                {/* Specializations */}
+                <div>
+                  <h4 className="font-medium mb-2">{t('international.specializations', 'التخصصات')}</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {(isArabic ? cluster.specializationsAr : cluster.specializations).map((spec, index) => (
+                      <Badge key={index} variant="secondary" className="text-xs">
+                        {spec}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Platform Links */}
+                <div>
+                  <h4 className="font-medium mb-2">{t('international.platforms', 'المنصات')}</h4>
+                  <div className="space-y-2">
                     {cluster.platforms.map((platform, index) => (
-                      <div key={index} className="flex items-center justify-between text-xs">
-                        <a 
-                          href={platform.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 hover:underline flex items-center"
-                        >
-                          <ExternalLink className="w-3 h-3 mr-1" />
-                          {platform.name}
-                        </a>
-                        <span className={`px-1 py-0.5 rounded text-xs ${
-                          platform.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {platform.active ? '✓' : '✗'}
-                        </span>
+                      <div key={index} className={cn('flex items-center justify-between p-2 bg-gray-50 rounded', isArabic ? 'flex-row-reverse' : '')}>
+                        <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                          <div className={cn('w-2 h-2 rounded-full mr-2', 
+                            platform.status === 'active' ? 'bg-green-500' : 'bg-red-500'
+                          )} />
+                          <span className="text-sm font-medium">{platform.name}</span>
+                        </div>
+                        <Button variant="ghost" size="sm" asChild>
+                          <a href={platform.url} target="_blank" rel="noopener noreferrer">
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        </Button>
                       </div>
                     ))}
                   </div>
                 </div>
-              )}
-              
-              <div className="mt-4 flex space-x-2">
-                <Button className="flex-1 bg-purple-600 text-white py-2 px-3 rounded text-sm hover:bg-purple-700">
-                  {t('التواصل مع الوكلاء', 'Contact Agents')}
-                </Button>
-                <Button variant="outline" className="flex-1 border border-gray-300 py-2 px-3 rounded text-sm hover:bg-gray-50">
-                  {t('عرض المرشحين', 'View Candidates')}
-                </Button>
+
+                {/* Performance Metrics */}
+                <div className="pt-4 border-t">
+                  <div className={cn('flex items-center justify-between text-sm', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-gray-600">{t('international.avgResponseTime', 'متوسط وقت الاستجابة')}</span>
+                    <span className="font-medium">{cluster.averageResponseTime}</span>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
 
   // Communication Hub Tab Component
   const CommunicationHubTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">
-            {t('مركز التواصل المركزي', 'Centralized Communication Hub')}
-          </h3>
-          <Button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-            {t('رسالة جديدة', 'New Message')}
-          </Button>
-        </div>
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+      {/* Communication Statistics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('communication.activeChats', 'المحادثات النشطة')}</p>
+                <p className="text-3xl font-bold text-blue-600">{dashboardMetrics.activeConversations}</p>
+              </div>
+              <MessageSquare className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Communication Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">24</div>
-            <div className="text-sm text-gray-600">
-              {t('المحادثات النشطة', 'Active Conversations')}
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('communication.responseRate', 'معدل الاستجابة')}</p>
+                <p className="text-3xl font-bold text-green-600">{dashboardMetrics.responseRate}%</p>
+              </div>
+              <CheckCircle className="w-12 h-12 text-green-500" />
             </div>
-          </div>
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">94%</div>
-            <div className="text-sm text-gray-600">
-              {t('معدل الاستجابة', 'Response Rate')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">2.1h</div>
-            <div className="text-sm text-gray-600">
-              {t('متوسط وقت الاستجابة', 'Avg Response Time')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600">98%</div>
-            <div className="text-sm text-gray-600">
-              {t('نقاط الامتثال', 'Compliance Score')}
-            </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Search and Filter */}
-        <div className="flex space-x-4 mb-6">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-            <Input
-              type="text"
-              placeholder={t('البحث في المحادثات...', 'Search conversations...')}
-              className="pl-10"
-            />
-          </div>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Filter className="w-4 h-4" />
-            {t('تصفية', 'Filter')}
-          </Button>
-        </div>
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('communication.avgResponse', 'متوسط الاستجابة')}</p>
+                <p className="text-3xl font-bold text-orange-600">2.3h</p>
+              </div>
+              <Clock className="w-12 h-12 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        {/* Active Conversations */}
-        <div className="space-y-4">
-          <h4 className="font-medium">{t('المحادثات النشطة', 'Active Conversations')}</h4>
-          
-          {/* Sample conversations */}
-          {[
-            {
-              id: 1,
-              contact: 'Ahmed Al-Rashid',
-              contactAr: 'أحمد الراشد',
-              platform: 'LinkedIn UAE',
-              lastMessage: 'Interested in the Senior Developer position',
-              lastMessageAr: 'مهتم بوظيفة مطور أول',
-              time: '2 min ago',
-              timeAr: 'منذ دقيقتين',
-              unread: 2,
-              status: 'online'
-            },
-            {
-              id: 2,
-              contact: 'Sarah Johnson',
-              contactAr: 'سارة جونسون',
-              platform: 'Indeed USA',
-              lastMessage: 'Can you provide more details about the role?',
-              lastMessageAr: 'هل يمكنك تقديم المزيد من التفاصيل حول الدور؟',
-              time: '15 min ago',
-              timeAr: 'منذ 15 دقيقة',
-              unread: 0,
-              status: 'away'
-            },
-            {
-              id: 3,
-              contact: 'Mohamed Hassan',
-              contactAr: 'محمد حسن',
-              platform: 'Wuzzuf Egypt',
-              lastMessage: 'Thank you for considering my application',
-              lastMessageAr: 'شكراً لك على النظر في طلبي',
-              time: '1 hour ago',
-              timeAr: 'منذ ساعة',
-              unread: 1,
-              status: 'offline'
-            }
-          ].map((conversation) => (
-            <div key={conversation.id} className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  <div className="relative">
-                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-medium">
-                        {(language === 'ar' ? conversation.contactAr : conversation.contact).charAt(0)}
-                      </span>
+      {/* Communication Hub Interface */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+            <MessageSquare className="w-5 h-5 mr-2" />
+            {t('communication.title', 'مركز الاتصالات المركزي')}
+          </CardTitle>
+          <CardDescription>
+            {t('communication.subtitle', 'رسائل فورية مع مراقبة الامتثال')}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Recent Conversations */}
+            <div className="lg:col-span-2">
+              <h3 className="font-medium mb-4">{t('communication.recentConversations', 'المحادثات الأخيرة')}</h3>
+              <div className="space-y-3">
+                {[
+                  { name: 'أحمد محمد', platform: 'LinkedIn', time: '5 دقائق', status: 'online', message: 'مهتم بوظيفة مطور البرمجيات' },
+                  { name: 'Sarah Johnson', platform: 'Bayt.com', time: '12 دقيقة', status: 'away', message: 'Can you provide more details about the position?' },
+                  { name: 'محمد العلي', platform: 'Qiwa', time: '25 دقيقة', status: 'offline', message: 'أرغب في التقديم على الوظيفة' },
+                  { name: 'Priya Sharma', platform: 'Naukrigulf', time: '1 ساعة', status: 'online', message: 'Thank you for considering my application' },
+                  { name: 'عبدالله الراشد', platform: 'GulfTalent', time: '2 ساعة', status: 'away', message: 'متى يمكنني إجراء المقابلة؟' }
+                ].map((conversation, index) => (
+                  <div key={index} className={cn('flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer', isArabic ? 'flex-row-reverse' : '')}>
+                    <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                      <div className="relative">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
+                          {conversation.name.charAt(0)}
+                        </div>
+                        <div className={cn('absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white',
+                          conversation.status === 'online' ? 'bg-green-500' :
+                          conversation.status === 'away' ? 'bg-yellow-500' : 'bg-gray-400'
+                        )} />
+                      </div>
+                      <div className={cn('ml-3', isArabic ? 'mr-3 ml-0 text-right' : 'text-left')}>
+                        <p className="font-medium">{conversation.name}</p>
+                        <p className="text-sm text-gray-600 truncate max-w-xs">{conversation.message}</p>
+                        <p className="text-xs text-gray-500">{conversation.platform} • {conversation.time}</p>
+                      </div>
                     </div>
-                    <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white ${
-                      conversation.status === 'online' ? 'bg-green-500' : 
-                      conversation.status === 'away' ? 'bg-yellow-500' : 'bg-gray-400'
-                    }`}></div>
                   </div>
-                  <div>
-                    <h5 className="font-medium">
-                      {language === 'ar' ? conversation.contactAr : conversation.contact}
-                    </h5>
-                    <p className="text-xs text-gray-500">{conversation.platform}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* Compliance Alerts */}
+            <div>
+              <h3 className="font-medium mb-4">{t('communication.complianceAlerts', 'تنبيهات الامتثال')}</h3>
+              <div className="space-y-3">
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                  <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                    <CheckCircle className="w-4 h-4 text-green-600 mr-2" />
+                    <span className="text-sm font-medium text-green-800">
+                      {t('compliance.allClear', 'جميع المحادثات متوافقة')}
+                    </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-500">
-                    {language === 'ar' ? conversation.timeAr : conversation.time}
-                  </p>
-                  {conversation.unread > 0 && (
-                    <span className="inline-block bg-blue-600 text-white text-xs rounded-full px-2 py-1 mt-1">
-                      {conversation.unread}
+                
+                <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                    <AlertTriangle className="w-4 h-4 text-yellow-600 mr-2" />
+                    <span className="text-sm font-medium text-yellow-800">
+                      {t('compliance.reviewRequired', 'مراجعة مطلوبة')}
                     </span>
-                  )}
+                  </div>
+                  <p className="text-xs text-yellow-700 mt-1">
+                    {t('compliance.reviewMessage', '3 محادثات تحتاج مراجعة يدوية')}
+                  </p>
+                </div>
+
+                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                    <Info className="w-4 h-4 text-blue-600 mr-2" />
+                    <span className="text-sm font-medium text-blue-800">
+                      {t('compliance.autoArchived', 'أرشفة تلقائية')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-700 mt-1">
+                    {t('compliance.archivedMessage', '15 محادثة تم أرشفتها تلقائياً')}
+                  </p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 truncate">
-                {language === 'ar' ? conversation.lastMessageAr : conversation.lastMessage}
-              </p>
-            </div>
-          ))}
-        </div>
 
-        {/* Quick Actions */}
-        <div className="mt-6 flex gap-4">
-          <Button className="flex items-center gap-2">
-            <Send className="w-4 h-4" />
-            {t('إرسال رسالة جماعية', 'Send Bulk Message')}
-          </Button>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Phone className="w-4 h-4" />
-            {t('جدولة مكالمة', 'Schedule Call')}
-          </Button>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
-            {t('حجز مقابلة', 'Book Interview')}
-          </Button>
-        </div>
-      </div>
+              {/* Quick Actions */}
+              <div className="mt-6 space-y-2">
+                <Button className="w-full" variant="outline">
+                  <Send className="w-4 h-4 mr-2" />
+                  {t('communication.newMessage', 'رسالة جديدة')}
+                </Button>
+                <Button className="w-full" variant="outline">
+                  <Archive className="w-4 h-4 mr-2" />
+                  {t('communication.viewArchive', 'عرض الأرشيف')}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 
   // Compliance Tab Component
   const ComplianceTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">
-            {t('مراقبة الامتثال السعودي', 'Saudi Compliance Monitoring')}
-          </h3>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="bg-green-100 text-green-800">
-              {t('89.3% نقاط الامتثال الإجمالية', '89.3% Overall Compliance Score')}
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+      {/* Compliance Overview */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+            <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+              <Shield className="w-5 h-5 mr-2" />
+              {t('compliance.overview', 'نظرة عامة على الامتثال')}
+            </div>
+            <Badge variant="outline" className="bg-green-50 text-green-700">
+              {t('compliance.overallScore', 'النتيجة الإجمالية')}: {dashboardMetrics.complianceScore}%
             </Badge>
-          </div>
-        </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {complianceServices.map((service) => (
+              <Card key={service.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className={cn('flex items-center justify-between mb-3', isArabic ? 'flex-row-reverse' : '')}>
+                    <h3 className="font-medium">{isArabic ? service.nameAr : service.name}</h3>
+                    <StatusBadge status={service.status} />
+                  </div>
+                  
+                  <div className="space-y-3">
+                    {/* Score */}
+                    <div>
+                      <div className={cn('flex items-center justify-between mb-1', isArabic ? 'flex-row-reverse' : '')}>
+                        <span className="text-sm text-gray-600">{t('compliance.score', 'النتيجة')}</span>
+                        <span className="text-sm font-bold">{service.score}%</span>
+                      </div>
+                      <Progress value={service.score} className="h-2" />
+                    </div>
 
-        {/* Compliance Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">5</div>
-            <div className="text-sm text-gray-600">
-              {t('خدمات متوافقة', 'Compliant Services')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-yellow-50 rounded-lg">
-            <div className="text-2xl font-bold text-yellow-600">2</div>
-            <div className="text-sm text-gray-600">
-              {t('تحذيرات', 'Warnings')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">10</div>
-            <div className="text-sm text-gray-600">
-              {t('إجمالي المشاكل', 'Total Issues')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">24/7</div>
-            <div className="text-sm text-gray-600">
-              {t('المراقبة المستمرة', 'Continuous Monitoring')}
-            </div>
-          </div>
-        </div>
+                    {/* Issues */}
+                    <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+                      <span className="text-sm text-gray-600">{t('compliance.issues', 'المشاكل')}</span>
+                      <Badge variant={service.issues === 0 ? 'default' : service.issues <= 2 ? 'secondary' : 'destructive'}>
+                        {service.issues}
+                      </Badge>
+                    </div>
 
-        {/* Compliance Services */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {complianceServices.map((service) => (
-            <div key={service.id} className="border rounded-lg p-4">
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-semibold text-gray-900">
-                    {language === 'ar' ? service.nameAr : service.name}
-                  </h4>
-                  <p className="text-xs text-gray-500">
-                    {language === 'ar' ? service.descriptionAr : service.description}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${
-                    service.status === 'compliant' ? 'bg-green-500' : 'bg-yellow-500'
-                  }`}></div>
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    service.status === 'compliant' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {service.status === 'compliant' ? t('متوافق', 'Compliant') : t('تحذير', 'Warning')}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="space-y-2 text-sm mb-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('النقاط', 'Score')}:</span>
-                  <span className="font-medium">{service.score}%</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('المشاكل', 'Issues')}:</span>
-                  <span className={`font-medium ${service.issues === 0 ? 'text-green-600' : 'text-yellow-600'}`}>
-                    {service.issues}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">{t('آخر فحص', 'Last Check')}:</span>
-                  <span className="font-medium">{service.lastCheck.toLocaleTimeString()}</span>
+                    {/* Last Check */}
+                    <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+                      <span className="text-sm text-gray-600">{t('compliance.lastCheck', 'آخر فحص')}</span>
+                      <span className="text-xs text-gray-500">{service.lastCheck.toLocaleTimeString()}</span>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-gray-500">
+                      {isArabic ? service.descriptionAr : service.description}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Compliance Actions */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+            <Settings className="w-5 h-5 mr-2" />
+            {t('compliance.actions', 'إجراءات الامتثال')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Button variant="outline" className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <RefreshCw className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('compliance.runFullAudit', 'تشغيل تدقيق شامل')}</p>
+                  <p className="text-sm text-gray-500">{t('compliance.runFullAuditDesc', 'فحص شامل لجميع الخدمات')}</p>
                 </div>
               </div>
-              
-              <div className="flex gap-2">
-                <a 
-                  href={service.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex-1 bg-blue-600 text-white py-2 px-3 rounded text-sm hover:bg-blue-700 flex items-center justify-center gap-1"
-                >
-                  <ExternalLink className="w-3 h-3" />
-                  {t('زيارة الخدمة', 'Visit Service')}
-                </a>
-                <Button variant="outline" size="sm" className="px-3">
-                  {t('فحص', 'Check')}
-                </Button>
+            </Button>
+
+            <Button variant="outline" className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Download className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('compliance.downloadReport', 'تحميل التقرير')}</p>
+                  <p className="text-sm text-gray-500">{t('compliance.downloadReportDesc', 'تقرير الامتثال الشامل')}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            </Button>
+
+            <Button variant="outline" className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <Bell className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('compliance.configureAlerts', 'تكوين التنبيهات')}</p>
+                  <p className="text-sm text-gray-500">{t('compliance.configureAlertsDesc', 'إعداد تنبيهات الامتثال')}</p>
+                </div>
+              </div>
+            </Button>
+
+            <Button variant="outline" className={cn('h-auto p-4 justify-start', isArabic ? 'justify-end' : '')}>
+              <div className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+                <FileText className="w-5 h-5 mr-3" />
+                <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                  <p className="font-medium">{t('compliance.viewHistory', 'عرض السجل')}</p>
+                  <p className="text-sm text-gray-500">{t('compliance.viewHistoryDesc', 'سجل تدقيق الامتثال')}</p>
+                </div>
+              </div>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 
   // Analytics Tab Component
   const AnalyticsTab = () => (
-    <div className="space-y-6">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-lg font-semibold">
-            {t('تحليلات التوظيف المتقدمة', 'Advanced Recruitment Analytics')}
-          </h3>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm">
-              {t('تصدير التقرير', 'Export Report')}
-            </Button>
-            <Button variant="outline" size="sm">
-              {t('جدولة التقرير', 'Schedule Report')}
-            </Button>
-          </div>
-        </div>
-
-        {/* Analytics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">342</div>
-            <div className="text-sm text-gray-600">
-              {t('إجمالي التوظيفات', 'Total Hires')}
-            </div>
-            <div className="text-xs text-green-600 mt-1">
-              <TrendingUp className="w-3 h-3 inline mr-1" />
-              +15% {t('هذا الشهر', 'this month')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">18.5</div>
-            <div className="text-sm text-gray-600">
-              {t('متوسط أيام التوظيف', 'Avg Days to Hire')}
-            </div>
-            <div className="text-xs text-green-600 mt-1">
-              <TrendingUp className="w-3 h-3 inline mr-1" />
-              -3 {t('أيام تحسن', 'days improved')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">$2,450</div>
-            <div className="text-sm text-gray-600">
-              {t('متوسط تكلفة التوظيف', 'Avg Cost per Hire')}
-            </div>
-            <div className="text-xs text-green-600 mt-1">
-              <TrendingUp className="w-3 h-3 inline mr-1" />
-              -12% {t('انخفاض', 'reduction')}
-            </div>
-          </div>
-          <div className="text-center p-4 bg-orange-50 rounded-lg">
-            <div className="text-2xl font-bold text-orange-600">87%</div>
-            <div className="text-sm text-gray-600">
-              {t('معدل نجاح التوظيف', 'Hire Success Rate')}
-            </div>
-            <div className="text-xs text-green-600 mt-1">
-              <TrendingUp className="w-3 h-3 inline mr-1" />
-              +5% {t('تحسن', 'improvement')}
-            </div>
-          </div>
-        </div>
-
-        {/* Performance by Platform */}
-        <div className="mb-6">
-          <h4 className="font-medium mb-4">{t('الأداء حسب المنصة', 'Performance by Platform')}</h4>
-          <div className="space-y-3">
-            {[
-              { name: 'LinkedIn Saudi', nameAr: 'لينكد إن السعودية', hires: 89, cost: '$2,100', quality: 92 },
-              { name: 'Bayt.com Saudi', nameAr: 'بيت.كوم السعودية', hires: 76, cost: '$1,800', quality: 88 },
-              { name: 'Qiwa Platform', nameAr: 'منصة قوى', hires: 65, cost: '$1,200', quality: 85 },
-              { name: 'GulfTalent', nameAr: 'جلف تالنت', hires: 54, cost: '$2,800', quality: 94 },
-              { name: 'Indeed Saudi', nameAr: 'إنديد السعودية', hires: 43, cost: '$1,950', quality: 82 }
-            ].map((platform, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-medium">{index + 1}</span>
-                  </div>
-                  <div>
-                    <h5 className="font-medium">
-                      {language === 'ar' ? platform.nameAr : platform.name}
-                    </h5>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 text-sm">
-                  <div className="text-center">
-                    <div className="font-medium">{platform.hires}</div>
-                    <div className="text-gray-500">{t('توظيف', 'Hires')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-medium">{platform.cost}</div>
-                    <div className="text-gray-500">{t('التكلفة', 'Cost')}</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="font-medium">{platform.quality}%</div>
-                    <div className="text-gray-500">{t('الجودة', 'Quality')}</div>
-                  </div>
-                </div>
+    <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+      {/* Analytics Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('analytics.totalApplications', 'إجمالي الطلبات')}</p>
+                <p className="text-3xl font-bold text-blue-600">15,847</p>
+                <p className="text-sm text-green-600">+23% {t('common.thisMonth', 'هذا الشهر')}</p>
               </div>
-            ))}
-          </div>
-        </div>
+              <FileText className="w-12 h-12 text-blue-500" />
+            </div>
+          </CardContent>
+        </Card>
 
-        {/* Top Performing Agents */}
-        <div>
-          <h4 className="font-medium mb-4">{t('أفضل الوكلاء أداءً', 'Top Performing Agents')}</h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              { name: 'Ahmed Al-Rashid', nameAr: 'أحمد الراشد', region: 'GCC', hires: 23, rating: 4.9 },
-              { name: 'Sarah Johnson', nameAr: 'سارة جونسون', region: 'Western', hires: 18, rating: 4.8 },
-              { name: 'Rajesh Kumar', nameAr: 'راجيش كومار', region: 'South Asia', hires: 31, rating: 4.7 }
-            ].map((agent, index) => (
-              <div key={index} className="border rounded-lg p-4">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
-                    <Award className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h5 className="font-medium">
-                      {language === 'ar' ? agent.nameAr : agent.name}
-                    </h5>
-                    <p className="text-sm text-gray-500">{agent.region}</p>
-                  </div>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>{t('التوظيفات', 'Hires')}:</span>
-                    <span className="font-medium">{agent.hires}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>{t('التقييم', 'Rating')}:</span>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 text-yellow-500" />
-                      <span className="font-medium">{agent.rating}</span>
-                    </div>
-                  </div>
-                </div>
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('analytics.interviewsScheduled', 'المقابلات المجدولة')}</p>
+                <p className="text-3xl font-bold text-green-600">1,234</p>
+                <p className="text-sm text-green-600">+18% {t('common.thisWeek', 'هذا الأسبوع')}</p>
               </div>
-            ))}
-          </div>
-        </div>
+              <Calendar className="w-12 h-12 text-green-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('analytics.offersSent', 'العروض المرسلة')}</p>
+                <p className="text-3xl font-bold text-purple-600">456</p>
+                <p className="text-sm text-purple-600">+31% {t('common.thisMonth', 'هذا الشهر')}</p>
+              </div>
+              <Send className="w-12 h-12 text-purple-500" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+              <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+                <p className="text-sm font-medium text-gray-600">{t('analytics.acceptanceRate', 'معدل القبول')}</p>
+                <p className="text-3xl font-bold text-orange-600">78.5%</p>
+                <p className="text-sm text-orange-600">+5.2% {t('common.improvement', 'تحسن')}</p>
+              </div>
+              <CheckCircle className="w-12 h-12 text-orange-500" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
+
+      {/* Performance by Platform */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+            <BarChart3 className="w-5 h-5 mr-2" />
+            {t('analytics.performanceByPlatform', 'الأداء حسب المنصة')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {localPlatforms.slice(0, 8).map((platform) => (
+              <div key={platform.id} className="space-y-2">
+                <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+                  <span className="font-medium">{isArabic ? platform.nameAr : platform.name}</span>
+                  <div className={cn('flex items-center space-x-4', isArabic ? 'space-x-reverse' : '')}>
+                    <span className="text-sm text-gray-600">{platform.candidates.toLocaleString()} {t('common.candidates', 'مرشح')}</span>
+                    <span className="text-sm font-bold">{platform.compliance}%</span>
+                  </div>
+                </div>
+                <Progress value={platform.compliance} className="h-2" />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* International Performance */}
+      <Card>
+        <CardHeader>
+          <CardTitle className={cn('flex items-center', isArabic ? 'flex-row-reverse' : '')}>
+            <Globe2 className="w-5 h-5 mr-2" />
+            {t('analytics.internationalPerformance', 'الأداء الدولي')}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {internationalClusters.map((cluster) => (
+              <div key={cluster.id} className="p-4 border rounded-lg">
+                <div className={cn('flex items-center justify-between mb-3', isArabic ? 'flex-row-reverse' : '')}>
+                  <h3 className="font-medium">{isArabic ? cluster.nameAr : cluster.name}</h3>
+                  <Badge variant="outline">{cluster.successRate}%</Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className={cn('flex justify-between text-sm', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-gray-600">{t('analytics.agents', 'الوكلاء')}</span>
+                    <span className="font-medium">{cluster.agents}</span>
+                  </div>
+                  <div className={cn('flex justify-between text-sm', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-gray-600">{t('analytics.candidates', 'المرشحين')}</span>
+                    <span className="font-medium">{cluster.candidates}</span>
+                  </div>
+                  <div className={cn('flex justify-between text-sm', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-gray-600">{t('analytics.costPerHire', 'تكلفة التوظيف')}</span>
+                    <span className="font-medium">{cluster.costPerHire}</span>
+                  </div>
+                  <div className={cn('flex justify-between text-sm', isArabic ? 'flex-row-reverse' : '')}>
+                    <span className="text-gray-600">{t('analytics.responseTime', 'وقت الاستجابة')}</span>
+                    <span className="font-medium">{cluster.averageResponseTime}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 
-  const tabs = [
-    {
-      id: 'dashboard',
-      label: t('لوحة التحكم', 'Dashboard'),
-      icon: BarChart3,
-      content: <DashboardTab />
-    },
-    {
-      id: 'local-platforms',
-      label: t('المنصات المحلية', 'Local Platforms'),
-      icon: MapPin,
-      content: <LocalPlatformsTab />
-    },
-    {
-      id: 'international-agents',
-      label: t('الوكلاء الدوليون', 'International Agents'),
-      icon: Globe,
-      content: <InternationalAgentsTab />
-    },
-    {
-      id: 'communication-hub',
-      label: t('مركز التواصل', 'Communication Hub'),
-      icon: MessageSquare,
-      content: <CommunicationHubTab />
-    },
-    {
-      id: 'compliance',
-      label: t('الامتثال', 'Compliance'),
-      icon: Shield,
-      content: <ComplianceTab />
-    },
-    {
-      id: 'analytics',
-      label: t('التحليلات', 'Analytics'),
-      icon: BarChart3,
-      content: <AnalyticsTab />
-    },
-    {
-      id: 'documents',
-      label: t('المستندات', 'Documents'),
-      icon: FileText,
-      content: (
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                {t('رفع المستندات', 'Upload Documents')}
-              </CardTitle>
-              <CardDescription>
-                {t('ارفع ملفات التوظيف والإعداد للمعالجة بالذكاء الاصطناعي', 'Upload recruitment and onboarding files for AI processing')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <UniversalDocumentManager
-                moduleName="Recruitment & Onboarding"
-                moduleNameAr="التوظيف والإعداد"
-                description="Upload CVs, job descriptions, interview notes, offer letters, and onboarding documents"
-                descriptionAr="رفع السير الذاتية ووصف الوظائف وملاحظات المقابلات وخطابات العروض ووثائق الإعداد"
-                platform="recruitment-onboarding"
-                moduleType="hr"
-                acceptedTypes={['.pdf', '.doc', '.docx', '.xlsx', '.csv', '.jpg', '.jpeg', '.png']}
-                maxFileSize={20 * 1024 * 1024}
-                maxFiles={40}
-                showAsCard={false}
-              />
-            </CardContent>
-          </Card>
-        </div>
-      )
-    },
-    {
-      id: 'position-form',
-      label: t('إضافة وظيفة', 'Add Position'),
-      icon: UserPlus,
-      content: (
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <UserPlus className="h-5 w-5" />
-                {t('إنشاء وظيفة جديدة', 'Create New Position')}
-              </CardTitle>
-              <CardDescription>
-                {t('استخدم قاعدة البيانات المرجعية السعودية لتحديد الموقع والقطاع', 'Use Saudi reference database to specify location and sector')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Location Selection */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <MapPin className="h-5 w-5" />
-                  {t('الموقع', 'Location')}
-                </h3>
-                <LocationForm
-                  regionValue={formData.region}
-                  cityValue={formData.city}
-                  onRegionChange={(value) => setFormData(prev => ({...prev, region: value}))}
-                  onCityChange={(value) => setFormData(prev => ({...prev, city: value}))}
-                />
-              </div>
-
-              {/* Sector & Activity Selection */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Building className="h-5 w-5" />
-                  {t('القطاع والنشاط', 'Sector & Activity')}
-                </h3>
-                <SectorActivityForm
-                  sectorValue={formData.sector}
-                  activityValue={formData.activity}
-                  onSectorChange={(value) => setFormData(prev => ({...prev, sector: value}))}
-                  onActivityChange={(value) => setFormData(prev => ({...prev, activity: value}))}
-                />
-              </div>
-
-              {/* Company Selection */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <Briefcase className="h-5 w-5" />
-                  {t('الشركة', 'Company')}
-                </h3>
-                <CompanySelect
-                  value={formData.company}
-                  onValueChange={(value) => setFormData(prev => ({...prev, company: value}))}
-                  showDetails={true}
-                />
-              </div>
-
-              {/* Position Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="position">
-                    {t('المسمى الوظيفي', 'Position Title')}
-                  </Label>
-                  <Input
-                    id="position"
-                    value={formData.position}
-                    onChange={(e) => setFormData(prev => ({...prev, position: e.target.value}))}
-                    placeholder={t('أدخل المسمى الوظيفي', 'Enter position title')}
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description">
-                  {t('وصف الوظيفة', 'Job Description')}
-                </Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => setFormData(prev => ({...prev, description: e.target.value}))}
-                  placeholder={t('أدخل وصف الوظيفة', 'Enter job description')}
-                  rows={4}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="requirements">
-                  {t('المتطلبات', 'Requirements')}
-                </Label>
-                <Textarea
-                  id="requirements"
-                  value={formData.requirements}
-                  onChange={(e) => setFormData(prev => ({...prev, requirements: e.target.value}))}
-                  placeholder={t('أدخل متطلبات الوظيفة', 'Enter job requirements')}
-                  rows={4}
-                />
-              </div>
-
-              <div className="flex gap-4">
-                <Button className="flex-1">
-                  {t('إنشاء الوظيفة', 'Create Position')}
-                </Button>
-                <Button variant="outline" onClick={() => setFormData({
-                  region: '', city: '', sector: '', activity: '', company: '', position: '', description: '', requirements: ''
-                })}>
-                  {t('إعادة تعيين', 'Reset')}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )
-    },
-    {
-      id: 'job-offers',
-      label: t('عروض العمل', 'Job Offers'),
-      icon: FileText,
-      content: <JobOfferManagement />
-    }
-  ];
-
   return (
-    <>
-      <EnhancedPageLayout
-        title={t('التوظيف والإعداد المحسن', 'Enhanced Recruitment & Onboarding')}
-        description={t('إدارة شاملة لعمليات التوظيف والإعداد مع التكامل مع المراجع السعودية والمنصات الدولية', 'Comprehensive recruitment and onboarding management with Saudi reference integration and international platforms')}
-        stats={stats}
-        quickActions={[]}
-        showQuickActions={false}
-      >
-        <div className="space-y-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10">
-              {tabs.map((tab) => (
-                <TabsTrigger 
-                  key={tab.id} 
-                  value={tab.id}
-                  className="flex items-center gap-2 text-xs lg:text-sm"
-                >
-                  <tab.icon className="h-4 w-4" />
-                  <span className="hidden lg:inline">{tab.label}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            
-            {tabs.map((tab) => (
-              <TabsContent key={tab.id} value={tab.id} className="mt-6">
-                {tab.content}
-              </TabsContent>
-            ))}
-          </Tabs>
+    <RTLMainLayout currentPage="recruitment">
+      <div dir={direction} className={cn('space-y-6', isArabic ? 'text-right' : 'text-left')}>
+        {/* Page Header */}
+        <div className={cn('flex items-center justify-between', isArabic ? 'flex-row-reverse' : '')}>
+          <div className={cn(isArabic ? 'text-right' : 'text-left')}>
+            <h1 className={cn('text-3xl font-bold text-gray-900', isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.title', 'التوظيف والإعداد')}
+            </h1>
+            <p className="text-gray-600 mt-2">
+              {t('recruitment.subtitle', 'إدارة شاملة لعمليات التوظيف والإعداد مع التكامل مع المراجع السعودية')}
+            </p>
+          </div>
+          <div className={cn('flex items-center space-x-3', isArabic ? 'space-x-reverse' : '')}>
+            <Button variant="outline">
+              <Download className="w-4 h-4 mr-2" />
+              {t('common.export', 'تصدير')}
+            </Button>
+            <Button>
+              <Plus className="w-4 h-4 mr-2" />
+              {t('recruitment.newPosition', 'وظيفة جديدة')}
+            </Button>
+          </div>
         </div>
-      </EnhancedPageLayout>
-      
-      <AqlHRAIAssistant />
-    </>
+
+        {/* Enhanced Tabs with RTL Support */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} dir={direction}>
+          <TabsList className={cn('grid w-full grid-cols-6', isArabic ? 'text-right' : 'text-left')}>
+            <TabsTrigger value="dashboard" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.dashboard', 'لوحة التحكم')}
+            </TabsTrigger>
+            <TabsTrigger value="localPlatforms" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.localPlatforms', 'المنصات المحلية')}
+            </TabsTrigger>
+            <TabsTrigger value="internationalAgents" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.internationalAgents', 'الوكلاء الدوليون')}
+            </TabsTrigger>
+            <TabsTrigger value="communicationHub" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.communicationHub', 'مركز الاتصالات')}
+            </TabsTrigger>
+            <TabsTrigger value="compliance" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.compliance', 'الامتثال')}
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className={cn(isArabic ? 'font-cairo' : 'font-sans')}>
+              {t('recruitment.analytics', 'التحليلات')}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard">
+            <DashboardTab />
+          </TabsContent>
+
+          <TabsContent value="localPlatforms">
+            <LocalPlatformsTab />
+          </TabsContent>
+
+          <TabsContent value="internationalAgents">
+            <InternationalAgentsTab />
+          </TabsContent>
+
+          <TabsContent value="communicationHub">
+            <CommunicationHubTab />
+          </TabsContent>
+
+          <TabsContent value="compliance">
+            <ComplianceTab />
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <AnalyticsTab />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </RTLMainLayout>
   );
 };
 
-export default RecruitmentOnboarding;
+export default RecruitmentOnboardingRTL;
 
