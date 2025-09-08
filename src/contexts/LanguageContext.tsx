@@ -412,7 +412,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setLanguage, 
         toggleLanguage,
         t, 
-        isRTL: language === 'ar' 
+        isRTL: language === 'ar',
+        direction: language === 'ar' ? 'rtl' : 'ltr',
+        isArabic: language === 'ar',
+        isEnglish: language === 'en'
       }}
     >
       {children}

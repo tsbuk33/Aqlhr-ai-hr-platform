@@ -6,11 +6,13 @@ import LEOOverview from '@/components/diagnostic/LEOOverview';
 import { supabase } from '@/integrations/supabase/client';
 import { useUserCompany } from '@/hooks/useUserCompany';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 
 const LearningOptimization: React.FC = () => {
   const [caseId, setCaseId] = useState<string>('');
   const { companyId } = useUserCompany();
   const { hasAccess, upsellOpen, hideUpsell } = usePlanAccess('SKU_LEO');
+  const { t, isRTL } = useLanguage();
 
   useEffect(() => {
     const createOrGetCase = async () => {
@@ -59,19 +61,19 @@ const LearningOptimization: React.FC = () => {
 
   if (!hasAccess) {
     return (
-      <div className="container mx-auto p-6">
+      <div className={`container mx-auto p-6 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="text-center py-12">
-          <h1 className="text-2xl font-bold mb-4">Learning Experience Optimization</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('leo.title')}</h1>
           <p className="text-muted-foreground mb-6">
-            This feature requires the LEO package. Please upgrade to access AI-powered learning optimization.
+            {t('leo.upgrade_message')}
           </p>
         </div>
         <PlanUpsellModal 
           isOpen={upsellOpen}
           onClose={hideUpsell}
           skuCode="SKU_LEO"
-          featureName="Learning Experience Optimization"
-          description="Get AI-powered skill gap analysis and personalized learning paths"
+          featureName={t('leo.title')}
+          description={t('leo.description')}
         />
       </div>
     );
@@ -79,19 +81,19 @@ const LearningOptimization: React.FC = () => {
 
   if (!caseId) {
     return (
-      <div className="container mx-auto p-6">
+      <div className={`container mx-auto p-6 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="text-center py-12">
-          <p>Setting up Learning Optimization analysis...</p>
+          <p>{t('leo.setting_up')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6">
+    <div className={`container mx-auto p-6 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <Tabs defaultValue="overview" className="space-y-6">
         <TabsList className="grid w-full grid-cols-1">
-          <TabsTrigger value="overview">LEO Overview</TabsTrigger>
+          <TabsTrigger value="overview">{t('leo.overview')}</TabsTrigger>
         </TabsList>
         
         <TabsContent value="overview" className="space-y-6">
@@ -103,8 +105,8 @@ const LearningOptimization: React.FC = () => {
         isOpen={upsellOpen}
         onClose={hideUpsell}
         skuCode="SKU_LEO"
-        featureName="Learning Experience Optimization"
-        description="Get AI-powered skill gap analysis and personalized learning paths"
+        featureName={t('leo.title')}
+        description={t('leo.description')}
       />
       
       {/* AI Integration for Diagnostic Learning Optimization */}
