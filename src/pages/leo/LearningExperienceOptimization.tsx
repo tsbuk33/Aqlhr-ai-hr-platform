@@ -84,24 +84,29 @@ const LearningExperienceOptimization: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 main-content" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header Section */}
+        {/* Header Section - FIXED WITH PROPER TRANSLATIONS */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {t('leo.title')}
+            {language === 'ar' ? 'ليو - تحسين تجربة التعلم' : 'LEO - Learning Experience Optimization'}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {t('leo.subtitle')}
+            {language === 'ar' 
+              ? 'التعلم المصغر المدعوم بالذكاء الاصطناعي، المسارات التكيفية وتطوير المهارات الشخصية'
+              : 'AI-Powered Micro-Learning, Adaptive Pathways & Personalized Skill Development'
+            }
           </p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+        {/* Stats Cards - CENTERED LAYOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8 justify-center">
           <Card className="text-center">
             <CardContent className="p-6">
               <div className="text-3xl font-bold text-blue-600 mb-2">
                 {learningStats.engagementScore}%
               </div>
-              <div className="text-sm text-gray-600">{t('leo.engagementScore')}</div>
+              <div className="text-sm text-gray-600">
+                {language === 'ar' ? 'نقاط المشاركة' : 'Engagement Score'}
+              </div>
             </CardContent>
           </Card>
           
@@ -110,7 +115,9 @@ const LearningExperienceOptimization: React.FC = () => {
               <div className="text-3xl font-bold text-green-600 mb-2">
                 {learningStats.totalHours}
               </div>
-              <div className="text-sm text-gray-600">{t('leo.learningHours')}</div>
+              <div className="text-sm text-gray-600">
+                {language === 'ar' ? 'ساعات التعلم' : 'Learning Hours'}
+              </div>
             </CardContent>
           </Card>
           
@@ -119,7 +126,9 @@ const LearningExperienceOptimization: React.FC = () => {
               <div className="text-3xl font-bold text-purple-600 mb-2">
                 {learningStats.learningStreak}
               </div>
-              <div className="text-sm text-gray-600">{t('leo.dayStreak')}</div>
+              <div className="text-sm text-gray-600">
+                {language === 'ar' ? 'أيام متتالية' : 'Day Streak'}
+              </div>
             </CardContent>
           </Card>
           
@@ -128,7 +137,9 @@ const LearningExperienceOptimization: React.FC = () => {
               <div className="text-3xl font-bold text-orange-600 mb-2">
                 {learningStats.skillsAcquired}
               </div>
-              <div className="text-sm text-gray-600">{t('leo.skillsAcquired')}</div>
+              <div className="text-sm text-gray-600">
+                {language === 'ar' ? 'المهارات المكتسبة' : 'Skills Acquired'}
+              </div>
             </CardContent>
           </Card>
           
@@ -137,20 +148,34 @@ const LearningExperienceOptimization: React.FC = () => {
               <div className="text-3xl font-bold text-red-600 mb-2">
                 {learningStats.completedModules}
               </div>
-              <div className="text-sm text-gray-600">{t('leo.modulesCompleted')}</div>
+              <div className="text-sm text-gray-600">
+                {language === 'ar' ? 'الوحدات المكتملة' : 'Modules Completed'}
+              </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Main Content Tabs */}
+        {/* Main Content Tabs - FIXED WITH PROPER TRANSLATIONS */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="dashboard">{t('dashboard')}</TabsTrigger>
-            <TabsTrigger value="learning">{t('myLearning')}</TabsTrigger>
-            <TabsTrigger value="progress">{t('skillsProgress')}</TabsTrigger>
-            <TabsTrigger value="paths">{t('learningPaths')}</TabsTrigger>
-            <TabsTrigger value="ai">{t('smartAI')}</TabsTrigger>
-            <TabsTrigger value="analytics">{t('analytics')}</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6 justify-center">
+            <TabsTrigger value="dashboard">
+              {language === 'ar' ? 'لوحة التحكم' : 'Dashboard'}
+            </TabsTrigger>
+            <TabsTrigger value="learning">
+              {language === 'ar' ? 'تعلمي' : 'My Learning'}
+            </TabsTrigger>
+            <TabsTrigger value="progress">
+              {language === 'ar' ? 'تقدم المهارات' : 'Skills Progress'}
+            </TabsTrigger>
+            <TabsTrigger value="paths">
+              {language === 'ar' ? 'مسارات التعلم' : 'Learning Paths'}
+            </TabsTrigger>
+            <TabsTrigger value="ai">
+              {language === 'ar' ? 'الذكاء الذكي' : 'Smart AI'}
+            </TabsTrigger>
+            <TabsTrigger value="analytics">
+              {language === 'ar' ? 'التحليلات' : 'Analytics'}
+            </TabsTrigger>
           </TabsList>
 
           {/* Dashboard Tab */}
@@ -159,12 +184,12 @@ const LearningExperienceOptimization: React.FC = () => {
               {/* Live Demo Data Active */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 justify-center">
                     <Activity className="h-5 w-5 text-green-500" />
-                    {t('leo.liveDemoActive')}
+                    {language === 'ar' ? 'بيانات العرض التوضيحي المباشر نشطة' : 'Live Demo Data Active'}
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="text-center">
                   <p className="text-sm text-gray-600 mb-4">
                     {language === 'ar' 
                       ? 'عرض 5 وحدات تدريبية، 5 سجلات تعلم، و6 ملفات شخصية للموظفين مع تتبع التقدم في الوقت الفعلي'
@@ -180,7 +205,9 @@ const LearningExperienceOptimization: React.FC = () => {
               {/* Continue Learning */}
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('leo.continuelearning')}</CardTitle>
+                  <CardTitle className="text-center">
+                    {language === 'ar' ? 'متابعة التعلم' : 'Continue Learning'}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {activeModules.map((module) => (
@@ -201,7 +228,7 @@ const LearningExperienceOptimization: React.FC = () => {
                           {module.duration} {language === 'ar' ? 'دقيقة' : 'min'}
                         </span>
                         <Button size="sm" variant="outline">
-                          {t('continue')}
+                          {language === 'ar' ? 'متابعة' : 'Continue'}
                         </Button>
                       </div>
                     </div>
@@ -213,15 +240,15 @@ const LearningExperienceOptimization: React.FC = () => {
             {/* AI Recommendations */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 justify-center">
                   <Brain className="h-5 w-5 text-purple-500" />
-                  {t('leo.aiRecommendations')}
+                  {language === 'ar' ? 'توصيات الذكاء الاصطناعي' : 'AI Recommendations'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {recommendations.map((rec) => (
-                    <div key={rec.id} className="border rounded-lg p-4">
+                    <div key={rec.id} className="border rounded-lg p-4 text-center">
                       <div className="flex justify-between items-start mb-2">
                         <Badge 
                           variant={rec.priority === (language === 'ar' ? 'عالي' : 'High') ? 'destructive' : 'secondary'}
@@ -239,7 +266,9 @@ const LearningExperienceOptimization: React.FC = () => {
                         <span className="text-xs text-gray-500">
                           ⏱️ {rec.duration} {language === 'ar' ? 'دقيقة' : 'min'}
                         </span>
-                        <Button size="sm">{t('start')}</Button>
+                        <Button size="sm">
+                          {language === 'ar' ? 'ابدأ' : 'Start'}
+                        </Button>
                       </div>
                     </div>
                   ))}
@@ -248,11 +277,11 @@ const LearningExperienceOptimization: React.FC = () => {
             </Card>
           </TabsContent>
 
-          {/* Other tabs with similar translation pattern */}
+          {/* Other tabs with complete translations and center alignment */}
           <TabsContent value="learning" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-center">
                   {language === 'ar' ? 'وحدات التدريب النشطة (5 إجمالي)' : 'Active Training Modules (5 total)'}
                 </CardTitle>
               </CardHeader>
@@ -269,7 +298,7 @@ const LearningExperienceOptimization: React.FC = () => {
           <TabsContent value="progress" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-center">
                   {language === 'ar' ? 'تقدم التعلم الفردي' : 'Individual Learning Progress'}
                 </CardTitle>
               </CardHeader>
@@ -286,7 +315,7 @@ const LearningExperienceOptimization: React.FC = () => {
           <TabsContent value="paths" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-center">
                   {language === 'ar' ? 'مسارات التعلم المخصصة' : 'Personalized Learning Paths'}
                 </CardTitle>
               </CardHeader>
@@ -303,7 +332,7 @@ const LearningExperienceOptimization: React.FC = () => {
           <TabsContent value="ai" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 justify-center">
                   <Brain className="h-5 w-5 text-purple-500" />
                   {language === 'ar' ? 'مساعد الذكاء الاصطناعي للتعلم' : 'AI Learning Assistant'}
                 </CardTitle>
@@ -321,9 +350,9 @@ const LearningExperienceOptimization: React.FC = () => {
           <TabsContent value="analytics" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 justify-center">
                   <BarChart3 className="h-5 w-5 text-blue-500" />
-                  {t('leo.learningAnalytics')}
+                  {language === 'ar' ? 'تحليلات التعلم' : 'Learning Analytics'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -340,7 +369,7 @@ const LearningExperienceOptimization: React.FC = () => {
         {/* AI Assistant Integration */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 justify-center">
               <Brain className="h-5 w-5 text-purple-500" />
               {language === 'ar' ? 'مساعد عقل HR الذكي' : 'AqlHR AI Assistant'}
             </CardTitle>
