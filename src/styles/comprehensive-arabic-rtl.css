@@ -1,0 +1,610 @@
+/* Comprehensive Arabic RTL Styling for AQLHR Platform */
+
+/* Root RTL Configuration */
+[dir="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] body {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+/* Layout Components */
+[dir="rtl"] .sidebar {
+  right: 0 !important;
+  left: auto !important;
+  border-right: none !important;
+  border-left: 1px solid #e5e7eb !important;
+}
+
+[dir="rtl"] .main-content {
+  margin-right: 280px !important;
+  margin-left: 0 !important;
+  padding-right: 2rem !important;
+  padding-left: 1rem !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .content-wrapper {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Navigation */
+[dir="rtl"] .nav-item {
+  text-align: right !important;
+  padding-right: 1rem !important;
+  padding-left: 0.5rem !important;
+}
+
+[dir="rtl"] .nav-link {
+  text-align: right !important;
+  padding-right: 1rem !important;
+  padding-left: 0.5rem !important;
+}
+
+[dir="rtl"] .sidebar-nav {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .nav-tabs {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .nav-tabs .nav-link {
+  text-align: center !important;
+  margin-right: 0 !important;
+  margin-left: 0.25rem !important;
+}
+
+/* Cards and Panels */
+[dir="rtl"] .card,
+[dir="rtl"] .panel,
+[dir="rtl"] .dashboard-card {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .card-header {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .card-body {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .card-title {
+  text-align: center !important;
+}
+
+[dir="rtl"] .card-text {
+  text-align: center !important;
+}
+
+/* Buttons and Form Controls */
+[dir="rtl"] .btn,
+[dir="rtl"] .button {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .form-control,
+[dir="rtl"] .input {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .form-group {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .form-label {
+  text-align: right !important;
+}
+
+/* Tables */
+[dir="rtl"] .table {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+  text-align: center !important;
+}
+
+[dir="rtl"] .table-responsive {
+  direction: rtl !important;
+}
+
+/* Dropdowns and Modals */
+[dir="rtl"] .dropdown-menu {
+  right: 0 !important;
+  left: auto !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .modal-content {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .modal-header {
+  text-align: center !important;
+}
+
+[dir="rtl"] .modal-body {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .modal-footer {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Breadcrumbs and Pagination */
+[dir="rtl"] .breadcrumb {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .breadcrumb-item {
+  text-align: right !important;
+}
+
+[dir="rtl"] .pagination {
+  direction: rtl !important;
+}
+
+/* Alerts and Badges */
+[dir="rtl"] .alert {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .badge {
+  direction: rtl !important;
+}
+
+/* Progress and Lists */
+[dir="rtl"] .progress {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .list-group-item {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Tab Content */
+[dir="rtl"] .tab-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .tab-pane {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Charts and Metrics */
+[dir="rtl"] .chart-container {
+  direction: ltr !important; /* Keep charts LTR for proper display */
+}
+
+[dir="rtl"] .metric-card {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .metric-value {
+  text-align: center !important;
+}
+
+[dir="rtl"] .metric-label {
+  text-align: center !important;
+}
+
+/* Dashboard Grid */
+[dir="rtl"] .dashboard-grid {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .dashboard-item {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Page Structure */
+[dir="rtl"] .page-header {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .page-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .page-title {
+  text-align: center !important;
+}
+
+[dir="rtl"] .page-subtitle {
+  text-align: center !important;
+}
+
+/* Section Styling */
+[dir="rtl"] .section-title {
+  text-align: center !important;
+}
+
+[dir="rtl"] .section-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .section-header {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Module-Specific Styling */
+
+/* LEO Module */
+[dir="rtl"] .leo-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .leo-module h1,
+[dir="rtl"] .leo-module h2,
+[dir="rtl"] .leo-module h3,
+[dir="rtl"] .leo-module h4,
+[dir="rtl"] .leo-module h5,
+[dir="rtl"] .leo-module h6 {
+  text-align: center !important;
+}
+
+[dir="rtl"] .leo-tabs {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .leo-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* GEO Module */
+[dir="rtl"] .geo-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .geo-module h1,
+[dir="rtl"] .geo-module h2,
+[dir="rtl"] .geo-module h3,
+[dir="rtl"] .geo-module h4,
+[dir="rtl"] .geo-module h5,
+[dir="rtl"] .geo-module h6 {
+  text-align: center !important;
+}
+
+[dir="rtl"] .geo-tabs {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .geo-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Analytics Module */
+[dir="rtl"] .analytics-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .analytics-module h1,
+[dir="rtl"] .analytics-module h2,
+[dir="rtl"] .analytics-module h3,
+[dir="rtl"] .analytics-module h4,
+[dir="rtl"] .analytics-module h5,
+[dir="rtl"] .analytics-module h6 {
+  text-align: center !important;
+}
+
+[dir="rtl"] .analytics-tabs {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .analytics-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .analytics-dashboard {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+/* Recruitment Module */
+[dir="rtl"] .recruitment-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .recruitment-tabs {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .recruitment-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .platform-card {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .agent-card {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .communication-hub {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .compliance-dashboard {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+/* Training Module */
+[dir="rtl"] .training-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .training-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Skills Intelligence Module */
+[dir="rtl"] .skills-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .skills-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* AI Intelligence Module */
+[dir="rtl"] .ai-module {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .ai-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Government Integrations */
+[dir="rtl"] .gov-integrations {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .gov-integration-card {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Typography */
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, 
+[dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+  text-align: center !important;
+  font-family: 'Cairo', 'Segoe UI', sans-serif !important;
+}
+
+[dir="rtl"] p {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+[dir="rtl"] .text-center {
+  text-align: center !important;
+}
+
+/* Spacing Adjustments */
+[dir="rtl"] .mr-1 { margin-left: 0.25rem !important; margin-right: 0 !important; }
+[dir="rtl"] .mr-2 { margin-left: 0.5rem !important; margin-right: 0 !important; }
+[dir="rtl"] .mr-3 { margin-left: 1rem !important; margin-right: 0 !important; }
+[dir="rtl"] .mr-4 { margin-left: 1.5rem !important; margin-right: 0 !important; }
+[dir="rtl"] .mr-5 { margin-left: 3rem !important; margin-right: 0 !important; }
+
+[dir="rtl"] .ml-1 { margin-right: 0.25rem !important; margin-left: 0 !important; }
+[dir="rtl"] .ml-2 { margin-right: 0.5rem !important; margin-left: 0 !important; }
+[dir="rtl"] .ml-3 { margin-right: 1rem !important; margin-left: 0 !important; }
+[dir="rtl"] .ml-4 { margin-right: 1.5rem !important; margin-left: 0 !important; }
+[dir="rtl"] .ml-5 { margin-right: 3rem !important; margin-left: 0 !important; }
+
+[dir="rtl"] .pr-1 { padding-left: 0.25rem !important; padding-right: 0 !important; }
+[dir="rtl"] .pr-2 { padding-left: 0.5rem !important; padding-right: 0 !important; }
+[dir="rtl"] .pr-3 { padding-left: 1rem !important; padding-right: 0 !important; }
+[dir="rtl"] .pr-4 { padding-left: 1.5rem !important; padding-right: 0 !important; }
+[dir="rtl"] .pr-5 { padding-left: 3rem !important; padding-right: 0 !important; }
+
+[dir="rtl"] .pl-1 { padding-right: 0.25rem !important; padding-left: 0 !important; }
+[dir="rtl"] .pl-2 { padding-right: 0.5rem !important; padding-left: 0 !important; }
+[dir="rtl"] .pl-3 { padding-right: 1rem !important; padding-left: 0 !important; }
+[dir="rtl"] .pl-4 { padding-right: 1.5rem !important; padding-left: 0 !important; }
+[dir="rtl"] .pl-5 { padding-right: 3rem !important; padding-left: 0 !important; }
+
+/* Float Adjustments */
+[dir="rtl"] .float-left {
+  float: right !important;
+}
+
+[dir="rtl"] .float-right {
+  float: left !important;
+}
+
+/* Border Adjustments */
+[dir="rtl"] .border-left {
+  border-right: 1px solid #dee2e6 !important;
+  border-left: none !important;
+}
+
+[dir="rtl"] .border-right {
+  border-left: 1px solid #dee2e6 !important;
+  border-right: none !important;
+}
+
+/* Flexbox Adjustments */
+[dir="rtl"] .justify-content-start {
+  justify-content: flex-end !important;
+}
+
+[dir="rtl"] .justify-content-end {
+  justify-content: flex-start !important;
+}
+
+/* Text Direction Override for Specific Elements */
+[dir="rtl"] .ltr {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+[dir="rtl"] .rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Center alignment for all content in Arabic */
+[dir="rtl"] .center-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Professional Arabic Typography */
+[dir="rtl"] {
+  font-feature-settings: "liga" 1, "kern" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Arabic Number Formatting */
+[dir="rtl"] .arabic-numbers {
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  display: inline-block;
+}
+
+/* Responsive RTL Adjustments */
+@media (max-width: 768px) {
+  [dir="rtl"] .sidebar {
+    right: -280px !important;
+    left: auto !important;
+  }
+  
+  [dir="rtl"] .sidebar.open {
+    right: 0 !important;
+  }
+  
+  [dir="rtl"] .main-content {
+    margin-right: 0 !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+  }
+}
+
+/* Animation Adjustments for RTL */
+[dir="rtl"] .slide-in-left {
+  animation: slideInRight 0.3s ease-in-out;
+}
+
+[dir="rtl"] .slide-in-right {
+  animation: slideInLeft 0.3s ease-in-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Ensure all content is centered in Arabic */
+[dir="rtl"] .container,
+[dir="rtl"] .container-fluid {
+  text-align: center !important;
+}
+
+[dir="rtl"] .row {
+  text-align: center !important;
+}
+
+[dir="rtl"] .col,
+[dir="rtl"] [class*="col-"] {
+  text-align: center !important;
+}
+
+/* Fix for specific AQLHR components */
+[dir="rtl"] .aqlhr-component {
+  direction: rtl !important;
+  text-align: center !important;
+}
+
+[dir="rtl"] .aqlhr-header {
+  text-align: center !important;
+}
+
+[dir="rtl"] .aqlhr-content {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .aqlhr-sidebar {
+  right: 0 !important;
+  left: auto !important;
+}
+
+[dir="rtl"] .aqlhr-main {
+  margin-right: 280px !important;
+  margin-left: 0 !important;
+  text-align: center !important;
+}
+
