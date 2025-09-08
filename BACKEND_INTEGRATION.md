@@ -9,7 +9,7 @@ The AQLHR platform has been enhanced with a comprehensive 5-layer backend archit
 ### Frontend (Existing)
 - **Location**: `/src/` - React/TypeScript frontend
 - **Deployment**: Vercel (existing)
-- **URL**: https://sanad-ai-hr-platform.vercel.app
+- **URL**: https://www.aqlhr.com
 
 ### Backend (New 5-Layer Architecture)
 - **Location**: `/backend/` - Python-based microservices
