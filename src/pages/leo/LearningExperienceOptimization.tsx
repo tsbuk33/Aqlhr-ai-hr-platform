@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { isRTL } from '../../i18n';
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -9,10 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Brain, Target, TrendingUp, Award, Clock, Play, Users, Star, Zap, Filter, Heart, Link, Activity, CheckCircle, Globe, BarChart3, FileText, User, Briefcase, Calendar } from 'lucide-react';
 
 const LearningExperienceOptimization: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t, language, isRTL } = useLanguage();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isLoading, setIsLoading] = useState(true);
-  const rtl = isRTL();
 
   // Simulate data loading
   useEffect(() => {
@@ -24,13 +22,13 @@ const LearningExperienceOptimization: React.FC = () => {
 
   // Ensure HTML direction is set correctly
   useEffect(() => {
-    document.documentElement.dir = rtl ? 'rtl' : 'ltr';
-    document.documentElement.lang = i18n.language;
-  }, [rtl, i18n.language]);
+    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+    document.documentElement.lang = language;
+  }, [isRTL, language]);
 
   if (isLoading) {
     return (
-      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${rtl ? 'font-arabic' : ''}`}>
+      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${isRTL ? 'font-arabic' : ''}`}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-gray-600">{t('common.loading')}</p>
@@ -77,7 +75,7 @@ const LearningExperienceOptimization: React.FC = () => {
   ];
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 main-content ${rtl ? 'font-arabic text-right' : 'text-left'}`} dir={rtl ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 main-content ${isRTL ? 'font-arabic text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header Section - FIXED WITH PROPER TRANSLATIONS */}
         <div className="text-center mb-8">
@@ -97,7 +95,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.engagementScore}%
               </div>
               <div className="text-sm text-gray-600">
-                {t('leo.metrics.engagementScore')}
+                {t('leo.engagement_score')}
               </div>
             </CardContent>
           </Card>
@@ -151,22 +149,22 @@ const LearningExperienceOptimization: React.FC = () => {
         <Tabs defaultValue="dashboard" className="w-full">
           <TabsList className="grid w-full grid-cols-6 justify-center">
             <TabsTrigger value="dashboard">
-              {t('leo.tabs.dashboard')}
+              {t('leo.dashboard')}
             </TabsTrigger>
             <TabsTrigger value="learning">
-              {t('leo.tabs.myLearning')}
+              {t('leo.my_learning')}
             </TabsTrigger>
             <TabsTrigger value="progress">
-              {t('leo.tabs.skillsProgress')}
+              {t('leo.skills_progress')}
             </TabsTrigger>
             <TabsTrigger value="paths">
-              {t('leo.tabs.learningPaths')}
+              {t('leo.learning_paths')}
             </TabsTrigger>
             <TabsTrigger value="ai">
-              {t('leo.tabs.smartAI')}
+              {t('leo.smart_ai')}
             </TabsTrigger>
             <TabsTrigger value="analytics">
-              {t('leo.tabs.analytics')}
+              {t('leo.analytics')}
             </TabsTrigger>
           </TabsList>
 
@@ -178,7 +176,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 justify-center">
                     <Activity className="h-5 w-5 text-green-500" />
-                    {t('leo.demo.title')}
+                    {t('leo.demo_title')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="text-center">
