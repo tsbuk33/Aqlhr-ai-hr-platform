@@ -1,11 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+export type Language = 'ar' | 'en';
+
 interface LanguageContextType {
-  language: 'ar' | 'en';
-  setLanguage: (lang: 'ar' | 'en') => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
   toggleLanguage: () => void;
-  t: (key: string) => string;
+  t: (key: string, fallback?: string) => string;
   isRTL: boolean;
+  direction: 'ltr' | 'rtl';
+  isArabic: boolean;
+  isEnglish: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
