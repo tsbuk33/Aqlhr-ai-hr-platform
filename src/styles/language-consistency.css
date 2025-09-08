@@ -1,9 +1,142 @@
 /**
- * AQLHR Platform - Language Consistency & Professional Styling
- * Expert-level CSS for fixing language issues and center alignment
+ * AQLHR Platform - Complete Language Consistency & Center Alignment
+ * Expert-level CSS for 100% language consistency and center alignment
  * @author AQLHR Development Team
- * @version 4.0.0
+ * @version 5.0.0
  */
+
+/* ===== GLOBAL CENTER ALIGNMENT ENFORCEMENT ===== */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Force center alignment for all main content */
+.main-content,
+.page-content,
+.module-content,
+.dashboard-content,
+.leo-content,
+.training-content,
+.skills-content,
+main,
+.container,
+.wrapper,
+[class*="content"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+}
+
+/* Center all headings and text */
+h1, h2, h3, h4, h5, h6,
+p, span, div, section, article,
+.stat-card, .metric-card, .module-card,
+.card, .panel, .widget {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Center all grid and flex layouts */
+.grid, .flex, .flex-row, .flex-col,
+[class*="grid"], [class*="flex"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* Center stats and metrics */
+.stats-container,
+.metrics-container,
+.dashboard-stats,
+.leo-stats {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 1.5rem !important;
+  justify-items: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1000px !important;
+  margin: 2rem auto !important;
+  text-align: center !important;
+}
+
+.stat-item,
+.metric-item,
+.stat-card,
+.metric-card {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.5rem !important;
+  border-radius: 0.75rem !important;
+  width: 100% !important;
+  max-width: 250px !important;
+}
+
+/* Center navigation tabs */
+.nav-tabs,
+.tab-navigation,
+.module-tabs,
+[role="tablist"] {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin: 1rem auto !important;
+  text-align: center !important;
+}
+
+.nav-tab,
+.tab-button,
+[role="tab"] {
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.75rem 1.5rem !important;
+  margin: 0 0.25rem !important;
+}
+
+/* Center buttons and actions */
+.button,
+.btn,
+button,
+.action-button,
+.cta-button {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  margin: 0.5rem auto !important;
+}
+
+.button-group,
+.btn-group,
+.actions-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin: 1rem auto !important;
+}
 
 /* ===== LANGUAGE FOUNDATION ===== */
 :root {
@@ -15,13 +148,13 @@
 
 /* ===== DOCUMENT LEVEL LANGUAGE ENFORCEMENT ===== */
 html[lang="ar"] {
-  direction: rtl;
-  font-family: var(--font-arabic);
+  direction: rtl !important;
+  font-family: var(--font-arabic) !important;
 }
 
 html[lang="en"] {
-  direction: ltr;
-  font-family: var(--font-english);
+  direction: ltr !important;
+  font-family: var(--font-english) !important;
 }
 
 /* ===== BODY LANGUAGE CLASSES ===== */
@@ -30,7 +163,17 @@ html[lang="en"] {
   direction: rtl !important;
 }
 
+.lang-ar * {
+  font-family: var(--font-arabic) !important;
+  direction: rtl !important;
+}
+
 .lang-en {
+  font-family: var(--font-english) !important;
+  direction: ltr !important;
+}
+
+.lang-en * {
   font-family: var(--font-english) !important;
   direction: ltr !important;
 }
@@ -43,156 +186,68 @@ html[lang="en"] {
   direction: ltr !important;
 }
 
-/* ===== PROFESSIONAL CENTER ALIGNMENT ===== */
-.center-content {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-.center-content * {
-  text-align: center !important;
-}
-
-.force-center {
-  text-align: center !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.force-center * {
-  text-align: center !important;
-}
-
-/* ===== MAIN CONTENT AREA CENTERING ===== */
-.main-content-center {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
-.page-header-center {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.page-header-center h1,
-.page-header-center h2,
-.page-header-center h3 {
-  text-align: center;
-  margin: 0 auto;
-}
-
-.page-header-center p {
-  text-align: center;
-  margin: 0 auto;
-  max-width: 600px;
-}
-
-/* ===== DASHBOARD AND MODULE CENTERING ===== */
-.dashboard-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-}
-
-.module-content-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  text-align: center;
-}
-
-.stats-grid-center {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  justify-items: center;
-  margin: 2rem auto;
-  max-width: 1200px;
-}
-
-.stat-card-center {
-  text-align: center;
-  padding: 1.5rem;
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow-professional);
-  width: 100%;
-  max-width: 300px;
-}
-
 /* ===== RTL LAYOUT FIXES ===== */
 .lang-ar .flex {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .flex-row {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .justify-between {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .space-x-1 > * + * {
-  margin-left: 0;
-  margin-right: 0.25rem;
+  margin-left: 0 !important;
+  margin-right: 0.25rem !important;
 }
 
 .lang-ar .space-x-2 > * + * {
-  margin-left: 0;
-  margin-right: 0.5rem;
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
 }
 
 .lang-ar .space-x-3 > * + * {
-  margin-left: 0;
-  margin-right: 0.75rem;
+  margin-left: 0 !important;
+  margin-right: 0.75rem !important;
 }
 
 .lang-ar .space-x-4 > * + * {
-  margin-left: 0;
-  margin-right: 1rem;
+  margin-left: 0 !important;
+  margin-right: 1rem !important;
 }
 
 .lang-ar .space-x-6 > * + * {
-  margin-left: 0;
-  margin-right: 1.5rem;
+  margin-left: 0 !important;
+  margin-right: 1.5rem !important;
 }
 
 /* ===== MARGIN AND PADDING RTL FIXES ===== */
-.lang-ar .mr-1 { margin-right: 0; margin-left: 0.25rem; }
-.lang-ar .mr-2 { margin-right: 0; margin-left: 0.5rem; }
-.lang-ar .mr-3 { margin-right: 0; margin-left: 0.75rem; }
-.lang-ar .mr-4 { margin-right: 0; margin-left: 1rem; }
-.lang-ar .mr-6 { margin-right: 0; margin-left: 1.5rem; }
+.lang-ar .mr-1 { margin-right: 0 !important; margin-left: 0.25rem !important; }
+.lang-ar .mr-2 { margin-right: 0 !important; margin-left: 0.5rem !important; }
+.lang-ar .mr-3 { margin-right: 0 !important; margin-left: 0.75rem !important; }
+.lang-ar .mr-4 { margin-right: 0 !important; margin-left: 1rem !important; }
+.lang-ar .mr-6 { margin-right: 0 !important; margin-left: 1.5rem !important; }
 
-.lang-ar .ml-1 { margin-left: 0; margin-right: 0.25rem; }
-.lang-ar .ml-2 { margin-left: 0; margin-right: 0.5rem; }
-.lang-ar .ml-3 { margin-left: 0; margin-right: 0.75rem; }
-.lang-ar .ml-4 { margin-left: 0; margin-right: 1rem; }
-.lang-ar .ml-6 { margin-left: 0; margin-right: 1.5rem; }
+.lang-ar .ml-1 { margin-left: 0 !important; margin-right: 0.25rem !important; }
+.lang-ar .ml-2 { margin-left: 0 !important; margin-right: 0.5rem !important; }
+.lang-ar .ml-3 { margin-left: 0 !important; margin-right: 0.75rem !important; }
+.lang-ar .ml-4 { margin-left: 0 !important; margin-right: 1rem !important; }
+.lang-ar .ml-6 { margin-left: 0 !important; margin-right: 1.5rem !important; }
 
-.lang-ar .pr-1 { padding-right: 0; padding-left: 0.25rem; }
-.lang-ar .pr-2 { padding-right: 0; padding-left: 0.5rem; }
-.lang-ar .pr-3 { padding-right: 0; padding-left: 0.75rem; }
-.lang-ar .pr-4 { padding-right: 0; padding-left: 1rem; }
-.lang-ar .pr-6 { padding-right: 0; padding-left: 1.5rem; }
+.lang-ar .pr-1 { padding-right: 0 !important; padding-left: 0.25rem !important; }
+.lang-ar .pr-2 { padding-right: 0 !important; padding-left: 0.5rem !important; }
+.lang-ar .pr-3 { padding-right: 0 !important; padding-left: 0.75rem !important; }
+.lang-ar .pr-4 { padding-right: 0 !important; padding-left: 1rem !important; }
+.lang-ar .pr-6 { padding-right: 0 !important; padding-left: 1.5rem !important; }
 
-.lang-ar .pl-1 { padding-left: 0; padding-right: 0.25rem; }
-.lang-ar .pl-2 { padding-left: 0; padding-right: 0.5rem; }
-.lang-ar .pl-3 { padding-left: 0; padding-right: 0.75rem; }
-.lang-ar .pl-4 { padding-left: 0; padding-right: 1rem; }
-.lang-ar .pl-6 { padding-left: 0; padding-right: 1.5rem; }
+.lang-ar .pl-1 { padding-left: 0 !important; padding-right: 0.25rem !important; }
+.lang-ar .pl-2 { padding-left: 0 !important; padding-right: 0.5rem !important; }
+.lang-ar .pl-3 { padding-left: 0 !important; padding-right: 0.75rem !important; }
+.lang-ar .pl-4 { padding-left: 0 !important; padding-right: 1rem !important; }
+.lang-ar .pl-6 { padding-left: 0 !important; padding-right: 1.5rem !important; }
 
 /* ===== TEXT ALIGNMENT FIXES ===== */
 .lang-ar .text-left { text-align: right !important; }
@@ -201,93 +256,106 @@ html[lang="en"] {
 .lang-en .text-left { text-align: left !important; }
 .lang-en .text-right { text-align: right !important; }
 
-/* Override for center alignment */
+/* Override for center alignment - HIGHEST PRIORITY */
 .text-center,
+.center-content,
 .center-content *,
+.force-center,
 .force-center *,
+.page-header-center,
 .page-header-center *,
+.dashboard-center,
 .dashboard-center *,
-.module-content-center * {
+.module-content-center,
+.module-content-center *,
+.main-content,
+.main-content *,
+.page-content,
+.page-content *,
+.leo-content,
+.leo-content *,
+.training-content,
+.training-content * {
   text-align: center !important;
 }
 
 /* ===== BORDER RADIUS RTL FIXES ===== */
-.lang-ar .rounded-l { border-radius: 0 0.375rem 0.375rem 0; }
-.lang-ar .rounded-r { border-radius: 0.375rem 0 0 0.375rem; }
-.lang-ar .rounded-tl { border-top-left-radius: 0; border-top-right-radius: 0.375rem; }
-.lang-ar .rounded-tr { border-top-right-radius: 0; border-top-left-radius: 0.375rem; }
-.lang-ar .rounded-bl { border-bottom-left-radius: 0; border-bottom-right-radius: 0.375rem; }
-.lang-ar .rounded-br { border-bottom-right-radius: 0; border-bottom-left-radius: 0.375rem; }
+.lang-ar .rounded-l { border-radius: 0 0.375rem 0.375rem 0 !important; }
+.lang-ar .rounded-r { border-radius: 0.375rem 0 0 0.375rem !important; }
+.lang-ar .rounded-tl { border-top-left-radius: 0 !important; border-top-right-radius: 0.375rem !important; }
+.lang-ar .rounded-tr { border-top-right-radius: 0 !important; border-top-left-radius: 0.375rem !important; }
+.lang-ar .rounded-bl { border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0.375rem !important; }
+.lang-ar .rounded-br { border-bottom-right-radius: 0 !important; border-bottom-left-radius: 0.375rem !important; }
 
 /* ===== BORDER RTL FIXES ===== */
-.lang-ar .border-l { border-left: none; border-right: 1px solid; }
-.lang-ar .border-r { border-right: none; border-left: 1px solid; }
+.lang-ar .border-l { border-left: none !important; border-right: 1px solid !important; }
+.lang-ar .border-r { border-right: none !important; border-left: 1px solid !important; }
 
 /* ===== NAVIGATION AND SIDEBAR RTL ===== */
 .lang-ar .sidebar {
-  right: 0;
-  left: auto;
+  right: 0 !important;
+  left: auto !important;
 }
 
 .lang-ar .sidebar-item {
-  text-align: right;
-  padding-right: 1rem;
-  padding-left: 0.5rem;
+  text-align: right !important;
+  padding-right: 1rem !important;
+  padding-left: 0.5rem !important;
 }
 
 .lang-ar .nav-item {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .nav-icon {
-  margin-left: 0.5rem;
-  margin-right: 0;
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
 }
 
 /* ===== BUTTON AND FORM RTL ===== */
 .lang-ar .btn-group {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .form-group {
-  text-align: right;
+  text-align: right !important;
 }
 
 .lang-ar .form-label {
-  text-align: right;
-  display: block;
+  text-align: right !important;
+  display: block !important;
 }
 
 .lang-ar .input-group {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 /* ===== CARD AND COMPONENT RTL ===== */
 .lang-ar .card-header {
-  text-align: right;
+  text-align: right !important;
 }
 
 .lang-ar .card-body {
-  text-align: right;
+  text-align: right !important;
 }
 
 .lang-ar .list-item {
-  text-align: right;
-  flex-direction: row-reverse;
+  text-align: right !important;
+  flex-direction: row-reverse !important;
 }
 
 .lang-ar .badge {
-  margin-left: 0.5rem;
-  margin-right: 0;
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
 }
 
 /* ===== GRID AND LAYOUT RTL ===== */
 .lang-ar .grid-reverse {
-  direction: rtl;
+  direction: rtl !important;
 }
 
 .lang-ar .flex-reverse {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse !important;
 }
 
 /* ===== ANIMATION AND TRANSITION ===== */
@@ -310,109 +378,208 @@ html[lang="en"] {
 
 /* ===== PROFESSIONAL STYLING ENHANCEMENTS ===== */
 .professional-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  min-height: 100vh;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
 }
 
 .professional-card {
-  background: white;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-professional);
-  padding: 2rem;
-  margin-bottom: 2rem;
-  border: 1px solid #e2e8f0;
-  transition: var(--transition-smooth);
+  background: white !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--shadow-professional) !important;
+  padding: 2rem !important;
+  margin-bottom: 2rem !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: var(--transition-smooth) !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .professional-card:hover {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+  transform: translateY(-2px) !important;
 }
 
 .professional-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding: 2rem 0;
+  text-align: center !important;
+  margin-bottom: 3rem !important;
+  padding: 2rem 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .professional-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 1rem;
-  text-align: center;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  margin-bottom: 1rem !important;
+  text-align: center !important;
 }
 
 .professional-header p {
-  font-size: 1.125rem;
-  color: #64748b;
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
+  font-size: 1.125rem !important;
+  color: #64748b !important;
+  max-width: 600px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
 .professional-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 2rem !important;
+  margin: 2rem auto !important;
+  justify-items: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
 }
 
 .professional-stat {
-  text-align: center;
-  padding: 2rem;
-  background: white;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-professional);
-  border: 1px solid #e2e8f0;
-  transition: var(--transition-smooth);
+  text-align: center !important;
+  padding: 2rem !important;
+  background: white !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--shadow-professional) !important;
+  border: 1px solid #e2e8f0 !important;
+  transition: var(--transition-smooth) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .professional-stat:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-4px) !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
 }
 
 .professional-stat-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #3b82f6;
-  margin-bottom: 0.5rem;
-  text-align: center;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: #3b82f6 !important;
+  margin-bottom: 0.5rem !important;
+  text-align: center !important;
 }
 
 .professional-stat-label {
-  font-size: 1rem;
-  color: #64748b;
-  font-weight: 500;
-  text-align: center;
+  font-size: 1rem !important;
+  color: #64748b !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+}
+
+/* ===== LEO MODULE SPECIFIC FIXES ===== */
+.leo-container,
+.leo-content,
+.leo-dashboard {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+}
+
+.leo-header {
+  text-align: center !important;
+  margin-bottom: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.leo-stats {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+  gap: 1rem !important;
+  justify-items: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 800px !important;
+  margin: 2rem auto !important;
+}
+
+.leo-stat-card {
+  text-align: center !important;
+  padding: 1.5rem !important;
+  border-radius: 0.75rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.leo-modules {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 1.5rem !important;
+  justify-items: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 2rem auto !important;
+}
+
+.leo-module-card {
+  text-align: center !important;
+  padding: 1.5rem !important;
+  border-radius: 0.75rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .professional-container {
-    padding: 1rem;
+    padding: 1rem !important;
   }
   
   .professional-card {
-    padding: 1.5rem;
+    padding: 1.5rem !important;
   }
   
   .professional-header h1 {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
   
   .professional-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
   }
   
   .stats-grid-center {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .leo-stats {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  .leo-modules {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
   }
 }
 
@@ -428,21 +595,17 @@ html[lang="en"] {
 /* ===== PRINT STYLES ===== */
 @media print {
   .lang-ar {
-    direction: rtl;
-    text-align: right;
+    direction: rtl !important;
+    text-align: center !important;
   }
   
   .lang-en {
-    direction: ltr;
-    text-align: left;
+    direction: ltr !important;
+    text-align: center !important;
   }
   
-  .center-content,
-  .force-center,
-  .page-header-center,
-  .dashboard-center,
-  .module-content-center {
-    text-align: center;
+  * {
+    text-align: center !important;
   }
 }
 
@@ -464,13 +627,13 @@ html[lang="en"] {
 /* ===== FORCE OVERRIDES FOR STUBBORN ELEMENTS ===== */
 .force-arabic-rtl {
   direction: rtl !important;
-  text-align: right !important;
+  text-align: center !important;
   font-family: var(--font-arabic) !important;
 }
 
 .force-english-ltr {
   direction: ltr !important;
-  text-align: left !important;
+  text-align: center !important;
   font-family: var(--font-english) !important;
 }
 
@@ -484,5 +647,42 @@ html[lang="en"] {
 
 .force-center-override * {
   text-align: center !important;
+}
+
+/* ===== ULTIMATE CENTER ALIGNMENT ENFORCEMENT ===== */
+body * {
+  text-align: center !important;
+}
+
+/* Exception for sidebar and navigation */
+.sidebar,
+.sidebar *,
+.nav-sidebar,
+.nav-sidebar * {
+  text-align: inherit !important;
+}
+
+/* But still center the main content area */
+.main,
+.main *,
+.content,
+.content *,
+.page,
+.page *,
+.module,
+.module *,
+.dashboard,
+.dashboard *,
+.leo,
+.leo *,
+.training,
+.training *,
+.skills,
+.skills * {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
