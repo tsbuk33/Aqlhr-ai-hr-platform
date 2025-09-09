@@ -212,7 +212,7 @@ const LearningExperienceOptimization: React.FC = () => {
                       </div>
                       <div className="flex justify-between items-center mt-2">
                         <span className="text-xs text-gray-500">
-                          {module.duration} {rtl ? 'دقيقة' : 'min'}
+                          {module.duration} {isRTL ? 'دقيقة' : 'min'}
                         </span>
                         <Button size="sm" variant="outline">
                           {t('common.next')}
