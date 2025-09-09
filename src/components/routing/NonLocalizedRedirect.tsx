@@ -1,14 +1,14 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { resolveLang } from '@/lib/i18n/localePath';
-import Welcome from '@/pages/Welcome';
 
 export default function NonLocalizedRedirect() {
   const { pathname, search } = useLocation();
   
-  // If user is on root path, show welcome page
+  // If user is on root path, redirect to localized welcome
   if (pathname === '/') {
-    return <Welcome />;
+    const lang = resolveLang();
+    return <Navigate to={`/${lang}/${search || ''}`} replace />;
   }
   
   if (pathname.startsWith('/en') || pathname.startsWith('/ar')) {

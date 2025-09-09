@@ -32,10 +32,10 @@ function NonLocalizedRedirect() {
 
   console.log('AqlHR: [UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', normalized);
 
-  // Root → send to localized welcome
+  // Root → send to dashboard
   if (normalized === '/') {
     const currentLang = unifiedLocaleDriver.getLang();
-    const redirectPath = `/${currentLang}/welcome${search}`;
+    const redirectPath = `/${currentLang}/dashboard${search}`;
     console.log('AqlHR: [UnifiedLanguageRouter] Redirecting root to:', redirectPath);
     return <Navigate to={redirectPath} replace />;
   }
@@ -44,7 +44,7 @@ function NonLocalizedRedirect() {
   const langMatch = normalized.match(/\/?(en|ar)(\/[A-Za-z0-9_\-\/]+)?/);
   if (langMatch) {
     const lang = langMatch[1] as 'en' | 'ar';
-    const rest = langMatch[2] || '/welcome';
+    const rest = langMatch[2] || '/dashboard';
     const redirectPath = `/${lang}${rest}${search}`;
     console.log('AqlHR: [UnifiedLanguageRouter] Sanitizing to localized path:', redirectPath);
     return <Navigate to={redirectPath} replace />;

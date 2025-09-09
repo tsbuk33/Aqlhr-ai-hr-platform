@@ -66,7 +66,7 @@ export default function LanguageLayout() {
 
   // Page type detection
   const isAuthPage = location.pathname.includes('/auth');
-  const isWelcomePage = location.pathname.includes('/welcome') || location.pathname === `/${routeLang}` || location.pathname === `/${routeLang}/`;
+  const isWelcomePage = location.pathname === `/${routeLang}` || location.pathname === `/${routeLang}/`;
 
   // Early return for AUTH and WELCOME pages → let CenteredLayout control layout
   if (isAuthPage || isWelcomePage) {

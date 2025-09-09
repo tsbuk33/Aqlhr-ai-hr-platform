@@ -7,7 +7,6 @@ import { LayoutShell } from '../layout/LayoutShell';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
-import Welcome from '@/pages/Welcome';
 import AqlHRWelcome from '@/pages/AqlHRWelcome';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
@@ -62,8 +61,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/en/" replace />} />
       <Route element={<LanguageLayout />}>
-        {/* Welcome pages with their own layout */}
-        <Route path="welcome" element={<Welcome />} />
+        {/* Root welcome page */}
         <Route index element={<AqlHRWelcome />} />
 
         {/* Routes that need CENTERED layout */}
