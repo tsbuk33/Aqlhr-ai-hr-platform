@@ -5,7 +5,6 @@
 import { Navigate, Outlet, useParams, useLocation } from 'react-router-dom';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import DevModeGuard from '@/lib/dev/DevModeGuard';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import { useEffect } from 'react';
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from '@/components/AppSidebar';
@@ -64,12 +63,11 @@ export default function LanguageLayout() {
     return <Navigate to="/en" replace />;
   }
 
-  // Page type detection
-  const isAuthPage = location.pathname.includes('/auth');
+  // Page type detection  
   const isWelcomePage = location.pathname === `/${routeLang}` || location.pathname === `/${routeLang}/`;
 
-  // Early return for AUTH and WELCOME pages → let CenteredLayout control layout
-  if (isAuthPage || isWelcomePage) {
+  // Early return for WELCOME pages → let CenteredLayout control layout
+  if (isWelcomePage) {
     return (
       <DevModeGuard>
         <Outlet />
@@ -85,29 +83,25 @@ export default function LanguageLayout() {
             className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
             dir={isRTL ? 'rtl' : 'ltr'}
           >
-            {!isAuthPage && !isWelcomePage && <AppSidebar />}
-            {isAuthPage ? (
-              <Outlet />
-            ) : (
-              <main className="flex-1 flex flex-col">
-                {!isWelcomePage && <DashboardHeader />}
-                <div className="flex-1">
-                  {isWelcomePage ? (
+            {!isWelcomePage && <AppSidebar />}
+            <main className="flex-1 flex flex-col">
+              {!isWelcomePage && <DashboardHeader />}
+              <div className="flex-1">
+                {isWelcomePage ? (
+                  <Outlet />
+                ) : (
+                  <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
                     <Outlet />
-                  ) : (
-                    <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
-                      <Outlet />
-                    </div>
-                  )}
-                </div>
-              </main>
-            )}
+                  </div>
+                )}
+              </div>
+            </main>
           </div>
         </div>
       </SidebarProvider>
     </DevModeGuard>
   );
 
-  // Wrap non-auth and non-welcome pages with ProtectedRoute
-  return <ProtectedRoute>{content}</ProtectedRoute>;
+  // No auth required - render content directly
+  return content;
 }
