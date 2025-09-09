@@ -1,13 +1,6 @@
-@import './styles/arabic-rtl-fix.css';
-@import './styles/centered-layout.css';
 @tailwind base;
-@tailwind components;
+@tailwind components; 
 @tailwind utilities;
-
-/* Import Unified RTL System */
-@import url('./styles/unified-rtl.css');
-
-@import 'src/styles/rtl.css';
 
 /* AqlHR Design System - Professional Enterprise HR Platform */
 

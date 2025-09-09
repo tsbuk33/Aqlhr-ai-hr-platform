@@ -47,14 +47,6 @@ export default function LanguageLayout() {
       html.setAttribute('dir', 'ltr');
       html.setAttribute('lang', 'en');
     }
-    
-    return () => {
-      // Cleanup on unmount
-      body.removeAttribute('dir');
-      body.classList.remove('arabic-layout');
-      html.removeAttribute('dir');
-      html.removeAttribute('lang');
-    };
   }, [isRTL]);
   
   // Validate language parameter
@@ -75,33 +67,19 @@ export default function LanguageLayout() {
     );
   }
 
-  const content = (
+  return (
     <DevModeGuard>
       <SidebarProvider>
-        <div className={isRTL ? 'arabic-content' : 'english-content'}>
-          <div 
-            className={`min-h-screen flex w-full bg-background text-foreground ${isRTL ? 'rtl-container' : 'ltr-container'}`}
-            dir={isRTL ? 'rtl' : 'ltr'}
-          >
-            {!isWelcomePage && <AppSidebar />}
-            <main className="flex-1 flex flex-col">
-              {!isWelcomePage && <DashboardHeader />}
-              <div className="flex-1">
-                {isWelcomePage ? (
-                  <Outlet />
-                ) : (
-                  <div className={isRTL ? 'page-container-centered rtl' : 'container mx-auto max-w-7xl p-6'} dir={isRTL ? 'rtl' : 'ltr'}>
-                    <Outlet />
-                  </div>
-                )}
-              </div>
-            </main>
-          </div>
+        <div className="min-h-screen flex w-full bg-background text-foreground" dir={isRTL ? 'rtl' : 'ltr'}>
+          <AppSidebar />
+          <main className="flex-1 flex flex-col">
+            <DashboardHeader />
+            <div className="flex-1 p-6">
+              <Outlet />
+            </div>
+          </main>
         </div>
       </SidebarProvider>
     </DevModeGuard>
   );
-
-  // No auth required - render content directly
-  return content;
 }
