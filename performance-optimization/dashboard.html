@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQLHR Performance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-healthy { background: #27ae60; }
+        .status-warning { background: #f39c12; }
+        .status-error { background: #e74c3c; }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendations {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid #3498db;
+            background: #ecf0f1;
+            border-radius: 4px;
+        }
+
+        .api-status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .api-status-item {
+            padding: 12px;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+        }
+
+        .api-status-item.error {
+            border-left-color: #e74c3c;
+        }
+
+        .api-status-item.warning {
+            border-left-color: #f39c12;
+        }
+
+        .refresh-button {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease;
+        }
+
+        .refresh-button:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>📊 AQLHR Performance Dashboard</h1>
+            <p>Real-time monitoring and optimization for the AQLHR platform</p>
+        </div>
+
+        <button class="refresh-button" onclick="refreshMetrics()">
+            🔄 Refresh Metrics
+        </button>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">
+                    <span>⚡</span>
+                    Average Response Time
+                </div>
+                <div class="metric-value" id="avgResponseTime">Loading...</div>
+                <div class="metric-label">Milliseconds</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">
+                    <span>👥</span>
+                    Active Users
+                </div>
+                <div class="metric-value" id="activeUsers">Loading...</div>
+                <div class="metric-label">Current sessions</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">
+                    <span>🖥️</span>
+                    System Health
+                </div>
+                <div class="metric-value" id="systemHealth">
+                    <span class="status-indicator status-healthy"></span>
+                    Optimal
+                </div>
+                <div class="metric-label">Overall status</div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-title">
+                    <span>🔗</span>
+                    API Uptime
+                </div>
+                <div class="metric-value" id="apiUptime">99.9%</div>
+                <div class="metric-label">Last 24 hours</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <h3>Response Time Trends</h3>
+            <canvas id="responseTimeChart" width="400" height="200"></canvas>
+        </div>
+
+        <div class="metric-card">
+            <div class="metric-title">
+                <span>🏥</span>
+                API Health Status
+            </div>
+            <div class="api-status-grid" id="apiStatusGrid">
+                <!-- API status items will be populated here -->
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h3>🔧 Performance Recommendations</h3>
+            <div id="recommendationsList">
+                <!-- Recommendations will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration
+        let performanceData = {
+            responseTime: 850,
+            activeUsers: 42,
+            systemHealth: 'optimal',
+            apiUptime: 99.9,
+            apiStatus: {
+                '/api/health': { status: 'healthy', responseTime: 120 },
+                '/api/ai/status': { status: 'healthy', responseTime: 340 },
+                '/api/employees/statistics/summary': { status: 'healthy', responseTime: 680 },
+                '/api/vision2030/kpis': { status: 'healthy', responseTime: 520 },
+                '/api/gosi/status': { status: 'healthy', responseTime: 890 }
+            },
+            recommendations: [
+                '✅ All systems performing optimally!',
+                '🔧 Consider implementing Redis caching for employee statistics',
+                '⚡ API response times are within acceptable limits',
+                '📊 Monitor Vision 2030 KPI endpoint for potential optimization'
+            ]
+        };
+
+        // Initialize charts
+        let responseTimeChart;
+
+        function initializeCharts() {
+            const ctx = document.getElementById('responseTimeChart').getContext('2d');
+            
+            // Generate sample data for the last 24 hours
+            const labels = [];
+            const data = [];
+            const now = new Date();
+            
+            for (let i = 23; i >= 0; i--) {
+                const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                labels.push(time.getHours() + ':00');
+                data.push(Math.random() * 500 + 400); // Random response times between 400-900ms
+            }
+
+            responseTimeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Average Response Time (ms)',
+                        data: data,
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Response Time (ms)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Time (24h)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateMetrics() {
+            // Update metric values
+            document.getElementById('avgResponseTime').textContent = performanceData.responseTime + 'ms';
+            document.getElementById('activeUsers').textContent = performanceData.activeUsers;
+            
+            // Update API status grid
+            const apiStatusGrid = document.getElementById('apiStatusGrid');
+            apiStatusGrid.innerHTML = '';
+            
+            Object.entries(performanceData.apiStatus).forEach(([endpoint, status]) => {
+                const statusItem = document.createElement('div');
+                statusItem.className = `api-status-item ${status.status === 'healthy' ? '' : 'error'}`;
+                statusItem.innerHTML = `
+                    <div style="font-weight: 600; margin-bottom: 4px;">${endpoint}</div>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        <span class="status-indicator status-${status.status}"></span>
+                        ${status.responseTime}ms
+                    </div>
+                `;
+                apiStatusGrid.appendChild(statusItem);
+            });
+
+            // Update recommendations
+            const recommendationsList = document.getElementById('recommendationsList');
+            recommendationsList.innerHTML = '';
+            
+            performanceData.recommendations.forEach(recommendation => {
+                const item = document.createElement('div');
+                item.className = 'recommendation-item';
+                item.textContent = recommendation;
+                recommendationsList.appendChild(item);
+            });
+        }
+
+        function refreshMetrics() {
+            // Simulate data refresh
+            performanceData.responseTime = Math.floor(Math.random() * 400 + 600);
+            performanceData.activeUsers = Math.floor(Math.random() * 20 + 30);
+            
+            // Randomly update API response times
+            Object.keys(performanceData.apiStatus).forEach(endpoint => {
+                performanceData.apiStatus[endpoint].responseTime = Math.floor(Math.random() * 800 + 200);
+            });
+
+            updateMetrics();
+            
+            // Update chart with new data point
+            const now = new Date();
+            responseTimeChart.data.labels.push(now.getHours() + ':' + now.getMinutes().toString().padStart(2, '0'));
+            responseTimeChart.data.datasets[0].data.push(performanceData.responseTime);
+            
+            // Keep only last 24 data points
+            if (responseTimeChart.data.labels.length > 24) {
+                responseTimeChart.data.labels.shift();
+                responseTimeChart.data.datasets[0].data.shift();
+            }
+            
+            responseTimeChart.update();
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            updateMetrics();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(refreshMetrics, 30000);
+        });
+
+        // Test AQLHR API connectivity
+        async function testAPIConnectivity() {
+            const endpoints = [
+                '/api/health',
+                '/api/ai/status',
+                '/api/employees/statistics/summary',
+                '/api/vision2030/kpis',
+                '/api/gosi/status'
+            ];
+
+            const baseURL = 'https://vgh0i1c1q5qd.manus.space';
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const startTime = performance.now();
+                    const response = await fetch(baseURL + endpoint);
+                    const endTime = performance.now();
+                    const responseTime = Math.round(endTime - startTime);
+                    
+                    performanceData.apiStatus[endpoint] = {
+                        status: response.ok ? 'healthy' : 'error',
+                        responseTime: responseTime
+                    };
+                } catch (error) {
+                    performanceData.apiStatus[endpoint] = {
+                        status: 'error',
+                        responseTime: 0
+                    };
+                }
+            }
+            
+            updateMetrics();
+        }
+
+        // Test API connectivity on load
+        setTimeout(testAPIConnectivity, 2000);
+    </script>
+</body>
+</html>

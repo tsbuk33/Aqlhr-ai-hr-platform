@@ -1,0 +1,112 @@
+{
+  "report_generated_at": "2025-09-08T15:19:49.348362",
+  "analytics": {
+    "total_feedback": 3,
+    "feedback_by_type": {
+      "bug_report": 1,
+      "feature_request": 1,
+      "usability_issue": 1
+    },
+    "feedback_by_status": {
+      "new": 3
+    },
+    "feedback_by_priority": {
+      "critical": 1,
+      "high": 1,
+      "medium": 1
+    },
+    "feedback_by_module": {
+      "AI Orchestration": 1,
+      "Executive Intelligence Center": 1,
+      "Government Integrations": 1
+    },
+    "average_satisfaction_rating": 3.0,
+    "recent_feedback_30_days": 3,
+    "average_resolution_time_hours": 0,
+    "generated_at": "2025-09-08T15:19:49.345872"
+  },
+  "recommendations": [
+    {
+      "priority": "critical",
+      "category": "bug_fixes",
+      "title": "Address Critical Issues Immediately",
+      "description": "There are 1 critical issues that need immediate attention.",
+      "action_items": [
+        "Review all critical feedback within 24 hours",
+        "Assign dedicated resources to critical bug fixes",
+        "Implement emergency patches if necessary"
+      ]
+    },
+    {
+      "priority": "high",
+      "category": "user_experience",
+      "title": "Improve User Satisfaction",
+      "description": "Average satisfaction rating is 3.0/5.0.",
+      "action_items": [
+        "Conduct user experience research",
+        "Implement UI/UX improvements",
+        "Provide better user training",
+        "Enhance documentation"
+      ]
+    }
+  ],
+  "recent_feedback": [
+    {
+      "id": "046ed5c3-9d0e-48c2-b025-982cb1bacbc5",
+      "user_id": "user_003",
+      "user_role": "EMPLOYEE",
+      "feedback_type": "FeedbackType.USABILITY_ISSUE",
+      "title": "Government Integration Status Unclear",
+      "description": "It's not clear when GOSI integration is working or not. Need better status indicators.",
+      "priority": "FeedbackPriority.MEDIUM",
+      "status": "FeedbackStatus.NEW",
+      "module": "Government Integrations",
+      "created_at": "2025-09-08 15:19:49.341683",
+      "updated_at": "2025-09-08 15:19:49.341685",
+      "resolution": null,
+      "assigned_to": null,
+      "tags": [],
+      "satisfaction_rating": 3
+    },
+    {
+      "id": "e4072a28-9fb2-4bad-a3d7-0ef5db1979cf",
+      "user_id": "user_002",
+      "user_role": "EXECUTIVE",
+      "feedback_type": "FeedbackType.FEATURE_REQUEST",
+      "title": "Arabic Language Support Enhancement",
+      "description": "Need better Arabic language support in AI insights and reports generation.",
+      "priority": "FeedbackPriority.HIGH",
+      "status": "FeedbackStatus.NEW",
+      "module": "AI Orchestration",
+      "created_at": "2025-09-08 15:19:49.340633",
+      "updated_at": "2025-09-08 15:19:49.340634",
+      "resolution": null,
+      "assigned_to": null,
+      "tags": [],
+      "satisfaction_rating": 4
+    },
+    {
+      "id": "3504e050-fb6a-432f-bf74-ec0b07b04640",
+      "user_id": "user_001",
+      "user_role": "HR_MANAGER",
+      "feedback_type": "FeedbackType.BUG_REPORT",
+      "title": "Executive Dashboard Loading Issue",
+      "description": "The Executive Intelligence Center takes too long to load employee statistics. Sometimes it shows an error.",
+      "priority": "FeedbackPriority.CRITICAL",
+      "status": "FeedbackStatus.NEW",
+      "module": "Executive Intelligence Center",
+      "created_at": "2025-09-08 15:19:49.338772",
+      "updated_at": "2025-09-08 15:19:49.339959",
+      "resolution": null,
+      "assigned_to": null,
+      "tags": [],
+      "satisfaction_rating": 2
+    }
+  ],
+  "summary": {
+    "total_feedback": 3,
+    "satisfaction_score": 3.0,
+    "critical_issues": 1,
+    "pending_resolution": 3
+  }
+}

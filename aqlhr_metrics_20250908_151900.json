@@ -1,0 +1,158 @@
+{
+  "response_times": [
+    {
+      "endpoint": "/api/health",
+      "response_time": 6580.375909805298,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:06.801866"
+    },
+    {
+      "endpoint": "/api/ai/status",
+      "response_time": 4911.940574645996,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:12.714167"
+    },
+    {
+      "endpoint": "/api/employees/statistics/summary",
+      "response_time": 572.2365379333496,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:14.287030"
+    },
+    {
+      "endpoint": "/api/vision2030/kpis",
+      "response_time": 635.1854801177979,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:15.922409"
+    },
+    {
+      "endpoint": "/api/gosi/status",
+      "response_time": 217.58556365966797,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:17.140147"
+    },
+    {
+      "endpoint": "/api/health",
+      "response_time": 602.971076965332,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:48.743373"
+    },
+    {
+      "endpoint": "/api/ai/status",
+      "response_time": 332.14306831359863,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:50.075733"
+    },
+    {
+      "endpoint": "/api/employees/statistics/summary",
+      "response_time": 568.5794353485107,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:51.644515"
+    },
+    {
+      "endpoint": "/api/vision2030/kpis",
+      "response_time": 217.42653846740723,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:52.862154"
+    },
+    {
+      "endpoint": "/api/gosi/status",
+      "response_time": 621.6628551483154,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:17:54.483949"
+    },
+    {
+      "endpoint": "/api/health",
+      "response_time": 659.3661308288574,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:18:26.143643"
+    },
+    {
+      "endpoint": "/api/ai/status",
+      "response_time": 727.6957035064697,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:18:27.871499"
+    },
+    {
+      "endpoint": "/api/employees/statistics/summary",
+      "response_time": 544.6732044219971,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:18:29.416326"
+    },
+    {
+      "endpoint": "/api/vision2030/kpis",
+      "response_time": 288.77782821655273,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:18:30.705231"
+    },
+    {
+      "endpoint": "/api/gosi/status",
+      "response_time": 471.0695743560791,
+      "status_code": 200,
+      "timestamp": "2025-09-08T15:18:32.176476"
+    }
+  ],
+  "error_rates": [],
+  "system_metrics": [
+    {
+      "cpu_percent": 2.2,
+      "memory_percent": 39.8,
+      "memory_available_gb": 2.316570281982422,
+      "disk_percent": 25.1,
+      "disk_free_gb": 31.08599853515625,
+      "timestamp": "2025-09-08T15:17:01.222828"
+    },
+    {
+      "cpu_percent": 1.0,
+      "memory_percent": 39.5,
+      "memory_available_gb": 2.3296051025390625,
+      "disk_percent": 25.1,
+      "disk_free_gb": 31.08599853515625,
+      "timestamp": "2025-09-08T15:17:32.223666"
+    },
+    {
+      "cpu_percent": 0.5,
+      "memory_percent": 39.5,
+      "memory_available_gb": 2.3279380798339844,
+      "disk_percent": 25.1,
+      "disk_free_gb": 31.08599853515625,
+      "timestamp": "2025-09-08T15:18:03.224492"
+    },
+    {
+      "cpu_percent": 0.3,
+      "memory_percent": 39.7,
+      "memory_available_gb": 2.322315216064453,
+      "disk_percent": 25.1,
+      "disk_free_gb": 31.089847564697266,
+      "timestamp": "2025-09-08T15:18:34.225212"
+    }
+  ],
+  "api_health": {
+    "/api/health": {
+      "status": "healthy",
+      "response_time": 659.3661308288574,
+      "last_check": "2025-09-08T15:18:26.143661"
+    },
+    "/api/ai/status": {
+      "status": "healthy",
+      "response_time": 727.6957035064697,
+      "last_check": "2025-09-08T15:18:27.871524"
+    },
+    "/api/employees/statistics/summary": {
+      "status": "healthy",
+      "response_time": 544.6732044219971,
+      "last_check": "2025-09-08T15:18:29.416344"
+    },
+    "/api/vision2030/kpis": {
+      "status": "healthy",
+      "response_time": 288.77782821655273,
+      "last_check": "2025-09-08T15:18:30.705254"
+    },
+    "/api/gosi/status": {
+      "status": "healthy",
+      "response_time": 471.0695743560791,
+      "last_check": "2025-09-08T15:18:32.176495"
+    }
+  },
+  "user_sessions": 3,
+  "concurrent_users": 1
+}
