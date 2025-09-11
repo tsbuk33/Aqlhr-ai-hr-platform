@@ -2606,6 +2606,78 @@ export type Database = {
         }
         Relationships: []
       }
+      company_onboarding_profiles: {
+        Row: {
+          assessment_completed: boolean | null
+          company_id: string
+          company_size: string
+          completion_date: string | null
+          compliance_concerns: string[] | null
+          created_at: string | null
+          existing_hr_tools: string[] | null
+          hr_challenges: string[] | null
+          id: string
+          industry_type: string
+          leave_management_complexity: string | null
+          onboarding_completed: boolean | null
+          pain_points_ranking: Json | null
+          performance_review_frequency: string | null
+          priority_areas: string[] | null
+          profile_completed: boolean | null
+          recommended_modules: string[] | null
+          recruitment_process: Json | null
+          saudization_percentage_goal: number | null
+          setup_duration_minutes: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          assessment_completed?: boolean | null
+          company_id: string
+          company_size: string
+          completion_date?: string | null
+          compliance_concerns?: string[] | null
+          created_at?: string | null
+          existing_hr_tools?: string[] | null
+          hr_challenges?: string[] | null
+          id?: string
+          industry_type: string
+          leave_management_complexity?: string | null
+          onboarding_completed?: boolean | null
+          pain_points_ranking?: Json | null
+          performance_review_frequency?: string | null
+          priority_areas?: string[] | null
+          profile_completed?: boolean | null
+          recommended_modules?: string[] | null
+          recruitment_process?: Json | null
+          saudization_percentage_goal?: number | null
+          setup_duration_minutes?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          assessment_completed?: boolean | null
+          company_id?: string
+          company_size?: string
+          completion_date?: string | null
+          compliance_concerns?: string[] | null
+          created_at?: string | null
+          existing_hr_tools?: string[] | null
+          hr_challenges?: string[] | null
+          id?: string
+          industry_type?: string
+          leave_management_complexity?: string | null
+          onboarding_completed?: boolean | null
+          pain_points_ranking?: Json | null
+          performance_review_frequency?: string | null
+          priority_areas?: string[] | null
+          profile_completed?: boolean | null
+          recommended_modules?: string[] | null
+          recruitment_process?: Json | null
+          saudization_percentage_goal?: number | null
+          setup_duration_minutes?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       compliance_letters: {
         Row: {
           created_at: string | null
