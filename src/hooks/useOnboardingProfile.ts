@@ -77,11 +77,16 @@ export function useOnboardingProfile() {
           hr_challenges: profile.hr_challenges || [],
           existing_hr_tools: profile.existing_hr_tools || [],
           saudization_percentage_goal: profile.saudization_percentage_goal,
-          recruitment_process: typeof profile.recruitment_process === 'object' ? profile.recruitment_process : defaultData.recruitment_process,
+          recruitment_process: (profile.recruitment_process && 
+            typeof profile.recruitment_process === 'object' && 
+            !Array.isArray(profile.recruitment_process) &&
+            'steps' in profile.recruitment_process) ? profile.recruitment_process as { steps: string[]; timeline_weeks: number; current_challenges: string[]; } : defaultData.recruitment_process,
           performance_review_frequency: profile.performance_review_frequency || '',
           leave_management_complexity: profile.leave_management_complexity || '',
           compliance_concerns: profile.compliance_concerns || [],
-          pain_points_ranking: typeof profile.pain_points_ranking === 'object' ? profile.pain_points_ranking : {},
+          pain_points_ranking: (profile.pain_points_ranking && 
+            typeof profile.pain_points_ranking === 'object' && 
+            !Array.isArray(profile.pain_points_ranking)) ? profile.pain_points_ranking as Record<string, number> : {},
           profile_completed: profile.profile_completed,
           assessment_completed: profile.assessment_completed,
           onboarding_completed: profile.onboarding_completed
