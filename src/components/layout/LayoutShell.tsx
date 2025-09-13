@@ -42,6 +42,8 @@ export const LayoutShell: React.FC<LayoutShellProps> = ({ children }) => {
   }
 
   return (
-    <DashboardLayout />
+    <DashboardLayout>
+      {children}
+    </DashboardLayout>
   );
 };

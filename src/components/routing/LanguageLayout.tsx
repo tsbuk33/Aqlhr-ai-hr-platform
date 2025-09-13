@@ -69,17 +69,7 @@ export default function LanguageLayout() {
 
   return (
     <DevModeGuard>
-      <SidebarProvider>
-        <div className="min-h-screen flex w-full bg-background text-foreground" dir={isRTL ? 'rtl' : 'ltr'}>
-          <AppSidebar />
-          <main className="flex-1 flex flex-col">
-            <DashboardHeader />
-            <div className="flex-1 p-6">
-              <Outlet />
-            </div>
-          </main>
-        </div>
-      </SidebarProvider>
+      <Outlet />
     </DevModeGuard>
   );
 }

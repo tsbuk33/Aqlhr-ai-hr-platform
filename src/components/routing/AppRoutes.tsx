@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LanguageLayout from './LanguageLayout';
 import CenteredLayout from '../layout/CenteredLayout';
+import { LayoutShell } from '../layout/LayoutShell';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
@@ -70,9 +71,23 @@ export default function AppRoutes() {
           <Route path="auth/callback" element={<AuthCallback />} />
         </Route>
 
-        {/* Routes */}
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="main-dashboard" element={<Dashboard />} />
+        {/* Protected Dashboard Routes - Wrap with LayoutShell */}
+        <Route path="dashboard" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Dashboard />
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+        <Route path="main-dashboard" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Dashboard />
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+        
+        {/* Test Routes */}
         <Route path="test-ai" element={<TestAI />} />
         <Route path="data-foundation-test" element={<DataFoundationTest />} />
         <Route path="core-business-test" element={<CoreBusinessTest />} />
@@ -84,7 +99,7 @@ export default function AppRoutes() {
         <Route path="prompt-driven-execution-test" element={<PromptDrivenExecutionTest />} />
         <Route path="autonomous" element={<AutonomousDashboardPage />} />
         
-        {/* All AqlHR Platform Routes */}
+        {/* All AqlHR Platform Routes - Wrap with LayoutShell for proper dashboard layout */}
         {ROUTES.map((route, index) => {
           const RouteComponent = route.element;
           
@@ -94,9 +109,11 @@ export default function AppRoutes() {
               path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
               element={
                 <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
-                  <Suspense fallback={<RouteLoading />}>
-                    <RouteComponent />
-                  </Suspense>
+                  <LayoutShell>
+                    <Suspense fallback={<RouteLoading />}>
+                      <RouteComponent />
+                    </Suspense>
+                  </LayoutShell>
                 </ProtectedRoute>
               }
             />

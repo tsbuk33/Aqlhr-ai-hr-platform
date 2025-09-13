@@ -28,7 +28,7 @@ const RoleBasedSidebar: React.FC = () => {
   }
 };
 
-export const DashboardLayout: React.FC = () => {
+export const DashboardLayout: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const { isRTL } = useUnifiedLocale();
   
   return (
@@ -42,7 +42,7 @@ export const DashboardLayout: React.FC = () => {
               dir={isRTL ? 'rtl' : 'ltr'}
               className="mx-auto w-full max-w-screen-2xl px-4 sm:px-6 lg:px-8 py-6"
             >
-              <Outlet />
+              {children || <Outlet />}
             </div>
           </main>
         </div>
