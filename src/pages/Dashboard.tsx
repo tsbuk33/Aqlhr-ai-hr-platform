@@ -17,6 +17,7 @@ import { toast } from 'sonner';
 import { resolveTenantId } from "@/lib/useTenant";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import MasterAgentActivator from '@/components/autonomous/MasterAgentActivator';
 
 export default function Dashboard() {
   const { t, locale } = useLocale();
@@ -145,8 +146,8 @@ export default function Dashboard() {
         )}
 
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex-1">
             <div className="flex items-center gap-3">
               <h1 className="text-3xl font-bold">
                 {t('dashboard', 'title')}
@@ -179,11 +180,16 @@ export default function Dashboard() {
             </p>
           </div>
           
-          {/* Share Dashboard Button */}
-          <Button onClick={handleShareDashboard} disabled={loading}>
-            <Share2 className="h-4 w-4 mr-2" />
-            {t('dashboard', 'share_dashboard')}
-          </Button>
+          {/* Master Agent Activator and Share Button */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="w-full sm:w-80">
+              <MasterAgentActivator />
+            </div>
+            <Button onClick={handleShareDashboard} disabled={loading} className="flex-shrink-0">
+              <Share2 className="h-4 w-4 mr-2" />
+              {t('dashboard', 'share_dashboard')}
+            </Button>
+          </div>
         </div>
 
       {/* Main KPI Cards */}
