@@ -13,8 +13,9 @@ export default function CenteredLayout({ title, description, className = "", chi
   const { isRTL } = useUnifiedLocale();
   
   return (
-    <div 
-      className={`min-h-screen w-full flex flex-col items-center justify-start gap-10 px-4 py-10 ${className}`}
+    <main 
+      role="main"
+      className={`min-h-screen w-full flex flex-col items-center justify-start gap-10 px-4 py-10 text-foreground ${className}`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {title && (
@@ -23,7 +24,9 @@ export default function CenteredLayout({ title, description, className = "", chi
           {description && <p className="text-muted-foreground">{description}</p>}
         </div>
       )}
-      {children || <Outlet />}
-    </div>
+      <div className="w-full max-w-2xl">
+        {children || <Outlet />}
+      </div>
+    </main>
   );
 }
