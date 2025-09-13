@@ -243,8 +243,11 @@ export function AppSidebar() {
   const isHRBP = useHRBPMode();
   const showHRBPSidebar = isHRBP;
   
+  console.log('AqlHR: [AppSidebar] Rendering sidebar, HRBP mode:', showHRBPSidebar, 'path:', currentPath);
+  
   // Show HRBP sidebar for analytics and core HR sections
   if (showHRBPSidebar) {
+    console.log('AqlHR: [AppSidebar] Using HRBP sidebar');
     return <HRBPSidebar />;
   }
   

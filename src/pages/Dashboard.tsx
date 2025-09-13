@@ -135,6 +135,8 @@ export default function Dashboard() {
   const isDev = new URLSearchParams(window.location.search).get('dev') === '1';
   const hasNoEmployees = data?.totalEmployees === 0;
 
+  console.log('AqlHR: [Dashboard] Loading dashboard, hasNoEmployees:', hasNoEmployees, 'isDev:', isDev, 'isDemoMode:', isDemoMode);
+
   return (
     <DashboardErrorBoundary>
       <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
