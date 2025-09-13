@@ -1,6 +1,136 @@
 @tailwind base;
-@tailwind components; 
+@tailwind components;
 @tailwind utilities;
+
+/* AqlHR Production Theme - Exact Match */
+@layer base {
+  :root {
+    /* Production Dark Theme Colors */
+    --background: 220 13% 9%;
+    --foreground: 220 9% 95%;
+    --card: 220 13% 11%;
+    --card-foreground: 220 9% 95%;
+    --popover: 220 13% 11%;
+    --popover-foreground: 220 9% 95%;
+    --primary: 142 86% 28%;
+    --primary-foreground: 220 9% 95%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 220 9% 95%;
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 65%;
+    --accent: 220 13% 18%;
+    --accent-foreground: 220 9% 95%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 220 9% 95%;
+    --border: 220 13% 20%;
+    --input: 220 13% 18%;
+    --ring: 142 86% 28%;
+    --radius: 0.75rem;
+    
+    /* AqlHR Brand Colors */
+    --brand-primary: 142 86% 28%;
+    --brand-secondary: 47 100% 50%;
+    --brand-accent: 200 100% 50%;
+    --brand-success: 120 100% 25%;
+    --brand-warning: 38 100% 50%;
+    --brand-danger: 0 100% 50%;
+    
+    /* Surface Colors */
+    --surface: 220 13% 11%;
+    --surface-subtle: 220 13% 13%;
+    --surface-muted: 220 13% 15%;
+  }
+
+  .dark {
+    --background: 220 13% 9%;
+    --foreground: 220 9% 95%;
+    --card: 220 13% 11%;
+    --card-foreground: 220 9% 95%;
+    --popover: 220 13% 11%;
+    --popover-foreground: 220 9% 95%;
+    --primary: 142 86% 28%;
+    --primary-foreground: 220 9% 95%;
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 220 9% 95%;
+    --muted: 220 13% 15%;
+    --muted-foreground: 220 9% 65%;
+    --accent: 220 13% 18%;
+    --accent-foreground: 220 9% 95%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 220 9% 95%;
+    --border: 220 13% 20%;
+    --input: 220 13% 18%;
+    --ring: 142 86% 28%;
+  }
+}
+
+/* Production Typography */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+/* AqlHR Custom Components */
+@layer components {
+  .aqlhr-card {
+    @apply bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300;
+  }
+  
+  .aqlhr-gradient {
+    @apply bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10;
+  }
+  
+  .aqlhr-sidebar {
+    @apply bg-gradient-to-b from-surface via-surface-subtle to-surface border-r border-border/50;
+  }
+  
+  .aqlhr-brand-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold;
+  }
+}
+
+/* Production Animations */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
 
 /* AqlHR Design System - Professional Enterprise HR Platform */
 

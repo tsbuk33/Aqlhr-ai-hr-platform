@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { 
-  Users, BarChart3, Crown, Star, GraduationCap, Sparkles, Brain, 
-  Building2, Shield, Settings, ChevronDown, Home, Zap
+  BarChart3, Users, Crown, Brain, Building2, Shield, Settings, 
+  ChevronDown, Home, Zap, Scale, Heart, Star, GraduationCap,
+  Sparkles, FileText, Globe, Award, Briefcase, Activity
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarHeader, SidebarFooter
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarHeader
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -19,231 +19,278 @@ export function AppSidebar() {
   const location = useLocation();
   const { lang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    'core-hr': false,
-    'ai-analytics': false,
-    'government': false
-  });
-
-  const toggleGroup = (groupId: string) => {
-    setOpenGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
-  };
-
-  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
-
-  const mainModules = [
-    {
-      title: isArabic ? "لوحة التحكم" : "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-      color: "text-blue-500"
-    },
-    {
-      title: isArabic ? "مركز الذكاء التنفيذي" : "Executive Intelligence",
-      url: "/executive-center",
-      icon: Crown,
-      badge: "PREMIUM",
-      color: "text-yellow-500"
-    },
-    {
-      title: isArabic ? "ذكاء المهارات" : "Skills Intelligence",
-      url: "/skills-intelligence",
-      icon: Star,
-      badge: "NEW",
-      color: "text-amber-500"
-    },
-    {
-      title: isArabic ? "تحسين التعلّم" : "Learning (LEO)",
-      url: "/leo",
-      icon: GraduationCap,
-      badge: "LEO",
-      color: "text-blue-600"
-    },
-    {
-      title: isArabic ? "تحسين المشاركة" : "Engagement (GEO)",
-      url: "/geo",
-      icon: Sparkles,
-      badge: "GEO",
-      color: "text-pink-500"
-    }
-  ];
-
-  const expandableGroups = [
-    {
-      id: 'core-hr',
-      title: isArabic ? "الموارد البشرية الأساسية" : "Core HR",
-      icon: Users,
-      badge: "13",
-      color: "text-emerald-500",
-      items: [
-        { title: isArabic ? "بيانات الموظفين" : "Employee Data", url: "/core-hr/master-data" },
-        { title: isArabic ? "التوظيف" : "Recruitment", url: "/core-hr/recruitment" },
-        { title: isArabic ? "الرواتب" : "Payroll", url: "/payroll" },
-        { title: isArabic ? "الأداء" : "Performance", url: "/core-hr/performance" },
-        { title: isArabic ? "الإجازات" : "Leave", url: "/core-hr/leave" }
-      ]
-    },
-    {
-      id: 'ai-analytics',
-      title: isArabic ? "الذكاء الاصطناعي" : "AI & Analytics",
-      icon: Brain,
-      badge: "AI",
-      color: "text-purple-500",
-      items: [
-        { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
-        { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
-        { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
-        { title: isArabic ? "محرك الأتمتة" : "Automation Engine", url: "/ai-automation" }
-      ]
-    },
-    {
-      id: 'government',
-      title: isArabic ? "التكاملات الحكومية" : "Government Integrations",
-      icon: Building2,
-      badge: "21",
-      color: "text-green-500",
-      items: [
-        { title: isArabic ? "قوى" : "QIWA", url: "/government/qiwa" },
-        { title: isArabic ? "التأمينات الاجتماعية" : "GOSI", url: "/government/gosi" },
-        { title: isArabic ? "أبشر" : "ABSHER", url: "/government/absher" },
-        { title: isArabic ? "وزارة الموارد البشرية" : "MOL", url: "/government/mol" }
-      ]
-    }
-  ];
 
   return (
-    <Sidebar className={`${collapsed ? 'w-14' : 'w-64'} border-r border-border/50 bg-gradient-to-b from-background via-surface-subtle to-background`}>
-      {/* Header */}
-      <SidebarHeader className="p-4 border-b border-border/50">
+    <Sidebar className="aqlhr-sidebar w-64 min-w-64">
+      {/* Header - Exact Production Match */}
+      <SidebarHeader className="p-4 border-b border-border/30">
         <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8 bg-gradient-to-br from-primary to-accent">
-            <AvatarFallback className="text-white font-bold">AQL</AvatarFallback>
-          </Avatar>
+          <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-sm">AQL</span>
+          </div>
           {!collapsed && (
-            <div>
-              <h2 className="font-bold text-sm bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                AqlHR
-              </h2>
-              <p className="text-xs text-muted-foreground">Smart HR Platform</p>
+            <div className="flex-1">
+              <div className="text-sm font-bold text-foreground">AqlHR</div>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="flex gap-1">
+                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                </div>
+                <span className="text-xs text-muted-foreground">Legal Consultant</span>
+                <Badge className="text-xs px-1 py-0 bg-blue-600 text-white">NEW</Badge>
+              </div>
+              <div className="text-xs text-muted-foreground mt-1">AI</div>
+              <div className="text-xs text-green-400 mt-1">Systems operational</div>
             </div>
           )}
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="p-2">
-        {/* Main Modules */}
-        <SidebarGroup>
-          <SidebarGroupLabel className={`px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide ${collapsed ? 'sr-only' : ''}`}>
-            {isArabic ? 'الوحدات الرئيسية' : 'Main Modules'}
+      <SidebarContent className="p-0">
+        {/* Platform Modules - Exact Production Structure */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle">
+            Platform Modules
           </SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="p-2">
             <SidebarMenu className="space-y-1">
-              {mainModules.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 ${
-                          isActive
-                            ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm'
-                            : 'text-foreground hover:text-primary'
-                        }`
-                      }
-                    >
-                      <item.icon className={`h-4 w-4 ${item.color} flex-shrink-0`} />
-                      {!collapsed && (
-                        <>
-                          <span className="font-medium text-sm truncate">{item.title}</span>
-                          {item.badge && (
-                            <Badge variant="secondary" className="text-xs px-1.5 py-0.5 ml-auto">
-                              {item.badge}
-                            </Badge>
-                          )}
-                        </>
-                      )}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+              {/* Dashboard */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/dashboard"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <BarChart3 className="h-4 w-4" />
+                    <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">1</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-        {/* Expandable Groups */}
-        {!collapsed && (
-          <SidebarGroup>
-            <SidebarGroupLabel className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              {isArabic ? 'الوحدات المتقدمة' : 'Advanced Modules'}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu className="space-y-1">
-                {expandableGroups.map((group) => (
-                  <SidebarMenuItem key={group.id}>
-                    <Collapsible open={openGroups[group.id]} onOpenChange={() => toggleGroup(group.id)}>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary w-full">
-                          <group.icon className={`h-4 w-4 ${group.color} flex-shrink-0`} />
-                          <span className="font-medium text-sm truncate flex-1 text-left">{group.title}</span>
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline" className="text-xs px-1.5 py-0.5">
-                              {group.badge}
-                            </Badge>
-                            <ChevronDown className={`h-3 w-3 transition-transform ${openGroups[group.id] ? 'rotate-180' : ''}`} />
-                          </div>
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="ml-7 mt-1 space-y-1">
-                        {group.items.map((subItem) => (
-                          <NavLink
-                            key={subItem.url}
-                            to={subItem.url}
-                            className={({ isActive }) =>
-                              `block px-3 py-1.5 text-sm rounded-md transition-colors ${
-                                isActive
-                                  ? 'bg-primary/10 text-primary font-medium'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/30'
-                              }`
-                            }
-                          >
-                            {subItem.title}
-                          </NavLink>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        )}
+              {/* AqlHR Executive Intelligence Center */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/executive-center"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Crown className="h-4 w-4 text-yellow-500" />
+                    <span className="truncate">{isArabic ? 'مركز الذكاء التنفيذي عقل HR' : 'AqlHR Executive Intelligence Center'}</span>
+                    <Badge className="ml-auto text-xs bg-yellow-600 text-white">PREMIUM</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-        {/* Quick Actions */}
-        <SidebarGroup>
-          <SidebarGroupLabel className={`px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide ${collapsed ? 'sr-only' : ''}`}>
-            {isArabic ? 'إجراءات سريعة' : 'Quick Actions'}
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-1">
+              {/* Core HR */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/core-hr"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Users className="h-4 w-4 text-emerald-500" />
+                    <span className="truncate">{isArabic ? 'الموارد البشرية الأساسية' : 'Core HR'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">13</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Skills Intelligence */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/skills-intelligence"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Star className="h-4 w-4 text-amber-500" />
+                    <span className="truncate">{isArabic ? 'ذكاء المهارات' : 'Skills Intelligence'}</span>
+                    <Badge className="ml-auto text-xs bg-amber-600 text-white">NEW</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Learning Experience Optimization */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/leo"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <GraduationCap className="h-4 w-4 text-blue-500" />
+                    <span className="truncate">{isArabic ? 'تحسين تجربة التعلم' : 'Learning Experience Optimization'}</span>
+                    <Badge className="ml-auto text-xs bg-blue-600 text-white">LEO</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Generative Engagement Optimization */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/geo"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Sparkles className="h-4 w-4 text-pink-500" />
+                    <span className="truncate">{isArabic ? 'تحسين المشاركة التوليدية' : 'Generative Engagement Optimization'}</span>
+                    <Badge className="ml-auto text-xs bg-pink-600 text-white">GEO</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* AI & Analytics */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/analytics"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Brain className="h-4 w-4 text-purple-500" />
+                    <span className="truncate">{isArabic ? 'الذكاء الاصطناعي والتحليلات' : 'AI & Analytics'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">18</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* AI Automation Engine */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/ai-automation"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Zap className="h-4 w-4 text-violet-500" />
+                    <span className="truncate">{isArabic ? 'محرك الأتمتة الذكي' : 'AI Automation Engine'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">6</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Government Integrations */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/government"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Building2 className="h-4 w-4 text-green-500" />
+                    <span className="truncate">{isArabic ? 'التكاملات الحكومية' : 'Government Integrations'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">21</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Employee-Welfare Consultancy */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/welfare-consultancy"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Heart className="h-4 w-4 text-rose-500" />
+                    <span className="truncate">{isArabic ? 'الاستشارات المستقلة لرفاهية الموظفين' : 'Employee-Welfare Consultancy'}</span>
+                    <Badge className="ml-auto text-xs bg-rose-600 text-white">FLAGSHIP</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Legal Consultant AI */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/legal-consultant"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Scale className="h-4 w-4 text-indigo-500" />
+                    <span className="truncate">{isArabic ? 'المستشار القانوني الذكي' : 'Legal Consultant AI'}</span>
+                    <Badge className="ml-auto text-xs bg-indigo-600 text-white">NEW</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Compliance & Governance */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <NavLink
                     to="/compliance"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
                   >
-                    <Shield className="h-4 w-4 text-blue-500 flex-shrink-0" />
-                    {!collapsed && <span className="font-medium text-sm">{isArabic ? 'الامتثال' : 'Compliance'}</span>}
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <NavLink
-                    to="/settings"
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary"
-                  >
-                    <Settings className="h-4 w-4 text-gray-500 flex-shrink-0" />
-                    {!collapsed && <span className="font-medium text-sm">{isArabic ? 'الإعدادات' : 'Settings'}</span>}
+                    <Shield className="h-4 w-4 text-blue-500" />
+                    <span className="truncate">{isArabic ? 'الامتثال والحوكمة' : 'Compliance & Governance'}</span>
+                    <Badge className="ml-auto text-xs bg-blue-600 text-white">NEW</Badge>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -251,21 +298,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      {/* Footer */}
-      <SidebarFooter className="p-4 border-t border-border/50">
-        {!collapsed && (
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              {isArabic ? 'جميع الأنظمة تعمل' : 'All systems operational'}
-            </p>
-            <div className="flex items-center justify-center gap-1 mt-1">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-600 font-medium">Online</span>
-            </div>
-          </div>
-        )}
-      </SidebarFooter>
     </Sidebar>
   );
 }
