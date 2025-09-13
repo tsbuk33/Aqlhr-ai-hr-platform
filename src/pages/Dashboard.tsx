@@ -16,8 +16,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from 'sonner';
 import { resolveTenantId } from "@/lib/useTenant";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
-import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
-import MasterAgentActivator from '@/components/autonomous/MasterAgentActivator';
 
 export default function Dashboard() {
   const { t, locale } = useLocale();
@@ -180,11 +178,8 @@ export default function Dashboard() {
             </p>
           </div>
           
-          {/* Master Agent Activator and Share Button */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="w-full sm:w-80">
-              <MasterAgentActivator />
-            </div>
+          {/* Share Button */}
+          <div className="flex justify-end">
             <Button onClick={handleShareDashboard} disabled={loading} className="flex-shrink-0">
               <Share2 className="h-4 w-4 mr-2" />
               {t('dashboard', 'share_dashboard')}
@@ -444,14 +439,6 @@ export default function Dashboard() {
         ]}
       />
       
-      {/* AI Integration */}
-      <UniversalAIIntegrator 
-        pageType="analytics" 
-        moduleName="dashboard" 
-        companyId="demo-company" 
-        enabledFeatures={['real-time-insights', 'predictive-analytics', 'executive-intelligence']}
-        position="static"
-      />
     </DashboardErrorBoundary>
   );
 }
