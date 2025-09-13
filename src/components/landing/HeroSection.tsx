@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useLocale } from '@/i18n/locale';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 export function HeroSection() {
-  const { locale } = useLocale();
-  const isArabic = locale === 'ar';
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
   return (
     <div className="flex-1 flex items-center justify-center">

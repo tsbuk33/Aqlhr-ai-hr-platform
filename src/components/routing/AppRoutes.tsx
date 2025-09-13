@@ -63,7 +63,11 @@ export default function AppRoutes() {
       <Route path="/" element={<Navigate to="/en/" replace />} />
       <Route element={<LanguageLayout />}>
         {/* Root landing page */}
-        <Route index element={<AqlHRLanding />} />
+        <Route index element={
+          <CenteredLayout>
+            <AqlHRLanding />
+          </CenteredLayout>
+        } />
 
         {/* Auth Routes */}
         <Route element={<CenteredLayout />}>

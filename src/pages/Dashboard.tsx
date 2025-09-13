@@ -1,446 +1,249 @@
-import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Users, CheckCircle, AlertCircle, FileText, Clock, Shield, ExternalLink, Share2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useDashboardData } from "@/hooks/useDashboardData";
-import { useFeatureGating } from "@/hooks/useFeatureGating";
-import { UpsellModal } from "@/components/ui/upsell-modal";
-import { DashboardErrorBoundary, DashboardSkeleton } from "@/components/dashboard/DashboardErrorBoundary";
-import { DemoSeedingCallout } from "@/components/dashboard/DemoSeedingCallout";
-import { EnhancedDashboardAlertsPanel } from "@/components/dashboard/EnhancedDashboardAlertsPanel";
-import { DashboardOperationalTrends } from "@/components/dashboard/DashboardOperationalTrends";
-import { LineChart, Line, ResponsiveContainer } from 'recharts';
-import { useLocale } from "@/i18n/locale";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from 'sonner';
-import { resolveTenantId } from "@/lib/useTenant";
-import { localePath, resolveLang } from "@/lib/i18n/localePath";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { 
+  Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown,
+  Settings, Shield, Scale, Award, HelpCircle, Heart, BarChart3, Briefcase,
+  Building2, Zap, Brain, Globe, FileCheck, Wrench, GraduationCap, TrendingUp,
+  Star, Sparkles, Activity, Crown, Microscope, Target, AlertTriangle
+} from "lucide-react";
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { LinkL } from '@/lib/i18n/LinkL';
 
 export default function Dashboard() {
-  const { t, locale } = useLocale();
-  const isArabic = locale === 'ar';
-  const language = locale;
-  const { hasAccess: hasGrowthAccess, showUpsell, hideUpsell, upsellOpen } = useFeatureGating('self_sell_growth');
-  
-  const { 
-    data, 
-    series,
-    alerts,
-    integrations,
-    loading, 
-    error, 
-    isDemoMode,
-    systemsOperational, 
-    getMoMChange,
-    getSparklineData,
-    createTaskFromAlert,
-    refetch
-  } = useDashboardData();
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
-  // Share dashboard functionality
-  const handleShareDashboard = async () => {
-    if (!hasGrowthAccess) {
-      showUpsell();
-      return;
+  const kpiCards = [
+    {
+      title: isArabic ? "إجمالي الموظفين" : "Total Employees",
+      value: "1,000",
+      change: "+12%",
+      trend: "up",
+      icon: Users,
+      color: "blue"
+    },
+    {
+      title: isArabic ? "معدل السعودة" : "Saudization Rate",
+      value: "66.8%",
+      change: "+2.1%",
+      trend: "up", 
+      icon: Target,
+      color: "green"
+    },
+    {
+      title: isArabic ? "معدل السلامة" : "Safety Score",
+      value: "8.5/10",
+      change: "-0.3",
+      trend: "down",
+      icon: Shield,
+      color: "amber"
+    },
+    {
+      title: isArabic ? "رضا الموظفين" : "Employee Experience",
+      value: "7.5/10",
+      change: "+0.8",
+      trend: "up",
+      icon: Heart,
+      color: "rose"
     }
-    
-    try {
-      const { tenantId } = await resolveTenantId(supabase);
-      if (!tenantId) {
-        toast.error(t('dashboard', 'unable_to_determine_company'));
-        return;
-      }
+  ];
 
-      const { data: shareData, error } = await supabase.functions.invoke('share_link_sign_v1', {
-        body: {
-          tenantId,
-          kind: 'dashboard_snapshot',
-          ttlHours: 72,
-          payload: {
-            dashboard_data: data,
-            kpi_summary: {
-              total_employees: data?.totalEmployees || 0,
-              saudization_rate: data?.saudizationRate || 0,
-              compliance_score: data?.complianceScore || 0,
-              hse_safety_score: data?.hseSafetyScore || 0,
-              employee_experience_10: data?.employeeExperience || 0
-            },
-            generated_at: new Date().toISOString()
-          }
-        }
-      });
-
-      if (error) throw error;
-      
-      navigator.clipboard.writeText(shareData.url);
-      toast.success(t('dashboard', 'dashboard_share_link_copied'));
-    } catch (err) {
-      console.error('Share error:', err);
-      toast.error(t('dashboard', 'failed_to_create_share_link'));
+  const quickActions = [
+    {
+      title: isArabic ? "إضافة موظف جديد" : "Add Employee",
+      icon: Users,
+      url: "/core-hr/master-data"
+    },
+    {
+      title: isArabic ? "معالجة الرواتب" : "Process Payroll", 
+      icon: BarChart3,
+      url: "/payroll"
+    },
+    {
+      title: isArabic ? "إدارة الإجازات" : "Manage Leave",
+      icon: Calendar,
+      url: "/core-hr/leave"
+    },
+    {
+      title: isArabic ? "تقارير الأداء" : "Performance Reports",
+      icon: TrendingUp,
+      url: "/core-hr/performance"
     }
-  };
+  ];
 
-  // Helper functions for UI
-  const getChangeIcon = (change: number | null) => {
-    if (change === null) return null;
-    return change >= 0 ? <TrendingUp className="h-4 w-4" /> : <TrendingDown className="h-4 w-4" />;
-  };
+  const recentActivities = [
+    {
+      title: isArabic ? "تم إضافة 5 موظفين جدد" : "5 New employees added",
+      time: isArabic ? "منذ ساعتين" : "2 hours ago",
+      type: "info"
+    },
+    {
+      title: isArabic ? "تمت معالجة راتب شهر ديسمبر" : "December payroll processed", 
+      time: isArabic ? "منذ 4 ساعات" : "4 hours ago",
+      type: "success"
+    },
+    {
+      title: isArabic ? "طلب إجازة يحتاج موافقة" : "Leave request needs approval",
+      time: isArabic ? "منذ 6 ساعات" : "6 hours ago", 
+      type: "warning"
+    }
+  ];
 
-  const getChangeClass = (change: number | null) => {
-    if (change === null) return "text-muted-foreground";
-    return change >= 0 ? "text-success" : "text-destructive";
-  };
-
-  // Clickable drill-down handlers
-  const handleDrillDown = (path: string) => {
-    const href = localePath(path, resolveLang());
-    window.location.href = href;
-  };
-
-  // Show loading skeleton while data is being fetched
-  if (loading) {
-    return (
-      <DashboardErrorBoundary>
-      <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
-          <DashboardSkeleton />
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-background via-surface-subtle to-surface">
+      <div className="p-6 space-y-8">
+        {/* Welcome Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4">
+            {isArabic ? 'أهلاً بك في نظام عقل للموارد البشرية' : 'Welcome to AqlHR System'}
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            {isArabic 
+              ? 'منصة ذكية لإدارة الموارد البشرية مدعومة بالذكاء الاصطناعي'
+              : 'AI-Powered Smart HR Management Platform'
+            }
+          </p>
         </div>
-      </DashboardErrorBoundary>
-    );
-  }
 
-  // Show error state
-  if (error) {
-    return (
-      <DashboardErrorBoundary>
-        <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
-          <Card className="border-destructive">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <AlertCircle className="h-5 w-5 text-destructive" />
-                <h3 className="font-semibold">{t('dashboard', 'dashboard_error')}</h3>
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {kpiCards.map((kpi, index) => (
+            <Card key={index} className="bg-gradient-to-br from-surface to-surface-subtle border border-border/50 hover:border-primary/20 transition-all duration-300 hover:shadow-lg">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">{kpi.title}</CardTitle>
+                <kpi.icon className={`h-5 w-5 text-${kpi.color}-500`} />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-foreground">{kpi.value}</div>
+                <div className={`flex items-center text-xs ${kpi.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                  {kpi.trend === 'up' ? <ArrowUp className="h-3 w-3 mr-1" /> : <ArrowDown className="h-3 w-3 mr-1" />}
+                  {kpi.change}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Quick Actions */}
+          <Card className="bg-gradient-to-br from-surface to-surface-subtle border border-border/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-primary" />
+                {isArabic ? 'الإجراءات السريعة' : 'Quick Actions'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {quickActions.map((action, index) => (
+                <LinkL key={index} to={action.url}>
+                  <Button variant="ghost" className="w-full justify-start gap-3 h-12 hover:bg-accent/50">
+                    <action.icon className="h-5 w-5 text-primary" />
+                    {action.title}
+                  </Button>
+                </LinkL>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* Recent Activities */}
+          <Card className="bg-gradient-to-br from-surface to-surface-subtle border border-border/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5 text-primary" />
+                {isArabic ? 'الأنشطة الحديثة' : 'Recent Activities'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {recentActivities.map((activity, index) => (
+                <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-accent/20 hover:bg-accent/30 transition-colors">
+                  <div className={`w-2 h-2 rounded-full mt-2 ${
+                    activity.type === 'success' ? 'bg-green-500' : 
+                    activity.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
+                  }`} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground">{activity.title}</p>
+                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          {/* System Status */}
+          <Card className="bg-gradient-to-br from-surface to-surface-subtle border border-border/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Settings className="h-5 w-5 text-primary" />
+                {isArabic ? 'حالة النظام' : 'System Status'}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">
+                    {isArabic ? 'حالة النظام' : 'System Health'}
+                  </span>
+                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                    {isArabic ? 'ممتاز' : 'Excellent'}
+                  </Badge>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{isArabic ? 'الأداء' : 'Performance'}</span>
+                    <span className="text-foreground">95%</span>
+                  </div>
+                  <Progress value={95} className="h-2" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{isArabic ? 'الاستخدام' : 'Usage'}</span>
+                    <span className="text-foreground">73%</span>
+                  </div>
+                  <Progress value={73} className="h-2" />
+                </div>
               </div>
-              <p className="text-muted-foreground mb-4">{error}</p>
-              <Button onClick={refetch} variant="outline">
-                {t('dashboard', 'retry_loading')}
-              </Button>
             </CardContent>
           </Card>
         </div>
-      </DashboardErrorBoundary>
-    );
-  }
 
-  // Dev callout when no employees
-  const isDev = new URLSearchParams(window.location.search).get('dev') === '1';
-  const hasNoEmployees = data?.totalEmployees === 0;
-
-  console.log('AqlHR: [Dashboard] Loading dashboard, hasNoEmployees:', hasNoEmployees, 'isDev:', isDev, 'isDemoMode:', isDemoMode);
-
-  return (
-    <DashboardErrorBoundary>
-      <div className={`space-y-6 ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
-        {/* Dev Callout */}
-        {(isDev || isDemoMode) && hasNoEmployees && (
-          <DemoSeedingCallout onSeedingComplete={refetch} />
-        )}
-
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl font-bold">
-                {t('dashboard', 'title')}
-              </h1>
-              {isDemoMode && (
-                <Badge variant="outline" className="text-xs">
-                  {t('dashboard', 'demo_mode')}
-                </Badge>
-              )}
-            </div>
-            <p className="text-muted-foreground flex items-center gap-2 mt-1">
-              <span className={`inline-flex items-center gap-1 ${systemsOperational ? 'text-success' : 'text-warning'}`}>
-                {systemsOperational ? (
-                  <>
-                    <CheckCircle className="h-4 w-4" />
-                    {t('dashboard', 'all_systems_operational')}
-                  </>
-                ) : (
-                  <>
-                    <AlertCircle className="h-4 w-4" />
-                    {t('dashboard', 'system_issues_detected')}
-                    {integrations.length > 0 && (
-                      <span className="text-xs">
-                        ({integrations.map(int => `${int.integration_group}: ${int.connected}/${int.total}`).join(", ")})
-                      </span>
-                    )}
-                  </>
-                )}
-              </span>
-            </p>
-          </div>
-          
-          {/* Share Button */}
-          <div className="flex justify-end">
-            <Button onClick={handleShareDashboard} disabled={loading} className="flex-shrink-0">
-              <Share2 className="h-4 w-4 mr-2" />
-              {t('dashboard', 'share_dashboard')}
-            </Button>
-          </div>
-        </div>
-
-      {/* Main KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Employees */}
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/people/employees')}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Users className="h-6 w-6 text-primary" />
-              </div>
-              {(() => {
-                const change = getMoMChange(data?.totalEmployees || 0, series, 'total_employees');
-                return (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
-                    {getChangeIcon(change)}
-                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
-                  </div>
-                );
-              })()}
-            </div>
-            <div className="flex items-end justify-between">
-              <div>
-                <h3 className="text-2xl font-bold">{data?.totalEmployees.toLocaleString() || 0}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard', 'total_employees')}
-                </p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="mt-4 h-16">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={getSparklineData('total_employees')}>
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="hsl(var(--primary))" 
-                    strokeWidth={2}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Saudization Rate */}
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/compliance/autopilot')}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-success/10 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-success" />
-              </div>
-              {(() => {
-                const change = getMoMChange(data?.saudizationRate || 0, series, 'saudization_rate');
-                return (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
-                    {getChangeIcon(change)}
-                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
-                  </div>
-                );
-              })()}
-            </div>
-            <div className="flex items-end justify-between">
-              <div>
-                <h3 className="text-2xl font-bold">{data?.saudizationRate?.toFixed(1) || 0}%</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard', 'saudization_rate')}
-                </p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="mt-4 h-16">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={getSparklineData('saudization_rate')}>
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="hsl(var(--success))" 
-                    strokeWidth={2}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* HSE Safety Score */}
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/hse/incidents?range=90d')}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-warning/10 rounded-lg">
-                <Shield className="h-6 w-6 text-warning" />
-              </div>
-              {(() => {
-                const change = getMoMChange(data?.hseSafetyScore || 0, series, 'hse_safety_score');
-                return (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
-                    {getChangeIcon(change)}
-                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
-                  </div>
-                );
-              })()}
-            </div>
-            <div className="flex items-end justify-between">
-              <div>
-                <h3 className="text-2xl font-bold">{data?.hseSafetyScore?.toFixed(1) || 0}/10</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard', 'hse_safety_score')}
-                </p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="mt-4 h-16">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={getSparklineData('hse_safety_score')}>
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="hsl(var(--warning))" 
-                    strokeWidth={2}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Employee Experience */}
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/cci/overview')}>
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="p-2 bg-info/10 rounded-lg">
-                <TrendingUp className="h-6 w-6 text-info" />
-              </div>
-              {(() => {
-                const change = getMoMChange(data?.employeeExperience || 0, series, 'employee_experience_10');
-                return (
-                  <div className={`flex items-center gap-1 text-sm ${getChangeClass(change)}`}>
-                    {getChangeIcon(change)}
-                    {change ? `${change >= 0 ? '+' : ''}${change.toFixed(1)}%` : 'N/A'}
-                  </div>
-                );
-              })()}
-            </div>
-            <div className="flex items-end justify-between">
-              <div>
-                <h3 className="text-2xl font-bold">{data?.employeeExperience?.toFixed(1) || 0}/10</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t('dashboard', 'employee_experience')}
-                </p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="mt-4 h-16">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={getSparklineData('employee_experience_10')}>
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="hsl(var(--info))" 
-                    strokeWidth={2}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+        {/* Platform Modules Grid */}
+        <Card className="bg-gradient-to-br from-surface to-surface-subtle border border-border/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Building2 className="h-6 w-6 text-primary" />
+              {isArabic ? 'وحدات المنصة' : 'Platform Modules'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {[
+                { title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", icon: Users, url: "/core-hr", badge: "13" },
+                { title: isArabic ? "مركز الذكاء التنفيذي" : "Executive Intelligence", icon: Crown, url: "/executive-center", badge: "PREMIUM" },
+                { title: isArabic ? "ذكاء المهارات" : "Skills Intelligence", icon: Star, url: "/skills-intelligence", badge: "NEW" },
+                { title: isArabic ? "تحسين التعلّم" : "Learning Optimization", icon: GraduationCap, url: "/leo", badge: "LEO" },
+                { title: isArabic ? "تحسين المشاركة" : "Engagement Optimization", icon: Sparkles, url: "/geo", badge: "GEO" },
+                { title: isArabic ? "الذكاء الاصطناعي" : "AI & Analytics", icon: Brain, url: "/analytics", badge: "AI" },
+                { title: isArabic ? "التكاملات الحكومية" : "Government Integrations", icon: Building2, url: "/government", badge: "21" },
+                { title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", icon: Shield, url: "/compliance", badge: "NEW" },
+              ].map((module, index) => (
+                <LinkL key={index} to={module.url}>
+                  <Card className="group cursor-pointer hover:shadow-lg transition-all duration-300 hover:border-primary/30 border border-border/30 bg-gradient-to-br from-background to-surface">
+                    <CardContent className="p-4 text-center">
+                      <module.icon className="h-8 w-8 mx-auto mb-3 text-primary group-hover:text-accent transition-colors" />
+                      <h3 className="font-semibold text-sm mb-2 group-hover:text-primary transition-colors">{module.title}</h3>
+                      <Badge variant="outline" className="text-xs">
+                        {module.badge}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                </LinkL>
+              ))}
             </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <DashboardOperationalTrends />
-        <EnhancedDashboardAlertsPanel 
-          alerts={alerts}
-          onCreateTask={createTaskFromAlert}
-          loading={loading}
-        />
-      </div>
-
-      {/* Secondary KPIs Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/documents/activity?range=30d')}>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-secondary/10 rounded-lg">
-                <FileText className="h-6 w-6 text-secondary" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold">
-                  {t('dashboard', 'docs_processed')}
-                </h3>
-                <p className="text-2xl font-bold">{data?.docsProcessed?.toLocaleString() || 0}</p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => handleDrillDown('/learning/completions?range=90d')}>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-accent/10 rounded-lg">
-                <Clock className="h-6 w-6 text-accent" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold">
-                  {t('dashboard', 'training_hours')}
-                </h3>
-                <p className="text-2xl font-bold">{data?.trainingHours?.toFixed(1) || 0}</p>
-              </div>
-              <ExternalLink className="h-4 w-4 text-muted-foreground" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-6">
-            <div className="flex items-center gap-4">
-              <div className="p-2 bg-success/10 rounded-lg">
-                <CheckCircle className="h-6 w-6 text-success" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">
-                  {t('dashboard', 'compliance_score')}
-                </h3>
-                <p className="text-2xl font-bold">{data?.complianceScore?.toFixed(1) || 0}%</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-      </div>
-      
-      {/* Upsell Modal */}
-      <UpsellModal 
-        open={upsellOpen}
-        onOpenChange={hideUpsell}
-        title={t('dashboard', 'unlock_growth_features')}
-        description={t('dashboard', 'growth_features_description')}
-        features={[
-          t('dashboard', 'show_roi_automatically'),
-          t('dashboard', 'weekly_exec_pdfs'),
-          t('dashboard', 'readonly_snapshot_links')
-        ]}
-      />
-      
-    </DashboardErrorBoundary>
+    </div>
   );
 }
