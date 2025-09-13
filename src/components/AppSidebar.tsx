@@ -1,406 +1,271 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { 
-  Users, Calendar, FileText, Clock, BookOpen, Check, ArrowUp, ArrowDown,
-  Settings, Shield, Scale, Award, HelpCircle, Heart, BarChart3, Briefcase,
-  Building2, Zap, Brain, Globe, FileCheck, Wrench, GraduationCap, TrendingUp,
-  Star, Sparkles, Activity, Crown, Microscope
+  Users, BarChart3, Crown, Star, GraduationCap, Sparkles, Brain, 
+  Building2, Shield, Settings, ChevronDown, Home, Zap
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar,
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarHeader, SidebarFooter
 } from "@/components/ui/sidebar";
-import { useLocale } from "@/i18n/locale";
-import { HRBPSidebar } from "./HRBPSidebar";
-import LanguageToggle from "@/components/LanguageToggle";
-import aqlHRLogo from "/lovable-uploads/3f780701-d943-45bd-a797-f1141c6093d3.png";
-import { localePath, resolveLang } from "@/lib/i18n/localePath";
-
-const getPlatformModules = (isArabic: boolean) => [
-  // Core Essentials
-  { title: isArabic ? "لوحة التحكم" : "Dashboard", url: "/", icon: BarChart3, badge: "1", color: "blue" },
-  // Executive Intelligence Center
-  { title: isArabic ? "مركز الذكاء التنفيذي عقل HR" : "AqlHR Executive Intelligence Center", url: "/executive-center", icon: Crown, badge: "PREMIUM", color: "gold" },
-  // Core HR Management
-  { 
-    title: isArabic ? "الموارد البشرية الأساسية" : "Core HR", url: "/core-hr", icon: Users, badge: "13", color: "emerald",
-    subItems: [
-      { title: isArabic ? "بيانات الموظفين الرئيسية" : "Employee Master Data", url: "/core-hr/master-data" },
-      { title: isArabic ? "التوظيف والتعيين" : "Recruitment & Hiring", url: "/core-hr/recruitment" },
-      { title: isArabic ? "معالجة الرواتب" : "Payroll Processing", url: "/payroll" },
-      { title: isArabic ? "إدارة المزايا" : "Benefits Administration", url: "/core-hr/benefits" },
-      { title: isArabic ? "إدارة الأداء" : "Performance Management", url: "/core-hr/performance" },
-      { title: isArabic ? "التدريب والتطوير" : "Training & Development", url: "/core-hr/training" },
-      { title: isArabic ? "الوقت والحضور" : "Time & Attendance", url: "/core-hr/time-attendance" },
-      { title: isArabic ? "إدارة الإجازات" : "Leave Management", url: "/core-hr/leave" },
-      { title: isArabic ? "تخطيط التعاقب" : "Succession Planning", url: "/core-hr/succession-planning" },
-      { title: isArabic ? "إدارة التعويضات" : "Compensation Management", url: "/core-hr/compensation-management" },
-      { title: isArabic ? "حاسبة السعودة والتأشيرات" : "Saudization & Visa Calculator", url: "/core-hr/saudization" },
-      { title: isArabic ? "الخدمة الذاتية للموظفين" : "Employee Self Service", url: "/core-hr/self-service" },
-      { title: isArabic ? "لوحة تحكم المدير" : "Manager Dashboard", url: "/core-hr/organization" },
-    ]
-  },
-  // Skills Intelligence
-  { title: isArabic ? "ذكاء المهارات وتحليل الوظائف" : "Skills Intelligence", url: "/skills-intelligence", icon: Star, badge: "NEW", color: "amber" },
-  // LEO
-  { title: isArabic ? "تحسين تجربة التعلم" : "Learning Experience Optimization", url: "/leo", icon: GraduationCap, badge: "LEO", color: "blue" },
-  // GEO
-  { title: isArabic ? "تحسين المشاركة التوليدية" : "Generative Engagement Optimization", url: "/geo", icon: Sparkles, badge: "GEO", color: "pink" },
-  // AI & Analytics
-  { 
-    title: isArabic ? "الذكاء الاصطناعي والتحليلات" : "AI & Analytics", url: "/analytics", icon: TrendingUp, color: "purple",
-    subItems: [
-      { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
-      { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
-      { title: isArabic ? "الصحة والسلامة والبيئة (HSE)" : "Health & Safety (HSE)", url: "/health-safety" },
-      { title: isArabic ? "ميزات الذكاء الاصطناعي" : "AI Features", url: "/ai-features" },
-      { title: isArabic ? "أداة المؤشرات الذكية" : "Smart KPI Tool", url: "/additional/smart-kpi" },
-      { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
-      { title: isArabic ? "ذكاء المستندات" : "DOCUMENT INTELLIGENCE", url: "/ai-automation/document-intelligence" },
-      { title: isArabic ? "سير العمل الآلي" : "AUTOMATION WORKFLOWS", url: "/automation-workflows" },
-      { title: isArabic ? "الذكاء متعدد الوحدات" : "Cross-Module Intelligence", url: "/cross-module-intelligence" },
-      { title: isArabic ? "مساعد الذكاء الاصطناعي المحمول" : "Mobile AI Assistant", url: "/mobile-ai-assistant" },
-      { title: isArabic ? "التكامل الحكومي الذكي" : "Government AI Integration", url: "/government-ai-integration" },
-      { title: isArabic ? "الذكاء التنفيذي" : "AI Executive Intelligence", url: "/ai-executive-intelligence" },
-      { title: isArabic ? "محرك المزامنة الذكي" : "AI Sync Engine", url: "/ai-automation/sync-engine" },
-      { title: isArabic ? "التوصيات الذكية" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
-      { title: isArabic ? "معالجة اللغة العربية-الإنجليزية" : "Arabic-English NLP", url: "/ai-automation/arabic-english-nlp" },
-      { title: isArabic ? "محرك سير العمل الآلي" : "Automated Workflow Engine", url: "/ai-automation/automated-workflow" },
-      { title: isArabic ? "مركز قيادة الذكاء الاصطناعي" : "AI Command Center", url: "/ai-ecosystem/command-center" },
-      { title: isArabic ? "نواة عقل أقل" : "AqlMind Core", url: "/ai-ecosystem/aql-mind-core" },
-      { title: isArabic ? "محرك القرار الذكي" : "AI Decision Engine", url: "/ai-ecosystem/decision-engine" },
-      { title: isArabic ? "منفذ المهام المستقل" : "Autonomous Task Executor", url: "/ai-ecosystem/task-executor" },
-      { title: isArabic ? "معالج الأحداث الفوري" : "Realtime Event Processor", url: "/ai-ecosystem/event-processor" },
-      { title: isArabic ? "منسق سير العمل المستقل" : "Workflow Orchestrator", url: "/ai-ecosystem/workflow-orchestrator" },
-      { title: isArabic ? "مخطط القوى العاملة التنبؤي" : "Predictive Workforce Planner", url: "/ai-ecosystem/workforce-planner" },
-      { title: isArabic ? "مولد السياسات الآلي" : "Automated Policy Generator", url: "/ai-ecosystem/policy-generator" },
-      { title: isArabic ? "محرك الامتثال المتقدم" : "Advanced Compliance Automator", url: "/ai-ecosystem/compliance-automator" },
-      { title: isArabic ? "التحليلات التنبؤية المتقدمة" : "Advanced Predictive Analytics", url: "/ai-ecosystem/advanced-predictive-analytics" },
-      { title: isArabic ? "توليد العقود الآلي" : "Automated Contract Generation", url: "/ai-ecosystem/automated-contract-generation" },
-        { title: isArabic ? "مدير الأداء المستقل" : "Autonomous Performance Manager", url: "/ai-ecosystem/autonomous-performance-manager" },
-        { title: isArabic ? "منسق الذكاء المركزي" : "Central AI Orchestrator", url: "/ai-ecosystem/central-ai-orchestrator" },
-        { title: isArabic ? "محرك التقارير المؤسسية" : "Enterprise Reporting Engine", url: "/ai-ecosystem/enterprise-reporting-engine" },
-        { title: isArabic ? "محرك الامتثال السعودي" : "Saudi Compliance Engine", url: "/ai-ecosystem/saudi-compliance-engine" },
-        { title: isArabic ? "محسن القوى العاملة الذكي" : "Super Workforce Optimizer", url: "/ai-ecosystem/super-workforce-optimizer" },
-      ]
-    },
-  // AI Automation Engine
-  { 
-    title: isArabic ? "محرك الأتمتة الذكي" : "AI Automation Engine", url: "/ai-automation", icon: Brain, badge: "6", color: "violet",
-    subItems: [
-      { title: isArabic ? "محرك المزامنة الذكي" : "AI SYNC ENGINE", url: "/ai-automation/sync-engine" },
-      { title: isArabic ? "التوصيات الذكية" : "Smart Recommendations", url: "/ai-automation/smart-recommendations" },
-      { title: isArabic ? "معالجة اللغة العربية/الإنجليزية" : "Arabic/English NLP", url: "/ai-automation/arabic-english-nlp" },
-      { title: isArabic ? "سير العمل التلقائي" : "Automated Workflows", url: "/ai-automation/automated-workflow" },
-      { title: isArabic ? "مساعد التوظيف" : "Onboarding Assistant", url: "/ai-automation/onboarding-assistant" },
-      { title: isArabic ? "محرك التوافق" : "Compliance Predictor", url: "/compliance/predictor" },
-    ]
-  },
-  // Government Integrations
-  { 
-    title: isArabic ? "التكاملات الحكومية" : "Government Integrations", url: "/government", icon: Building2, badge: "21", color: "green",
-    subItems: [
-      { title: isArabic ? "تكامل قوى" : "Qiwa Integration", url: "/government/qiwa" },
-      { title: isArabic ? "تكامل التأمينات الاجتماعية" : "GOSI Integration", url: "/government/gosi" },
-      { title: isArabic ? "منصة أبشر" : "Absher Platform", url: "/government/absher" },
-      { title: isArabic ? "منصة علم" : "ELM Platform", url: "/government/elm" },
-      { title: isArabic ? "منصة مقيم" : "Muqeem Platform", url: "/government/muqeem" },
-      { title: isArabic ? "منصة صحة" : "Seha Platform", url: "/government/seha" },
-      { title: isArabic ? "منصة شي" : "CHI Platform", url: "/government/chi" },
-      { title: isArabic ? "مدد" : "Mudad Platform", url: "/government/mudad" },
-      { title: isArabic ? "تكامل وزارة الموارد البشرية" : "HRSD Integration", url: "/government/mol" },
-      { title: isArabic ? "دروب التقني" : "TVTC Doroob", url: "/government/tvtc" },
-      { title: isArabic ? "تقييم قياس" : "Qiyas Assessment", url: "/government/qiyas" },
-      { title: isArabic ? "اعتماد هيئة تقويم التعليم" : "NCAAA Accreditation", url: "/government/ncaaa" },
-      { title: isArabic ? "وزارة التعليم" : "Education Ministry", url: "/government/education" },
-      { title: isArabic ? "طاقات صندوق تنمية الموارد البشرية" : "Taqat HRDF", url: "/government/taqat" },
-      { title: isArabic ? "المركز الوطني للتوظيف" : "NCEI Employment", url: "/government/ncei" },
-      { title: isArabic ? "وزارة الداخلية" : "Interior Ministry", url: "/government/interior" },
-      { title: isArabic ? "توثيق إسناد" : "ESNAD Notarization", url: "/government/esnad" },
-      { title: isArabic ? "البريد السعودي" : "Saudi Post", url: "/government/saudi-post" },
-      { title: isArabic ? "امتثال توكلنا" : "Tawakkalna Compliance", url: "/government/tawakkalna" },
-      { title: isArabic ? "تقويم أم القرى" : "Umm Al-Qura Calendar", url: "/government/umm-al-qura" },
-      { title: isArabic ? "المجلس السعودي للمهندسين" : "Saudi Council of Engineers", url: "/government/saudi-engineering" },
-    ]
-  },
-  // Professional Services
-  { title: isArabic ? "الاستشارات المستقلة لرفاهية الموظفين" : "Employee-Welfare Consultancy", url: "/welfare-consultancy", icon: Heart, badge: "FLAGSHIP", color: "rose" },
-  // AI-Powered Specialized Modules
-  { title: isArabic ? "المستشار القانوني الذكي" : "Legal Consultant AI", url: "/legal-consultant", icon: Scale, badge: "NEW", color: "indigo" },
-  { title: isArabic ? "إدارة لجنة الترشيحات والمكافآت" : "NRC Management", url: "/nrc-management", icon: Award, badge: "AI", color: "amber" },
-  { title: isArabic ? "إدارة ISO بالذكاء الاصطناعي" : "ISO Management AI", url: "/iso-management", icon: Shield, badge: "NEW", color: "cyan" },
-  // Health, Safety & Environment
-  { title: isArabic ? "الصحة والسلامة والبيئة" : "Health, Safety & Environment", url: "/health-safety", icon: Activity, badge: "HSE", color: "red" },
-  // ESG & HR
-  { title: isArabic ? "التشخيص البيئي والاجتماعي والحكومي" : "HR-ESG Diagnostic", url: "/esg-hr", icon: TrendingUp, badge: "NEW", color: "green" },
-  // Compliance & Governance
-  { 
-    title: isArabic ? "الامتثال والحوكمة" : "Compliance & Governance", 
-    url: "/compliance", 
-    icon: Shield,
-    badge: "NEW",
-    color: "blue"
-  },
-  // Consulting Services
-  {
-    title: isArabic ? "الخدمات الاستشارية" : "Consulting Services", url: "/consulting", icon: GraduationCap, badge: "NEW", color: "teal",
-    subItems: [
-      { title: isArabic ? "مراجعة السياسات بالذكاء الاصطناعي" : "AI Policy Review", url: "/policy-review", badge: "AI" },
-      { title: isArabic ? "رحلة الموظف الذكية" : "Smart Employee Journey", url: "/employee-lifecycle", badge: "AI" },
-      { title: isArabic ? "محرك مقارنة الرواتب" : "Salary Benchmarking Engine", url: "/salary-benchmarking", badge: "AI" },
-      { title: isArabic ? "التقييم الاستراتيجي الذكي" : "AI Strategic Assessment", url: "/consulting/ai-assessment", badge: "NEW" },
-      { title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/consulting/strategic-planning" },
-      { title: isArabic ? "التحول الرقمي" : "Digital Transformation", url: "/consulting/digital-transformation" },
-      { title: isArabic ? "إدارة التغيير" : "Change Management", url: "/consulting/change-management" },
-      { title: isArabic ? "تحليل المعايير المرجعية" : "Benchmarking Analysis", url: "/consulting/benchmarking" },
-      { title: isArabic ? "تحويل الثقافة" : "Culture Transformation", url: "/consulting/culture-transformation" },
-      { title: isArabic ? "تطوير القيادة" : "Leadership Development", url: "/consulting/leadership" },
-      { title: isArabic ? "تحسين الموارد البشرية" : "HR Optimization", url: "/consulting/hr-optimization" },
-      { title: isArabic ? "إعادة الهيكلة التنظيمية" : "Organizational Restructuring", url: "/consulting/restructuring" },
-      { title: isArabic ? "دمج عمليات الاندماج" : "Merger Integration", url: "/consulting/merger-integration" },
-      { title: isArabic ? "استراتيجية المواهب" : "Talent Strategy", url: "/consulting/talent-strategy" },
-      { title: isArabic ? "التعويضات التنفيذية" : "Executive Compensation", url: "/consulting/executive-compensation" },
-      { title: isArabic ? "تقييم المخاطر" : "Risk Assessment", url: "/consulting/risk-assessment" }
-    ]
-  },
-  // Strategic Planning
-  { 
-    title: isArabic ? "التخطيط الاستراتيجي" : "Strategic Planning", url: "/strategic", icon: Star, badge: "10", color: "orange",
-    subItems: [
-      { title: isArabic ? "استراتيجية التعويضات" : "Compensation Strategy", url: "/strategic/compensation" },
-      { title: isArabic ? "تخطيط القوى العاملة" : "Workforce Planning", url: "/strategic/workforce-planning" },
-      { title: isArabic ? "تخطيط التعاقب" : "Succession Planning", url: "/strategic/succession" },
-      { title: isArabic ? "التنوع والشمول" : "Diversity & Inclusion", url: "/strategic/diversity" },
-      { title: isArabic ? "استراتيجية الأداء" : "Performance Strategy", url: "/strategic/performance" },
-      { title: isArabic ? "تجربة الموظف" : "Employee Experience", url: "/strategic/employee-experience" },
-      { title: isArabic ? "تطوير القيادة" : "Leadership Development", url: "/strategic/leadership" },
-      { title: isArabic ? "التحول الرقمي للموارد البشرية" : "HR Transformation", url: "/strategic/hr-transformation" },
-      { title: isArabic ? "إدارة التغيير" : "Change Management", url: "/strategic/change-management" },
-      { title: isArabic ? "استراتيجية الثقافة" : "Culture Strategy", url: "/strategic/culture" },
-    ]
-  },
-  // Diagnostic Framework  
-  { 
-    title: isArabic ? "إطار التشخيص" : "Diagnostic Framework", url: "/diagnostic", icon: Microscope, badge: "11", color: "blue",
-    subItems: [
-      { title: isArabic ? "ذكاء الثقافة المؤسسية (CCI)" : "Corporate Culture Intelligence (CCI)", url: "/cci/overview" },
-      { title: isArabic ? "استراتيجية الاحتفاظ" : "Retention Strategy", url: "/diagnostic/retention" },
-      { title: isArabic ? "تحليل الفجوات" : "Gap Analysis", url: "/diagnostic/gap-analysis" },
-      { title: isArabic ? "تحليل القوى العاملة" : "Workforce Analytics", url: "/diagnostic/workforce" },
-      { title: isArabic ? "مؤشرات الأداء" : "Performance Metrics", url: "/diagnostic/performance" },
-      { title: isArabic ? "تحليل التعويضات" : "Compensation Analysis", url: "/diagnostic/compensation" },
-      { title: isArabic ? "تحليل المخاطر" : "Risk Analysis", url: "/diagnostic/risk" },
-      { title: isArabic ? "تحليل الامتثال" : "Compliance Analysis", url: "/diagnostic/compliance" },
-      { title: isArabic ? "تحليل المشاركة" : "Engagement Analysis", url: "/diagnostic/engagement" },
-      { title: isArabic ? "تحليل الإنتاجية" : "Productivity Analysis", url: "/diagnostic/productivity" },
-      { title: isArabic ? "تحليل التنوع" : "Diversity Analysis", url: "/diagnostic/diversity" },
-    ]
-  },
-  // Test & Validation
-  { 
-    title: isArabic ? "الاختبار والتحقق" : "Test & Validation", 
-    url: "/demo/test-page", 
-    icon: FileCheck, 
-    badge: "AI", 
-    color: "orange",
-    subItems: [
-      { title: isArabic ? "تحقق نظام الذكاء الاصطناعي" : "AI System Validation", url: "/demo/test-page" },
-      { title: isArabic ? "مجموعة الاختبار الكامل" : "Full Test Suite", url: "/demo/test-page" },
-    ]
-  },
-  // Operations & Forms
-  { title: isArabic ? "العمليات والنماذج" : "Processes & Forms", url: "/processes-forms", icon: FileCheck, badge: "AI", color: "slate" },
-  // Tools & Integrations
-  { title: isArabic ? "الأدوات والتكاملات" : "Tools & Integrations", url: "/tools", icon: Wrench, badge: "24", color: "gray" },
-  // Interactive Help
-  { title: isArabic ? "المساعدة التفاعلية" : "Interactive Help", url: "/help", icon: HelpCircle, badge: "40", color: "blue" },
-];
-
-// Check if we should show HRBP sidebar
-const useHRBPMode = () => {
-  const location = useLocation();
-  // Enable HRBP mode for analytics and key HR sections
-  const isHRBP = location.pathname.includes('/analytics') || 
-         location.pathname.includes('/employees') ||
-         location.pathname.includes('/payroll') ||
-         location.pathname.includes('/core-hr') ||
-         location.pathname.includes('/strategic') ||
-         location.pathname.includes('/government');
-  
-  console.log('Current path:', location.pathname, 'HRBP mode:', isHRBP);
-  return isHRBP;
-};
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Badge } from "@/components/ui/badge";
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export function AppSidebar() {
   const { state } = useSidebar();
-  const { locale } = useLocale();
-  const isArabic = locale === 'ar';
+  const collapsed = state === "collapsed";
   const location = useLocation();
-  const currentPath = location.pathname;
-  const lang = resolveLang();
-  const [expandedGroups, setExpandedGroups] = useState<string[]>([isArabic ? "الموارد البشرية الأساسية" : "Core HR"]);
-  const platformModules = getPlatformModules(isArabic);
-  const isHRBP = useHRBPMode();
-  const showHRBPSidebar = isHRBP;
-  
-  console.log('AqlHR: [AppSidebar] Rendering sidebar, HRBP mode:', showHRBPSidebar, 'path:', currentPath);
-  
-  // Show HRBP sidebar for analytics and core HR sections
-  if (showHRBPSidebar) {
-    console.log('AqlHR: [AppSidebar] Using HRBP sidebar');
-    return <HRBPSidebar />;
-  }
-  
-  const isActive = (path: string) => currentPath === localePath(path, lang);
-  const isGroupActive = (url: string) => currentPath.startsWith(localePath(url, lang)) && url !== "/";
-  
-  const getNavClasses = (isActive: boolean, isGroup = false, color?: string) => {
-    const baseClasses = "w-full justify-start transition-all duration-200 text-sm relative overflow-hidden";
-    if (isActive) {
-      return isGroup 
-        ? `${baseClasses} bg-primary text-primary-foreground font-medium shadow-sm`
-        : `${baseClasses} bg-primary text-primary-foreground font-medium shadow-sm`;
-    }
-    return `${baseClasses} text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-sm`;
-  };
-  
-  const getBadgeClasses = (badge: string, color?: string) => {
-    const baseClasses = "text-xs px-1 py-0.5 rounded font-medium flex-shrink-0 whitespace-nowrap";
-    if (badge === "NEW") return `${baseClasses} bg-emerald-500/20 text-emerald-400 border border-emerald-500/30`;
-    if (badge === "AI") return `${baseClasses} bg-purple-500/20 text-purple-400 border border-purple-500/30`;
-    if (badge === "FLAGSHIP") return `${baseClasses} bg-gradient-to-r from-rose-500/20 to-pink-500/20 text-rose-400 border border-rose-500/30`;
-    if (badge === "PREMIUM") return `${baseClasses} bg-gradient-to-r from-yellow-500/20 to-amber-500/20 text-yellow-400 border border-yellow-500/30`;
-    if (badge === "HSE") return `${baseClasses} bg-red-500/20 text-red-400 border border-red-500/30`;
-    return `${baseClasses} bg-sidebar-accent text-sidebar-accent-foreground border border-sidebar-border`;
-  };
-  
-  const toggleGroup = (title: string) => {
-    setExpandedGroups(prev => 
-      prev.includes(title) 
-        ? prev.filter(g => g !== title)
-        : [...prev, title]
-    );
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    'core-hr': false,
+    'ai-analytics': false,
+    'government': false
+  });
+
+  const toggleGroup = (groupId: string) => {
+    setOpenGroups(prev => ({ ...prev, [groupId]: !prev[groupId] }));
   };
 
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
+
+  const mainModules = [
+    {
+      title: isArabic ? "لوحة التحكم" : "Dashboard",
+      url: "/dashboard",
+      icon: Home,
+      color: "text-blue-500"
+    },
+    {
+      title: isArabic ? "مركز الذكاء التنفيذي" : "Executive Intelligence",
+      url: "/executive-center",
+      icon: Crown,
+      badge: "PREMIUM",
+      color: "text-yellow-500"
+    },
+    {
+      title: isArabic ? "ذكاء المهارات" : "Skills Intelligence",
+      url: "/skills-intelligence",
+      icon: Star,
+      badge: "NEW",
+      color: "text-amber-500"
+    },
+    {
+      title: isArabic ? "تحسين التعلّم" : "Learning (LEO)",
+      url: "/leo",
+      icon: GraduationCap,
+      badge: "LEO",
+      color: "text-blue-600"
+    },
+    {
+      title: isArabic ? "تحسين المشاركة" : "Engagement (GEO)",
+      url: "/geo",
+      icon: Sparkles,
+      badge: "GEO",
+      color: "text-pink-500"
+    }
+  ];
+
+  const expandableGroups = [
+    {
+      id: 'core-hr',
+      title: isArabic ? "الموارد البشرية الأساسية" : "Core HR",
+      icon: Users,
+      badge: "13",
+      color: "text-emerald-500",
+      items: [
+        { title: isArabic ? "بيانات الموظفين" : "Employee Data", url: "/core-hr/master-data" },
+        { title: isArabic ? "التوظيف" : "Recruitment", url: "/core-hr/recruitment" },
+        { title: isArabic ? "الرواتب" : "Payroll", url: "/payroll" },
+        { title: isArabic ? "الأداء" : "Performance", url: "/core-hr/performance" },
+        { title: isArabic ? "الإجازات" : "Leave", url: "/core-hr/leave" }
+      ]
+    },
+    {
+      id: 'ai-analytics',
+      title: isArabic ? "الذكاء الاصطناعي" : "AI & Analytics",
+      icon: Brain,
+      badge: "AI",
+      color: "text-purple-500",
+      items: [
+        { title: isArabic ? "التحليلات التنفيذية" : "Executive Analytics", url: "/analytics" },
+        { title: isArabic ? "تحليلات القوى العاملة" : "Workforce Analytics", url: "/analytics/workforce" },
+        { title: isArabic ? "التحليلات التنبؤية" : "Predictive Analytics", url: "/ai-automation/predictive-analytics" },
+        { title: isArabic ? "محرك الأتمتة" : "Automation Engine", url: "/ai-automation" }
+      ]
+    },
+    {
+      id: 'government',
+      title: isArabic ? "التكاملات الحكومية" : "Government Integrations",
+      icon: Building2,
+      badge: "21",
+      color: "text-green-500",
+      items: [
+        { title: isArabic ? "قوى" : "QIWA", url: "/government/qiwa" },
+        { title: isArabic ? "التأمينات الاجتماعية" : "GOSI", url: "/government/gosi" },
+        { title: isArabic ? "أبشر" : "ABSHER", url: "/government/absher" },
+        { title: isArabic ? "وزارة الموارد البشرية" : "MOL", url: "/government/mol" }
+      ]
+    }
+  ];
+
   return (
-    <Sidebar className="border-r border-sidebar-border">
-      <SidebarContent className="bg-sidebar">
-        <div className="p-6 border-b border-sidebar-border">
-          <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <img src={aqlHRLogo} alt="AqlHR Logo" className={state !== "collapsed" ? "h-10 w-auto object-contain flex-shrink-0" : "w-8 h-8 object-contain flex-shrink-0"} />
-            {state !== "collapsed" && (
-              <div className={`min-w-0 flex-1 ${isArabic ? 'text-right' : 'text-left'}`}>
-                <h1 className="text-sm font-bold text-sidebar-primary-foreground leading-tight">
-                  {isArabic ? 'عقل HR' : 'AqlHR'}{isHRBP ? (isArabic ? ' - HRBP' : ' - HRBP') : ''}
-                </h1>
-                <p className="text-xs text-sidebar-foreground/70 leading-tight mt-1 truncate">
-                  {isArabic ? 'منصة الموارد البشرية الذكية' : 'Smart HR Platform'}
-                </p>
-              </div>
-            )}
-          </div>
-          {state !== "collapsed" && (
-            <div className={`mt-3 flex items-center gap-2 text-xs ${isArabic ? 'flex-row-reverse' : ''}`}>
-              <div className="w-2 h-2 bg-status-success rounded-full flex-shrink-0"></div>
-              <span className="text-sidebar-foreground/70 truncate">
-                {isArabic ? 'جميع الأنظمة تعمل' : 'All systems operational'}
-              </span>
+    <Sidebar className={`${collapsed ? 'w-14' : 'w-64'} border-r border-border/50 bg-gradient-to-b from-background via-surface-subtle to-background`}>
+      {/* Header */}
+      <SidebarHeader className="p-4 border-b border-border/50">
+        <div className="flex items-center gap-3">
+          <Avatar className="h-8 w-8 bg-gradient-to-br from-primary to-accent">
+            <AvatarFallback className="text-white font-bold">AQL</AvatarFallback>
+          </Avatar>
+          {!collapsed && (
+            <div>
+              <h2 className="font-bold text-sm bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                AqlHR
+              </h2>
+              <p className="text-xs text-muted-foreground">Smart HR Platform</p>
             </div>
           )}
         </div>
+      </SidebarHeader>
+
+      <SidebarContent className="p-2">
+        {/* Main Modules */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sidebar-foreground/70 font-medium">
-            {isArabic ? 'وحدات المنصة' : 'Platform Modules'}
+          <SidebarGroupLabel className={`px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide ${collapsed ? 'sr-only' : ''}`}>
+            {isArabic ? 'الوحدات الرئيسية' : 'Main Modules'}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {platformModules.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild={!item.subItems}
-                    className={getNavClasses(isActive(item.url) || isGroupActive(item.url), !!item.subItems, item.color)}
-                    onClick={item.subItems ? () => toggleGroup(item.title) : undefined}
-                  >
-                    {item.subItems ? (
-                      <div className="w-full flex items-center group">
-                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                          <div className="relative flex-shrink-0">
-                            <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
-                            {item.badge && state !== "collapsed" && (
-                              <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                            )}
-                          </div>
-                          {state !== "collapsed" && (
-                            <span className="font-medium text-sm leading-tight break-words flex-1">{item.title}</span>
-                          )}
-                        </div>
-                        {state !== "collapsed" && (
-                          <div className="flex items-center gap-1 flex-shrink-0 ml-2">
-                            <span className={getBadgeClasses(item.badge, item.color)}>
+            <SidebarMenu className="space-y-1">
+              {mainModules.map((item) => (
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 ${
+                          isActive
+                            ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm'
+                            : 'text-foreground hover:text-primary'
+                        }`
+                      }
+                    >
+                      <item.icon className={`h-4 w-4 ${item.color} flex-shrink-0`} />
+                      {!collapsed && (
+                        <>
+                          <span className="font-medium text-sm truncate">{item.title}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="text-xs px-1.5 py-0.5 ml-auto">
                               {item.badge}
-                            </span>
-                            <div className={`transition-all duration-200 ${expandedGroups.includes(item.title) ? 'rotate-180' : ''}`}>
-                              <ArrowDown className="h-3 w-3" />
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <NavLink to={localePath(item.url, lang)} className="w-full flex items-center group">
-                        <div className="flex items-center gap-2 min-w-0 flex-1">
-                          <div className="relative flex-shrink-0">
-                            <item.icon className="h-4 w-4 transition-transform group-hover:scale-110" />
-                            {item.badge && state !== "collapsed" && (
-                              <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                            )}
-                          </div>
-                          {state !== "collapsed" && (
-                            <span className="font-medium text-sm leading-tight break-words flex-1">{item.title}</span>
+                            </Badge>
                           )}
-                        </div>
-                        {state !== "collapsed" && (
-                          <span className={`${getBadgeClasses(item.badge, item.color)} flex-shrink-0 ml-2`}>
-                            {item.badge}
-                          </span>
-                        )}
-                      </NavLink>
-                    )}
+                        </>
+                      )}
+                    </NavLink>
                   </SidebarMenuButton>
-                  {item.subItems && expandedGroups.includes(item.title) && state !== "collapsed" && (
-                    <div className="ml-6 mt-1 space-y-1 animate-in slide-in-from-top-2 duration-200">
-                      {item.subItems.map((subItem, index) => (
-                        <SidebarMenuButton 
-                          key={subItem.title} 
-                          asChild 
-                          size="sm"
-                          style={{ animationDelay: `${index * 50}ms` }}
-                          className="animate-in fade-in-0 slide-in-from-left-1"
-                        >
-                          <NavLink 
-                            to={localePath(subItem.url, lang)}
-                            className={`${getNavClasses(isActive(subItem.url))} border-l-2 border-sidebar-border/50 pl-3 hover:border-primary/50 transition-all`}
-                          >
-                            <span className="text-xs text-sidebar-foreground/80 hover:text-sidebar-foreground">
-                              {subItem.title}
-                            </span>
-                          </NavLink>
-                        </SidebarMenuButton>
-                      ))}
-                    </div>
-                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {state !== "collapsed" && (
-          <div className="mt-auto p-4 border-t border-sidebar-border">
-            <div className="flex items-center justify-center">
-              <LanguageToggle />
+
+        {/* Expandable Groups */}
+        {!collapsed && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+              {isArabic ? 'الوحدات المتقدمة' : 'Advanced Modules'}
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className="space-y-1">
+                {expandableGroups.map((group) => (
+                  <SidebarMenuItem key={group.id}>
+                    <Collapsible open={openGroups[group.id]} onOpenChange={() => toggleGroup(group.id)}>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary w-full">
+                          <group.icon className={`h-4 w-4 ${group.color} flex-shrink-0`} />
+                          <span className="font-medium text-sm truncate flex-1 text-left">{group.title}</span>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs px-1.5 py-0.5">
+                              {group.badge}
+                            </Badge>
+                            <ChevronDown className={`h-3 w-3 transition-transform ${openGroups[group.id] ? 'rotate-180' : ''}`} />
+                          </div>
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="ml-7 mt-1 space-y-1">
+                        {group.items.map((subItem) => (
+                          <NavLink
+                            key={subItem.url}
+                            to={subItem.url}
+                            className={({ isActive }) =>
+                              `block px-3 py-1.5 text-sm rounded-md transition-colors ${
+                                isActive
+                                  ? 'bg-primary/10 text-primary font-medium'
+                                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/30'
+                              }`
+                            }
+                          >
+                            {subItem.title}
+                          </NavLink>
+                        ))}
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        {/* Quick Actions */}
+        <SidebarGroup>
+          <SidebarGroupLabel className={`px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wide ${collapsed ? 'sr-only' : ''}`}>
+            {isArabic ? 'إجراءات سريعة' : 'Quick Actions'}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/compliance"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary"
+                  >
+                    <Shield className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                    {!collapsed && <span className="font-medium text-sm">{isArabic ? 'الامتثال' : 'Compliance'}</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/settings"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 hover:bg-accent/50 text-foreground hover:text-primary"
+                  >
+                    <Settings className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                    {!collapsed && <span className="font-medium text-sm">{isArabic ? 'الإعدادات' : 'Settings'}</span>}
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      {/* Footer */}
+      <SidebarFooter className="p-4 border-t border-border/50">
+        {!collapsed && (
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground">
+              {isArabic ? 'جميع الأنظمة تعمل' : 'All systems operational'}
+            </p>
+            <div className="flex items-center justify-center gap-1 mt-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-green-600 font-medium">Online</span>
             </div>
           </div>
         )}
-      </SidebarContent>
+      </SidebarFooter>
     </Sidebar>
   );
 }
