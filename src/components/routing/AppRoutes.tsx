@@ -17,6 +17,7 @@ import IntelligentVisaTest from '@/pages/IntelligentVisaTest';
 import SaudizationOptimizationTest from '@/pages/SaudizationOptimizationTest';
 import WPSAutomationTest from '@/pages/WPSAutomationTest';
 import PromptDrivenExecutionTest from '@/pages/PromptDrivenExecutionTest';
+import AutonomousDashboardPage from '@/pages/autonomous/AutonomousDashboardPage';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -68,6 +69,7 @@ export default function AppRoutes() {
           <Route path="saudization-optimization-test" element={<SaudizationOptimizationTest />} />
           <Route path="wps-automation-test" element={<WPSAutomationTest />} />
           <Route path="prompt-driven-execution-test" element={<PromptDrivenExecutionTest />} />
+          <Route path="autonomous" element={<AutonomousDashboardPage />} />
           
           {/* All AqlHR Platform Routes */}
           {ROUTES.map((route, index) => {
