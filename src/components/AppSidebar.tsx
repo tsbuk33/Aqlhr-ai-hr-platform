@@ -280,7 +280,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar className="border-r border-sidebar-border w-72">
+    <Sidebar className="border-r border-sidebar-border">
       <SidebarContent className="bg-sidebar">
         <div className="p-6 border-b border-sidebar-border">
           <div className={`flex items-center gap-3 ${isArabic ? 'flex-row-reverse' : ''}`}>
