@@ -56,12 +56,18 @@ export function useDashboardData() {
   // Resolve tenant using dev-aware helper to avoid mismatches
   useEffect(() => {
     let mounted = true;
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
       if (mounted && tenantLoading) {
         console.warn('🕐 [Dashboard] Tenant resolution timeout - proceeding with demo');
-        setTenantId('demo-tenant');
         setIsDemoMode(true);
-        setTenantLoading(false);
+        try {
+          const id = await getTenantIdOrDemo();
+          if (mounted && id) setTenantId(id);
+        } catch (e) {
+          console.warn('⚠️ [Dashboard] Demo tenant fetch failed after timeout:', e);
+        } finally {
+          if (mounted) setTenantLoading(false);
+        }
       }
     }, 5000); // 5 second timeout
 
@@ -73,9 +79,14 @@ export function useDashboardData() {
         const { data: userRes } = await supabase.auth.getUser();
         if (mounted) setIsDemoMode(!userRes?.user);
       } catch (e) {
-        console.warn('⚠️ [Dashboard] Tenant resolution failed, using demo:', e);
+        console.warn('⚠️ [Dashboard] Tenant resolution failed, attempting demo tenant:', e);
         if (mounted) {
-          setTenantId('demo-tenant');
+          try {
+            const demoId = await getTenantIdOrDemo();
+            if (demoId) setTenantId(demoId);
+          } catch (err) {
+            console.warn('⚠️ [Dashboard] Unable to resolve demo tenant:', err);
+          }
           setIsDemoMode(true);
         }
       } finally {
@@ -111,7 +122,7 @@ export function useDashboardData() {
 
     const fetchTimeout = setTimeout(() => {
       console.warn('🕐 [Dashboard] Fetch timeout - using demo data');
-      if (isDemoMode || tenantId === 'demo-tenant') {
+      if (isDemoMode) {
         setData({
           totalEmployees: 156,
           saudizationRate: 78.5,

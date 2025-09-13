@@ -352,6 +352,7 @@ export default function Dashboard() {
                     stroke="hsl(var(--info))" 
                     strokeWidth={2}
                     dot={false}
+                    isAnimationActive={false}
                   />
                 </LineChart>
               </ResponsiveContainer>
