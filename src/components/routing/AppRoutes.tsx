@@ -29,13 +29,29 @@ const RouteLoading = () => (
   </div>
 );
 
-// Protected Route Component - AUTH DISABLED
+// Protected Route Component
 const ProtectedRoute: React.FC<{ 
   children: React.ReactNode; 
   requireAuth?: boolean; 
   adminOnly?: boolean;
-}> = ({ children }) => {
-  // Authentication disabled - render children directly
+}> = ({ children, requireAuth = true }) => {
+  const { user, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+          <p className="mt-4 text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  if (requireAuth && !user) {
+    return <Navigate to="/en/auth" replace />;
+  }
+  
   return <>{children}</>;
 };
 
@@ -48,10 +64,10 @@ export default function AppRoutes() {
         {/* Root welcome page */}
         <Route index element={<AqlHRWelcome />} />
 
-        {/* Routes that redirect auth to dashboard */}
+        {/* Auth Routes */}
         <Route element={<CenteredLayout />}>
-          <Route path="auth" element={<Navigate to="/dashboard" replace />} />
-          <Route path="auth/callback" element={<Navigate to="/dashboard" replace />} />
+          <Route path="auth" element={<AuthPage />} />
+          <Route path="auth/callback" element={<AuthCallback />} />
         </Route>
 
         {/* Routes */}
