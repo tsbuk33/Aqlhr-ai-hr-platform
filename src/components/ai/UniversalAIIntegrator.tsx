@@ -7,6 +7,7 @@ interface UniversalAIIntegratorProps {
   subModule?: string;
   companyId?: string;
   enabledFeatures?: string[];
+  position?: 'fixed' | 'static';
 }
 
 /**
@@ -18,7 +19,8 @@ export const UniversalAIIntegrator: React.FC<UniversalAIIntegratorProps> = ({
   moduleName,
   subModule,
   companyId = "demo-company",
-  enabledFeatures = []
+  enabledFeatures = [],
+  position
 }) => {
   
   // Generate contextual module context based on page type and module
@@ -68,6 +70,7 @@ export const UniversalAIIntegrator: React.FC<UniversalAIIntegratorProps> = ({
     <AqlHRAIAssistant 
       moduleContext={moduleContext}
       companyId={companyId}
+      position={position}
     />
   );
 };

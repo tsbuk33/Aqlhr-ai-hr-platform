@@ -223,6 +223,7 @@ export default function Dashboard() {
                     stroke="hsl(var(--primary))" 
                     strokeWidth={2}
                     dot={false}
+                    isAnimationActive={false}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -265,6 +266,7 @@ export default function Dashboard() {
                     stroke="hsl(var(--success))" 
                     strokeWidth={2}
                     dot={false}
+                    isAnimationActive={false}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -307,6 +309,7 @@ export default function Dashboard() {
                     stroke="hsl(var(--warning))" 
                     strokeWidth={2}
                     dot={false}
+                    isAnimationActive={false}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -440,6 +443,7 @@ export default function Dashboard() {
         moduleName="dashboard" 
         companyId="demo-company" 
         enabledFeatures={['real-time-insights', 'predictive-analytics', 'executive-intelligence']}
+        position="static"
       />
     </DashboardErrorBoundary>
   );
