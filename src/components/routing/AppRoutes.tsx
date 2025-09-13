@@ -2,8 +2,6 @@ import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LanguageLayout from './LanguageLayout';
 import CenteredLayout from '../layout/CenteredLayout';
-import { DashboardLayout } from '../layout/DashboardLayout';
-import { LayoutShell } from '../layout/LayoutShell';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
@@ -56,40 +54,38 @@ export default function AppRoutes() {
           <Route path="auth/callback" element={<Navigate to="/dashboard" replace />} />
         </Route>
 
-        {/* Routes that need DASHBOARD layout */}
-        <Route element={<DashboardLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="main-dashboard" element={<Dashboard />} />
-          <Route path="test-ai" element={<TestAI />} />
-          <Route path="data-foundation-test" element={<DataFoundationTest />} />
-          <Route path="core-business-test" element={<CoreBusinessTest />} />
-          <Route path="comprehensive-test" element={<ComprehensivePhaseTest />} />
-          <Route path="autonomous-gosi-test" element={<AutonomousGOSITest />} />
-          <Route path="intelligent-visa-test" element={<IntelligentVisaTest />} />
-          <Route path="saudization-optimization-test" element={<SaudizationOptimizationTest />} />
-          <Route path="wps-automation-test" element={<WPSAutomationTest />} />
-          <Route path="prompt-driven-execution-test" element={<PromptDrivenExecutionTest />} />
-          <Route path="autonomous" element={<AutonomousDashboardPage />} />
+        {/* Routes */}
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="main-dashboard" element={<Dashboard />} />
+        <Route path="test-ai" element={<TestAI />} />
+        <Route path="data-foundation-test" element={<DataFoundationTest />} />
+        <Route path="core-business-test" element={<CoreBusinessTest />} />
+        <Route path="comprehensive-test" element={<ComprehensivePhaseTest />} />
+        <Route path="autonomous-gosi-test" element={<AutonomousGOSITest />} />
+        <Route path="intelligent-visa-test" element={<IntelligentVisaTest />} />
+        <Route path="saudization-optimization-test" element={<SaudizationOptimizationTest />} />
+        <Route path="wps-automation-test" element={<WPSAutomationTest />} />
+        <Route path="prompt-driven-execution-test" element={<PromptDrivenExecutionTest />} />
+        <Route path="autonomous" element={<AutonomousDashboardPage />} />
+        
+        {/* All AqlHR Platform Routes */}
+        {ROUTES.map((route, index) => {
+          const RouteComponent = route.element;
           
-          {/* All AqlHR Platform Routes */}
-          {ROUTES.map((route, index) => {
-            const RouteComponent = route.element;
-            
-            return (
-              <Route 
-                key={`${route.path}-${index}`}
-                path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
-                element={
-                  <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
-                    <Suspense fallback={<RouteLoading />}>
-                      <RouteComponent />
-                    </Suspense>
-                  </ProtectedRoute>
-                }
-              />
-            );
-          })}
-        </Route>
+          return (
+            <Route 
+              key={`${route.path}-${index}`}
+              path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
+              element={
+                <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
+                  <Suspense fallback={<RouteLoading />}>
+                    <RouteComponent />
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+          );
+        })}
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
