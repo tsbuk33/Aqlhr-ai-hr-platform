@@ -6,7 +6,7 @@ import { LayoutShell } from '../layout/LayoutShell';
 import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
-import AqlHRWelcome from '@/pages/AqlHRWelcome';
+import AqlHRLanding from '@/pages/AqlHRLanding';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
@@ -62,8 +62,8 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/en/" replace />} />
       <Route element={<LanguageLayout />}>
-        {/* Root welcome page */}
-        <Route index element={<AqlHRWelcome />} />
+        {/* Root landing page */}
+        <Route index element={<AqlHRLanding />} />
 
         {/* Auth Routes */}
         <Route element={<CenteredLayout />}>
