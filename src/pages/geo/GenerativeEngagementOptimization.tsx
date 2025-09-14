@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -37,6 +38,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 const GenerativeEngagementOptimization: React.FC = () => {
+  const { t, language, isRTL } = useLanguage();
   const { toast } = useToast();
   const [selectedPulseOption, setSelectedPulseOption] = useState<string | null>(null);
   const [pulseResponse, setPulseResponse] = useState('');
@@ -419,17 +421,17 @@ This analysis is cached data shown due to high API demand.`);
   const aggregatedInsights = getAggregatedInsights();
 
   return (
-    <div className="p-6 space-y-6 bg-gradient-to-br from-background to-muted/20 min-h-screen">
+    <div className={`p-6 space-y-6 bg-gradient-to-br from-background to-muted/20 min-h-screen main-content ${isRTL ? 'font-arabic text-right' : 'text-left'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       {/* Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="flex items-center justify-center gap-3">
           <Heart className="h-8 w-8 text-primary" />
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            GEO - Generative Engagement Optimization
+            {t('geo.title')}
           </h1>
         </div>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          AI-Powered Real-Time Engagement, Personalized Recognition & Intelligent Connections
+          {t('geo.subtitle')}
         </p>
       </div>
 

@@ -1,136 +1,6 @@
 @tailwind base;
-@tailwind components;
+@tailwind components; 
 @tailwind utilities;
-
-/* AqlHR Production Theme - Exact Match */
-@layer base {
-  :root {
-    /* Production Dark Theme Colors */
-    --background: 220 13% 9%;
-    --foreground: 220 9% 95%;
-    --card: 220 13% 11%;
-    --card-foreground: 220 9% 95%;
-    --popover: 220 13% 11%;
-    --popover-foreground: 220 9% 95%;
-    --primary: 142 86% 28%;
-    --primary-foreground: 220 9% 95%;
-    --secondary: 220 13% 15%;
-    --secondary-foreground: 220 9% 95%;
-    --muted: 220 13% 15%;
-    --muted-foreground: 220 9% 65%;
-    --accent: 220 13% 18%;
-    --accent-foreground: 220 9% 95%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 220 9% 95%;
-    --border: 220 13% 20%;
-    --input: 220 13% 18%;
-    --ring: 142 86% 28%;
-    --radius: 0.75rem;
-    
-    /* AqlHR Brand Colors */
-    --brand-primary: 142 86% 28%;
-    --brand-secondary: 47 100% 50%;
-    --brand-accent: 200 100% 50%;
-    --brand-success: 120 100% 25%;
-    --brand-warning: 38 100% 50%;
-    --brand-danger: 0 100% 50%;
-    
-    /* Surface Colors */
-    --surface: 220 13% 11%;
-    --surface-subtle: 220 13% 13%;
-    --surface-muted: 220 13% 15%;
-  }
-
-  .dark {
-    --background: 220 13% 9%;
-    --foreground: 220 9% 95%;
-    --card: 220 13% 11%;
-    --card-foreground: 220 9% 95%;
-    --popover: 220 13% 11%;
-    --popover-foreground: 220 9% 95%;
-    --primary: 142 86% 28%;
-    --primary-foreground: 220 9% 95%;
-    --secondary: 220 13% 15%;
-    --secondary-foreground: 220 9% 95%;
-    --muted: 220 13% 15%;
-    --muted-foreground: 220 9% 65%;
-    --accent: 220 13% 18%;
-    --accent-foreground: 220 9% 95%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 220 9% 95%;
-    --border: 220 13% 20%;
-    --input: 220 13% 18%;
-    --ring: 142 86% 28%;
-  }
-}
-
-/* Production Typography */
-@layer base {
-  * {
-    @apply border-border;
-  }
-  
-  body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
-  }
-}
-
-/* AqlHR Custom Components */
-@layer components {
-  .aqlhr-card {
-    @apply bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300;
-  }
-  
-  .aqlhr-gradient {
-    @apply bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10;
-  }
-  
-  .aqlhr-sidebar {
-    @apply bg-gradient-to-b from-surface via-surface-subtle to-surface border-r border-border/50;
-  }
-  
-  .aqlhr-brand-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-bold;
-  }
-}
-
-/* Production Animations */
-@layer utilities {
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease-out;
-  }
-  
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
 
 /* AqlHR Design System - Professional Enterprise HR Platform */
 
@@ -807,3 +677,336 @@
     }
   }
 }
+
+/* ========================================= */
+/* AQLHR PLATFORM LAYOUT ALIGNMENT FIX */
+/* 35 Years Platform Design Experience */
+/* ========================================= */
+
+/* ROOT LAYOUT FIXES - Remove conflicting constraints */
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: initial !important;
+  overflow-x: hidden;
+}
+
+html, body {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
+}
+
+/* MAIN LAYOUT CONTAINER FIXES */
+.main-layout {
+  width: 100% !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.main-content {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.content-wrapper {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+/* DASHBOARD LAYOUT FIXES */
+.min-h-screen.flex.w-full.bg-background {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.flex-1.p-6 {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* CONTAINER AND GRID FIXES */
+.container {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  text-align: center !important;
+}
+
+.grid {
+  display: grid !important;
+  justify-items: center !important;
+  align-items: center !important;
+  gap: 2rem !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+
+/* CARD ALIGNMENT FIXES */
+.card {
+  width: 100% !important;
+  max-width: 400px !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.card-header {
+  width: 100% !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.card-content {
+  width: 100% !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.card-title {
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+.card-description {
+  text-align: center !important;
+  width: 100% !important;
+  display: block !important;
+}
+
+/* BUTTON FUNCTIONALITY FIXES */
+button {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+  min-height: 44px !important;
+  min-width: 44px !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+button:disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  opacity: 0.5 !important;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  transition: all 0.2s ease !important;
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0) !important;
+  transition: all 0.1s ease !important;
+}
+
+/* ENSURE BUTTONS ARE CLICKABLE */
+.btn,
+.button,
+[role="button"],
+.clickable {
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  user-select: none !important;
+  position: relative !important;
+  z-index: 10 !important;
+  min-height: 44px !important;
+  min-width: 44px !important;
+}
+
+/* RTL/LTR LAYOUT FIXES */
+[dir="rtl"],
+[dir="ltr"] {
+  text-align: center !important;
+}
+
+[dir="rtl"] .container,
+[dir="ltr"] .container {
+  text-align: center !important;
+}
+
+[dir="rtl"] .card,
+[dir="ltr"] .card {
+  text-align: center !important;
+}
+
+[dir="rtl"] .card-header,
+[dir="ltr"] .card-header {
+  text-align: center !important;
+}
+
+[dir="rtl"] .card-content,
+[dir="ltr"] .card-content {
+  text-align: center !important;
+}
+
+[dir="rtl"] .grid,
+[dir="ltr"] .grid {
+  justify-items: center !important;
+  align-items: center !important;
+}
+
+/* FLEX LAYOUT FIXES */
+.flex {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.flex-col {
+  flex-direction: column !important;
+}
+
+.items-center {
+  align-items: center !important;
+}
+
+.justify-center {
+  justify-content: center !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+/* FORCE CENTER ALIGNMENT FOR ALL MAIN CONTENT */
+.main-content *,
+.content-wrapper *,
+.container * {
+  text-align: center !important;
+}
+
+/* UNIVERSAL LANGUAGE WRAPPER FIXES */
+.universal-language-wrapper {
+  width: 100% !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+}
+
+.universal-language-wrapper .main-content {
+  width: 100% !important;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+  text-align: center !important;
+}
+
+/* DASHBOARD SPECIFIC FIXES */
+.dashboard-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 2rem !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  justify-items: center !important;
+  align-items: center !important;
+}
+
+/* RESPONSIVE FIXES */
+@media (max-width: 1024px) {
+  .lg\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .lg\\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .md\\:grid-cols-4,
+  .md\\:grid-cols-3,
+  .md\\:grid-cols-2 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .content-wrapper {
+    padding: 1rem !important;
+  }
+  
+  .container {
+    padding: 1rem !important;
+  }
+  
+  button,
+  .btn,
+  [role="button"] {
+    min-height: 48px !important;
+    min-width: 48px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* FINAL OVERRIDE FOR STUBBORN ELEMENTS */
+.main-layout *,
+.dashboard-layout *,
+.content-wrapper *,
+.container * {
+  text-align: center !important;
+}
+
+/* ACCESSIBILITY IMPROVEMENTS */
+button:focus,
+.btn:focus,
+[role="button"]:focus {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}
+
+/* PREVENT TEXT SELECTION ON BUTTONS */
+button,
+.btn,
+[role="button"] {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+

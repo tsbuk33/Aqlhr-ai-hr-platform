@@ -95,7 +95,7 @@ const LearningExperienceOptimization: React.FC = () => {
                 {learningStats.engagementScore}%
               </div>
               <div className="text-sm text-gray-600">
-                {t('leo.engagement_score')}
+                {t('leo.metrics.engagementScore')}
               </div>
             </CardContent>
           </Card>
