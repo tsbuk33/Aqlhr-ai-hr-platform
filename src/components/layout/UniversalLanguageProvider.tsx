@@ -120,7 +120,7 @@ export const UniversalLanguageProvider: React.FC<UniversalLanguageProviderProps>
       },
       en: {
         // LEO Module Translations
-        'leo.title': 'LEO - Learning Experience Optimization',
+        'leo.title': 'ليو - تحسين تجربة التعلم',
         'leo.subtitle': 'AI-Powered Micro-Learning, Adaptive Pathways & Personalized Skill Development',
         'leo.dashboard': 'Dashboard',
         'leo.my_learning': 'My Learning',
@@ -167,7 +167,7 @@ export const UniversalLanguageProvider: React.FC<UniversalLanguageProviderProps>
         'common.cancel': 'Cancel',
         
         // GEO Module
-        'geo.title': 'GEO - Generative Engagement Optimization',
+        'geo.title': 'جيو - تحسين المشاركة التوليدية',
         'geo.subtitle': 'AI-Powered Engagement Platform for Enhanced Employee Experience',
         
         // Analytics
