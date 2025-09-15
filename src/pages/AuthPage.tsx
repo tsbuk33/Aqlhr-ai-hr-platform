@@ -134,12 +134,27 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required={!isSignUp ? true : false}
-              className="w-full px-3 py-2 bg-input text-foreground border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring password-input-with-toggle"
+              style={{ paddingRight: '40px' }}
+              className="w-full px-3 py-2 bg-input text-foreground border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="password-toggle-button text-muted-foreground hover:text-foreground"
+              style={{
+                position: 'absolute',
+                top: '50%',
+                right: '12px',
+                transform: 'translateY(-50%)',
+                border: 'none',
+                background: 'transparent',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '24px',
+                height: '24px',
+                zIndex: 10
+              }}
               aria-label="Toggle password visibility"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
