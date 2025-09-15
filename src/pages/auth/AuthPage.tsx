@@ -97,39 +97,42 @@ const AuthPage: React.FC = () => {
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
+        email: formData.email.trim(),
         password: formData.password,
       });
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
-      if (data.user) {
+      if (data.session) {
+        // ✅ Persist session so refresh doesn't log out
+        localStorage.setItem(
+          "supabase.auth.token",
+          JSON.stringify(data.session)
+        );
+
         toast({
           title: "Welcome back!",
           description: "You have successfully signed in.",
         });
-        
-        // Navigate to dashboard or intended destination
+
+        // ✅ Redirect user (fallback to dashboard)
         const searchParams = new URLSearchParams(location.search);
-        const from = searchParams.get('from') || (location.state as any)?.from?.pathname;
-        
-        if (from && from !== '/en/auth') {
-          navigate(from, { replace: true });
-        } else {
-          navigate('/en/dashboard', { replace: true });
-        }
+        const from =
+          searchParams.get("from") ||
+          (location.state as any)?.from?.pathname ||
+          "/en/dashboard";
+
+        navigate(from, { replace: true });
       }
     } catch (err: any) {
-      console.error('Sign in error:', err);
-      
-      if (err.message.includes('Invalid login credentials')) {
-        setError('Invalid email or password. Please check your credentials and try again.');
-      } else if (err.message.includes('Email not confirmed')) {
-        setError('Please check your email and click the confirmation link before signing in.');
+      console.error("Sign in error:", err);
+
+      if (err.message.includes("Invalid login credentials")) {
+        setError("Invalid email or password.");
+      } else if (err.message.includes("Email not confirmed")) {
+        setError("Please confirm your email before signing in.");
       } else {
-        setError(err.message || 'An error occurred during sign in. Please try again.');
+        setError(err.message || "An error occurred during sign in.");
       }
     } finally {
       setIsLoading(false);

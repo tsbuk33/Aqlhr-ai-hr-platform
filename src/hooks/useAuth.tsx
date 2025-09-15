@@ -26,6 +26,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSession(session);
         setUser(session?.user ?? null);
         
+        // ✅ Persist session when signed in
+        if (session) {
+          localStorage.setItem("supabase.auth.token", JSON.stringify(session));
+        } else {
+          localStorage.removeItem("supabase.auth.token");
+        }
+        
         // Handle user profile creation/updates
         if (event === 'SIGNED_IN' && session?.user) {
           // Ensure user profile exists
@@ -53,11 +60,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     );
 
-    // THEN check for existing session
+    // ✅ Load existing session on first load
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
+
+      if (session) {
+        localStorage.setItem("supabase.auth.token", JSON.stringify(session));
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -66,7 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
-      // Clear any cached data
+      // Clear any cached data and localStorage
+      localStorage.removeItem("supabase.auth.token");
       setUser(null);
       setSession(null);
     } catch (error) {
