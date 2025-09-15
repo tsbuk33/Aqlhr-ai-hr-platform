@@ -51,7 +51,7 @@ const ProtectedRoute: React.FC<{
   }
   
   if (requireAuth && !user) {
-    return <Navigate to="/en/auth" replace />;
+    return <Navigate to="/auth" replace />;
   }
   
   return <>{children}</>;
@@ -61,7 +61,7 @@ export default function AppRoutes() {
   // Localized child routes under ":lang/*" from UnifiedLanguageRouter
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/en/" replace />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       <Route element={<LanguageLayout />}>
         {/* Root landing page */}
         <Route index element={
@@ -150,7 +150,7 @@ export default function AppRoutes() {
         })}
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
     </Routes>
   );

@@ -46,7 +46,7 @@ const AuthPage: React.FC = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (user && !authLoading) {
-      const from = (location.state as any)?.from?.pathname || '/en';
+      const from = (location.state as any)?.from?.pathname || '/dashboard';
       navigate(from, { replace: true });
     }
   }, [user, authLoading, navigate, location]);
@@ -149,7 +149,7 @@ const AuthPage: React.FC = () => {
     setError(null);
 
     try {
-      const redirectUrl = `${window.location.origin}/en`;
+      const redirectUrl = `${window.location.origin}/dashboard`;
       
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
@@ -210,7 +210,7 @@ const AuthPage: React.FC = () => {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/en/auth?reset=true`,
+        redirectTo: `${window.location.origin}/auth?reset=true`,
       });
 
       if (error) throw error;

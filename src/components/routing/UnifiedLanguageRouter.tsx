@@ -32,12 +32,17 @@ function NonLocalizedRedirect() {
 
   console.log('AqlHR: [UnifiedLanguageRouter] Handling non-localized path:', rawPath, '→ normalized:', normalized);
 
+  // Special routes that should work without language prefix
+  const directRoutes = ['/dashboard', '/auth'];
+  if (directRoutes.some(route => normalized.startsWith(route))) {
+    console.log('AqlHR: [UnifiedLanguageRouter] Direct route access allowed:', normalized);
+    return <AppRoutes />;
+  }
+
   // Root → send to dashboard
   if (normalized === '/') {
-    const currentLang = unifiedLocaleDriver.getLang();
-    const redirectPath = `/${currentLang}/dashboard${search}`;
-    console.log('AqlHR: [UnifiedLanguageRouter] Redirecting root to:', redirectPath);
-    return <Navigate to={redirectPath} replace />;
+    console.log('AqlHR: [UnifiedLanguageRouter] Redirecting root to dashboard');
+    return <Navigate to="/dashboard" replace />;
   }
 
   // If the path contains a language anywhere (including malformed prefixes), sanitize it
