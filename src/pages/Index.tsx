@@ -2,6 +2,7 @@ import { SimpleMetricCard } from "@/components/SimpleMetricCard";
 import { RecentActivitiesSection } from "@/components/landing/RecentActivitiesSection";
 import { AnnouncementsSection } from "@/components/landing/AnnouncementsSection";
 import { ExecutiveCenter } from "@/components/landing/ExecutiveCenter";
+import StrategicIntelligencePanel from "@/components/StrategicIntelligencePanel";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { SaudiHeroSection } from "@/components/saudi/SaudiHeroSection";
@@ -163,6 +164,11 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Strategic Intelligence Panel */}
+        <section className="w-full section-spacing">
+          <StrategicIntelligencePanel />
         </section>
 
         {/* Executive Center Section */}
