@@ -93,7 +93,7 @@ export function RecentActivity() {
   return (
     <Card className="h-full">
       <CardHeader className="pb-4">
-        <CardTitle className={`text-lg font-semibold text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-right' : ''}`}>
+        <CardTitle className={`text-lg font-semibold text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-center justify-center' : ''}`}>
           <Clock className="h-5 w-5 text-muted-foreground" />
           {isArabic ? "الأنشطة الأخيرة" : "Recent Activities"}
         </CardTitle>

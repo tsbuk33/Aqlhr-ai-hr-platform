@@ -112,13 +112,21 @@ export default function AppRoutes() {
               key={`${route.path}-${index}`}
               path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
               element={
-                <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
+                route.auth ? (
+                  <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
+                    <LayoutShell>
+                      <Suspense fallback={<RouteLoading />}>
+                        <RouteComponent />
+                      </Suspense>
+                    </LayoutShell>
+                  </ProtectedRoute>
+                ) : (
                   <LayoutShell>
                     <Suspense fallback={<RouteLoading />}>
                       <RouteComponent />
                     </Suspense>
                   </LayoutShell>
-                </ProtectedRoute>
+                )
               }
             />
           );

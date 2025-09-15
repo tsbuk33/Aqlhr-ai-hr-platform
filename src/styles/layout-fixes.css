@@ -400,3 +400,46 @@ main {
   }
 }
 
+
+/* Arabic heading centering fixes */
+.arabic-heading-center {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+.arabic-card-title {
+  text-align: center !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* RTL specific heading alignment */
+[dir='rtl'] .card-title,
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3 {
+  text-align: center !important;
+}
+
+/* Arabic language specific heading centering */
+.lang-ar .card-title,
+.lang-ar h1,
+.lang-ar h2,
+.lang-ar h3 {
+  text-align: center !important;
+  justify-content: center !important;
+}
+
+/* Force center for Arabic module headings */
+[lang='ar'] .card-title,
+[lang='ar'] h1,
+[lang='ar'] h2,
+[lang='ar'] h3,
+.arabic-module-title {
+  text-align: center !important;
+  justify-content: center !important;
+  display: flex !important;
+  align-items: center !important;
+}
+

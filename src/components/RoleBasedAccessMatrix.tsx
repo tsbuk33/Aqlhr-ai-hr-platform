@@ -388,7 +388,7 @@ export const RoleBasedAccessMatrix: React.FC = () => {
                 {moduleAccessMatrix.map((module, index) => (
                   <Card key={index} className="border-l-4 border-l-primary">
                     <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">
+                      <CardTitle className={`text-lg ${isArabic ? 'text-center' : ''}`}>
                         {isArabic ? module.moduleNameAr : module.moduleName}
                       </CardTitle>
                       <CardDescription>

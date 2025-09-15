@@ -10,7 +10,7 @@ export function SimpleRecentActivity() {
   return (
     <Card className="h-full bg-surface dark:bg-surface border-border dark:border-border">
       <CardHeader className="pb-4">
-        <CardTitle className={`text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-right' : ''}`}>
+        <CardTitle className={`text-lg font-semibold text-foreground dark:text-foreground flex items-center gap-2 ${isArabic ? 'flex-row-reverse text-center justify-center' : ''}`}>
           <Clock className="h-5 w-5 text-foreground-muted dark:text-foreground-muted" />
           {isArabic ? 'الأنشطة الأخيرة' : 'Recent Activities'}
         </CardTitle>
