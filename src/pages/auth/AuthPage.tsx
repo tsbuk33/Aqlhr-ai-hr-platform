@@ -10,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, Building2, Users, Shield, Eye, EyeOff } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import CenteredLayout from '@/components/layout/CenteredLayout';
 
 interface AuthFormData {
   email: string;
@@ -207,8 +208,8 @@ const AuthPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <CenteredLayout variant="auth" maxWidth="md">
+      <div className="w-full max-w-md space-y-6 auth-content">
         {/* Header */}
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center space-x-2 mb-4">
@@ -420,7 +421,7 @@ const AuthPage: React.FC = () => {
           </p>
         </div>
       </div>
-    </div>
+    </CenteredLayout>
   );
 };
 

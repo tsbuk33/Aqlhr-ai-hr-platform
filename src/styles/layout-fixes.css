@@ -1,0 +1,402 @@
+/* Comprehensive Layout Fixes for AqlHR Platform */
+
+/* Global Container Centering */
+.main-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .main-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-container {
+    padding: 0 2rem;
+  }
+}
+
+/* RTL/LTR Layout Support */
+.rtl-container {
+  direction: rtl;
+}
+
+.ltr-container {
+  direction: ltr;
+}
+
+/* Flex Direction Fixes for RTL */
+.flex-rtl {
+  display: flex;
+}
+
+[dir="rtl"] .flex-rtl {
+  flex-direction: row-reverse;
+}
+
+/* Text Alignment Fixes */
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="ltr"] .text-right {
+  text-align: left;
+}
+
+/* Center Layout Utilities */
+.center-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.center-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Page Layout Fixes */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding: 2rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding: 2rem 2rem;
+  }
+}
+
+/* Auth Page Specific Fixes */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: linear-gradient(to bottom right, 
+    hsl(var(--background)), 
+    hsl(var(--background)), 
+    hsl(var(--muted) / 0.2));
+}
+
+.auth-content {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+/* Dashboard Layout Fixes */
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Grid Layout Fixes */
+.responsive-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Card Layout Fixes */
+.card-container {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Header Layout Fixes */
+.header-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .header-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Button Layout Fixes */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+[dir="rtl"] .button-group {
+  flex-direction: row-reverse;
+}
+
+/* Form Layout Fixes */
+.form-container {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.form-field {
+  margin-bottom: 1rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+
+[dir="rtl"] .form-field label {
+  text-align: right;
+}
+
+/* Navigation Layout Fixes */
+.nav-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[dir="rtl"] .nav-container {
+  flex-direction: row-reverse;
+}
+
+@media (min-width: 640px) {
+  .nav-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Sidebar Layout Fixes */
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 16rem;
+  background: hsl(var(--background));
+  border-right: 1px solid hsl(var(--border));
+  overflow-y: auto;
+  z-index: 40;
+}
+
+[dir="rtl"] .sidebar-container {
+  right: 0;
+  border-right: none;
+  border-left: 1px solid hsl(var(--border));
+}
+
+[dir="ltr"] .sidebar-container {
+  left: 0;
+}
+
+/* Main Content with Sidebar */
+.main-with-sidebar {
+  margin-left: 16rem;
+  min-height: 100vh;
+}
+
+[dir="rtl"] .main-with-sidebar {
+  margin-left: 0;
+  margin-right: 16rem;
+}
+
+@media (max-width: 1024px) {
+  .main-with-sidebar {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* Mobile Responsive Fixes */
+@media (max-width: 640px) {
+  .center-layout {
+    padding: 1rem 0.5rem;
+  }
+  
+  .page-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .auth-container {
+    padding: 1rem 0.5rem;
+  }
+  
+  .form-container {
+    padding: 1rem;
+  }
+  
+  .card-container {
+    padding: 1rem;
+  }
+}
+
+/* Utility Classes for Quick Fixes */
+.center-x {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-y {
+  display: flex;
+  align-items: center;
+}
+
+.center-xy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.max-width-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .max-width-container {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .max-width-container {
+    padding: 0 2rem;
+  }
+}
+
+/* Fix for specific components that might have alignment issues */
+.component-fix {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Ensure all main containers are properly centered */
+main {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  main {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  main {
+    padding: 0 2rem;
+  }
+}
+
+/* Override any conflicting styles */
+.force-center {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.force-center-container {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
+}
+
+@media (min-width: 640px) {
+  .force-center-container {
+    padding: 0 1.5rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .force-center-container {
+    padding: 0 2rem !important;
+  }
+}
+

@@ -1010,3 +1010,7 @@ button,
   user-select: none !important;
 }
 
+
+/* Import comprehensive layout fixes */
+@import './styles/layout-fixes.css';
+

@@ -66,7 +66,7 @@ const Index = () => {
       
       {/* Executive Header */}
       <div className="bg-surface border-b border-border dark:bg-surface dark:border-border">
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-width-container py-8">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-foreground dark:text-foreground mb-4">
               {isArabic ? 'نظام إيه كيو إل إتش ار للموارد البشرية' : 'AqlHR Executive Dashboard'}
@@ -74,7 +74,7 @@ const Index = () => {
             <p className="text-foreground-muted dark:text-foreground-muted text-lg max-w-4xl mx-auto mb-6">
               {isArabic ? 'منصة ذكية ومتطورة لإدارة الموارد البشرية في المملكة العربية السعودية' : 'Advanced Intelligent Platform for Human Resources Management in Saudi Arabia'}
             </p>
-            <div className="flex items-center justify-center gap-4">
+            <div className={`flex items-center justify-center gap-4 ${isArabic ? 'flex-rtl' : ''}`}>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-status-success rounded-full"></div>
                 <span className="text-sm text-foreground-muted dark:text-foreground-muted">
