@@ -104,7 +104,9 @@ const Index = () => {
           
           <div className="statistics-grid">
             <div className="statistic-card">
-              <Users className="h-8 w-8 text-blue-600" />
+              <div className="statistic-icon">
+                <Users className="text-blue-600" />
+              </div>
               <div className="statistic-label">
                 {isArabic ? 'إجمالي الموظفين' : 'Total Employees'}
               </div>
@@ -117,7 +119,9 @@ const Index = () => {
             </div>
 
             <div className="statistic-card">
-              <Brain className="h-8 w-8 text-purple-600" />
+              <div className="statistic-icon">
+                <Brain className="text-purple-600" />
+              </div>
               <div className="statistic-label">
                 {isArabic ? 'العمليات بالذكاء الاصطناعي' : 'AI Processes'}
               </div>
@@ -130,7 +134,9 @@ const Index = () => {
             </div>
 
             <div className="statistic-card">
-              <Shield className="h-8 w-8 text-green-600" />
+              <div className="statistic-icon">
+                <Shield className="text-green-600" />
+              </div>
               <div className="statistic-label">
                 {isArabic ? 'التكامل الحكومي' : 'Gov Integrations'}
               </div>
@@ -143,7 +149,9 @@ const Index = () => {
             </div>
 
             <div className="statistic-card">
-              <Award className="h-8 w-8 text-orange-600" />
+              <div className="statistic-icon">
+                <Award className="text-orange-600" />
+              </div>
               <div className="statistic-label">
                 {isArabic ? 'نقاط الامتثال' : 'Compliance Score'}
               </div>
