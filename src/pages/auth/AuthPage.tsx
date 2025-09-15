@@ -120,7 +120,7 @@ const AuthPage: React.FC = () => {
         const from =
           searchParams.get("from") ||
           (location.state as any)?.from?.pathname ||
-          "/en/dashboard";
+          "/dashboard";
 
         navigate(from, { replace: true });
       }
