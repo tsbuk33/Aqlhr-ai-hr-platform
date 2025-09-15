@@ -34,6 +34,9 @@ const AuthPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState('signin');
+  const [resetEmail, setResetEmail] = useState('');
+  const [showResetForm, setShowResetForm] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   
   const { user, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -196,6 +199,35 @@ const AuthPage: React.FC = () => {
     }
   };
 
+  const handlePasswordReset = async () => {
+    if (!resetEmail) {
+      setError('Please enter your email address.');
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/en/auth?reset=true`,
+      });
+
+      if (error) throw error;
+
+      setResetSent(true);
+      toast({
+        title: "Password reset email sent!",
+        description: "Please check your email for instructions to reset your password.",
+      });
+    } catch (err: any) {
+      console.error('Password reset error:', err);
+      setError(err.message || 'An error occurred while sending the reset email.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (activeTab === 'signin') {
@@ -299,6 +331,17 @@ const AuthPage: React.FC = () => {
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       </Button>
                     </div>
+                  </div>
+
+                  <div className="text-right">
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-sm p-0 h-auto"
+                      onClick={() => setShowResetForm(true)}
+                    >
+                      Forgot Password?
+                    </Button>
                   </div>
                 </TabsContent>
 
@@ -429,6 +472,96 @@ const AuthPage: React.FC = () => {
             🔒 Your data is encrypted and secure with enterprise-grade protection
           </p>
         </div>
+
+        {/* Password Reset Modal */}
+        {showResetForm && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <Card className="w-full max-w-md mx-4">
+              <CardHeader>
+                <CardTitle>Reset Password</CardTitle>
+                <CardDescription>
+                  {resetSent 
+                    ? "Check your email for reset instructions"
+                    : "Enter your email to receive password reset instructions"
+                  }
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {!resetSent ? (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="resetEmail">Email</Label>
+                      <Input
+                        id="resetEmail"
+                        type="email"
+                        placeholder="Enter your email"
+                        value={resetEmail}
+                        onChange={(e) => setResetEmail(e.target.value)}
+                        disabled={isLoading}
+                      />
+                    </div>
+                    
+                    {error && (
+                      <Alert variant="destructive">
+                        <AlertDescription>{error}</AlertDescription>
+                      </Alert>
+                    )}
+
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => {
+                          setShowResetForm(false);
+                          setResetEmail('');
+                          setError(null);
+                          setResetSent(false);
+                        }}
+                        disabled={isLoading}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        className="flex-1"
+                        onClick={handlePasswordReset}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Sending...
+                          </>
+                        ) : (
+                          'Send Reset Email'
+                        )}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center space-y-4">
+                    <p className="text-green-600">
+                      Password reset email sent to {resetEmail}
+                    </p>
+                    <Button
+                      type="button"
+                      className="w-full"
+                      onClick={() => {
+                        setShowResetForm(false);
+                        setResetEmail('');
+                        setError(null);
+                        setResetSent(false);
+                      }}
+                    >
+                      Close
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </CenteredLayout>
   );
