@@ -134,12 +134,12 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required={!isSignUp ? true : false}
-              className="w-full px-3 py-2 bg-input text-foreground border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full px-3 py-2 bg-input text-foreground border border-border rounded focus:outline-none focus:ring-2 focus:ring-ring password-input-with-toggle"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-3 flex items-center text-muted-foreground hover:text-foreground"
+              className="password-toggle-button text-muted-foreground hover:text-foreground"
               aria-label="Toggle password visibility"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
