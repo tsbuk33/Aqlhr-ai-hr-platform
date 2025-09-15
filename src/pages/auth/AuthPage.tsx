@@ -111,9 +111,15 @@ const AuthPage: React.FC = () => {
           description: "You have successfully signed in.",
         });
         
-        // Navigate to dashboard
-        const from = (location.state as any)?.from?.pathname || '/en';
-        navigate(from, { replace: true });
+        // Navigate to dashboard or intended destination
+        const searchParams = new URLSearchParams(location.search);
+        const from = searchParams.get('from') || (location.state as any)?.from?.pathname;
+        
+        if (from && from !== '/en/auth') {
+          navigate(from, { replace: true });
+        } else {
+          navigate('/en/dashboard', { replace: true });
+        }
       }
     } catch (err: any) {
       console.error('Sign in error:', err);
