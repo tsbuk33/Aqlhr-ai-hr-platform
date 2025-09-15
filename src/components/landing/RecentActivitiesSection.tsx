@@ -70,18 +70,18 @@ export function RecentActivitiesSection() {
   ];
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+        <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <CardTitle className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <Activity className="h-5 w-5 text-primary" />
             {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
           </CardTitle>
           <Button variant="ghost" size="sm" className="text-primary">
-            {isArabic ? 'عرض جميع الأنشطة →' : 'View all activities →'}
+            {isArabic ? 'عرض جميع الأنشطة ←' : 'View all activities →'}
           </Button>
         </div>
-        <p className="text-muted-foreground">
+        <p className={`text-muted-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
           {isArabic 
             ? 'آخر أنشطة النظام والتحديثات'
             : 'Latest system activities and updates'

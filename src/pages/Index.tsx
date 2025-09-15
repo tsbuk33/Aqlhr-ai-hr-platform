@@ -1,10 +1,10 @@
 import { SimpleMetricCard } from "@/components/SimpleMetricCard";
-import { SimpleRecentActivity } from "@/components/SimpleRecentActivity";
+import { RecentActivitiesSection } from "@/components/landing/RecentActivitiesSection";
 import { OfficialLogos } from "@/components/OfficialLogos";
 import { CompanyDataUpload } from "@/components/CompanyDataUpload";
 import { KPIExplanationCard } from "@/components/KPIExplanationCard";
 import { SaudiHeroSection } from "@/components/saudi/SaudiHeroSection";
-import { AnnouncementsSection } from "@/components/saudi/AnnouncementsSection";
+import { AnnouncementsSection } from "@/components/landing/AnnouncementsSection";
 import { VirtualAssistant as AdvancedVirtualAssistant } from "@/components/ai/VirtualAssistant";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
@@ -1793,54 +1793,58 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content - Recent Activity */}
-          <div className="lg:col-span-2 space-y-8">
-            <section>
-              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
-                  {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
-                </h2>
-                <p className="text-muted-foreground">
-                  {isArabic ? 'آخر الأنشطة والتحديثات في النظام' : 'Latest system activities and updates'}
-                </p>
-              </div>
-              <div className="bg-white rounded-xl border border-border p-6">
-                <SimpleRecentActivity />
-              </div>
-            </section>
+        {/* Two Column Layout - Improved Alignment */}
+        <div className="w-full max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {/* Main Content - Recent Activity */}
+            <div className="xl:col-span-2 space-y-8">
+              <section className="w-full">
+                <div className={`mb-6 text-center ${isArabic ? 'lg:text-right' : 'lg:text-left'}`}>
+                  <h2 className="text-2xl font-bold text-foreground mb-2">
+                    {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {isArabic ? 'آخر الأنشطة والتحديثات في النظام' : 'Latest system activities and updates'}
+                  </p>
+                </div>
+                <div className="w-full">
+                  <RecentActivitiesSection />
+                </div>
+              </section>
 
-            {/* Official Announcements */}
-            <section>
-              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
-                  {isArabic ? 'الإعلانات الرسمية' : 'Official Announcements'}
-                </h2>
-                <p className="text-muted-foreground">
-                  {isArabic ? 'آخر الإعلانات والتحديثات من الجهات الحكومية' : 'Latest announcements and updates from government entities'}
-                </p>
-              </div>
-              <AnnouncementsSection />
-            </section>
-          </div>
+              {/* Official Announcements */}
+              <section className="w-full">
+                <div className={`mb-6 text-center ${isArabic ? 'lg:text-right' : 'lg:text-left'}`}>
+                  <h2 className="text-2xl font-bold text-foreground mb-2">
+                    {isArabic ? 'الإعلانات الرسمية' : 'Official Announcements'}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {isArabic ? 'آخر الإعلانات والتحديثات من الجهات الحكومية' : 'Latest announcements and updates from government entities'}
+                  </p>
+                </div>
+                <div className="w-full">
+                  <AnnouncementsSection />
+                </div>
+              </section>
+            </div>
 
-          {/* Sidebar Content */}
-          <div className="space-y-8">
-            {/* Official Partnerships */}
-            <section>
-              <div className={`mb-6 ${isArabic ? 'text-right' : ''}`}>
-                <h2 className="text-xl font-bold text-foreground mb-2">
-                  {isArabic ? 'الشراكات الرسمية' : 'Official Partnerships'}
-                </h2>
-                <p className="text-muted-foreground text-sm">
-                  {isArabic ? 'شراكاتنا مع الجهات الحكومية' : 'Our government partnerships'}
-                </p>
-              </div>
-              <div className="bg-white rounded-xl border border-border p-6">
-                <OfficialLogos />
-              </div>
-            </section>
+            {/* Sidebar Content */}
+            <div className="space-y-8">
+              {/* Official Partnerships */}
+              <section className="w-full">
+                <div className={`mb-6 text-center ${isArabic ? 'lg:text-right' : 'lg:text-left'}`}>
+                  <h2 className="text-xl font-bold text-foreground mb-2">
+                    {isArabic ? 'الشراكات الرسمية' : 'Official Partnerships'}
+                  </h2>
+                  <p className="text-muted-foreground text-sm">
+                    {isArabic ? 'شراكاتنا مع الجهات الحكومية' : 'Our government partnerships'}
+                  </p>
+                </div>
+                <div className="w-full bg-card rounded-xl border border-border p-6 center-xy">
+                  <OfficialLogos />
+                </div>
+              </section>
+            </div>
           </div>
         </div>
       </div>

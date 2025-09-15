@@ -130,7 +130,7 @@ export default function AppRoutes() {
               path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
               element={
                 route.auth !== false ? (
-                  <ProtectedRoute requireAuth={route.auth !== false} adminOnly={route.adminOnly}>
+                  <ProtectedRoute requireAuth={true} adminOnly={route.adminOnly}>
                     <LayoutShell>
                       <Suspense fallback={<RouteLoading />}>
                         <RouteComponent />

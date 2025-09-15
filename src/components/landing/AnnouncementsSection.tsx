@@ -78,10 +78,10 @@ export function AnnouncementsSection() {
   };
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+        <div className={`flex items-center justify-between ${isArabic ? 'flex-row-reverse' : ''}`}>
+          <CardTitle className={`flex items-center gap-2 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <Megaphone className="h-5 w-5 text-primary" />
             {isArabic ? 'الإعلانات الرسمية' : 'Official Announcements'}
           </CardTitle>
@@ -89,7 +89,7 @@ export function AnnouncementsSection() {
             {isArabic ? 'عرض جميع الإعلانات' : 'View All Announcements'}
           </Button>
         </div>
-        <p className="text-muted-foreground">
+        <p className={`text-muted-foreground ${isArabic ? 'text-right' : 'text-left'}`}>
           {isArabic 
             ? 'آخر الإعلانات والتحديثات من الجهات الحكومية'
             : 'Latest announcements and updates from government entities'
