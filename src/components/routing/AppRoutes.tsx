@@ -17,6 +17,7 @@ import SaudizationOptimizationTest from '@/pages/SaudizationOptimizationTest';
 import WPSAutomationTest from '@/pages/WPSAutomationTest';
 import PromptDrivenExecutionTest from '@/pages/PromptDrivenExecutionTest';
 import AutonomousDashboardPage from '@/pages/autonomous/AutonomousDashboardPage';
+import SmartKPIPublic from '@/pages/SmartKPIPublic';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -103,6 +104,22 @@ export default function AppRoutes() {
         <Route path="prompt-driven-execution-test" element={<PromptDrivenExecutionTest />} />
         <Route path="autonomous" element={<AutonomousDashboardPage />} />
         
+        {/* Public Smart KPI Routes */}
+        <Route path="tools/smart-kpi" element={
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <SmartKPIPublic />
+            </Suspense>
+          </LayoutShell>
+        } />
+        <Route path="additional/smart-kpi" element={
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <SmartKPIPublic />
+            </Suspense>
+          </LayoutShell>
+        } />
+        
         {/* All AqlHR Platform Routes - Wrap with LayoutShell for proper dashboard layout */}
         {ROUTES.map((route, index) => {
           const RouteComponent = route.element;
@@ -112,8 +129,8 @@ export default function AppRoutes() {
               key={`${route.path}-${index}`}
               path={route.path === '/' ? 'home' : route.path.startsWith('/') ? route.path.slice(1) : route.path}
               element={
-                route.auth ? (
-                  <ProtectedRoute requireAuth={route.auth} adminOnly={route.adminOnly}>
+                route.auth !== false ? (
+                  <ProtectedRoute requireAuth={route.auth !== false} adminOnly={route.adminOnly}>
                     <LayoutShell>
                       <Suspense fallback={<RouteLoading />}>
                         <RouteComponent />

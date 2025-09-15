@@ -223,7 +223,7 @@ const SaudiAIComplianceEnginePage = lazy(() => import('../pages/ai-ecosystem/Sau
 const SuperIntelligentWorkforceOptimizerPage = lazy(() => import('../pages/ai-ecosystem/SuperIntelligentWorkforceOptimizerPage'));
 
 // Additional modules
-import SmartKPITool from '../pages/additional/SmartKPITool';
+import SmartKPIPublic from '../pages/SmartKPIPublic';
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const Pricing = lazy(() => import('../pages/plans/Pricing'));
 
@@ -492,8 +492,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/platform/api-gateway', element: APIGateway, auth: true, adminOnly: true },
   
   // Additional Modules Routes
-  { path: '/tools/smart-kpi', element: SmartKPITool, auth: false }, // Made public
-  { path: '/additional/smart-kpi', element: SmartKPITool, auth: false }, // Made public
+  { path: '/tools/smart-kpi', element: SmartKPIPublic, auth: false }, // Made public
+  { path: '/additional/smart-kpi', element: SmartKPIPublic, auth: false }, // Made public
   { path: '/tools/aqlhr-connect', element: AqlHRConnect, auth: true },
   { path: '/tools/imports', element: ImportCenter, auth: true },
   { path: '/tools/search', element: KnowledgeSearch, auth: true },
