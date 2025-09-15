@@ -85,7 +85,7 @@ export function AnnouncementsSection() {
             <Megaphone className="h-5 w-5 text-primary" />
             {isArabic ? 'الإعلانات الرسمية' : 'Official Announcements'}
           </CardTitle>
-          <Button variant="ghost" size="sm" className="text-primary">
+          <Button variant="default" size="sm" className="announcement-button">
             {isArabic ? 'عرض جميع الإعلانات' : 'View All Announcements'}
           </Button>
         </div>
@@ -97,51 +97,49 @@ export function AnnouncementsSection() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="activity-card-container">
           {announcements.map((announcement) => (
-            <Card key={announcement.id} className="p-4 hover:shadow-md transition-shadow border-l-4 border-l-primary">
-              <div className="flex items-start gap-4">
-                {/* Icon */}
-                <div className={`p-2 rounded-lg ${announcement.bgColor} flex-shrink-0`}>
-                  <announcement.icon className={`h-4 w-4 ${announcement.color}`} />
-                </div>
-                
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-4 mb-3">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-sm leading-tight mb-1">
-                        {announcement.title}
-                      </h4>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
-                        {announcement.description}
-                      </p>
-                    </div>
-                    
-                    {/* Date */}
-                    <div className="text-xs text-muted-foreground flex-shrink-0">
-                      {announcement.date}
-                    </div>
+            <div key={announcement.id} className="activity-card border-l-4 border-l-primary">
+              {/* Icon */}
+              <div className={`activity-icon-wrapper ${announcement.bgColor}`}>
+                <announcement.icon className={`h-5 w-5 ${announcement.color}`} />
+              </div>
+              
+              {/* Content */}
+              <div className="activity-content">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div className="flex-1">
+                    <h4 className="activity-title">
+                      {announcement.title}
+                    </h4>
+                    <p className="activity-description">
+                      {announcement.description}
+                    </p>
                   </div>
                   
-                  {/* Badges */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <Badge className={getTypeColor(announcement.type)} variant="outline">
-                      {announcement.type}
-                    </Badge>
-                    <Badge className={getPriorityColor(announcement.priority)} variant="outline">
-                      {announcement.priority}
-                    </Badge>
+                  {/* Date */}
+                  <div className="text-xs text-muted-foreground flex-shrink-0">
+                    {announcement.date}
                   </div>
                 </div>
+                
+                {/* Badges */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Badge className={getTypeColor(announcement.type)} variant="outline">
+                    {announcement.type}
+                  </Badge>
+                  <Badge className={getPriorityColor(announcement.priority)} variant="outline">
+                    {announcement.priority}
+                  </Badge>
+                </div>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
         
         {/* View All Button */}
         <div className="mt-6 text-center">
-          <Button variant="outline" className="w-full sm:w-auto">
+          <Button variant="default" className="w-full sm:w-auto announcement-button">
             <ExternalLink className="h-4 w-4 mr-2" />
             {isArabic ? 'عرض جميع الإعلانات' : 'View All Announcements'}
           </Button>

@@ -77,7 +77,7 @@ export function RecentActivitiesSection() {
             <Activity className="h-5 w-5 text-primary" />
             {isArabic ? 'النشاط الأخير' : 'Recent Activity'}
           </CardTitle>
-          <Button variant="ghost" size="sm" className="text-primary">
+          <Button variant="default" size="sm" className="view-all-button">
             {isArabic ? 'عرض جميع الأنشطة ←' : 'View all activities →'}
           </Button>
         </div>
@@ -89,60 +89,54 @@ export function RecentActivitiesSection() {
         </p>
       </CardHeader>
       <CardContent>
-        <div className="space-y-4">
+        <div className="activity-card-container">
           {activities.map((activity) => (
-            <Card key={activity.id} className="p-4 hover:shadow-md transition-shadow">
-              <div className="flex items-start gap-4">
-                {/* Activity Icon */}
-                <div className={`p-2 rounded-lg ${activity.bgColor} flex-shrink-0`}>
-                  <activity.icon className={`h-4 w-4 ${activity.color}`} />
-                </div>
+            <div key={activity.id} className="activity-card">
+              {/* Activity Icon */}
+              <div className={`activity-icon-wrapper ${activity.bgColor}`}>
+                <activity.icon className={`h-5 w-5 ${activity.color}`} />
+              </div>
+              
+              {/* Activity Content */}
+              <div className="activity-content">
+                <h4 className="activity-title">
+                  {activity.title}
+                </h4>
+                <p className="activity-description">
+                  {activity.description}
+                </p>
                 
-                {/* Activity Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-sm leading-tight mb-1">
-                        {activity.title}
-                      </h4>
-                      <p className="text-xs text-muted-foreground mb-2 leading-relaxed">
-                        {activity.description}
-                      </p>
-                      
-                      {/* Activity Metadata */}
-                      <div className="flex items-center gap-3 text-xs">
-                        <Badge variant="outline" className="text-xs">
-                          {activity.type}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-muted-foreground">
-                          <Clock className="h-3 w-3" />
-                          <span>{activity.time}</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* User Avatar */}
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src="" alt={activity.user.name} />
-                        <AvatarFallback className="text-xs font-medium">
-                          {activity.user.avatar}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="text-right hidden sm:block">
-                        <p className="text-xs font-medium">{activity.user.name}</p>
-                      </div>
-                    </div>
+                {/* Activity Metadata */}
+                <div className="activity-metadata">
+                  <Badge variant="outline" className="text-xs">
+                    {activity.type}
+                  </Badge>
+                  <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                    <Clock className="h-3 w-3" />
+                    <span>{activity.time}</span>
                   </div>
                 </div>
               </div>
-            </Card>
+              
+              {/* User Avatar */}
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src="" alt={activity.user.name} />
+                  <AvatarFallback className="text-xs font-medium">
+                    {activity.user.avatar}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="text-right hidden sm:block">
+                  <p className="text-xs font-medium">{activity.user.name}</p>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
         
         {/* View All Button */}
         <div className="mt-6 text-center">
-          <Button variant="outline" className="w-full sm:w-auto">
+          <Button variant="default" className="w-full sm:w-auto view-all-button">
             <ExternalLink className="h-4 w-4 mr-2" />
             {isArabic ? 'عرض جميع الأنشطة' : 'View All Activities'}
           </Button>

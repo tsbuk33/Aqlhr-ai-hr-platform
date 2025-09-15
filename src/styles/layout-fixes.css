@@ -536,3 +536,281 @@ main {
   padding-left: 40px !important;
 }
 
+/* Progress Bar Alignment Fixes */
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.progress-bar-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 40px; /* Consistent height */
+}
+
+.progress-bar-aligned {
+  height: 8px;
+  width: 100%;
+  background: hsl(var(--secondary));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* Statistics Section Grid Alignment */
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+  align-items: start;
+}
+
+.statistic-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  min-height: 160px;
+}
+
+.statistic-number {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0.75rem 0 0.5rem 0;
+  color: hsl(var(--foreground));
+}
+
+.statistic-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.statistic-sublabel {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Activity Cards Standardization */
+.activity-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  min-height: 120px;
+}
+
+.activity-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.activity-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: hsl(var(--foreground));
+}
+
+.activity-description {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.4;
+}
+
+.activity-metadata {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Executive Center Button Alignment */
+.executive-center-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.executive-feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.75rem;
+  min-height: 200px;
+  transition: all 0.2s ease;
+}
+
+.executive-feature-card:hover {
+  shadow: 0 10px 25px -3px rgb(0 0 0 / 0.1);
+  border-color: hsl(var(--primary));
+}
+
+.executive-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: hsl(var(--primary) / 0.1);
+  border-radius: 0.75rem;
+}
+
+.executive-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.executive-description {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+/* Footer Button Alignment */
+.footer-buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 0;
+  width: 100%;
+}
+
+.footer-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.footer-button-primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary));
+}
+
+.footer-button-primary:hover {
+  background: hsl(var(--primary) / 0.9);
+}
+
+.footer-button-secondary {
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 1px solid hsl(var(--border));
+}
+
+.footer-button-secondary:hover {
+  background: hsl(var(--secondary) / 0.8);
+}
+
+/* Announcement Section Button Fixes */
+.announcement-button {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: 1px solid hsl(var(--primary)) !important;
+  opacity: 1 !important;
+}
+
+.announcement-button:hover {
+  background: hsl(var(--primary) / 0.9) !important;
+}
+
+/* View All Activities Button Fixes */
+.view-all-button {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: 1px solid hsl(var(--primary)) !important;
+  opacity: 1 !important;
+}
+
+.view-all-button:hover {
+  background: hsl(var(--primary) / 0.9) !important;
+}
+
+/* Consistent spacing for sections */
+.section-spacing {
+  margin: 3rem 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: hsl(var(--foreground));
+}
+
+.section-subtitle {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+/* Responsive grid improvements */
+@media (max-width: 768px) {
+  .statistics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .executive-center-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .footer-buttons-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
