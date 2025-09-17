@@ -166,6 +166,44 @@
         "performanceDecline": "تراجع الأداء",
         "costOptimization": "تحسين التكاليف"
       }
+    },
+    "executiveReporting": {
+      "title": "التقارير التنفيذية",
+      "description": "لوحات تحكم للمستوى التنفيذي ورؤى المديرين",
+      "executiveDashboard": "لوحة التحكم التنفيذية",
+      "strategicMetrics": "المقاييس الاستراتيجية",
+      "businessIntelligence": "ذكاء الأعمال",
+      "generateReport": "إنشاء تقرير",
+      "scheduleReport": "جدولة التقرير",
+      "exportExecutive": "تصدير الملخص التنفيذي",
+      "kpiOverview": "نظرة عامة على مؤشرات الأداء",
+      "performanceIndicators": "مؤشرات الأداء",
+      "metrics": {
+        "executiveReports": "التقارير التنفيذية",
+        "kpisTracked": "مؤشرات الأداء المتتبعة",
+        "monthlyReviews": "المراجعات الشهرية",
+        "decisionImpact": "تأثير القرارات"
+      },
+      "kpis": {
+        "revenueGrowth": "نمو الإيرادات",
+        "employeeEngagement": "مشاركة الموظفين",
+        "operationalEfficiency": "الكفاءة التشغيلية",
+        "customerSatisfaction": "رضا العملاء",
+        "marketShare": "الحصة السوقية",
+        "profitMargin": "هامش الربح"
+      },
+      "insights": {
+        "strategicAlignment": "التوافق الاستراتيجي",
+        "riskAssessment": "تقييم المخاطر",
+        "growthOpportunities": "فرص النمو",
+        "competitivePosition": "الموقف التنافسي"
+      },
+      "timeframes": {
+        "quarterly": "ربع سنوي",
+        "monthly": "شهري",
+        "yearly": "سنوي",
+        "realtime": "في الوقت الفعلي"
+      }
     }
   }
 }

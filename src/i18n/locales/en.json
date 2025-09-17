@@ -149,6 +149,44 @@
         "performanceDecline": "Performance Decline",
         "costOptimization": "Cost Optimization"
       }
+    },
+    "executiveReporting": {
+      "title": "Executive Reporting",
+      "description": "C-level dashboards and executive insights",
+      "executiveDashboard": "Executive Dashboard",
+      "strategicMetrics": "Strategic Metrics",
+      "businessIntelligence": "Business Intelligence",
+      "generateReport": "Generate Report",
+      "scheduleReport": "Schedule Report",
+      "exportExecutive": "Export Executive Summary",
+      "kpiOverview": "KPI Overview",
+      "performanceIndicators": "Performance Indicators",
+      "metrics": {
+        "executiveReports": "Executive Reports",
+        "kpisTracked": "KPIs Tracked",
+        "monthlyReviews": "Monthly Reviews",
+        "decisionImpact": "Decision Impact"
+      },
+      "kpis": {
+        "revenueGrowth": "Revenue Growth",
+        "employeeEngagement": "Employee Engagement",
+        "operationalEfficiency": "Operational Efficiency",
+        "customerSatisfaction": "Customer Satisfaction",
+        "marketShare": "Market Share",
+        "profitMargin": "Profit Margin"
+      },
+      "insights": {
+        "strategicAlignment": "Strategic Alignment",
+        "riskAssessment": "Risk Assessment",
+        "growthOpportunities": "Growth Opportunities",
+        "competitivePosition": "Competitive Position"
+      },
+      "timeframes": {
+        "quarterly": "Quarterly",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "realtime": "Real-time"
+      }
     }
   }
 }
