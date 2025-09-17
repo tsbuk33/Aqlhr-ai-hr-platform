@@ -226,6 +226,7 @@ const SuperIntelligentWorkforceOptimizerPage = lazy(() => import('../pages/ai-ec
 import SmartKPIPublic from '../pages/SmartKPIPublic';
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const Pricing = lazy(() => import('../pages/plans/Pricing'));
+const AqlHRSystem = lazy(() => import('../pages/AqlHRSystem'));
 
 // CCI modules
 const CCIOverview = lazy(() => import('../pages/cci/Overview'));
@@ -325,6 +326,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/prompt-audit', element: PromptAudit, auth: true },
   { path: '/', element: DashboardPage, auth: false },
   { path: '/dashboard', element: DashboardPage, auth: false },
+  { path: '/system-overview', element: AqlHRSystem, auth: false },
   
   // Admin routes
   { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },

@@ -98,20 +98,22 @@ export default function AccessibleWelcome() {
 
       {/* Main */}
       <main id="main" role="main" className="flex-1 w-full">
-        <section className="mx-auto max-w-5xl px-4 py-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-            {isArabic ? 'مستقبل الموارد البشرية' : 'The Future of HR'}
-          </h1>
-          <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            {isArabic
-              ? 'منصة شاملة لإدارة الموارد البشرية مصممة خصيصاً للسوق السعودي مع قدرات ذكاء اصطناعي متقدمة.'
-              : 'A comprehensive HR platform designed for the Saudi market with advanced AI capabilities.'}
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" aria-label={isArabic ? 'ابدأ الآن' : 'Get started now'}>
-              <LinkL to="/auth">{isArabic ? 'ابدأ الآن' : 'Get Started'}</LinkL>
-            </Button>
-            <Button variant="outline" size="lg">{isArabic ? 'تعرف أكثر' : 'Learn More'}</Button>
+        <section className="aqlhr-center-container py-16">
+          <div className="aqlhr-center-content">
+            <h1 className="aqlhr-page-title">
+              {isArabic ? 'مستقبل الموارد البشرية' : 'The Future of HR'}
+            </h1>
+            <p className="aqlhr-page-description">
+              {isArabic
+                ? 'منصة شاملة لإدارة الموارد البشرية مصممة خصيصاً للسوق السعودي مع قدرات ذكاء اصطناعي متقدمة.'
+                : 'A comprehensive HR platform designed for the Saudi market with advanced AI capabilities.'}
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button asChild size="lg" aria-label={isArabic ? 'ابدأ الآن' : 'Get started now'}>
+                <LinkL to="/auth">{isArabic ? 'ابدأ الآن' : 'Get Started'}</LinkL>
+              </Button>
+              <Button variant="outline" size="lg">{isArabic ? 'تعرف أكثر' : 'Learn More'}</Button>
+            </div>
           </div>
         </section>
 

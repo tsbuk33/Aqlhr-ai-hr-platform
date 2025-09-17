@@ -682,8 +682,6 @@ html.english {
   max-width: 1400px !important;
   margin: 0 auto !important;
 }
-  border-left-color: hsl(var(--border));
-}
 
 .dark [dir="rtl"] .nav-menu-item:hover {
   background: hsl(var(--accent));
