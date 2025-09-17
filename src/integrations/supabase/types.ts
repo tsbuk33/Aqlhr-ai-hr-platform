@@ -12455,6 +12455,14 @@ export type Database = {
           timezone: string
         }[]
       }
+      get_current_user_company_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      get_current_user_employee_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       get_user_locale: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -12491,6 +12499,18 @@ export type Database = {
         Args: { "": unknown }
         Returns: unknown
       }
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_hr_manager: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_super_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       ivfflat_bit_support: {
         Args: { "": unknown }
         Returns: unknown
@@ -12522,6 +12542,10 @@ export type Database = {
       sparsevec_typmod_in: {
         Args: { "": unknown[] }
         Returns: number
+      }
+      user_has_role: {
+        Args: { _role: string }
+        Returns: boolean
       }
       vector_avg: {
         Args: { "": number[] }
