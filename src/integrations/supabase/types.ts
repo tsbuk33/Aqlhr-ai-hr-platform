@@ -5222,13 +5222,6 @@ export type Database = {
             foreignKeyName: "hr_attendance_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
-            referencedRelation: "hr_employees_safe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_attendance_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5451,13 +5444,6 @@ export type Database = {
             foreignKeyName: "hr_employees_manager_id_fkey"
             columns: ["manager_id"]
             isOneToOne: false
-            referencedRelation: "hr_employees_safe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5575,13 +5561,6 @@ export type Database = {
             foreignKeyName: "hr_leaves_employee_id_fkey"
             columns: ["employee_id"]
             isOneToOne: false
-            referencedRelation: "hr_employees_safe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_leaves_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -5660,13 +5639,6 @@ export type Database = {
             columns: ["employee_id"]
             isOneToOne: false
             referencedRelation: "hr_employees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_training_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
-            referencedRelation: "hr_employees_safe"
             referencedColumns: ["id"]
           },
           {
@@ -8952,7 +8924,7 @@ export type Database = {
           ai_response: string
           category?: string
           commit_hash?: string | null
-          company_id?: string
+          company_id: string
           created_at?: string
           git_commit_hash?: string | null
           id?: string
@@ -12140,106 +12112,6 @@ export type Database = {
           },
         ]
       }
-      hr_employees_safe: {
-        Row: {
-          allowances: number | null
-          base_salary: number | null
-          company_id: string | null
-          created_at: string | null
-          department_id: string | null
-          employee_no: string | null
-          employment_status: string | null
-          full_name_ar: string | null
-          full_name_en: string | null
-          gender: string | null
-          hire_date: string | null
-          id: string | null
-          is_saudi: boolean | null
-          manager_id: string | null
-          monthly_salary: number | null
-          nationality: string | null
-        }
-        Insert: {
-          allowances?: never
-          base_salary?: never
-          company_id?: string | null
-          created_at?: string | null
-          department_id?: never
-          employee_no?: string | null
-          employment_status?: string | null
-          full_name_ar?: never
-          full_name_en?: never
-          gender?: string | null
-          hire_date?: string | null
-          id?: string | null
-          is_saudi?: boolean | null
-          manager_id?: string | null
-          monthly_salary?: never
-          nationality?: never
-        }
-        Update: {
-          allowances?: never
-          base_salary?: never
-          company_id?: string | null
-          created_at?: string | null
-          department_id?: never
-          employee_no?: string | null
-          employment_status?: string | null
-          full_name_ar?: never
-          full_name_en?: never
-          gender?: string | null
-          hire_date?: string | null
-          id?: string | null
-          is_saudi?: boolean | null
-          manager_id?: string | null
-          monthly_salary?: never
-          nationality?: never
-        }
-        Relationships: [
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "hr_employees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "hr_employees_safe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "osi_span_v1"
-            referencedColumns: ["manager_id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "v_costs"
-            referencedColumns: ["employee_id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "v_manager_spans"
-            referencedColumns: ["manager_id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
-            referencedRelation: "v_org_current"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       org_hierarchy_v1: {
         Row: {
           full_name_ar: string | null
@@ -12472,13 +12344,6 @@ export type Database = {
             foreignKeyName: "hr_employees_manager_id_fkey"
             columns: ["manager_id"]
             isOneToOne: false
-            referencedRelation: "hr_employees_safe"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "hr_employees_manager_id_fkey"
-            columns: ["manager_id"]
-            isOneToOne: false
             referencedRelation: "osi_span_v1"
             referencedColumns: ["manager_id"]
           },
@@ -12518,31 +12383,6 @@ export type Database = {
       }
     }
     Functions: {
-      add_diagnostic_insight: {
-        Args: {
-          p_case_id: string
-          p_category: string
-          p_confidence_score?: number
-          p_description?: string
-          p_impact_score?: number
-          p_insight_type: string
-          p_metadata?: Json
-          p_severity?: string
-          p_title: string
-        }
-        Returns: string
-      }
-      api_create_key_v1: {
-        Args: { p_name: string; p_scopes?: string[]; p_tenant_id: string }
-        Returns: {
-          api_key: string
-          key_id: string
-        }[]
-      }
-      api_revoke_key_v1: {
-        Args: { p_key_id: string }
-        Returns: boolean
-      }
       apply_translation_patch: {
         Args: {
           p_confidence?: number
@@ -12552,85 +12392,6 @@ export type Database = {
         }
         Returns: string
       }
-      ask_headcount_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          non_saudi: number
-          saudi: number
-          saudization_rate: number
-          total: number
-        }[]
-      }
-      ask_iqama_expiring_list_admin_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: {
-          dept_ar: string
-          dept_en: string
-          employee_id: string
-          employee_no: string
-          expiry_date: string
-          full_name_ar: string
-          full_name_en: string
-        }[]
-      }
-      ask_iqama_expiring_summary_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: {
-          by_department: Json
-          days_ahead: number
-          total: number
-        }[]
-      }
-      ask_saudization_status_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          color: string
-          rate: number
-        }[]
-      }
-      ask_search_evidence_v1: {
-        Args: { p_limit?: number; p_query: string; p_tenant: string }
-        Returns: {
-          evidence_id: string
-          score: number
-          tags: string[]
-          title: string
-        }[]
-      }
-      audit_data_exposure_risk: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          issue_description: string
-          recommendation: string
-          risk_level: string
-          table_name: string
-        }[]
-      }
-      audit_rls_policies: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          policy_count: number
-          rls_enabled: boolean
-          table_name: string
-        }[]
-      }
-      audit_security_definer_functions: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          function_name: string
-          recommendation: string
-          security_type: string
-        }[]
-      }
-      audit_security_status: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          category: string
-          issue_count: number
-          recommendation: string
-          status: string
-        }[]
-      }
       auto_classify_employee_gosi: {
         Args: { p_employee_id: string }
         Returns: undefined
@@ -12638,14 +12399,6 @@ export type Database = {
       binary_quantize: {
         Args: { "": string } | { "": unknown }
         Returns: unknown
-      }
-      bootstrap_current_user_as_owner: {
-        Args: { p_company_id?: string }
-        Returns: Json
-      }
-      bootstrap_owner: {
-        Args: { p_auth_uid: string; p_company_id?: string }
-        Returns: Json
       }
       calculate_annual_leave_entitlement: {
         Args: { p_current_date?: string; p_hire_date: string }
@@ -12675,246 +12428,13 @@ export type Database = {
         }
         Returns: number
       }
-      can_access_employee_data: {
-        Args: { p_employee_id: string }
-        Returns: boolean
-      }
-      can_access_medical_data: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      cci_compute_scores_v1: {
-        Args: { p_survey: string; p_tenant: string; p_wave?: string }
-        Returns: Json
-      }
-      cci_evidence_quality_factor: {
-        Args: { p_survey_id: string; p_tenant_id: string }
-        Returns: number
-      }
-      cci_get_heatmap_v1: {
-        Args: {
-          p_scope: string
-          p_survey: string
-          p_tenant: string
-          p_wave: string
-        }
-        Returns: {
-          balance_score: number
-          n: number
-          psych_safety: number
-          risk_index: number
-          scope_id: string
-        }[]
-      }
-      cci_get_hofstede_context_v1: {
-        Args: { p_tenant_id: string }
-        Returns: Json
-      }
-      cci_get_overview_v1: {
-        Args: { p_survey: string; p_tenant: string; p_wave: string }
-        Returns: {
-          balance_score: number
-          barrett: Json
-          cvf: Json
-          last_computed_at: string
-          n: number
-          psych_safety: number
-          risk_index: number
-          web: Json
-        }[]
-      }
-      cci_is_response_valid: {
-        Args: { answers: Json; duration_seconds: number }
-        Returns: boolean
-      }
       cci_norm_0_100: {
         Args: { maxv: number; minv: number; val: number }
         Returns: number
       }
-      check_rate_limit: {
-        Args: {
-          p_api_key_id: string
-          p_limit?: number
-          p_tenant_id: string
-          p_window_minutes?: number
-        }
-        Returns: boolean
-      }
-      cleanup_expired_medical_data: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      cleanup_old_compliance_logs: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      compliance_daily_cron_job: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      compliance_run_now_v1: {
-        Args: { p_dry?: boolean; p_tenant: string }
-        Returns: Json
-      }
-      core_is_allowed: {
-        Args: { p_feature: string }
-        Returns: boolean
-      }
       cosine_similarity: {
         Args: { a: number[]; b: number[] }
         Returns: number
-      }
-      create_api_key: {
-        Args: {
-          p_expires_at?: string
-          p_key_name: string
-          p_scopes: string[]
-          p_tenant_id: string
-        }
-        Returns: {
-          api_key: string
-          key_id: string
-        }[]
-      }
-      create_diagnostic_case: {
-        Args: {
-          p_case_name: string
-          p_case_type: string
-          p_scope_config?: Json
-          p_tenant_id: string
-        }
-        Returns: string
-      }
-      dashboard_alerts_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          current_value: number
-          delta_30: number
-          message_ar: string
-          message_en: string
-          metric: string
-          recommendation_ar: string
-          recommendation_en: string
-          severity: string
-        }[]
-      }
-      dashboard_backfill_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: undefined
-      }
-      dashboard_compute_kpis_asof_v1: {
-        Args: { p_asof: string; p_tenant: string }
-        Returns: undefined
-      }
-      dashboard_compute_kpis_v1: {
-        Args: { p_date?: string; p_tenant: string }
-        Returns: undefined
-      }
-      dashboard_get_series_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: {
-          compliance_score: number
-          d: string
-          docs_processed: number
-          employee_experience_10: number
-          hse_safety_score: number
-          predictive_risk_high: number
-          saudization_rate: number
-          total_employees: number
-          training_hours: number
-        }[]
-      }
-      dashboard_get_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          active_users: number
-          compliance_score: number
-          docs_processed: number
-          employee_experience_10: number
-          hse_safety_score: number
-          predictive_risk_high: number
-          saudization_rate: number
-          snap_date: string
-          talent_pipeline_strength: number
-          total_employees: number
-          training_hours: number
-          workforce_forecast_accuracy: number
-        }[]
-      }
-      dashboard_rules_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          created_at: string
-          current_value: number
-          id: string
-          message: string
-          metric: string
-          severity: string
-          threshold_value: number
-          title: string
-        }[]
-      }
-      dev_backfill_kpis_v1: {
-        Args: Record<PropertyKey, never> | { p_days?: number; p_tenant: string }
-        Returns: Json
-      }
-      dev_ping_v1: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      dev_seed_employees_v1: {
-        Args:
-          | Record<PropertyKey, never>
-          | { p_count?: number; p_tenant: string }
-          | { p_tenant: string }
-        Returns: Json
-      }
-      dev_seed_osi_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      dev_seed_retention_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      final_security_check: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          check_category: string
-          next_action: string
-          remaining_issues: number
-          status: string
-        }[]
-      }
-      find_similar_chunks: {
-        Args: {
-          max_results?: number
-          query_embedding: number[]
-          similarity_threshold?: number
-          target_company_id?: string
-          target_module_key?: string
-        }
-        Returns: {
-          chunk_id: string
-          chunk_index: number
-          content: string
-          document_id: string
-          file_name: string
-          module_key: string
-          similarity_score: number
-        }[]
-      }
-      generate_api_key: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_comprehensive_employee_report: {
-        Args: { _company_id?: string; _filters?: Json; _report_name?: string }
-        Returns: string
-      }
-      geo_compute_case_v1: {
-        Args: { p_case_id: string }
-        Returns: undefined
       }
       get_activities_by_sector: {
         Args: { sector_code: string }
@@ -12923,17 +12443,6 @@ export type Database = {
           id: string
           name_ar: string
           name_en: string
-        }[]
-      }
-      get_automation_metrics_v1: {
-        Args: { p_days?: number; p_tenant_id: string }
-        Returns: {
-          automation_rate: number
-          avg_automation_score: number
-          daily_metrics: Json
-          successful_commands: number
-          top_automated_actions: string[]
-          total_commands: number
         }[]
       }
       get_cities_by_region: {
@@ -12946,124 +12455,8 @@ export type Database = {
           timezone: string
         }[]
       }
-      get_current_auth_uid: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      get_demo_tenant_id: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      get_employee_data_access_level: {
-        Args: { p_employee_id?: string }
-        Returns: string
-      }
-      get_gov_cron_status: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          active: boolean
-          command: string
-          database: string
-          jobid: number
-          jobname: string
-          nodename: string
-          nodeport: number
-          schedule: string
-          username: string
-        }[]
-      }
-      get_masked_medical_data: {
-        Args: { p_employee_id: string }
-        Returns: {
-          created_at: string
-          employee_id: string
-          examination_date: string
-          examination_type: string
-          fitness_status: string
-          follow_up_required: boolean
-          id: string
-          medical_provider: string
-          next_examination_date: string
-          recommendations: string
-          restrictions: string
-          updated_at: string
-        }[]
-      }
-      get_tenant_localization_prefs: {
-        Args: { p_tenant_id?: string }
-        Returns: {
-          currency_symbol: string
-          date_format: string
-          decimal_separator: string
-          default_calendar: string
-          default_language: string
-          module_calendar_prefs: Json
-          numeral_system: string
-          thousands_separator: string
-          time_format: string
-          timezone: string
-        }[]
-      }
-      get_tenant_plan: {
-        Args: { p_tenant_id?: string }
-        Returns: {
-          features: string[]
-          is_trial: boolean
-          plan_code: string
-          plan_name: string
-          price_mo: number
-          seats: number
-          trial_ends_at: string
-        }[]
-      }
-      get_user_company_id: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
       get_user_locale: {
         Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      get_user_role: {
-        Args: { _user_id: string }
-        Returns: string
-      }
-      get_user_subscription_tier: {
-        Args: { p_user_id?: string }
-        Returns: string
-      }
-      gov_get_changes_v1: {
-        Args: { p_limit?: number; p_tenant: string }
-        Returns: {
-          change_type: string
-          created_at: string
-          effective_date: string
-          id: string
-          processed: boolean
-          reference: string
-          system: string
-        }[]
-      }
-      gov_get_status_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          last_error: string
-          last_sync: string
-          status: string
-          system: string
-        }[]
-      }
-      gov_mark_change_processed_v1: {
-        Args: { p_change_id: string; p_tenant: string }
-        Returns: undefined
-      }
-      gov_queue_job_v1: {
-        Args: {
-          p_job: string
-          p_payload?: Json
-          p_system: string
-          p_tenant: string
-        }
         Returns: string
       }
       halfvec_avg: {
@@ -13082,28 +12475,6 @@ export type Database = {
         Args: { "": unknown[] }
         Returns: number
       }
-      has_active_trial: {
-        Args: { p_plan_code?: string; p_tenant_id: string }
-        Returns: boolean
-      }
-      has_entitlement: {
-        Args: { p_sku: string; p_tenant: string }
-        Returns: boolean
-      }
-      has_feature: {
-        Args: { p_feature_code: string; p_tenant_id: string }
-        Returns: boolean
-      }
-      has_role: {
-        Args:
-          | { _role: Database["public"]["Enums"]["app_role"]; _user_id: string }
-          | { _role: string; _user_id: string }
-        Returns: boolean
-      }
-      has_sku_access: {
-        Args: { p_sku_code: string; p_tenant_id: string }
-        Returns: boolean
-      }
       hnsw_bit_support: {
         Args: { "": unknown }
         Returns: unknown
@@ -13119,81 +12490,6 @@ export type Database = {
       hnswhandler: {
         Args: { "": unknown }
         Returns: unknown
-      }
-      hr_employees_count_v1: {
-        Args: { p_tenant: string }
-        Returns: number
-      }
-      hr_employees_list_v1: {
-        Args: {
-          p_department?: string
-          p_limit?: number
-          p_page?: number
-          p_search?: string
-          p_status?: string
-          p_tenant: string
-        }
-        Returns: {
-          department: string
-          email: string
-          employee_number: string
-          full_name: string
-          hire_date: string
-          id: string
-          iqama_number: string
-          is_saudi: boolean
-          phone: string
-          position: string
-          salary: number
-          status: string
-        }[]
-      }
-      hr_employment_status_values: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          status: string
-        }[]
-      }
-      hr_pick_active_status: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      hr_pick_exit_status: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      hr_valid_employment_status_v1: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      identify_security_issues: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          description: string
-          fix_command: string
-          issue_type: string
-          object_name: string
-          severity: string
-        }[]
-      }
-      integrations_overview_v2: {
-        Args: { p_tenant: string }
-        Returns: {
-          connected: number
-          integration_group: string
-          total: number
-        }[]
-      }
-      integrations_status_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          connected: number
-          total: number
-        }[]
-      }
-      is_pilot_user: {
-        Args: { feature_name?: string; user_uuid: string }
-        Returns: boolean
       }
       ivfflat_bit_support: {
         Args: { "": unknown }
@@ -13215,332 +12511,6 @@ export type Database = {
         Args: { "": string } | { "": unknown } | { "": unknown }
         Returns: string
       }
-      leo_compute_case_v1: {
-        Args: { p_case_id: string }
-        Returns: undefined
-      }
-      log_api_call: {
-        Args: {
-          p_api_key_id: string
-          p_endpoint: string
-          p_ip_address?: unknown
-          p_method: string
-          p_request_body?: Json
-          p_request_headers?: Json
-          p_response_status?: number
-          p_response_time_ms?: number
-          p_tenant_id: string
-          p_user_agent?: string
-        }
-        Returns: string
-      }
-      log_audit_event: {
-        Args: {
-          p_action: string
-          p_category?: string
-          p_company_id: string
-          p_new_values?: Json
-          p_old_values?: Json
-          p_record_id?: string
-          p_severity?: string
-          p_table_name: string
-          p_user_id: string
-        }
-        Returns: string
-      }
-      log_medical_access: {
-        Args: {
-          p_access_type: string
-          p_data_accessed?: Json
-          p_employee_id: string
-          p_justification?: string
-        }
-        Returns: undefined
-      }
-      osi_compute_case_v1: {
-        Args: { p_case_id: string }
-        Returns: undefined
-      }
-      osi_get_heatmap_v1: {
-        Args: { p_case_id: string; p_dim?: string }
-        Returns: {
-          cost_total: number
-          flags: string[]
-          headcount: number
-          label_ar: string
-          label_en: string
-          layers: number
-          saudization: number
-          span_avg: number
-        }[]
-      }
-      osi_get_layers_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          avg_salary: number
-          headcount: number
-          layer: number
-          saudi_headcount: number
-          saudization_rate: number
-          total_salary: number
-        }[]
-      }
-      osi_get_overview_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          critical_layers: number
-          highest_saudi_layer: number
-          layers_meeting_target: number
-          management_cost: number
-          span_outliers_high: number
-          span_outliers_low: number
-          total_layers: number
-        }[]
-      }
-      osi_get_settings_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          saudi_target: number
-          span_max: number
-          span_min: number
-        }[]
-      }
-      osi_get_span_outliers_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          direct_reports: number
-          full_name_ar: string
-          full_name_en: string
-          layer: number
-          manager_id: string
-          severity: string
-        }[]
-      }
-      osi_overview_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          critical_layers_below_target: number
-          highest_saudized_layer: number
-          layers: Json
-          total_layers: number
-        }[]
-      }
-      osi_refresh_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      osi_seed_demo_data_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      pdpl_redact: {
-        Args: { input_text: string }
-        Returns: string
-      }
-      purge_old_auth_email_events: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      refresh_cci_quality_stats: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      register_discovered_module: {
-        Args: {
-          p_metadata?: Json
-          p_module_category: string
-          p_module_name: string
-          p_module_path: string
-        }
-        Returns: string
-      }
-      register_translation_key: {
-        Args: {
-          p_arabic_text?: string
-          p_context?: string
-          p_english_text?: string
-          p_key: string
-          p_source_file: string
-          p_source_line?: number
-        }
-        Returns: string
-      }
-      retention_compute_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      retention_drivers_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          affected_count: number
-          driver_name: string
-          impact_score: number
-          recommendation: string
-          risk_level: string
-        }[]
-      }
-      retention_get_drivers_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          avg_impact: number
-          factor_name: string
-          frequency: number
-        }[]
-      }
-      retention_get_hotspots_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          avg_risk: number
-          department_id: string
-          dept_name_ar: string
-          dept_name_en: string
-          n: number
-          pct_high: number
-        }[]
-      }
-      retention_get_overview_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          avg_risk: number
-          pct_high: number
-          pct_low: number
-          pct_med: number
-          target_turnover: number
-          total_employees: number
-        }[]
-      }
-      retention_get_watchlist_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          band: string
-          dept_name_ar: string
-          dept_name_en: string
-          employee_id: string
-          employee_name_ar: string
-          employee_name_en: string
-          manager_name: string
-          risk_score: number
-          top_factors: Json
-        }[]
-      }
-      retention_overview_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          at_risk_count: number
-          avg_tenure_months: number
-          high_performers: number
-          retention_score: number
-          total_employees: number
-          turnover_rate: number
-        }[]
-      }
-      retention_seed_demo_v1: {
-        Args: { p_tenant: string }
-        Returns: undefined
-      }
-      retention_watchlist_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          department: string
-          employee_id: string
-          employee_name: string
-          recommended_action: string
-          risk_factors: string[]
-          risk_score: number
-        }[]
-      }
-      revoke_api_key: {
-        Args: { p_key_id: string }
-        Returns: boolean
-      }
-      rew_compute_case_v1: {
-        Args: { p_case_id: string }
-        Returns: undefined
-      }
-      rew_get_high_risk_managers_v1: {
-        Args: { p_case_id: string }
-        Returns: {
-          manager_id: string
-          manager_name: string
-          risk_factors: string[]
-          risk_score: number
-          team_size: number
-        }[]
-      }
-      rew_get_overview_v1: {
-        Args: { p_case_id: string }
-        Returns: Json
-      }
-      roi_backfill_snapshots_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: undefined
-      }
-      roi_emit_event: {
-        Args: {
-          p_event: string
-          p_meta?: Json
-          p_module?: string
-          p_qty?: number
-          p_ref?: string
-          p_tenant: string
-        }
-        Returns: undefined
-      }
-      roi_get_last30_v1: {
-        Args: { p_tenant: string }
-        Returns: Json
-      }
-      roi_get_trend_v1: {
-        Args: { p_days?: number; p_tenant: string }
-        Returns: {
-          autopilot_runs: number
-          d: string
-          docs: number
-          exports: number
-          hours_saved: number
-          letters: number
-          tasks: number
-        }[]
-      }
-      roi_snapshot_upsert_v1: {
-        Args: { p_date: string; p_tenant: string }
-        Returns: undefined
-      }
-      saudization_color_v1: {
-        Args: { p_tenant: string }
-        Returns: {
-          color: string
-          rate: number
-        }[]
-      }
-      security_fixes_summary: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          description: string
-          fix_phase: string
-          impact: string
-          items_fixed: number
-        }[]
-      }
-      security_status_report: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          category: string
-          issues_found: number
-          secure_items: number
-          security_score: number
-          total_items: number
-        }[]
-      }
-      simulate_gov_api_call: {
-        Args: {
-          p_endpoint: string
-          p_payload?: Json
-          p_system: string
-          p_tenant_id: string
-        }
-        Returns: Json
-      }
       sparsevec_out: {
         Args: { "": unknown }
         Returns: unknown
@@ -13552,119 +12522,6 @@ export type Database = {
       sparsevec_typmod_in: {
         Args: { "": unknown[] }
         Returns: number
-      }
-      start_trial: {
-        Args: {
-          p_plan_code: string
-          p_requested_by?: string
-          p_tenant_id: string
-        }
-        Returns: string
-      }
-      sync_tool_integration: {
-        Args: { p_action?: string; p_company_id: string; p_tool_name: string }
-        Returns: undefined
-      }
-      task_assign_v1: {
-        Args: {
-          p_owner_role?: string
-          p_owner_user_id?: string
-          p_task_id: string
-        }
-        Returns: boolean
-      }
-      task_complete_v1: {
-        Args: { p_completion_notes?: string; p_task_id: string }
-        Returns: boolean
-      }
-      task_create_v1: {
-        Args: {
-          p_description?: string
-          p_due_at?: string
-          p_metadata?: Json
-          p_module: string
-          p_owner_role?: string
-          p_owner_user_id?: string
-          p_priority?: string
-          p_tenant_id: string
-          p_title: string
-        }
-        Returns: string
-      }
-      task_list_v1: {
-        Args: {
-          p_limit?: number
-          p_module?: string
-          p_offset?: number
-          p_owner_user_id?: string
-          p_status?: string
-          p_tenant_id: string
-        }
-        Returns: {
-          closed_at: string
-          created_at: string
-          created_by: string
-          description: string
-          due_at: string
-          id: string
-          is_overdue: boolean
-          metadata: Json
-          module: string
-          owner_name: string
-          owner_role: string
-          owner_user_id: string
-          priority: string
-          status: string
-          title: string
-          updated_at: string
-        }[]
-      }
-      task_notify_v1: {
-        Args: {
-          p_channel?: string
-          p_message?: string
-          p_task_id: string
-          p_to_email?: string
-          p_to_user_id?: string
-        }
-        Returns: string
-      }
-      trigger_gov_sync_all_tenants: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      update_api_key_usage: {
-        Args: { p_api_key_id: string }
-        Returns: undefined
-      }
-      update_auth_security_compliance: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      update_localization_prefs: {
-        Args: { p_preferences: Json; p_tenant_id: string }
-        Returns: boolean
-      }
-      validate_api_key: {
-        Args: { p_api_key: string }
-        Returns: {
-          is_valid: boolean
-          key_id: string
-          scopes: string[]
-          tenant_id: string
-        }[]
-      }
-      validate_company_access: {
-        Args: { p_company_id: string }
-        Returns: boolean
-      }
-      validate_user_isolation: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          company_id: string
-          has_access: boolean
-          user_id: string
-        }[]
       }
       vector_avg: {
         Args: { "": number[] }
