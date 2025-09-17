@@ -117,6 +117,38 @@
         "dashboard": "Dashboard",
         "export": "Export Only"
       }
+    },
+    "predictiveModeling": {
+      "title": "Predictive Modeling",
+      "description": "AI-powered workforce predictions and forecasting",
+      "aiModels": "AI Models",
+      "predictions": "Predictions",
+      "forecasting": "Forecasting",
+      "modelTraining": "Model Training",
+      "deployModel": "Deploy Model",
+      "runPrediction": "Run Prediction",
+      "viewResults": "View Results",
+      "modelAccuracy": "Model Accuracy",
+      "predictionConfidence": "Prediction Confidence",
+      "metrics": {
+        "predictionAccuracy": "Prediction Accuracy",
+        "modelsDeployed": "Models Deployed",
+        "predictionsMade": "Predictions Made",
+        "businessValue": "Business Value"
+      },
+      "models": {
+        "turnoverPrediction": "Turnover Prediction",
+        "performanceForecast": "Performance Forecast",
+        "hiringDemand": "Hiring Demand",
+        "salaryOptimization": "Salary Optimization",
+        "skillsGapAnalysis": "Skills Gap Analysis"
+      },
+      "insights": {
+        "highRiskEmployees": "High Risk Employees",
+        "skillsShortage": "Skills Shortage",
+        "performanceDecline": "Performance Decline",
+        "costOptimization": "Cost Optimization"
+      }
     }
   }
 }

@@ -134,6 +134,38 @@
         "dashboard": "لوحة التحكم",
         "export": "التصدير فقط"
       }
+    },
+    "predictiveModeling": {
+      "title": "النمذجة التنبؤية",
+      "description": "التنبؤات المدعومة بالذكاء الاصطناعي وتوقعات القوى العاملة",
+      "aiModels": "نماذج الذكاء الاصطناعي",
+      "predictions": "التنبؤات",
+      "forecasting": "التنبؤ",
+      "modelTraining": "تدريب النموذج",
+      "deployModel": "نشر النموذج",
+      "runPrediction": "تشغيل التنبؤ",
+      "viewResults": "عرض النتائج",
+      "modelAccuracy": "دقة النموذج",
+      "predictionConfidence": "ثقة التنبؤ",
+      "metrics": {
+        "predictionAccuracy": "دقة التنبؤ",
+        "modelsDeployed": "النماذج المنشورة",
+        "predictionsMade": "التنبؤات المُنشأة",
+        "businessValue": "القيمة التجارية"
+      },
+      "models": {
+        "turnoverPrediction": "تنبؤ معدل الدوران",
+        "performanceForecast": "توقعات الأداء",
+        "hiringDemand": "طلب التوظيف",
+        "salaryOptimization": "تحسين الراتب",
+        "skillsGapAnalysis": "تحليل فجوة المهارات"
+      },
+      "insights": {
+        "highRiskEmployees": "الموظفون عالو المخاطر",
+        "skillsShortage": "نقص المهارات",
+        "performanceDecline": "تراجع الأداء",
+        "costOptimization": "تحسين التكاليف"
+      }
     }
   }
 }
