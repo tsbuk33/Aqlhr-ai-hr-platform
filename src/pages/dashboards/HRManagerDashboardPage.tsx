@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Users, TrendingUp, Calendar, Award, Clock, Target, FileText } from 'lucide-react';
 
-export const HRManagerDashboardPage: React.FC = () => {
+const HRManagerDashboardPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -127,3 +127,5 @@ export const HRManagerDashboardPage: React.FC = () => {
     </div>
   );
 };
+
+export default HRManagerDashboardPage;

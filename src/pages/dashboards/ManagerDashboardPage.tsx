@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Users, BarChart3, Calendar, CheckCircle, Clock, MessageSquare, Target } from 'lucide-react';
 
-export const ManagerDashboardPage: React.FC = () => {
+const ManagerDashboardPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -127,3 +127,5 @@ export const ManagerDashboardPage: React.FC = () => {
     </div>
   );
 };
+
+export default ManagerDashboardPage;

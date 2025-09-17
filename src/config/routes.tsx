@@ -411,17 +411,23 @@ export const ROUTES: RouteConfig[] = [
   // Core HR Extended Routes
   { path: '/core-hr/master-data', element: EmployeeMasterData, auth: true },
   { path: '/core-hr/benefits', element: Benefits, auth: true },
+  { path: '/core-hr/benefits-administration', element: BenefitsAdministration, auth: true },
   { path: '/core-hr/succession-planning', element: SuccessionPlanningCore, auth: true },
   { path: '/core-hr/compensation-management', element: CompensationManagementCore, auth: true },
   { path: '/core-hr/time-attendance', element: TimeAttendance, auth: true },
-  { path: '/core-hr/performance', element: PerformanceManagement, auth: true },
-  { path: '/core-hr/leave', element: LeaveManagement, auth: true },
-  { path: '/core-hr/training', element: TrainingDevelopment, auth: true },
-  { path: '/core-hr/recruitment', element: RecruitmentOnboarding, auth: true },
+  { path: '/core-hr/performance-management', element: PerformanceManagement, auth: true },
+  { path: '/core-hr/leave-management', element: LeaveManagement, auth: true },
+  { path: '/core-hr/training-development', element: TrainingDevelopment, auth: true },
+  { path: '/core-hr/recruitment-onboarding', element: RecruitmentOnboarding, auth: true },
   { path: '/core-hr/compensation', element: CompensationBenefits, auth: true },
   { path: '/core-hr/workflow', element: WorkflowAutomation, auth: true },
   { path: '/core-hr/mobile', element: MobileHR, auth: true },
   { path: '/core-hr/saudization', element: SaudizationCalculator, auth: true },
+  
+  // Manager Dashboard Routes
+  { path: '/dashboards/manager', element: lazy(() => import('../pages/dashboards/ManagerDashboardPage')), auth: true },
+  { path: '/dashboards/hr-manager', element: lazy(() => import('../pages/dashboards/HRManagerDashboardPage')), auth: true },
+  { path: '/self-service', element: SelfService, auth: true },
   { path: '/health-safety', element: HealthSafety, auth: true },
   { path: '/hse', element: HealthSafety, auth: true },
   
