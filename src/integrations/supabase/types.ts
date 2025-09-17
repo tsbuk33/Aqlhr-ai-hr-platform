@@ -12224,6 +12224,13 @@ export type Database = {
           },
         ]
       }
+      rls_coverage_report: {
+        Row: {
+          metric_name: string | null
+          metric_value: number | null
+        }
+        Relationships: []
+      }
       user_profiles_with_roles: {
         Row: {
           company_id: string | null
