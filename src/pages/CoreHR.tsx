@@ -7,6 +7,7 @@ import { AqlHRAIAssistant } from '@/components/ai';
 import { AITestDemo } from '@/components/AITestDemo';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { formatArabicNumber } from '@/lib/utils';
 import { 
   Users, 
   FileText, 
@@ -29,24 +30,24 @@ const CoreHR = () => {
   const stats = [
     {
       title: language === 'ar' ? 'الموظفون السعوديون' : 'Saudi Employees',
-      value: 1913,
+      value: language === 'ar' ? formatArabicNumber(1913, 'ar') : 1913,
       icon: Users,
       variant: "primary" as const,
-      trend: { value: "45 this quarter", isPositive: true }
+      trend: { value: language === 'ar' ? `${formatArabicNumber(45, 'ar')} هذا الربع` : "45 this quarter", isPositive: true }
     },
     {
       title: language === 'ar' ? 'حالة نطاقات' : 'Nitaqat Status',
       value: language === 'ar' ? 'أخضر' : 'Green',
       icon: Shield,
       variant: "success" as const,
-      trend: { value: "maintained", isPositive: true }
+      trend: { value: language === 'ar' ? 'مستقر' : "maintained", isPositive: true }
     },
     {
       title: language === 'ar' ? 'عقود قيوى نشطة' : 'Active Qiwa Contracts',
-      value: 2801,
+      value: language === 'ar' ? formatArabicNumber(2801, 'ar') : 2801,
       icon: Clock,
       variant: "accent" as const,
-      trend: { value: "23 pending", isPositive: true }
+      trend: { value: language === 'ar' ? `${formatArabicNumber(23, 'ar')} معلق` : "23 pending", isPositive: true }
     },
     {
       title: language === 'ar' ? 'امتثال قانون العمل' : 'Labor Law Compliance',
@@ -201,7 +202,7 @@ const CoreHR = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  ₹2.4M {isArabic ? 'معالج شهرياً' : 'processed monthly'}
+                  {isArabic ? `${formatArabicNumber(2.4, 'ar')} مليون ريال معالج شهرياً` : '₹2.4M processed monthly'}
                 </p>
               </CardContent>
             </Card>
@@ -218,7 +219,7 @@ const CoreHR = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  1,847 {isArabic ? 'مشترك نشط' : 'active enrollees'}
+                  {isArabic ? `${formatArabicNumber(1847, 'ar')} مشترك نشط` : '1,847 active enrollees'}
                 </p>
               </CardContent>
             </Card>
@@ -235,7 +236,7 @@ const CoreHR = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  2,456 {isArabic ? 'مراجعة مكتملة' : 'reviews completed'}
+                  {isArabic ? `${formatArabicNumber(2456, 'ar')} مراجعة مكتملة` : '2,456 reviews completed'}
                 </p>
               </CardContent>
             </Card>
