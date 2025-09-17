@@ -7,6 +7,7 @@ import AuthPage from '@/pages/AuthPage';
 import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
 import AqlHRLanding from '@/pages/AqlHRLanding';
+import SystemOverview from '@/pages/SystemOverview';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
@@ -66,7 +67,7 @@ export default function AppRoutes() {
         {/* Root landing page */}
         <Route index element={
           <CenteredLayout>
-            <AqlHRLanding />
+            <SystemOverview />
           </CenteredLayout>
         } />
 
