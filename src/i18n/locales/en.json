@@ -83,6 +83,41 @@
     "export": "Export",
     "import": "Import",
     "refresh": "Refresh"
+  },
+  "analytics": {
+    "customReporting": {
+      "title": "Custom Reporting",
+      "description": "Flexible report builder and custom analytics",
+      "reportBuilder": "Report Builder",
+      "createReport": "Create New Report",
+      "saveReport": "Save Report",
+      "exportReport": "Export Report",
+      "reportType": "Report Type",
+      "dateRange": "Date Range",
+      "filters": "Filters",
+      "visualization": "Visualization",
+      "reportName": "Report Name",
+      "reportDescription": "Report Description",
+      "metrics": {
+        "totalReports": "Total Reports",
+        "savedTemplates": "Saved Templates", 
+        "reportsGenerated": "Reports Generated",
+        "avgGenerationTime": "Avg Generation Time"
+      },
+      "types": {
+        "workforce": "Workforce Analytics",
+        "financial": "Financial Analysis",
+        "performance": "Performance Review",
+        "compliance": "Compliance Report",
+        "custom": "Custom Query"
+      },
+      "visualizations": {
+        "table": "Data Table",
+        "chart": "Chart View",
+        "dashboard": "Dashboard",
+        "export": "Export Only"
+      }
+    }
   }
 }
 

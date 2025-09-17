@@ -100,6 +100,41 @@
     "export": "تصدير",
     "import": "استيراد",
     "refresh": "تحديث"
+  },
+  "analytics": {
+    "customReporting": {
+      "title": "التقارير المخصصة",
+      "description": "منشئ التقارير المرن والتحليلات المخصصة",
+      "reportBuilder": "منشئ التقارير",
+      "createReport": "إنشاء تقرير جديد",
+      "saveReport": "حفظ التقرير",
+      "exportReport": "تصدير التقرير",
+      "reportType": "نوع التقرير",
+      "dateRange": "نطاق التاريخ",
+      "filters": "المرشحات",
+      "visualization": "التصور",
+      "reportName": "اسم التقرير",
+      "reportDescription": "وصف التقرير",
+      "metrics": {
+        "totalReports": "إجمالي التقارير",
+        "savedTemplates": "القوالب المحفوظة",
+        "reportsGenerated": "التقارير المُنشأة",
+        "avgGenerationTime": "متوسط وقت الإنشاء"
+      },
+      "types": {
+        "workforce": "تحليلات القوى العاملة",
+        "financial": "التحليل المالي",
+        "performance": "مراجعة الأداء",
+        "compliance": "تقرير الامتثال",
+        "custom": "استعلام مخصص"
+      },
+      "visualizations": {
+        "table": "جدول البيانات",
+        "chart": "عرض الرسم البياني",
+        "dashboard": "لوحة التحكم",
+        "export": "التصدير فقط"
+      }
+    }
   }
 }
 
