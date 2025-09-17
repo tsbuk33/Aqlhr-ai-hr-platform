@@ -59,7 +59,7 @@ const APIKeyManager: React.FC = () => {
       if (!companyId) throw new Error('No company ID');
 
       const { data, error } = await supabase
-        .rpc('api_create_key_v1', {
+        .rpc('api_create_key_v1' as any, {
           p_tenant_id: companyId,
           p_name: name,
           p_scopes: scopes

@@ -42,7 +42,7 @@ const GovernmentIntegrations: React.FC = () => {
       if (!companyId) return [];
 
       const { data, error } = await supabase
-        .rpc('gov_get_status_v1', { p_tenant: companyId });
+        .rpc('gov_get_status_v1' as any, { p_tenant: companyId });
 
       if (error) throw error;
       return data as GovAdapter[];

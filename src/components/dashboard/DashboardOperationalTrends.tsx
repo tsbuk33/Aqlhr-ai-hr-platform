@@ -9,6 +9,7 @@ export function DashboardOperationalTrends() {
   const { series, loading, error } = useDashboardTrends(365);
 
   const chartData = useMemo(() => {
+    if (!Array.isArray(series)) return [];
     return series.map(item => ({
       date: new Date(item.d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       saudization: item.saudization_rate,

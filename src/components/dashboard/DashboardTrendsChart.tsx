@@ -12,6 +12,7 @@ export function DashboardTrendsChart() {
   const { t } = useAPITranslations();
 
   const chartData = useMemo(() => {
+    if (!Array.isArray(series)) return [];
     return series.map(item => ({
       date: new Date(item.d).toLocaleDateString('en-US', { 
         month: 'short', 
@@ -101,7 +102,7 @@ export function DashboardTrendsChart() {
             </CardDescription>
           </div>
           <div className="flex gap-2">
-            {series.length === 0 && (
+            {(!Array.isArray(series) || series.length === 0) && (
               <Button onClick={handleBackfill} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
                 Generate Sample Data

@@ -49,7 +49,7 @@ export const useCCIOverview = (tenantId: string, surveyId: string, waveId: strin
       setLoading(true);
       setError(null);
 
-      const { data: overviewData, error } = await supabase.rpc('cci_get_overview_v1', {
+      const { data: overviewData, error } = await supabase.rpc('cci_get_overview_v1' as any, {
         p_tenant: tenantId,
         p_survey: surveyId,
         p_wave: waveId
@@ -66,7 +66,7 @@ export const useCCIOverview = (tenantId: string, surveyId: string, waveId: strin
         return;
       }
 
-      if (overviewData && overviewData.length > 0) {
+      if (overviewData && Array.isArray(overviewData) && overviewData.length > 0) {
         const rawData = overviewData[0] as CCIOverviewRawData;
         setData({
           balance_score: rawData.balance_score,
@@ -96,7 +96,7 @@ export const useCCIOverview = (tenantId: string, surveyId: string, waveId: strin
 
   const computeScores = async () => {
     try {
-      const { error } = await supabase.rpc('cci_compute_scores_v1', {
+      const { error } = await supabase.rpc('cci_compute_scores_v1' as any, {
         p_tenant: tenantId,
         p_survey: surveyId,
         p_wave: waveId

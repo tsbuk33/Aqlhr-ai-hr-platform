@@ -14,7 +14,7 @@ export const useAutomationMetrics = (tenantId: string, days: number = 30) => {
   return useQuery({
     queryKey: ['automation-metrics', tenantId, days],
     queryFn: async (): Promise<AutomationMetrics> => {
-      const { data, error } = await supabase.rpc('get_automation_metrics_v1', {
+      const { data, error } = await supabase.rpc('get_automation_metrics_v1' as any, {
         p_tenant_id: tenantId,
         p_days: days
       });
@@ -24,7 +24,7 @@ export const useAutomationMetrics = (tenantId: string, days: number = 30) => {
         throw error;
       }
 
-      if (!data || data.length === 0) {
+      if (!data || !Array.isArray(data) || data.length === 0) {
         return {
           total_commands: 0,
           successful_commands: 0,

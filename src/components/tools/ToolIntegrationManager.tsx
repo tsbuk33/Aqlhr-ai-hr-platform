@@ -112,7 +112,7 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
       if (updateError) throw updateError;
 
       // Call sync function
-      const { error: syncError } = await supabase.rpc('sync_tool_integration', {
+      const { error: syncError } = await supabase.rpc('sync_tool_integration' as any, {
         p_company_id: companyId,
         p_tool_name: toolName,
         p_action: !currentStatus ? 'enable' : 'disable'
@@ -158,7 +158,7 @@ const ToolIntegrationManager: React.FC<ToolIntegrationManagerProps> = ({ company
       const enabledTools = integrations.filter(i => i.is_enabled);
       
       for (const tool of enabledTools) {
-        await supabase.rpc('sync_tool_integration', {
+        await supabase.rpc('sync_tool_integration' as any, {
           p_company_id: companyId,
           p_tool_name: tool.tool_name,
           p_action: 'sync'

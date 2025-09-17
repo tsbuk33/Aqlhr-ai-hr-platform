@@ -44,9 +44,9 @@ export function OwnerBootstrapGuide() {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.rpc('bootstrap_current_user_as_owner', {
-        p_company_id: companyId || null
-      });
+        const { data, error } = await supabase.rpc('bootstrap_current_user_as_owner' as any, {
+          p_company_id: companyId || null
+        });
 
       if (error) {
         if (error.message.includes('disabled in production')) {

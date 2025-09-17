@@ -26,7 +26,7 @@ export class RootErrorBoundary extends Component<Props, State> {
     try {
       const tenantId = await getTenantIdOrDemo();
       await supabase.from('ui_events').insert({
-        tenant_id: tenantId,
+        tenant_id: tenantId as string,
         event_type: 'error',
         level: 'error',
         page: window.location.pathname,

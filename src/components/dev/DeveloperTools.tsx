@@ -64,10 +64,10 @@ export const DeveloperTools: React.FC<DeveloperToolsProps> = ({ onRefresh, backf
 
   const getDemoTenantInfo = async () => {
     try {
-      const { data } = await supabase.rpc('get_demo_tenant_id');
-      if (data) {
-        setTenantId(data);
-      }
+        const { data } = await supabase.rpc('get_demo_tenant_id' as any);
+        if (data) {
+          setTenantId(data as string);
+        }
     } catch (error) {
       console.error('Error getting demo tenant:', error);
     }

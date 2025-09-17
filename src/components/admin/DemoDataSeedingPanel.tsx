@@ -143,7 +143,7 @@ export const DemoDataSeedingPanel: React.FC = () => {
       // Auto-run "Recompute KPIs Today" after seeding
       try {
         const today = new Date().toISOString().split('T')[0];
-        await supabase.rpc('dev_backfill_kpis_v1', {
+        await supabase.rpc('dev_backfill_kpis_v1' as any, {
           p_tenant: tenantId,
           p_days: 1
         });

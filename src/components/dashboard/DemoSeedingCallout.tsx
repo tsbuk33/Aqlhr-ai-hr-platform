@@ -35,7 +35,7 @@ export function DemoSeedingCallout({ onSeedingComplete }: DemoSeedingCalloutProp
       }
 
       // Seed retention exits idempotently for the same tenant
-      const { error: retentionError } = await supabase.rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+      const { error: retentionError } = await supabase.rpc('dev_seed_retention_v1' as any, { p_tenant: tenantId });
       if (retentionError) console.warn('Retention seeding warning:', retentionError.message);
 
       localStorage.setItem(`aqlhr.demoSeeded:${tenantId}`, '1');

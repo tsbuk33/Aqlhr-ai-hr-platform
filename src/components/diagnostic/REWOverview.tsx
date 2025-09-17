@@ -38,7 +38,7 @@ const REWOverview = ({ caseId }: REWOverviewProps) => {
   const fetchREWData = async () => {
     try {
       setLoading(true);
-      const { data: rewData, error } = await supabase.rpc('rew_get_overview_v1', {
+      const { data: rewData, error } = await supabase.rpc('rew_get_overview_v1' as any, {
         p_case_id: caseId
       });
 
