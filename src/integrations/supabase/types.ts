@@ -10016,6 +10016,45 @@ export type Database = {
         }
         Relationships: []
       }
+      security_exceptions: {
+        Row: {
+          approved_by: string | null
+          created_at: string | null
+          exception_type: string
+          function_name: string
+          id: string
+          justification: string
+          reviewed_by: string | null
+          schema_name: string
+          security_review_date: string
+          updated_at: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string | null
+          exception_type?: string
+          function_name: string
+          id?: string
+          justification: string
+          reviewed_by?: string | null
+          schema_name?: string
+          security_review_date?: string
+          updated_at?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string | null
+          exception_type?: string
+          function_name?: string
+          id?: string
+          justification?: string
+          reviewed_by?: string | null
+          schema_name?: string
+          security_review_date?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       share_links: {
         Row: {
           created_at: string | null
