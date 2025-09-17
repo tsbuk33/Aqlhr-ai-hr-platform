@@ -63,28 +63,84 @@ const CoreHR = () => {
       description: language === 'ar' ? 'إدارة شاملة لمعلومات الموظفين' : 'Comprehensive employee information management',
       icon: Database,
       color: "bg-blue-500",
-      onClick: () => console.log('Navigate to employee master data')
+      onClick: () => window.location.href = `/core-hr/master-data`
     },
     {
-      title: language === 'ar' ? 'الوقت والحضور' : 'Time & Attendance',
-      description: language === 'ar' ? 'تتبع الحضور والإجازات' : 'Track attendance and leave',
-      icon: Clock,
-      color: "bg-green-500",
-      onClick: () => console.log('Navigate to time attendance')
+      title: language === 'ar' ? 'معالجة الرواتب' : 'Payroll Processing',
+      description: language === 'ar' ? 'معالجة وإدارة الرواتب' : 'Process and manage payroll',
+      icon: FileText,
+      color: "bg-emerald-500",
+      onClick: () => window.location.href = `/payroll`
+    },
+    {
+      title: language === 'ar' ? 'إدارة المزايا' : 'Benefits Administration',
+      description: language === 'ar' ? 'إدارة مزايا الموظفين' : 'Manage employee benefits',
+      icon: Award,
+      color: "bg-indigo-500",
+      onClick: () => window.location.href = `/core-hr/benefits-administration`
     },
     {
       title: language === 'ar' ? 'إدارة الأداء' : 'Performance Management',
       description: language === 'ar' ? 'تقييمات ومراجعات الأداء' : 'Performance reviews and evaluations',
       icon: Star,
       color: "bg-purple-500",
-      onClick: () => console.log('Navigate to performance')
+      onClick: () => window.location.href = `/core-hr/performance-management`
+    },
+    {
+      title: language === 'ar' ? 'التوظيف والإلحاق' : 'Recruitment & Hiring',
+      description: language === 'ar' ? 'عمليات التوظيف والإلحاق' : 'Recruitment and onboarding processes',
+      icon: UserCheck,
+      color: "bg-cyan-500",
+      onClick: () => window.location.href = `/core-hr/recruitment-onboarding`
+    },
+    {
+      title: language === 'ar' ? 'التدريب والتطوير' : 'Training & Development',
+      description: language === 'ar' ? 'برامج التدريب والتطوير' : 'Training and development programs',
+      icon: Users,
+      color: "bg-orange-500",
+      onClick: () => window.location.href = `/core-hr/training-development`
+    },
+    {
+      title: language === 'ar' ? 'الوقت والحضور' : 'Time & Attendance',
+      description: language === 'ar' ? 'تتبع الحضور والإجازات' : 'Track attendance and leave',
+      icon: Clock,
+      color: "bg-green-500",
+      onClick: () => window.location.href = `/core-hr/time-attendance`
+    },
+    {
+      title: language === 'ar' ? 'إدارة الإجازات' : 'Leave Management',
+      description: language === 'ar' ? 'إدارة طلبات الإجازات' : 'Manage leave requests',
+      icon: Calendar,
+      color: "bg-rose-500",
+      onClick: () => window.location.href = `/core-hr/leave-management`
+    },
+    {
+      title: language === 'ar' ? 'تخطيط التعاقب' : 'Succession Planning',
+      description: language === 'ar' ? 'تخطيط التعاقب الوظيفي' : 'Career succession planning',
+      icon: TrendingUp,
+      color: "bg-violet-500",
+      onClick: () => window.location.href = `/core-hr/succession-planning`
+    },
+    {
+      title: language === 'ar' ? 'إدارة التعويضات' : 'Compensation Management',
+      description: language === 'ar' ? 'إدارة التعويضات والأجور' : 'Manage compensation and wages',
+      icon: Database,
+      color: "bg-amber-500",
+      onClick: () => window.location.href = `/core-hr/compensation-management`
     },
     {
       title: language === 'ar' ? 'الخدمة الذاتية للموظفين' : 'Employee Self Service',
       description: language === 'ar' ? 'خدمات ذاتية للموظفين' : 'Self-service portal for employees',
       icon: UserCheck,
-      color: "bg-orange-500",
-      onClick: () => console.log('Navigate to self service')
+      color: "bg-teal-500",
+      onClick: () => window.location.href = `/self-service`
+    },
+    {
+      title: language === 'ar' ? 'لوحة تحكم المدير' : 'Manager Dashboard',
+      description: language === 'ar' ? 'لوحة تحكم إدارية للمدراء' : 'Management dashboard for managers',
+      icon: Settings,
+      color: "bg-slate-500",
+      onClick: () => window.location.href = `/dashboards/manager`
     }
   ];
 
@@ -115,8 +171,8 @@ const CoreHR = () => {
       label: language === 'ar' ? 'الوحدات' : 'Modules',
       content: (
         <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="hover:shadow-md transition-shadow">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/master-data`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Database className="h-5 w-5 text-primary" />
@@ -133,61 +189,95 @@ const CoreHR = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/payroll`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Building className="h-5 w-5 text-success" />
-                  {isArabic ? 'الهيكل التنظيمي' : 'Organizational Structure'}
+                  <FileText className="h-5 w-5 text-success" />
+                  {isArabic ? 'معالجة الرواتب' : 'Payroll Processing'}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'إدارة الأقسام والمستويات الإدارية' : 'Manage departments and management levels'}
+                  {isArabic ? 'معالجة وإدارة الرواتب والمكافآت' : 'Process and manage payroll and bonuses'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  67% {isArabic ? 'معدل السعودة' : 'Saudization rate'}
+                  ₹2.4M {isArabic ? 'معالج شهرياً' : 'processed monthly'}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/benefits-administration`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <UserCheck className="h-5 w-5 text-accent" />
-                  {isArabic ? 'الخدمة الذاتية للموظفين' : 'Employee Self Service'}
+                  <Award className="h-5 w-5 text-accent" />
+                  {isArabic ? 'إدارة المزايا' : 'Benefits Administration'}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'بوابة ذاتية للموظفين لإدارة بياناتهم' : 'Self-service portal for employees to manage their data'}
+                  {isArabic ? 'إدارة مزايا وتأمينات الموظفين' : 'Manage employee benefits and insurance'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  1,847 {isArabic ? 'مستخدم نشط' : 'active users'}
+                  1,847 {isArabic ? 'مشترك نشط' : 'active enrollees'}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/performance-management`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <FileText className="h-5 w-5 text-warning" />
-                  {isArabic ? 'إدارة الوثائق' : 'Document Management'}
+                  <Star className="h-5 w-5 text-warning" />
+                  {isArabic ? 'إدارة الأداء' : 'Performance Management'}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'إدارة وتنظيم الوثائق الرقمية' : 'Digital document management and organization'}
+                  {isArabic ? 'تقييمات ومراجعات الأداء الدورية' : 'Performance reviews and evaluations'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  15,678 {isArabic ? 'وثيقة معالجة' : 'documents processed'}
+                  2,456 {isArabic ? 'مراجعة مكتملة' : 'reviews completed'}
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/recruitment-onboarding`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-secondary" />
+                  <UserCheck className="h-5 w-5 text-secondary" />
+                  {isArabic ? 'التوظيف والإلحاق' : 'Recruitment & Hiring'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'عمليات التوظيف والإلحاق الجديد' : 'Recruitment and onboarding processes'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  156 {isArabic ? 'مرشح نشط' : 'active candidates'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/training-development`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  {isArabic ? 'التدريب والتطوير' : 'Training & Development'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'برامج التدريب وتطوير المهارات' : 'Training programs and skill development'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  89% {isArabic ? 'معدل الإكمال' : 'completion rate'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/time-attendance`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-success" />
                   {isArabic ? 'الوقت والحضور' : 'Time & Attendance'}
                 </CardTitle>
                 <CardDescription>
@@ -201,19 +291,87 @@ const CoreHR = () => {
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-md transition-shadow">
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/leave-management`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-primary" />
-                  {isArabic ? 'إدارة الأداء' : 'Performance Management'}
+                  <Calendar className="h-5 w-5 text-accent" />
+                  {isArabic ? 'إدارة الإجازات' : 'Leave Management'}
                 </CardTitle>
                 <CardDescription>
-                  {isArabic ? 'تقييمات ومراجعات الأداء الدورية' : 'Performance reviews and evaluations'}
+                  {isArabic ? 'إدارة طلبات وأرصدة الإجازات' : 'Manage leave requests and balances'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  2,456 {isArabic ? 'مراجعة مكتملة' : 'reviews completed'}
+                  234 {isArabic ? 'طلب معلق' : 'pending requests'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/succession-planning`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-warning" />
+                  {isArabic ? 'تخطيط التعاقب' : 'Succession Planning'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'تخطيط التعاقب الوظيفي والمهني' : 'Career succession and planning'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  67% {isArabic ? 'تغطية المناصب' : 'position coverage'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/core-hr/compensation-management`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5 text-secondary" />
+                  {isArabic ? 'إدارة التعويضات' : 'Compensation Management'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'إدارة التعويضات والهياكل الوظيفية' : 'Manage compensation and job structures'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  ₹18.2M {isArabic ? 'إجمالي التعويضات' : 'total compensation'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/self-service`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <UserCheck className="h-5 w-5 text-primary" />
+                  {isArabic ? 'الخدمة الذاتية للموظفين' : 'Employee Self Service'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'بوابة ذاتية للموظفين لإدارة بياناتهم' : 'Self-service portal for employees'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  1,847 {isArabic ? 'مستخدم نشط' : 'active users'}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => window.location.href = `/dashboards/manager`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-accent" />
+                  {isArabic ? 'لوحة تحكم المدير' : 'Manager Dashboard'}
+                </CardTitle>
+                <CardDescription>
+                  {isArabic ? 'لوحة تحكم إدارية للمدراء والمشرفين' : 'Management dashboard for managers and supervisors'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">
+                  43 {isArabic ? 'مدير نشط' : 'active managers'}
                 </p>
               </CardContent>
             </Card>
