@@ -187,6 +187,82 @@
         "yearly": "Yearly",
         "realtime": "Real-time"
       }
+    },
+    "complianceReporting": {
+      "title": "Compliance Reporting",
+      "description": "Automated compliance tracking and reporting",
+      "complianceMonitor": "Compliance Monitor",
+      "regulatoryTracking": "Regulatory Tracking",
+      "riskAssessment": "Risk Assessment",
+      "auditTrail": "Audit Trail",
+      "generateCompliance": "Generate Compliance Report",
+      "scheduleAudit": "Schedule Audit",
+      "exportCompliance": "Export Compliance Report",
+      "complianceOverview": "Compliance Overview",
+      "regulatoryFramework": "Regulatory Framework",
+      "metrics": {
+        "complianceScore": "Compliance Score",
+        "reportsGenerated": "Reports Generated",
+        "violationsPrevented": "Violations Prevented",
+        "costAvoidance": "Cost Avoidance"
+      },
+      "regulations": {
+        "laborLaw": "Labor Law",
+        "dataProtection": "Data Protection",
+        "healthSafety": "Health & Safety",
+        "financialReporting": "Financial Reporting",
+        "environmentalCompliance": "Environmental Compliance"
+      },
+      "status": {
+        "compliant": "Compliant",
+        "warning": "Warning",
+        "nonCompliant": "Non-Compliant",
+        "pending": "Pending"
+      },
+      "actions": {
+        "investigate": "Investigate",
+        "remediate": "Remediate",
+        "monitor": "Monitor",
+        "escalate": "Escalate"
+      }
+    },
+    "complianceReporting": {
+      "title": "Compliance Reporting",
+      "description": "Automated compliance tracking and reporting",
+      "complianceMonitor": "Compliance Monitor",
+      "regulatoryTracking": "Regulatory Tracking",
+      "riskAssessment": "Risk Assessment",
+      "auditTrail": "Audit Trail",
+      "generateCompliance": "Generate Compliance Report",
+      "scheduleAudit": "Schedule Audit",
+      "exportCompliance": "Export Compliance Report",
+      "complianceOverview": "Compliance Overview",
+      "regulatoryFramework": "Regulatory Framework",
+      "metrics": {
+        "complianceScore": "Compliance Score",
+        "reportsGenerated": "Reports Generated",
+        "violationsPrevented": "Violations Prevented",
+        "costAvoidance": "Cost Avoidance"
+      },
+      "regulations": {
+        "laborLaw": "Labor Law",
+        "dataProtection": "Data Protection",
+        "healthSafety": "Health & Safety",
+        "financialReporting": "Financial Reporting",
+        "environmentalCompliance": "Environmental Compliance"
+      },
+      "status": {
+        "compliant": "Compliant",
+        "warning": "Warning",
+        "nonCompliant": "Non-Compliant",
+        "pending": "Pending"
+      },
+      "actions": {
+        "investigate": "Investigate",
+        "remediate": "Remediate",
+        "monitor": "Monitor",
+        "escalate": "Escalate"
+      }
     }
   }
 }

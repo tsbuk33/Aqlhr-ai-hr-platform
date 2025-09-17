@@ -204,6 +204,44 @@
         "yearly": "سنوي",
         "realtime": "في الوقت الفعلي"
       }
+    },
+    "complianceReporting": {
+      "title": "تقارير الامتثال",
+      "description": "تتبع الامتثال الآلي والتقارير التنظيمية",
+      "complianceMonitor": "مراقب الامتثال",
+      "regulatoryTracking": "تتبع التنظيمات",
+      "riskAssessment": "تقييم المخاطر",
+      "auditTrail": "مسار التدقيق",
+      "generateCompliance": "إنشاء تقرير امتثال",
+      "scheduleAudit": "جدولة التدقيق",
+      "exportCompliance": "تصدير تقرير الامتثال",
+      "complianceOverview": "نظرة عامة على الامتثال",
+      "regulatoryFramework": "الإطار التنظيمي",
+      "metrics": {
+        "complianceScore": "نقاط الامتثال",
+        "reportsGenerated": "التقارير المُنشأة",
+        "violationsPrevented": "الانتهاكات المنعة",
+        "costAvoidance": "تجنب التكاليف"
+      },
+      "regulations": {
+        "laborLaw": "قانون العمل",
+        "dataProtection": "حماية البيانات",
+        "healthSafety": "الصحة والسلامة",
+        "financialReporting": "التقارير المالية",
+        "environmentalCompliance": "الامتثال البيئي"
+      },
+      "status": {
+        "compliant": "متوافق",
+        "warning": "تحذير",
+        "nonCompliant": "غير متوافق",
+        "pending": "في الانتظار"
+      },
+      "actions": {
+        "investigate": "تحقيق",
+        "remediate": "إصلاح",
+        "monitor": "مراقبة",
+        "escalate": "تصعيد"
+      }
     }
   }
 }
