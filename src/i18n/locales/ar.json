@@ -242,6 +242,44 @@
         "monitor": "مراقبة",
         "escalate": "تصعيد"
       }
+    },
+    "costAnalytics": {
+      "title": "تحليلات التكاليف",
+      "description": "تحليل تكاليف الموارد البشرية ورؤى التحسين",
+      "costOptimization": "تحسين التكاليف",
+      "budgetTracking": "تتبع الميزانية",
+      "roiAnalysis": "تحليل العائد على الاستثمار",
+      "costForecasting": "توقعات التكاليف",
+      "generateCostReport": "إنشاء تقرير التكاليف",
+      "exportAnalysis": "تصدير التحليل",
+      "costBreakdown": "تفصيل التكاليف",
+      "budgetOverview": "نظرة عامة على الميزانية",
+      "metrics": {
+        "costPerEmployee": "التكلفة لكل موظف",
+        "costPerHire": "تكلفة التوظيف",
+        "costSavings": "وفورات التكاليف",
+        "roiAchievement": "تحقيق العائد على الاستثمار"
+      },
+      "categories": {
+        "salaryBenefits": "الراتب والمزايا",
+        "recruitment": "التوظيف",
+        "training": "التدريب والتطوير",
+        "infrastructure": "البنية التحتية",
+        "technology": "التكنولوجيا والأنظمة",
+        "compliance": "الامتثال والقانونية"
+      },
+      "insights": {
+        "costOptimization": "فرص تحسين التكاليف",
+        "budgetVariance": "تحليل تباين الميزانية",
+        "roiTrends": "اتجاهات العائد على الاستثمار",
+        "benchmarking": "المقارنة المرجعية للصناعة"
+      },
+      "actions": {
+        "optimize": "تحسين",
+        "reallocate": "إعادة توزيع",
+        "monitor": "مراقبة",
+        "approve": "موافقة"
+      }
     }
   }
 }

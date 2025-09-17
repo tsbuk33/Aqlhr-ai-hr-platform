@@ -226,42 +226,42 @@
         "escalate": "Escalate"
       }
     },
-    "complianceReporting": {
-      "title": "Compliance Reporting",
-      "description": "Automated compliance tracking and reporting",
-      "complianceMonitor": "Compliance Monitor",
-      "regulatoryTracking": "Regulatory Tracking",
-      "riskAssessment": "Risk Assessment",
-      "auditTrail": "Audit Trail",
-      "generateCompliance": "Generate Compliance Report",
-      "scheduleAudit": "Schedule Audit",
-      "exportCompliance": "Export Compliance Report",
-      "complianceOverview": "Compliance Overview",
-      "regulatoryFramework": "Regulatory Framework",
+    "costAnalytics": {
+      "title": "Cost Analytics",
+      "description": "HR cost analysis and optimization insights",
+      "costOptimization": "Cost Optimization",
+      "budgetTracking": "Budget Tracking",
+      "roiAnalysis": "ROI Analysis",
+      "costForecasting": "Cost Forecasting",
+      "generateCostReport": "Generate Cost Report",
+      "exportAnalysis": "Export Analysis",
+      "costBreakdown": "Cost Breakdown",
+      "budgetOverview": "Budget Overview",
       "metrics": {
-        "complianceScore": "Compliance Score",
-        "reportsGenerated": "Reports Generated",
-        "violationsPrevented": "Violations Prevented",
-        "costAvoidance": "Cost Avoidance"
+        "costPerEmployee": "Cost per Employee",
+        "costPerHire": "Cost per Hire",
+        "costSavings": "Cost Savings",
+        "roiAchievement": "ROI Achievement"
       },
-      "regulations": {
-        "laborLaw": "Labor Law",
-        "dataProtection": "Data Protection",
-        "healthSafety": "Health & Safety",
-        "financialReporting": "Financial Reporting",
-        "environmentalCompliance": "Environmental Compliance"
+      "categories": {
+        "salaryBenefits": "Salary & Benefits",
+        "recruitment": "Recruitment",
+        "training": "Training & Development",
+        "infrastructure": "Infrastructure",
+        "technology": "Technology & Systems",
+        "compliance": "Compliance & Legal"
       },
-      "status": {
-        "compliant": "Compliant",
-        "warning": "Warning",
-        "nonCompliant": "Non-Compliant",
-        "pending": "Pending"
+      "insights": {
+        "costOptimization": "Cost Optimization Opportunities",
+        "budgetVariance": "Budget Variance Analysis",
+        "roiTrends": "ROI Trends",
+        "benchmarking": "Industry Benchmarking"
       },
       "actions": {
-        "investigate": "Investigate",
-        "remediate": "Remediate",
+        "optimize": "Optimize",
+        "reallocate": "Reallocate",
         "monitor": "Monitor",
-        "escalate": "Escalate"
+        "approve": "Approve"
       }
     }
   }
