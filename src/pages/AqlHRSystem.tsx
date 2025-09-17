@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Building2, Users, BarChart3, Shield, Zap, TrendingUp, 
+  Building2, Users, BarChart3, Target, Shield, Zap, TrendingUp, 
   Clock, Award, Brain, Cog, Database, Globe, Workflow
 } from 'lucide-react';
 import { LinkL } from '@/lib/i18n/LinkL';
@@ -118,20 +119,54 @@ export default function AqlHRSystem() {
     { valueEn: '99.9%', valueAr: '٩٩.٩٪', labelEn: 'Uptime', labelAr: 'وقت التشغيل' }
   ];
 
+  const executiveCards = [
+    {
+      title: isArabic ? 'التحليلات التنفيذية' : 'Executive Analytics',
+      subtitle: isArabic ? 'رؤى متقدمة للقيادة العليا' : 'Advanced insights for senior leadership',
+      icon: BarChart3
+    },
+    {
+      title: isArabic ? 'الذكاء الاصطناعي المتقدم' : 'Advanced AI',
+      subtitle: isArabic ? 'تحليلات ذكية وتوصيات فورية' : 'Smart analytics and real-time recommendations',
+      icon: Brain
+    },
+    {
+      title: isArabic ? 'دعم اتخاذ القرارات' : 'Decision Support',
+      subtitle: isArabic ? 'دعم استراتيجي لاتخاذ القرارات' : 'Strategic decision-making support',
+      icon: Target
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground" dir={isArabic ? 'rtl' : 'ltr'}>
       <div className="aqlhr-center-container">
-        {/* Header Section */}
-        <section className="aqlhr-page-header">
-          <h1 className="aqlhr-page-title">
-            {isArabic ? 'نظام AqlHR الشامل' : 'AqlHR Comprehensive System'}
+        {/* Executive Intelligence Center - Boxed Hero */}
+        <section className="bg-card border rounded-2xl p-8 shadow-sm">
+          <div className="text-center mb-4">
+            <Badge variant="secondary" className="uppercase tracking-wide">
+              {isArabic ? 'مميز' : 'PREMIUM'}
+            </Badge>
+          </div>
+          <h1 className="text-4xl font-bold text-center">
+            {isArabic ? 'مركز الذكاء التنفيذي عقل HR' : 'AqlHR Executive Intelligence Center'}
           </h1>
-          <p className="aqlhr-page-description">
-            {isArabic 
-              ? 'منصة متكاملة لإدارة الموارد البشرية مدعومة بالذكاء الاصطناعي، مصممة خصيصاً للسوق السعودي مع امتثال كامل للأنظمة المحلية'
-              : 'An integrated AI-powered HR management platform designed specifically for the Saudi market with full compliance to local regulations'
-            }
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto text-center mt-2">
+            {isArabic ? 'رؤى استراتيجية متقدمة عبر جميع وحدات الموارد البشرية' : 'Advanced strategic insights across all HR modules'}
           </p>
+
+          <div className="grid md:grid-cols-3 gap-6 mt-8">
+            {executiveCards.map((card, i) => (
+              <Card key={i} className="hover:shadow-md transition-shadow">
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-3 p-3 bg-primary/10 rounded-full w-fit">
+                    <card.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">{card.title}</CardTitle>
+                  <CardDescription>{card.subtitle}</CardDescription>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
         </section>
 
         {/* Stats Section */}
