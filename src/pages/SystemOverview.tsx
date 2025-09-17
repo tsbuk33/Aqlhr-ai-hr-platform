@@ -13,6 +13,30 @@ export default function SystemOverview() {
   const { lang } = useUnifiedLocale();
   const isArabic = lang === "ar";
 
+  React.useEffect(() => {
+    const title = isArabic ? "نظرة عامة على نظام عقل HR" : "AqlHR System Overview";
+    const desc = isArabic
+      ? "كل الأدوات والأنظمة الأساسية لإدارة الموارد البشرية في مكان واحد"
+      : "All modules and tools for HR management in one place";
+    document.title = `${title} · AqlHR`;
+    // description
+    let meta = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.name = 'description';
+      document.head.appendChild(meta);
+    }
+    meta.content = desc;
+    // canonical
+    let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'canonical';
+      document.head.appendChild(link);
+    }
+    link.href = window.location.href;
+  }, [isArabic]);
+
   // Primary modules
   const primaryModules = [
     {
@@ -200,7 +224,7 @@ export default function SystemOverview() {
   );
 
   return (
-    <div className="aqlhr-center-container py-12">
+    <main className="aqlhr-center-container py-12" role="main">
       {/* Page Header */}
       <header className="aqlhr-page-header">
         <h1 className="aqlhr-page-title">
@@ -254,6 +278,6 @@ export default function SystemOverview() {
           </div>
         </section>
       </div>
-    </div>
+    </main>
   );
 }
