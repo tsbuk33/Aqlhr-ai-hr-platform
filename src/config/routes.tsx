@@ -330,7 +330,6 @@ export const ROUTES: RouteConfig[] = [
   { path: '/prompt-audit', element: PromptAudit, auth: true },
   { path: '/', element: DashboardPage, auth: false },
   { path: '/dashboard', element: DashboardPage, auth: false },
-  { path: '/system-overview', element: AqlHRSystem, auth: false },
   
   // Admin routes
   { path: '/admin', element: AdminOverview, auth: true, adminOnly: true },
