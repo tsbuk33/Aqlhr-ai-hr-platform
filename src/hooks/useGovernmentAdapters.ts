@@ -135,7 +135,7 @@ export const useGovernmentAdapters = () => {
       const companyId = await getCurrentCompanyId();
       if (!companyId) return;
 
-      const { data, error } = await supabase.rpc('gov_get_status_v1', {
+      const { data, error } = await supabase.rpc('gov_get_status_v1' as any, {
         p_tenant: companyId
       });
 
@@ -143,7 +143,7 @@ export const useGovernmentAdapters = () => {
 
       // Initialize missing adapters
       const systems = ['MOL', 'QIWA', 'GOSI', 'ABSHER'];
-      const existingSystems = data?.map(d => d.system) || [];
+      const existingSystems = Array.isArray(data) ? data.map(d => d.system) : [];
       const missingAdapters = systems
         .filter(system => !existingSystems.includes(system))
         .map(system => ({
@@ -155,12 +155,16 @@ export const useGovernmentAdapters = () => {
         }));
 
       // Map database results to match interface, ensuring all required properties exist
-      const mappedData = (data || []).map(d => ({
+      const mappedData = Array.isArray(data) ? data.map(d => ({
         system: d.system,
         mode: 'live', // Set mode based on status or system type
         status: d.status,
         last_sync: d.last_sync,
         last_error: d.last_error || null
+      })) : [];
+      
+      setAdapters([...mappedData, ...missingAdapters]);
+      })) : [];
       }));
       
       setAdapters([...mappedData, ...missingAdapters]);
@@ -179,13 +183,13 @@ export const useGovernmentAdapters = () => {
       const companyId = await getCurrentCompanyId();
       if (!companyId) return;
 
-      const { data, error } = await supabase.rpc('gov_get_changes_v1', {
+      const { data, error } = await supabase.rpc('gov_get_changes_v1' as any, {
         p_tenant: companyId,
         p_limit: 50
       });
 
       if (error) throw error;
-      setChanges(data || []);
+      setChanges(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching changes:', error);
     }
@@ -259,7 +263,7 @@ export const useGovernmentAdapters = () => {
       const companyId = await getCurrentCompanyId();
       if (!companyId) throw new Error('No company ID available');
 
-      const { error } = await supabase.rpc('gov_mark_change_processed_v1', {
+      const { error } = await supabase.rpc('gov_mark_change_processed_v1' as any, {
         p_tenant: companyId,
         p_change_id: changeId
       });

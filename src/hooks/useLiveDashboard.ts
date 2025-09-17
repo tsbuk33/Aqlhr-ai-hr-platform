@@ -49,10 +49,10 @@ export function useLiveDashboard() {
       setMode(resolvedMode);
       setTenantId(resolvedTenantId);
 
-      const { data: snap, error: e1 } = await supabase.rpc('dashboard_get_v1', { p_tenant: resolvedTenantId });
+      const { data: snap, error: e1 } = await supabase.rpc('dashboard_get_v1' as any, { p_tenant: resolvedTenantId });
       if (e1) throw e1;
 
-      const { data: integ, error: e2 } = await supabase.rpc('integrations_status_v1', { p_tenant: resolvedTenantId });
+      const { data: integ, error: e2 } = await supabase.rpc('integrations_status_v1' as any, { p_tenant: resolvedTenantId });
       if (e2) throw e2;
 
       // Handle array responses from RPCs

@@ -82,7 +82,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
       
       // Find similar document chunks from our database
       const { data: similarChunks, error: dbError } = await supabase
-        .rpc('find_similar_chunks', {
+        .rpc('find_similar_chunks' as any, {
           query_embedding: queryEmbedding,
           similarity_threshold: 0.3,
           max_results: 5,
@@ -93,7 +93,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
         console.warn('Database similarity search failed:', dbError);
       }
 
-      console.log('Found similar chunks:', similarChunks?.length || 0);
+      console.log('Found similar chunks:', Array.isArray(similarChunks) ? similarChunks.length : 0);
 
       // Get relevant documents based on similarity or filters
       let relevantDocs = documents;
@@ -102,7 +102,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
         relevantDocs = documents.filter(doc => 
           options.specificDocumentIds!.includes(doc.id)
         );
-      } else if (!options.includeAllDocs && similarChunks?.length) {
+      } else if (!options.includeAllDocs && Array.isArray(similarChunks) && similarChunks.length) {
         // Use documents from similar chunks
         const similarDocIds = [...new Set(similarChunks.map(chunk => chunk.document_id))];
         relevantDocs = documents.filter(doc => similarDocIds.includes(doc.id));
@@ -114,9 +114,11 @@ export const useDocumentAwareAI = (moduleKey: string) => {
       }
 
       // Prepare context with similar chunks for better AI responses
-      const contextualContent = similarChunks?.map(chunk => 
-        `From "${chunk.file_name}": ${chunk.content}`
-      ).join('\n\n') || '';
+      const contextualContent = Array.isArray(similarChunks) 
+        ? similarChunks.map(chunk => 
+            `From "${chunk.file_name}": ${chunk.content}`
+          ).join('\n\n')
+        : '';
 
       // Use our existing AI function but with enhanced context
       const { data, error } = await supabase.functions.invoke('ai-document-processor', {
@@ -157,7 +159,7 @@ export const useDocumentAwareAI = (moduleKey: string) => {
       }
 
       // Map similar chunks back to document sources
-      const sources = similarChunks?.length 
+      const sources = Array.isArray(similarChunks) && similarChunks.length 
         ? relevantDocs.filter(doc => 
             similarChunks.some(chunk => chunk.document_id === doc.id)
           ).slice(0, 3)

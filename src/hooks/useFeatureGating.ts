@@ -44,7 +44,7 @@ export function useFeatureGating(featureCode: string): FeatureGatingResult {
 
       // Check if company has access to the feature
       const { data: hasFeature, error: featureError } = await supabase
-        .rpc('has_feature', { 
+        .rpc('has_feature' as any, { 
           p_tenant_id: userRole.company_id, 
           p_feature_code: featureCode 
         });
@@ -53,7 +53,7 @@ export function useFeatureGating(featureCode: string): FeatureGatingResult {
         console.warn('Feature check failed, assuming no access:', featureError);
         setHasAccess(false);
       } else {
-        setHasAccess(hasFeature || false);
+        setHasAccess(Boolean(hasFeature));
       }
 
     } catch (err) {

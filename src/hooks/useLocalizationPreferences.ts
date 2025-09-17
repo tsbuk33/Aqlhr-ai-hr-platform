@@ -26,13 +26,13 @@ export function useLocalizationPreferences() {
 
     try {
       setLoading(true);
-      const { data, error } = await supabase.rpc('get_tenant_localization_prefs', {
+      const { data, error } = await supabase.rpc('get_tenant_localization_prefs' as any, {
         p_tenant_id: companyId
       });
 
       if (error) throw error;
 
-      if (data && data.length > 0) {
+      if (data && Array.isArray(data) && data.length > 0) {
         setPreferences({
           default_language: data[0].default_language,
           numeral_system: data[0].numeral_system,
@@ -73,7 +73,7 @@ export function useLocalizationPreferences() {
     try {
       const updatedPrefs = { ...preferences, ...newPrefs };
       
-      const { error } = await supabase.rpc('update_localization_prefs', {
+      const { error } = await supabase.rpc('update_localization_prefs' as any, {
         p_tenant_id: companyId,
         p_preferences: updatedPrefs as any
       });

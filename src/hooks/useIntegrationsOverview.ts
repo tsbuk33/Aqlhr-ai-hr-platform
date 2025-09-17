@@ -30,12 +30,12 @@ export const useIntegrationsOverview = () => {
       const companyId = await getCurrentCompanyId();
       if (!companyId) return;
 
-      const { data, error } = await supabase.rpc('integrations_overview_v2', {
+      const { data, error } = await supabase.rpc('integrations_overview_v2' as any, {
         p_tenant: companyId
       });
 
       if (error) throw error;
-      setOverview(data || []);
+      setOverview(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching integrations overview:', error);
     } finally {

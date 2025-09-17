@@ -29,7 +29,7 @@ export const usePlanAccess = (skuCode: string): PlanAccessData => {
       }
 
       // Check SKU access including trials
-      const { data: hasAccess, error: accessError } = await supabase.rpc('has_sku_access', {
+      const { data: hasAccess, error: accessError } = await supabase.rpc('has_sku_access' as any, {
         p_tenant_id: companyId,
         p_sku_code: skuCode
       });

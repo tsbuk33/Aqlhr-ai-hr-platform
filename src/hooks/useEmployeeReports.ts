@@ -74,7 +74,7 @@ export const useEmployeeReports = () => {
     reportName = 'Comprehensive Employee Report'
   ) => {
     try {
-      const { data, error } = await supabase.rpc('generate_comprehensive_employee_report', {
+      const { data, error } = await supabase.rpc('generate_comprehensive_employee_report' as any, {
         _company_id: companyId,
         _filters: filters,
         _report_name: reportName

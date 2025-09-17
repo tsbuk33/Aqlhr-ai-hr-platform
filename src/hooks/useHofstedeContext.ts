@@ -33,7 +33,7 @@ export const useHofstedeContext = (tenantId?: string) => {
 
     try {
       const { data: contextData, error: contextError } = await supabase
-        .rpc('cci_get_hofstede_context_v1', {
+        .rpc('cci_get_hofstede_context_v1' as any, {
           p_tenant_id: tenantId
         });
 

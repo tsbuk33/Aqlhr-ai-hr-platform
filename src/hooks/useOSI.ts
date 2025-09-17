@@ -72,11 +72,11 @@ export const useOSI = (tenantId?: string) => {
       const isDev = url.searchParams.get('dev') === '1' || import.meta.env.MODE === 'development';
       
       if (isDev) {
-        await supabase.rpc('dev_seed_osi_v1', { p_tenant: resolvedTenantId });
+        await supabase.rpc('dev_seed_osi_v1' as any, { p_tenant: resolvedTenantId });
       }
 
       // Fetch OSI overview data
-      const overviewResult = await supabase.rpc('osi_overview_v1', { p_tenant: resolvedTenantId });
+      const overviewResult = await supabase.rpc('osi_overview_v1' as any, { p_tenant: resolvedTenantId });
 
       if (overviewResult.error) throw overviewResult.error;
 
@@ -133,7 +133,7 @@ export const useOSI = (tenantId?: string) => {
       if (!resolvedTenantId) throw new Error('No tenant ID available');
 
       // Run OSI seeding to ensure all employees have grades
-      await supabase.rpc('dev_seed_osi_v1', { p_tenant: resolvedTenantId });
+      await supabase.rpc('dev_seed_osi_v1' as any, { p_tenant: resolvedTenantId });
       
       toast({
         title: 'OSI Data Recomputed',

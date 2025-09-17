@@ -27,11 +27,11 @@ export const useFeatureAccess = (featureKey: string): FeatureAccess => {
           .select('plans')
           .eq('feature_key', featureKey)
           .single(),
-        supabase.rpc('has_feature', {
+        supabase.rpc('has_feature' as any, {
           p_tenant_id: companyId,
           p_feature_code: featureKey
         }),
-        supabase.rpc('get_user_subscription_tier')
+        supabase.rpc('get_user_subscription_tier' as any)
       ]);
 
       if (featureResponse.error) {
@@ -56,8 +56,8 @@ export const useFeatureAccess = (featureKey: string): FeatureAccess => {
   });
 
   return {
-    hasAccess: data?.hasAccess ?? false,
-    subscriptionTier: data?.subscriptionTier ?? 'free',
+    hasAccess: Boolean(data?.hasAccess),
+    subscriptionTier: String(data?.subscriptionTier ?? 'free'),
     requiredPlan: data?.requiredPlan ?? [],
     isLoading,
     error: error as Error | null

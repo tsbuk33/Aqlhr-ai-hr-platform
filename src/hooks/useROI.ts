@@ -32,7 +32,7 @@ export const useROI = () => {
       setLoading(true);
       setError(null);
 
-      const { data, error } = await supabase.rpc('roi_get_last30_v1', {
+      const { data, error } = await supabase.rpc('roi_get_last30_v1' as any, {
         p_tenant: tenantId
       });
 

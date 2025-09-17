@@ -51,7 +51,7 @@ export const usePlans = () => {
 
   const fetchCurrentPlan = async () => {
     try {
-      const { data, error } = await supabase.rpc('get_tenant_plan');
+      const { data, error } = await supabase.rpc('get_tenant_plan' as any);
       
       if (error) throw error;
       setCurrentPlan(data?.[0] || null);

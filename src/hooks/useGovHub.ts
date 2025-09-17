@@ -100,7 +100,7 @@ export const useGovHub = () => {
   // Queue a sync job
   const queueJob = async (system: string, jobType: string, payload = {}) => {
     try {
-      const { data, error } = await supabase.rpc('gov_queue_job_v1', {
+      const { data, error } = await supabase.rpc('gov_queue_job_v1' as any, {
         p_tenant: (await supabase.auth.getUser()).data.user?.id,
         p_system: system,
         p_job: jobType,
