@@ -64,8 +64,17 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Navigate to="/system-overview" replace />} />
       <Route element={<LanguageLayout />}>
-        {/* Root landing page */}
+        {/* Index route for /en and /ar - redirect to system-overview */}
         <Route index element={<Navigate to="system-overview" replace />} />
+        
+        {/* Direct system-overview route */}
+        <Route path="system-overview" element={
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <SystemOverview />
+            </Suspense>
+          </LayoutShell>
+        } />
 
         {/* Auth Routes */}
         <Route element={<CenteredLayout />}>
