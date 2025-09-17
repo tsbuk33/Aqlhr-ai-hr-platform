@@ -446,6 +446,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/ai-ecosystem/super-workforce-optimizer', element: SuperIntelligentWorkforceOptimizerPage, auth: true, adminOnly: true },
 
   // AI & Automation Routes - admin only
+  { path: '/ai-automation', element: lazy(() => import('../pages/AIAutomation')), auth: true },
   { path: '/ai-automation/sync-engine', element: AISyncEngine, auth: true, adminOnly: true },
   { path: '/ai-automation/smart-recommendations', element: SmartRecommendations, auth: true, adminOnly: true },
   { path: '/ai-automation/predictive-analytics', element: PredictiveAnalyticsEngine, auth: true, adminOnly: true },
