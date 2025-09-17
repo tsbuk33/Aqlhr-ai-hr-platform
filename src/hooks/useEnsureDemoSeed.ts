@@ -29,7 +29,7 @@ export function useEnsureDemoSeed() {
         // 1) Check headcount via RPC
         let total = 0;
         try {
-          const { data } = await supabase.rpc('ask_headcount_v1', { p_tenant: tenantId });
+          const { data } = await supabase.rpc('ask_headcount_v1' as any, { p_tenant: tenantId });
           total = Array.isArray(data) && data[0]?.total ? data[0].total : 0;
         } catch {
           // fallback to table count

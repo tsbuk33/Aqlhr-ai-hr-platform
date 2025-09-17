@@ -42,7 +42,7 @@ const GovernmentIntegrations: React.FC = () => {
       if (!companyId) return [];
 
       const { data, error } = await supabase
-        .rpc('gov_get_status_v1' as any, { p_tenant: companyId });
+        .rpc('gov_get_status_v1' as any, { p_tenant_id: companyId });
 
       if (error) throw error;
       return data as GovAdapter[];
@@ -57,11 +57,10 @@ const GovernmentIntegrations: React.FC = () => {
       if (!companyId) throw new Error('No company ID');
 
       const { data, error } = await supabase
-        .rpc('gov_queue_job_v1', {
-          p_tenant: companyId,
-          p_system: system,
-          p_job: jobType,
-          p_payload: { manual_trigger: true }
+        .rpc('gov_queue_job_v1' as any, {
+          p_tenant_id: companyId,
+          p_job_type: system,
+          p_params: { job_type: jobType, manual_trigger: true }
         });
 
       if (error) throw error;

@@ -27,7 +27,7 @@ export const useEntitlement = (skuCode: string): EntitlementData => {
 
       // Check if tenant has the entitlement using the server function
       const { data: hasEntitlementData, error: hasEntitlementError } = await supabase
-        .rpc('has_entitlement', {
+        .rpc('has_entitlement' as any, {
           p_tenant: companyId,
           p_sku: skuCode
         });
@@ -88,12 +88,12 @@ export const useMultipleEntitlements = (skuCodes: string[]) => {
       // Check each entitlement
       for (const sku of skuCodes) {
         const { data: hasEntitlement } = await supabase
-          .rpc('has_entitlement', {
+          .rpc('has_entitlement' as any, {
             p_tenant: companyId,
             p_sku: sku
           });
         
-        results[sku] = hasEntitlement || false;
+        results[sku] = Boolean(hasEntitlement);
       }
 
       return results;

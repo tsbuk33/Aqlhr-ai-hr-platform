@@ -89,7 +89,7 @@ const APIKeyManager: React.FC = () => {
   const revokeKeyMutation = useMutation({
     mutationFn: async (keyId: string) => {
       const { data, error } = await supabase
-        .rpc('api_revoke_key_v1', { p_key_id: keyId });
+        .rpc('api_revoke_key_v1' as any, { p_key_id: keyId });
 
       if (error) throw error;
       return data;

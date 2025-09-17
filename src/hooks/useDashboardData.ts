@@ -145,7 +145,7 @@ export function useDashboardData() {
       // Current snapshot
       console.log('📊 [Dashboard] Fetching snapshot...');
       const { data: snapshot, error: snapErr } = await supabase
-        .rpc('dashboard_get_v1', { p_tenant: tenantId });
+        .rpc('dashboard_get_v1' as any, { p_tenant: tenantId });
       
       if (snapErr) {
         console.error('❌ [Dashboard] Snapshot RPC failed:', snapErr);
@@ -181,7 +181,7 @@ export function useDashboardData() {
       if ((mapped.totalEmployees ?? 0) === 0) {
         console.log('[Dashboard] Snapshot total is 0 — attempting headcount fallback via ask_headcount_v1');
         try {
-          const { data: headcountData, error: hcErr } = await supabase.rpc('ask_headcount_v1', { p_tenant: tenantId });
+          const { data: headcountData, error: hcErr } = await supabase.rpc('ask_headcount_v1' as any, { p_tenant: tenantId });
           if (!hcErr && headcountData) {
             const row = Array.isArray(headcountData) ? headcountData[0] : headcountData;
             const fallbackTotal = Number(row?.total ?? 0);
@@ -225,10 +225,10 @@ export function useDashboardData() {
       console.log('📊 [Dashboard] Fetching series data...');
       try {
         const { data: seriesData, error: seriesErr } = await supabase
-          .rpc('dashboard_get_series_v1', { p_tenant: tenantId, p_days: 365 });
+          .rpc('dashboard_get_series_v1' as any, { p_tenant: tenantId, p_days: 365 });
         if (seriesErr) throw seriesErr;
-        setSeries(seriesData || []);
-        console.log('✅ [Dashboard] Series data loaded:', seriesData?.length, 'records');
+        setSeries(Array.isArray(seriesData) ? seriesData : []);
+        console.log('✅ [Dashboard] Series data loaded:', Array.isArray(seriesData) ? seriesData.length : 0, 'records');
       } catch (e) {
         console.warn('⚠️ [Dashboard] Series fetch failed, continuing:', e);
         setSeries([]);
@@ -238,10 +238,10 @@ export function useDashboardData() {
       console.log('🚨 [Dashboard] Fetching alerts...');
       try {
         const { data: alertsData, error: alertsErr } = await supabase
-          .rpc('dashboard_alerts_v1', { p_tenant: tenantId });
+          .rpc('dashboard_alerts_v1' as any, { p_tenant: tenantId });
         if (alertsErr) throw alertsErr;
-        setAlerts(alertsData || []);
-        console.log('✅ [Dashboard] Alerts loaded:', alertsData?.length, 'alerts');
+        setAlerts(Array.isArray(alertsData) ? alertsData : []);
+        console.log('✅ [Dashboard] Alerts loaded:', Array.isArray(alertsData) ? alertsData.length : 0, 'alerts');
       } catch (e) {
         console.warn('⚠️ [Dashboard] Alerts fetch failed, continuing:', e);
         setAlerts([]);
@@ -251,10 +251,10 @@ export function useDashboardData() {
       console.log('🔗 [Dashboard] Fetching integrations...');
       try {
         const { data: integData, error: integErr } = await supabase
-          .rpc('integrations_overview_v2', { p_tenant: tenantId });
+          .rpc('integrations_overview_v2' as any, { p_tenant: tenantId });
         if (integErr) throw integErr;
-        setIntegrations(integData || []);
-        console.log('✅ [Dashboard] Integrations loaded:', integData?.length, 'groups');
+        setIntegrations(Array.isArray(integData) ? integData : []);
+        console.log('✅ [Dashboard] Integrations loaded:', Array.isArray(integData) ? integData.length : 0, 'groups');
       } catch (e) {
         console.warn('⚠️ [Dashboard] Integrations fetch failed, continuing:', e);
         setIntegrations([]);
@@ -296,7 +296,7 @@ export function useDashboardData() {
   const createTaskFromAlert = async (alert: DashboardAlertItem) => {
     if (!tenantId) return null;
     const priority = alert.severity === 'high' ? 'urgent' : alert.severity === 'medium' ? 'high' : 'medium';
-    const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+    const { data: taskId, error } = await supabase.rpc('task_create_v1' as any, {
       p_tenant_id: tenantId,
       p_module: 'dashboard',
       p_title: `Alert: ${alert.message_en}`,

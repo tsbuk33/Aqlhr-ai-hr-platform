@@ -56,10 +56,8 @@ export const PlanUpsellModal: React.FC<PlanUpsellModalProps> = ({
     setRequestingTrial(planCode);
     try {
       // Start trial
-      const { error: trialError } = await supabase.rpc('start_trial', {
-        p_tenant_id: companyId,
-        p_plan_code: planCode,
-        p_requested_by: (await supabase.auth.getUser()).data.user?.id
+      const { error: trialError } = await supabase.rpc('start_trial' as any, {
+        p_plan_id: planCode
       });
 
       if (trialError) throw trialError;

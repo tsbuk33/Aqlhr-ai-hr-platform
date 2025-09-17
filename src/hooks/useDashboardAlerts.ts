@@ -19,11 +19,11 @@ export function useDashboardAlerts() {
     if (!tenantId) throw new Error('No tenant available');
 
     const { data: alertsData, error: alertsError } = await supabase
-      .rpc('dashboard_rules_v1', { p_tenant: tenantId });
+      .rpc('dashboard_rules_v1' as any, { p_tenant: tenantId });
 
     if (alertsError) throw alertsError;
 
-    return (alertsData || []).map((alert: any) => ({
+    return (Array.isArray(alertsData) ? alertsData : []).map((alert: any) => ({
       ...alert,
       severity: alert.severity as 'High' | 'Medium' | 'Low'
     }));
@@ -44,7 +44,7 @@ export function useDashboardAlerts() {
       const taskTitle = `Alert: ${alert.title}`;
       const taskDescription = `${alert.message}\n\nCurrent Value: ${alert.current_value}\nThreshold: ${alert.threshold_value}\nMetric: ${alert.metric}\nSeverity: ${alert.severity}`;
 
-      const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+      const { data: taskId, error } = await supabase.rpc('task_create_v1' as any, {
         p_tenant_id: tenantId,
         p_module: 'dashboard',
         p_title: taskTitle,
@@ -61,7 +61,7 @@ export function useDashboardAlerts() {
       if (error) throw error;
       
       // Emit ROI event for task creation
-      await supabase.rpc('roi_emit_event', {
+      await supabase.rpc('roi_emit_event' as any, {
         p_tenant: tenantId,
         p_event: 'task_created',
         p_qty: 1,

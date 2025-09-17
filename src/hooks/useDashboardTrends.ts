@@ -45,7 +45,7 @@ export function useDashboardTrends(days = 365) {
 
     // Fetch time series data
     const { data: seriesData, error: seriesError } = await supabase
-      .rpc('dashboard_get_series_v1', { 
+      .rpc('dashboard_get_series_v1' as any, { 
         p_tenant: tenantId,
         p_days: days 
       });
@@ -69,7 +69,7 @@ export function useDashboardTrends(days = 365) {
       const taskTitle = `Alert: ${alert.title}`;
       const taskDescription = `${alert.message}\n\nCurrent Value: ${alert.current_value}\nThreshold: ${alert.threshold_value}\nMetric: ${alert.metric}\nSeverity: ${alert.severity}`;
 
-      const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+      const { data: taskId, error } = await supabase.rpc('task_create_v1' as any, {
         p_tenant_id: tenantId,
         p_module: 'dashboard',
         p_title: taskTitle,
@@ -95,7 +95,7 @@ export function useDashboardTrends(days = 365) {
       const { tenantId } = await resolveTenantId(supabase);
       if (!tenantId) throw new Error('No tenant available');
 
-      await supabase.rpc('dashboard_backfill_v1', {
+      await supabase.rpc('dashboard_backfill_v1' as any, {
         p_tenant: tenantId,
         p_days: days
       });
@@ -109,7 +109,7 @@ export function useDashboardTrends(days = 365) {
   };
 
   const getMoMChange = (metric: keyof TimeSeriesData) => {
-    if (series.length < 2) return null;
+    if (!Array.isArray(series) || series.length < 2) return null;
     
     const latest = series[series.length - 1];
     const previous = series[series.length - 2];
@@ -127,10 +127,10 @@ export function useDashboardTrends(days = 365) {
   };
 
   const getSparklineData = (metric: keyof TimeSeriesData) => {
-    return series.map(item => ({
+    return Array.isArray(series) ? series.map(item => ({
       date: item.d,
       value: Number(item[metric] || 0)
-    }));
+    })) : [];
   };
 
   return {

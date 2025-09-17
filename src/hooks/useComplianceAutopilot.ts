@@ -173,14 +173,14 @@ export const useComplianceAutopilot = () => {
       }
 
       // Get Saudization status using new function
-      const { data: saudizationData } = await supabase.rpc('saudization_color_v1', {
+      const { data: saudizationData } = await supabase.rpc('saudization_color_v1' as any, {
         p_tenant: companyId
       });
       
       let nitaqatColor = 'green';
       let nitaqatRate = currentRate;
       
-      if (saudizationData && saudizationData.length > 0) {
+      if (saudizationData && Array.isArray(saudizationData) && saudizationData.length > 0) {
         nitaqatColor = saudizationData[0].color;
         nitaqatRate = saudizationData[0].rate;
       }

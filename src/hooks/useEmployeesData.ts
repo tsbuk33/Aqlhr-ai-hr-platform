@@ -45,7 +45,7 @@ export const useEmployeesData = () => {
         // Try headcount RPC first (we know ask_headcount_v1 exists)
         let headcountData = null;
         try {
-          const { data: result, error } = await supabase.rpc('ask_headcount_v1', { 
+          const { data: result, error } = await supabase.rpc('ask_headcount_v1' as any, { 
             p_tenant: tenantId 
           });
           if (!error && result) {
