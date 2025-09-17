@@ -62,7 +62,7 @@ export default function AppRoutes() {
   // Localized child routes under ":lang/*" from UnifiedLanguageRouter
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/system-overview" replace />} />
       <Route element={<LanguageLayout />}>
         {/* Root landing page */}
         <Route index element={
@@ -151,7 +151,7 @@ export default function AppRoutes() {
         })}
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/system-overview" replace />} />
       </Route>
     </Routes>
   );

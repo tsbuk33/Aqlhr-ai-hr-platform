@@ -224,6 +224,7 @@ const SuperIntelligentWorkforceOptimizerPage = lazy(() => import('../pages/ai-ec
 
 // Additional modules
 import SmartKPIPublic from '../pages/SmartKPIPublic';
+const SystemOverview = lazy(() => import('../pages/SystemOverview'));
 const AqlHRConnect = lazy(() => import('../pages/additional/AqlHRConnect'));
 const Pricing = lazy(() => import('../pages/plans/Pricing'));
 const AqlHRSystem = lazy(() => import('../pages/AqlHRSystem'));
@@ -311,6 +312,9 @@ const I18nTest = lazy(() => import('../pages/_/I18nTest'));
 const HealthPage = lazy(() => import('../pages/__/Health'));
 
 export const ROUTES: RouteConfig[] = [
+  // System Overview route
+  { path: '/system-overview', element: SystemOverview, auth: false },
+  
   // Root dashboard route
   { path: '/', element: DashboardPage, auth: true },
   

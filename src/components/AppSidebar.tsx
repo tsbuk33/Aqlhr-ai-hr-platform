@@ -55,6 +55,25 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-2">
             <SidebarMenu className="space-y-1">
+              {/* System Overview */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/system-overview"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Home className="h-4 w-4" />
+                    <span>{isArabic ? 'نظرة عامة على النظام' : 'System Overview'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
               {/* Dashboard */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
