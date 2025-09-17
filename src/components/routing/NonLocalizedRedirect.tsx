@@ -5,10 +5,10 @@ import { resolveLang } from '@/lib/i18n/localePath';
 export default function NonLocalizedRedirect() {
   const { pathname, search } = useLocation();
   
-  // If user is on root path, redirect to localized welcome
+  // If user is on root path, redirect to localized system-overview
   if (pathname === '/') {
     const lang = resolveLang();
-    return <Navigate to={`/${lang}/${search || ''}`} replace />;
+    return <Navigate to={`/${lang}/system-overview${search || ''}`} replace />;
   }
   
   if (pathname.startsWith('/en') || pathname.startsWith('/ar')) {
