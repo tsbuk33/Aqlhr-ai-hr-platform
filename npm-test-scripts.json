@@ -1,0 +1,88 @@
+{
+  "description": "NPM scripts for package.json - Copy these into your scripts section",
+  "note": "Since package.json is read-only in Lovable, use the alternative commands below",
+  
+  "scripts_to_add": {
+    "test:arabic": "npx cypress run --spec 'cypress/e2e/arabic-indic-numerals.cy.ts'",
+    "test:bilingual": "npx cypress run --spec 'cypress/e2e/bilingual-functional.cy.ts'", 
+    "test:rtl": "npx cypress run --spec 'cypress/e2e/enhanced-rtl-layout.cy.ts'",
+    "test:critical": "npx cypress run --spec 'cypress/e2e/comprehensive-route-testing.cy.ts'",
+    "test:interactive": "npx cypress run --spec 'cypress/e2e/interactive-components.cy.ts'",
+    "test:comprehensive": "bash scripts/run-strict-bilingual-tests.sh",
+    "test:quick": "bash run-specific-test-suites.sh"
+  },
+  
+  "alternative_commands": {
+    "arabic_numerals": [
+      "npx cypress run --spec 'cypress/e2e/arabic-indic-numerals.cy.ts'",
+      "bash run-specific-test-suites.sh arabic"
+    ],
+    "bilingual_labels": [
+      "npx cypress run --spec 'cypress/e2e/bilingual-functional.cy.ts'", 
+      "bash run-specific-test-suites.sh bilingual"
+    ],
+    "rtl_layout": [
+      "npx cypress run --spec 'cypress/e2e/enhanced-rtl-layout.cy.ts'",
+      "bash run-specific-test-suites.sh rtl" 
+    ],
+    "interactive_menu": [
+      "bash run-specific-test-suites.sh"
+    ]
+  },
+  
+  "usage_examples": {
+    "just_arabic_numerals": {
+      "command": "npx cypress run --spec 'cypress/e2e/arabic-indic-numerals.cy.ts'",
+      "description": "Validates ٠١٢٣٤٥٦٧٨٩ numerals on Arabic routes",
+      "focus_pages": ["/ar/payroll", "/ar/analytics", "/ar/leave"],
+      "typical_issues": ["Western numerals leak", "Currency format wrong", "Chart axes not Arabic"]
+    },
+    
+    "just_bilingual_labels": {
+      "command": "npx cypress run --spec 'cypress/e2e/bilingual-functional.cy.ts'", 
+      "description": "Validates exact Arabic labels match requirements",
+      "focus_validations": [
+        "System Overview → نظرة عامة على النظام",
+        "Payroll → الرواتب", 
+        "Executive Center → مركز الذكاء التنفيذي"
+      ],
+      "typical_issues": ["English fallbacks", "Missing translations", "Raw i18n keys"]
+    },
+    
+    "interactive_menu_choice": {
+      "command": "bash run-specific-test-suites.sh",
+      "description": "Interactive menu to choose specific test suite",
+      "options": [
+        "1 - Arabic Numerals Only",
+        "2 - Bilingual Labels Only", 
+        "3 - RTL Layout Only",
+        "4 - Critical Pages Only",
+        "5 - Interactive Elements Only"
+      ]
+    }
+  },
+  
+  "when_to_use_each": {
+    "arabic_numerals": "After fixing formatArabicNumber() or currency displays",
+    "bilingual_labels": "After updating i18n translation files", 
+    "rtl_layout": "After fixing dir='rtl' or alignment issues",
+    "critical_pages": "Quick validation of most important routes",
+    "interactive_elements": "After updating forms, charts, or AI components"
+  },
+  
+  "expected_runtime": {
+    "arabic_numerals": "~2-3 minutes (covers all routes for numeral validation)",
+    "bilingual_labels": "~1-2 minutes (22 modules × 2 languages = 44 tests)",
+    "rtl_layout": "~3-4 minutes (comprehensive RTL component testing)",
+    "critical_pages": "~2 minutes (5 most important Arabic routes)",
+    "interactive_elements": "~4-5 minutes (tables, forms, charts functionality)",
+    "comprehensive": "~8-12 minutes (all 142 route tests)"
+  },
+  
+  "quick_validation_commands": {
+    "browser_console": "validateArabicRoute() // Run on any /ar/* route",
+    "manual_check": "Visit /ar/payroll → Check salary shows ٢٥٠,٠٠٠ not 250,000",
+    "report_check": "bash check-test-reports.sh",
+    "fix_and_retest": "Apply fix → Run specific suite → Verify improvement"
+  }
+}
