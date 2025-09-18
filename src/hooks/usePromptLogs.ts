@@ -68,7 +68,7 @@ export function usePromptLogs() {
     try {
       const { data, error: insertError } = await supabase
         .from('prompt_logs')
-        .insert(logData)
+        .insert(logData as any)
         .select()
         .single();
 

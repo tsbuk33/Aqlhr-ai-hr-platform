@@ -80,12 +80,12 @@ const GovernmentIntegration = () => {
 
   const loadAdapters = async () => {
     try {
-      const { data, error } = await supabase.rpc('gov_get_status_v1', {
+      const { data, error } = await supabase.rpc('gov_get_status_v1' as any, {
         p_tenant: companyId
       });
 
       if (error) throw error;
-      setAdapters(data || []);
+      setAdapters((data as any[]) || []);
     } catch (error) {
       console.error('Error loading adapters:', error);
     }

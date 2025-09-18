@@ -97,7 +97,7 @@ export const usePlanAccess = (skuCode: string): PlanAccessData => {
     setRequesting(true);
     try {
       // Start trial
-      const { error: trialError } = await supabase.rpc('start_trial', {
+      const { error: trialError } = await supabase.rpc('start_trial' as any, {
         p_tenant_id: companyId,
         p_plan_code: planCode,
         p_requested_by: (await supabase.auth.getUser()).data.user?.id

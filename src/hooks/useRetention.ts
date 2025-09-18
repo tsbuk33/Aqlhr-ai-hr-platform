@@ -90,12 +90,12 @@ export function useRetention(tenantId: string | null) {
 
       // Fetch overview
       const { data: overviewData, error: overviewError } = await supabase
-        .rpc('retention_overview_v1', { p_tenant: tenantId });
+        .rpc('retention_overview_v1' as any, { p_tenant: tenantId });
       
       if (overviewError) throw overviewError;
       
-      if (overviewData && overviewData.length > 0) {
-        const overview = overviewData[0];
+      if (overviewData && (overviewData as any[]).length > 0) {
+        const overview = (overviewData as any[])[0];
         // Map the actual returned data to our interface
         const totalEmployees = overview.total_employees || 0;
         const atRiskCount = overview.at_risk_count || 0;
@@ -135,11 +135,11 @@ export function useRetention(tenantId: string | null) {
 
       // Fetch drivers
       const { data: driversData, error: driversError } = await supabase
-        .rpc('retention_drivers_v1', { p_tenant: tenantId });
+        .rpc('retention_drivers_v1' as any, { p_tenant: tenantId });
       
       if (driversError) throw driversError;
       // Add legacy compatibility to drivers
-      const mappedDrivers = (driversData || []).map((driver: any) => ({
+      const mappedDrivers = ((driversData as any[]) || []).map((driver: any) => ({
         driver_name: driver.driver_name,
         contribution_percentage: driver.impact_score, // Map impact_score to contribution_percentage
         affected_count: driver.affected_count,
@@ -152,11 +152,11 @@ export function useRetention(tenantId: string | null) {
 
       // Fetch watchlist
       const { data: watchlistData, error: watchlistError } = await supabase
-        .rpc('retention_watchlist_v1', { p_tenant: tenantId });
+        .rpc('retention_watchlist_v1' as any, { p_tenant: tenantId });
       
       if (watchlistError) throw watchlistError;
       // Map watchlist data for legacy compatibility
-      const mappedWatchlist = (watchlistData || []).map((item: any, index: number) => ({
+      const mappedWatchlist = ((watchlistData as any[]) || []).map((item: any, index: number) => ({
         unit_name: item.employee_name || `Employee ${index + 1}`,
         unit_type: 'Employee',
         headcount: 1,
@@ -175,7 +175,7 @@ export function useRetention(tenantId: string | null) {
       setWatchlist(mappedWatchlist);
 
       // Create legacy hotspots from watchlist data - group by department
-      const deptGroups = (watchlistData || []).reduce((acc: any, item: any) => {
+      const deptGroups = ((watchlistData as any[]) || []).reduce((acc: any, item: any) => {
         const dept = item.department || 'Unknown Department';
         if (!acc[dept]) {
           acc[dept] = { employees: [], totalRisk: 0 };
@@ -232,7 +232,7 @@ export function useRetention(tenantId: string | null) {
     try {
       // Use the new seeding function to regenerate data
       const { error } = await supabase
-        .rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+        .rpc('dev_seed_retention_v1' as any, { p_tenant: tenantId });
       
       if (error) throw error;
       
@@ -261,7 +261,7 @@ export function useRetention(tenantId: string | null) {
     try {
       // Use the new retention seeding function
       const { error } = await supabase
-        .rpc('dev_seed_retention_v1', { p_tenant: tenantId });
+        .rpc('dev_seed_retention_v1' as any, { p_tenant: tenantId });
       
       if (error) throw error;
       

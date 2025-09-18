@@ -18,7 +18,7 @@ export async function getOverview(tenantId?: string | null): Promise<RetentionOv
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return null;
     
-    const { data, error } = await supabase.rpc('retention_get_overview_v1', {
+    const { data, error } = await supabase.rpc('retention_get_overview_v1' as any, {
       p_tenant: resolvedTenantId
     });
 
@@ -27,7 +27,7 @@ export async function getOverview(tenantId?: string | null): Promise<RetentionOv
       throw error;
     }
 
-    return data && data.length > 0 ? data[0] : null;
+    return data && (data as any[]).length > 0 ? (data as any[])[0] : null;
   } catch (error) {
     console.error('Error getting retention overview:', error);
     return null;
@@ -42,7 +42,7 @@ export async function seedDemo(tenantId?: string | null): Promise<boolean> {
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return false;
 
-    const { error } = await supabase.rpc('retention_seed_demo_v1', {
+    const { error } = await supabase.rpc('retention_seed_demo_v1' as any, {
       p_tenant: resolvedTenantId
     });
 
@@ -66,7 +66,7 @@ export async function computeNow(tenantId?: string | null): Promise<boolean> {
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return false;
 
-    const { error } = await supabase.rpc('retention_compute_v1', {
+    const { error } = await supabase.rpc('retention_compute_v1' as any, {
       p_tenant: resolvedTenantId
     });
 

@@ -9,8 +9,8 @@ export async function ensureDevTenant() {
   // Cache to avoid repeated RPC
   const cached = localStorage.getItem('aqlhr.demoTenant');
   if (cached) return;
-  const { data, error } = await supabase.rpc('get_demo_tenant_id');
-  if (!error && data) localStorage.setItem('aqlhr.demoTenant', data);
+  const { data, error } = await supabase.rpc('get_demo_tenant_id' as any);
+  if (!error && data) localStorage.setItem('aqlhr.demoTenant', data as string);
 }
 
 interface DevModeGuardProps {

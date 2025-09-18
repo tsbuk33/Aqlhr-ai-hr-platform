@@ -164,10 +164,6 @@ export const useGovernmentAdapters = () => {
       })) : [];
       
       setAdapters([...mappedData, ...missingAdapters]);
-      })) : [];
-      }));
-      
-      setAdapters([...mappedData, ...missingAdapters]);
     } catch (error) {
       console.error('Error fetching adapters:', error);
       toast({

@@ -57,7 +57,7 @@ export const useTasks = () => {
       }
 
       // Call the RPC function
-      const { data, error } = await supabase.rpc('task_list_v1', {
+      const { data, error } = await supabase.rpc('task_list_v1' as any, {
         p_tenant_id: userRoles.company_id,
         p_status: filters.status || null,
         p_module: filters.module || null,
@@ -112,7 +112,7 @@ export const useTasks = () => {
       }
 
       // Call the RPC function
-      const { data: taskId, error } = await supabase.rpc('task_create_v1', {
+      const { data: taskId, error } = await supabase.rpc('task_create_v1' as any, {
         p_tenant_id: userRoles.company_id,
         p_module: taskData.module,
         p_title: taskData.title,
@@ -153,7 +153,7 @@ export const useTasks = () => {
     try {
       setLoading(true);
 
-      const { error } = await supabase.rpc('task_assign_v1', {
+      const { error } = await supabase.rpc('task_assign_v1' as any, {
         p_task_id: taskId,
         p_owner_user_id: ownerUserId,
         p_owner_role: ownerRole
@@ -186,7 +186,7 @@ export const useTasks = () => {
     try {
       setLoading(true);
 
-      const { error } = await supabase.rpc('task_complete_v1', {
+      const { error } = await supabase.rpc('task_complete_v1' as any, {
         p_task_id: taskId,
         p_completion_notes: completionNotes
       });
@@ -222,7 +222,7 @@ export const useTasks = () => {
     message?: string
   ) => {
     try {
-      const { data: notificationId, error } = await supabase.rpc('task_notify_v1', {
+      const { data: notificationId, error } = await supabase.rpc('task_notify_v1' as any, {
         p_task_id: taskId,
         p_channel: channel,
         p_to_user_id: toUserId,

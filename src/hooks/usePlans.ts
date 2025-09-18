@@ -75,7 +75,7 @@ export const usePlans = () => {
 
       if (!userRoles?.company_id) return false;
 
-      const { data, error } = await supabase.rpc('has_feature', {
+      const { data, error } = await supabase.rpc('has_feature' as any, {
         p_tenant_id: userRoles.company_id,
         p_feature_code: featureCode
       });

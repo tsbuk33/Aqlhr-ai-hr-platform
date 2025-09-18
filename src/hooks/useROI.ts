@@ -52,7 +52,7 @@ export const useROI = () => {
       setLoading(true);
       setError(null);
 
-      const { data, error } = await supabase.rpc('roi_get_trend_v1', {
+      const { data, error } = await supabase.rpc('roi_get_trend_v1' as any, {
         p_tenant: tenantId,
         p_days: days
       });
@@ -71,7 +71,7 @@ export const useROI = () => {
   const backfillSnapshots = async (tenantId: string, days = 30) => {
     try {
       setLoading(true);
-      const { error } = await supabase.rpc('roi_backfill_snapshots_v1', {
+      const { error } = await supabase.rpc('roi_backfill_snapshots_v1' as any, {
         p_tenant: tenantId,
         p_days: days
       });

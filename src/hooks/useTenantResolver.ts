@@ -43,12 +43,12 @@ export function useTenantResolver(): TenantInfo {
         }
 
         // Fall back to demo tenant
-        const { data: demoTenantId, error } = await supabase.rpc('get_demo_tenant_id');
+        const { data: demoTenantId, error } = await supabase.rpc('get_demo_tenant_id' as any);
         
         if (error) throw error;
 
         setTenantInfo({
-          tenantId: demoTenantId,
+          tenantId: demoTenantId as string,
           isDemoMode: true,
           loading: false,
           error: null

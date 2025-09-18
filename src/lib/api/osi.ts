@@ -19,7 +19,7 @@ export async function seedDemo(tenantId?: string | null): Promise<boolean> {
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return false;
 
-    const { error } = await supabase.rpc('osi_seed_demo_data_v1', {
+    const { error } = await supabase.rpc('osi_seed_demo_data_v1' as any, {
       p_tenant: resolvedTenantId
     });
 
@@ -43,7 +43,7 @@ export async function computeNow(tenantId?: string | null): Promise<boolean> {
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return false;
 
-    const { error } = await supabase.rpc('osi_refresh_v1', {
+    const { error } = await supabase.rpc('osi_refresh_v1' as any, {
       p_tenant: resolvedTenantId
     });
 
@@ -97,7 +97,7 @@ export async function getOverview(tenantId?: string | null): Promise<OSIOverview
     const resolvedTenantId = tenantId || await getTenantIdOrDemo();
     if (!resolvedTenantId) return null;
     
-    const { data, error } = await supabase.rpc('osi_get_overview_v1', {
+    const { data, error } = await supabase.rpc('osi_get_overview_v1' as any, {
       p_tenant: resolvedTenantId
     });
 
@@ -106,7 +106,7 @@ export async function getOverview(tenantId?: string | null): Promise<OSIOverview
       throw error;
     }
 
-    return data && data.length > 0 ? data[0] : null;
+    return data && (data as any[]).length > 0 ? (data as any[])[0] : null;
   } catch (error) {
     console.error('Error getting OSI overview:', error);
     return null;
