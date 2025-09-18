@@ -329,6 +329,212 @@ export const setupReportingTasks = (on: Cypress.PluginEvents) => {
       saveTestReport(report);
       saveHtmlReport(report);
       return report;
+    },
+    
+    generateComprehensiveReport(reportData: any) {
+      const timestamp = new Date().toISOString().split('T')[0];
+      
+      // Save JSON report
+      saveTestReport({
+        ...reportData,
+        timestamp: Date.now()
+      }, `comprehensive_bilingual_report_${timestamp}.json`);
+      
+      // Generate and save HTML report
+      const htmlContent = generateComprehensiveHtmlReport(reportData);
+      const reportsDir = path.join(process.cwd(), 'cypress', 'reports');
+      
+      if (!fs.existsSync(reportsDir)) {
+        fs.mkdirSync(reportsDir, { recursive: true });
+      }
+      
+      const htmlPath = path.join(reportsDir, `comprehensive_bilingual_report_${timestamp}.html`);
+      fs.writeFileSync(htmlPath, htmlContent);
+      
+      console.log(`Comprehensive bilingual report saved to: ${htmlPath}`);
+      return reportData;
     }
   });
+};
+
+// Generate comprehensive HTML report
+export const generateComprehensiveHtmlReport = (reportData: any): string => {
+  const { summary, languageBreakdown, criticalIssues, numeralValidation, routeDetails } = reportData;
+  
+  // Generate route table rows
+  const routeRows = routeDetails.map((route: any) => `
+    <tr class="status-${route.status}">
+      <td><code>/${route.language}/${route.route}</code></td>
+      <td>${route.language === 'ar' ? '🇸🇦 Arabic' : '🇺🇸 English'}</td>
+      <td class="status-${route.status}">
+        ${route.status === 'pass' ? '✅ Pass' : route.status === 'fail' ? '❌ Fail' : '⚠️ Partial'}
+      </td>
+      <td>${route.loadTime}ms</td>
+      <td>${route.numeralViolations || 0}</td>
+      <td>${route.issues.join(', ') || 'None'}</td>
+      <td>${route.arabicLabels.join(', ') || 'N/A'}</td>
+    </tr>
+  `).join('');
+  
+  return `
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AqlHR Comprehensive Bilingual Test Report</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+    .container { max-width: 1400px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { color: #2563eb; margin-bottom: 10px; }
+    .subtitle { color: #6b7280; font-size: 1.1rem; margin-bottom: 30px; }
+    h2 { color: #1e40af; margin-top: 30px; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+    .metric { background: #f8fafc; padding: 20px; border-radius: 6px; text-align: center; border-left: 4px solid #2563eb; }
+    .metric-value { font-size: 2rem; font-weight: bold; color: #1e40af; }
+    .metric-label { color: #6b7280; margin-top: 5px; font-size: 0.9rem; }
+    .status-pass { color: #059669; }
+    .status-fail { color: #dc2626; }
+    .status-partial { color: #d97706; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.875rem; }
+    th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+    th { background: #f8fafc; font-weight: 600; color: #374151; position: sticky; top: 0; }
+    .route-table { max-height: 600px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 6px; }
+    .language-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+    .lang-card { background: #f8fafc; padding: 20px; border-radius: 6px; }
+    .progress-bar { background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    .progress-pass { background: #059669; height: 100%; }
+    .alert { padding: 15px; border-radius: 6px; margin: 15px 0; }
+    .alert-warning { background: #fef3cd; border: 1px solid #fecaca; color: #92400e; }
+    .alert-success { background: #d1fae5; border: 1px solid #a7f3d0; color: #065f46; }
+    .timestamp { color: #6b7280; font-size: 0.875rem; }
+    code { background: #f1f5f9; padding: 2px 4px; border-radius: 3px; font-size: 0.875rem; }
+    .arabic-text { font-family: 'Arial Unicode MS', Tahoma, sans-serif; direction: rtl; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 AqlHR Comprehensive Bilingual Testing Report</h1>
+    <p class="subtitle">Strict validation of all 71 routes × 2 languages = 142 total tests</p>
+    <p class="timestamp">Generated: ${new Date().toLocaleString()}</p>
+    
+    <div class="alert ${summary.successRate >= 95 ? 'alert-success' : 'alert-warning'}">
+      <strong>Overall Status:</strong> 
+      ${summary.successRate >= 95 ? '✅ PASSED - Production Ready' : '⚠️ ATTENTION REQUIRED - Issues Found'}
+    </div>
+    
+    <h2>📊 Executive Summary</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-value">${summary.totalRoutes}</div>
+        <div class="metric-label">Total Routes Tested</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">${summary.totalTests}</div>
+        <div class="metric-label">Total Route Tests</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value status-pass">${summary.passed}</div>
+        <div class="metric-label">Fully Passed</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value status-partial">${summary.partial}</div>
+        <div class="metric-label">Partial Issues</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value status-fail">${summary.failed}</div>
+        <div class="metric-label">Failed</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">${summary.successRate}%</div>
+        <div class="metric-label">Success Rate</div>
+      </div>
+    </div>
+
+    <h2>🌐 Language-Specific Results</h2>
+    <div class="language-grid">
+      <div class="lang-card">
+        <h3>🇺🇸 English Routes (LTR)</h3>
+        <p><strong>${languageBreakdown.english.total}</strong> routes tested</p>
+        <div class="progress-bar">
+          <div class="progress-pass" style="width: ${(languageBreakdown.english.passed / languageBreakdown.english.total) * 100}%"></div>
+        </div>
+        <p>✅ ${languageBreakdown.english.passed} passed | ⚠️ ${languageBreakdown.english.partial} partial | ❌ ${languageBreakdown.english.failed} failed</p>
+      </div>
+      <div class="lang-card">
+        <h3>🇸🇦 Arabic Routes (RTL)</h3>
+        <p><strong>${languageBreakdown.arabic.total}</strong> routes tested</p>
+        <div class="progress-bar">
+          <div class="progress-pass" style="width: ${(languageBreakdown.arabic.passed / languageBreakdown.arabic.total) * 100}%"></div>
+        </div>
+        <p>✅ ${languageBreakdown.arabic.passed} passed | ⚠️ ${languageBreakdown.arabic.partial} partial | ❌ ${languageBreakdown.arabic.failed} failed</p>
+      </div>
+    </div>
+
+    <h2>🔢 Arabic-Indic Numeral Compliance</h2>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-value">${numeralValidation.totalArabicRoutes}</div>
+        <div class="metric-label">Arabic Routes Tested</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value ${numeralValidation.totalNumeralViolations > 0 ? 'status-fail' : 'status-pass'}">${numeralValidation.totalNumeralViolations}</div>
+        <div class="metric-label">Total Numeral Violations</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value ${numeralValidation.routesWithNumeralViolations > 0 ? 'status-partial' : 'status-pass'}">${numeralValidation.routesWithNumeralViolations}</div>
+        <div class="metric-label">Routes with Violations</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">${(((numeralValidation.totalArabicRoutes - numeralValidation.routesWithNumeralViolations) / numeralValidation.totalArabicRoutes) * 100).toFixed(1)}%</div>
+        <div class="metric-label">Numeral Compliance Rate</div>
+      </div>
+    </div>
+
+    ${criticalIssues.length > 0 ? `
+    <h2>🚨 Critical Issues</h2>
+    <div class="alert alert-warning">
+      <ul>
+        ${criticalIssues.map((issue: string) => `<li>${issue}</li>`).join('')}
+      </ul>
+    </div>
+    ` : ''}
+
+    <h2>📋 Detailed Route Results</h2>
+    <div class="route-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Route</th>
+            <th>Language</th>
+            <th>Status</th>
+            <th>Load Time</th>
+            <th>Numeral Issues</th>
+            <th>Issues Found</th>
+            <th>Arabic Labels Detected</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${routeRows}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>📝 Testing Methodology</h2>
+    <ul>
+      <li><strong>Route Coverage:</strong> All 71 application routes tested in both English and Arabic</li>
+      <li><strong>Arabic Label Validation:</strong> Exact Arabic translations verified against expected labels</li>
+      <li><strong>Numeral Compliance:</strong> Strict validation that Arabic routes use ٠١٢٣٤٥٦٧٨٩ instead of 0123456789</li>
+      <li><strong>RTL Layout:</strong> Proper right-to-left layout validation with <code>dir="rtl"</code> attributes</li>
+      <li><strong>Translation Quality:</strong> Checks for raw translation keys and English fallbacks</li>
+      <li><strong>Performance:</strong> Load time monitoring for all routes</li>
+      <li><strong>Accessibility:</strong> Proper language attributes and semantic markup validation</li>
+    </ul>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; text-align: center;">
+      <p>Generated by AqlHR Comprehensive Testing Suite | ${new Date().toLocaleString()}</p>
+    </footer>
+  </div>
+</body>
+</html>`;
 };

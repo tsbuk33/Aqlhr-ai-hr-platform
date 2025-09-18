@@ -1,0 +1,58 @@
+{
+  "exact_translations": {
+    "system_overview": "نظرة عامة على النظام",
+    "dashboard": "لوحة التحكم", 
+    "executive_intelligence_center": "مركز الذكاء التنفيذي",
+    "core_hr": "الموارد البشرية الأساسية",
+    "employee_master_data": "بيانات الموظف",
+    "payroll": "الرواتب",
+    "benefits_administration": "إدارة المزايا",
+    "performance_management": "إدارة الأداء",
+    "recruitment_onboarding": "التوظيف والإلحاق",
+    "training_development": "التدريب والتطوير",
+    "time_attendance": "الوقت والحضور",
+    "leave_management": "إدارة الإجازات",
+    "succession_planning": "خطة الإحلال",
+    "compensation_management": "إدارة التعويضات",
+    "skills_intelligence": "ذكاء المهارات",
+    "leo": "تحسين تجربة التعلم",
+    "geo": "تحسين المشاركة التوليدية",
+    "employee_welfare_consultancy": "استشارات رفاهية الموظفين",
+    "legal_consultant_ai": "المستشار القانوني الذكي",
+    "compliance_governance": "الامتثال والحوكمة",
+    "government_integrations": "التكاملات الحكومية",
+    "esg_hr": "المسؤولية الاجتماعية",
+    "cci": "ذكاء الثقافة المؤسسية"
+  },
+  "route_mappings": {
+    "/ar/system-overview": ["نظرة عامة على النظام"],
+    "/ar/dashboard": ["لوحة التحكم"],
+    "/ar/executive-center": ["مركز الذكاء التنفيذي"],
+    "/ar/employees": ["بيانات الموظف", "الموارد البشرية الأساسية"],
+    "/ar/payroll": ["الرواتب"],
+    "/ar/core-hr/benefits": ["إدارة المزايا"],
+    "/ar/performance": ["إدارة الأداء"],
+    "/ar/recruitment": ["التوظيف والإلحاق"],
+    "/ar/training": ["التدريب والتطوير"],
+    "/ar/attendance": ["الوقت والحضور"],
+    "/ar/leave": ["إدارة الإجازات"],
+    "/ar/ai-ecosystem/workforce-optimizer": ["ذكاء المهارات"],
+    "/ar/ai-ecosystem/performance-insights": ["تحسين تجربة التعلم"],
+    "/ar/ai-ecosystem/retention-predictor": ["تحسين المشاركة التوليدية"],
+    "/ar/compliance": ["الامتثال والحوكمة"],
+    "/ar/government": ["التكاملات الحكومية"],
+    "/ar/additional/esg-hr": ["المسؤولية الاجتماعية"],
+    "/ar/diagnostic/cci": ["ذكاء الثقافة المؤسسية"]
+  },
+  "arabic_indic_numerals": {
+    "0": "٠", "1": "١", "2": "٢", "3": "٣", "4": "٤",
+    "5": "٥", "6": "٦", "7": "٧", "8": "٨", "9": "٩"
+  },
+  "critical_pages_for_screenshots": [
+    "/ar/system-overview",
+    "/ar/payroll", 
+    "/ar/leave",
+    "/ar/analytics",
+    "/ar/executive-center"
+  ]
+}

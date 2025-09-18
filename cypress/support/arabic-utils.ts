@@ -188,9 +188,54 @@ declare global {
       switchToArabic(): Chainable<void>;
       switchToEnglish(): Chainable<void>;
       validateArabicAccessibility(selector?: string): Chainable<void>;
+      validateExactArabicLabel(expectedArabic: string, context: string): Chainable<void>;
+      checkNumeralCompliance(route: string): Chainable<number>;
     }
   }
 }
+
+// Additional utility functions
+export const validateExactArabicLabel = (expectedArabic: string, context: string): Cypress.Chainable => {
+  return cy.get('body').should('contain.text', expectedArabic).then(() => {
+    cy.log(`✅ Found exact Arabic label: "${expectedArabic}" in ${context}`);
+  });
+};
+
+export const checkNumeralCompliance = (route: string): Cypress.Chainable => {
+  return cy.get('body').then(($body) => {
+    let violations = 0;
+    
+    // Check all user-facing numeric content
+    const contentSelectors = [
+      '[data-testid*="value"]', '[data-testid*="count"]', '[data-testid*="amount"]',
+      'h1, h2, h3', 'p', 'span', 'td', '.metric-value', '.kpi-value'
+    ];
+    
+    contentSelectors.forEach(selector => {
+      const elements = $body.find(selector);
+      elements.each((index, element) => {
+        const text = Cypress.$(element).text().trim();
+        if (text && /\d/.test(text)) {
+          const skipPatterns = [/ID:|v\d|http|class=|data-|aria-/];
+          const shouldSkip = skipPatterns.some(pattern => pattern.test(text));
+          
+          if (!shouldSkip) {
+            const hasWesternNumerals = /[0-9]/.test(text);
+            const hasArabicNumerals = /[٠-٩]/.test(text);
+            
+            if (hasWesternNumerals && !hasArabicNumerals) {
+              violations++;
+              cy.log(`Numeral violation: "${text}" in ${selector}`);
+            }
+          }
+        }
+      });
+    });
+    
+    cy.log(`Route ${route}: ${violations} numeral violations detected`);
+    return cy.wrap(violations);
+  });
+};
 
 // Register custom commands
 Cypress.Commands.add('validateArabicNumerals', validateArabicNumerals);
@@ -201,3 +246,5 @@ Cypress.Commands.add('measureArabicPageLoad', measureArabicPageLoad);
 Cypress.Commands.add('switchToArabic', switchToArabic);
 Cypress.Commands.add('switchToEnglish', switchToEnglish);
 Cypress.Commands.add('validateArabicAccessibility', validateArabicAccessibility);
+Cypress.Commands.add('validateExactArabicLabel', validateExactArabicLabel);
+Cypress.Commands.add('checkNumeralCompliance', checkNumeralCompliance);
