@@ -142,7 +142,7 @@ const Onboarding = () => {
         case 'backfill_kpis':
           // Call backfill function
           const { error: backfillError } = await supabase
-            .rpc('roi_backfill_snapshots_v1', { p_tenant: tenantId, p_days: 365 });
+            .rpc('roi_backfill_snapshots_v1' as any, { p_tenant: tenantId, p_days: 365 });
           success = !backfillError;
           break;
           

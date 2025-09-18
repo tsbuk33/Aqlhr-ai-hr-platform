@@ -130,7 +130,7 @@ const APIGateway: React.FC = () => {
         new Date(Date.now() + parseInt(expiresIn) * 24 * 60 * 60 * 1000).toISOString();
 
       const { data, error } = await supabase
-        .rpc('create_api_key', {
+        .rpc('create_api_key' as any, {
           p_tenant_id: tenantInfo.tenantId,
           p_key_name: newKeyName,
           p_scopes: selectedScopes,
@@ -163,7 +163,7 @@ const APIGateway: React.FC = () => {
   const revokeKeyMutation = useMutation({
     mutationFn: async (keyId: string) => {
       const { data, error } = await supabase
-        .rpc('revoke_api_key', { p_key_id: keyId });
+        .rpc('revoke_api_key' as any, { p_key_id: keyId });
       if (error) throw error;
       return data;
     },

@@ -127,7 +127,7 @@ const RetentionEarlyWarning = () => {
 
   const fetchHighRiskManagers = async (caseId: string) => {
     try {
-      const { data, error } = await supabase.rpc('rew_get_high_risk_managers_v1', {
+      const { data, error } = await supabase.rpc('rew_get_high_risk_managers_v1' as any, {
         p_case_id: caseId
       });
 
@@ -136,7 +136,7 @@ const RetentionEarlyWarning = () => {
         return;
       }
 
-      setHighRiskManagers(data || []);
+      setHighRiskManagers((data as HighRiskManager[]) || []);
     } catch (error) {
       console.error('Error:', error);
     }

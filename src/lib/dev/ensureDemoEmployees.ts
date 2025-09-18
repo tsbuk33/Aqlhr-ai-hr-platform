@@ -24,7 +24,7 @@ export async function ensureDemoEmployees(options: DemoSeedingOptions) {
     });
 
     // Call the dev seeding function
-    const { error: seedError } = await supabase.rpc('dev_seed_employees_v1', {
+    const { error: seedError } = await supabase.rpc('dev_seed_employees_v1' as any, {
       p_tenant: tenantId
     });
 
@@ -41,7 +41,7 @@ export async function ensureDemoEmployees(options: DemoSeedingOptions) {
 
     // Also backfill KPIs if the function exists
     try {
-      const { error: kpiError } = await supabase.rpc('dev_backfill_kpis_v1', {
+      const { error: kpiError } = await supabase.rpc('dev_backfill_kpis_v1' as any, {
         p_tenant: tenantId
       });
       

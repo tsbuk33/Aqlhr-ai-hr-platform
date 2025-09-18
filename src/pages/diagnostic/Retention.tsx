@@ -253,7 +253,7 @@ const Retention = () => {
                     try {
                       if (tenantId) {
                         // Use the new retention-specific RPC
-                        const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
+                        const { error: seedError } = await supabase.rpc('dev_seed_retention_v1' as any, {
                           p_tenant: tenantId
                         });
                         
@@ -308,9 +308,9 @@ const Retention = () => {
                   try {
                     if (tenantId) {
                       // Use the new retention-specific RPC
-                      const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
-                        p_tenant: tenantId
-                      });
+                        const { error: seedError } = await supabase.rpc('dev_seed_retention_v1' as any, {
+                          p_tenant: tenantId
+                        });
                       
                       if (seedError) throw seedError;
                       

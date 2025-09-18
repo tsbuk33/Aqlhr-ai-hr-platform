@@ -111,7 +111,7 @@ export default function DiagnosticHub() {
 
     try {
       // Use the new DB RPC directly
-      const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
+      const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1' as any, {
         p_tenant: tenantId,
         p_days: 365
       });
@@ -148,13 +148,13 @@ export default function DiagnosticHub() {
     
     setIsSeedingRetention(true);
     try {
-      const { error: seedError } = await supabase.rpc('dev_seed_retention_v1', {
+      const { error: seedError } = await supabase.rpc('dev_seed_retention_v1' as any, {
         p_tenant: tenantId
       });
       
       if (seedError) throw seedError;
       
-      const { error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
+      const { error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1' as any, {
         p_tenant: tenantId,
         p_days: 365
       });

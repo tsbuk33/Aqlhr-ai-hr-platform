@@ -29,7 +29,7 @@ export interface CCIPlaybookData {
 
 export async function fetchOverview(tenantId: string, surveyId: string, waveId?: string): Promise<CCIOverviewData | null> {
   try {
-    const { data, error } = await supabase.rpc('cci_get_overview_v1', {
+    const { data, error } = await supabase.rpc('cci_get_overview_v1' as any, {
       p_tenant: tenantId,
       p_survey: surveyId,
       p_wave: waveId || null
@@ -40,8 +40,8 @@ export async function fetchOverview(tenantId: string, surveyId: string, waveId?:
       return null;
     }
 
-    if (data && data.length > 0) {
-      const rawData = data[0];
+    if (data && (data as any[]).length > 0) {
+      const rawData = (data as any[])[0];
       return {
         balance_score: rawData.balance_score,
         risk_index: rawData.risk_index,
@@ -97,7 +97,7 @@ export async function fetchEvidenceInsights(tenantId: string, surveyId: string, 
 
 export async function fetchHeatmap(tenantId: string, surveyId: string, waveId: string, scope: 'dept' | 'project' | 'grade') {
   try {
-    const { data, error } = await supabase.rpc('cci_get_heatmap_v1', {
+    const { data, error } = await supabase.rpc('cci_get_heatmap_v1' as any, {
       p_tenant: tenantId,
       p_survey: surveyId,
       p_wave: waveId,

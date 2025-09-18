@@ -86,7 +86,7 @@ export async function ensureDemoData(): Promise<DemoDataStatus> {
 
     // 3) Backfill KPIs idempotently
     await logToUiEvents(tenantId, 'Backfilling KPI snapshots...', 'info');
-    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', { 
+    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1' as any, { 
       p_tenant: tenantId, 
       p_days: 365 
     });
@@ -143,7 +143,7 @@ export async function manualRecomputeKPIs(tenantId?: string): Promise<{ success:
     await logToUiEvents(targetTenant, 'Manual KPI recomputation started...', 'info');
 
     // Use the new DB backfill function (idempotent)
-    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1', {
+    const { data: backfillData, error: backfillError } = await supabase.rpc('dev_backfill_kpis_v1' as any, {
       p_tenant: targetTenant,
       p_days: 365
     });

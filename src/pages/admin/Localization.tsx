@@ -118,24 +118,25 @@ const Localization = () => {
 
   const loadPreferences = async () => {
     try {
-      const { data, error } = await supabase.rpc('get_tenant_localization_prefs', {
+      const { data, error } = await supabase.rpc('get_tenant_localization_prefs' as any, {
         p_tenant_id: companyId
       });
 
       if (error) throw error;
 
-      if (data && data.length > 0) {
+      if (data && (data as any[]).length > 0) {
+        const dataArray = data as any[];
         setPreferences({
-          default_language: data[0].default_language,
-          numeral_system: data[0].numeral_system,
-          default_calendar: data[0].default_calendar,
-          module_calendar_prefs: (data[0].module_calendar_prefs as Record<string, string>) || {},
-          date_format: data[0].date_format,
-          time_format: data[0].time_format,
-          currency_symbol: data[0].currency_symbol,
-          decimal_separator: data[0].decimal_separator,
-          thousands_separator: data[0].thousands_separator,
-          timezone: data[0].timezone
+          default_language: dataArray[0].default_language,
+          numeral_system: dataArray[0].numeral_system,
+          default_calendar: dataArray[0].default_calendar,
+          module_calendar_prefs: (dataArray[0].module_calendar_prefs as Record<string, string>) || {},
+          date_format: dataArray[0].date_format,
+          time_format: dataArray[0].time_format,
+          currency_symbol: dataArray[0].currency_symbol,
+          decimal_separator: dataArray[0].decimal_separator,
+          thousands_separator: dataArray[0].thousands_separator,
+          timezone: dataArray[0].timezone
         });
       }
     } catch (error) {
@@ -153,7 +154,7 @@ const Localization = () => {
   const savePreferences = async () => {
     setSaving(true);
     try {
-      const { error } = await supabase.rpc('update_localization_prefs', {
+      const { error } = await supabase.rpc('update_localization_prefs' as any, {
         p_tenant_id: companyId,
         p_preferences: preferences as any
       });

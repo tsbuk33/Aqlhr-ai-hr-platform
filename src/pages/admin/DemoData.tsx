@@ -83,7 +83,7 @@ export default function DemoDataPage() {
 
       toast.info(isArabic ? 'بدء إنشاء البيانات التاريخية للوحة القيادة (12 شهر)...' : 'Starting dashboard backfill (12 months)...');
 
-      const { error } = await supabase.rpc('dashboard_backfill_v1', {
+      const { error } = await supabase.rpc('dashboard_backfill_v1' as any, {
         p_tenant: tenantId,
         p_days: 365
       });
@@ -118,7 +118,7 @@ export default function DemoDataPage() {
       }
 
       // Call the new dashboard computation function for today
-      const { error } = await supabase.rpc('dashboard_compute_kpis_v1', {
+      const { error } = await supabase.rpc('dashboard_compute_kpis_v1' as any, {
         p_tenant: tenantId,
         p_date: new Date().toISOString().split('T')[0]
       });
@@ -194,7 +194,7 @@ export default function DemoDataPage() {
 
       toast.info(isArabic ? 'إعادة حساب مؤشرات الأداء لليوم...' : 'Recomputing KPIs for today...');
 
-      const { error } = await supabase.rpc('dashboard_compute_kpis_v1', {
+      const { error } = await supabase.rpc('dashboard_compute_kpis_v1' as any, {
         p_tenant: tenantId
       });
 
@@ -229,7 +229,7 @@ export default function DemoDataPage() {
 
       toast.info(isArabic ? 'بدء إنشاء البيانات التاريخية لـ12 شهر...' : 'Starting 12-month backfill...');
 
-      const { error } = await supabase.rpc('dashboard_backfill_v1', {
+      const { error } = await supabase.rpc('dashboard_backfill_v1' as any, {
         p_tenant: tenantId,
         p_days: 365
       });

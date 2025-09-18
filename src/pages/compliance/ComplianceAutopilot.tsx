@@ -71,12 +71,12 @@ export default function ComplianceAutopilot() {
 
       if (!userRoles?.company_id) return;
 
-      const { data } = await supabase.rpc('saudization_color_v1', {
+      const { data } = await supabase.rpc('saudization_color_v1' as any, {
         p_tenant: userRoles.company_id
       });
 
-      if (data && data.length > 0) {
-        setSaudizationStatus(data[0]);
+      if (data && (data as any[]).length > 0) {
+        setSaudizationStatus((data as any[])[0]);
       }
     } catch (error) {
       console.error('Error fetching Saudization status:', error);
@@ -216,7 +216,7 @@ export default function ComplianceAutopilot() {
 
       if (!userRoles?.company_id) return;
 
-      const { data, error } = await supabase.rpc('compliance_run_now_v1', {
+      const { data, error } = await supabase.rpc('compliance_run_now_v1' as any, {
         p_tenant: userRoles.company_id,
         p_dry: dryRun
       });
