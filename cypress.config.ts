@@ -1,4 +1,5 @@
 import { defineConfig } from 'cypress';
+import { setupReportingTasks } from './cypress/plugins/test-reporter';
 
 export default defineConfig({
   e2e: {
@@ -9,8 +10,14 @@ export default defineConfig({
     viewportHeight: 720,
     video: false,
     screenshotOnRunFailure: true,
+    defaultCommandTimeout: 10000,
+    pageLoadTimeout: 30000,
+    requestTimeout: 15000,
+    responseTimeout: 15000,
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      // Setup test reporting tasks
+      setupReportingTasks(on);
+      return config;
     },
   },
   component: {
