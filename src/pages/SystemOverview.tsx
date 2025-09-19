@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Home, Building2, BarChart3, Users, Shield, Zap, Globe, Sparkles, GraduationCap, Scale, Heart, Brain } from "lucide-react";
 import { useUnifiedLocale } from "@/lib/i18n/unifiedLocaleSystem";
 import { LinkL } from "@/lib/i18n/LinkL";
+import { RBACDiagram } from "@/components/rbac/RBACDiagram";
 
 type Mod = { icon: React.ComponentType<any>, titleEn: string, titleAr: string, descEn: string, descAr: string, link: string };
 
@@ -104,6 +105,20 @@ export default function SystemOverview() {
       <Section titleEn="Learning & Engagement" titleAr="التعلّم والمشاركة" items={learningEngagement} />
       <Section titleEn="Flagship & Specialized" titleAr="وحدات مميّزة ومتخصصة" items={flagship} />
       <Section titleEn="Other Modules" titleAr="وحدات أخرى" items={others} />
+
+      {/* RBAC Diagram Section */}
+      <section className="max-w-6xl mx-auto my-12">
+        <h2 className="text-xl font-bold mb-4 text-center">
+          {isAr ? "مصفوفة التحكم في الوصول القائم على الأدوار" : "Role-Based Access Control Matrix"}
+        </h2>
+        <p className="text-muted-foreground text-center mb-6">
+          {isAr 
+            ? "عرض مرئي شامل لتحديد صلاحيات الوصول لكل دور وظيفي في النظام"
+            : "Comprehensive visual mapping of access permissions for each functional role in the system"
+          }
+        </p>
+        <RBACDiagram />
+      </section>
     </main>
   );
 }
