@@ -13,10 +13,40 @@ REPORTS_DIR="$PROJECT_ROOT/cypress/reports"
 SCREENSHOTS_DIR="$PROJECT_ROOT/cypress/screenshots"
 TEMP_DIR="$PROJECT_ROOT/.temp/parallel-validation"
 
-# Server configuration
+# Server configuration - supports both local and external URLs
 SERVER_PORT=${AQLHR_DEV_PORT:-8081}
 SERVER_PID_FILE="$TEMP_DIR/server.pid"
 START_TIME=$(date +%s)
+EXTERNAL_URL=${AQLHR_TEST_URL:-""}
+USE_EXTERNAL_URL=false
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --external-url)
+            USE_EXTERNAL_URL=true
+            if [ -n "$EXTERNAL_URL" ]; then
+                BASE_URL="$EXTERNAL_URL"
+            fi
+            shift
+            ;;
+        --url)
+            BASE_URL="$2"
+            USE_EXTERNAL_URL=true
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Usage: $0 [--external-url] [--url <url>]"
+            exit 1
+            ;;
+    esac
+done
+
+# Set base URL based on mode
+if [ "$USE_EXTERNAL_URL" = false ]; then
+    BASE_URL="http://localhost:$SERVER_PORT"
+fi
 
 # Colors for output
 RED='\033[0;31m'
@@ -47,41 +77,67 @@ declare -A SUITE_DESCRIPTIONS=(
 
 # Function to start development server
 start_dev_server() {
-    echo -e "${YELLOW}🔧 Starting development server on port $SERVER_PORT...${NC}"
-    
-    # Check if server is already running
-    if curl -s "http://localhost:$SERVER_PORT" > /dev/null 2>&1; then
-        echo -e "${GREEN}✅ Server already running on port $SERVER_PORT${NC}"
-        return 0
-    fi
-    
-    # Start Vite dev server in background
-    cd "$PROJECT_ROOT"
-    VITE_PORT=$SERVER_PORT npm run dev > "$TEMP_DIR/server.log" 2>&1 &
-    local server_pid=$!
-    echo $server_pid > "$SERVER_PID_FILE"
-    
-    echo -e "${BLUE}⏳ Waiting for server to be ready (PID: $server_pid)...${NC}"
-    
-    # Wait for server to be ready with timeout
-    local timeout=60
-    local elapsed=0
-    while [ $elapsed -lt $timeout ]; do
+    if [ "$USE_EXTERNAL_URL" = true ]; then
+        echo -e "${YELLOW}🌐 Using external URL: ${BASE_URL}${NC}"
+        echo -e "${BLUE}⏳ Waiting for external site to be ready...${NC}"
+        
+        local timeout=60
+        local elapsed=0
+        while [ $elapsed -lt $timeout ]; do
+            if curl -s "$BASE_URL" > /dev/null 2>&1; then
+                echo -e "${GREEN}✅ External site is ready and accessible${NC}"
+                return 0
+            fi
+            sleep 2
+            elapsed=$((elapsed + 2))
+            echo -e "${CYAN}⏳ Checking external site... (${elapsed}s/${timeout}s)${NC}"
+        done
+        
+        echo -e "${RED}❌ External site is not accessible after ${timeout}s${NC}"
+        echo -e "${YELLOW}💡 Make sure the deployment is complete and the URL is correct${NC}"
+        exit 1
+    else
+        echo -e "${YELLOW}🔧 Starting development server on port $SERVER_PORT...${NC}"
+        
+        # Check if server is already running
         if curl -s "http://localhost:$SERVER_PORT" > /dev/null 2>&1; then
-            echo -e "${GREEN}✅ Development server ready on http://localhost:$SERVER_PORT${NC}"
+            echo -e "${GREEN}✅ Server already running on port $SERVER_PORT${NC}"
             return 0
         fi
-        sleep 2
-        elapsed=$((elapsed + 2))
-        echo -e "${CYAN}⏳ Server starting... (${elapsed}s/${timeout}s)${NC}"
-    done
-    
-    echo -e "${RED}❌ Server failed to start within ${timeout}s${NC}"
-    return 1
+        
+        # Start Vite dev server in background
+        cd "$PROJECT_ROOT"
+        VITE_PORT=$SERVER_PORT npm run dev > "$TEMP_DIR/server.log" 2>&1 &
+        local server_pid=$!
+        echo $server_pid > "$SERVER_PID_FILE"
+        
+        echo -e "${BLUE}⏳ Waiting for server to be ready (PID: $server_pid)...${NC}"
+        
+        # Wait for server to be ready with timeout
+        local timeout=60
+        local elapsed=0
+        while [ $elapsed -lt $timeout ]; do
+            if curl -s "http://localhost:$SERVER_PORT" > /dev/null 2>&1; then
+                echo -e "${GREEN}✅ Development server ready on http://localhost:$SERVER_PORT${NC}"
+                return 0
+            fi
+            sleep 2
+            elapsed=$((elapsed + 2))
+            echo -e "${CYAN}⏳ Server starting... (${elapsed}s/${timeout}s)${NC}"
+        done
+        
+        echo -e "${RED}❌ Server failed to start within ${timeout}s${NC}"
+        return 1
+    fi
 }
 
 # Function to stop development server  
 stop_dev_server() {
+    if [ "$USE_EXTERNAL_URL" = true ]; then
+        echo -e "${BLUE}🌐 External URL mode - no local server to stop${NC}"
+        return 0
+    fi
+    
     if [ -f "$SERVER_PID_FILE" ]; then
         local server_pid=$(cat "$SERVER_PID_FILE")
         echo -e "${YELLOW}🛑 Stopping development server (PID: $server_pid)...${NC}"
@@ -152,7 +208,7 @@ run_suite_parallel() {
             --spec "$spec_file" \
             --reporter json \
             --reporter-options "reportFilename=$REPORTS_DIR/${suite_name}_${TIMESTAMP}.json" \
-            --config baseUrl=http://localhost:$SERVER_PORT,video=false,screenshotOnRunFailure=true \
+            --config baseUrl=$BASE_URL,video=false,screenshotOnRunFailure=true \
             > "$output_file" 2>&1
         echo $? > "$TEMP_DIR/${suite_name}_exit_code.txt"
     ) &

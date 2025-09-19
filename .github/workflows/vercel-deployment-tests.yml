@@ -1,0 +1,76 @@
+name: Vercel Deployment Tests
+
+on:
+  deployment_status:
+    types: [success]
+
+jobs:
+  test-deployment:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'production'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Wait for deployment to be ready
+        run: |
+          echo "Waiting for deployment to be accessible..."
+          sleep 30
+          curl -f ${{ github.event.deployment_status.target_url }} || exit 1
+
+      - name: Run parallel validation tests
+        env:
+          CYPRESS_BASE_URL: ${{ github.event.deployment_status.target_url }}
+          # Add any required secrets
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          # Modify script to use external URL instead of local server
+          export AQLHR_TEST_URL="${{ github.event.deployment_status.target_url }}"
+          chmod +x ./scripts/run-parallel-validation.sh
+          ./scripts/run-parallel-validation.sh --external-url
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-reports
+          path: reports/parallel-validation/
+          retention-days: 30
+
+      - name: Comment on PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = 'reports/parallel-validation/consolidated-report.json';
+            if (fs.existsSync(reportPath)) {
+              const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+              const comment = `## 🚀 Deployment Tests Results
+              
+              **Total Tests:** ${report.totalTests}
+              **Passed:** ${report.passed}
+              **Failed:** ${report.failed}
+              **Success Rate:** ${report.successRate}%
+              
+              ${report.failed > 0 ? '❌ Some tests failed. Check the artifacts for details.' : '✅ All tests passed!'}
+              `;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
