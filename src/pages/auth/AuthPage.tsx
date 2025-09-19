@@ -149,7 +149,9 @@ const AuthPage: React.FC = () => {
     setError(null);
 
     try {
-      const redirectUrl = `${window.location.origin}/dashboard`;
+      // Use consistent callback URL for all environments  
+      const baseUrl = window.location.origin;
+      const redirectUrl = `${baseUrl}/en/auth/callback`;
       
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,

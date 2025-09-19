@@ -4,6 +4,7 @@ import { Home, Building2, BarChart3, Users, Shield, Zap, Globe, Sparkles, Gradua
 import { useUnifiedLocale } from "@/lib/i18n/unifiedLocaleSystem";
 import { LinkL } from "@/lib/i18n/LinkL";
 import { RBACDiagram } from "@/components/rbac/RBACDiagram";
+import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
 
 type Mod = { icon: React.ComponentType<any>, titleEn: string, titleAr: string, descEn: string, descAr: string, link: string };
 
@@ -118,6 +119,20 @@ export default function SystemOverview() {
           }
         </p>
         <RBACDiagram />
+      </section>
+
+      {/* Authentication Debug Section */}
+      <section className="max-w-6xl mx-auto my-12">
+        <h2 className="text-xl font-bold mb-4 text-center">
+          {isAr ? "استكشاف أخطاء المصادقة" : "Authentication Troubleshooting"}
+        </h2>
+        <p className="text-muted-foreground text-center mb-6">
+          {isAr 
+            ? "أدوات تشخيص مشاكل تسجيل الدخول والمصادقة للمطورين"
+            : "Diagnostic tools for login and authentication issues (for developers)"
+          }
+        </p>
+        <AuthDebugPanel />
       </section>
     </main>
   );

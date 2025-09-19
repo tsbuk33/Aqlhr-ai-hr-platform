@@ -74,7 +74,9 @@ export const useAuth = () => {
   const signUp = async (email: string, password: string, metadata?: any) => {
     try {
       setLoading(true);
-      const redirectUrl = `${window.location.origin}/`;
+      // Use consistent callback URL for all environments
+      const baseUrl = window.location.origin;
+      const redirectUrl = `${baseUrl}/en/auth/callback`;
       
       const { data, error } = await supabase.auth.signUp({
         email: email.trim(),

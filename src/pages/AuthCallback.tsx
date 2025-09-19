@@ -14,30 +14,40 @@ export default function AuthCallback() {
   useEffect(() => {
     const handleAuthCallback = async () => {
       try {
-        // Handle the authentication callback
+        console.log('Auth callback processing...');
+        
+        // Handle the authentication callback with hash fragments
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
-console.error('Auth callback error:', error);
-navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
-return;
+          console.error('Auth callback error:', error);
+          navigate(localePath('auth', resolveLang()) + '?error=' + encodeURIComponent(error.message));
+          return;
         }
 
         if (data.session) {
-          // Get the next URL or default to dashboard
-const next = searchParams.get('next') || localePath('dashboard', resolveLang());
-navigate(next, { replace: true });
+          console.log('Session found, user authenticated:', data.session.user.email);
+          // Get the next URL or default to system overview
+          const next = searchParams.get('next') || localePath('system-overview', resolveLang());
+          
+          // Small delay to ensure session is properly established
+          setTimeout(() => {
+            navigate(next, { replace: true });
+          }, 500);
         } else {
-          // No session, redirect to auth
-navigate(localePath('auth', resolveLang()));
+          console.log('No session found, redirecting to auth');
+          // No session, redirect to auth with info message
+          navigate(localePath('auth', resolveLang()) + '?info=Please check your email and click the verification link');
         }
       } catch (error) {
-        console.error('Auth callback error:', error);
-navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
+        console.error('Auth callback unexpected error:', error);
+        navigate(localePath('auth', resolveLang()) + '?error=callback_failed');
       }
     };
 
-    handleAuthCallback();
+    // Add small delay to ensure URL fragments are processed
+    const timer = setTimeout(handleAuthCallback, 100);
+    return () => clearTimeout(timer);
   }, [navigate, searchParams]);
 
   // Show loading while processing
