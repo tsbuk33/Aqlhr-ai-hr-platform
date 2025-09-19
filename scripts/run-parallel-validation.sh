@@ -13,19 +13,129 @@ REPORTS_DIR="$PROJECT_ROOT/cypress/reports"
 SCREENSHOTS_DIR="$PROJECT_ROOT/cypress/screenshots"
 TEMP_DIR="$PROJECT_ROOT/.temp/parallel-validation"
 
+# Server configuration
+SERVER_PORT=${AQLHR_DEV_PORT:-8081}
+SERVER_PID_FILE="$TEMP_DIR/server.pid"
+START_TIME=$(date +%s)
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Create necessary directories
 mkdir -p "$REPORTS_DIR" "$SCREENSHOTS_DIR" "$TEMP_DIR"
 
+# Test suite definitions
+declare -A TEST_SUITES=(
+    ["comprehensive"]="cypress/e2e/comprehensive-route-testing.cy.ts"
+    ["arabic_validation"]="cypress/e2e/strict-arabic-validation.cy.ts"
+    ["rtl_validation"]="cypress/e2e/rtl-validation.cy.ts"
+    ["interactive"]="cypress/e2e/interactive-components.cy.ts"
+    ["screenshots"]="cypress/e2e/capture-critical-screenshots.cy.ts"
+)
+
+declare -A SUITE_DESCRIPTIONS=(
+    ["comprehensive"]="Comprehensive Route Testing"
+    ["arabic_validation"]="Strict Arabic Validation"
+    ["rtl_validation"]="RTL Layout Validation"
+    ["interactive"]="Interactive Components Testing"
+    ["screenshots"]="Critical Screenshots Capture"
+)
+
+# Function to start development server
+start_dev_server() {
+    echo -e "${YELLOW}🔧 Starting development server on port $SERVER_PORT...${NC}"
+    
+    # Check if server is already running
+    if curl -s "http://localhost:$SERVER_PORT" > /dev/null 2>&1; then
+        echo -e "${GREEN}✅ Server already running on port $SERVER_PORT${NC}"
+        return 0
+    fi
+    
+    # Start Vite dev server in background
+    cd "$PROJECT_ROOT"
+    VITE_PORT=$SERVER_PORT npm run dev > "$TEMP_DIR/server.log" 2>&1 &
+    local server_pid=$!
+    echo $server_pid > "$SERVER_PID_FILE"
+    
+    echo -e "${BLUE}⏳ Waiting for server to be ready (PID: $server_pid)...${NC}"
+    
+    # Wait for server to be ready with timeout
+    local timeout=60
+    local elapsed=0
+    while [ $elapsed -lt $timeout ]; do
+        if curl -s "http://localhost:$SERVER_PORT" > /dev/null 2>&1; then
+            echo -e "${GREEN}✅ Development server ready on http://localhost:$SERVER_PORT${NC}"
+            return 0
+        fi
+        sleep 2
+        elapsed=$((elapsed + 2))
+        echo -e "${CYAN}⏳ Server starting... (${elapsed}s/${timeout}s)${NC}"
+    done
+    
+    echo -e "${RED}❌ Server failed to start within ${timeout}s${NC}"
+    return 1
+}
+
+# Function to stop development server  
+stop_dev_server() {
+    if [ -f "$SERVER_PID_FILE" ]; then
+        local server_pid=$(cat "$SERVER_PID_FILE")
+        echo -e "${YELLOW}🛑 Stopping development server (PID: $server_pid)...${NC}"
+        kill $server_pid 2>/dev/null || true
+        rm -f "$SERVER_PID_FILE"
+        echo -e "${GREEN}✅ Development server stopped${NC}"
+    fi
+}
+
+# Function to show real-time progress
+show_progress() {
+    local total_suites=${#TEST_SUITES[@]}
+    local completed=0
+    local start_time=$(date +%s)
+    
+    echo -e "${PURPLE}📊 Real-time Progress Monitor${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    
+    while [ $completed -lt $total_suites ]; do
+        completed=0
+        local status_line=""
+        
+        for suite in "${!TEST_SUITES[@]}"; do
+            if [ -f "$TEMP_DIR/${suite}_exit_code.txt" ]; then
+                local exit_code=$(cat "$TEMP_DIR/${suite}_exit_code.txt")
+                if [ "$exit_code" -eq 0 ]; then
+                    status_line="${status_line}✅"
+                else
+                    status_line="${status_line}❌"
+                fi
+                completed=$((completed + 1))
+            else
+                status_line="${status_line}🔄"
+            fi
+        done
+        
+        local current_time=$(date +%s)
+        local elapsed=$((current_time - start_time))
+        local progress_percent=$((completed * 100 / total_suites))
+        
+        printf "\r${CYAN}Progress: [%s] %d/%d (%d%%) - %ds elapsed${NC}" \
+               "$status_line" "$completed" "$total_suites" "$progress_percent" "$elapsed"
+        
+        sleep 2
+    done
+    echo ""
+}
+
 echo -e "${BLUE}🚀 AqlHR Parallel Validation Pipeline Starting...${NC}"
 echo -e "${BLUE}📊 Expected runtime: 4-5 minutes (70% faster than sequential)${NC}"
 echo -e "${BLUE}📁 Reports will be saved to: $REPORTS_DIR${NC}"
+echo -e "${BLUE}🔧 Server port: $SERVER_PORT${NC}"
 echo ""
 
 # Function to run a test suite in background
@@ -44,7 +154,7 @@ run_suite_parallel() {
             --spec "$spec_file" \
             --reporter json \
             --reporter-options "reportFilename=$REPORTS_DIR/${suite_name}_${TIMESTAMP}.json" \
-            --config video=false,screenshotOnRunFailure=true \
+            --config baseUrl=http://localhost:$SERVER_PORT,video=false,screenshotOnRunFailure=true \
             > "$output_file" 2>&1
         echo $? > "$TEMP_DIR/${suite_name}_exit_code.txt"
     ) &
@@ -57,17 +167,21 @@ run_suite_parallel() {
 # Function to wait for all background jobs and collect results
 wait_for_suites() {
     local all_passed=true
-    local suite_results=()
+    suite_results=() # Make global for report generation
     
     echo -e "${YELLOW}⏳ Waiting for all test suites to complete...${NC}"
+    echo ""
+    
+    # Start progress monitor in background
+    show_progress &
+    local progress_pid=$!
     
     # Wait for all background jobs
     for pid_file in "$TEMP_DIR"/*.pid; do
-        if [ -f "$pid_file" ]; then
+        if [[ -f "$pid_file" && ! "$pid_file" == *"server.pid" ]]; then
             local pid=$(cat "$pid_file")
             local suite_name=$(basename "$pid_file" .pid)
             
-            echo -e "${BLUE}⏳ Waiting for $suite_name (PID: $pid)...${NC}"
             wait $pid 2>/dev/null || true
             
             # Check exit code
@@ -75,19 +189,36 @@ wait_for_suites() {
             if [ -f "$exit_code_file" ]; then
                 local exit_code=$(cat "$exit_code_file")
                 if [ "$exit_code" -eq 0 ]; then
-                    echo -e "${GREEN}✅ $suite_name completed successfully${NC}"
                     suite_results+=("$suite_name:PASS")
                 else
-                    echo -e "${RED}❌ $suite_name failed with exit code $exit_code${NC}"
                     suite_results+=("$suite_name:FAIL")
                     all_passed=false
                 fi
             else
-                echo -e "${RED}❌ $suite_name - no exit code found${NC}"
                 suite_results+=("$suite_name:UNKNOWN")
                 all_passed=false
             fi
         fi
+    done
+    
+    # Stop progress monitor
+    kill $progress_pid 2>/dev/null || true
+    wait $progress_pid 2>/dev/null || true
+    
+    echo ""
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    
+    # Show final results
+    for result in "${suite_results[@]}"; do
+        local suite_name="${result%:*}"
+        local status="${result#*:}"
+        local description="${SUITE_DESCRIPTIONS[$suite_name]}"
+        
+        case "$status" in
+            "PASS") echo -e "${GREEN}✅ $description - PASSED${NC}" ;;
+            "FAIL") echo -e "${RED}❌ $description - FAILED${NC}" ;;
+            *) echo -e "${YELLOW}❓ $description - UNKNOWN${NC}" ;;
+        esac
     done
     
     return $([ "$all_passed" = true ] && echo 0 || echo 1)
@@ -135,12 +266,74 @@ EOF
     echo -e "${BLUE}📸 Screenshot capture started with PID: $screenshot_pid${NC}"
 }
 
+# Function to generate execution summary
+generate_execution_summary() {
+    local end_time=$(date +%s)
+    local total_time=$((end_time - START_TIME))
+    local minutes=$((total_time / 60))
+    local seconds=$((total_time % 60))
+    
+    local passed=0
+    local failed=0
+    local unknown=0
+    
+    for result in "${suite_results[@]}"; do
+        local status="${result#*:}"
+        case "$status" in
+            "PASS") passed=$((passed + 1)) ;;
+            "FAIL") failed=$((failed + 1)) ;;
+            *) unknown=$((unknown + 1)) ;;
+        esac
+    done
+    
+    local total_suites=${#suite_results[@]}
+    local success_rate=0
+    if [ $total_suites -gt 0 ]; then
+        success_rate=$((passed * 100 / total_suites))
+    fi
+    
+    echo ""
+    echo -e "${PURPLE}═══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${PURPLE}🎯 EXECUTION SUMMARY${NC}"
+    echo -e "${PURPLE}═══════════════════════════════════════════════════════════════${NC}"
+    echo -e "${CYAN}⏱️  Total Execution Time: ${minutes}m ${seconds}s${NC}"
+    echo -e "${GREEN}✅ Passed: $passed${NC}"
+    echo -e "${RED}❌ Failed: $failed${NC}"
+    echo -e "${YELLOW}❓ Unknown: $unknown${NC}"
+    echo -e "${BLUE}📈 Success Rate: ${success_rate}%${NC}"
+    echo -e "${PURPLE}═══════════════════════════════════════════════════════════════${NC}"
+    
+    # Generate JSON summary
+    local summary_file="$REPORTS_DIR/validation_summary_${TIMESTAMP}.json"
+    cat > "$summary_file" << EOF
+{
+  "timestamp": "$TIMESTAMP",
+  "execution_time_seconds": $total_time,
+  "execution_time_formatted": "${minutes}m ${seconds}s",
+  "total_suites": $total_suites,
+  "passed": $passed,
+  "failed": $failed,
+  "unknown": $unknown,
+  "success_rate": $success_rate,
+  "suite_results": [
+$(for result in "${suite_results[@]}"; do
+    local suite_name="${result%:*}"
+    local status="${result#*:}"
+    local description="${SUITE_DESCRIPTIONS[$suite_name]}"
+    echo "    {\"suite\": \"$suite_name\", \"description\": \"$description\", \"status\": \"$status\"},"
+done | sed '$ s/,$//')
+  ]
+}
+EOF
+    
+    echo -e "${GREEN}📄 Summary report generated: $summary_file${NC}"
+}
+
 # Function to generate consolidated report
 generate_consolidated_report() {
     echo -e "${YELLOW}📊 Generating consolidated validation report...${NC}"
     
     local report_file="$REPORTS_DIR/parallel_validation_report_${TIMESTAMP}.html"
-    local summary_file="$REPORTS_DIR/validation_summary_${TIMESTAMP}.json"
     
     cat > "$report_file" << EOF
 <!DOCTYPE html>
@@ -237,50 +430,64 @@ EOF
 main() {
     echo -e "${BLUE}🔧 Initializing parallel validation environment...${NC}"
     
+    # Setup cleanup trap
+    trap 'stop_dev_server; rm -rf "$TEMP_DIR"; exit 1' INT TERM EXIT
+    
     # Clear temp directory
     rm -rf "$TEMP_DIR"
     mkdir -p "$TEMP_DIR"
     
-    # Start all test suites in parallel
+    # Start development server
+    if ! start_dev_server; then
+        echo -e "${RED}❌ Failed to start development server. Exiting.${NC}"
+        exit 1
+    fi
+    
+    echo ""
     echo -e "${YELLOW}🚀 Launching all test suites in parallel...${NC}"
+    echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     
-    run_suite_parallel "arabic_numerals" "cypress/e2e/arabic-numerals-only.cy.ts" "Arabic Numerals Validation"
-    run_suite_parallel "bilingual_labels" "cypress/e2e/bilingual-labels-only.cy.ts" "Bilingual Labels Validation"
-    run_suite_parallel "rtl_layout" "cypress/e2e/rtl-layout-only.cy.ts" "RTL Layout Validation"
-    run_suite_parallel "critical_pages" "cypress/e2e/critical-pages-only.cy.ts" "Critical Pages Validation"
-    run_suite_parallel "interactive_elements" "cypress/e2e/interactive-elements.cy.ts" "Interactive Elements Validation"
+    # Launch all test suites in parallel
+    for suite in "${!TEST_SUITES[@]}"; do
+        local spec_file="${TEST_SUITES[$suite]}"
+        local description="${SUITE_DESCRIPTIONS[$suite]}"
+        run_suite_parallel "$suite" "$spec_file" "$description"
+    done
     
-    # Start screenshot capture in parallel
-    capture_screenshots_parallel
+    echo ""
+    echo -e "${BLUE}All test suites launched! Monitoring progress...${NC}"
     
     # Wait for all suites to complete
-    if wait_for_suites; then
-        echo -e "${GREEN}🎉 All test suites completed successfully!${NC}"
-    else
+    local validation_success=true
+    if ! wait_for_suites; then
         echo -e "${YELLOW}⚠️  Some test suites had issues, but continuing with report generation...${NC}"
+        validation_success=false
     fi
     
-    # Wait for screenshot capture
-    if [ -f "$TEMP_DIR/screenshots.pid" ]; then
-        local screenshot_pid=$(cat "$TEMP_DIR/screenshots.pid")
-        echo -e "${BLUE}📸 Waiting for screenshot capture to complete...${NC}"
-        wait $screenshot_pid 2>/dev/null || true
-        echo -e "${GREEN}📸 Screenshot capture completed${NC}"
-    fi
-    
-    # Generate consolidated report
+    # Generate execution summary and consolidated report
+    generate_execution_summary
     generate_consolidated_report
+    
+    # Stop development server
+    stop_dev_server
     
     # Cleanup
     rm -rf "$TEMP_DIR"
     
     echo ""
-    echo -e "${GREEN}✅ Parallel validation pipeline completed!${NC}"
+    if [ "$validation_success" = true ]; then
+        echo -e "${GREEN}🎉 Parallel validation pipeline completed successfully!${NC}"
+    else
+        echo -e "${YELLOW}⚠️  Parallel validation pipeline completed with some issues${NC}"
+    fi
     echo -e "${GREEN}📊 Performance improvement: ~70% faster execution${NC}"
     echo -e "${BLUE}📁 Reports available in: $REPORTS_DIR${NC}"
     echo -e "${BLUE}📸 Screenshots available in: $SCREENSHOTS_DIR${NC}"
     echo ""
-    echo -e "${YELLOW}🎯 Production sign-off package ready!${NC}"
+    echo -e "${PURPLE}🎯 Production sign-off package ready for review!${NC}"
+    
+    # Remove trap before normal exit
+    trap - INT TERM EXIT
 }
 
 # Run main function
