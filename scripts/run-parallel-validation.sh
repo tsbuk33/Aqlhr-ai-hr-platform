@@ -30,21 +30,19 @@ NC='\033[0m' # No Color
 # Create necessary directories
 mkdir -p "$REPORTS_DIR" "$SCREENSHOTS_DIR" "$TEMP_DIR"
 
-# Test suite definitions
+# Test suite definitions - using existing test files
 declare -A TEST_SUITES=(
-    ["comprehensive"]="cypress/e2e/comprehensive-route-testing.cy.ts"
-    ["arabic_validation"]="cypress/e2e/strict-arabic-validation.cy.ts"
-    ["rtl_validation"]="cypress/e2e/rtl-validation.cy.ts"
-    ["interactive"]="cypress/e2e/interactive-components.cy.ts"
-    ["screenshots"]="cypress/e2e/capture-critical-screenshots.cy.ts"
+    ["arabic_numerals"]="cypress/e2e/arabic-indic-numerals.cy.ts"
+    ["rtl_i18n"]="cypress/e2e/rtl_i18n_spec.cy.ts"
+    ["module_features"]="cypress/e2e/module-features.cy.ts"
+    ["capture_screenshots"]="cypress/e2e/capture-critical-screenshots.cy.ts"
 )
 
 declare -A SUITE_DESCRIPTIONS=(
-    ["comprehensive"]="Comprehensive Route Testing"
-    ["arabic_validation"]="Strict Arabic Validation"
-    ["rtl_validation"]="RTL Layout Validation"
-    ["interactive"]="Interactive Components Testing"
-    ["screenshots"]="Critical Screenshots Capture"
+    ["arabic_numerals"]="Arabic-Indic Numerals Validation"
+    ["rtl_i18n"]="RTL & i18n Validation"
+    ["module_features"]="Module Features Testing"
+    ["capture_screenshots"]="Critical Screenshots Capture"
 )
 
 # Function to start development server
