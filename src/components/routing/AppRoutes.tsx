@@ -8,6 +8,12 @@ import AuthCallback from '@/pages/AuthCallback';
 import Dashboard from '@/pages/Dashboard';
 import AqlHRLanding from '@/pages/AqlHRLanding';
 import SystemOverview from '@/pages/SystemOverview';
+import CoreHRPublic from '@/pages/CoreHRPublic';
+import RecruitmentPublic from '@/pages/RecruitmentPublic';
+import AnalyticsPublic from '@/pages/AnalyticsPublic';
+import CompliancePublic from '@/pages/CompliancePublic';
+import GovernmentPublic from '@/pages/GovernmentPublic';
+import AIAutomationPublic from '@/pages/AIAutomationPublic';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
@@ -77,6 +83,38 @@ export default function AppRoutes() {
         <Route path="system-overview" element={
           <Suspense fallback={<RouteLoading />}>
             <SystemOverview />
+          </Suspense>
+        } />
+
+        {/* Public preview pages for key modules */}
+        <Route path="core-hr" element={
+          <Suspense fallback={<RouteLoading />}>
+            <CoreHRPublic />
+          </Suspense>
+        } />
+        <Route path="recruitment" element={
+          <Suspense fallback={<RouteLoading />}>
+            <RecruitmentPublic />
+          </Suspense>
+        } />
+        <Route path="analytics" element={
+          <Suspense fallback={<RouteLoading />}>
+            <AnalyticsPublic />
+          </Suspense>
+        } />
+        <Route path="compliance" element={
+          <Suspense fallback={<RouteLoading />}>
+            <CompliancePublic />
+          </Suspense>
+        } />
+        <Route path="government" element={
+          <Suspense fallback={<RouteLoading />}>
+            <GovernmentPublic />
+          </Suspense>
+        } />
+        <Route path="ai-automation" element={
+          <Suspense fallback={<RouteLoading />}>
+            <AIAutomationPublic />
           </Suspense>
         } />
 
