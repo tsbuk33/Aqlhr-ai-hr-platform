@@ -13462,6 +13462,30 @@ export type Database = {
         }
         Relationships: []
       }
+      security_function_registry: {
+        Row: {
+          approved_by: string | null
+          documented_date: string | null
+          function_name: string | null
+          justification: string | null
+          schema_name: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          documented_date?: string | null
+          function_name?: string | null
+          justification?: string | null
+          schema_name?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          documented_date?: string | null
+          function_name?: string | null
+          justification?: string | null
+          schema_name?: string | null
+        }
+        Relationships: []
+      }
       user_profiles_with_roles: {
         Row: {
           company_id: string | null
