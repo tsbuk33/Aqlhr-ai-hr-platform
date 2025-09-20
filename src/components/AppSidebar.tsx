@@ -1098,3 +1098,10 @@ export function AppSidebar() {
                   <span className="text-xs">{isArabic ? 'التبديل إلى الإنجليزية' : 'Switch to Arabic'}</span>
                 </Button>
               </div>
+            </div>
+          )}
+        </SidebarFooter>
+      </Sidebar>
+    </TooltipProvider>
+  );
+}
