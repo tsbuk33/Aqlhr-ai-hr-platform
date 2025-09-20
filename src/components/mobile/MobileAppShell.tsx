@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
 import { Network } from '@capacitor/network';
-import { Storage } from '@capacitor/storage';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { User, Shield, Crown, Wifi, WifiOff, Download, Smartphone } from 'lucide-react';
-import { useLanguage } from '@/hooks/useLanguage';
-import { useAuthOptional } from '@/hooks/useAuthOptional';
+import { Geolocation } from '@capacitor/geolocation';
+import { Camera } from '@capacitor/camera';
+import { PushNotifications } from '@capacitor/push-notifications';
 import { EmployeeMobileApp } from './EmployeeMobileApp';
 import { ManagerMobileApp } from './ManagerMobileApp';
 import { ExecutiveMobileApp } from './ExecutiveMobileApp';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  Smartphone, 
+  Download, 
+  Wifi, 
+  WifiOff, 
+  MapPin, 
+  Camera as CameraIcon,
+  Bell,
+  Fingerprint,
+  Users,
+  BarChart3,
+  User
+} from 'lucide-react';
 
 type UserRole = 'employee' | 'manager' | 'executive';
 
@@ -19,22 +32,24 @@ interface MobileCapabilities {
   camera: boolean;
   geolocation: boolean;
   pushNotifications: boolean;
-  offline: boolean;
 }
 
-export const MobileAppShell: React.FC = () => {
-  const { language } = useLanguage();
-  const { user } = useAuthOptional();
-  const isArabic = language === 'ar';
-  
+interface MobileAppShellProps {
+  user?: {
+    id: string;
+    email: string;
+    role?: UserRole;
+  };
+}
+
+export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
   const [isOnline, setIsOnline] = useState(true);
   const [userRole, setUserRole] = useState<UserRole>('employee');
   const [capabilities, setCapabilities] = useState<MobileCapabilities>({
     biometric: false,
     camera: false,
     geolocation: false,
-    pushNotifications: false,
-    offline: true
+    pushNotifications: false
   });
   const [isNativeApp, setIsNativeApp] = useState(false);
 
@@ -45,59 +60,84 @@ export const MobileAppShell: React.FC = () => {
   }, [user]);
 
   const checkCapabilities = async () => {
-    // Check if running in native app context
-    const isNative = !!(window as any).Capacitor?.isNativePlatform?.();
+    const isNative = Capacitor.isNativePlatform();
     setIsNativeApp(isNative);
 
-    const caps: MobileCapabilities = {
-      biometric: isNative && 'BiometricAuth' in (window as any),
-      camera: isNative && 'Camera' in (window as any),
-      geolocation: 'geolocation' in navigator,
-      pushNotifications: isNative && 'PushNotifications' in (window as any),
-      offline: true // Service Worker support
-    };
+    try {
+      // Check biometric availability
+      const biometric = isNative; // Simplified check
 
-    setCapabilities(caps);
+      // Check camera availability
+      let camera = false;
+      try {
+        await Camera.checkPermissions();
+        camera = true;
+      } catch (e) {
+        camera = false;
+      }
 
-    // Store capabilities info
-    await Storage.set({ 
-      key: 'mobile_capabilities', 
-      value: JSON.stringify(caps) 
-    });
+      // Check geolocation availability
+      let geolocation = false;
+      try {
+        await Geolocation.checkPermissions();
+        geolocation = true;
+      } catch (e) {
+        geolocation = false;
+      }
+
+      // Check push notifications availability
+      let pushNotifications = false;
+      try {
+        await PushNotifications.checkPermissions();
+        pushNotifications = isNative;
+      } catch (e) {
+        pushNotifications = false;
+      }
+
+      setCapabilities({
+        biometric,
+        camera,
+        geolocation,
+        pushNotifications
+      });
+
+      console.log('Mobile capabilities detected:', {
+        biometric,
+        camera,
+        geolocation,
+        pushNotifications,
+        isNative
+      });
+    } catch (error) {
+      console.error('Error checking capabilities:', error);
+    }
   };
 
   const setupNetworkListener = async () => {
-    if (!isNativeApp) {
-      // Web fallback
-      setIsOnline(navigator.onLine);
-      window.addEventListener('online', () => setIsOnline(true));
-      window.addEventListener('offline', () => setIsOnline(false));
-      return;
+    try {
+      if (Capacitor.isNativePlatform()) {
+        const status = await Network.getStatus();
+        setIsOnline(status.connected);
+
+        Network.addListener('networkStatusChange', (status) => {
+          setIsOnline(status.connected);
+        });
+      } else {
+        // Web fallback
+        setIsOnline(navigator.onLine);
+        window.addEventListener('online', () => setIsOnline(true));
+        window.addEventListener('offline', () => setIsOnline(false));
+      }
+    } catch (error) {
+      console.error('Error setting up network listener:', error);
     }
-
-    const status = await Network.getStatus();
-    setIsOnline(status.connected);
-
-    Network.addListener('networkStatusChange', (status) => {
-      setIsOnline(status.connected);
-    });
   };
 
   const determineUserRole = () => {
-    // This should be determined from user profile/permissions
-    // For demo purposes, we'll use a simple logic
-    if (!user) {
-      setUserRole('employee');
-      return;
-    }
-
-    const email = user.email || '';
-    if (email.includes('executive') || email.includes('ceo') || email.includes('manager')) {
-      if (email.includes('executive') || email.includes('ceo')) {
-        setUserRole('executive');
-      } else {
-        setUserRole('manager');
-      }
+    if (user?.email?.includes('manager')) {
+      setUserRole('manager');
+    } else if (user?.email?.includes('executive') || user?.email?.includes('admin')) {
+      setUserRole('executive');
     } else {
       setUserRole('employee');
     }
@@ -105,82 +145,43 @@ export const MobileAppShell: React.FC = () => {
 
   const switchRole = (role: UserRole) => {
     setUserRole(role);
-    // Store user preference
-    Storage.set({ key: 'preferred_role', value: role });
+    // Store preference
+    localStorage.setItem('mobile_app_role', role);
   };
 
   const downloadNativeApp = () => {
-    // This would typically redirect to app stores
     const userAgent = navigator.userAgent.toLowerCase();
     
-    if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-      // Redirect to App Store
-      window.open('https://apps.apple.com/app/aqlhr-platform', '_blank');
-    } else if (userAgent.includes('android')) {
-      // Redirect to Play Store
-      window.open('https://play.google.com/store/apps/details?id=app.lovable.aqlhr', '_blank');
+    if (userAgent.includes('android')) {
+      window.open('https://play.google.com/store/apps/details?id=app.lovable.1e2511c6d68f465bbce5a3f16026d868', '_blank');
+    } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+      window.open('https://apps.apple.com/app/aqlhr-mobile/id123456789', '_blank');
     } else {
-      // Show download options
-      alert(isArabic ? 
-        'قم بتحميل التطبيق من متجر التطبيقات المناسب لجهازك' :
-        'Download the app from your device\'s app store'
-      );
+      // Desktop - show QR code or links
+      alert('Download the AqlHR mobile app from your device\'s app store');
     }
   };
 
   if (!isNativeApp) {
     return (
-      <div className="min-h-screen bg-background p-4 flex items-center justify-center" dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
-          <CardContent className="p-6 text-center space-y-6">
-            <div className="space-y-2">
-              <Smartphone className="h-16 w-16 text-primary mx-auto" />
-              <h1 className="text-2xl font-bold">
-                {isArabic ? 'تطبيق عقل الموارد البشرية' : 'AqlHR Mobile App'}
-              </h1>
-              <p className="text-muted-foreground">
-                {isArabic ? 
-                  'احصل على التجربة الكاملة مع التطبيق الأصلي' :
-                  'Get the full experience with our native app'
-                }
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <div className="text-sm text-muted-foreground">
-                {isArabic ? 'مميزات التطبيق الأصلي:' : 'Native App Features:'}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="flex items-center gap-2 p-2 bg-muted rounded">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  {isArabic ? 'مصادقة بيومترية' : 'Biometric Auth'}
-                </div>
-                <div className="flex items-center gap-2 p-2 bg-muted rounded">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  {isArabic ? 'تتبع الموقع' : 'GPS Tracking'}
-                </div>
-                <div className="flex items-center gap-2 p-2 bg-muted rounded">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  {isArabic ? 'العمل بدون إنترنت' : 'Offline Mode'}
-                </div>
-                <div className="flex items-center gap-2 p-2 bg-muted rounded">
-                  <div className="h-2 w-2 bg-green-500 rounded-full"></div>
-                  {isArabic ? 'إشعارات فورية' : 'Push Notifications'}
-                </div>
-              </div>
-            </div>
-
-            <Button onClick={downloadNativeApp} className="w-full" size="lg">
-              <Download className="h-5 w-5 mr-2" />
-              {isArabic ? 'تحميل التطبيق' : 'Download App'}
+          <CardHeader className="text-center">
+            <Smartphone className="h-12 w-12 mx-auto text-primary mb-4" />
+            <CardTitle>Download AqlHR Mobile App</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-center text-muted-foreground">
+              Get the full native experience with offline capabilities, biometric authentication, and GPS tracking.
+            </p>
+            
+            <Button onClick={downloadNativeApp} className="w-full">
+              <Download className="h-4 w-4 mr-2" />
+              Download Native App
             </Button>
-
-            <div className="text-xs text-muted-foreground">
-              {isArabic ? 
-                'أو تابع استخدام الإصدار التجريبي أدناه' :
-                'Or continue with the demo version below'
-              }
+            
+            <div className="text-center text-sm text-muted-foreground">
+              Or continue with the web version below
             </div>
           </CardContent>
         </Card>
@@ -189,60 +190,75 @@ export const MobileAppShell: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-background">
       {/* Network Status Bar */}
-      <div className={`w-full px-4 py-2 text-center text-sm ${
-        isOnline ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 
-        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-      }`}>
+      <div className={`px-4 py-2 text-center text-sm ${isOnline ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
         <div className="flex items-center justify-center gap-2">
-          {isOnline ? <Wifi className="h-4 w-4" /> : <WifiOff className="h-4 w-4" />}
-          {isOnline ? 
-            (isArabic ? 'متصل' : 'Online') : 
-            (isArabic ? 'غير متصل - وضع العمل بدون إنترنت' : 'Offline - Working in offline mode')
-          }
+          {isOnline ? (
+            <>
+              <Wifi className="h-4 w-4" />
+              Connected
+            </>
+          ) : (
+            <>
+              <WifiOff className="h-4 w-4" />
+              Offline Mode
+            </>
+          )}
         </div>
       </div>
 
-      {/* Role Selector */}
-      <div className="bg-background border-b p-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">
-            {isArabic ? 'اختر الدور' : 'Select Role'}
-          </h2>
-          
-          <div className="flex items-center gap-2">
-            {/* Capabilities Indicators */}
-            {capabilities.biometric && <Badge variant="secondary" className="text-xs">Bio</Badge>}
-            {capabilities.camera && <Badge variant="secondary" className="text-xs">Cam</Badge>}
-            {capabilities.geolocation && <Badge variant="secondary" className="text-xs">GPS</Badge>}
-            {capabilities.pushNotifications && <Badge variant="secondary" className="text-xs">Push</Badge>}
-          </div>
-        </div>
-        
-        <Tabs value={userRole} onValueChange={(value) => switchRole(value as UserRole)} className="mt-4">
+      {/* Role Selector for Demo */}
+      <div className="p-4 border-b bg-muted/50">
+        <Tabs value={userRole} onValueChange={(value) => switchRole(value as UserRole)} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="employee" className="flex items-center gap-2">
-              <User className="h-4 w-4" />
-              {isArabic ? 'موظف' : 'Employee'}
+            <TabsTrigger value="employee" className="flex items-center gap-1">
+              <User className="h-3 w-3" />
+              Employee
             </TabsTrigger>
-            <TabsTrigger value="manager" className="flex items-center gap-2">
-              <Shield className="h-4 w-4" />
-              {isArabic ? 'مدير' : 'Manager'}
+            <TabsTrigger value="manager" className="flex items-center gap-1">
+              <Users className="h-3 w-3" />
+              Manager
             </TabsTrigger>
-            <TabsTrigger value="executive" className="flex items-center gap-2">
-              <Crown className="h-4 w-4" />
-              {isArabic ? 'تنفيذي' : 'Executive'}
+            <TabsTrigger value="executive" className="flex items-center gap-1">
+              <BarChart3 className="h-3 w-3" />
+              Executive
             </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      {/* App Content */}
-      <div className="flex-1">
-        {userRole === 'employee' && <EmployeeMobileApp />}
-        {userRole === 'manager' && <ManagerMobileApp />}
-        {userRole === 'executive' && <ExecutiveMobileApp />}
+      {/* App Content Based on Role */}
+      {userRole === 'employee' && <EmployeeMobileApp />}
+      {userRole === 'manager' && <ManagerMobileApp />}
+      {userRole === 'executive' && <ExecutiveMobileApp />}
+
+      {/* Capabilities Badges */}
+      <div className="fixed bottom-4 left-4 space-y-1">
+        {capabilities.biometric && (
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Fingerprint className="h-3 w-3" />
+            Biometric
+          </Badge>
+        )}
+        {capabilities.camera && (
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <CameraIcon className="h-3 w-3" />
+            Camera
+          </Badge>
+        )}
+        {capabilities.geolocation && (
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <MapPin className="h-3 w-3" />
+            GPS
+          </Badge>
+        )}
+        {capabilities.pushNotifications && (
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Bell className="h-3 w-3" />
+            Push
+          </Badge>
+        )}
       </div>
     </div>
   );

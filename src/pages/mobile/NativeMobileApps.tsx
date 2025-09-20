@@ -1,10 +1,10 @@
 import React from 'react';
 import { MobileAppShell } from '@/components/mobile/MobileAppShell';
-import { useLanguage } from '@/hooks/useLanguage';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 export const NativeMobileApps: React.FC = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
   return (
     <div className="min-h-screen" dir={isArabic ? 'rtl' : 'ltr'}>
