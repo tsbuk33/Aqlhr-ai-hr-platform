@@ -74,24 +74,24 @@ export const AdaptiveLearningEngine: React.FC = () => {
         <div className="flex items-center gap-3">
           <Brain className="h-8 w-8 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">{t('leo.adaptive_engine_title', 'Adaptive Learning Engine')}</h2>
+            <h2 className="text-2xl font-bold">{t('leo.adaptive_engine_title')}</h2>
             <p className="text-muted-foreground">
-              {t('leo.adaptive_engine_desc', 'AI-powered personalized learning experience')}
+              {t('leo.adaptive_engine_desc')}
             </p>
           </div>
         </div>
         <Button>
           <Settings className="h-4 w-4 mr-2" />
-          {t('leo.configure', 'Configure')}
+          {t('leo.configure')}
         </Button>
       </div>
 
       <Tabs defaultValue="learning-styles" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="learning-styles">{t('leo.learning_styles', 'Learning Styles')}</TabsTrigger>
-          <TabsTrigger value="personalized-paths">{t('leo.personalized_paths', 'Personalized Paths')}</TabsTrigger>
-          <TabsTrigger value="content-delivery">{t('leo.content_delivery', 'Content Delivery')}</TabsTrigger>
-          <TabsTrigger value="pacing-algorithm">{t('leo.pacing_algorithm', 'Adaptive Pacing')}</TabsTrigger>
+          <TabsTrigger value="learning-styles">{t('leo.learning_styles')}</TabsTrigger>
+          <TabsTrigger value="personalized-paths">{t('leo.personalized_paths')}</TabsTrigger>
+          <TabsTrigger value="content-delivery">{t('leo.content_delivery')}</TabsTrigger>
+          <TabsTrigger value="pacing-algorithm">{t('leo.pacing_algorithm')}</TabsTrigger>
         </TabsList>
 
         {/* Learning Styles Assessment */}
@@ -100,10 +100,10 @@ export const AdaptiveLearningEngine: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                {t('leo.individual_assessment', 'Individual Learning Style Assessment')}
+                {t('leo.individual_assessment')}
               </CardTitle>
               <CardDescription>
-                {t('leo.assessment_desc', 'AI analysis of learning preferences and optimal content delivery methods')}
+                {t('leo.assessment_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -128,7 +128,7 @@ export const AdaptiveLearningEngine: React.FC = () => {
               </div>
 
               <div className="mt-6 p-4 bg-muted rounded-lg">
-                <h4 className="font-semibold mb-2">{t('leo.ai_recommendation', 'AI Recommendation')}</h4>
+                <h4 className="font-semibold mb-2">{t('leo.ai_recommendation')}</h4>
                 <p className="text-sm text-muted-foreground">
                   Based on your learning style analysis, we recommend a <strong>visual-first approach</strong> with 
                   interactive elements and supplementary reading materials. Content should be delivered in 
@@ -172,7 +172,7 @@ export const AdaptiveLearningEngine: React.FC = () => {
                     </div>
 
                     <div>
-                      <h5 className="font-semibold mb-2">{t('leo.ai_adaptations', 'AI Adaptations Applied')}</h5>
+                      <h5 className="font-semibold mb-2">{t('leo.ai_adaptations')}</h5>
                       <div className="flex flex-wrap gap-2">
                         {path.adaptations.map((adaptation, i) => (
                           <Badge key={i} variant="outline" className="text-xs">
@@ -185,11 +185,11 @@ export const AdaptiveLearningEngine: React.FC = () => {
                     <div className="flex gap-2">
                       <Button>
                         <Play className="h-4 w-4 mr-2" />
-                        {t('leo.continue_learning', 'Continue Learning')}
+                        {t('leo.continue_learning')}
                       </Button>
                       <Button variant="outline">
                         <TrendingUp className="h-4 w-4 mr-2" />
-                        {t('leo.view_analytics', 'View Analytics')}
+                        {t('leo.view_analytics')}
                       </Button>
                     </div>
                   </div>
@@ -203,9 +203,9 @@ export const AdaptiveLearningEngine: React.FC = () => {
         <TabsContent value="content-delivery" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.multimodal_delivery', 'Multi-modal Content Delivery')}</CardTitle>
+              <CardTitle>{t('leo.multimodal_delivery')}</CardTitle>
               <CardDescription>
-                {t('leo.delivery_desc', 'Optimized content formats based on learning preferences and engagement data')}
+                {t('leo.delivery_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -228,7 +228,7 @@ export const AdaptiveLearningEngine: React.FC = () => {
               <div className="mt-6 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-lg">
                 <h4 className="font-semibold mb-2 flex items-center gap-2">
                   <Brain className="h-5 w-5" />
-                  {t('leo.smart_content_selection', 'Smart Content Selection')}
+                  {t('leo.smart_content_selection')}
                 </h4>
                 <p className="text-sm text-muted-foreground">
                   AI automatically selects the optimal content format for each learning session based on your 
@@ -245,32 +245,32 @@ export const AdaptiveLearningEngine: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Clock className="h-5 w-5" />
-                {t('leo.adaptive_pacing', 'Adaptive Pacing Algorithm')}
+                {t('leo.adaptive_pacing')}
               </CardTitle>
               <CardDescription>
-                {t('leo.pacing_desc', 'AI-driven pacing optimization based on competency and learning velocity')}
+                {t('leo.pacing_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h4 className="font-semibold">{t('leo.current_metrics', 'Current Learning Metrics')}</h4>
+                  <h4 className="font-semibold">{t('leo.current_metrics')}</h4>
                   
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">{t('leo.learning_velocity', 'Learning Velocity')}</span>
+                      <span className="text-sm">{t('leo.learning_velocity')}</span>
                       <span className="font-semibold">1.3x optimal</span>
                     </div>
                     <Progress value={78} />
                     
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">{t('leo.retention_rate', 'Retention Rate')}</span>
+                      <span className="text-sm">{t('leo.retention_rate')}</span>
                       <span className="font-semibold">89%</span>
                     </div>
                     <Progress value={89} />
                     
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">{t('leo.engagement_score', 'Engagement Score')}</span>
+                      <span className="text-sm">{t('leo.engagement_score')}</span>
                       <span className="font-semibold">94%</span>
                     </div>
                     <Progress value={94} />
@@ -278,7 +278,7 @@ export const AdaptiveLearningEngine: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="font-semibold">{t('leo.ai_adjustments', 'AI Pacing Adjustments')}</h4>
+                  <h4 className="font-semibold">{t('leo.ai_adjustments')}</h4>
                   
                   <div className="space-y-3">
                     <div className="p-3 bg-green-50 border-l-4 border-green-500 rounded">
@@ -302,11 +302,11 @@ export const AdaptiveLearningEngine: React.FC = () => {
               <div className="mt-6 flex gap-3">
                 <Button className="flex-1">
                   <Play className="h-4 w-4 mr-2" />
-                  {t('leo.start_optimized_session', 'Start Optimized Session')}
+                  {t('leo.start_optimized_session')}
                 </Button>
                 <Button variant="outline">
                   <Settings className="h-4 w-4 mr-2" />
-                  {t('leo.customize_pacing', 'Customize Pacing')}
+                  {t('leo.customize_pacing')}
                 </Button>
               </div>
             </CardContent>

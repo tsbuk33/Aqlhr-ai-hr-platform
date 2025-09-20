@@ -122,6 +122,17 @@ export default function AppRoutes() {
             </LayoutShell>
           </ProtectedRoute>
         } />
+
+        {/* Learning Experience Optimization - NEW Module */}
+        <Route path="learning-experience-optimization" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <LearningExperienceOptimization />
+              </Suspense>
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
         
         {/* Test Routes */}
         <Route path="test-ai" element={<TestAI />} />

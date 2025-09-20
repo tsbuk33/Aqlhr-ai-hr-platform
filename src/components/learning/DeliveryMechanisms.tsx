@@ -25,7 +25,8 @@ import {
   Share2,
   Settings,
   Globe,
-  Headphones
+  Headphones,
+  Calendar
 } from 'lucide-react';
 
 export const DeliveryMechanisms: React.FC = () => {
@@ -147,25 +148,25 @@ export const DeliveryMechanisms: React.FC = () => {
         <div className="flex items-center gap-3">
           <Smartphone className="h-8 w-8 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">{t('leo.delivery_mechanisms_title', 'Delivery Mechanisms')}</h2>
+            <h2 className="text-2xl font-bold">{t('leo.delivery_mechanisms_title')}</h2>
             <p className="text-muted-foreground">
-              {t('leo.delivery_desc', 'Multi-channel learning delivery for maximum accessibility')}
+              {t('leo.delivery_desc')}
             </p>
           </div>
         </div>
         <Button>
           <Settings className="h-4 w-4 mr-2" />
-          {t('leo.configure_delivery', 'Configure Delivery')}
+          {t('leo.configure_delivery')}
         </Button>
       </div>
 
       <Tabs defaultValue="mobile-learning" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="mobile-learning">{t('leo.mobile_learning', 'Mobile Learning')}</TabsTrigger>
-          <TabsTrigger value="microlearning">{t('leo.microlearning', 'Microlearning')}</TabsTrigger>
-          <TabsTrigger value="virtual-classroom">{t('leo.virtual_classroom', 'Virtual Classroom')}</TabsTrigger>
-          <TabsTrigger value="offline-sync">{t('leo.offline_sync', 'Offline Sync')}</TabsTrigger>
-          <TabsTrigger value="social-learning">{t('leo.social_learning', 'Social Learning')}</TabsTrigger>
+          <TabsTrigger value="mobile-learning">{t('leo.mobile_learning')}</TabsTrigger>
+          <TabsTrigger value="microlearning">{t('leo.microlearning')}</TabsTrigger>
+          <TabsTrigger value="virtual-classroom">{t('leo.virtual_classroom')}</TabsTrigger>
+          <TabsTrigger value="offline-sync">{t('leo.offline_sync')}</TabsTrigger>
+          <TabsTrigger value="social-learning">{t('leo.social_learning')}</TabsTrigger>
         </TabsList>
 
         {/* Mobile Learning App */}
@@ -176,10 +177,10 @@ export const DeliveryMechanisms: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Smartphone className="h-5 w-5" />
-                    {t('leo.mobile_learning_app', 'Mobile Learning App')}
+                    {t('leo.mobile_learning_app')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.mobile_app_desc', 'Native iOS and Android application with offline capabilities')}
+                    {t('leo.mobile_app_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -188,7 +189,7 @@ export const DeliveryMechanisms: React.FC = () => {
                     onCheckedChange={setMobileAppEnabled}
                   />
                   <span className="text-sm">
-                    {mobileAppEnabled ? t('leo.enabled', 'Enabled') : t('leo.disabled', 'Disabled')}
+                    {mobileAppEnabled ? t('leo.enabled') : t('leo.disabled')}
                   </span>
                 </div>
               </div>
@@ -211,7 +212,7 @@ export const DeliveryMechanisms: React.FC = () => {
 
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="font-semibold mb-3">{t('leo.app_features', 'App Features')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.app_features')}</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 border rounded">
                       <div className="flex items-center gap-2">
@@ -245,7 +246,7 @@ export const DeliveryMechanisms: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-3">{t('leo.usage_analytics', 'Usage Analytics')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.usage_analytics')}</h4>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
@@ -286,9 +287,9 @@ export const DeliveryMechanisms: React.FC = () => {
         <TabsContent value="microlearning" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.microlearning_modules', 'Microlearning Modules')}</CardTitle>
+              <CardTitle>{t('leo.microlearning_modules')}</CardTitle>
               <CardDescription>
-                {t('leo.microlearning_desc', 'Bite-sized learning content for busy professionals')}
+                {t('leo.microlearning_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -321,7 +322,7 @@ export const DeliveryMechanisms: React.FC = () => {
                       <div className="flex gap-2">
                         <Button size="sm" className="flex-1">
                           <Play className="h-4 w-4 mr-2" />
-                          {t('leo.start_module', 'Start Module')}
+                          {t('leo.start_module')}
                         </Button>
                         <Button size="sm" variant="outline">
                           <Download className="h-4 w-4" />
@@ -334,7 +335,7 @@ export const DeliveryMechanisms: React.FC = () => {
 
               <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <h4 className="font-semibold text-green-900 mb-2">
-                  {t('leo.microlearning_benefits', 'Microlearning Benefits')}
+                  {t('leo.microlearning_benefits')}
                 </h4>
                 <ul className="text-sm text-green-800 space-y-1">
                   <li>• Higher engagement rates (+45% vs traditional courses)</li>
@@ -351,9 +352,9 @@ export const DeliveryMechanisms: React.FC = () => {
         <TabsContent value="virtual-classroom" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.virtual_classroom_integration', 'Virtual Classroom Integration')}</CardTitle>
+              <CardTitle>{t('leo.virtual_classroom_integration')}</CardTitle>
               <CardDescription>
-                {t('leo.virtual_classroom_desc', 'Live and recorded interactive learning sessions')}
+                {t('leo.virtual_classroom_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -415,18 +416,18 @@ export const DeliveryMechanisms: React.FC = () => {
                         {classroom.status === 'live' ? (
                           <>
                             <Play className="h-4 w-4 mr-2" />
-                            {t('leo.join_now', 'Join Now')}
+                            {t('leo.join_now')}
                           </>
                         ) : (
                           <>
                             <Calendar className="h-4 w-4 mr-2" />
-                            {t('leo.register', 'Register')}
+                            {t('leo.register')}
                           </>
                         )}
                       </Button>
                       <Button size="sm" variant="outline">
                         <BookOpen className="h-4 w-4 mr-2" />
-                        {t('leo.materials', 'Materials')}
+                        {t('leo.materials')}
                       </Button>
                     </div>
                   </div>
@@ -444,10 +445,10 @@ export const DeliveryMechanisms: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <WifiOff className="h-5 w-5" />
-                    {t('leo.offline_content_sync', 'Offline Content Sync')}
+                    {t('leo.offline_content_sync')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.offline_desc', 'Seamless learning without internet connectivity')}
+                    {t('leo.offline_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -456,7 +457,7 @@ export const DeliveryMechanisms: React.FC = () => {
                     onCheckedChange={setOfflineSyncEnabled}
                   />
                   <span className="text-sm">
-                    {offlineSyncEnabled ? t('leo.auto_sync', 'Auto Sync') : t('leo.manual_sync', 'Manual Sync')}
+                    {offlineSyncEnabled ? t('leo.auto_sync') : t('leo.manual_sync')}
                   </span>
                 </div>
               </div>
@@ -464,7 +465,7 @@ export const DeliveryMechanisms: React.FC = () => {
             <CardContent>
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="font-semibold mb-3">{t('leo.sync_status', 'Sync Status')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.sync_status')}</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 border rounded">
                       <div className="flex items-center gap-2">
@@ -502,7 +503,7 @@ export const DeliveryMechanisms: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold mb-3">{t('leo.offline_usage', 'Offline Usage Analytics')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.offline_usage')}</h4>
                   <div className="space-y-4">
                     <div>
                       <div className="flex justify-between text-sm mb-1">
@@ -531,7 +532,7 @@ export const DeliveryMechanisms: React.FC = () => {
 
               <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">
-                  {t('leo.offline_benefits', 'Offline Learning Benefits')}
+                  {t('leo.offline_benefits')}
                 </h4>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• Learn during commute or travel without connectivity</li>
@@ -552,10 +553,10 @@ export const DeliveryMechanisms: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5" />
-                    {t('leo.social_learning_features', 'Social Learning Features')}
+                    {t('leo.social_learning_features')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.social_desc', 'Collaborative learning through peer interaction and knowledge sharing')}
+                    {t('leo.social_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -564,7 +565,7 @@ export const DeliveryMechanisms: React.FC = () => {
                     onCheckedChange={setSocialLearningEnabled}
                   />
                   <span className="text-sm">
-                    {socialLearningEnabled ? t('leo.enabled', 'Enabled') : t('leo.disabled', 'Disabled')}
+                    {socialLearningEnabled ? t('leo.enabled') : t('leo.disabled')}
                   </span>
                 </div>
               </div>
@@ -598,7 +599,7 @@ export const DeliveryMechanisms: React.FC = () => {
 
               <div className="grid gap-6 md:grid-cols-2">
                 <Card className="p-4">
-                  <h4 className="font-semibold mb-3">{t('leo.recent_discussions', 'Recent Discussions')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.recent_discussions')}</h4>
                   <div className="space-y-3">
                     <div className="p-3 border rounded">
                       <p className="text-sm font-medium">Excel Advanced Functions</p>
@@ -616,7 +617,7 @@ export const DeliveryMechanisms: React.FC = () => {
                 </Card>
 
                 <Card className="p-4">
-                  <h4 className="font-semibold mb-3">{t('leo.top_contributors', 'Top Contributors')}</h4>
+                  <h4 className="font-semibold mb-3">{t('leo.top_contributors')}</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">

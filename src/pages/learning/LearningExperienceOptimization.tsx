@@ -86,7 +86,7 @@ const LearningExperienceOptimization: React.FC = () => {
 
       {/* AI Integration for Learning Experience Optimization */}
       <UniversalAIIntegrator 
-        pageType="learning" 
+        pageType="training" 
         moduleName="learning-experience-optimization" 
         companyId="demo-company" 
         enabledFeatures={['adaptive-learning', 'content-management', 'learning-analytics', 'personalized-paths', 'competency-tracking']}

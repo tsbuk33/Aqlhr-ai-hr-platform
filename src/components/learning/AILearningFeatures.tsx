@@ -26,7 +26,8 @@ import {
   TrendingUp,
   Settings,
   Play,
-  Pause
+  Pause,
+  Calendar
 } from 'lucide-react';
 
 export const AILearningFeatures: React.FC = () => {
@@ -213,25 +214,25 @@ export const AILearningFeatures: React.FC = () => {
         <div className="flex items-center gap-3">
           <Sparkles className="h-8 w-8 text-primary" />
           <div>
-        <h2 className="text-2xl font-bold">{t('leo.ai_learning_features_title')}</h2>
-        <p className="text-muted-foreground">
-          {t('leo.ai_features_desc')}
-        </p>
+            <h2 className="text-2xl font-bold">{t('leo.ai_learning_features_title')}</h2>
+            <p className="text-muted-foreground">
+              {t('leo.ai_features_desc')}
+            </p>
           </div>
         </div>
         <Button>
           <Settings className="h-4 w-4 mr-2" />
-          {t('leo.configure_ai', 'Configure AI')}
+          {t('leo.configure_ai')}
         </Button>
       </div>
 
       <Tabs defaultValue="ai-content-creation" className="space-y-6">
         <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="ai-content-creation">{t('leo.ai_content_creation', 'AI Content')}</TabsTrigger>
-          <TabsTrigger value="peer-networks">{t('leo.peer_networks', 'Peer Networks')}</TabsTrigger>
-          <TabsTrigger value="gamification">{t('leo.gamification', 'Gamification')}</TabsTrigger>
-          <TabsTrigger value="vr-ar-training">{t('leo.vr_ar_training', 'VR/AR Training')}</TabsTrigger>
-          <TabsTrigger value="predictive-modeling">{t('leo.predictive_modeling', 'Predictive Analytics')}</TabsTrigger>
+          <TabsTrigger value="ai-content-creation">{t('leo.ai_content_creation')}</TabsTrigger>
+          <TabsTrigger value="peer-networks">{t('leo.peer_networks')}</TabsTrigger>
+          <TabsTrigger value="gamification">{t('leo.gamification')}</TabsTrigger>
+          <TabsTrigger value="vr-ar-training">{t('leo.vr_ar_training')}</TabsTrigger>
+          <TabsTrigger value="predictive-modeling">{t('leo.predictive_modeling')}</TabsTrigger>
         </TabsList>
 
         {/* AI-powered Content Creation */}
@@ -242,10 +243,10 @@ export const AILearningFeatures: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Bot className="h-5 w-5" />
-                    {t('leo.ai_powered_content_creation', 'AI-Powered Content Creation')}
+                    {t('leo.ai_powered_content_creation')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.ai_content_desc', 'Automated generation of high-quality learning materials')}
+                    {t('leo.ai_content_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -254,7 +255,7 @@ export const AILearningFeatures: React.FC = () => {
                     onCheckedChange={setAiContentEnabled}
                   />
                   <span className="text-sm">
-                    {aiContentEnabled ? t('leo.enabled', 'Enabled') : t('leo.disabled', 'Disabled')}
+                    {aiContentEnabled ? t('leo.enabled') : t('leo.disabled')}
                   </span>
                 </div>
               </div>
@@ -302,7 +303,7 @@ export const AILearningFeatures: React.FC = () => {
               <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border rounded-lg">
                 <h4 className="font-semibold mb-2 flex items-center gap-2">
                   <Brain className="h-5 w-5 text-blue-600" />
-                  {t('leo.ai_capabilities', 'AI Content Generation Capabilities')}
+                  {t('leo.ai_capabilities')}
                 </h4>
                 <ul className="text-sm space-y-1">
                   <li>• Automatic video script generation from text materials</li>
@@ -324,10 +325,10 @@ export const AILearningFeatures: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Network className="h-5 w-5" />
-                    {t('leo.peer_to_peer_networks', 'Peer-to-Peer Learning Networks')}
+                    {t('leo.peer_to_peer_networks')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.peer_networks_desc', 'Collaborative learning communities with expert mentorship')}
+                    {t('leo.peer_networks_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -336,7 +337,7 @@ export const AILearningFeatures: React.FC = () => {
                     onCheckedChange={setPeerNetworksEnabled}
                   />
                   <span className="text-sm">
-                    {peerNetworksEnabled ? t('leo.active', 'Active') : t('leo.inactive', 'Inactive')}
+                    {peerNetworksEnabled ? t('leo.active') : t('leo.inactive')}
                   </span>
                 </div>
               </div>
@@ -382,11 +383,11 @@ export const AILearningFeatures: React.FC = () => {
                     <div className="flex gap-2">
                       <Button size="sm">
                         <Users className="h-4 w-4 mr-2" />
-                        {t('leo.join_network', 'Join Network')}
+                        {t('leo.join_network')}
                       </Button>
                       <Button size="sm" variant="outline">
                         <MessageCircle className="h-4 w-4 mr-2" />
-                        {t('leo.view_discussions', 'View Discussions')}
+                        {t('leo.view_discussions')}
                       </Button>
                     </div>
                   </div>
@@ -395,7 +396,7 @@ export const AILearningFeatures: React.FC = () => {
 
               <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <h4 className="font-semibold text-green-900 mb-2">
-                  {t('leo.network_benefits', 'Peer Learning Benefits')}
+                  {t('leo.network_benefits')}
                 </h4>
                 <ul className="text-sm text-green-800 space-y-1">
                   <li>• 67% faster problem resolution through peer support</li>
@@ -416,10 +417,10 @@ export const AILearningFeatures: React.FC = () => {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Gamepad2 className="h-5 w-5" />
-                    {t('leo.gamification_elements', 'Gamification Elements')}
+                    {t('leo.gamification_elements')}
                   </CardTitle>
                   <CardDescription>
-                    {t('leo.gamification_desc', 'Game mechanics to boost engagement and motivation')}
+                    {t('leo.gamification_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
@@ -428,7 +429,7 @@ export const AILearningFeatures: React.FC = () => {
                     onCheckedChange={setGamificationEnabled}
                   />
                   <span className="text-sm">
-                    {gamificationEnabled ? t('leo.enabled', 'Enabled') : t('leo.disabled', 'Disabled')}
+                    {gamificationEnabled ? t('leo.enabled') : t('leo.disabled')}
                   </span>
                 </div>
               </div>
@@ -537,10 +538,10 @@ export const AILearningFeatures: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Eye className="h-5 w-5" />
-                {t('leo.vr_ar_training_modules', 'VR/AR Training Modules')}
+                {t('leo.vr_ar_training_modules')}
               </CardTitle>
               <CardDescription>
-                {t('leo.vr_ar_desc', 'Immersive virtual and augmented reality learning experiences')}
+                {t('leo.vr_ar_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -580,11 +581,11 @@ export const AILearningFeatures: React.FC = () => {
                     <div className="flex gap-2">
                       <Button size="sm">
                         <Play className="h-4 w-4 mr-2" />
-                        {t('leo.start_experience', 'Start Experience')}
+                        {t('leo.start_experience')}
                       </Button>
                       <Button size="sm" variant="outline">
                         <Eye className="h-4 w-4 mr-2" />
-                        {t('leo.preview', 'Preview')}
+                        {t('leo.preview')}
                       </Button>
                     </div>
                   </div>
@@ -593,7 +594,7 @@ export const AILearningFeatures: React.FC = () => {
 
               <div className="mt-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
                 <h4 className="font-semibold text-purple-900 mb-2">
-                  {t('leo.vr_ar_benefits', 'VR/AR Training Benefits')}
+                  {t('leo.vr_ar_benefits')}
                 </h4>
                 <ul className="text-sm text-purple-800 space-y-1">
                   <li>• 89% higher retention rates compared to traditional training</li>
@@ -612,10 +613,10 @@ export const AILearningFeatures: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Brain className="h-5 w-5" />
-                {t('leo.predictive_modeling', 'Learning Analytics Predictive Modeling')}
+                {t('leo.predictive_modeling')}
               </CardTitle>
               <CardDescription>
-                {t('leo.predictive_desc', 'AI-powered predictions for learning outcomes and behavior patterns')}
+                {t('leo.predictive_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -643,7 +644,7 @@ export const AILearningFeatures: React.FC = () => {
                       </div>
                       <Button size="sm" variant="outline">
                         <TrendingUp className="h-4 w-4 mr-2" />
-                        {t('leo.view_analysis', 'View Analysis')}
+                        {t('leo.view_analysis')}
                       </Button>
                     </div>
                   </div>
@@ -654,7 +655,7 @@ export const AILearningFeatures: React.FC = () => {
                 <Card className="p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Zap className="h-5 w-5 text-yellow-500" />
-                    {t('leo.ai_recommendations', 'AI Recommendations')}
+                    {t('leo.ai_recommendations')}
                   </h4>
                   <ul className="text-sm space-y-2">
                     <li className="flex items-center gap-2">
@@ -675,7 +676,7 @@ export const AILearningFeatures: React.FC = () => {
                 <Card className="p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Target className="h-5 w-5 text-blue-500" />
-                    {t('leo.prediction_accuracy', 'Prediction Accuracy')}
+                    {t('leo.prediction_accuracy')}
                   </h4>
                   <div className="space-y-3">
                     <div>

@@ -170,24 +170,24 @@ export const ContentManagementSystem: React.FC = () => {
         <div className="flex items-center gap-3">
           <BookOpen className="h-8 w-8 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">{t('leo.content_management_title', 'Content Management System')}</h2>
+            <h2 className="text-2xl font-bold">{t('leo.content_management_title')}</h2>
             <p className="text-muted-foreground">
-              {t('leo.content_management_desc', 'Comprehensive learning content library and course catalog')}
+              {t('leo.content_management_desc')}
             </p>
           </div>
         </div>
         <Button>
           <Plus className="h-4 w-4 mr-2" />
-          {t('leo.add_content', 'Add Content')}
+          {t('leo.add_content')}
         </Button>
       </div>
 
       <Tabs defaultValue="course-catalog" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="course-catalog">{t('leo.course_catalog', 'Course Catalog')}</TabsTrigger>
-          <TabsTrigger value="content-library">{t('leo.content_library', 'Content Library')}</TabsTrigger>
-          <TabsTrigger value="assessment-engine">{t('leo.assessment_engine', 'Assessment Engine')}</TabsTrigger>
-          <TabsTrigger value="integrations">{t('leo.integrations', 'Integrations')}</TabsTrigger>
+          <TabsTrigger value="course-catalog">{t('leo.course_catalog')}</TabsTrigger>
+          <TabsTrigger value="content-library">{t('leo.content_library')}</TabsTrigger>
+          <TabsTrigger value="assessment-engine">{t('leo.assessment_engine')}</TabsTrigger>
+          <TabsTrigger value="integrations">{t('leo.integrations')}</TabsTrigger>
         </TabsList>
 
         {/* Course Catalog */}
@@ -196,20 +196,20 @@ export const ContentManagementSystem: React.FC = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>{t('leo.bilingual_catalog', 'Bilingual Course Catalog')}</CardTitle>
+                  <CardTitle>{t('leo.bilingual_catalog')}</CardTitle>
                   <CardDescription>
-                    {t('leo.catalog_desc', 'Arabic and English courses with cultural adaptation')}
+                    {t('leo.catalog_desc')}
                   </CardDescription>
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm">
                     <Filter className="h-4 w-4 mr-2" />
-                    {t('leo.filter', 'Filter')}
+                    {t('leo.filter')}
                   </Button>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder={t('leo.search_courses', 'Search courses...')}
+                      placeholder={t('leo.search_courses')}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-10 w-64"
@@ -279,7 +279,7 @@ export const ContentManagementSystem: React.FC = () => {
 
                       <Button className="w-full">
                         <Play className="h-4 w-4 mr-2" />
-                        {t('leo.start_course', 'Start Course')}
+                        {t('leo.start_course')}
                       </Button>
                     </CardContent>
                   </Card>
@@ -293,9 +293,9 @@ export const ContentManagementSystem: React.FC = () => {
         <TabsContent value="content-library" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.multimedia_library', 'Multimedia Content Library')}</CardTitle>
+              <CardTitle>{t('leo.multimedia_library')}</CardTitle>
               <CardDescription>
-                {t('leo.library_desc', 'Diverse content formats for optimal learning experiences')}
+                {t('leo.library_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -324,7 +324,7 @@ export const ContentManagementSystem: React.FC = () => {
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-3">
                     <Globe className="h-5 w-5 text-blue-500" />
-                    <h4 className="font-semibold">{t('leo.multilingual_support', 'Multilingual Support')}</h4>
+                    <h4 className="font-semibold">{t('leo.multilingual_support')}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Content available in Arabic and English with automatic translation capabilities
@@ -334,7 +334,7 @@ export const ContentManagementSystem: React.FC = () => {
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-3">
                     <Award className="h-5 w-5 text-green-500" />
-                    <h4 className="font-semibold">{t('leo.quality_assured', 'Quality Assured')}</h4>
+                    <h4 className="font-semibold">{t('leo.quality_assured')}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     All content reviewed by subject matter experts and pedagogy specialists
@@ -344,7 +344,7 @@ export const ContentManagementSystem: React.FC = () => {
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-3">
                     <Download className="h-5 w-5 text-purple-500" />
-                    <h4 className="font-semibold">{t('leo.offline_access', 'Offline Access')}</h4>
+                    <h4 className="font-semibold">{t('leo.offline_access')}</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     Download content for offline learning and mobile accessibility
@@ -359,9 +359,9 @@ export const ContentManagementSystem: React.FC = () => {
         <TabsContent value="assessment-engine" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.quiz_assessment_engine', 'Assessment & Quiz Engine')}</CardTitle>
+              <CardTitle>{t('leo.quiz_assessment_engine')}</CardTitle>
               <CardDescription>
-                {t('leo.assessment_desc', 'Comprehensive assessment tools with advanced analytics')}
+                {t('leo.assessment_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -388,7 +388,7 @@ export const ContentManagementSystem: React.FC = () => {
               </div>
 
               <div className="mt-6 space-y-4">
-                <h4 className="font-semibold">{t('leo.certification_tracking', 'Certification Tracking')}</h4>
+                <h4 className="font-semibold">{t('leo.certification_tracking')}</h4>
                 <div className="grid gap-4 md:grid-cols-2">
                   <Card className="p-4">
                     <div className="flex items-center justify-between mb-3">
@@ -419,9 +419,9 @@ export const ContentManagementSystem: React.FC = () => {
         <TabsContent value="integrations" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.external_integrations', 'External Content Integration')}</CardTitle>
+              <CardTitle>{t('leo.external_integrations')}</CardTitle>
               <CardDescription>
-                {t('leo.integration_desc', 'Seamless integration with leading learning platforms')}
+                {t('leo.integration_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -460,7 +460,7 @@ export const ContentManagementSystem: React.FC = () => {
 
               <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">
-                  {t('leo.integration_benefits', 'Integration Benefits')}
+                  {t('leo.integration_benefits')}
                 </h4>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• Single sign-on access to all platforms</li>
