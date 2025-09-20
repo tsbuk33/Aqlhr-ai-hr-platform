@@ -44,6 +44,14 @@ import LearningExperienceOptimization from '@/pages/learning/LearningExperienceO
 import GenerativeEngagementOptimization from '@/pages/engagement/GenerativeEngagementOptimization';
 import LegalConsultant from '@/pages/LegalConsultant';
 import NRCManagement from '@/pages/NRCManagement';
+import BenefitsManagement from '@/pages/modules/BenefitsManagement';
+import ExpenseManagement from '@/pages/modules/ExpenseManagement';
+import FinancialPlanning from '@/pages/modules/FinancialPlanning';
+import GOSIIntegration from '@/pages/modules/GOSIIntegration';
+import MOLIntegration from '@/pages/modules/MOLIntegration';
+import NitaqatManagement from '@/pages/modules/NitaqatManagement';
+import VisaManagement from '@/pages/modules/VisaManagement';
+import WPSIntegration from '@/pages/modules/WPSIntegration';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -315,6 +323,64 @@ export default function AppRoutes() {
               </Suspense>
             </LayoutShell>
           </ProtectedRoute>
+        } />
+        
+        {/* Module Pages */}
+        <Route path="benefits" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <BenefitsManagement />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="expense-management" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <ExpenseManagement />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="financial-planning" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <FinancialPlanning />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="gosi-integration" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <GOSIIntegration />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="mol-integration" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <MOLIntegration />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="nitaqat-management" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <NitaqatManagement />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="visa-management" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <VisaManagement />
+            </Suspense>
+          </PublicLayoutShell>
+        } />
+        <Route path="wps-integration" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <WPSIntegration />
+            </Suspense>
+          </PublicLayoutShell>
         } />
         
         {/* Test Routes */}
