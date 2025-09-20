@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { useAuthOptional } from '@/hooks/useAuthOptional';
+import type { User } from '@supabase/supabase-js';
 import { 
   Users, 
   ClipboardCheck, 
@@ -30,7 +32,6 @@ import {
   Activity,
   Briefcase
 } from 'lucide-react';
-import { BiometricAuth } from './BiometricAuth';
 import { TeamApprovalWorkflow } from './manager/TeamApprovalWorkflow';
 import { TeamAnalytics } from './manager/TeamAnalytics';
 import { EmergencyTeamContact } from './manager/EmergencyTeamContact';
@@ -66,28 +67,31 @@ interface ManagerAlert {
   priority: 'high' | 'medium' | 'low';
 }
 
-export const ManagerMobileApp = () => {
+interface ManagerMobileAppProps {
+  user?: User | null;
+}
+
+export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
   const { lang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [manager, setManager] = useState<ManagerProfile | null>(null);
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [alerts, setAlerts] = useState<ManagerAlert[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       loadManagerData();
     }
-  }, [isAuthenticated]);
+  }, [user]);
 
   const loadManagerData = () => {
-    // Mock manager data
+    // Use actual user data
     setManager({
-      id: 'mgr_001',
-      name: 'Sarah Al-Mahmoud',
-      nameAr: 'سارة المحمود',
+      id: user?.id || 'mgr_001',
+      name: user?.email?.split('@')[0] || 'Manager',
+      nameAr: 'المدير',
       employeeId: 'MGR-2024-001',
       department: 'Human Resources',
       departmentAr: 'الموارد البشرية',
@@ -163,9 +167,6 @@ export const ManagerMobileApp = () => {
     ]);
   };
 
-  const handleAuthentication = (success: boolean, employeeData?: any) => {
-    setIsAuthenticated(success);
-  };
 
   const getStatusColor = (status: TeamMember['status']) => {
     switch (status) {
@@ -225,21 +226,20 @@ export const ManagerMobileApp = () => {
     }
   };
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-2">
               <Users className="h-6 w-6 text-primary" />
-              {isArabic ? 'مدير - تسجيل الدخول' : 'Manager Login'}
+              {isArabic ? 'مدير - مطلوب تسجيل الدخول' : 'Manager - Authentication Required'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <BiometricAuth
-              onAuthenticated={handleAuthentication}
-              isArabic={isArabic}
-            />
+            <p className="text-center text-muted-foreground">
+              {isArabic ? 'يرجى تسجيل الدخول للوصول إلى تطبيق المدير' : 'Please authenticate to access the Manager app'}
+            </p>
           </CardContent>
         </Card>
       </div>

@@ -49,6 +49,7 @@ import BenefitsManagement from '@/pages/modules/BenefitsManagement';
 import ExpenseManagement from '@/pages/modules/ExpenseManagement';
 import FinancialPlanning from '@/pages/modules/FinancialPlanning';
 import NativeMobileApps from '@/pages/mobile/NativeMobileApps';
+import MobileAuth from '@/pages/auth/MobileAuth';
 import GOSIIntegration from '@/pages/modules/GOSIIntegration';
 import MOLIntegration from '@/pages/modules/MOLIntegration';
 import NitaqatManagement from '@/pages/modules/NitaqatManagement';
@@ -242,6 +243,11 @@ export default function AppRoutes() {
         {/* Auth Routes */}
         <Route element={<CenteredLayout />}>
           <Route path="auth" element={<AuthPage />} />
+          <Route path="auth/mobile" element={
+            <Suspense fallback={<RouteLoading />}>
+              <MobileAuth />
+            </Suspense>
+          } />
           <Route path="auth/callback" element={<AuthCallback />} />
         </Route>
 

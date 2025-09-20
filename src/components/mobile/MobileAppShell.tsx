@@ -4,9 +4,12 @@ import { Network } from '@capacitor/network';
 import { Geolocation } from '@capacitor/geolocation';
 import { Camera } from '@capacitor/camera';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { useAuthOptional } from '@/hooks/useAuthOptional';
 import { EmployeeMobileApp } from './EmployeeMobileApp';
 import { ManagerMobileApp } from './ManagerMobileApp';
 import { ExecutiveMobileApp } from './ExecutiveMobileApp';
+import { BiometricAuth } from './BiometricAuth';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -42,7 +45,11 @@ interface MobileAppShellProps {
   };
 }
 
-export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
+export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }) => {
+  const { user, isLoading } = useAuthOptional();
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
+  
   const [isOnline, setIsOnline] = useState(true);
   const [userRole, setUserRole] = useState<UserRole>('employee');
   const [capabilities, setCapabilities] = useState<MobileCapabilities>({
@@ -52,11 +59,16 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
     pushNotifications: false
   });
   const [isNativeApp, setIsNativeApp] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     checkCapabilities();
     setupNetworkListener();
     determineUserRole();
+  }, [user, propUser]);
+
+  useEffect(() => {
+    setIsAuthenticated(!!user);
   }, [user]);
 
   const checkCapabilities = async () => {
@@ -134,9 +146,10 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
   };
 
   const determineUserRole = () => {
-    if (user?.email?.includes('manager')) {
+    const currentUser = user || propUser;
+    if (currentUser?.email?.includes('manager') || currentUser?.role === 'manager') {
       setUserRole('manager');
-    } else if (user?.email?.includes('executive') || user?.email?.includes('admin')) {
+    } else if (currentUser?.email?.includes('executive') || currentUser?.email?.includes('admin') || currentUser?.role === 'executive') {
       setUserRole('executive');
     } else {
       setUserRole('employee');
@@ -162,27 +175,49 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
     }
   };
 
-  if (!isNativeApp) {
+  const handleAuthentication = (success: boolean) => {
+    setIsAuthenticated(success);
+  };
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">
+            {isArabic ? 'جاري التحميل...' : 'Loading...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated && !user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
-            <Smartphone className="h-12 w-12 mx-auto text-primary mb-4" />
-            <CardTitle>Download AqlHR Mobile App</CardTitle>
+            <CardTitle className="flex items-center justify-center gap-2">
+              <Smartphone className="h-6 w-6 text-primary" />
+              {isArabic ? 'اقل للموارد البشرية' : 'AqlHR Mobile'}
+            </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-center text-muted-foreground">
-              Get the full native experience with offline capabilities, biometric authentication, and GPS tracking.
-            </p>
-            
-            <Button onClick={downloadNativeApp} className="w-full">
-              <Download className="h-4 w-4 mr-2" />
-              Download Native App
-            </Button>
-            
-            <div className="text-center text-sm text-muted-foreground">
-              Or continue with the web version below
-            </div>
+          <CardContent>
+            <BiometricAuth
+              onAuthenticated={handleAuthentication}
+              isArabic={isArabic}
+            />
+            {!isNativeApp && (
+              <div className="mt-6 space-y-4 border-t pt-4">
+                <p className="text-center text-sm text-muted-foreground">
+                  {isArabic ? 'احصل على التجربة الكاملة مع التطبيق المحمول' : 'Get the full experience with our mobile app'}
+                </p>
+                <Button onClick={downloadNativeApp} variant="outline" className="w-full">
+                  <Download className="h-4 w-4 mr-2" />
+                  {isArabic ? 'تحميل التطبيق' : 'Download App'}
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -229,9 +264,9 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user }) => {
       </div>
 
       {/* App Content Based on Role */}
-      {userRole === 'employee' && <EmployeeMobileApp />}
-      {userRole === 'manager' && <ManagerMobileApp />}
-      {userRole === 'executive' && <ExecutiveMobileApp />}
+      {userRole === 'employee' && <EmployeeMobileApp user={user} />}
+      {userRole === 'manager' && <ManagerMobileApp user={user} />}
+      {userRole === 'executive' && <ExecutiveMobileApp user={user} />}
 
       {/* Capabilities Badges */}
       <div className="fixed bottom-4 left-4 space-y-1">

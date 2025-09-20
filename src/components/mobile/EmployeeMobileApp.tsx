@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { useAuthOptional } from '@/hooks/useAuthOptional';
+import type { User } from '@supabase/supabase-js';
 import { 
   Fingerprint, 
   MapPin, 
@@ -24,7 +26,6 @@ import {
   Sun,
   Moon
 } from 'lucide-react';
-import { BiometricAuth } from './BiometricAuth';
 import { GPSTimeTracker } from './GPSTimeTracker';
 import { OfflineLeaveRequest } from './OfflineLeaveRequest';
 import { DocumentScanner } from './DocumentScanner';
@@ -60,13 +61,16 @@ interface AttendanceRecord {
   overtimeHours?: number;
 }
 
-export const EmployeeMobileApp = () => {
+interface EmployeeMobileAppProps {
+  user?: User | null;
+}
+
+export const EmployeeMobileApp: React.FC<EmployeeMobileAppProps> = ({ user }) => {
   const { lang, setLang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
 
   // State management
   const [isOnline, setIsOnline] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [employee, setEmployee] = useState<EmployeeProfile | null>(null);
   const [attendanceRecords, setAttendanceRecords] = useState<AttendanceRecord[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -75,6 +79,12 @@ export const EmployeeMobileApp = () => {
   useEffect(() => {
     initializeMobileApp();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      loadEmployeeData();
+    }
+  }, [user]);
 
   const initializeMobileApp = async () => {
     try {
@@ -144,6 +154,23 @@ export const EmployeeMobileApp = () => {
     }
   };
 
+  const loadEmployeeData = () => {
+    // Use actual user data
+    const employeeData: EmployeeProfile = {
+      id: user?.id || 'emp_001',
+      name: user?.email?.split('@')[0] || 'Employee',
+      nameAr: 'الموظف',
+      employeeId: 'EMP-2024-001',
+      department: 'IT Department',
+      departmentAr: 'قسم تقنية المعلومات',
+      position: 'Software Developer',
+      positionAr: 'مطور برمجيات'
+    };
+    
+    setEmployee(employeeData);
+    saveOfflineData('employee_profile', employeeData);
+  };
+
   const saveOfflineData = async (key: string, data: any) => {
     try {
       await Storage.set({
@@ -160,13 +187,6 @@ export const EmployeeMobileApp = () => {
     setLang(newLang);
   };
 
-  const handleAuthentication = (success: boolean, employeeData?: EmployeeProfile) => {
-    setIsAuthenticated(success);
-    if (success && employeeData) {
-      setEmployee(employeeData);
-      saveOfflineData('employee_profile', employeeData);
-    }
-  };
 
   const handleCheckIn = async (location?: { latitude: number; longitude: number }) => {
     try {
@@ -214,21 +234,20 @@ export const EmployeeMobileApp = () => {
     }
   };
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-2">
               <Fingerprint className="h-6 w-6 text-primary" />
-              {isArabic ? 'تسجيل الدخول' : 'Login'}
+              {isArabic ? 'مطلوب تسجيل الدخول' : 'Authentication Required'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <BiometricAuth
-              onAuthenticated={handleAuthentication}
-              isArabic={isArabic}
-            />
+            <p className="text-center text-muted-foreground">
+              {isArabic ? 'يرجى تسجيل الدخول للوصول إلى التطبيق' : 'Please authenticate to access the Employee app'}
+            </p>
             <div className="mt-4 text-center">
               <Button
                 variant="ghost"

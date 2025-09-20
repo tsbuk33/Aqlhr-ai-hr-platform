@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
+import { useAuthOptional } from '@/hooks/useAuthOptional';
+import type { User } from '@supabase/supabase-js';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -20,7 +22,6 @@ import {
   Globe,
   Settings
 } from 'lucide-react';
-import { BiometricAuth } from './BiometricAuth';
 
 interface ExecutiveProfile {
   id: string;
@@ -51,28 +52,31 @@ interface ExecutiveAlert {
   timestamp: string;
 }
 
-export const ExecutiveMobileApp = () => {
+interface ExecutiveMobileAppProps {
+  user?: User | null;
+}
+
+export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) => {
   const { lang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [executive, setExecutive] = useState<ExecutiveProfile | null>(null);
   const [metrics, setMetrics] = useState<ExecutiveMetric[]>([]);
   const [alerts, setAlerts] = useState<ExecutiveAlert[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (user) {
       loadExecutiveData();
     }
-  }, [isAuthenticated]);
+  }, [user]);
 
   const loadExecutiveData = () => {
-    // Mock executive data
+    // Use actual user data
     setExecutive({
-      id: 'exec_001',
-      name: 'Abdullah Al-Mansour',
-      nameAr: 'عبدالله المنصور',
+      id: user?.id || 'exec_001',
+      name: user?.email?.split('@')[0] || 'Executive',
+      nameAr: 'التنفيذي',
       title: 'Chief Executive Officer',
       titleAr: 'الرئيس التنفيذي',
       company: 'AqlHR Solutions'
@@ -168,9 +172,6 @@ export const ExecutiveMobileApp = () => {
     ]);
   };
 
-  const handleAuthentication = (success: boolean, employeeData?: any) => {
-    setIsAuthenticated(success);
-  };
 
   const getTrendIcon = (trend: ExecutiveMetric['trend']) => {
     switch (trend) {
@@ -216,21 +217,20 @@ export const ExecutiveMobileApp = () => {
     }
   };
 
-  if (!isAuthenticated) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-2">
               <BarChart3 className="h-6 w-6 text-primary" />
-              {isArabic ? 'تنفيذي - تسجيل الدخول' : 'Executive Login'}
+              {isArabic ? 'تنفيذي - مطلوب تسجيل الدخول' : 'Executive - Authentication Required'}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <BiometricAuth
-              onAuthenticated={handleAuthentication}
-              isArabic={isArabic}
-            />
+            <p className="text-center text-muted-foreground">
+              {isArabic ? 'يرجى تسجيل الدخول للوصول إلى تطبيق التنفيذي' : 'Please authenticate to access the Executive app'}
+            </p>
           </CardContent>
         </Card>
       </div>
