@@ -21,6 +21,7 @@ import AutonomousDashboardPage from '@/pages/autonomous/AutonomousDashboardPage'
 import SmartKPIPublic from '@/pages/SmartKPIPublic';
 import ExecutiveIntelligence from '@/pages/ExecutiveIntelligence';
 import SkillsIntelligence from '@/pages/SkillsIntelligence';
+import LearningExperienceOptimization from '@/pages/learning/LearningExperienceOptimization';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
