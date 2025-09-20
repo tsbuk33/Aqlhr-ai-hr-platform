@@ -25,6 +25,7 @@ import PerformancePublic from '@/pages/PerformancePublic';
 import AttendancePublic from '@/pages/AttendancePublic';
 import LeavePublic from '@/pages/LeavePublic';
 import PayrollPublic from '@/pages/PayrollPublic';
+import { AdvancedPayrollPage } from '@/pages/payroll/AdvancedPayrollPage';
 import ToolsPublic from '@/pages/ToolsPublic';
 import HelpPublic from '@/pages/HelpPublic';
 import { TestAI } from '@/pages/TestAI';
@@ -221,7 +222,7 @@ export default function AppRoutes() {
         <Route path="payroll" element={
           <PublicLayoutShell>
             <Suspense fallback={<RouteLoading />}>
-              <PayrollPublic />
+              <AdvancedPayrollPage />
             </Suspense>
           </PublicLayoutShell>
         } />
