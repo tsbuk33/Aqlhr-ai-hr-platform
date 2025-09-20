@@ -1,5 +1,8 @@
 project_id = "qcuhjcyjlkfizesndmth"
 
+[functions.resend-verification]
+verify_jwt = false
+
 [functions.ai-agent-orchestrator]
 verify_jwt = false
 

@@ -18,7 +18,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | React.ReactNode>('');
   const [success, setSuccess] = useState('');
   const [activeTab, setActiveTab] = useState('signin');
   
@@ -54,6 +54,32 @@ const Auth = () => {
     return () => subscription.unsubscribe();
   }, [navigate, location, language]);
 
+  const handleResendVerification = async () => {
+    if (!email.trim()) {
+      setError(isArabic ? 'يرجى إدخال البريد الإلكتروني أولاً' : 'Please enter your email first');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('resend-verification', {
+        body: { email: email.trim() }
+      });
+
+      if (error) throw error;
+
+      setSuccess(isArabic ? 'تم إرسال رابط التأكيد إلى بريدك الإلكتروني' : 'Verification link sent to your email');
+      toast({
+        title: isArabic ? 'تم الإرسال' : 'Email Sent',
+        description: isArabic ? 'تحقق من بريدك الإلكتروني' : 'Check your email inbox'
+      });
+    } catch (err: any) {
+      setError(err.message || (isArabic ? 'فشل في إرسال البريد' : 'Failed to send email'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -68,9 +94,39 @@ const Auth = () => {
 
       if (error) {
         if (error.message === 'Invalid login credentials') {
-          setError(isArabic ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة' : 'Invalid email or password');
+          // Check if it's an email confirmation issue
+          const { data: user } = await supabase.auth.getUser();
+          if (!user.user && error.message.includes('Invalid login credentials')) {
+            setError(
+              <div className="space-y-2">
+                <p>{isArabic ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة، أو لم يتم تأكيد البريد بعد' : 'Invalid credentials or email not confirmed yet'}</p>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={handleResendVerification}
+                  disabled={isLoading}
+                >
+                  {isArabic ? 'إعادة إرسال رابط التأكيد' : 'Resend confirmation'}
+                </Button>
+              </div>
+            );
+          } else {
+            setError(isArabic ? 'البريد الإلكتروني أو كلمة المرور غير صحيحة' : 'Invalid email or password');
+          }
         } else if (error.message === 'Email not confirmed') {
-          setError(isArabic ? 'يرجى تأكيد بريدك الإلكتروني أولاً' : 'Please confirm your email first');
+          setError(
+            <div className="space-y-2">
+              <p>{isArabic ? 'يرجى تأكيد بريدك الإلكتروني أولاً' : 'Please confirm your email first'}</p>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleResendVerification}
+                disabled={isLoading}
+              >
+                {isArabic ? 'إعادة إرسال رابط التأكيد' : 'Resend confirmation'}
+              </Button>
+            </div>
+          );
         } else {
           setError(error.message);
         }
