@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { 
   BarChart3, 
   PieChart, 
@@ -41,8 +41,8 @@ interface AnalyticsFeature {
 }
 
 export const AdvancedAnalyticsSuite = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
   const [selectedFeature, setSelectedFeature] = useState<AnalyticsFeature | null>(null);
 

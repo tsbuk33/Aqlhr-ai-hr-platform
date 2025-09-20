@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { 
   Building2, 
   Database, 
@@ -32,8 +32,8 @@ interface IntegrationSystem {
 }
 
 export const EnterpriseIntegrationSuite = () => {
-  const { language } = useLanguage();
-  const isArabic = language === 'ar';
+  const { lang } = useUnifiedLocale();
+  const isArabic = lang === 'ar';
 
   const [selectedSystem, setSelectedSystem] = useState<IntegrationSystem | null>(null);
 
