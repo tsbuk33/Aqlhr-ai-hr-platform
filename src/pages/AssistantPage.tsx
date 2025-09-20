@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { SmartQueryInterface } from '@/components/ai-specialists/SmartQueryInterface';
+import { IntegratedQueryProcessor } from '@/components/ai-specialists/IntegratedQueryProcessor';
 import PageHeader from '@/components/common/PageHeader';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
@@ -18,7 +18,7 @@ const AssistantPage: React.FC = () => {
       />
       
       <div className="flex-1">
-        <SmartQueryInterface />
+        <IntegratedQueryProcessor />
       </div>
       
       {/* AI Integration for Assistant */}
