@@ -14,6 +14,7 @@ import { useEmployeesData } from '@/hooks/useEmployeesData';
 import { useLiveDashboard } from '@/hooks/useLiveDashboard';
 import { AqlhrAgentPanel } from './AqlhrAgentPanel';
 import { DashboardOperationalTrends } from './DashboardOperationalTrends';
+import { AIOrchestrationPanel } from './AIOrchestrationPanel';
 
 interface BudgetData {
   category: string;
@@ -300,7 +301,10 @@ export function EnhancedDashboard() {
           </Card>
         </div>
 
-        {/* AI Agent Panel */}
+        {/* AI Orchestration Panel - Built-in AqlHR AI Services */}
+        <AIOrchestrationPanel />
+
+        {/* AI Agent Panel - Enhanced Intelligence */}
         <AqlhrAgentPanel />
 
         {/* Operational Trends Chart */}

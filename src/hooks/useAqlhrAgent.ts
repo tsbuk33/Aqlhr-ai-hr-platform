@@ -43,12 +43,15 @@ export function useAqlhrAgent() {
   const hrData = useEmployeesData();
   const { series, getMoMChange } = useDashboardTrends();
 
-  // AI Agent Core Intelligence Engine
+  // AI Agent Core Intelligence Engine - Using AqlHR's Built-in AI Infrastructure
   const analyzePatterns = useCallback(async () => {
     if (!agentActive) return;
     
     setLoading(true);
     try {
+      const { tenantId } = await resolveTenantId(supabase);
+      if (!tenantId) throw new Error('No tenant available');
+
       const context: AgentContext = {
         hr_data: hrData,
         dashboard_trends: series,
@@ -64,18 +67,60 @@ export function useAqlhrAgent() {
         }
       };
 
-      // Multi-dimensional analysis
-      const patterns = await detectPatterns(context);
-      const crossConnections = await analyzeCrossModuleConnections(context);
-      const predictions = await generatePredictions(context);
-      const recommendations = await generateRecommendations(context, patterns);
+      // Use AqlHR's AI Agent Orchestrator for intelligent analysis
+      const aiAnalysis = await supabase.functions.invoke('ai-agent-orchestrator', {
+        body: {
+          query: `Analyze current HR patterns and provide intelligent insights. Current metrics: ${hrData.totalActive} employees, ${hrData.saudizationPct}% Saudization rate. Identify patterns, predictions, and actionable recommendations.`,
+          context: {
+            module: 'dashboard_intelligence',
+            language: 'en',
+            company_id: tenantId,
+            user_context: JSON.stringify(context)
+          },
+          provider: 'chatgpt5' // Use GPT-5 for complex analysis
+        }
+      });
+
+      // Use AI Sync Engine to get cross-module connections
+      const syncData = await supabase.functions.invoke('ai-sync-engine', {
+        body: { manual_sync: false }
+      });
+
+      // Use Agent Skill Executor for specialized analysis
+      const skillAnalysis = await Promise.all([
+        // Execute retention analysis
+        supabase.functions.invoke('agent-skill-executor', {
+          body: {
+            tenantId,
+            skillCode: 'retention_analysis',
+            input: { employee_data: hrData, trends: series }
+          }
+        }),
+        // Execute performance correlation analysis
+        supabase.functions.invoke('agent-skill-executor', {
+          body: {
+            tenantId,
+            skillCode: 'performance_correlation',
+            input: { metrics: context.current_metrics }
+          }
+        })
+      ]);
+
+      // Process AI responses into structured insights
+      const patterns = await processAIResponseIntoInsights(aiAnalysis.data, 'connection');
+      const predictions = await processAIResponseIntoInsights(aiAnalysis.data, 'prediction');
+      const recommendations = await processAIResponseIntoInsights(aiAnalysis.data, 'recommendation');
+      const crossConnections = await processSyncDataIntoConnections(syncData.data);
 
       setInsights([...patterns, ...predictions, ...recommendations]);
       setConnections(crossConnections);
-      setReasoning(generateAgentReasoning(context, patterns));
+      setReasoning(aiAnalysis.data?.response || generateAgentReasoning(context, patterns));
 
     } catch (error) {
-      console.error('Agent analysis error:', error);
+      console.error('AqlHR Agent analysis error:', error);
+      // Fallback to basic analysis if AI services fail
+      const fallbackInsights = await generateFallbackInsights();
+      setInsights(fallbackInsights);
     } finally {
       setLoading(false);
     }
@@ -281,6 +326,136 @@ export function useAqlhrAgent() {
     getInsightsByPriority: (priority: string) => insights.filter(i => i.priority === priority),
     getActionableInsights: () => insights.filter(i => i.actionable)
   };
+}
+
+// AI Response Processing Functions
+async function processAIResponseIntoInsights(aiResponse: any, type: string): Promise<AgentInsight[]> {
+  if (!aiResponse?.response) return [];
+  
+  const insights: AgentInsight[] = [];
+  const response = aiResponse.response;
+  
+  // Parse AI response for different insight types
+  if (type === 'connection' && response.includes('correlation')) {
+    insights.push({
+      id: `ai-connection-${Date.now()}`,
+      type: 'connection',
+      title: 'AI-Detected Pattern Connection',
+      description: extractInsightFromResponse(response, 'correlation'),
+      confidence: aiResponse.confidence || 0.8,
+      source_modules: ['ai_orchestrator', 'dashboard'],
+      actionable: true,
+      priority: 'high',
+      reasoning: response,
+      data_points: [],
+      created_at: new Date().toISOString()
+    });
+  }
+  
+  if (type === 'prediction' && response.includes('predict')) {
+    insights.push({
+      id: `ai-prediction-${Date.now()}`,
+      type: 'prediction',
+      title: 'AI Workforce Prediction',
+      description: extractInsightFromResponse(response, 'prediction'),
+      confidence: aiResponse.confidence || 0.85,
+      source_modules: ['ai_orchestrator', 'predictive_analytics'],
+      actionable: true,
+      priority: 'medium',
+      reasoning: response,
+      data_points: [],
+      created_at: new Date().toISOString()
+    });
+  }
+  
+  if (type === 'recommendation' && (response.includes('recommend') || response.includes('suggest'))) {
+    insights.push({
+      id: `ai-recommendation-${Date.now()}`,
+      type: 'recommendation',
+      title: 'AI Strategic Recommendation',
+      description: extractInsightFromResponse(response, 'recommendation'),
+      confidence: aiResponse.confidence || 0.9,
+      source_modules: ['ai_orchestrator', 'strategic_advisor'],
+      actionable: true,
+      priority: 'high',
+      reasoning: response,
+      data_points: [],
+      created_at: new Date().toISOString()
+    });
+  }
+  
+  return insights;
+}
+
+async function processSyncDataIntoConnections(syncData: any): Promise<CrossModuleConnection[]> {
+  if (!syncData?.events) return [];
+  
+  const connections: CrossModuleConnection[] = [];
+  
+  // Analyze sync events for module relationships
+  const moduleInteractions = new Map();
+  
+  syncData.events.forEach((event: any) => {
+    if (event.affected_modules) {
+      event.affected_modules.forEach((module: string) => {
+        const key = `${event.source_table}-${module}`;
+        moduleInteractions.set(key, (moduleInteractions.get(key) || 0) + 1);
+      });
+    }
+  });
+  
+  // Convert to connection objects
+  moduleInteractions.forEach((count, key) => {
+    const [source, target] = key.split('-');
+    if (count > 2) { // Only significant connections
+      connections.push({
+        from_module: source,
+        to_module: target,
+        relationship_type: 'data_sync_dependency',
+        strength: Math.min(0.9, count / 10), // Normalize to 0-0.9
+        impact_factors: ['real_time_sync', 'data_consistency', 'workflow_automation']
+      });
+    }
+  });
+  
+  return connections;
+}
+
+function extractInsightFromResponse(response: string, type: string): string {
+  const sentences = response.split('. ');
+  const keywords = {
+    correlation: ['correlation', 'relationship', 'connected', 'linked'],
+    prediction: ['predict', 'forecast', 'expect', 'likely'],
+    recommendation: ['recommend', 'suggest', 'should', 'consider']
+  };
+  
+  const relevantKeywords = keywords[type as keyof typeof keywords] || [];
+  
+  for (const sentence of sentences) {
+    if (relevantKeywords.some(keyword => sentence.toLowerCase().includes(keyword))) {
+      return sentence.trim();
+    }
+  }
+  
+  return response.substring(0, 100) + '...';
+}
+
+async function generateFallbackInsights(): Promise<AgentInsight[]> {
+  return [
+    {
+      id: `fallback-${Date.now()}`,
+      type: 'alert',
+      title: 'AI Services Temporarily Unavailable',
+      description: 'Advanced AI analysis is temporarily unavailable. Basic monitoring continues.',
+      confidence: 0.5,
+      source_modules: ['fallback_system'],
+      actionable: false,
+      priority: 'low',
+      reasoning: 'AI orchestrator services are experiencing connectivity issues.',
+      data_points: [],
+      created_at: new Date().toISOString()
+    }
+  ];
 }
 
 // Helper Functions
