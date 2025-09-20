@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { SaudiPayrollComplianceEngine } from '@/services/SaudiPayrollComplianceEngine';
@@ -160,14 +161,18 @@ export const SaudiPayrollComplianceDashboard: React.FC = () => {
         </div>
         
         <div className="flex gap-2">
-          <select 
+          <Select 
             value={selectedEmployee}
-            onChange={(e) => setSelectedEmployee(e.target.value)}
-            className="px-3 py-2 border rounded-md bg-background"
+            onValueChange={setSelectedEmployee}
           >
-            <option value="demo-employee-1">Ahmed Al-Rashid (Saudi)</option>
-            <option value="demo-employee-2">Sarah Johnson (Expat)</option>
-          </select>
+            <SelectTrigger className="w-[280px] bg-background border-border z-50">
+              <SelectValue placeholder="Select Employee" />
+            </SelectTrigger>
+            <SelectContent className="bg-background border-border shadow-lg z-50">
+              <SelectItem value="demo-employee-1">Ahmed Al-Rashid (Saudi)</SelectItem>
+              <SelectItem value="demo-employee-2">Sarah Johnson (Expat)</SelectItem>
+            </SelectContent>
+          </Select>
           <Button onClick={calculatePayroll} disabled={loading}>
             {loading ? (
               isArabic ? 'جاري الحساب...' : 'Calculating...'

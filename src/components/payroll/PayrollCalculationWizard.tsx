@@ -268,10 +268,10 @@ export const PayrollCalculationWizard: React.FC = () => {
                   {isArabic ? 'المدينة' : 'City'}
                 </Label>
                 <Select value={wizardData.city} onValueChange={(value) => updateData('city', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background border-border">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background border-border shadow-lg z-50">
                     <SelectItem value="riyadh">{isArabic ? 'الرياض' : 'Riyadh'}</SelectItem>
                     <SelectItem value="jeddah">{isArabic ? 'جدة' : 'Jeddah'}</SelectItem>
                     <SelectItem value="dammam">{isArabic ? 'الدمام' : 'Dammam'}</SelectItem>
@@ -301,10 +301,10 @@ export const PayrollCalculationWizard: React.FC = () => {
                   {isArabic ? 'الحالة الاجتماعية' : 'Marital Status'}
                 </Label>
                 <Select value={wizardData.marital_status} onValueChange={(value) => updateData('marital_status', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background border-border">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background border-border shadow-lg z-50">
                     <SelectItem value="single">{isArabic ? 'أعزب' : 'Single'}</SelectItem>
                     <SelectItem value="married">{isArabic ? 'متزوج' : 'Married'}</SelectItem>
                     <SelectItem value="divorced">{isArabic ? 'مطلق' : 'Divorced'}</SelectItem>
@@ -541,10 +541,10 @@ export const PayrollCalculationWizard: React.FC = () => {
                     {isArabic ? 'مستوى الخطر' : 'Risk Level'}
                   </Label>
                   <Select value={wizardData.risk_level} onValueChange={(value) => updateData('risk_level', value)}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-background border-border">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-background border-border shadow-lg z-50">
                       <SelectItem value="low">{isArabic ? 'منخفض (5%)' : 'Low (5%)'}</SelectItem>
                       <SelectItem value="medium">{isArabic ? 'متوسط (10%)' : 'Medium (10%)'}</SelectItem>
                       <SelectItem value="high">{isArabic ? 'عالي (20%)' : 'High (20%)'}</SelectItem>
@@ -566,10 +566,10 @@ export const PayrollCalculationWizard: React.FC = () => {
                   {isArabic ? 'تقييم الأداء' : 'Performance Rating'}
                 </Label>
                 <Select value={wizardData.performance_rating} onValueChange={(value) => updateData('performance_rating', value)}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background border-border">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-background border-border shadow-lg z-50">
                     <SelectItem value="exceptional">{isArabic ? 'متميز (25%)' : 'Exceptional (25%)'}</SelectItem>
                     <SelectItem value="exceeds">{isArabic ? 'يتجاوز التوقعات (15%)' : 'Exceeds (15%)'}</SelectItem>
                     <SelectItem value="meets">{isArabic ? 'يلبي التوقعات (5%)' : 'Meets (5%)'}</SelectItem>
