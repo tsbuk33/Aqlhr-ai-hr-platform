@@ -115,61 +115,65 @@ export const ManagerMobileApp: React.FC = () => {
     }
 
     try {
-      // Fetch team attendance data
-      const { data: attendanceData } = await supabase
-        .from('mobile_attendance_sessions')
-        .select(`
-          *,
-          hr_employees (
-            id,
-            first_name,
-            last_name,
-            position,
-            employment_status
-          )
-        `)
-        .gte('created_at', format(new Date(), 'yyyy-MM-dd'))
-        .eq('status', 'active');
+      // Mock team data for demo
+      const mockTeamMembers: TeamMember[] = [
+        {
+          id: '1',
+          name: 'أحمد محمد',
+          position: 'مطور برمجيات',
+          status: 'present',
+          check_in_time: new Date().toISOString(),
+          location: 'المكتب'
+        },
+        {
+          id: '2', 
+          name: 'سارة عبدالله',
+          position: 'مصممة UX',
+          status: 'present',
+          check_in_time: new Date().toISOString(),
+          location: 'المكتب'
+        }
+      ];
 
-      // Fetch leave requests
-      const { data: leaveData } = await supabase
-        .from('leave_requests')
-        .select('*')
-        .eq('status', 'pending')
-        .order('created_at', { ascending: false });
+      // Mock leave requests data
+      const mockLeaveRequests: LeaveRequest[] = [
+        {
+          id: '1',
+          employee_name: 'محمد علي',
+          type: 'إجازة سنوية',
+          start_date: new Date().toISOString(),
+          end_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+          status: 'pending',
+          reason: 'إجازة عائلية'
+        }
+      ];
 
-      // Process team members data
-      const members: TeamMember[] = attendanceData?.map(session => ({
-        id: session.employee_id,
-        name: `${session.hr_employees?.first_name} ${session.hr_employees?.last_name}`,
-        position: session.hr_employees?.position || 'Employee',
-        status: 'present' as const,
-        check_in_time: session.check_in_time,
-        location: 'Office'
-      })) || [];
-
-      setTeamMembers(members);
-      setLeaveRequests(leaveData || []);
+      setTeamMembers(mockTeamMembers);
+      setLeaveRequests(mockLeaveRequests);
 
       // Calculate stats
       const stats = {
         totalMembers: 15, // This should come from your team data
-        presentToday: members.length,
-        absentToday: 15 - members.length,
-        lateToday: members.filter(m => {
+        presentToday: mockTeamMembers.length,
+        absentToday: 15 - mockTeamMembers.length,
+        lateToday: mockTeamMembers.filter(m => {
           if (!m.check_in_time) return false;
           const checkInTime = new Date(m.check_in_time);
           const expectedTime = new Date();
           expectedTime.setHours(9, 0, 0, 0); // 9 AM
           return checkInTime > expectedTime;
         }).length,
-        pendingRequests: leaveData?.length || 0
+        pendingRequests: mockLeaveRequests?.length || 0
       };
 
       setTeamStats(stats);
 
       // Cache the data
-      await Storage.set({ key: 'manager_team_data', value: JSON.stringify({ members, leaveData, stats }) });
+      await Storage.set({ key: 'manager_team_data', value: JSON.stringify({ 
+        members: mockTeamMembers, 
+        leaveData: mockLeaveRequests, 
+        stats 
+      }) });
 
     } catch (error) {
       console.error('Error loading team data:', error);

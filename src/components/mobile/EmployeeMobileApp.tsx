@@ -132,12 +132,7 @@ export const EmployeeMobileApp: React.FC = () => {
     }
 
     try {
-      await BiometricAuth.authenticate({
-        reason: isArabic ? 'قم بالمصادقة لتسجيل الحضور' : 'Authenticate to record attendance',
-        title: isArabic ? 'مصادقة بيومترية' : 'Biometric Authentication',
-        subtitle: isArabic ? 'استخدم بصمتك أو وجهك' : 'Use your fingerprint or face',
-        description: isArabic ? 'مطلوب للأمان' : 'Required for security'
-      });
+      await BiometricAuth.authenticate();
       return true;
     } catch (error) {
       toast.error(isArabic ? 'فشلت المصادقة البيومترية' : 'Biometric authentication failed');
@@ -202,16 +197,21 @@ export const EmployeeMobileApp: React.FC = () => {
       } catch (error) {
         console.error('Check-in error:', error);
         // Store offline
+        await storeOfflineSession({ 
+          ...sessionData, 
+          local_id: Date.now().toString(), 
+          check_in_time: new Date().toISOString(),
+          sync_status: 'pending' as const
+        });
+      }
+    } else {
+      // Store offline
       await storeOfflineSession({ 
         ...sessionData, 
         local_id: Date.now().toString(), 
         check_in_time: new Date().toISOString(),
         sync_status: 'pending' as const
       });
-      }
-    } else {
-      // Store offline
-      await storeOfflineSession({ ...sessionData, local_id: Date.now().toString(), sync_status: 'pending' });
       toast(isArabic ? 'تم حفظ البيانات محلياً' : 'Stored offline');
     }
   };
@@ -234,7 +234,7 @@ export const EmployeeMobileApp: React.FC = () => {
 
     if (isOnline) {
       try {
-        const response = await fetch(`${supabase.supabaseUrl}/functions/v1/mobile-attendance/check-out`, {
+        const response = await fetch('/functions/v1/mobile-attendance/check-out', {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
@@ -283,7 +283,7 @@ export const EmployeeMobileApp: React.FC = () => {
     const total = pendingSessions.length;
 
     try {
-      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/mobile-attendance/sync-offline`, {
+      const response = await fetch('/functions/v1/mobile-attendance/sync-offline', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`,
@@ -305,7 +305,7 @@ export const EmployeeMobileApp: React.FC = () => {
       // Update local storage
       const updatedSessions = offlineSessions.map(session => {
         const syncResult = result.sync_results.find((r: any) => r.local_id === session.local_id);
-        return syncResult && syncResult.success ? { ...session, sync_status: 'synced' } : session;
+        return syncResult && syncResult.success ? { ...session, sync_status: 'synced' as const } : session;
       });
 
       await Storage.set({ key: 'offline_sessions', value: JSON.stringify(updatedSessions) });

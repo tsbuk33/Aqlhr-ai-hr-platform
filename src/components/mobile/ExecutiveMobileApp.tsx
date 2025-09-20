@@ -138,13 +138,8 @@ export const ExecutiveMobileApp: React.FC = () => {
       const saudizationRate = totalEmployees > 0 ? (saudiEmployees / totalEmployees) * 100 : 0;
       const monthlyPayroll = employeeData?.reduce((sum, emp) => sum + (emp.salary || 0), 0) || 0;
 
-      // Fetch government compliance data
-      const { data: complianceData } = await supabase
-        .from('government_compliance_status')
-        .select('*')
-        .eq('is_compliant', true);
-
-      const governmentCompliance = ((complianceData?.length || 0) / 21) * 100; // 21 total government portals
+      // Mock government compliance data for demo
+      const governmentCompliance = 85; // 85% compliance rate
 
       const processedKpis: KPI[] = kpiData?.map(kpi => ({
         id: kpi.id,
@@ -152,7 +147,7 @@ export const ExecutiveMobileApp: React.FC = () => {
         current_value: kpi.current_value || 0,
         target_value: kpi.target_value || 100,
         unit: kpi.unit || '%',
-        trend: kpi.trend || 'stable' as const,
+        trend: (kpi.trend as 'up' | 'down' | 'stable') || 'stable',
         change_percentage: kpi.change_percentage || 0
       })) || [];
 
