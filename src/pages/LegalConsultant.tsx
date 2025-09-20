@@ -87,6 +87,12 @@ import {
 } from 'lucide-react';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { SaudiLaborLawIntelligence } from '@/components/legal/SaudiLaborLawIntelligence';
+import { ContractIntelligence } from '@/components/legal/ContractIntelligence';
+import { ComplianceMonitoring } from '@/components/legal/ComplianceMonitoring';
+import { LegalRiskAssessment } from '@/components/legal/LegalRiskAssessment';
+import { LegalDocumentation } from '@/components/legal/LegalDocumentation';
+import { LegalResearchAssistant } from '@/components/legal/LegalResearchAssistant';
 
 const LegalConsultant: React.FC = () => {
   const { isArabic } = useSimpleLanguage();
@@ -190,86 +196,68 @@ const LegalConsultant: React.FC = () => {
         </Badge>
       </div>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chat Interface */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <MessageCircle className="h-5 w-5" />
-                {isArabic ? 'المحادثة القانونية' : 'Legal Chat'}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-96 mb-4 p-4 border rounded-lg">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`mb-4 ${
-                      message.type === 'user' 
-                        ? isArabic ? 'text-left' : 'text-right'
-                        : isArabic ? 'text-right' : 'text-left'
-                    }`}
-                  >
-                    <div
-                      className={`inline-block p-3 rounded-lg max-w-[80%] ${
-                        message.type === 'user'
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'
-                      }`}
-                    >
-                      <p>{message.content}</p>
-                      <span className="text-xs opacity-70 mt-1 block">
-                        {message.timestamp.toLocaleTimeString()}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </ScrollArea>
-              
-              <div className="flex gap-2">
-                <Input
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  placeholder={isArabic ? 'اكتب سؤالك القانوني هنا...' : 'Type your legal question here...'}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="flex-1"
-                />
-                <Button onClick={handleSendMessage}>
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      {/* Legal AI Modules */}
+      <Tabs defaultValue="chat" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-7">
+          <TabsTrigger value="chat">{isArabic ? 'المحادثة' : 'Chat'}</TabsTrigger>
+          <TabsTrigger value="intelligence">{isArabic ? 'المراقبة' : 'Intelligence'}</TabsTrigger>
+          <TabsTrigger value="contracts">{isArabic ? 'العقود' : 'Contracts'}</TabsTrigger>
+          <TabsTrigger value="compliance">{isArabic ? 'الامتثال' : 'Compliance'}</TabsTrigger>
+          <TabsTrigger value="risk">{isArabic ? 'المخاطر' : 'Risk'}</TabsTrigger>
+          <TabsTrigger value="documents">{isArabic ? 'الوثائق' : 'Documents'}</TabsTrigger>
+          <TabsTrigger value="research">{isArabic ? 'البحث' : 'Research'}</TabsTrigger>
+        </TabsList>
 
-        {/* Quick Topics */}
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                {isArabic ? 'مواضيع قانونية سريعة' : 'Quick Legal Topics'}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-2">
-                {quickTopics.map((topic, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleQuickTopic(topic)}
-                    className="justify-start text-left"
-                  >
-                    {topic}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+        <TabsContent value="chat" className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageCircle className="h-5 w-5" />
+                    {isArabic ? 'المحادثة القانونية' : 'Legal Chat'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-96 mb-4 p-4 border rounded-lg">
+                    {messages.map((message) => (
+                      <div key={message.id} className={`mb-4 ${message.type === 'user' ? isArabic ? 'text-left' : 'text-right' : isArabic ? 'text-right' : 'text-left'}`}>
+                        <div className={`inline-block p-3 rounded-lg max-w-[80%] ${message.type === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white'}`}>
+                          <p>{message.content}</p>
+                          <span className="text-xs opacity-70 mt-1 block">{message.timestamp.toLocaleTimeString()}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </ScrollArea>
+                  <div className="flex gap-2">
+                    <Input value={inputMessage} onChange={(e) => setInputMessage(e.target.value)} placeholder={isArabic ? 'اكتب سؤالك القانوني هنا...' : 'Type your legal question here...'} onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()} className="flex-1" />
+                    <Button onClick={handleSendMessage}><Send className="h-4 w-4" /></Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <div>
+              <Card>
+                <CardHeader><CardTitle>{isArabic ? 'مواضيع قانونية سريعة' : 'Quick Legal Topics'}</CardTitle></CardHeader>
+                <CardContent>
+                  <div className="grid gap-2">
+                    {quickTopics.map((topic, index) => (
+                      <Button key={index} variant="outline" size="sm" onClick={() => handleQuickTopic(topic)} className="justify-start text-left">{topic}</Button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="intelligence"><SaudiLaborLawIntelligence /></TabsContent>
+        <TabsContent value="contracts"><ContractIntelligence /></TabsContent>
+        <TabsContent value="compliance"><ComplianceMonitoring /></TabsContent>
+        <TabsContent value="risk"><LegalRiskAssessment /></TabsContent>
+        <TabsContent value="documents"><LegalDocumentation /></TabsContent>
+        <TabsContent value="research"><LegalResearchAssistant /></TabsContent>
+      </Tabs>
 
       <AqlHRAIAssistant 
         moduleContext="legal-consultant" 
