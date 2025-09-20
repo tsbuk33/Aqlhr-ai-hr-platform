@@ -174,7 +174,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   {/* System Overview with Connectivity */}
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
@@ -271,7 +271,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/core-hr" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -349,7 +349,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/payroll" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -399,7 +399,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/government" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -468,7 +468,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/analytics" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -529,7 +529,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/ai-ecosystem" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -573,7 +573,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/leo" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -617,7 +617,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/consulting" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -659,7 +659,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/compliance" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -711,7 +711,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/welfare-consultancy" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -754,7 +754,7 @@ export function AppSidebar() {
             </CollapsibleTrigger>
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu className="space-y-1 list-none">
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/tools" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
@@ -799,7 +799,7 @@ export function AppSidebar() {
             {isArabic ? 'العمليات الأساسية' : 'Core Operations'}
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-2">
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu className="space-y-1 list-none">
               {/* Performance Management */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
@@ -904,7 +904,7 @@ export function AppSidebar() {
             {isArabic ? 'مؤشر البنية التنظيمية والتحليل الاستراتيجي' : 'OSI & Strategic Analysis'}
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-2">
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu className="space-y-1 list-none">
               {/* OSI Overview */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
@@ -1028,7 +1028,7 @@ export function AppSidebar() {
             {isArabic ? 'الأدوات والدعم' : 'Tools & Support'}
           </SidebarGroupLabel>
           <SidebarGroupContent className="p-2">
-            <SidebarMenu className="space-y-1">
+            <SidebarMenu className="space-y-1 list-none">
               {/* Tools */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
@@ -1092,10 +1092,9 @@ export function AppSidebar() {
                   {isArabic ? 'متصل' : 'Online'}
                 </span>
               </div>
-            </div>
-          )}
-        </SidebarFooter>
-      </Sidebar>
-    </TooltipProvider>
-  );
-}
+              <div className="pt-2">
+                <Button onClick={handleLanguageSwitch} variant="outline" size="sm" className="w-full flex items-center justify-center gap-2">
+                  <Languages className="h-4 w-4" />
+                  <span className="text-xs">{isArabic ? 'التبديل إلى الإنجليزية' : 'Switch to Arabic'}</span>
+                </Button>
+              </div>

@@ -44,6 +44,7 @@ import LearningExperienceOptimization from '@/pages/learning/LearningExperienceO
 import GenerativeEngagementOptimization from '@/pages/engagement/GenerativeEngagementOptimization';
 import LegalConsultant from '@/pages/LegalConsultant';
 import NRCManagement from '@/pages/NRCManagement';
+import ModulePlaceholder from '@/pages/ModulePlaceholder';
 import BenefitsManagement from '@/pages/modules/BenefitsManagement';
 import ExpenseManagement from '@/pages/modules/ExpenseManagement';
 import FinancialPlanning from '@/pages/modules/FinancialPlanning';
@@ -409,6 +410,15 @@ export default function AppRoutes() {
               <SmartKPIPublic />
             </Suspense>
           </LayoutShell>
+        } />
+
+        {/* Generic Module Placeholder */}
+        <Route path="m/:moduleId" element={
+          <PublicLayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <ModulePlaceholder />
+            </Suspense>
+          </PublicLayoutShell>
         } />
         
         {/* All AqlHR Platform Routes - Wrap with LayoutShell for proper dashboard layout */}
