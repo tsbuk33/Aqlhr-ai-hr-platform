@@ -20,8 +20,8 @@ export default function AuthCallback() {
           return;
         }
 
-        // On success, redirect to dashboard
-        navigate("/", { replace: true });
+        // On success, redirect to dashboard with language prefix
+        navigate("/en", { replace: true });
       } catch (err) {
         console.error("Unexpected auth callback error:", err);
         setStatus("error");
@@ -49,7 +49,7 @@ export default function AuthCallback() {
             again.
           </p>
           <button
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/en/auth")}
             className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
           >
             Back to Sign In
