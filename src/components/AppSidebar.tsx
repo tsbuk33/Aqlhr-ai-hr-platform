@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { LinkL } from '@/lib/i18n/LinkL';
 import { 
   BarChart3, Users, Crown, Brain, Building2, Shield, Settings, 
   ChevronDown, Home, Zap, Scale, Heart, Star, GraduationCap,
@@ -177,20 +178,18 @@ export function AppSidebar() {
               {/* Generative Engagement Optimization */}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <NavLink
+                  <LinkL
                     to="/geo"
-                    className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
-                        isActive
-                          ? 'bg-primary/20 text-primary border border-primary/30'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
-                      }`
+                    className={
+                      location.pathname.includes('/geo')
+                        ? 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 bg-primary/20 text-primary border border-primary/30'
+                        : 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50'
                     }
                   >
                     <Sparkles className="h-4 w-4 text-pink-500" />
                     <span className="truncate">{isArabic ? 'تحسين المشاركة التوليدية' : 'Generative Engagement Optimization'}</span>
                     <Badge className="ml-auto text-xs bg-pink-600 text-white">GEO</Badge>
-                  </NavLink>
+                  </LinkL>
                 </SidebarMenuButton>
               </SidebarMenuItem>
 
