@@ -430,14 +430,18 @@ export type Database = {
       }
       ai_knowledge_base: {
         Row: {
+          business_impact: string | null
           category: string
           company_id: string | null
+          compliance_level: string | null
           content_ar: string | null
           content_en: string
           created_at: string | null
           government_agency: string | null
+          government_source: string | null
           helpful_votes: number | null
           id: string
+          implementation_difficulty: string | null
           is_active: boolean | null
           keywords_ar: string[] | null
           keywords_en: string[] | null
@@ -447,6 +451,7 @@ export type Database = {
           regulation_reference: string | null
           review_required: boolean | null
           reviewed_by: string | null
+          saudi_law_category: string | null
           search_count: number | null
           subcategory: string | null
           title_ar: string | null
@@ -455,14 +460,18 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          business_impact?: string | null
           category: string
           company_id?: string | null
+          compliance_level?: string | null
           content_ar?: string | null
           content_en: string
           created_at?: string | null
           government_agency?: string | null
+          government_source?: string | null
           helpful_votes?: number | null
           id?: string
+          implementation_difficulty?: string | null
           is_active?: boolean | null
           keywords_ar?: string[] | null
           keywords_en?: string[] | null
@@ -472,6 +481,7 @@ export type Database = {
           regulation_reference?: string | null
           review_required?: boolean | null
           reviewed_by?: string | null
+          saudi_law_category?: string | null
           search_count?: number | null
           subcategory?: string | null
           title_ar?: string | null
@@ -480,14 +490,18 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          business_impact?: string | null
           category?: string
           company_id?: string | null
+          compliance_level?: string | null
           content_ar?: string | null
           content_en?: string
           created_at?: string | null
           government_agency?: string | null
+          government_source?: string | null
           helpful_votes?: number | null
           id?: string
+          implementation_difficulty?: string | null
           is_active?: boolean | null
           keywords_ar?: string[] | null
           keywords_en?: string[] | null
@@ -497,6 +511,7 @@ export type Database = {
           regulation_reference?: string | null
           review_required?: boolean | null
           reviewed_by?: string | null
+          saudi_law_category?: string | null
           search_count?: number | null
           subcategory?: string | null
           title_ar?: string | null
@@ -2687,6 +2702,59 @@ export type Database = {
         }
         Relationships: []
       }
+      company_gov_connections: {
+        Row: {
+          auto_sync_enabled: boolean | null
+          company_id: string
+          configuration: Json | null
+          connection_status: string | null
+          created_at: string | null
+          credentials_configured: boolean | null
+          id: string
+          last_error: string | null
+          last_sync_at: string | null
+          portal_code: string
+          sync_frequency: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          auto_sync_enabled?: boolean | null
+          company_id: string
+          configuration?: Json | null
+          connection_status?: string | null
+          created_at?: string | null
+          credentials_configured?: boolean | null
+          id?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          portal_code: string
+          sync_frequency?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          auto_sync_enabled?: boolean | null
+          company_id?: string
+          configuration?: Json | null
+          connection_status?: string | null
+          created_at?: string | null
+          credentials_configured?: boolean | null
+          id?: string
+          last_error?: string | null
+          last_sync_at?: string | null
+          portal_code?: string
+          sync_frequency?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_gov_connections_portal_code_fkey"
+            columns: ["portal_code"]
+            isOneToOne: false
+            referencedRelation: "government_portals"
+            referencedColumns: ["portal_code"]
+          },
+        ]
+      }
       company_intelligence: {
         Row: {
           company_id: string
@@ -3091,6 +3159,170 @@ export type Database = {
           virus_scan_status?: string | null
         }
         Relationships: []
+      }
+      document_intelligence: {
+        Row: {
+          action_items: Json | null
+          ai_keywords_ar: string[] | null
+          ai_keywords_en: string[] | null
+          ai_summary_ar: string | null
+          ai_summary_en: string | null
+          compliance_flags: Json | null
+          confidence_score: number | null
+          created_at: string | null
+          document_classification: string | null
+          document_metadata: Json | null
+          embeddings: string | null
+          file_size_bytes: number
+          file_type: string
+          gosi_relevance: number | null
+          government_entity_mentions: Json | null
+          id: string
+          key_entities: Json | null
+          labor_law_relevance: number | null
+          module_context: string
+          original_file_name: string
+          processing_completed_at: string | null
+          processing_duration_ms: number | null
+          processing_started_at: string | null
+          processing_status: string | null
+          raw_text: string | null
+          saudi_law_references: Json | null
+          saudization_relevance: number | null
+          search_vector: unknown | null
+          semantic_sections: Json | null
+          storage_path: string
+          structured_content: Json | null
+          tenant_id: string
+          updated_at: string | null
+          upload_user_id: string | null
+        }
+        Insert: {
+          action_items?: Json | null
+          ai_keywords_ar?: string[] | null
+          ai_keywords_en?: string[] | null
+          ai_summary_ar?: string | null
+          ai_summary_en?: string | null
+          compliance_flags?: Json | null
+          confidence_score?: number | null
+          created_at?: string | null
+          document_classification?: string | null
+          document_metadata?: Json | null
+          embeddings?: string | null
+          file_size_bytes: number
+          file_type: string
+          gosi_relevance?: number | null
+          government_entity_mentions?: Json | null
+          id?: string
+          key_entities?: Json | null
+          labor_law_relevance?: number | null
+          module_context: string
+          original_file_name: string
+          processing_completed_at?: string | null
+          processing_duration_ms?: number | null
+          processing_started_at?: string | null
+          processing_status?: string | null
+          raw_text?: string | null
+          saudi_law_references?: Json | null
+          saudization_relevance?: number | null
+          search_vector?: unknown | null
+          semantic_sections?: Json | null
+          storage_path: string
+          structured_content?: Json | null
+          tenant_id: string
+          updated_at?: string | null
+          upload_user_id?: string | null
+        }
+        Update: {
+          action_items?: Json | null
+          ai_keywords_ar?: string[] | null
+          ai_keywords_en?: string[] | null
+          ai_summary_ar?: string | null
+          ai_summary_en?: string | null
+          compliance_flags?: Json | null
+          confidence_score?: number | null
+          created_at?: string | null
+          document_classification?: string | null
+          document_metadata?: Json | null
+          embeddings?: string | null
+          file_size_bytes?: number
+          file_type?: string
+          gosi_relevance?: number | null
+          government_entity_mentions?: Json | null
+          id?: string
+          key_entities?: Json | null
+          labor_law_relevance?: number | null
+          module_context?: string
+          original_file_name?: string
+          processing_completed_at?: string | null
+          processing_duration_ms?: number | null
+          processing_started_at?: string | null
+          processing_status?: string | null
+          raw_text?: string | null
+          saudi_law_references?: Json | null
+          saudization_relevance?: number | null
+          search_vector?: unknown | null
+          semantic_sections?: Json | null
+          storage_path?: string
+          structured_content?: Json | null
+          tenant_id?: string
+          updated_at?: string | null
+          upload_user_id?: string | null
+        }
+        Relationships: []
+      }
+      document_processing_layers: {
+        Row: {
+          confidence_score: number | null
+          created_at: string | null
+          document_id: string
+          error_message: string | null
+          id: string
+          layer_output: Json | null
+          layer_status: string | null
+          layer_type: string
+          processing_model: string | null
+          processing_prompt: string | null
+          processing_time_ms: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          confidence_score?: number | null
+          created_at?: string | null
+          document_id: string
+          error_message?: string | null
+          id?: string
+          layer_output?: Json | null
+          layer_status?: string | null
+          layer_type: string
+          processing_model?: string | null
+          processing_prompt?: string | null
+          processing_time_ms?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          confidence_score?: number | null
+          created_at?: string | null
+          document_id?: string
+          error_message?: string | null
+          id?: string
+          layer_output?: Json | null
+          layer_status?: string | null
+          layer_type?: string
+          processing_model?: string | null
+          processing_prompt?: string | null
+          processing_time_ms?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_processing_layers_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "document_intelligence"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       document_types: {
         Row: {
@@ -5284,6 +5516,60 @@ export type Database = {
         }
         Relationships: []
       }
+      government_api_logs: {
+        Row: {
+          company_id: string
+          created_at: string | null
+          endpoint: string
+          error_message: string | null
+          http_method: string
+          id: string
+          operation_type: string
+          portal_code: string
+          request_id: string
+          request_payload: Json | null
+          response_payload: Json | null
+          response_status: number | null
+          response_time_ms: number | null
+          success: boolean | null
+          user_id: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string | null
+          endpoint: string
+          error_message?: string | null
+          http_method: string
+          id?: string
+          operation_type: string
+          portal_code: string
+          request_id: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          response_status?: number | null
+          response_time_ms?: number | null
+          success?: boolean | null
+          user_id?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string | null
+          endpoint?: string
+          error_message?: string | null
+          http_method?: string
+          id?: string
+          operation_type?: string
+          portal_code?: string
+          request_id?: string
+          request_payload?: Json | null
+          response_payload?: Json | null
+          response_status?: number | null
+          response_time_ms?: number | null
+          success?: boolean | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       government_compliance: {
         Row: {
           compliance_level: string | null
@@ -5372,6 +5658,48 @@ export type Database = {
           },
         ]
       }
+      government_compliance_status: {
+        Row: {
+          auto_remediation_enabled: boolean | null
+          company_id: string
+          compliance_type: string
+          created_at: string | null
+          details: Json | null
+          id: string
+          last_checked_at: string | null
+          next_check_due: string | null
+          portal_code: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          auto_remediation_enabled?: boolean | null
+          company_id: string
+          compliance_type: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          last_checked_at?: string | null
+          next_check_due?: string | null
+          portal_code: string
+          status: string
+          updated_at?: string | null
+        }
+        Update: {
+          auto_remediation_enabled?: boolean | null
+          company_id?: string
+          compliance_type?: string
+          created_at?: string | null
+          details?: Json | null
+          id?: string
+          last_checked_at?: string | null
+          next_check_due?: string | null
+          portal_code?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       government_integration_log: {
         Row: {
           action_type: string
@@ -5420,6 +5748,51 @@ export type Database = {
           response_data?: Json | null
           retry_count?: number | null
           status?: string
+        }
+        Relationships: []
+      }
+      government_portals: {
+        Row: {
+          api_base_url: string | null
+          created_at: string | null
+          documentation_url: string | null
+          id: string
+          portal_category: string
+          portal_code: string
+          portal_name_ar: string
+          portal_name_en: string
+          rate_limits: Json | null
+          status: string | null
+          supported_operations: Json | null
+          updated_at: string | null
+        }
+        Insert: {
+          api_base_url?: string | null
+          created_at?: string | null
+          documentation_url?: string | null
+          id?: string
+          portal_category: string
+          portal_code: string
+          portal_name_ar: string
+          portal_name_en: string
+          rate_limits?: Json | null
+          status?: string | null
+          supported_operations?: Json | null
+          updated_at?: string | null
+        }
+        Update: {
+          api_base_url?: string | null
+          created_at?: string | null
+          documentation_url?: string | null
+          id?: string
+          portal_category?: string
+          portal_code?: string
+          portal_name_ar?: string
+          portal_name_en?: string
+          rate_limits?: Json | null
+          status?: string | null
+          supported_operations?: Json | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -10471,6 +10844,75 @@ export type Database = {
         }
         Relationships: []
       }
+      saudi_legal_framework: {
+        Row: {
+          authority: string
+          category: string
+          compliance_requirements: Json | null
+          created_at: string | null
+          document_urls: string[] | null
+          effective_date: string
+          id: string
+          key_articles: Json | null
+          keywords_ar: string[] | null
+          keywords_en: string[] | null
+          last_amended: string | null
+          law_code: string
+          law_name_ar: string
+          law_name_en: string
+          penalties: Json | null
+          related_laws: string[] | null
+          status: string
+          summary_ar: string
+          summary_en: string
+          updated_at: string | null
+        }
+        Insert: {
+          authority: string
+          category: string
+          compliance_requirements?: Json | null
+          created_at?: string | null
+          document_urls?: string[] | null
+          effective_date: string
+          id?: string
+          key_articles?: Json | null
+          keywords_ar?: string[] | null
+          keywords_en?: string[] | null
+          last_amended?: string | null
+          law_code: string
+          law_name_ar: string
+          law_name_en: string
+          penalties?: Json | null
+          related_laws?: string[] | null
+          status?: string
+          summary_ar: string
+          summary_en: string
+          updated_at?: string | null
+        }
+        Update: {
+          authority?: string
+          category?: string
+          compliance_requirements?: Json | null
+          created_at?: string | null
+          document_urls?: string[] | null
+          effective_date?: string
+          id?: string
+          key_articles?: Json | null
+          keywords_ar?: string[] | null
+          keywords_en?: string[] | null
+          last_amended?: string | null
+          law_code?: string
+          law_name_ar?: string
+          law_name_en?: string
+          penalties?: Json | null
+          related_laws?: string[] | null
+          status?: string
+          summary_ar?: string
+          summary_en?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       saudi_payroll: {
         Row: {
           absence_deduction: number | null
@@ -13806,6 +14248,18 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      get_government_portals_status: {
+        Args: { p_company_id: string }
+        Returns: {
+          category: string
+          compliance_count: number
+          connection_status: string
+          last_sync_at: string
+          portal_code: string
+          portal_name_ar: string
+          portal_name_en: string
+        }[]
+      }
       get_user_locale: {
         Args: Record<PropertyKey, never>
         Returns: string
@@ -13841,6 +14295,10 @@ export type Database = {
       hnswhandler: {
         Args: { "": unknown }
         Returns: unknown
+      }
+      initialize_company_gov_portals: {
+        Args: { p_company_id: string }
+        Returns: number
       }
       is_admin: {
         Args: Record<PropertyKey, never>
