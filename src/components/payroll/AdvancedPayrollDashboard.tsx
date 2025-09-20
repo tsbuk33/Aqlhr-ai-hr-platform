@@ -31,6 +31,10 @@ import { useLanguage } from '@/hooks/useLanguage';
 import { useAdvancedPayroll } from '@/hooks/useAdvancedPayroll';
 import { PayrollCalculator } from './PayrollCalculator';
 import { AllowanceManager } from './AllowanceManager';
+import { LoanManager } from './LoanManager';
+import { LeaveCalculator } from './LeaveCalculator';
+import { EOSCalculator } from './EOSCalculator';
+import { WPSManager } from './WPSManager';
 
 export const AdvancedPayrollDashboard: React.FC = () => {
   const { language } = useLanguage();

@@ -14,6 +14,7 @@ const Organization = lazy(() => import('../pages/Organization'));
 const SelfService = lazy(() => import('../pages/SelfService'));
 const Documents = lazy(() => import('../pages/Documents'));
 const Payroll = lazy(() => import('../pages/Payroll'));
+const AdvancedPayrollPage = lazy(() => import('../pages/payroll/AdvancedPayrollPage'));
 const AIFeatures = lazy(() => import('../pages/AIFeatures'));
 const Government = lazy(() => import('../pages/Government'));
 const Strategic = lazy(() => import('../pages/Strategic'));
@@ -545,6 +546,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/saudi-engineering', element: SaudiEngineeringBody, auth: true },
   
   // Payroll Sub-routes - auth required
+  { path: '/payroll', element: AdvancedPayrollPage, auth: true },
+  { path: '/payroll/advanced', element: AdvancedPayrollPage, auth: true },
   { path: '/payroll/wps', element: WPSProcessing, auth: true },
   { path: '/payroll/gosi', element: GOSIIntegration, auth: true },
   { path: '/payroll/eosb', element: EOSBCalculations, auth: true },
