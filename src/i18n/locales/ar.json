@@ -75,6 +75,27 @@
       }
     }
   },
+  "auth": {
+    "title": "أقل للموارد البشرية",
+    "welcome": "أهلاً بعودتك",
+    "signInSubtext": "سجل الدخول للمتابعة إلى لوحة التحكم",
+    "signUpSubtext": "سجل للوصول إلى منصة الموارد البشرية",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "email": "عنوان البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "sendResetLink": "إرسال رابط إعادة التعيين",
+    "backToSignIn": "العودة لتسجيل الدخول",
+    "resetEmailSent": "تم إرسال بريد إعادة تعيين كلمة المرور! تحقق من صندوق الوارد.",
+    "createAccount": "إنشاء حساب",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "switchToSignUp": "سجل هنا",
+    "switchToSignIn": "سجل الدخول هنا"
+  },
   "analytics": {
     "title": "التحليلات",
     "description": "تحليلات شاملة ورؤى للأداء",

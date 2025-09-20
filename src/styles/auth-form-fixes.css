@@ -15,9 +15,9 @@
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem; /* leaves space for eye icon */
   border-radius: 6px;
-  border: 1px solid #333;
-  background-color: #0f172a; /* match dark theme */
-  color: #fff;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
   box-sizing: border-box;
 }
 
@@ -40,7 +40,7 @@
   cursor: pointer;
   border: none;
   background: transparent;
-  color: #94a3b8;
+  color: hsl(var(--muted-foreground));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +50,7 @@
 }
 
 .password-wrapper .eye-icon:hover {
-  color: #fff;
+  color: hsl(var(--foreground));
 }
 
 /* ✅ RTL Support Enforcement */
@@ -95,10 +95,10 @@ html[dir="rtl"] .password-wrapper input {
   width: 100%;
   max-width: 400px;
   padding: 2rem;
-  background: rgba(15, 23, 42, 0.8);
+  background: hsl(var(--card));
   border-radius: 12px;
-  border: 1px solid #334155;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 10px 25px hsl(0 0% 0% / 0.3);
 }
 
 /* Button group alignment */

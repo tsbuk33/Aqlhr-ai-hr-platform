@@ -5,12 +5,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { useTranslation } from 'react-i18next';
 
 export default function AuthPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
   const { language } = useLanguage();
+  const { t } = useTranslation();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,12 +24,14 @@ export default function AuthPage() {
   const [resetEmail, setResetEmail] = useState("");
   const [resetSent, setResetSent] = useState(false);
 
+  const isRTL = language === 'ar';
+
   // Redirect if already authenticated
-if (user) {
-  const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
-  navigate(nextUrl, { replace: true });
-  return null;
-}
+  if (user) {
+    const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
+    navigate(nextUrl, { replace: true });
+    return null;
+  }
 
   const toggleMode = () => {
     setIsSignUp(!isSignUp);
@@ -109,15 +113,25 @@ if (user) {
   };
 
   return (
-    <div className={`auth-form-container bg-background text-foreground ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
-      <div className="auth-form-card">
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-primary mb-2">AqlHR</h1>
-          <h2 className="text-xl font-semibold">
-            {isSignUp ? 'Create Account' : 'Welcome Back'}
+    <div className="min-h-screen flex items-center justify-center bg-gradient-saudi-hero relative overflow-hidden auth-form-container" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-20">
+        <div style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Ccircle cx='10' cy='10' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          width: '100%',
+          height: '100%'
+        }} />
+      </div>
+      
+      <div className="relative z-10 w-full max-w-md p-8 auth-form-card">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">{t('auth.title')}</h1>
+          <h2 className="text-xl text-foreground-muted mb-4">
+            {isSignUp ? t('auth.createAccount') : t('auth.welcome')}
           </h2>
-          <p className="text-muted-foreground mt-2">
-            {isSignUp ? 'Sign up to access your HR platform' : 'Sign in to continue to your dashboard'}
+          <p className="text-muted-foreground">
+            {isSignUp ? t('auth.signUpSubtext') : t('auth.signInSubtext')}
           </p>
         </div>
 
@@ -126,20 +140,20 @@ if (user) {
             className={`px-4 py-2 rounded ${!isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
             onClick={() => setIsSignUp(false)}
           >
-            Sign In
+            {t('auth.signIn')}
           </button>
           <button
             className={`px-4 py-2 rounded ${isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
             onClick={() => setIsSignUp(true)}
           >
-            Sign Up
+            {t('auth.signUp')}
           </button>
         </div>
 
         <form onSubmit={handleAuth} className="auth-form">
           <input
             type="email"
-            placeholder="Email address"
+            placeholder={t('auth.email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -148,7 +162,7 @@ if (user) {
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Password"
+              placeholder={t('auth.password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -164,7 +178,7 @@ if (user) {
           </div>
 
           {!isSignUp && (
-            <div className="text-right">
+            <div className={`${isRTL ? 'text-left' : 'text-right'}`}>
               <button
                 type="button"
                 onClick={() => {
@@ -173,7 +187,7 @@ if (user) {
                 }}
                 className="text-sm text-primary hover:underline"
               >
-                Forgot Password?
+                {t('auth.forgotPassword')}
               </button>
             </div>
           )}
@@ -183,7 +197,7 @@ if (user) {
             disabled={loading}
             className="w-full py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 transition-colors"
           >
-            {loading ? "Please wait..." : isSignUp ? "Sign Up" : "Sign In"}
+            {loading ? t('common.loading') : isSignUp ? t('auth.signUp') : t('auth.signIn')}
           </button>
         </form>
 
@@ -194,11 +208,11 @@ if (user) {
         {/* Forgot Password Modal */}
         {showForgotPassword && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowForgotPassword(false)}>
-            <div className="bg-background border rounded-lg p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-background border border-border rounded-lg p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
               <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold">Reset Password</h3>
+                <h3 className="text-lg font-semibold">{t('auth.resetPassword')}</h3>
                 <p className="text-muted-foreground text-sm mt-1">
-                  {resetSent ? "Check your email for reset instructions" : "Enter your email to receive reset instructions"}
+                  {resetSent ? t('auth.resetEmailSent') : "Enter your email to receive reset instructions"}
                 </p>
               </div>
 
@@ -206,11 +220,11 @@ if (user) {
                 <form onSubmit={handlePasswordReset} className="space-y-4">
                   <input
                     type="email"
-                    placeholder="Email address"
+                    placeholder={t('auth.email')}
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
                     required
-                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full p-2 border border-border bg-background text-foreground rounded focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   
                   <div className="flex gap-2">
@@ -223,17 +237,17 @@ if (user) {
                         setMessage("");
                         setIsError(false);
                       }}
-                      className="flex-1 py-2 px-4 border rounded hover:bg-muted transition-colors"
+                      className="flex-1 py-2 px-4 border border-border bg-background text-foreground rounded hover:bg-muted transition-colors"
                       disabled={loading}
                     >
-                      Cancel
+                      {t('common.cancel')}
                     </button>
                     <button
                       type="submit"
                       disabled={loading}
                       className="flex-1 py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 transition-colors"
                     >
-                      {loading ? "Sending..." : "Send Reset Email"}
+                      {loading ? "Sending..." : t('auth.sendResetLink')}
                     </button>
                   </div>
                 </form>

@@ -58,6 +58,27 @@
       "analytics": "Analytics"
     }
   },
+  "auth": {
+    "title": "AqlHR",
+    "welcome": "Welcome Back",
+    "signInSubtext": "Sign in to continue to your dashboard",
+    "signUpSubtext": "Sign up to access your HR platform",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "backToSignIn": "Back to Sign In",
+    "resetEmailSent": "Password reset email sent! Check your inbox.",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "switchToSignUp": "Sign up here",
+    "switchToSignIn": "Sign in here"
+  },
   "analytics": {
     "title": "Analytics",
     "description": "Comprehensive analytics and performance insights",
