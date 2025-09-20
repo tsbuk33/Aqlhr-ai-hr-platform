@@ -13486,6 +13486,44 @@ export type Database = {
         }
         Relationships: []
       }
+      security_linter_false_positives: {
+        Row: {
+          approved_by: string | null
+          created_at: string | null
+          function_name: string | null
+          justification: string | null
+          reviewed_by: string | null
+          schema_name: string | null
+          security_review_date: string | null
+        }
+        Insert: {
+          approved_by?: string | null
+          created_at?: string | null
+          function_name?: string | null
+          justification?: string | null
+          reviewed_by?: string | null
+          schema_name?: string | null
+          security_review_date?: string | null
+        }
+        Update: {
+          approved_by?: string | null
+          created_at?: string | null
+          function_name?: string | null
+          justification?: string | null
+          reviewed_by?: string | null
+          schema_name?: string | null
+          security_review_date?: string | null
+        }
+        Relationships: []
+      }
+      security_summary_report: {
+        Row: {
+          category: string | null
+          count: number | null
+          status: string | null
+        }
+        Relationships: []
+      }
       user_profiles_with_roles: {
         Row: {
           company_id: string | null
