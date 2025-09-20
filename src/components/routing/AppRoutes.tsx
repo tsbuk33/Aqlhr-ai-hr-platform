@@ -20,6 +20,7 @@ import PromptDrivenExecutionTest from '@/pages/PromptDrivenExecutionTest';
 import AutonomousDashboardPage from '@/pages/autonomous/AutonomousDashboardPage';
 import SmartKPIPublic from '@/pages/SmartKPIPublic';
 import ExecutiveIntelligence from '@/pages/ExecutiveIntelligence';
+import SkillsIntelligence from '@/pages/SkillsIntelligence';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -105,6 +106,17 @@ export default function AppRoutes() {
             <LayoutShell>
               <Suspense fallback={<RouteLoading />}>
                 <ExecutiveIntelligence />
+              </Suspense>
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+
+        {/* Skills Intelligence - NEW Module */}
+        <Route path="skills-intelligence" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <SkillsIntelligence />
               </Suspense>
             </LayoutShell>
           </ProtectedRoute>
