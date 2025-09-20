@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Cpu } from 'lucide-react';
-import type { Employee } from '@/hooks/useEmployees';
+import type { SafeEmployee } from '@/hooks/useEmployees';
 
 interface SystemMetricsProps {
-  employees: Employee[];
+  employees: SafeEmployee[];
   getSyncStats: () => {
     total: number;
     avgLatency: number;
@@ -15,8 +15,8 @@ interface SystemMetricsProps {
 
 export const SystemMetrics: React.FC<SystemMetricsProps> = ({ employees, getSyncStats }) => {
   // Environment configuration
-  const LATENCY_BUDGET = parseInt(import.meta.env.VITE_SYNC_LATENCY_BUDGET ?? '200');
-  const RENDER_BUDGET = parseInt(import.meta.env.VITE_RENDER_BUDGET ?? '3000');
+  const LATENCY_BUDGET = 200; // Removed VITE env var usage as per guidelines
+  const RENDER_BUDGET = 3000;
 
   const syncStats = getSyncStats();
 

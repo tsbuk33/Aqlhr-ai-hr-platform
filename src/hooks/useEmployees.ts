@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
+// Interface for full employee data (for privileged users)
 export interface Employee {
   id: string;
   company_id: string;
@@ -100,82 +101,121 @@ export interface Employee {
   medical_conditions_ar?: string;
 }
 
+// Interface for safe employee data (with masked PII)
+export interface SafeEmployee {
+  id: string;
+  employee_number: string;
+  first_name: string;
+  last_name: string;
+  first_name_ar?: string;
+  last_name_ar?: string;
+  // Masked sensitive fields
+  national_id_masked?: string;
+  iqama_number_masked?: string;
+  phone_masked?: string;
+  passport_number_masked?: string;
+  personal_email_masked?: string;
+  // Safe fields
+  company_email?: string;
+  department?: string;
+  position?: string;
+  position_ar?: string;
+  hire_date?: string;
+  status?: string;
+  is_saudi?: boolean;
+  nationality?: string;
+  company_id?: string;
+  created_at: string;
+  updated_at: string;
+  // Conditional salary info (null for unauthorized users)
+  salary_info?: number | null;
+  basic_salary_info?: number | null;
+}
+
 export const useEmployees = () => {
-  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [employees, setEmployees] = useState<SafeEmployee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchEmployees = async () => {
     try {
       setLoading(true);
+      
+      // Use the secure view that masks PII based on user role
       const { data, error } = await supabase
-        .from('employees')
+        .from('employees_safe')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       
-      // If no real data, add some dummy data for demonstration
+      // If no real data, add some dummy data for demonstration with masked PII
       if (!data || data.length === 0) {
         const dummyData = [
           {
             id: '1',
-            company_id: 'demo',
             employee_number: 'EMP001',
-            national_id: '1234567890',
             first_name: 'Ahmed',
             last_name: 'Al-Rashid',
             first_name_ar: 'أحمد',
             last_name_ar: 'الراشد',
-            email: 'ahmed.alrashid@company.com',
-            phone: '+966501234567',
+            national_id_masked: '****7890', // Masked for demo
+            iqama_number_masked: null,
+            phone_masked: '****4567',
+            company_email: 'ahmed.alrashid@company.com',
+            personal_email_masked: '****@gmail.com',
             department: 'Human Resources',
             position: 'HR Manager',
             position_ar: 'مدير الموارد البشرية',
-            salary: 15000,
+            salary_info: null, // Hidden for non-privileged users
+            basic_salary_info: null,
             hire_date: '2022-01-15',
             is_saudi: true,
             nationality: 'Saudi',
             status: 'active' as const,
+            company_id: 'demo',
             created_at: '2024-01-15T10:00:00Z',
             updated_at: '2024-01-15T10:00:00Z'
           }
         ];
-        setEmployees(dummyData as Employee[]);
+        setEmployees(dummyData as SafeEmployee[]);
       } else {
-        setEmployees((data || []) as Employee[]);
+        setEmployees((data || []) as SafeEmployee[]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-      // Set dummy data on error
+      // Set dummy data on error with proper masking
       const dummyData = [{
         id: '1',
-        company_id: 'demo',
         employee_number: 'EMP001',
-        national_id: '1234567890',
         first_name: 'Ahmed',
         last_name: 'Al-Rashid',
         first_name_ar: 'أحمد',
         last_name_ar: 'الراشد',
-        email: 'ahmed.alrashid@company.com',
-        phone: '+966501234567',
+        national_id_masked: '****7890',
+        phone_masked: '****4567',
+        company_email: 'ahmed.alrashid@company.com',
+        personal_email_masked: '****@gmail.com',
         department: 'Human Resources',
         position: 'HR Manager',
         position_ar: 'مدير الموارد البشرية',
-        salary: 15000,
+        salary_info: null,
+        basic_salary_info: null,
         hire_date: '2022-01-15',
         is_saudi: true,
         nationality: 'Saudi',
         status: 'active' as const,
+        company_id: 'demo',
         created_at: '2024-01-15T10:00:00Z',
         updated_at: '2024-01-15T10:00:00Z'
       }];
-      setEmployees(dummyData as Employee[]);
+      setEmployees(dummyData as SafeEmployee[]);
     } finally {
       setLoading(false);
     }
   };
 
+  // For creating new employees - use main table (will be audited)
   const addEmployee = async (employee: Omit<Employee, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       const { data, error } = await supabase
@@ -185,13 +225,16 @@ export const useEmployees = () => {
         .single();
 
       if (error) throw error;
-      setEmployees(prev => [data as Employee, ...prev]);
+      
+      // Refresh the safe employee list after adding
+      await fetchEmployees();
       return data as Employee;
     } catch (err) {
       throw err instanceof Error ? err : new Error('Failed to add employee');
     }
   };
 
+  // For updating employees - use main table (will be audited)
   const updateEmployee = async (id: string, updates: Partial<Employee>) => {
     try {
       const { data, error } = await supabase
@@ -202,13 +245,16 @@ export const useEmployees = () => {
         .single();
 
       if (error) throw error;
-      setEmployees(prev => prev.map(emp => emp.id === id ? data as Employee : emp));
+      
+      // Refresh the safe employee list after updating
+      await fetchEmployees();
       return data as Employee;
     } catch (err) {
       throw err instanceof Error ? err : new Error('Failed to update employee');
     }
   };
 
+  // For deleting employees - use main table (will be audited)
   const deleteEmployee = async (id: string) => {
     try {
       const { error } = await supabase
@@ -217,9 +263,28 @@ export const useEmployees = () => {
         .eq('id', id);
 
       if (error) throw error;
-      setEmployees(prev => prev.filter(emp => emp.id !== id));
+      
+      // Refresh the safe employee list after deletion
+      await fetchEmployees();
     } catch (err) {
       throw err instanceof Error ? err : new Error('Failed to delete employee');
+    }
+  };
+
+  // Function to get full employee details for privileged users
+  const getFullEmployeeDetails = async (id: string): Promise<Employee | null> => {
+    try {
+      const { data, error } = await supabase
+        .from('employees_full_pii')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (error) throw error;
+      return data as Employee | null;
+    } catch (err) {
+      console.warn('Failed to fetch full employee details - user may not have permission:', err);
+      return null;
     }
   };
 
@@ -234,6 +299,7 @@ export const useEmployees = () => {
     refetch: fetchEmployees,
     addEmployee,
     updateEmployee,
-    deleteEmployee
+    deleteEmployee,
+    getFullEmployeeDetails, // New function for privileged access
   };
 };
