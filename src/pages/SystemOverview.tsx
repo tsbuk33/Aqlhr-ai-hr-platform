@@ -5,6 +5,7 @@ import { useUnifiedLocale } from "@/lib/i18n/unifiedLocaleSystem";
 import { LinkL } from "@/lib/i18n/LinkL";
 import { RBACDiagram } from "@/components/rbac/RBACDiagram";
 import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
+import { EnterpriseIntegrationSuite } from "@/components/enterprise/EnterpriseIntegrationSuite";
 
 type Mod = { icon: React.ComponentType<any>, titleEn: string, titleAr: string, descEn: string, descAr: string, link: string };
 
@@ -106,6 +107,11 @@ export default function SystemOverview() {
       <Section titleEn="Learning & Engagement" titleAr="التعلّم والمشاركة" items={learningEngagement} />
       <Section titleEn="Flagship & Specialized" titleAr="وحدات مميّزة ومتخصصة" items={flagship} />
       <Section titleEn="Other Modules" titleAr="وحدات أخرى" items={others} />
+
+      {/* Enterprise Integration Suite */}
+      <section className="max-w-6xl mx-auto my-12">
+        <EnterpriseIntegrationSuite />
+      </section>
 
       {/* RBAC Diagram Section */}
       <section className="max-w-6xl mx-auto my-12">
