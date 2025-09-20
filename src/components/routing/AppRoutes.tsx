@@ -19,6 +19,7 @@ import WPSAutomationTest from '@/pages/WPSAutomationTest';
 import PromptDrivenExecutionTest from '@/pages/PromptDrivenExecutionTest';
 import AutonomousDashboardPage from '@/pages/autonomous/AutonomousDashboardPage';
 import SmartKPIPublic from '@/pages/SmartKPIPublic';
+import ExecutiveIntelligence from '@/pages/ExecutiveIntelligence';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -94,6 +95,17 @@ export default function AppRoutes() {
           <ProtectedRoute>
             <LayoutShell>
               <Dashboard />
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+
+        {/* Executive Intelligence Center - Premium Module */}
+        <Route path="executive-center" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <ExecutiveIntelligence />
+              </Suspense>
             </LayoutShell>
           </ProtectedRoute>
         } />
