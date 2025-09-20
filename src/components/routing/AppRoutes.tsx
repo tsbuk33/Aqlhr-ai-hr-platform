@@ -48,6 +48,7 @@ import ModulePlaceholder from '@/pages/ModulePlaceholder';
 import BenefitsManagement from '@/pages/modules/BenefitsManagement';
 import ExpenseManagement from '@/pages/modules/ExpenseManagement';
 import FinancialPlanning from '@/pages/modules/FinancialPlanning';
+import NativeMobileApps from '@/pages/mobile/NativeMobileApps';
 import GOSIIntegration from '@/pages/modules/GOSIIntegration';
 import MOLIntegration from '@/pages/modules/MOLIntegration';
 import NitaqatManagement from '@/pages/modules/NitaqatManagement';
@@ -410,6 +411,13 @@ export default function AppRoutes() {
               <SmartKPIPublic />
             </Suspense>
           </LayoutShell>
+        } />
+
+        {/* Mobile Native Apps */}
+        <Route path="mobile" element={
+          <Suspense fallback={<RouteLoading />}>
+            <NativeMobileApps />
+          </Suspense>
         } />
 
         {/* Generic Module Placeholder */}
