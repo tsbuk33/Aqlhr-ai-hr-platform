@@ -73,13 +73,11 @@ export default function AppRoutes() {
         {/* Index route for /en and /ar - redirect to system-overview */}
         <Route index element={<Navigate to="system-overview" replace />} />
         
-        {/* Direct system-overview route */}
+        {/* Direct system-overview route - accessible without authentication */}
         <Route path="system-overview" element={
-          <LayoutShell>
-            <Suspense fallback={<RouteLoading />}>
-              <SystemOverview />
-            </Suspense>
-          </LayoutShell>
+          <Suspense fallback={<RouteLoading />}>
+            <SystemOverview />
+          </Suspense>
         } />
 
         {/* Auth Routes */}
