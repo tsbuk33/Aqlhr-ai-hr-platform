@@ -4,15 +4,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { localePath, resolveLang } from "@/lib/i18n/localePath";
-import { useLanguage } from '@/hooks/useLanguageCompat';
-import { useTranslation } from 'react-i18next';
+import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 
 export default function AuthPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
-  const { language } = useLanguage();
-  const { t } = useTranslation();
+  const { language, t } = useLanguage();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
