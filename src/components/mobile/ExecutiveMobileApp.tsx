@@ -262,125 +262,46 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
       {/* Main Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-5 mb-4">
             <TabsTrigger value="dashboard" className="text-xs">
-              {isArabic ? 'لوحة التحكم' : 'Dashboard'}
+              {isArabic ? 'الرئيسية' : 'Home'}
             </TabsTrigger>
-            <TabsTrigger value="metrics" className="text-xs">
-              {isArabic ? 'المقاييس' : 'Metrics'}
+            <TabsTrigger value="analytics" className="text-xs">
+              {isArabic ? 'التحليلات' : 'Analytics'}
             </TabsTrigger>
-            <TabsTrigger value="alerts" className="text-xs">
-              {isArabic ? 'التنبيهات' : 'Alerts'}
+            <TabsTrigger value="reports" className="text-xs">
+              {isArabic ? 'التقارير' : 'Reports'}
             </TabsTrigger>
-            <TabsTrigger value="insights" className="text-xs">
-              {isArabic ? 'الرؤى' : 'Insights'}
+            <TabsTrigger value="crisis" className="text-xs">
+              {isArabic ? 'الأزمات' : 'Crisis'}
+            </TabsTrigger>
+            <TabsTrigger value="voice" className="text-xs">
+              {isArabic ? 'الصوت' : 'Voice'}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-4">
-            {/* Key Metrics Overview */}
-            <div className="grid grid-cols-2 gap-3">
-              {metrics.slice(0, 4).map((metric) => (
-                <Card key={metric.id}>
-                  <CardContent className="p-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-muted-foreground">
-                          {isArabic ? metric.titleAr : metric.title}
-                        </p>
-                        {getTrendIcon(metric.trend)}
-                      </div>
-                      <p className="text-xl font-bold">
-                        {metric.value}
-                      </p>
-                      <div className="flex items-center gap-1">
-                        <span className={`text-xs font-medium ${getTrendColor(metric.trend)}`}>
-                          {metric.change > 0 ? '+' : ''}{metric.change}%
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {metric.period}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <StrategicKPIDashboard isArabic={isArabic} />
+            <AIPoweredInsights isArabic={isArabic} />
+            <ExecutiveCalendar isArabic={isArabic} />
+          </TabsContent>
 
-            {/* Critical Alerts */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <AlertCircle className="h-5 w-5" />
-                  {isArabic ? 'التنبيهات الحرجة' : 'Critical Alerts'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {alerts.filter(a => a.severity === 'critical').map((alert) => (
-                    <div key={alert.id} className={`p-3 rounded-lg border-l-4 ${getSeverityColor(alert.severity)}`}>
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="font-medium text-sm">
-                            {isArabic ? alert.titleAr : alert.title}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {isArabic ? alert.descriptionAr : alert.description}
-                          </p>
-                        </div>
-                        {getSeverityBadge(alert.severity)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="analytics" className="space-y-4">
+            <PredictiveAnalytics isArabic={isArabic} expanded={true} />
+            <StrategicKPIDashboard isArabic={isArabic} detailed={true} />
+          </TabsContent>
 
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Settings className="h-5 w-5" />
-                  {isArabic ? 'إجراءات سريعة' : 'Quick Actions'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-3">
-                  <Button variant="outline" className="justify-start h-auto p-3">
-                    <div className="flex flex-col items-start">
-                      <FileText className="h-4 w-4 mb-1" />
-                      <span className="text-xs">
-                        {isArabic ? 'التقارير التنفيذية' : 'Executive Reports'}
-                      </span>
-                    </div>
-                  </Button>
-                  <Button variant="outline" className="justify-start h-auto p-3">
-                    <div className="flex flex-col items-start">
-                      <Target className="h-4 w-4 mb-1" />
-                      <span className="text-xs">
-                        {isArabic ? 'مراجعة الأهداف' : 'Goal Review'}
-                      </span>
-                    </div>
-                  </Button>
-                  <Button variant="outline" className="justify-start h-auto p-3">
-                    <div className="flex flex-col items-start">
-                      <Award className="h-4 w-4 mb-1" />
-                      <span className="text-xs">
-                        {isArabic ? 'الإنجازات' : 'Achievements'}
-                      </span>
-                    </div>
-                  </Button>
-                  <Button variant="outline" className="justify-start h-auto p-3">
-                    <div className="flex flex-col items-start">
-                      <Globe className="h-4 w-4 mb-1" />
-                      <span className="text-xs">
-                        {isArabic ? 'نظرة عامة' : 'Overview'}
-                      </span>
-                    </div>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="reports" className="space-y-4">
+            <BoardReportGeneration isArabic={isArabic} expanded={true} />
+            <SecureDocumentAccess isArabic={isArabic} userClearanceLevel={5} expanded={true} />
+          </TabsContent>
+
+          <TabsContent value="crisis" className="space-y-4">
+            <CrisisManagementTools isArabic={isArabic} expanded={true} />
+          </TabsContent>
+
+          <TabsContent value="voice" className="space-y-4">
+            <VoiceActivatedCommands isArabic={isArabic} expanded={true} />
           </TabsContent>
 
           <TabsContent value="metrics" className="space-y-4">
