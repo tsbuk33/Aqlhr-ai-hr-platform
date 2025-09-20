@@ -183,7 +183,7 @@ export default function AuthPage() {
                   setShowForgotPassword(true);
                   setResetEmail(email);
                 }}
-                className="text-sm text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                className="text-sm text-foreground hover:text-foreground-muted hover:underline transition-colors"
               >
                 Forgot Password?
               </button>
