@@ -172,33 +172,33 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
         <div className="flex items-center gap-3">
           <Building className="h-8 w-8 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">{t('leo.org_intelligence_title', 'Organizational Learning Intelligence')}</h2>
+            <h2 className="text-2xl font-bold">{t('leo.org_intelligence_title')}</h2>
             <p className="text-muted-foreground">
-              {t('leo.org_intelligence_desc', 'Enterprise-wide learning analytics and strategic insights')}
+              {t('leo.org_intelligence_desc')}
             </p>
           </div>
         </div>
         <Button>
           <Calendar className="h-4 w-4 mr-2" />
-          {t('leo.schedule_review', 'Schedule Review')}
+          {t('leo.schedule_review')}
         </Button>
       </div>
 
       <Tabs defaultValue="department-effectiveness" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="department-effectiveness">{t('leo.department_effectiveness', 'Department Effectiveness')}</TabsTrigger>
-          <TabsTrigger value="training-roi">{t('leo.training_roi', 'Training ROI')}</TabsTrigger>
-          <TabsTrigger value="skills-progression">{t('leo.skills_progression', 'Skills Progression')}</TabsTrigger>
-          <TabsTrigger value="training-forecasting">{t('leo.training_forecasting', 'Training Forecasting')}</TabsTrigger>
+          <TabsTrigger value="department-effectiveness">{t('leo.department_effectiveness')}</TabsTrigger>
+          <TabsTrigger value="training-roi">{t('leo.training_roi')}</TabsTrigger>
+          <TabsTrigger value="skills-progression">{t('leo.skills_progression')}</TabsTrigger>
+          <TabsTrigger value="training-forecasting">{t('leo.training_forecasting')}</TabsTrigger>
         </TabsList>
 
         {/* Department-wise Training Effectiveness */}
         <TabsContent value="department-effectiveness" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.department_training_effectiveness', 'Department-wise Training Effectiveness')}</CardTitle>
+              <CardTitle>{t('leo.department_training_effectiveness')}</CardTitle>
               <CardDescription>
-                {t('leo.effectiveness_desc', 'Comparative analysis of training outcomes across departments')}
+                {t('leo.effectiveness_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -254,7 +254,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
 
               <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">
-                  {t('leo.key_insights', 'Key Insights')}
+                  {t('leo.key_insights')}
                 </h4>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• Engineering leads with 92% effectiveness and highest ROI (320%)</li>
@@ -271,9 +271,9 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
         <TabsContent value="training-roi" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.training_roi_measurement', 'ROI Measurement on Training Investments')}</CardTitle>
+              <CardTitle>{t('leo.training_roi_measurement')}</CardTitle>
               <CardDescription>
-                {t('leo.roi_desc', 'Comprehensive financial analysis of training program returns')}
+                {t('leo.roi_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -357,9 +357,9 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
         <TabsContent value="skills-progression" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.skills_development_progression', 'Skills Development Progression')}</CardTitle>
+              <CardTitle>{t('leo.skills_development_progression')}</CardTitle>
               <CardDescription>
-                {t('leo.progression_desc', 'Organization-wide skills advancement tracking and gap analysis')}
+                {t('leo.progression_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -407,7 +407,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
               <div className="mt-6 p-4 bg-orange-50 border border-orange-200 rounded-lg">
                 <h4 className="font-semibold text-orange-900 mb-2 flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" />
-                  {t('leo.priority_areas', 'Priority Development Areas')}
+                  {t('leo.priority_areas')}
                 </h4>
                 <ul className="text-sm text-orange-800 space-y-1">
                   <li>• <strong>Leadership</strong>: Largest gap (21 points) - requires immediate attention</li>
@@ -423,9 +423,9 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
         <TabsContent value="training-forecasting" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.training_needs_forecasting', 'Training Needs Forecasting')}</CardTitle>
+              <CardTitle>{t('leo.training_needs_forecasting')}</CardTitle>
               <CardDescription>
-                {t('leo.forecasting_desc', 'AI-powered prediction of future training requirements')}
+                {t('leo.forecasting_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -475,7 +475,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
                     </div>
 
                     <div>
-                      <h5 className="font-medium mb-2">{t('leo.key_skills', 'Key Skills to Develop')}</h5>
+                      <h5 className="font-medium mb-2">{t('leo.key_skills')}</h5>
                       <div className="flex flex-wrap gap-2">
                         {need.skills.map((skill, i) => (
                           <Badge key={i} variant="outline">
@@ -492,7 +492,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
                 <Card className="p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <Zap className="h-5 w-5 text-yellow-500" />
-                    {t('leo.immediate_actions', 'Immediate Actions Required')}
+                    {t('leo.immediate_actions')}
                   </h4>
                   <ul className="text-sm space-y-2">
                     <li className="flex items-center gap-2">
@@ -509,7 +509,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
                 <Card className="p-4">
                   <h4 className="font-semibold mb-3 flex items-center gap-2">
                     <PieChart className="h-5 w-5 text-blue-500" />
-                    {t('leo.budget_allocation', 'Recommended Budget Allocation')}
+                    {t('leo.budget_allocation')}
                   </h4>
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">

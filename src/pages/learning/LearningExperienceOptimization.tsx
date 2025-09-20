@@ -27,31 +27,31 @@ const LearningExperienceOptimization: React.FC = () => {
         <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="adaptive-engine" className="flex items-center gap-2">
             <Brain className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.adaptive_engine', 'Adaptive Engine')}</span>
+            <span className="hidden sm:inline">{t('leo.adaptive_engine')}</span>
           </TabsTrigger>
           <TabsTrigger value="content-management" className="flex items-center gap-2">
             <BookOpen className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.content_management', 'Content')}</span>
+            <span className="hidden sm:inline">{t('leo.content_management')}</span>
           </TabsTrigger>
           <TabsTrigger value="analytics" className="flex items-center gap-2">
             <BarChart className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.analytics', 'Analytics')}</span>
+            <span className="hidden sm:inline">{t('leo.analytics')}</span>
           </TabsTrigger>
           <TabsTrigger value="organizational" className="flex items-center gap-2">
             <Building className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.organizational', 'Organizational')}</span>
+            <span className="hidden sm:inline">{t('leo.organizational')}</span>
           </TabsTrigger>
           <TabsTrigger value="delivery" className="flex items-center gap-2">
             <Smartphone className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.delivery', 'Delivery')}</span>
+            <span className="hidden sm:inline">{t('leo.delivery')}</span>
           </TabsTrigger>
           <TabsTrigger value="assessment" className="flex items-center gap-2">
             <Award className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.assessment', 'Assessment')}</span>
+            <span className="hidden sm:inline">{t('leo.assessment')}</span>
           </TabsTrigger>
           <TabsTrigger value="ai-features" className="flex items-center gap-2">
             <Sparkles className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('leo.ai_features', 'AI Features')}</span>
+            <span className="hidden sm:inline">{t('leo.ai_features')}</span>
           </TabsTrigger>
         </TabsList>
 

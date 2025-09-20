@@ -134,30 +134,30 @@ export const LearningAnalytics: React.FC = () => {
         <div className="flex items-center gap-3">
           <BarChart className="h-8 w-8 text-primary" />
           <div>
-            <h2 className="text-2xl font-bold">{t('leo.learning_analytics_title', 'Learning Analytics')}</h2>
+            <h2 className="text-2xl font-bold">{t('leo.learning_analytics_title')}</h2>
             <p className="text-muted-foreground">
-              {t('leo.analytics_desc', 'Comprehensive learning performance and engagement insights')}
+              {t('leo.analytics_desc')}
             </p>
           </div>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
             <RefreshCw className="h-4 w-4 mr-2" />
-            {t('leo.refresh', 'Refresh')}
+            {t('leo.refresh')}
           </Button>
           <Button>
             <Download className="h-4 w-4 mr-2" />
-            {t('leo.export', 'Export')}
+            {t('leo.export')}
           </Button>
         </div>
       </div>
 
       <Tabs defaultValue="individual-tracking" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="individual-tracking">{t('leo.individual_tracking', 'Individual Tracking')}</TabsTrigger>
-          <TabsTrigger value="engagement-patterns">{t('leo.engagement_patterns', 'Engagement Patterns')}</TabsTrigger>
-          <TabsTrigger value="completion-optimization">{t('leo.completion_optimization', 'Completion Optimization')}</TabsTrigger>
-          <TabsTrigger value="performance-correlation">{t('leo.performance_correlation', 'Performance Correlation')}</TabsTrigger>
+          <TabsTrigger value="individual-tracking">{t('leo.individual_tracking')}</TabsTrigger>
+          <TabsTrigger value="engagement-patterns">{t('leo.engagement_patterns')}</TabsTrigger>
+          <TabsTrigger value="completion-optimization">{t('leo.completion_optimization')}</TabsTrigger>
+          <TabsTrigger value="performance-correlation">{t('leo.performance_correlation')}</TabsTrigger>
         </TabsList>
 
         {/* Individual Progress Tracking */}
@@ -188,9 +188,9 @@ export const LearningAnalytics: React.FC = () => {
           {/* Learning Paths Progress */}
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.learning_paths_progress', 'Learning Paths Progress')}</CardTitle>
+              <CardTitle>{t('leo.learning_paths_progress')}</CardTitle>
               <CardDescription>
-                {t('leo.paths_desc', 'Detailed progress tracking with velocity and retention analysis')}
+                {t('leo.paths_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -235,11 +235,11 @@ export const LearningAnalytics: React.FC = () => {
                     <div className="flex gap-2">
                       <Button size="sm">
                         <Target className="h-4 w-4 mr-2" />
-                        {t('leo.view_details', 'View Details')}
+                        {t('leo.view_details')}
                       </Button>
                       <Button size="sm" variant="outline">
                         <TrendingUp className="h-4 w-4 mr-2" />
-                        {t('leo.optimize', 'Optimize')}
+                        {t('leo.optimize')}
                       </Button>
                     </div>
                   </div>
@@ -253,9 +253,9 @@ export const LearningAnalytics: React.FC = () => {
         <TabsContent value="engagement-patterns" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.engagement_patterns_title', 'Daily Engagement Patterns')}</CardTitle>
+              <CardTitle>{t('leo.engagement_patterns_title')}</CardTitle>
               <CardDescription>
-                {t('leo.patterns_desc', 'Optimal learning times and focus level analysis')}
+                {t('leo.patterns_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -284,7 +284,7 @@ export const LearningAnalytics: React.FC = () => {
 
               <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <h4 className="font-semibold text-blue-900 mb-2">
-                  {t('leo.ai_recommendations', 'AI Recommendations')}
+                  {t('leo.ai_recommendations')}
                 </h4>
                 <ul className="text-sm text-blue-800 space-y-1">
                   <li>• Best learning times: 9:00 AM and 7:00 PM (high engagement)</li>
@@ -301,15 +301,15 @@ export const LearningAnalytics: React.FC = () => {
         <TabsContent value="completion-optimization" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.completion_optimization_title', 'Completion Rate Optimization')}</CardTitle>
+              <CardTitle>{t('leo.completion_optimization_title')}</CardTitle>
               <CardDescription>
-                {t('leo.optimization_desc', 'AI-driven insights for improving course completion rates')}
+                {t('leo.optimization_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-4">
-                  <h4 className="font-semibold">{t('leo.completion_factors', 'Completion Factors')}</h4>
+                  <h4 className="font-semibold">{t('leo.completion_factors')}</h4>
                   
                   <div className="space-y-3">
                     <div className="flex justify-between items-center p-3 border rounded">
@@ -347,7 +347,7 @@ export const LearningAnalytics: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <h4 className="font-semibold">{t('leo.optimization_strategies', 'Optimization Strategies')}</h4>
+                  <h4 className="font-semibold">{t('leo.optimization_strategies')}</h4>
                   
                   <div className="space-y-3">
                     <div className="p-3 bg-green-50 border-l-4 border-green-500 rounded">
@@ -376,11 +376,11 @@ export const LearningAnalytics: React.FC = () => {
               <div className="mt-6 flex gap-3">
                 <Button>
                   <Target className="h-4 w-4 mr-2" />
-                  {t('leo.apply_optimizations', 'Apply Optimizations')}
+                  {t('leo.apply_optimizations')}
                 </Button>
                 <Button variant="outline">
                   <TrendingUp className="h-4 w-4 mr-2" />
-                  {t('leo.track_improvements', 'Track Improvements')}
+                  {t('leo.track_improvements')}
                 </Button>
               </div>
             </CardContent>
@@ -391,9 +391,9 @@ export const LearningAnalytics: React.FC = () => {
         <TabsContent value="performance-correlation" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>{t('leo.performance_correlation_title', 'Performance Correlation Analysis')}</CardTitle>
+              <CardTitle>{t('leo.performance_correlation_title')}</CardTitle>
               <CardDescription>
-                {t('leo.correlation_desc', 'Correlation between learning activities and job performance improvements')}
+                {t('leo.correlation_desc')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -448,7 +448,7 @@ export const LearningAnalytics: React.FC = () => {
               <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 border rounded-lg">
                 <h4 className="font-semibold mb-2 flex items-center gap-2">
                   <Award className="h-5 w-5 text-green-600" />
-                  {t('leo.key_insights', 'Key Insights')}
+                  {t('leo.key_insights')}
                 </h4>
                 <ul className="text-sm space-y-1">
                   <li>• Data analysis training shows strongest correlation with job performance (87%)</li>
