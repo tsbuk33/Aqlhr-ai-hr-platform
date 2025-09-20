@@ -93,101 +93,139 @@ export default function AppRoutes() {
         
         {/* Direct system-overview route - accessible without authentication */}
         <Route path="system-overview" element={
-          <Suspense fallback={<RouteLoading />}>
-            <SystemOverview />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <SystemOverview />
+            </Suspense>
+          </LayoutShell>
         } />
 
         {/* Public preview pages for key modules */}
         <Route path="core-hr" element={
-          <Suspense fallback={<RouteLoading />}>
-            <CoreHRPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <CoreHRPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="recruitment" element={
-          <Suspense fallback={<RouteLoading />}>
-            <RecruitmentPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <RecruitmentPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="analytics" element={
-          <Suspense fallback={<RouteLoading />}>
-            <AnalyticsPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <AnalyticsPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="compliance" element={
-          <Suspense fallback={<RouteLoading />}>
-            <CompliancePublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <CompliancePublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="government" element={
-          <Suspense fallback={<RouteLoading />}>
-            <GovernmentPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <GovernmentPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="ai-automation" element={
-          <Suspense fallback={<RouteLoading />}>
-            <AIAutomationPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <AIAutomationPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="executive-center" element={
-          <Suspense fallback={<RouteLoading />}>
-            <ExecutiveCenterPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <ExecutiveCenterPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="leo" element={
-          <Suspense fallback={<RouteLoading />}>
-            <LEOPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <LEOPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="geo" element={
-          <Suspense fallback={<RouteLoading />}>
-            <GEOPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <GEOPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="skills-intelligence" element={
-          <Suspense fallback={<RouteLoading />}>
-            <SkillsIntelligencePublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <SkillsIntelligencePublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="welfare-consultancy" element={
-          <Suspense fallback={<RouteLoading />}>
-            <WelfareConsultancyPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <WelfareConsultancyPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="legal-consultant" element={
-          <Suspense fallback={<RouteLoading />}>
-            <LegalConsultantPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <LegalConsultantPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="performance" element={
-          <Suspense fallback={<RouteLoading />}>
-            <PerformancePublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <PerformancePublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="attendance" element={
-          <Suspense fallback={<RouteLoading />}>
-            <AttendancePublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <AttendancePublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="leave" element={
-          <Suspense fallback={<RouteLoading />}>
-            <LeavePublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <LeavePublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="payroll" element={
-          <Suspense fallback={<RouteLoading />}>
-            <PayrollPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <PayrollPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="tools" element={
-          <Suspense fallback={<RouteLoading />}>
-            <ToolsPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <ToolsPublic />
+            </Suspense>
+          </LayoutShell>
         } />
         <Route path="help" element={
-          <Suspense fallback={<RouteLoading />}>
-            <HelpPublic />
-          </Suspense>
+          <LayoutShell>
+            <Suspense fallback={<RouteLoading />}>
+              <HelpPublic />
+            </Suspense>
+          </LayoutShell>
         } />
 
         {/* Auth Routes */}

@@ -315,6 +315,159 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Core Operations */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle">
+            {isArabic ? 'العمليات الأساسية' : 'Core Operations'}
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="p-2">
+            <SidebarMenu className="space-y-1">
+              {/* Performance Management */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/performance"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Award className="h-4 w-4 text-orange-500" />
+                    <span className="truncate">{isArabic ? 'إدارة الأداء' : 'Performance Management'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Recruitment */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/recruitment"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Briefcase className="h-4 w-4 text-cyan-500" />
+                    <span className="truncate">{isArabic ? 'التوظيف والتعيين' : 'Recruitment & Hiring'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Time & Attendance */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/attendance"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Activity className="h-4 w-4 text-teal-500" />
+                    <span className="truncate">{isArabic ? 'الوقت والحضور' : 'Time & Attendance'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Leave Management */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/leave"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <FileText className="h-4 w-4 text-lime-500" />
+                    <span className="truncate">{isArabic ? 'إدارة الإجازات' : 'Leave Management'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Payroll */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/payroll"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Building2 className="h-4 w-4 text-emerald-500" />
+                    <span className="truncate">{isArabic ? 'إدارة الرواتب' : 'Payroll Management'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Tools & Support */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle">
+            {isArabic ? 'الأدوات والدعم' : 'Tools & Support'}
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="p-2">
+            <SidebarMenu className="space-y-1">
+              {/* Tools */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/tools"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Settings className="h-4 w-4 text-gray-500" />
+                    <span className="truncate">{isArabic ? 'الأدوات والمساعدات' : 'Tools & Utilities'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Help & Support */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/help"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Users className="h-4 w-4 text-indigo-500" />
+                    <span className="truncate">{isArabic ? 'المساعدة والدعم' : 'Help & Support'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
       </SidebarContent>
     </Sidebar>
   );
