@@ -4,7 +4,10 @@ import { LinkL } from '@/lib/i18n/LinkL';
 import { 
   BarChart3, Users, Crown, Brain, Building2, Shield, Settings, 
   ChevronDown, Home, Zap, Scale, Heart, Star, GraduationCap,
-  Sparkles, FileText, Globe, Award, Briefcase, Activity
+  Sparkles, FileText, Globe, Award, Briefcase, Activity, 
+  Clock, Calculator, TrendingUp, UserPlus, Calendar, 
+  Network, Layers, Target, BookOpen, LifeBuoy, Wrench,
+  Database, PieChart, TreePine, GitBranch
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -312,6 +315,46 @@ export function AppSidebar() {
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+
+              {/* Employees Management */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/employees"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Users className="h-4 w-4 text-emerald-500" />
+                    <span className="truncate">{isArabic ? 'إدارة الموظفين' : 'Employees Management'}</span>
+                    <Badge variant="outline" className="ml-auto text-xs">2,847</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* Retention Analytics */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/retention"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <TrendingUp className="h-4 w-4 text-green-500" />
+                    <span className="truncate">{isArabic ? 'تحليلات الاحتفاظ' : 'Retention Analytics'}</span>
+                    <Badge className="ml-auto text-xs bg-green-600 text-white">LIVE</Badge>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -412,8 +455,132 @@ export function AppSidebar() {
                       }`
                     }
                   >
-                    <Building2 className="h-4 w-4 text-emerald-500" />
+                    <Calculator className="h-4 w-4 text-emerald-500" />
                     <span className="truncate">{isArabic ? 'إدارة الرواتب' : 'Payroll Management'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* OSI & Strategic Analysis */}
+        <SidebarGroup className="p-0">
+          <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle">
+            {isArabic ? 'مؤشر البنية التنظيمية والتحليل الاستراتيجي' : 'OSI & Strategic Analysis'}
+          </SidebarGroupLabel>
+          <SidebarGroupContent className="p-2">
+            <SidebarMenu className="space-y-1">
+              {/* OSI Overview */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/overview"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Database className="h-4 w-4 text-blue-500" />
+                    <span className="truncate">{isArabic ? 'نظرة عامة على مؤشر البنية التنظيمية' : 'OSI Overview'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* OSI Spans & Layers */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/spans-layers"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Layers className="h-4 w-4 text-purple-500" />
+                    <span className="truncate">{isArabic ? 'النطاقات والطبقات' : 'Spans & Layers'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* OSI Cost Management */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/cost-manage"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <PieChart className="h-4 w-4 text-orange-500" />
+                    <span className="truncate">{isArabic ? 'إدارة التكلفة' : 'Cost Management'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* OSI Saudization Layer */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/saudization-layer"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <Target className="h-4 w-4 text-green-500" />
+                    <span className="truncate">{isArabic ? 'طبقة السعودة' : 'Saudization Layer'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* OSI Export */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/export"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <FileText className="h-4 w-4 text-teal-500" />
+                    <span className="truncate">{isArabic ? 'تصدير البيانات' : 'Export Data'}</span>
+                  </NavLink>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              {/* OSI Playbook */}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <NavLink
+                    to="/osi/playbook"
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                        isActive
+                          ? 'bg-primary/20 text-primary border border-primary/30'
+                          : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
+                      }`
+                    }
+                  >
+                    <BookOpen className="h-4 w-4 text-indigo-500" />
+                    <span className="truncate">{isArabic ? 'دليل الاستراتيجيات' : 'Strategic Playbook'}</span>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -460,7 +627,7 @@ export function AppSidebar() {
                       }`
                     }
                   >
-                    <Users className="h-4 w-4 text-indigo-500" />
+                    <LifeBuoy className="h-4 w-4 text-indigo-500" />
                     <span className="truncate">{isArabic ? 'المساعدة والدعم' : 'Help & Support'}</span>
                   </NavLink>
                 </SidebarMenuButton>
