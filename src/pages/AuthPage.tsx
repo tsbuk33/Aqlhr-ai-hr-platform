@@ -18,6 +18,9 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetSent, setResetSent] = useState(false);
 
   // Redirect if already authenticated
 if (user) {
@@ -37,53 +40,69 @@ if (user) {
     setMessage("");
     setIsError(false);
 
+    // Validate password requirements
+    if (!password || password.length < 8) {
+      setIsError(true);
+      setMessage("Password must be at least 8 characters long.");
+      setLoading(false);
+      return;
+    }
+
     try {
       if (isSignUp) {
-        // Try Supabase signup
-        const { error } = await supabase.auth.signUp({ email, password });
+        // Enforce password for signup
+        const { data, error } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/callback`
+          }
+        });
+        
         if (error) throw error;
 
-        // Always trigger our custom edge function after signup
-        const { data, error: fnError } = await supabase.functions.invoke("send-auth-link", {
-          body: {
-            email,
-            mode: "signup",
-redirectTo: `${window.location.origin}/${resolveLang()}/auth/callback`,
-          },
-        });
-
-        if (fnError || (data as any)?.error) {
-          throw new Error(fnError?.message || (data as any)?.error || "Failed to send email");
-        }
-
-        if ((data as any)?.actionLink) {
-          const url = (data as any).actionLink as string;
-          const opened = window.open(url, "_blank", "noopener,noreferrer");
-          setMessage(`We sent a confirmation email to ${email}. If it doesn't arrive, use this link: ${url}`);
+        // Show success message for signup
+        setMessage(`We emailed you a secure link at ${email}.`);
+      } else {
+        // Normal password sign-in
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+          console.error("Password sign-in failed:", error.message);
+          setIsError(true);
+          setMessage(error.message === 'Invalid login credentials' ? 'Invalid email or password.' : error.message);
         } else {
-          setMessage(`We sent a confirmation email to ${email}. Check your inbox.`);
+          const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
+          navigate(nextUrl);
         }
-        } else {
-          // Normal password sign-in only (no magic link fallback)
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) {
-            console.error("Password sign-in failed:", error.message);
-            setIsError(true);
-            setMessage(error.message === 'Invalid login credentials' ? 'Invalid email or password.' : error.message);
-          } else {
-const nextUrl = searchParams.get('next') || localePath('dashboard', resolveLang());
-navigate(nextUrl);
-          }
-        }
+      }
     } catch (err: any) {
       console.error("Auth error:", err.message);
+      setIsError(true);
+      setMessage(err.message || "An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      // Final fallback: OTP via Supabase if Edge Function fails
-      await supabase.auth.signInWithOtp({
-        email,
-options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/callback` },
+  const handlePasswordReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setIsError(false);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/${resolveLang()}/auth/callback?reset=true`,
       });
-      setMessage(`We emailed you a secure link at ${email}.`);
+
+      if (error) throw error;
+      
+      setResetSent(true);
+      setMessage(`Password reset email sent to ${resetEmail}.`);
+    } catch (err: any) {
+      console.error("Password reset error:", err.message);
+      setIsError(true);
+      setMessage(err.message || "Failed to send reset email.");
     } finally {
       setLoading(false);
     }
@@ -132,7 +151,7 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required={!isSignUp ? true : false}
+              required
             />
             <button
               type="button"
@@ -143,6 +162,21 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+
+          {!isSignUp && (
+            <div className="text-right">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForgotPassword(true);
+                  setResetEmail(email);
+                }}
+                className="text-sm text-primary hover:underline"
+              >
+                Forgot Password?
+              </button>
+            </div>
+          )}
 
           <button
             type="submit"
@@ -155,6 +189,73 @@ options: { emailRedirectTo: `${window.location.origin}/${resolveLang()}/auth/cal
 
         {message && (
           <p className={`mt-4 text-sm text-center ${isError ? 'text-destructive' : 'text-green-600 dark:text-green-400'}`}>{message}</p>
+        )}
+
+        {/* Forgot Password Modal */}
+        {showForgotPassword && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowForgotPassword(false)}>
+            <div className="bg-background border rounded-lg p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+              <div className="text-center mb-4">
+                <h3 className="text-lg font-semibold">Reset Password</h3>
+                <p className="text-muted-foreground text-sm mt-1">
+                  {resetSent ? "Check your email for reset instructions" : "Enter your email to receive reset instructions"}
+                </p>
+              </div>
+
+              {!resetSent ? (
+                <form onSubmit={handlePasswordReset} className="space-y-4">
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    required
+                    className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                  
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowForgotPassword(false);
+                        setResetEmail("");
+                        setResetSent(false);
+                        setMessage("");
+                        setIsError(false);
+                      }}
+                      className="flex-1 py-2 px-4 border rounded hover:bg-muted transition-colors"
+                      disabled={loading}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="flex-1 py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 transition-colors"
+                    >
+                      {loading ? "Sending..." : "Send Reset Email"}
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="text-center space-y-4">
+                  <p className="text-green-600">Reset email sent to {resetEmail}</p>
+                  <button
+                    onClick={() => {
+                      setShowForgotPassword(false);
+                      setResetEmail("");
+                      setResetSent(false);
+                      setMessage("");
+                      setIsError(false);
+                    }}
+                    className="w-full py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         )}
         
       </div>
