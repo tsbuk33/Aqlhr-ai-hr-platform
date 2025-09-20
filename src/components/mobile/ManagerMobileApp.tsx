@@ -18,9 +18,25 @@ import {
   UserCheck,
   UserX,
   Target,
-  Award
+  Award,
+  DollarSign,
+  Video,
+  Phone,
+  CheckCircle,
+  XCircle,
+  Star,
+  Shield,
+  AlertCircle,
+  Activity,
+  Briefcase
 } from 'lucide-react';
 import { BiometricAuth } from './BiometricAuth';
+import { TeamApprovalWorkflow } from './manager/TeamApprovalWorkflow';
+import { TeamAnalytics } from './manager/TeamAnalytics';
+import { EmergencyTeamContact } from './manager/EmergencyTeamContact';
+import { PerformanceQuickReview } from './manager/PerformanceQuickReview';
+import { BudgetOverview } from './manager/BudgetOverview';
+import { VideoCallIntegration } from './manager/VideoCallIntegration';
 
 interface ManagerProfile {
   id: string;
@@ -252,18 +268,21 @@ export const ManagerMobileApp = () => {
       {/* Main Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-5 mb-4">
             <TabsTrigger value="dashboard" className="text-xs">
-              {isArabic ? 'لوحة التحكم' : 'Dashboard'}
+              {isArabic ? 'الرئيسية' : 'Home'}
             </TabsTrigger>
             <TabsTrigger value="team" className="text-xs">
               {isArabic ? 'الفريق' : 'Team'}
             </TabsTrigger>
-            <TabsTrigger value="alerts" className="text-xs">
-              {isArabic ? 'التنبيهات' : 'Alerts'}
+            <TabsTrigger value="approvals" className="text-xs">
+              {isArabic ? 'الموافقات' : 'Approvals'}
             </TabsTrigger>
-            <TabsTrigger value="reports" className="text-xs">
-              {isArabic ? 'التقارير' : 'Reports'}
+            <TabsTrigger value="analytics" className="text-xs">
+              {isArabic ? 'التحليلات' : 'Analytics'}
+            </TabsTrigger>
+            <TabsTrigger value="tools" className="text-xs">
+              {isArabic ? 'الأدوات' : 'Tools'}
             </TabsTrigger>
           </TabsList>
 
@@ -335,29 +354,55 @@ export const ManagerMobileApp = () => {
               </Card>
             </div>
 
-            {/* Recent Alerts */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Bell className="h-5 w-5" />
-                  {isArabic ? 'التنبيهات الأخيرة' : 'Recent Alerts'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {alerts.slice(0, 3).map((alert) => (
-                    <div key={alert.id} className={`p-3 rounded-lg border-l-4 ${getPriorityColor(alert.priority)}`}>
-                      <p className="text-sm font-medium">
-                        {isArabic ? alert.messageAr : alert.message}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(alert.timestamp).toLocaleTimeString()}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Quick Action Cards */}
+            <div className="grid grid-cols-2 gap-3">
+              <Card>
+                <CardContent className="p-4">
+                  <BudgetOverview isArabic={isArabic} />
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardContent className="p-4">
+                  <VideoCallIntegration isArabic={isArabic} />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Recent Alerts & Emergency Contact */}
+            <div className="grid grid-cols-1 gap-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Shield className="h-5 w-5" />
+                    {isArabic ? 'التنبيهات الحرجة' : 'Critical Alerts'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {alerts.slice(0, 2).map((alert) => (
+                      <div key={alert.id} className={`p-3 rounded-lg border-l-4 ${getPriorityColor(alert.priority)}`}>
+                        <div className="flex items-center justify-between">
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">
+                              {isArabic ? alert.messageAr : alert.message}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {new Date(alert.timestamp).toLocaleTimeString()}
+                            </p>
+                          </div>
+                          <Badge variant={alert.priority === 'high' ? 'destructive' : 'default'}>
+                            {alert.priority}
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <EmergencyTeamContact isArabic={isArabic} />
+            </div>
           </TabsContent>
 
           <TabsContent value="team" className="space-y-4">
@@ -427,31 +472,76 @@ export const ManagerMobileApp = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="reports" className="space-y-4">
+          <TabsContent value="approvals" className="space-y-4">
+            <TeamApprovalWorkflow isArabic={isArabic} />
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-4">
+            <TeamAnalytics isArabic={isArabic} teamMembers={teamMembers} />
+            
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5" />
-                  {isArabic ? 'تقارير سريعة' : 'Quick Reports'}
+                  <Star className="h-5 w-5" />
+                  {isArabic ? 'مراجعة الأداء السريعة' : 'Performance Quick Review'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 gap-3">
-                  <Button variant="outline" className="justify-start">
-                    <FileText className="h-4 w-4 mr-2" />
-                    {isArabic ? 'تقرير الحضور اليومي' : 'Daily Attendance Report'}
-                  </Button>
-                  <Button variant="outline" className="justify-start">
-                    <Target className="h-4 w-4 mr-2" />
-                    {isArabic ? 'تقرير الأداء الأسبوعي' : 'Weekly Performance Report'}
-                  </Button>
-                  <Button variant="outline" className="justify-start">
-                    <Award className="h-4 w-4 mr-2" />
-                    {isArabic ? 'ملخص الفريق الشهري' : 'Monthly Team Summary'}
-                  </Button>
-                </div>
+                <PerformanceQuickReview isArabic={isArabic} teamMembers={teamMembers} />
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="tools" className="space-y-4">
+            <div className="grid grid-cols-1 gap-4">
+              <BudgetOverview isArabic={isArabic} detailed={true} />
+              <VideoCallIntegration isArabic={isArabic} expanded={true} />
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Briefcase className="h-5 w-5" />
+                    {isArabic ? 'أدوات الإدارة' : 'Management Tools'}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button variant="outline" className="justify-start h-auto p-3">
+                      <div className="flex flex-col items-start">
+                        <FileText className="h-4 w-4 mb-1" />
+                        <span className="text-xs">
+                          {isArabic ? 'تقارير مخصصة' : 'Custom Reports'}
+                        </span>
+                      </div>
+                    </Button>
+                    <Button variant="outline" className="justify-start h-auto p-3">
+                      <div className="flex flex-col items-start">
+                        <Target className="h-4 w-4 mb-1" />
+                        <span className="text-xs">
+                          {isArabic ? 'تتبع الأهداف' : 'Goal Tracking'}
+                        </span>
+                      </div>
+                    </Button>
+                    <Button variant="outline" className="justify-start h-auto p-3">
+                      <div className="flex flex-col items-start">
+                        <Shield className="h-4 w-4 mb-1" />
+                        <span className="text-xs">
+                          {isArabic ? 'تقارير الامتثال' : 'Compliance Reports'}
+                        </span>
+                      </div>
+                    </Button>
+                    <Button variant="outline" className="justify-start h-auto p-3">
+                      <div className="flex flex-col items-start">
+                        <Activity className="h-4 w-4 mb-1" />
+                        <span className="text-xs">
+                          {isArabic ? 'مراقبة النشاط' : 'Activity Monitor'}
+                        </span>
+                      </div>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
