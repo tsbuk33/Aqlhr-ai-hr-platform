@@ -6,6 +6,7 @@ import { LinkL } from "@/lib/i18n/LinkL";
 import { RBACDiagram } from "@/components/rbac/RBACDiagram";
 import { AuthDebugPanel } from "@/components/auth/AuthDebugPanel";
 import { EnterpriseIntegrationSuite } from "@/components/enterprise/EnterpriseIntegrationSuite";
+import { AdvancedAnalyticsSuite } from "@/components/analytics/AdvancedAnalyticsSuite";
 
 type Mod = { icon: React.ComponentType<any>, titleEn: string, titleAr: string, descEn: string, descAr: string, link: string };
 
@@ -111,6 +112,11 @@ export default function SystemOverview() {
       {/* Enterprise Integration Suite */}
       <section className="max-w-6xl mx-auto my-12">
         <EnterpriseIntegrationSuite />
+      </section>
+
+      {/* Advanced Analytics & Reporting Suite */}
+      <section className="max-w-6xl mx-auto my-12">
+        <AdvancedAnalyticsSuite />
       </section>
 
       {/* RBAC Diagram Section */}
