@@ -23,6 +23,7 @@ import ExecutiveIntelligence from '@/pages/ExecutiveIntelligence';
 import SkillsIntelligence from '@/pages/SkillsIntelligence';
 import LearningExperienceOptimization from '@/pages/learning/LearningExperienceOptimization';
 import GenerativeEngagementOptimization from '@/pages/engagement/GenerativeEngagementOptimization';
+import LegalConsultant from '@/pages/LegalConsultant';
 import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -141,6 +142,17 @@ export default function AppRoutes() {
             <LayoutShell>
               <Suspense fallback={<RouteLoading />}>
                 <GenerativeEngagementOptimization />
+              </Suspense>
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+
+        {/* Legal Consultant AI - NEW Module */}
+        <Route path="legal-consultant" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <LegalConsultant />
               </Suspense>
             </LayoutShell>
           </ProtectedRoute>
