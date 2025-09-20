@@ -65,6 +65,7 @@ export default function SystemOverview() {
     { icon: Users,     titleEn: "Payroll",         titleAr: "الرواتب",       descEn: "Payroll processing",         descAr: "معالجة الرواتب",          link: "/payroll" },
     { icon: Users,     titleEn: "Recruitment",     titleAr: "التوظيف",       descEn: "Recruitment & onboarding",   descAr: "التوظيف والتعيين",        link: "/recruitment" },
     { icon: Users,     titleEn: "Tools",           titleAr: "الأدوات",       descEn: "Utilities & imports",        descAr: "أدوات ومراكز الاستيراد",   link: "/tools" },
+    { icon: Users,     titleEn: "Mobile App",      titleAr: "التطبيق المحمول", descEn: "Native mobile application",  descAr: "تطبيق محمول أصلي",        link: "/mobile" },
     { icon: Users,     titleEn: "Help",            titleAr: "مساعدة",        descEn: "Help & docs",                descAr: "مساعدة ووثائق",           link: "/help" },
   ];
 
