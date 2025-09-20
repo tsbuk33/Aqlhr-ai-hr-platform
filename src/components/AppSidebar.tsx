@@ -12,27 +12,30 @@ import {
   MapPin, Plane, CreditCard, Smartphone, UserCheck, BookCheck,
   Search, Eye, Gauge, Filter, Presentation, LineChart,
   Bot, Workflow, Cog, MonitorSpeaker, Radio, Headphones,
-  Mic, Timer, Phone, Mail, Map, Route, Compass, Navigation
+  Mic, Timer, Phone, Mail, Map, Route, Compass, Navigation,
+  Languages, ArrowUpDown
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
-  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarHeader
+  SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar, SidebarHeader, SidebarFooter
 } from "@/components/ui/sidebar";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
-  const { lang } = useUnifiedLocale();
+  const { lang, setLang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
   
   // State for collapsible groups
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     platform: true,
-    coreOperations: true,
+    coreOperations: false,
     payroll: false,
     government: false,
     aiAnalytics: false,
@@ -56,35 +59,111 @@ export function AppSidebar() {
     }));
   };
 
-  return (
-    <Sidebar className="aqlhr-sidebar w-64 min-w-64">
-      {/* Header - Exact Production Match */}
-      <SidebarHeader className="p-4 border-b border-border/30">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">AQL</span>
-          </div>
-          {!collapsed && (
-            <div className="flex-1">
-              <div className="text-sm font-bold text-foreground">AqlHR</div>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                </div>
-                <span className="text-xs text-muted-foreground">Legal Consultant</span>
-                <Badge className="text-xs px-1 py-0 bg-blue-600 text-white">NEW</Badge>
-              </div>
-              <div className="text-xs text-muted-foreground mt-1">AI</div>
-              <div className="text-xs text-green-400 mt-1">Systems operational</div>
-            </div>
-          )}
-        </div>
-      </SidebarHeader>
+  // Module connectivity data
+  const getModuleConnections = (moduleId: string) => {
+    const connections: Record<string, string[]> = {
+      'system-overview': ['dashboard', 'executive-center', 'analytics'],
+      'dashboard': ['system-overview', 'employees', 'analytics', 'compliance'],
+      'executive-center': ['system-overview', 'dashboard', 'analytics', 'ai-automation'],
+      'core-hr': ['employees', 'recruitment', 'performance', 'payroll'],
+      'employees': ['core-hr', 'attendance', 'performance', 'benefits'],
+      'recruitment': ['core-hr', 'employees', 'visa-management', 'mol-integration'],
+      'performance': ['employees', 'core-hr', 'retention', 'skills-intelligence'],
+      'attendance': ['employees', 'payroll', 'leave', 'wps-integration'],
+      'leave': ['attendance', 'employees', 'payroll'],
+      'retention': ['employees', 'analytics', 'performance'],
+      'payroll': ['employees', 'attendance', 'benefits', 'wps-integration'],
+      'benefits': ['payroll', 'employees', 'welfare-consultancy'],
+      'expense-management': ['payroll', 'financial-planning'],
+      'financial-planning': ['payroll', 'expense-management', 'analytics'],
+      'government': ['gosi-integration', 'mol-integration', 'nitaqat-management'],
+      'gosi-integration': ['government', 'payroll', 'employees'],
+      'mol-integration': ['government', 'recruitment', 'visa-management'],
+      'nitaqat-management': ['government', 'employees', 'recruitment'],
+      'visa-management': ['mol-integration', 'recruitment', 'employees'],
+      'wps-integration': ['payroll', 'attendance', 'government'],
+      'analytics': ['dashboard', 'retention', 'skills-intelligence', 'predictive-analytics'],
+      'ai-automation': ['analytics', 'executive-center', 'ai-ecosystem'],
+      'skills-intelligence': ['analytics', 'performance', 'learning'],
+      'predictive-analytics': ['analytics', 'retention', 'workforce-intelligence'],
+      'workforce-intelligence': ['analytics', 'predictive-analytics', 'ai-ecosystem'],
+      'ai-ecosystem': ['ai-automation', 'workforce-intelligence', 'autonomous-operations'],
+      'autonomous-operations': ['ai-ecosystem', 'intelligent-automation'],
+      'intelligent-automation': ['ai-ecosystem', 'autonomous-operations'],
+      'leo': ['learning', 'skills-intelligence', 'geo'],
+      'geo': ['learning', 'leo', 'training-development'],
+      'training-development': ['learning', 'geo', 'skills-intelligence'],
+      'compliance': ['legal-consultant', 'policy-management', 'audit-management'],
+      'legal-consultant': ['compliance', 'policy-management'],
+      'policy-management': ['compliance', 'legal-consultant', 'audit-management'],
+      'audit-management': ['compliance', 'policy-management'],
+      'welfare-consultancy': ['benefits', 'safety-management', 'wellness-programs'],
+      'safety-management': ['welfare-consultancy', 'wellness-programs'],
+      'wellness-programs': ['welfare-consultancy', 'safety-management'],
+      'tools': ['document-generator', 'communication-center', 'help'],
+      'document-generator': ['tools'],
+      'communication-center': ['tools'],
+      'help': ['tools']
+    };
+    return connections[moduleId] || [];
+  };
 
-      <SidebarContent className="p-0">
-        {/* Platform Core Modules */}
+  const handleLanguageSwitch = () => {
+    const newLang = lang === 'en' ? 'ar' : 'en';
+    setLang(newLang);
+  };
+
+  return (
+    <TooltipProvider>
+      <Sidebar className="aqlhr-sidebar w-64 min-w-64 flex flex-col h-screen">
+        {/* Language Switcher at Top */}
+        <div className="p-2 border-b border-border/30">
+          <Button
+            onClick={handleLanguageSwitch}
+            variant="ghost"
+            size="sm"
+            className="w-full flex items-center justify-center gap-2 hover:bg-accent"
+          >
+            <Languages className="h-4 w-4" />
+            {!collapsed && (
+              <span className="text-xs font-medium">
+                {isArabic ? 'English' : 'العربية'}
+              </span>
+            )}
+          </Button>
+        </div>
+
+        {/* Header - Exact Production Match */}
+        <SidebarHeader className="p-4 border-b border-border/30">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">AQL</span>
+            </div>
+            {!collapsed && (
+              <div className="flex-1">
+                <div className="text-sm font-bold text-foreground">AqlHR</div>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    {isArabic ? 'المستشار القانوني' : 'Legal Consultant'}
+                  </span>
+                  <Badge className="text-xs px-1 py-0 bg-blue-600 text-white">NEW</Badge>
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">AI</div>
+                <div className="text-xs text-green-400 mt-1">
+                  {isArabic ? 'الأنظمة تعمل' : 'Systems operational'}
+                </div>
+              </div>
+            )}
+          </div>
+        </SidebarHeader>
+
+        {/* Scrollable Content */}
+        <SidebarContent className="flex-1 p-0 overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">{/* Platform Core Modules */}
         <Collapsible open={openGroups.platform} onOpenChange={() => toggleGroup('platform')}>
           <SidebarGroup className="p-0">
             <CollapsibleTrigger className="w-full">
@@ -96,30 +175,83 @@ export function AppSidebar() {
             <CollapsibleContent>
               <SidebarGroupContent className="p-2">
                 <SidebarMenu className="space-y-1">
+                  {/* System Overview with Connectivity */}
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <NavLink to="/system-overview" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                        <Home className="h-4 w-4" />
-                        <span>{isArabic ? 'نظرة عامة على النظام' : 'System Overview'}</span>
-                      </NavLink>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <NavLink to="/system-overview" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
+                            <Home className="h-4 w-4" />
+                            <span>{isArabic ? 'نظرة عامة على النظام' : 'System Overview'}</span>
+                            <div className="ml-auto flex items-center gap-1">
+                              <Network className="h-3 w-3 text-green-500" />
+                              <span className="text-xs text-green-500">{getModuleConnections('system-overview').length}</span>
+                            </div>
+                          </NavLink>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="max-w-sm">
+                          <div className="space-y-1">
+                            <div className="font-medium">{isArabic ? 'متصل مع:' : 'Connected to:'}</div>
+                            {getModuleConnections('system-overview').map((connection, idx) => (
+                              <div key={idx} className="text-xs text-muted-foreground">• {connection}</div>
+                            ))}
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+
+                  {/* Dashboard with Connectivity */}
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <NavLink to="/dashboard" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                        <BarChart3 className="h-4 w-4" />
-                        <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
-                        <Badge variant="outline" className="ml-auto text-xs">1</Badge>
-                      </NavLink>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <NavLink to="/dashboard" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
+                            <BarChart3 className="h-4 w-4" />
+                            <span>{isArabic ? 'لوحة التحكم' : 'Dashboard'}</span>
+                            <div className="ml-auto flex items-center gap-1">
+                              <Badge variant="outline" className="text-xs">1</Badge>
+                              <Network className="h-3 w-3 text-green-500" />
+                              <span className="text-xs text-green-500">{getModuleConnections('dashboard').length}</span>
+                            </div>
+                          </NavLink>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="max-w-sm">
+                          <div className="space-y-1">
+                            <div className="font-medium">{isArabic ? 'متصل مع:' : 'Connected to:'}</div>
+                            {getModuleConnections('dashboard').map((connection, idx) => (
+                              <div key={idx} className="text-xs text-muted-foreground">• {connection}</div>
+                            ))}
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+
+                  {/* Executive Center with Connectivity */}
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <NavLink to="/executive-center" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                        <Crown className="h-4 w-4 text-yellow-500" />
-                        <span className="truncate">{isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}</span>
-                        <Badge className="ml-auto text-xs bg-yellow-600 text-white">PREMIUM</Badge>
-                      </NavLink>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <NavLink to="/executive-center" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
+                            <Crown className="h-4 w-4 text-yellow-500" />
+                            <span className="truncate">{isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}</span>
+                            <div className="ml-auto flex items-center gap-1">
+                              <Badge className="text-xs bg-yellow-600 text-white">PREMIUM</Badge>
+                              <Network className="h-3 w-3 text-green-500" />
+                              <span className="text-xs text-green-500">{getModuleConnections('executive-center').length}</span>
+                            </div>
+                          </NavLink>
+                        </TooltipTrigger>
+                        <TooltipContent side="right" className="max-w-sm">
+                          <div className="space-y-1">
+                            <div className="font-medium">{isArabic ? 'متصل مع:' : 'Connected to:'}</div>
+                            {getModuleConnections('executive-center').map((connection, idx) => (
+                              <div key={idx} className="text-xs text-muted-foreground">• {connection}</div>
+                            ))}
+                          </div>
+                        </TooltipContent>
+                      </Tooltip>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -938,6 +1070,32 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-    </Sidebar>
+
+        {/* Footer with Connection Status */}
+        <SidebarFooter className="p-4 border-t border-border/30">
+          {!collapsed && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">
+                  {isArabic ? 'الاتصالات النشطة' : 'Active Connections'}
+                </span>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-500 font-medium">47</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">
+                  {isArabic ? 'حالة النظام' : 'System Status'}
+                </span>
+                <span className="text-green-500 font-medium">
+                  {isArabic ? 'متصل' : 'Online'}
+                </span>
+              </div>
+            </div>
+          )}
+        </SidebarFooter>
+      </Sidebar>
+    </TooltipProvider>
   );
 }
