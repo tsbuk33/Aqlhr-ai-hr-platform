@@ -1,520 +1,238 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
+import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Calendar, Upload, Users, FileText, AlertTriangle, CheckCircle, TrendingUp, Clock, Settings, BarChart3, BookOpen, Shield } from 'lucide-react';
-import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { AqlHRAIAssistant } from '@/components/ai';
-import ModuleDocumentUploader from '@/components/universal/ModuleDocumentUploader';
-import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useLanguage } from '@/hooks/useLanguage';
+import NitaqatComplianceEngine from '@/components/nrc/NitaqatComplianceEngine';
+import WorkforceNationalizationPlanning from '@/components/nrc/WorkforceNationalizationPlanning';
+import ComplianceMonitoring from '@/components/nrc/ComplianceMonitoring';
+import GovernmentPortalIntegration from '@/components/nrc/GovernmentPortalIntegration';
+import ReportingAnalytics from '@/components/nrc/ReportingAnalytics';
+import { 
+  Target, 
+  Users, 
+  Shield, 
+  Globe, 
+  BarChart,
+  Building,
+  TrendingUp,
+  AlertTriangle,
+  User,
+  Crown
+} from 'lucide-react';
 
 const NRCManagement = () => {
-  const { isArabic } = useSimpleLanguage();
-  const [selectedQuarter, setSelectedQuarter] = useState('Q1');
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const { language, isRTL } = useLanguage();
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-    setUploadedFiles(prev => [...prev, ...files]);
-  };
-
-  const quarterlyMeetings = [
-    {
-      quarter: 'Q1',
-      title: isArabic ? 'مراجعة السياسة السنوية للمكافآت' : 'Annual Remuneration Policy Review',
-      status: 'completed',
-      progress: 100,
-      deadline: '2024-03-31',
-      deliverables: [
-        isArabic ? 'تقرير المكافآت السنوي الشامل' : 'Comprehensive Annual Remuneration Report',
-        isArabic ? 'تحليل المركز في السوق' : 'Market Positioning Analysis',
-        isArabic ? 'شهادة الامتثال للحوكمة' : 'Governance Compliance Certificate',
-        isArabic ? 'خطة تطوير التنفيذيين الاستراتيجية' : 'Strategic Executive Development Plan'
-      ]
-    },
-    {
-      quarter: 'Q2',
-      title: isArabic ? 'تقييم الأداء ومراجعة منتصف العام' : 'Mid-Year Performance Review',
-      status: 'in-progress',
-      progress: 75,
-      deadline: '2024-06-30',
-      deliverables: [
-        isArabic ? 'تقرير الأداء التفصيلي لمنتصف العام' : 'Detailed Mid-Year Performance Report',
-        isArabic ? 'مقترحات تعديل التعويضات المبررة' : 'Justified Compensation Adjustment Proposals',
-        isArabic ? 'تقدم تطوير المواهب' : 'Talent Development Progress',
-        isArabic ? 'تقييم مواءمة إدارة المخاطر' : 'Risk Management Alignment Assessment'
-      ]
-    },
-    {
-      quarter: 'Q3',
-      title: isArabic ? 'تحليل السوق ومواءمة المخاطر' : 'Market Analysis & Risk Alignment',
-      status: 'upcoming',
-      progress: 25,
-      deadline: '2024-09-30',
-      deliverables: [
-        isArabic ? 'لوحة معلومات أداء الربع الثالث' : 'Q3 Performance Dashboard',
-        isArabic ? 'تحديث تعويضات السوق' : 'Market Compensation Update',
-        isArabic ? 'تقرير تقييم المخاطر الشامل' : 'Comprehensive Risk Assessment Report',
-        isArabic ? 'تحديث حالة الامتثال التنظيمي' : 'Regulatory Compliance Status Update'
-      ]
-    },
-    {
-      quarter: 'Q4',
-      title: isArabic ? 'التقييم السنوي والتخطيط' : 'Year-End Evaluation & Planning',
-      status: 'planning',
-      progress: 10,
-      deadline: '2024-12-31',
-      deliverables: [
-        isArabic ? 'تقرير الأداء السنوي الكامل' : 'Complete Annual Performance Report',
-        isArabic ? 'ملخص قرارات التعويضات النهائية' : 'Final Compensation Decisions Summary',
-        isArabic ? 'الخطة الاستراتيجية للعام القادم المعتمدة' : 'Approved Next Year Strategic Plan',
-        isArabic ? 'التقرير السنوي الشامل للجنة' : 'Comprehensive Annual NRC Report'
-      ]
-    }
-  ];
-
-  const complianceRequirements = [
-    {
-      type: isArabic ? 'متطلبات البنك المركزي' : 'Central Bank Requirements',
-      items: [
-        { name: isArabic ? 'الحد الأدنى 3 أعضاء' : 'Minimum 3 members', status: 'compliant' },
-        { name: isArabic ? 'مراجعة سياسة المكافآت نصف سنوية' : 'Half-yearly Remuneration Policy review', status: 'pending' },
-        { name: isArabic ? 'التعاون مع لجنة إدارة المخاطر' : 'Risk Management Committee collaboration', status: 'compliant' },
-        { name: isArabic ? 'تقديم الاختصاصات التنظيمية' : 'Terms of reference regulatory submission', status: 'compliant' }
-      ]
-    },
-    {
-      type: isArabic ? 'ميثاق السوق السعودي' : 'Saudi Exchange Charter',
-      items: [
-        { name: isArabic ? 'رئيس مستقل مطلوب' : 'Independent Chairman requirement', status: 'compliant' },
-        { name: isArabic ? 'هيكل التقرير المباشر للمجلس' : 'Direct Board reporting structure', status: 'compliant' },
-        { name: isArabic ? 'استبعاد المديرين التنفيذيين' : 'Executive Directors exclusion', status: 'compliant' },
-        { name: isArabic ? 'التزامات الاجتماع الفصلي' : 'Quarterly meeting obligations', status: 'pending' }
-      ]
-    }
-  ];
-
-  const aiInsights = [
-    {
-      type: isArabic ? 'تحليل التعويضات' : 'Compensation Analysis',
-      insight: isArabic ? 'التعويضات الحالية أقل بـ 12% من متوسط السوق للمناصب المماثلة' : 'Current compensation is 12% below market average for similar positions',
-      recommendation: isArabic ? 'النظر في زيادة راتب الرئيس التنفيذي بنسبة 8-15% للحفاظ على القدرة التنافسية' : 'Consider 8-15% CEO salary increase to maintain competitiveness',
-      priority: 'high'
-    },
-    {
-      type: isArabic ? 'تحليل المخاطر' : 'Risk Analysis',
-      insight: isArabic ? 'تم تحديد مخاطر الاحتفاظ العالية للمدير المالي' : 'High retention risk identified for CFO',
-      recommendation: isArabic ? 'تنفيذ برنامج الاحتفاظ المستهدف مع حوافز الأداء طويلة المدى' : 'Implement targeted retention program with long-term performance incentives',
-      priority: 'critical'
-    },
-    {
-      type: isArabic ? 'التخطيط للخلافة' : 'Succession Planning',
-      insight: isArabic ? 'تحديد 3 مرشحين مؤهلين تأهيلاً عالياً لمنصب الرئيس التنفيذي' : '3 high-potential candidates identified for CEO succession',
-      recommendation: isArabic ? 'تسريع برامج التطوير القيادي للمرشحين المختارين' : 'Accelerate leadership development programs for selected candidates',
-      priority: 'medium'
-    }
-  ];
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed': return 'bg-status-success';
-      case 'in-progress': return 'bg-status-warning';
-      case 'upcoming': return 'bg-status-info';
-      case 'planning': return 'bg-muted';
-      case 'compliant': return 'text-status-success';
-      case 'pending': return 'text-status-warning';
-      case 'critical': return 'text-status-error';
-      default: return 'bg-muted';
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'critical': return 'border-status-error text-status-error';
-      case 'high': return 'border-status-warning text-status-warning';
-      case 'medium': return 'border-status-info text-status-info';
-      default: return 'border-muted text-muted-foreground';
-    }
+  // Quick stats for overview
+  const overviewStats = {
+    saudizationRate: 24.5,
+    targetRate: 25.0,
+    womenPercentage: 36.3,
+    womenInLeadership: 42.9,
+    complianceScore: 85,
+    riskLevel: 'medium'
   };
 
   return (
-    <div className="min-h-screen bg-background p-6 space-y-6" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className={`container mx-auto p-6 space-y-6 ${isRTL ? 'rtl' : 'ltr'}`}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">
-            {isArabic ? 'إدارة لجنة الترشيحات والمكافآت' : 'NRC Management'}
+          <h1 className="text-3xl font-bold">
+            {language === 'ar' ? 'إدارة نطاقات والسعودة (AI)' : 'NRC Management (AI) - Nitaqat & Saudization'}
           </h1>
           <p className="text-muted-foreground mt-2">
-            {isArabic 
-              ? 'نظام إدارة شامل للجنة الترشيحات والمكافآت مع ذكاء اصطناعي متقدم' 
-              : 'Comprehensive Nomination & Remuneration Committee management with advanced AI'
-            }
+            {language === 'ar' 
+              ? 'إدارة شاملة لامتثال نطاقات ومتطلبات السعودة مع التكامل الحكومي' 
+              : 'Comprehensive Nitaqat compliance and Saudization management with government integration'}
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <Badge variant="secondary" className="bg-status-success/10 text-status-success">
-            {isArabic ? 'نشط' : 'Active'}
-          </Badge>
-          <Button>
-            <Settings className="w-4 h-4 mr-2" />
-            {isArabic ? 'الإعدادات' : 'Settings'}
-          </Button>
+        <div className="flex items-center gap-2">
+          <Building className="h-8 w-8 text-primary" />
         </div>
       </div>
 
-      {/* Main Dashboard */}
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">{isArabic ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
-          <TabsTrigger value="meetings">{isArabic ? 'الاجتماعات' : 'Meetings'}</TabsTrigger>
-          <TabsTrigger value="compliance">{isArabic ? 'الامتثال' : 'Compliance'}</TabsTrigger>
-          <TabsTrigger value="analytics">{isArabic ? 'التحليلات' : 'Analytics'}</TabsTrigger>
-          <TabsTrigger value="documents">{isArabic ? 'الوثائق' : 'Documents'}</TabsTrigger>
-          <TabsTrigger value="ai-insights">{isArabic ? 'رؤى الذكاء الاصطناعي' : 'AI Insights'}</TabsTrigger>
+      {/* Quick Overview Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">نسبة السعودة</CardTitle>
+            <Target className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{overviewStats.saudizationRate}%</div>
+            <p className="text-xs text-muted-foreground">
+              الهدف: {overviewStats.targetRate}%
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">النساء في العمل</CardTitle>
+            <User className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{overviewStats.womenPercentage}%</div>
+            <p className="text-xs text-muted-foreground">من إجمالي القوى العاملة</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">النساء في القيادة</CardTitle>
+            <Crown className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{overviewStats.womenInLeadership}%</div>
+            <p className="text-xs text-muted-foreground">من المناصب القيادية</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">درجة الامتثال</CardTitle>
+            <Shield className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{overviewStats.complianceScore}%</div>
+            <p className="text-xs text-green-600">حالة جيدة</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">مستوى المخاطرة</CardTitle>
+            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-amber-600">متوسط</div>
+            <p className="text-xs text-muted-foreground">يحتاج مراقبة</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">التكامل الحكومي</CardTitle>
+            <Globe className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-green-600">4/4</div>
+            <p className="text-xs text-muted-foreground">منصات متصلة</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content Tabs */}
+      <Tabs defaultValue="nitaqat-engine" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="nitaqat-engine" className="flex items-center gap-2">
+            <Target className="h-4 w-4" />
+            محرك نطاقات
+          </TabsTrigger>
+          <TabsTrigger value="workforce-planning" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            تخطيط القوى العاملة
+          </TabsTrigger>
+          <TabsTrigger value="compliance-monitoring" className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            مراقبة الامتثال
+          </TabsTrigger>
+          <TabsTrigger value="government-integration" className="flex items-center gap-2">
+            <Globe className="h-4 w-4" />
+            التكامل الحكومي
+          </TabsTrigger>
+          <TabsTrigger value="reporting-analytics" className="flex items-center gap-2">
+            <BarChart className="h-4 w-4" />
+            التقارير والتحليلات
+          </TabsTrigger>
         </TabsList>
 
-        {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {isArabic ? 'إجمالي الاجتماعات' : 'Total Meetings'}
-                    </p>
-                    <p className="text-3xl font-bold">4</p>
-                  </div>
-                  <Calendar className="h-8 w-8 text-muted-foreground" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {isArabic ? 'حالة الامتثال' : 'Compliance Status'}
-                    </p>
-                    <p className="text-3xl font-bold text-status-success">85%</p>
-                  </div>
-                  <Shield className="h-8 w-8 text-status-success" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {isArabic ? 'المهام المكتملة' : 'Completed Tasks'}
-                    </p>
-                    <p className="text-3xl font-bold">12/16</p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-status-success" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {isArabic ? 'المواعيد النهائية القادمة' : 'Upcoming Deadlines'}
-                    </p>
-                    <p className="text-3xl font-bold text-status-warning">3</p>
-                  </div>
-                  <Clock className="h-8 w-8 text-status-warning" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quarterly Progress */}
+        <TabsContent value="nitaqat-engine" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                {isArabic ? 'تقدم الاجتماعات الفصلية' : 'Quarterly Meeting Progress'}
+                <Target className="h-5 w-5" />
+                محرك امتثال نطاقات
               </CardTitle>
+              <p className="text-muted-foreground">
+                مراقبة وحساب نسب السعودة في الوقت الفعلي مع تتبع نسب النساء في مكان العمل والقيادة
+              </p>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {quarterlyMeetings.map((meeting) => (
-                  <div key={meeting.quarter} className="space-y-3 p-4 border rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">{meeting.quarter}</h3>
-                      <Badge className={getStatusColor(meeting.status)}>
-                        {meeting.status}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{meeting.title}</p>
-                    <Progress value={meeting.progress} className="h-2" />
-                    <p className="text-xs text-muted-foreground">
-                      {isArabic ? 'الموعد النهائي:' : 'Deadline:'} {meeting.deadline}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <NitaqatComplianceEngine />
             </CardContent>
           </Card>
         </TabsContent>
 
-        {/* Meetings Tab */}
-        <TabsContent value="meetings" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">
-              {isArabic ? 'إدارة الاجتماعات الفصلية' : 'Quarterly Meeting Management'}
-            </h2>
-            <Button>
-              <Calendar className="w-4 h-4 mr-2" />
-              {isArabic ? 'جدولة اجتماع' : 'Schedule Meeting'}
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {quarterlyMeetings.map((meeting) => (
-              <Card key={meeting.quarter}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle>{meeting.quarter} - {meeting.title}</CardTitle>
-                    <Badge className={getStatusColor(meeting.status)}>
-                      {meeting.status}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <p className="text-sm font-medium mb-2">
-                      {isArabic ? 'التقدم:' : 'Progress:'} {meeting.progress}%
-                    </p>
-                    <Progress value={meeting.progress} />
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium mb-2">
-                      {isArabic ? 'المخرجات المطلوبة:' : 'Required Deliverables:'}
-                    </h4>
-                    <ul className="text-sm space-y-1">
-                      {meeting.deliverables.map((item, index) => (
-                        <li key={index} className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-status-success" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <FileText className="w-4 h-4 mr-2" />
-                      {isArabic ? 'عرض الوثائق' : 'View Documents'}
-                    </Button>
-                    <Button size="sm">
-                      {isArabic ? 'تحديث الحالة' : 'Update Status'}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="workforce-planning" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                التخطيط الاستراتيجي لتوطين القوى العاملة
+              </CardTitle>
+              <p className="text-muted-foreground">
+                تخطيط استراتيجي للسعودة مع التركيز على تطوير النساء في القيادة
+              </p>
+            </CardHeader>
+            <CardContent>
+              <WorkforceNationalizationPlanning />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        {/* Compliance Tab */}
-        <TabsContent value="compliance" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">
-              {isArabic ? 'مراقبة الامتثال التنظيمي' : 'Regulatory Compliance Monitoring'}
-            </h2>
-            <Button>
-              <Shield className="w-4 h-4 mr-2" />
-              {isArabic ? 'تشغيل فحص الامتثال' : 'Run Compliance Check'}
-            </Button>
-          </div>
-
-          <div className="space-y-6">
-            {complianceRequirements.map((requirement, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <CardTitle>{requirement.type}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {requirement.items.map((item, itemIndex) => (
-                      <div key={itemIndex} className="flex items-center justify-between p-3 border rounded">
-                        <span className="text-sm">{item.name}</span>
-                        <Badge className={getStatusColor(item.status)}>
-                          {item.status === 'compliant' 
-                            ? (isArabic ? 'متوافق' : 'Compliant')
-                            : (isArabic ? 'معلق' : 'Pending')
-                          }
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="compliance-monitoring" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                مراقبة الامتثال
+              </CardTitle>
+              <p className="text-muted-foreground">
+                متابعة يومية لحالة الامتثال مع نظام تنبيهات مبكر
+              </p>
+            </CardHeader>
+            <CardContent>
+              <ComplianceMonitoring />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        {/* Analytics Tab */}
-        <TabsContent value="analytics" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">
-              {isArabic ? 'تحليلات الأداء المتقدمة' : 'Advanced Performance Analytics'}
-            </h2>
-            <Button>
-              <BarChart3 className="w-4 h-4 mr-2" />
-              {isArabic ? 'إنشاء تقرير' : 'Generate Report'}
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {isArabic ? 'معدل إنجاز الاجتماعات' : 'Meeting Completion Rate'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-status-success mb-2">87.5%</div>
-                <p className="text-sm text-muted-foreground">
-                  {isArabic ? 'تحسن بنسبة 12% عن العام الماضي' : '12% improvement from last year'}
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {isArabic ? 'متوسط وقت القرار' : 'Average Decision Time'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-status-info mb-2">14</div>
-                <p className="text-sm text-muted-foreground">
-                  {isArabic ? 'أيام لكل قرار رئيسي' : 'days per major decision'}
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">
-                  {isArabic ? 'مؤشر رضا أعضاء اللجنة' : 'Committee Satisfaction Index'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-3xl font-bold text-status-success mb-2">4.6/5</div>
-                <p className="text-sm text-muted-foreground">
-                  {isArabic ? 'بناءً على آخر استطلاع' : 'Based on latest survey'}
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="government-integration" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="h-5 w-5" />
+                التكامل مع البوابات الحكومية
+              </CardTitle>
+              <p className="text-muted-foreground">
+                تكامل تلقائي مع قِوى، التأمينات الاجتماعية، أبشر، ووزارة العمل
+              </p>
+            </CardHeader>
+            <CardContent>
+              <GovernmentPortalIntegration />
+            </CardContent>
+          </Card>
         </TabsContent>
 
-        {/* Documents Tab */}
-        <TabsContent value="documents" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">
-              {isArabic ? 'إدارة الوثائق والملفات' : 'Document & File Management'}
-            </h2>
-            <div className="flex gap-2">
-              <Button variant="outline">
-                <Upload className="w-4 h-4 mr-2" />
-                {isArabic ? 'رفع ملف' : 'Upload File'}
-              </Button>
-              <Button>
-                <FileText className="w-4 h-4 mr-2" />
-                {isArabic ? 'إنشاء وثيقة' : 'Create Document'}
-              </Button>
-            </div>
-          </div>
-
-          <UniversalDocumentManager 
-            moduleName={isArabic ? 'مستندات لجنة الترشيحات والمكافآت' : 'NRC Documents'}
-            platform="nrc-management"
-            moduleType="hr"
-            acceptedTypes={['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx']}
-            maxFileSize={10 * 1024 * 1024}
-            maxFiles={20}
-          />
-        </TabsContent>
-
-        {/* AI Insights Tab */}
-        <TabsContent value="ai-insights" className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold">
-              {isArabic ? 'رؤى الذكاء الاصطناعي والتوصيات' : 'AI Insights & Recommendations'}
-            </h2>
-            <Button>
-              <BookOpen className="w-4 h-4 mr-2" />
-              {isArabic ? 'تحديث التحليل' : 'Refresh Analysis'}
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            {aiInsights.map((insight, index) => (
-              <Card key={index} className={`border-l-4 ${getPriorityColor(insight.priority)}`}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{insight.type}</CardTitle>
-                    <Badge variant="outline" className={getPriorityColor(insight.priority)}>
-                      {insight.priority === 'critical' 
-                        ? (isArabic ? 'حرج' : 'Critical')
-                        : insight.priority === 'high'
-                        ? (isArabic ? 'عالي' : 'High')
-                        : (isArabic ? 'متوسط' : 'Medium')
-                      }
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <h4 className="font-medium text-sm mb-1">
-                      {isArabic ? 'الملاحظة:' : 'Insight:'}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">{insight.insight}</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-sm mb-1">
-                      {isArabic ? 'التوصية:' : 'Recommendation:'}
-                    </h4>
-                    <p className="text-sm">{insight.recommendation}</p>
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <Button size="sm" variant="outline">
-                      {isArabic ? 'عرض التفاصيل' : 'View Details'}
-                    </Button>
-                    <Button size="sm">
-                      {isArabic ? 'تنفيذ التوصية' : 'Implement Recommendation'}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <TabsContent value="reporting-analytics" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BarChart className="h-5 w-5" />
+                التقارير والتحليلات
+              </CardTitle>
+              <p className="text-muted-foreground">
+                تقارير شاملة وتحليلات متقدمة مع مقارنات معايير القطاع وتوقعات مستقبلية
+              </p>
+            </CardHeader>
+            <CardContent>
+              <ReportingAnalytics />
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
-      
-      <ModuleDocumentUploader moduleKey="nrcManagement.governance" />
-      <AqlHRAIAssistant moduleContext="nrcManagement.governance" />
-      
-      <UniversalAIIntegrator 
-        pageType="compliance" 
-        moduleName="nrc-management" 
-        companyId="demo-company" 
-        enabledFeatures={['governance', 'remuneration-committee', 'compliance-monitoring', 'regulatory-compliance']}
-      />
     </div>
   );
 };
