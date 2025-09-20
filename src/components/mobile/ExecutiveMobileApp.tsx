@@ -6,6 +6,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { useAuthOptional } from '@/hooks/useAuthOptional';
 import type { User } from '@supabase/supabase-js';
+import { StrategicKPIDashboard } from './executive/StrategicKPIDashboard';
+import { AIPoweredInsights } from './executive/AIPoweredInsights';
+import { BoardReportGeneration } from './executive/BoardReportGeneration';
+import { SecureDocumentAccess } from './executive/SecureDocumentAccess';
+import { ExecutiveCalendar } from './executive/ExecutiveCalendar';
+import { CrisisManagementTools } from './executive/CrisisManagementTools';
+import { PredictiveAnalytics } from './executive/PredictiveAnalytics';
+import { VoiceActivatedCommands } from './executive/VoiceActivatedCommands';
 import { 
   BarChart3, 
   TrendingUp, 
