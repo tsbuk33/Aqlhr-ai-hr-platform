@@ -14,6 +14,18 @@ import AnalyticsPublic from '@/pages/AnalyticsPublic';
 import CompliancePublic from '@/pages/CompliancePublic';
 import GovernmentPublic from '@/pages/GovernmentPublic';
 import AIAutomationPublic from '@/pages/AIAutomationPublic';
+import ExecutiveCenterPublic from '@/pages/ExecutiveCenterPublic';
+import LEOPublic from '@/pages/LEOPublic';
+import GEOPublic from '@/pages/GEOPublic';
+import SkillsIntelligencePublic from '@/pages/SkillsIntelligencePublic';
+import WelfareConsultancyPublic from '@/pages/WelfareConsultancyPublic';
+import LegalConsultantPublic from '@/pages/LegalConsultantPublic';
+import PerformancePublic from '@/pages/PerformancePublic';
+import AttendancePublic from '@/pages/AttendancePublic';
+import LeavePublic from '@/pages/LeavePublic';
+import PayrollPublic from '@/pages/PayrollPublic';
+import ToolsPublic from '@/pages/ToolsPublic';
+import HelpPublic from '@/pages/HelpPublic';
 import { TestAI } from '@/pages/TestAI';
 import DataFoundationTest from '@/pages/DataFoundationTest';
 import CoreBusinessTest from '@/pages/CoreBusinessTest';
@@ -115,6 +127,66 @@ export default function AppRoutes() {
         <Route path="ai-automation" element={
           <Suspense fallback={<RouteLoading />}>
             <AIAutomationPublic />
+          </Suspense>
+        } />
+        <Route path="executive-center" element={
+          <Suspense fallback={<RouteLoading />}>
+            <ExecutiveCenterPublic />
+          </Suspense>
+        } />
+        <Route path="leo" element={
+          <Suspense fallback={<RouteLoading />}>
+            <LEOPublic />
+          </Suspense>
+        } />
+        <Route path="geo" element={
+          <Suspense fallback={<RouteLoading />}>
+            <GEOPublic />
+          </Suspense>
+        } />
+        <Route path="skills-intelligence" element={
+          <Suspense fallback={<RouteLoading />}>
+            <SkillsIntelligencePublic />
+          </Suspense>
+        } />
+        <Route path="welfare-consultancy" element={
+          <Suspense fallback={<RouteLoading />}>
+            <WelfareConsultancyPublic />
+          </Suspense>
+        } />
+        <Route path="legal-consultant" element={
+          <Suspense fallback={<RouteLoading />}>
+            <LegalConsultantPublic />
+          </Suspense>
+        } />
+        <Route path="performance" element={
+          <Suspense fallback={<RouteLoading />}>
+            <PerformancePublic />
+          </Suspense>
+        } />
+        <Route path="attendance" element={
+          <Suspense fallback={<RouteLoading />}>
+            <AttendancePublic />
+          </Suspense>
+        } />
+        <Route path="leave" element={
+          <Suspense fallback={<RouteLoading />}>
+            <LeavePublic />
+          </Suspense>
+        } />
+        <Route path="payroll" element={
+          <Suspense fallback={<RouteLoading />}>
+            <PayrollPublic />
+          </Suspense>
+        } />
+        <Route path="tools" element={
+          <Suspense fallback={<RouteLoading />}>
+            <ToolsPublic />
+          </Suspense>
+        } />
+        <Route path="help" element={
+          <Suspense fallback={<RouteLoading />}>
+            <HelpPublic />
           </Suspense>
         } />
 
