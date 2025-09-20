@@ -124,12 +124,12 @@ export default function AuthPage() {
       <div className="relative z-10 w-full max-w-md p-8 auth-form-card">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{t('auth.title')}</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">AqlHR</h1>
           <h2 className="text-xl text-foreground-muted mb-4">
-            {isSignUp ? t('auth.createAccount') : t('auth.welcome')}
+            {isSignUp ? 'Create Account' : 'Welcome Back'}
           </h2>
           <p className="text-muted-foreground">
-            {isSignUp ? t('auth.signUpSubtext') : t('auth.signInSubtext')}
+            {isSignUp ? 'Sign up to access your HR platform' : 'Sign in to continue to your dashboard'}
           </p>
         </div>
 
@@ -138,20 +138,20 @@ export default function AuthPage() {
             className={`px-4 py-2 rounded ${!isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
             onClick={() => setIsSignUp(false)}
           >
-            {t('auth.signIn')}
+            Sign In
           </button>
           <button
             className={`px-4 py-2 rounded ${isSignUp ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
             onClick={() => setIsSignUp(true)}
           >
-            {t('auth.signUp')}
+            Sign Up
           </button>
         </div>
 
         <form onSubmit={handleAuth} className="auth-form">
           <input
             type="email"
-            placeholder={t('auth.email')}
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -160,7 +160,7 @@ export default function AuthPage() {
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder={t('auth.password')}
+              placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -185,7 +185,7 @@ export default function AuthPage() {
                 }}
                 className="text-sm text-primary hover:underline"
               >
-                {t('auth.forgotPassword')}
+                Forgot Password?
               </button>
             </div>
           )}
@@ -195,7 +195,7 @@ export default function AuthPage() {
             disabled={loading}
             className="w-full py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 transition-colors"
           >
-            {loading ? t('common.loading') : isSignUp ? t('auth.signUp') : t('auth.signIn')}
+            {loading ? "Please wait..." : isSignUp ? "Sign Up" : "Sign In"}
           </button>
         </form>
 
@@ -208,9 +208,9 @@ export default function AuthPage() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowForgotPassword(false)}>
             <div className="bg-background border border-border rounded-lg p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
               <div className="text-center mb-4">
-                <h3 className="text-lg font-semibold">{t('auth.resetPassword')}</h3>
+                <h3 className="text-lg font-semibold">Reset Password</h3>
                 <p className="text-muted-foreground text-sm mt-1">
-                  {resetSent ? t('auth.resetEmailSent') : "Enter your email to receive reset instructions"}
+                  {resetSent ? "Check your email for reset instructions" : "Enter your email to receive reset instructions"}
                 </p>
               </div>
 
@@ -218,7 +218,7 @@ export default function AuthPage() {
                 <form onSubmit={handlePasswordReset} className="space-y-4">
                   <input
                     type="email"
-                    placeholder={t('auth.email')}
+                    placeholder="Email address"
                     value={resetEmail}
                     onChange={(e) => setResetEmail(e.target.value)}
                     required
@@ -238,14 +238,14 @@ export default function AuthPage() {
                       className="flex-1 py-2 px-4 border border-border bg-background text-foreground rounded hover:bg-muted transition-colors"
                       disabled={loading}
                     >
-                      {t('common.cancel')}
+                      Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={loading}
                       className="flex-1 py-2 px-4 bg-primary text-primary-foreground rounded hover:bg-primary/90 disabled:opacity-50 transition-colors"
                     >
-                      {loading ? "Sending..." : t('auth.sendResetLink')}
+                      {loading ? "Sending..." : "Send Reset Email"}
                     </button>
                   </div>
                 </form>
