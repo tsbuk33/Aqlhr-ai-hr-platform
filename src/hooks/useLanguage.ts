@@ -13,9 +13,12 @@ export const useLanguage = () => {
     return language === 'ar' ? arabic : english;
   };
 
+  const isRTL = language === 'ar';
+
   return {
     language,
     toggleLanguage,
-    t
+    t,
+    isRTL
   };
 };
