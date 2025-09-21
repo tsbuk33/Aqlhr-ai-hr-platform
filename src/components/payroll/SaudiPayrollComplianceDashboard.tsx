@@ -10,7 +10,7 @@ import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { SaudiPayrollComplianceEngine } from '@/services/SaudiPayrollComplianceEngine';
 import { 
   Calculator, 
-  DollarSign, 
+  Coins, 
   Clock, 
   Moon, 
   Plane, 
@@ -193,7 +193,7 @@ export const SaudiPayrollComplianceDashboard: React.FC = () => {
             <CardTitle className="text-sm font-medium">
               {isArabic ? 'إجمالي الراتب' : 'Total Gross'}
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <Coins className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -210,7 +210,7 @@ export const SaudiPayrollComplianceDashboard: React.FC = () => {
             <CardTitle className="text-sm font-medium">
               {isArabic ? 'صافي الراتب' : 'Net Pay'}
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <Coins className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -269,7 +269,7 @@ export const SaudiPayrollComplianceDashboard: React.FC = () => {
             {isArabic ? 'الإضافي' : 'Overtime'}
           </TabsTrigger>
           <TabsTrigger value="allowances">
-            <DollarSign className="h-4 w-4 mr-2" />
+            <Coins className="h-4 w-4 mr-2" />
             {isArabic ? 'البدلات' : 'Allowances'}
           </TabsTrigger>
           <TabsTrigger value="shifts">

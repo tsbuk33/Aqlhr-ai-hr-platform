@@ -16,7 +16,7 @@ import {
   ChevronRight,
   ChevronLeft,
   User,
-  DollarSign,
+  Coins,
   Clock,
   Home,
   Car,
@@ -110,7 +110,7 @@ export const PayrollCalculationWizard: React.FC = () => {
       id: 'allowances',
       title: 'Allowances & Benefits',
       title_ar: 'البدلات والمزايا',
-      icon: <DollarSign className="h-5 w-5" />,
+      icon: <Coins className="h-5 w-5" />,
       completed: false
     },
     {

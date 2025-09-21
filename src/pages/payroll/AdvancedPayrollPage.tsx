@@ -9,7 +9,7 @@ import {
   Zap, 
   BookOpen, 
   Shield,
-  DollarSign,
+  Coins,
   Clock,
   Users,
   TrendingUp
@@ -20,24 +20,24 @@ export const AdvancedPayrollPage: React.FC = () => {
   const isArabic = language === 'ar';
 
   return (
-    <div className="min-h-screen p-6" dir={isArabic ? 'rtl' : 'ltr'}>
-      <div className="space-y-6">
+    <div className="min-h-screen bg-background p-6" dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto space-y-6">
         {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-            {isArabic ? 'نظام الرواتب المتقدم' : 'Advanced Payroll System'}
+            {isArabic ? 'حاسبة شاملة للرواتب وفقاً لقانون العمل السعودي' : 'Comprehensive Saudi Labor Law Payroll Calculator'}
           </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
             {isArabic ? 
-              'نظام شامل لحساب الرواتب وفقاً لقانون العمل السعودي مع جميع البدلات والحسابات المعقدة' :
-              'Comprehensive payroll system with Saudi Labor Law compliance and complex calculations'
+              'نظام شامل لحساب الرواتب مع جميع البدلات والحسابات المعقدة وفقاً للقانون السعودي - جميع المبالغ بالريال السعودي' :
+              'Complete payroll system with all allowances and complex calculations according to Saudi law - All amounts in Saudi Riyal (SAR)'
             }
           </p>
         </div>
 
         {/* Features Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="text-center">
+          <Card className="text-center bg-card border border-border">
             <CardHeader>
               <Calculator className="h-8 w-8 mx-auto text-primary" />
               <CardTitle className="text-sm">
@@ -51,7 +51,7 @@ export const AdvancedPayrollPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="text-center">
+          <Card className="text-center bg-card border border-border">
             <CardHeader>
               <Clock className="h-8 w-8 mx-auto text-primary" />
               <CardTitle className="text-sm">
@@ -65,11 +65,11 @@ export const AdvancedPayrollPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="text-center">
+          <Card className="text-center bg-card border border-border">
             <CardHeader>
-              <Users className="h-8 w-8 mx-auto text-primary" />
+              <Coins className="h-8 w-8 mx-auto text-primary" />
               <CardTitle className="text-sm">
-                {isArabic ? 'بدلات شاملة' : 'Comprehensive Allowances'}
+                {isArabic ? 'بدلات شاملة بالريال السعودي' : 'Comprehensive SAR Allowances'}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -79,7 +79,7 @@ export const AdvancedPayrollPage: React.FC = () => {
             </CardContent>
           </Card>
 
-          <Card className="text-center">
+          <Card className="text-center bg-card border border-border">
             <CardHeader>
               <Shield className="h-8 w-8 mx-auto text-primary" />
               <CardTitle className="text-sm">
@@ -96,7 +96,7 @@ export const AdvancedPayrollPage: React.FC = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-2 bg-muted">
             <TabsTrigger value="dashboard" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               {isArabic ? 'لوحة التحكم' : 'Dashboard'}
@@ -117,28 +117,28 @@ export const AdvancedPayrollPage: React.FC = () => {
         </Tabs>
 
         {/* Compliance Features List */}
-        <Card>
+        <Card className="bg-card border border-border">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BookOpen className="h-5 w-5" />
-              {isArabic ? 'الميزات المدعومة' : 'Supported Features'}
+              {isArabic ? 'الميزات المدعومة (جميع المبالغ بالريال السعودي)' : 'Supported Features (All amounts in Saudi Riyal)'}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
-                { en: 'Multi-tier Overtime (1.5x, 2x, 2.5x rates)', ar: 'عمل إضافي متعدد المستويات (1.5x, 2x, 2.5x)' },
-                { en: 'Shift Differentials (night, weekend, holiday)', ar: 'بدلات الورديات (ليلية، نهاية أسبوع، إجازات)' },
-                { en: 'Ramadan Working Hours (6-hour adjustments)', ar: 'ساعات عمل رمضان (تعديل 6 ساعات)' },
-                { en: 'Hajj Leave Entitlements (automatic calculation)', ar: 'استحقاق إجازة الحج (حساب تلقائي)' },
-                { en: 'End-of-Service Benefits (complex formulas)', ar: 'مكافأة نهاية الخدمة (صيغ معقدة)' },
-                { en: 'Housing/Transport Allowances', ar: 'بدلات السكن/النقل' },
-                { en: 'Educational Allowances', ar: 'البدلات التعليمية' },
-                { en: 'Family/Child Allowances', ar: 'بدلات العائلة/الأطفال' },
-                { en: 'Danger Pay Calculations', ar: 'حسابات بدل الخطر' },
-                { en: 'Performance Bonuses', ar: 'مكافآت الأداء' }
+                { en: 'Multi-tier Overtime (1.5x, 2x, 2.5x rates) - SAR', ar: 'عمل إضافي متعدد المستويات (1.5x, 2x, 2.5x) - ريال سعودي' },
+                { en: 'Shift Differentials (night, weekend, holiday) - SAR', ar: 'بدلات الورديات (ليلية، نهاية أسبوع، إجازات) - ريال سعودي' },
+                { en: 'Ramadan Working Hours (6-hour adjustments) - SAR', ar: 'ساعات عمل رمضان (تعديل 6 ساعات) - ريال سعودي' },
+                { en: 'Hajj Leave Entitlements (automatic calculation) - SAR', ar: 'استحقاق إجازة الحج (حساب تلقائي) - ريال سعودي' },
+                { en: 'End-of-Service Benefits (complex formulas) - SAR', ar: 'مكافأة نهاية الخدمة (صيغ معقدة) - ريال سعودي' },
+                { en: 'Housing/Transport Allowances - SAR', ar: 'بدلات السكن/النقل - ريال سعودي' },
+                { en: 'Educational Allowances - SAR', ar: 'البدلات التعليمية - ريال سعودي' },
+                { en: 'Family/Child Allowances - SAR', ar: 'بدلات العائلة/الأطفال - ريال سعودي' },
+                { en: 'Danger Pay Calculations - SAR', ar: 'حسابات بدل الخطر - ريال سعودي' },
+                { en: 'Performance Bonuses - SAR', ar: 'مكافآت الأداء - ريال سعودي' }
               ].map((feature, index) => (
-                <div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
+                <div key={index} className="flex items-center gap-3 p-3 border border-border rounded-lg bg-background">
                   <div className="h-2 w-2 bg-primary rounded-full flex-shrink-0" />
                   <span className="text-sm">
                     {isArabic ? feature.ar : feature.en}
