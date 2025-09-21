@@ -14382,6 +14382,15 @@ export type Database = {
         }
         Relationships: []
       }
+      security_definer_status: {
+        Row: {
+          analysis_type: string | null
+          documented_exceptions: number | null
+          status: string | null
+          summary: string | null
+        }
+        Relationships: []
+      }
       security_function_registry: {
         Row: {
           approved_by: string | null
