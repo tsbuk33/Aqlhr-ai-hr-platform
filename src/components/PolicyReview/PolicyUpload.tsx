@@ -199,7 +199,7 @@ export const PolicyUpload: React.FC<PolicyUploadProps> = ({ onUploadSuccess }) =
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
-              <span className="text-white text-sm font-bold">AI</span>
+              <span className="text-primary-foreground text-sm font-bold">AI</span>
             </div>
             <span>{t('policy.upload.aiAnalysis.title')}</span>
           </CardTitle>

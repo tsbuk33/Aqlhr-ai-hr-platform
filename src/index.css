@@ -108,17 +108,17 @@
   }
 
   .dark {
-    /* Background System - Dark */
+    /* Background System - Dark - Enhanced contrast */
     --background: 224 71% 4%;
     --background-subtle: 220 13% 6%;
     --surface: 224 71% 4%;
     --surface-raised: 220 13% 8%;
     --surface-subtle: 220 13% 10%;
     
-    /* Text Colors - Dark - Enhanced contrast for better readability */
-    --foreground: 210 40% 98%;
-    --foreground-muted: 215 20% 75%;
-    --foreground-subtle: 215 16% 65%;
+    /* Text Colors - Dark - High contrast for visibility */
+    --foreground: 0 0% 98%;
+    --foreground-muted: 210 20% 80%;
+    --foreground-subtle: 215 16% 70%;
 
     /* Card System - Dark */
     --card: 224 71% 4%;
@@ -133,13 +133,13 @@
     --primary-foreground: 224 71% 4%;
     --primary-hover: 210 40% 95%;
 
-    /* Brand Colors - Dark Mode Adjusted for better contrast */
-    --brand-primary: 240 40% 85%;          /* Higher contrast for dark mode */
-    --brand-secondary: 120 70% 60%;        /* Brighter green for visibility */
-    --brand-accent: 45 90% 70%;            /* Brighter gold for contrast */
-    --brand-success: 120 70% 60%;          /* Better contrast */
-    --brand-warning: 25 90% 70%;           /* Improved visibility */
-    --brand-danger: 0 80% 70%;             /* Better readability */
+    /* Brand Colors - Dark Mode - Ultra high contrast */
+    --brand-primary: 240 50% 90%;          /* Ultra high contrast for dark mode */
+    --brand-secondary: 120 80% 70%;        /* Bright green for excellent visibility */
+    --brand-accent: 45 95% 75%;            /* Bright gold for maximum contrast */
+    --brand-success: 120 80% 70%;          /* Maximum contrast green */
+    --brand-warning: 25 95% 75%;           /* High visibility yellow */
+    --brand-danger: 0 85% 75%;             /* High contrast red */
 
     /* Secondary Colors - Dark */
     --secondary: 217 33% 15%;

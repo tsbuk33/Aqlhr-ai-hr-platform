@@ -109,7 +109,7 @@ export function DashboardHeader() {
               <DropdownMenuTrigger asChild>
                 <Avatar className="h-10 w-10 ring-2 ring-border shadow-lg hover:ring-brand-primary transition-all duration-200 cursor-pointer">
                   <AvatarImage src="/placeholder-avatar.jpg" alt={user?.email || 'User'} />
-                  <AvatarFallback className="bg-gradient-to-br from-brand-primary to-brand-accent text-white text-sm font-bold">
+                  <AvatarFallback className="bg-gradient-to-br from-brand-primary to-brand-accent text-primary-foreground text-sm font-bold">
                     {user?.email ? user.email.charAt(0).toUpperCase() : 'U'}
                   </AvatarFallback>
                 </Avatar>

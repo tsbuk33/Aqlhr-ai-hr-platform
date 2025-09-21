@@ -67,7 +67,7 @@ const EduBox: React.FC<EduBoxProps> = ({
               <CardTitle className="text-sm font-semibold">{title}</CardTitle>
               <Badge 
                 variant="secondary" 
-                className={`${getUserLevelColor(userLevel)} text-white text-xs`}
+                className={`${getUserLevelColor(userLevel)} text-primary-foreground text-xs`}
               >
                 {getUserLevelText(userLevel)}
               </Badge>

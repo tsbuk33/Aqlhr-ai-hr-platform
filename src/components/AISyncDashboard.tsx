@@ -21,9 +21,9 @@ const AISyncDashboard: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-brand-success text-white';
-      case 'failed': return 'bg-brand-danger text-white';
-      case 'processing': return 'bg-brand-primary text-white';
+      case 'completed': return 'bg-brand-success text-primary-foreground';
+      case 'failed': return 'bg-brand-danger text-primary-foreground';
+      case 'processing': return 'bg-brand-primary text-primary-foreground';
       default: return 'bg-muted text-muted-foreground';
     }
   };
@@ -97,7 +97,7 @@ const AISyncDashboard: React.FC = () => {
             <Button 
               onClick={triggerManualSync}
               disabled={loading}
-              className="bg-brand-primary hover:bg-brand-primary/90 text-white"
+              className="bg-brand-primary hover:bg-brand-primary/90 text-primary-foreground"
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
               Manual Sync

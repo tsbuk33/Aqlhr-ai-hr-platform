@@ -20,13 +20,13 @@ interface MetricCardProps {
 }
 
 const variantStyles = {
-  default: "bg-surface border-border",
-  primary: "bg-gradient-primary text-white border-transparent",
-  secondary: "bg-gradient-secondary text-white border-transparent", 
-  accent: "bg-gradient-accent text-white border-transparent",
-  success: "bg-status-success text-white border-transparent",
-  warning: "bg-status-warning text-white border-transparent",
-  danger: "bg-status-danger text-white border-transparent",
+  default: "bg-card border-border text-card-foreground",
+  primary: "bg-brand-primary text-primary-foreground border-transparent",
+  secondary: "bg-brand-secondary text-primary-foreground border-transparent", 
+  accent: "bg-brand-accent text-primary-foreground border-transparent",
+  success: "bg-status-success text-primary-foreground border-transparent",
+  warning: "bg-status-warning text-primary-foreground border-transparent",
+  danger: "bg-status-danger text-primary-foreground border-transparent",
 };
 
 export function MetricCard({ 
@@ -91,14 +91,14 @@ export function MetricCard({
           <div className="space-y-2 flex-1 min-w-0">
             <p className={cn(
               "text-sm font-medium truncate",
-              isColored ? "text-white/80" : "text-muted-foreground",
+              isColored ? "text-primary-foreground/90" : "text-muted-foreground",
               isRTL ? "text-right" : "text-left"
             )}>
               {title}
             </p>
             <p className={cn(
               "text-2xl font-bold",
-              isColored ? "text-white" : "text-foreground",
+              isColored ? "text-primary-foreground" : "text-foreground",
               isRTL ? "text-right" : "text-left"
             )}>
               {formatValue(value)}
@@ -106,7 +106,7 @@ export function MetricCard({
             {description && (
               <p className={cn(
                 "text-xs text-ellipsis overflow-hidden",
-                isColored ? "text-white/70" : "text-muted-foreground",
+                isColored ? "text-primary-foreground/80" : "text-muted-foreground",
                 isRTL ? "text-right" : "text-left"
               )}>
                 {description}
@@ -120,8 +120,8 @@ export function MetricCard({
                 <span className={cn(
                   "text-xs font-medium",
                   trend.isPositive 
-                    ? (isColored ? "text-green-200" : "text-status-success")
-                    : (isColored ? "text-red-200" : "text-status-danger")
+                    ? (isColored ? "text-primary-foreground/90" : "text-status-success")
+                    : (isColored ? "text-primary-foreground/90" : "text-status-danger")
                 )}>
                   {trend.isPositive ? "↗" : "↘"} {formatTrendValue(trend.value)}
                 </span>
@@ -132,8 +132,8 @@ export function MetricCard({
           <div className={cn(
             "p-3 rounded-xl flex-shrink-0",
             isColored 
-              ? "bg-white/20 text-white" 
-              : "bg-surface-secondary text-muted-foreground"
+              ? "bg-primary-foreground/20 text-primary-foreground" 
+              : "bg-surface-subtle text-muted-foreground"
           )}>
             {icon}
           </div>

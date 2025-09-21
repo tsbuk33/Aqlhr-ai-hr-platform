@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { LinkL } from '@/lib/i18n/LinkL';
-import { 
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
+import {
   BarChart3, Users, Crown, Brain, Building2, Shield, Settings, 
   ChevronDown, Home, Zap, Scale, Heart, Star, GraduationCap,
   Sparkles, FileText, Globe, Award, Briefcase, Activity, 
   Clock, Calculator, TrendingUp, UserPlus, Calendar, 
   Network, Layers, Target, BookOpen, LifeBuoy, Wrench,
   Database, PieChart, TreePine, GitBranch, MessageSquare,
-  Bell, FileSpreadsheet, DollarSign, CheckCircle, AlertTriangle,
+  Bell, FileSpreadsheet, CheckCircle, AlertTriangle,
   MapPin, Plane, CreditCard, Smartphone, UserCheck, BookCheck,
   Search, Eye, Gauge, Filter, Presentation, LineChart,
   Bot, Workflow, Cog, MonitorSpeaker, Radio, Headphones,
@@ -137,7 +138,7 @@ export function AppSidebar() {
         <SidebarHeader className="p-4 border-b border-border/30">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">AQL</span>
+              <span className="text-primary-foreground font-bold text-sm">AQL</span>
             </div>
             {!collapsed && (
               <div className="flex-1">
@@ -151,7 +152,7 @@ export function AppSidebar() {
                   <span className="text-xs text-muted-foreground">
                     {isArabic ? 'المستشار القانوني' : 'Legal Consultant'}
                   </span>
-                  <Badge className="text-xs px-1 py-0 bg-blue-600 text-white">NEW</Badge>
+                  <Badge className="text-xs px-1 py-0 bg-brand-primary text-primary-foreground">NEW</Badge>
                 </div>
                 <div className="text-xs text-muted-foreground mt-1">AI</div>
                 <div className="text-xs text-green-400 mt-1">
@@ -237,7 +238,7 @@ export function AppSidebar() {
                             <Crown className="h-4 w-4 text-yellow-500" />
                             <span className="truncate">{isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}</span>
                             <div className="ml-auto flex items-center gap-1">
-                              <Badge className="text-xs bg-yellow-600 text-white">PREMIUM</Badge>
+                              <Badge className="text-xs bg-brand-warning text-primary-foreground">PREMIUM</Badge>
                               <Network className="h-3 w-3 text-green-500" />
                               <span className="text-xs text-green-500">{getModuleConnections('executive-center').length}</span>
                             </div>
@@ -295,7 +296,7 @@ export function AppSidebar() {
                       <NavLink to="/recruitment" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <UserPlus className="h-4 w-4 text-green-500" />
                         <span>{isArabic ? 'التوظيف والاستقطاب' : 'Recruitment & Hiring'}</span>
-                        <Badge className="ml-auto text-xs bg-green-600 text-white">ACTIVE</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-success text-primary-foreground">ACTIVE</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -328,7 +329,7 @@ export function AppSidebar() {
                       <NavLink to="/retention" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <TrendingUp className="h-4 w-4 text-green-500" />
                         <span>{isArabic ? 'تحليلات الاحتفاظ' : 'Retention Analytics'}</span>
-                        <Badge className="ml-auto text-xs bg-green-600 text-white">LIVE</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-success text-primary-foreground">LIVE</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -377,7 +378,7 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/financial-planning" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                        <DollarSign className="h-4 w-4 text-green-600" />
+                        <CurrencyIcon className="h-4 w-4 text-brand-success" />
                         <span>{isArabic ? 'التخطيط المالي' : 'Financial Planning'}</span>
                       </NavLink>
                     </SidebarMenuButton>
@@ -414,7 +415,7 @@ export function AppSidebar() {
                       <NavLink to="/gosi-integration" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Shield className="h-4 w-4 text-blue-500" />
                         <span>{isArabic ? 'تكامل الجوسي' : 'GOSI Integration'}</span>
-                        <Badge className="ml-auto text-xs bg-blue-600 text-white">LIVE</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-primary text-primary-foreground">LIVE</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -423,7 +424,7 @@ export function AppSidebar() {
                       <NavLink to="/mol-integration" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Briefcase className="h-4 w-4 text-purple-500" />
                         <span>{isArabic ? 'تكامل وزارة العمل' : 'MOL Integration'}</span>
-                        <Badge className="ml-auto text-xs bg-purple-600 text-white">ACTIVE</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-accent text-primary-foreground">ACTIVE</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -492,7 +493,7 @@ export function AppSidebar() {
                       <NavLink to="/skills-intelligence" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Star className="h-4 w-4 text-amber-500" />
                         <span>{isArabic ? 'ذكاء المهارات' : 'Skills Intelligence'}</span>
-                        <Badge className="ml-auto text-xs bg-amber-600 text-white">NEW</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-warning text-primary-foreground">NEW</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -535,7 +536,7 @@ export function AppSidebar() {
                       <NavLink to="/ai-ecosystem" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Bot className="h-4 w-4 text-cyan-500" />
                         <span>{isArabic ? 'النظام البيئي للذكاء الاصطناعي' : 'AI Ecosystem Hub'}</span>
-                        <Badge className="ml-auto text-xs bg-cyan-600 text-white">ADMIN</Badge>
+                        <Badge className="ml-auto text-xs bg-status-info text-primary-foreground">ADMIN</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -544,7 +545,7 @@ export function AppSidebar() {
                       <NavLink to="/autonomous-operations" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Workflow className="h-4 w-4 text-purple-500" />
                         <span>{isArabic ? 'العمليات المستقلة' : 'Autonomous Operations'}</span>
-                        <Badge className="ml-auto text-xs bg-purple-600 text-white">BETA</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-accent text-primary-foreground">BETA</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -579,7 +580,7 @@ export function AppSidebar() {
                       <NavLink to="/leo" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <GraduationCap className="h-4 w-4 text-blue-500" />
                         <span>{isArabic ? 'تحسين تجربة التعلم' : 'Learning Experience Optimization'}</span>
-                        <Badge className="ml-auto text-xs bg-blue-600 text-white">LEO</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-primary text-primary-foreground">LEO</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -588,7 +589,7 @@ export function AppSidebar() {
                       <LinkL to="/geo" className={location.pathname.includes('/geo') ? 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 bg-primary/20 text-primary border border-primary/30' : 'flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50'}>
                         <Sparkles className="h-4 w-4 text-pink-500" />
                         <span>{isArabic ? 'تحسين المشاركة التوليدية' : 'Generative Engagement Optimization'}</span>
-                        <Badge className="ml-auto text-xs bg-pink-600 text-white">GEO</Badge>
+                        <Badge className="ml-auto text-xs bg-status-danger text-primary-foreground">GEO</Badge>
                       </LinkL>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -665,7 +666,7 @@ export function AppSidebar() {
                       <NavLink to="/compliance" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Shield className="h-4 w-4 text-blue-500" />
                         <span>{isArabic ? 'نظرة عامة على الامتثال' : 'Compliance Overview'}</span>
-                        <Badge className="ml-auto text-xs bg-blue-600 text-white">NEW</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-primary text-primary-foreground">NEW</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -674,7 +675,7 @@ export function AppSidebar() {
                       <NavLink to="/legal-consultant" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Scale className="h-4 w-4 text-indigo-500" />
                         <span>{isArabic ? 'المستشار القانوني الذكي' : 'Legal Consultant AI'}</span>
-                        <Badge className="ml-auto text-xs bg-indigo-600 text-white">NEW</Badge>
+                        <Badge className="ml-auto text-xs bg-brand-accent text-primary-foreground">NEW</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -717,7 +718,7 @@ export function AppSidebar() {
                       <NavLink to="/welfare-consultancy" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
                         <Heart className="h-4 w-4 text-rose-500" />
                         <span>{isArabic ? 'الاستشارات المستقلة لرفاهية الموظفين' : 'Employee-Welfare Consultancy'}</span>
-                        <Badge className="ml-auto text-xs bg-rose-600 text-white">FLAGSHIP</Badge>
+                        <Badge className="ml-auto text-xs bg-status-danger text-primary-foreground">FLAGSHIP</Badge>
                       </NavLink>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

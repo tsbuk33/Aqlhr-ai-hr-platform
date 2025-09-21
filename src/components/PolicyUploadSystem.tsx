@@ -128,7 +128,7 @@ const PolicyUploadSystem = () => {
           <CardTitle className="flex items-center gap-3 text-2xl">
             <Brain className="h-8 w-8 text-brand-primary" />
             {t('policy.ai_superintelligence')}
-            <Badge className="bg-brand-primary text-white">{t('policy.highest_level_analysis')}</Badge>
+            <Badge className="bg-brand-primary text-primary-foreground">{t('policy.highest_level_analysis')}</Badge>
           </CardTitle>
           <CardDescription className="text-lg">
             {t('policy.revolutionary_ai')}. 
@@ -235,7 +235,7 @@ const PolicyUploadSystem = () => {
             <CardTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-brand-primary" />
               {t('policy.compliance_analysis')}
-              <Badge className={`${getComplianceColor(analysisResults.complianceLevel)} text-white`}>
+              <Badge className={`${getComplianceColor(analysisResults.complianceLevel)} text-primary-foreground`}>
                 {analysisResults.overallScore}{t('policy.compliant_percent')}
               </Badge>
             </CardTitle>

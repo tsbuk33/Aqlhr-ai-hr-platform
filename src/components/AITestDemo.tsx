@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useLocation } from 'react-router-dom';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
-import { Brain, MapPin, Users, DollarSign, Building, Shield, TrendingUp, Bot } from 'lucide-react';
+import { Brain, MapPin, Users, Building, Shield, TrendingUp, Bot } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { localePath, resolveLang } from '@/lib/i18n/localePath';
 
 export const AITestDemo: React.FC = () => {
@@ -15,7 +16,7 @@ export const AITestDemo: React.FC = () => {
   // Test routes to demonstrate context-awareness
   const testRoutes = [
     { path: '/employees', icon: Users, name: 'Employee Management', module: 'employees' },
-    { path: '/payroll', icon: DollarSign, name: 'Payroll & Finance', module: 'payroll' },
+    { path: '/payroll', icon: CurrencyIcon, name: 'Payroll & Finance', module: 'payroll' },
     { path: '/government', icon: Shield, name: 'Government Integration', module: 'government' },
     { path: '/analytics', icon: TrendingUp, name: 'Analytics & Reports', module: 'analytics' },
     { path: '/executive-center', icon: Brain, name: 'Executive Intelligence', module: 'executive' },

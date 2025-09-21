@@ -581,7 +581,7 @@ export const JourneyDashboard: React.FC = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
-                    <span className="text-white text-sm font-bold">AI</span>
+                    <span className="text-primary-foreground text-sm font-bold">AI</span>
                   </div>
                   <span>{t('journey.insights.title')}</span>
                 </CardTitle>

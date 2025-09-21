@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { 
-  BarChart3, Users, UserCheck, Calendar, DollarSign, TrendingUp,
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
+import {
+  BarChart3, Users, UserCheck, Calendar, TrendingUp,
   Brain, Building2, FileCheck, Wrench, HelpCircle, Settings,
   Target, Award, BookOpen, Shield, Clock, CreditCard,
   Briefcase, Globe, Heart, Zap, Database, MessageSquare,
@@ -95,7 +96,7 @@ const getHRBPModules = (isArabic: boolean) => [
   { 
     title: isArabic ? "التعويضات والمزايا" : "Compensation & Benefits", 
     url: "/payroll", 
-    icon: DollarSign, 
+    icon: CurrencyIcon, 
     color: "emerald",
     subItems: [
       { title: isArabic ? "معالجة الرواتب" : "Payroll Processing", url: "/payroll" },
@@ -306,22 +307,22 @@ export function HRBPSidebar() {
 
   const getBadgeColor = (color: string) => {
     const colors = {
-      blue: "bg-blue-500 text-white",
-      green: "bg-green-500 text-white", 
-      purple: "bg-purple-500 text-white",
-      violet: "bg-violet-500 text-white",
-      emerald: "bg-emerald-500 text-white",
-      orange: "bg-orange-500 text-white",
-      rose: "bg-rose-500 text-white",
-      red: "bg-red-500 text-white",
-      indigo: "bg-indigo-500 text-white",
-      slate: "bg-slate-500 text-white",
-      cyan: "bg-cyan-500 text-white",
-      amber: "bg-amber-500 text-white",
-      gray: "bg-gray-500 text-white",
-      lime: "bg-lime-500 text-white",
+      blue: "bg-brand-primary text-primary-foreground",
+      green: "bg-brand-success text-primary-foreground", 
+      purple: "bg-brand-accent text-primary-foreground",
+      violet: "bg-brand-accent text-primary-foreground",
+      emerald: "bg-brand-success text-primary-foreground",
+      orange: "bg-brand-warning text-primary-foreground",
+      rose: "bg-status-danger text-primary-foreground",
+      red: "bg-status-danger text-primary-foreground",
+      indigo: "bg-brand-primary text-primary-foreground",
+      slate: "bg-muted text-muted-foreground",
+      cyan: "bg-status-info text-primary-foreground",
+      amber: "bg-brand-warning text-primary-foreground",
+      gray: "bg-muted text-muted-foreground",
+      lime: "bg-brand-success text-primary-foreground",
     };
-    return colors[color as keyof typeof colors] || "bg-gray-500 text-white";
+    return colors[color as keyof typeof colors] || "bg-muted text-muted-foreground";
   };
 
   return (
