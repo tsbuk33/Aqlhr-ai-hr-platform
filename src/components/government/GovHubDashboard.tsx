@@ -35,6 +35,7 @@ const SystemCard = ({ adapter, onTest, onSwitch }: {
       case 'qiwa': return 'Qiwa (MOL)';
       case 'gosi': return 'GOSI';
       case 'absher': return 'Absher';
+      case 'mudad': return 'MUDAD Platform';
       default: return system.toUpperCase();
     }
   };
