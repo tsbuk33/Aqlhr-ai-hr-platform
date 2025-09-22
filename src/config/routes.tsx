@@ -88,6 +88,7 @@ const MedicalInsurancePlatform = lazy(() => import('../pages/government/MedicalI
 
 // New Government Portals
 const ABSHERIntegration = lazy(() => import('../pages/government/ABSHERIntegration'));
+const MUQEEMIntegration = lazy(() => import('../pages/government/MUQEEMIntegration'));
 const QiyasAssessment = lazy(() => import('../pages/government/QiyasAssessment'));
 const NCAAAccreditation = lazy(() => import('../pages/government/NCAAAccreditation'));
 const EducationMinistry = lazy(() => import('../pages/government/EducationMinistry'));
