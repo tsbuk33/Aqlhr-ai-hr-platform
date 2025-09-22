@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Geolocation } from '@capacitor/geolocation';
 import { PushNotifications } from '@capacitor/push-notifications';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { Network } from '@capacitor/network';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -139,13 +139,13 @@ export const EmployeeMobileApp: React.FC<EmployeeMobileAppProps> = ({ user }) =>
   const loadOfflineData = async () => {
     try {
       // Load employee profile
-      const { value } = await Storage.get({ key: 'employee_profile' });
+      const { value } = await Preferences.get({ key: 'employee_profile' });
       if (value) {
         setEmployee(JSON.parse(value));
       }
 
       // Load attendance records
-      const { value: attendanceData } = await Storage.get({ key: 'attendance_records' });
+      const { value: attendanceData } = await Preferences.get({ key: 'attendance_records' });
       if (attendanceData) {
         setAttendanceRecords(JSON.parse(attendanceData));
       }
@@ -173,7 +173,7 @@ export const EmployeeMobileApp: React.FC<EmployeeMobileAppProps> = ({ user }) =>
 
   const saveOfflineData = async (key: string, data: any) => {
     try {
-      await Storage.set({
+      await Preferences.set({
         key,
         value: JSON.stringify(data)
       });

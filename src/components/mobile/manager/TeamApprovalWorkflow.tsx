@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { 
   ClipboardCheck, 
   Clock, 
@@ -68,7 +68,7 @@ export const TeamApprovalWorkflow: React.FC<TeamApprovalWorkflowProps> = ({ isAr
   const loadApprovalRequests = async () => {
     try {
       // Try to load from offline storage first
-      const { value } = await Storage.get({ key: 'manager_approvals' });
+      const { value } = await Preferences.get({ key: 'manager_approvals' });
       if (value) {
         setApprovals(JSON.parse(value));
       } else {
@@ -83,7 +83,7 @@ export const TeamApprovalWorkflow: React.FC<TeamApprovalWorkflowProps> = ({ isAr
 
   const saveApprovalsOffline = async (updatedApprovals: ApprovalRequest[]) => {
     try {
-      await Storage.set({
+      await Preferences.set({
         key: 'manager_approvals',
         value: JSON.stringify(updatedApprovals)
       });
@@ -93,7 +93,7 @@ export const TeamApprovalWorkflow: React.FC<TeamApprovalWorkflowProps> = ({ isAr
         .filter(a => a.status !== 'pending')
         .map(a => ({ id: a.id, status: a.status, timestamp: new Date().toISOString() }));
         
-      await Storage.set({
+      await Preferences.set({
         key: 'pending_approval_actions',
         value: JSON.stringify(pendingActions)
       });

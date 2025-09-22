@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Network } from '@capacitor/network';
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -57,7 +57,7 @@ export const OfflineSyncManager: React.FC<SyncManagerProps> = ({
 
   const initializeSync = async () => {
     try {
-      const { value } = await Storage.get({ key: 'last_sync_time' });
+      const { value } = await Preferences.get({ key: 'last_sync_time' });
       if (value) {
         setLastSyncTime(new Date(value));
       }
@@ -89,7 +89,7 @@ export const OfflineSyncManager: React.FC<SyncManagerProps> = ({
 
   const loadOfflineData = async () => {
     try {
-      const { value } = await Storage.get({ key: 'offline_sync_queue' });
+      const { value } = await Preferences.get({ key: 'offline_sync_queue' });
       if (value) {
         const data = JSON.parse(value) as OfflineData[];
         setOfflineData(data);
@@ -101,7 +101,7 @@ export const OfflineSyncManager: React.FC<SyncManagerProps> = ({
 
   const saveOfflineData = async (data: OfflineData[]) => {
     try {
-      await Storage.set({
+      await Preferences.set({
         key: 'offline_sync_queue',
         value: JSON.stringify(data)
       });
@@ -169,7 +169,7 @@ export const OfflineSyncManager: React.FC<SyncManagerProps> = ({
     // Update last sync time
     const now = new Date();
     setLastSyncTime(now);
-    await Storage.set({ key: 'last_sync_time', value: now.toISOString() });
+    await Preferences.set({ key: 'last_sync_time', value: now.toISOString() });
 
     // Notify completion
     if (onSyncComplete) {
