@@ -69,7 +69,7 @@ export class GovernmentIntegrationTracker {
       { code: 'SADAD', name: 'Payment Platform', sequence: 9 },
       { code: 'GOSI', name: 'Social Insurance Platform', sequence: 10 },
       { code: 'NITAQAT', name: 'Saudization Compliance Platform', sequence: 11 },
-      { code: 'TVTC', name: 'Technical Training Corporation', sequence: 12 },
+      { code: 'TVTC', name: 'Technical and Vocational Training Corporation', sequence: 12 },
       { code: 'MOL', name: 'Ministry of Labor Platform', sequence: 13 },
       { code: 'ELM', name: 'Education & Learning Management', sequence: 14 }
     ];
