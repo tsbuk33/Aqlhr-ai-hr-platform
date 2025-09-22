@@ -7,8 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { 
   FileText, Plus, Settings, Download, 
   BarChart3, PieChart, LineChart, Table,
-  Filter, Calendar, Users, DollarSign
+  Filter, Calendar, Users
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
@@ -34,7 +35,7 @@ const ReportBuilderPage = () => {
       id: 'payroll-analysis',
       title: isArabic ? 'تحليل الرواتب' : 'Payroll Analysis',
       description: isArabic ? 'تحليل تفصيلي للرواتب والتكاليف' : 'Detailed analysis of salaries and costs',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       category: isArabic ? 'الرواتب' : 'Payroll',
       fields: ['basic_salary', 'allowances', 'deductions', 'net_pay'],
       chartType: 'bar'

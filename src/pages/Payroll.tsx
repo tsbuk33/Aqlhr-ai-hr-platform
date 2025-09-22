@@ -15,8 +15,7 @@ import AutomationWorkflowEngine from "@/components/ai/AutomationWorkflowEngine";
 import CrossModuleIntelligence from "@/components/ai/CrossModuleIntelligence";
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { 
-  DollarSign,
-  Users, 
+  Users,
   Shield, 
   Calculator,
   CreditCard,

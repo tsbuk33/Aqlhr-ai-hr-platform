@@ -4,8 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { 
-  DollarSign,
-  TrendingUp, 
+  TrendingUp,
   TrendingDown,
   AlertTriangle,
   CheckCircle,

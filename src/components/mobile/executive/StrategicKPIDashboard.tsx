@@ -8,7 +8,6 @@ import {
   TrendingDown, 
   Target, 
   Users, 
-  DollarSign,
   BarChart3,
   Activity,
   Award,

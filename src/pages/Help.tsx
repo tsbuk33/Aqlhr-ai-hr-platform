@@ -12,8 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { 
   Search, 
   Users, 
-  DollarSign, 
-  Clock, 
+  Clock,
   Calendar, 
   Award, 
   UserCheck, 
@@ -41,6 +40,7 @@ import {
   Check,
   X
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 import { UniversalDocumentManager } from "@/components/common/UniversalDocumentManager";
 import { AqlHRAIAssistant } from '@/components/ai';
@@ -64,7 +64,7 @@ const Help = () => {
     },
     {
       id: 'payroll',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       title: language === 'ar' ? 'معالجة الرواتب' : 'Payroll Processing',
       description: language === 'ar' ? 'حساب شامل للرواتب وإدارة المدفوعات' : 'Comprehensive salary calculation and payment management',
       tools: language === 'ar' ? ['حاسبة الراتب', 'إنتاج قسائم الراتب', 'تكامل التأمينات'] : ['Salary Calculator', 'Payslip Generation', 'GOSI Integration'],
@@ -136,7 +136,7 @@ const Help = () => {
     },
     {
       id: 'compensation-benefits',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       title: language === 'ar' ? 'التعويضات والمزايا' : 'Compensation & Benefits',
       description: language === 'ar' ? 'تصميم وإدارة هياكل الرواتب والمزايا والحوافز' : 'Design and management of salary structures, benefits, and incentives',
       tools: language === 'ar' ? ['هياكل الرواتب', 'تحليل السوق', 'إدارة الحوافز', 'مقارنات التعويضات'] : ['Salary Structures', 'Market Analysis', 'Incentive Management', 'Compensation Benchmarking'],

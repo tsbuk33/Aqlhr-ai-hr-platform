@@ -14,8 +14,7 @@ import {
   Zap,
   Users,
   FileText,
-  Calendar,
-  DollarSign
+  Calendar
 } from 'lucide-react';
 import { useAIDashboard } from '@/hooks/useAIDashboard';
 import { useAISync } from '@/hooks/useAISync';

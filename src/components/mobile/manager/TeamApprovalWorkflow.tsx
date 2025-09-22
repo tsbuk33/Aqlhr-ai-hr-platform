@@ -12,7 +12,6 @@ import {
   User,
   Calendar,
   FileText,
-  DollarSign,
   AlertTriangle,
   Eye
 } from 'lucide-react';

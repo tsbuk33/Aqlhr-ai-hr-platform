@@ -17,7 +17,6 @@ import {
   RefreshCw,
   Lightbulb,
   Target,
-  DollarSign,
   Users,
   BarChart3,
   PieChart,

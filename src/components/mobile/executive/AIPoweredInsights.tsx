@@ -9,7 +9,6 @@ import {
   Lightbulb, 
   Target,
   Users,
-  DollarSign,
   Calendar,
   RefreshCw,
   Sparkles,

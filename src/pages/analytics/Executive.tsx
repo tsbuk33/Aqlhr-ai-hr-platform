@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
-  TrendingUp, Users, DollarSign, Clock, 
+  TrendingUp, Users, Clock, 
   FileText, Download, Eye, Share2,
   BarChart3, PieChart, LineChart, Activity
 } from 'lucide-react';

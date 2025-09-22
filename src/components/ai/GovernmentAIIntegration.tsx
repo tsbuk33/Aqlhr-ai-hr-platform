@@ -15,7 +15,6 @@ import {
   AlertTriangle, 
   Clock, 
   TrendingUp,
-  DollarSign,
   FileText,
   Globe,
   Zap

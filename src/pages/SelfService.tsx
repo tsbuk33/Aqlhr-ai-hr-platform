@@ -20,7 +20,6 @@ import {
   Upload, 
   Calendar, 
   Clock, 
-  DollarSign,
   Settings,
   Bell,
   Shield,
@@ -34,6 +33,7 @@ import {
   Send,
   Eye
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
@@ -159,7 +159,7 @@ const SelfService = () => {
     {
       title: language === 'ar' ? "الراتب الشهري" : "Monthly Salary",
       value: formatters.salary(employee.salary),
-      icon: DollarSign,
+      icon: CurrencyIcon,
       variant: "default" as const
     },
     {

@@ -12,7 +12,6 @@ import {
   Brain, 
   TrendingUp, 
   Users, 
-  DollarSign, 
   Target,
   AlertTriangle,
   CheckCircle,

@@ -20,7 +20,6 @@ import {
   Globe,
   Factory,
   Stethoscope,
-  DollarSign,
   ShoppingBag,
   GraduationCap,
   Hammer,

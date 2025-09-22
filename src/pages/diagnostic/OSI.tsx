@@ -25,7 +25,6 @@ import {
   Layers,
   Target,
   Users,
-  DollarSign,
   Download,
   AlertTriangle,
   Lock

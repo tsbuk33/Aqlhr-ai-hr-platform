@@ -8,8 +8,7 @@ import { EntitlementGate } from '@/components/core/EntitlementGate';
 import { 
   Users, 
   Calendar, 
-  DollarSign, 
-  Shield, 
+  Shield,
   TrendingUp, 
   Activity,
   Zap,

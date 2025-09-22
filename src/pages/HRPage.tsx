@@ -14,10 +14,10 @@ import {
   Award,
   BookOpen,
   UserPlus,
-  DollarSign,
   Target,
   Briefcase
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
@@ -77,7 +77,7 @@ const HRPage: React.FC = () => {
     {
       title: isArabic ? 'الرواتب والمزايا' : 'Payroll & Benefits',
       description: isArabic ? 'إدارة الرواتب والمزايا الوظيفية' : 'Manage payroll and employee benefits',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       route: '/payroll',
       count: '2,847',
       status: 'active'

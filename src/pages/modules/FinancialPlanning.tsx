@@ -2,7 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DollarSign, TrendingUp, PieChart, Target } from "lucide-react";
+import { TrendingUp, PieChart, Target } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { AqlHRAIAssistant } from '@/components/ai';
 
@@ -27,7 +28,7 @@ const FinancialPlanning = () => {
             <CardTitle className="text-sm font-medium">
               {isArabic ? 'ميزانية الموارد البشرية' : 'HR Budget'}
             </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CurrencyIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">

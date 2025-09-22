@@ -13,7 +13,6 @@ import {
   CheckCircle, 
   Clock,
   Users,
-  DollarSign,
   BarChart3,
   Activity
 } from 'lucide-react';

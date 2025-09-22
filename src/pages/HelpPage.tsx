@@ -9,8 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Search, 
   Users, 
-  DollarSign, 
-  BarChart3, 
+  BarChart3,
   FileText, 
   Settings, 
   Shield, 
@@ -28,6 +27,7 @@ import {
   Lock,
   HelpCircle
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface HelpItem {
   id: number;
@@ -130,7 +130,7 @@ const helpItems: HelpItem[] = [
     title: { en: "Salary calculation setup", ar: "إعداد حساب الراتب" },
     description: { en: "Configure salary components and calculations", ar: "تكوين مكونات الراتب والحسابات" },
     category: "payroll",
-    icon: DollarSign,
+    icon: CurrencyIcon,
     tags: ["salary", "calculation"],
     action: "payroll"
   },
@@ -155,7 +155,7 @@ const helpItems: HelpItem[] = [
     title: { en: "Deductions and benefits", ar: "الخصومات والمزايا" },
     description: { en: "Manage employee deductions and benefits", ar: "إدارة خصومات ومزايا الموظفين" },
     category: "payroll",
-    icon: DollarSign,
+    icon: CurrencyIcon,
     tags: ["deductions", "benefits"]
   },
   {
@@ -381,7 +381,7 @@ const helpItems: HelpItem[] = [
 const categories = [
   { id: "all", label: { en: "All Items", ar: "جميع العناصر" }, icon: HelpCircle },
   { id: "employees", label: { en: "Employee Management", ar: "إدارة الموظفين" }, icon: Users },
-  { id: "payroll", label: { en: "Payroll & Benefits", ar: "الرواتب والمزايا" }, icon: DollarSign },
+  { id: "payroll", label: { en: "Payroll & Benefits", ar: "الرواتب والمزايا" }, icon: CurrencyIcon },
   { id: "performance", label: { en: "Performance & Training", ar: "الأداء والتدريب" }, icon: TrendingUp },
   { id: "system", label: { en: "System & Settings", ar: "النظام والإعدادات" }, icon: Settings },
   { id: "ai", label: { en: "AI & Analytics", ar: "الذكاء الاصطناعي والتحليلات" }, icon: Brain }

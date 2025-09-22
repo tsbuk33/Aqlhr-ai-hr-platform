@@ -9,12 +9,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { 
   BarChart3, Brain, Target, TrendingUp, Users, Zap, 
-  Calendar, Clock, DollarSign, FileText, Shield, 
+  Calendar, Clock, FileText, Shield, 
   UserCheck, AlertCircle, CheckCircle, Eye, Settings,
   PieChart, Activity, Globe, Building, Award, Briefcase,
   ChevronRight, Download, Filter, Search, MoreHorizontal,
   Grid3X3
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 // Executive Intelligence Center - Comprehensive Restored Layout
 const ExecutiveIntelligenceCenter = () => {
@@ -126,7 +127,7 @@ const ExecutiveIntelligenceCenter = () => {
     {
       title: isArabic ? 'التحليل المالي' : 'Financial Analysis',
       description: isArabic ? 'تحليل التكاليف والعائدات' : 'Cost and ROI analysis',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       count: '$2.4M',
       status: 'active'
     }

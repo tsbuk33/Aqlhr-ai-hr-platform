@@ -15,7 +15,6 @@ import {
   Calendar,
   Hash,
   Clock,
-  DollarSign,
   Settings,
   Save,
   RefreshCw,

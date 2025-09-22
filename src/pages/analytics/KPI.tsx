@@ -3,10 +3,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { 
-  TrendingUp, TrendingDown, Users, DollarSign, 
+  TrendingUp, TrendingDown, Users, 
   Clock, Target, Award, AlertCircle, CheckCircle,
   BarChart3, Activity, Zap
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
@@ -67,7 +68,7 @@ const KPIPage = () => {
       target: '48,000',
       trend: -2770,
       status: 'excellent',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       description: isArabic ? 'توفير 5.8% عن المخطط' : '5.8% savings vs plan'
     },
     {

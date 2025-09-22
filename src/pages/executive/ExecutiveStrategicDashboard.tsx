@@ -3,11 +3,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
-  TrendingUp, TrendingDown, Users, DollarSign, Target, 
+  TrendingUp, TrendingDown, Users, Target, 
   Download, Share2, Calendar, Award, AlertTriangle,
   BarChart3, PieChart, FileText, Eye, ExternalLink,
   ArrowUpRight, ArrowDownRight, Minus
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { UniversalAIIntegrator } from '@/components/ai/UniversalAIIntegrator';
 import { useLanguage } from '@/hooks/useLanguageCompat';
 
@@ -29,7 +30,7 @@ const ExecutiveStrategicDashboard = () => {
       trend: 'up',
       target: '320%',
       description: isArabic ? 'تجاوز الهدف المحدد' : 'Exceeded target',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       color: 'success'
     },
     {

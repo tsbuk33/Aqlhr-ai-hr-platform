@@ -9,8 +9,9 @@ import {
   Building, Users, Target, Award, MapPin, Calendar, Brain, Zap, 
   TrendingUp, Shield, Settings, Sparkles, Activity, AlertTriangle,
   BarChart3, Lightbulb, Rocket, Globe, Building2, CheckCircle2,
-  Clock, DollarSign, UserCheck, Briefcase, LineChart, PieChart
+  Clock, UserCheck, Briefcase, LineChart, PieChart
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";

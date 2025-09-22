@@ -17,8 +17,7 @@ import {
   RefreshCw,
   Sparkles,
   Activity,
-  Users,
-  DollarSign
+  Users
 } from 'lucide-react';
 import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 

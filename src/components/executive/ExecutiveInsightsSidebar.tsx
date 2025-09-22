@@ -14,7 +14,6 @@ import {
   Clock,
   Target,
   Users,
-  DollarSign,
   Award,
   Bell
 } from 'lucide-react';

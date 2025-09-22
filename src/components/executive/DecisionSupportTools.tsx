@@ -15,7 +15,6 @@ import {
   FileText,
   Download,
   Settings,
-  DollarSign,
   Users,
   Calendar,
   Award,
