@@ -11,13 +11,13 @@ import {
   PieChart,
   TrendingUp,
   Calendar,
-  DollarSign,
   Users,
   Shield,
   Clock,
   AlertCircle,
   CheckCircle
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
@@ -162,7 +162,7 @@ export const GOSIReportingDashboard: React.FC = () => {
 
             <Card>
               <CardContent className="flex items-center p-4">
-                <DollarSign className="h-8 w-8 text-green-500 mr-3" />
+                <CurrencyIcon className="h-8 w-8 text-green-500 mr-3" />
                 <div>
                   <p className="text-2xl font-bold text-foreground">
                     {(reportData.overview.total_contributions_sar / 1000000).toFixed(1)}M

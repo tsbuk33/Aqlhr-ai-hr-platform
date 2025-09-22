@@ -11,7 +11,6 @@ import {
   Clock, 
   CheckCircle,
   AlertCircle,
-  DollarSign,
   Building,
   UserCheck,
   Send,
@@ -20,6 +19,7 @@ import {
   Filter,
   Search
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { JobOfferCreationWizard } from "./JobOfferCreationWizard";
 import { JobOfferApprovalWorkflow } from "./JobOfferApprovalWorkflow";
 import { JobOfferDashboard } from "./JobOfferDashboard";
@@ -262,7 +262,7 @@ export const JobOfferManagement = () => {
                   <Card className="hover:shadow-md transition-shadow cursor-pointer">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3">
-                        <DollarSign className="h-8 w-8 text-green-500" />
+                        <CurrencyIcon className="h-8 w-8 text-green-500" />
                         <div>
                           <h4 className="font-semibold">
                             {language === 'ar' ? 'تقرير الرواتب' : 'Salary Report'}

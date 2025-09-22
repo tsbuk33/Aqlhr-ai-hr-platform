@@ -11,7 +11,6 @@ import {
   Target, 
   AlertTriangle, 
   Calendar,
-  DollarSign,
   Star,
   Brain,
   Activity,
@@ -22,6 +21,7 @@ import {
   ArrowDown,
   Minus
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -157,7 +157,7 @@ export const ExecutiveAnalyticsEngine: React.FC = () => {
 
           {/* Budget Impact Analysis */}
           <Alert>
-            <DollarSign className="w-4 h-4" />
+            <CurrencyIcon className="w-4 h-4" />
             <AlertDescription>
               <strong>{isArabic ? 'تحليل تأثير الميزانية:' : 'Budget Impact Analysis:'}</strong>
               {isArabic 
@@ -230,10 +230,10 @@ export const ExecutiveAnalyticsEngine: React.FC = () => {
 
             <div className="bg-purple-50 p-4 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <DollarSign className="w-5 h-5 text-purple-600" />
+                <CurrencyIcon className="w-5 h-5 text-purple-600" />
                 <span className="text-sm font-medium">{isArabic ? 'تكلفة التوظيف' : 'Cost-per-hire'}</span>
               </div>
-              <div className="text-2xl font-bold text-purple-600">$4,250</div>
+              <div className="text-2xl font-bold text-purple-600">16,000 SAR</div>
               <div className="text-xs text-gray-600">{isArabic ? 'انخفاض 15%' : '15% decrease'}</div>
             </div>
           </div>

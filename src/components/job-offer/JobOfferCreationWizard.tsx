@@ -16,7 +16,6 @@ import {
 import { 
   User, 
   Briefcase, 
-  DollarSign, 
   FileText, 
   UserCheck,
   ChevronLeft,
@@ -30,6 +29,7 @@ import {
   Globe,
   CreditCard
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface JobOfferCreationWizardProps {
   onOfferCreated: (offerData: any) => void;
@@ -139,7 +139,7 @@ export const JobOfferCreationWizard = ({
     { 
       id: 3, 
       title: language === 'ar' ? 'حزمة التعويضات' : 'Compensation Package',
-      icon: DollarSign 
+      icon: CurrencyIcon 
     },
     { 
       id: 4, 
@@ -365,7 +365,7 @@ export const JobOfferCreationWizard = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold flex items-center gap-2">
-                  <DollarSign className="h-5 w-5" />
+                  <CurrencyIcon className="h-5 w-5" />
                   {language === 'ar' ? 'تفاصيل الراتب' : 'Salary Details'}
                 </h3>
                 

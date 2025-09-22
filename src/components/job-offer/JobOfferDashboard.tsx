@@ -9,7 +9,6 @@ import {
   Users, 
   Clock, 
   CheckCircle,
-  DollarSign,
   TrendingUp,
   Search,
   Filter,
@@ -18,6 +17,7 @@ import {
   UserCheck,
   AlertCircle
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { JobOffer } from "./JobOfferManagement";
 
 interface JobOfferDashboardProps {
@@ -121,7 +121,7 @@ export const JobOfferDashboard = ({
                 </p>
                 <p className="text-2xl font-bold">{stats.avgSalary.toLocaleString()} SAR</p>
               </div>
-              <DollarSign className="h-8 w-8 text-emerald-500" />
+              <CurrencyIcon className="h-8 w-8 text-emerald-500" />
             </div>
             <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
               <Building className="h-3 w-3" />
@@ -212,7 +212,7 @@ export const JobOfferDashboard = ({
                           {offer.department}
                         </div>
                         <div className="flex items-center gap-1">
-                          <DollarSign className="h-4 w-4" />
+                          <CurrencyIcon className="h-4 w-4" />
                           {offer.salary.toLocaleString()} SAR
                         </div>
                         <div className="flex items-center gap-1">

@@ -11,13 +11,13 @@ import {
   CheckCircle, 
   Clock, 
   Users, 
-  DollarSign, 
   Target,
   Brain,
   Shield,
   Zap,
   BarChart3
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useAIDashboard } from '@/hooks/useAIDashboard';
 import { useAISync } from '@/hooks/useAISync';
 import { useAIRecommendations } from '@/hooks/useAIRecommendations';
@@ -249,7 +249,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
               {(executiveMetrics.revenuePerEmployee / 1000).toFixed(0)}K SAR
             </div>
             <div className="flex items-center text-xs text-primary/80 mt-1">
-              <DollarSign className="h-3 w-3 mr-1" />
+              <CurrencyIcon className="h-3 w-3 mr-1" />
               {executiveMetrics.costOptimization}% {isArabic ? 'محسن التكلفة' : 'cost optimized'}
             </div>
           </CardContent>
@@ -530,7 +530,7 @@ const MasterIntelligenceDashboard: React.FC = () => {
                   </AlertDescription>
                 </Alert>
                 <Alert>
-                  <DollarSign className="h-4 w-4" />
+                  <CurrencyIcon className="h-4 w-4" />
                   <AlertDescription>
                     <strong>{isArabic ? 'تحسين التكاليف:' : 'Cost Optimization:'}</strong> {isArabic ? 'إمكانية تخفيض إضافي للتكاليف بنسبة 8% من خلال أتمتة سير العمل المدعومة بالذكاء الاصطناعي في عمليات الموارد البشرية.' : 'Additional 8% cost reduction possible through AI-driven workflow automation in HR processes.'}
                   </AlertDescription>

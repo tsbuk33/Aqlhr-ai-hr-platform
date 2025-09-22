@@ -11,7 +11,6 @@ import {
   TrendingUp,
   TrendingDown,
   Target,
-  DollarSign,
   Users,
   Calendar,
   AlertTriangle,
@@ -23,6 +22,7 @@ import {
   Zap,
   Clock
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useAIDashboard } from '@/hooks/useAIDashboard';
 
 interface ScenarioModel {
@@ -705,7 +705,7 @@ const StrategicDecisionSupport: React.FC = () => {
                         <p className="text-2xl font-bold text-brand-success">15.2M SAR</p>
                         <p className="text-xs text-brand-success/80">Through automation optimization</p>
                       </div>
-                      <DollarSign className="h-8 w-8 text-brand-success/50" />
+                      <CurrencyIcon className="h-8 w-8 text-brand-success/50" />
                     </div>
                   </CardContent>
                 </Card>
