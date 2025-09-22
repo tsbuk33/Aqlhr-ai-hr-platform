@@ -53,7 +53,7 @@ const BenefitsAdministration = lazy(() => import('../pages/core-hr/BenefitsAdmin
 const SuccessionPlanningCore = lazy(() => import('../pages/core-hr/SuccessionPlanningCore'));
 const CompensationManagementCore = lazy(() => import('../pages/core-hr/CompensationManagementCore'));
 const SaudizationCalculator = lazy(() => import('../pages/core-hr/SaudizationCalculator'));
-const GovIntegrationHub = lazy(() => import('../pages/government/GovIntegrationHub').then(m => ({ default: m.GovIntegrationHub })));
+const GovIntegrationHub = lazy(() => import('../pages/government/GovIntegrationHub'));
 
 // HSE Module
 const HealthSafety = lazy(() => import('../pages/HealthSafety'));

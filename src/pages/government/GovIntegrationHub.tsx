@@ -1,7 +1,7 @@
 import { GovHubDashboard } from '@/components/government/GovHubDashboard';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
 
-export const GovIntegrationHub = () => {
+const GovIntegrationHub = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <GovHubDashboard />
@@ -16,3 +16,5 @@ export const GovIntegrationHub = () => {
     </div>
   );
 };
+
+export default GovIntegrationHub;

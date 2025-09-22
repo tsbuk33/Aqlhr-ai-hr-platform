@@ -8,7 +8,7 @@ const SystemOverview = lazy(() => import('@/pages/SystemOverview'));
 const GovIntegrationHub = lazy(() => import('@/pages/government/GovIntegrationHub'));
 const MUDADIntegration = lazy(() => import('@/pages/government/MUDADIntegration'));
 
-export const AppRoutes = () => {
+const AppRoutes = () => {
   return (
     <Suspense fallback={<LoadingSpinner />}>
       <Routes>
