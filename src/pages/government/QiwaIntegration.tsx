@@ -1,181 +1,263 @@
-import { useLanguage } from "@/hooks/useLanguageCompat";
-import { usePerformantLocalization } from "@/hooks/usePerformantLocalization";
-import { MemoizedMetricCard } from "@/components/performance/MemoizedMetricCard";
-import { FocusManager } from "@/components/accessibility/FocusManager";
-import { ScreenReaderText } from "@/components/accessibility/ScreenReaderText";
-import { UnifiedGovernmentInterface } from "@/components/government/UnifiedGovernmentInterface";
-import { AqlAIFileProcessor } from "@/components/aql/AqlAIFileProcessor";
-import { Activity, CheckCircle, Clock, Shield, Building2, Users, FileText, TrendingUp } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
-import { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import React from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { CheckCircle, Clock, Users, Building, TrendingUp, AlertCircle } from 'lucide-react';
+import { useQIWAIntegration } from '@/hooks/useQIWAIntegration';
 
-const QiwaIntegration = () => {
-  const { t, isRTL } = useLanguage();
-  const { formatters } = usePerformantLocalization();
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-
-  const handleTestConnection = async () => {
-    toast({
-      title: isRTL ? "اختبار اتصال قوى" : "Testing Qiwa Connection",
-      description: isRTL ? "جاري فحص الاتصال مع منصة قوى..." : "Testing connection with Qiwa platform..."
-    });
-    // Simulate API test with SanadHR integration
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    toast({
-      title: isRTL ? "تم الاتصال بنجاح" : "Connection Successful",
-      description: isRTL ? "تم ربط منصة قوى مع عقل الموارد البشرية بنجاح" : "Qiwa platform successfully connected with AqlHR"
-    });
-  };
-
-  const handleSyncNow = async () => {
-    toast({
-      title: isRTL ? "مزامنة قوى مع عقل" : "Qiwa-AqlHR Sync",
-      description: isRTL ? "جاري مزامنة بيانات الموظفين وعقود العمل..." : "Syncing employee data and work contracts..."
-    });
-    // Simulate comprehensive sync with SanadHR
-    await new Promise(resolve => setTimeout(resolve, 2500));
-    toast({
-      title: isRTL ? "اكتملت المزامنة" : "Sync Completed",
-      description: isRTL ? "تم تحديث جميع البيانات في عقل الموارد البشرية" : "All data updated in AqlHR system"
-    });
-  };
+const QIWAIntegration = () => {
+  const { 
+    connectionStatus,
+    activeJobPostings,
+    totalApplications,
+    saudizationRate,
+    complianceScore,
+    recentActivities,
+    connect,
+    disconnect,
+    postJob,
+    reviewApplications,
+    updateSaudizationStatus,
+    loading 
+  } = useQIWAIntegration();
 
   return (
-    <FocusManager autoFocus restoreFocus>
-      <UnifiedGovernmentInterface
-        platformName="Qiwa Platform Integration"
-        platformNameAr="تكامل منصة قوى"
-        description="Employment services, work permits, and Nitaqat compliance management"
-        descriptionAr="خدمات التوظيف وتصاريح العمل وإدارة امتثال النطاقات"
-        icon={Building2}
-        connectionStatus={{
-          status: 'connected',
-          lastSync: '2024-01-15T10:30:00Z',
-          responseTime: 145
-        }}
-        onTestConnection={handleTestConnection}
-        onSyncNow={handleSyncNow}
-      >
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="overview">{isRTL ? 'نظرة عامة' : 'Overview'}</TabsTrigger>
-            <TabsTrigger value="upload">{isRTL ? 'رفع الملفات' : 'File Upload'}</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="overview" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <MemoizedMetricCard
-            title={isRTL ? "الموظفين النشطين" : "Active Employees"}
-            value="2,847"
-            description={`+12 ${isRTL ? 'هذا الشهر' : 'this month'}`}
-            icon={<Users className="h-6 w-6" />}
-            variant="primary"
-            trend={{
-              value: "12",
-              isPositive: true
-            }}
-          />
-          <MemoizedMetricCard
-            title={isRTL ? "نسبة نجاح العمليات" : "Process Success Rate"}
-            value="98.1%"
-            description={isRTL ? "معاملات ناجحة عبر الواجهة البرمجية" : "Successful API transactions"}
-            icon={<CheckCircle className="h-6 w-6" />}
-            variant="success"
-          />
-          <MemoizedMetricCard
-            title={isRTL ? "تصاريح العمل المعلقة" : "Pending Work Permits"}
-            value="45"
-            description={`-3 ${isRTL ? 'الشهر الماضي' : 'last month'}`}
-            icon={<FileText className="h-6 w-6" />}
-            variant="accent"
-            trend={{
-              value: "3",
-              isPositive: true
-            }}
-          />
-          <MemoizedMetricCard
-            title={isRTL ? "درجة امتثال النطاقات" : "Nitaqat Compliance Score"}
-            value="87.5%"
-            description={isRTL ? "مستوى الامتثال الإجمالي" : "Overall compliance level"}
-            icon={<TrendingUp className="h-6 w-6" />}
-            variant="warning"
-          />
+    <div className="container mx-auto p-6 space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold">QIWA Integration</h1>
+          <p className="text-muted-foreground">Saudi Labor Market Platform - Ministry of Human Resources & Social Development</p>
         </div>
+        <Badge variant={connectionStatus === 'connected' ? 'default' : 'secondary'}>
+          {connectionStatus === 'connected' ? 'Connected' : 'Disconnected'}
+        </Badge>
+      </div>
 
-        {/* Additional SanadHR Integration Features */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-6 border rounded-lg">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              {isRTL ? "خدمات قوى المتصلة بعقل" : "Qiwa Services Connected to AqlHR"}
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "نقل الموظفين بين المنشآت" : "Employee Transfer Between Establishments"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "إصدار تأشيرات العمل الدائمة" : "Permanent Work Visa Issuance"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "حاسبة النطاقات" : "Nitaqat Calculator"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "توظيف الموظفين غير السعوديين" : "Non-Saudi Employee Hiring"}
-              </li>
-            </ul>
+      {/* Connection Status */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building className="h-5 w-5" />
+            QIWA Platform Connection
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <p className="text-sm text-muted-foreground">
+                Status: <span className="font-medium">{connectionStatus}</span>
+              </p>
+              {connectionStatus === 'connected' && (
+                <p className="text-sm text-green-600">
+                  ✓ Connected to MHRSD QIWA labor market services
+                </p>
+              )}
+              <p className="text-xs text-muted-foreground">
+                Integration with Ministry of Human Resources & Social Development
+              </p>
+            </div>
+            <div className="flex gap-2">
+              {connectionStatus === 'disconnected' ? (
+                <Button onClick={connect} disabled={loading}>
+                  Connect to QIWA
+                </Button>
+              ) : (
+                <Button variant="outline" onClick={disconnect} disabled={loading}>
+                  Disconnect
+                </Button>
+              )}
+            </div>
           </div>
-          
-          <div className="p-6 border rounded-lg">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Shield className="h-5 w-5" />
-              {isRTL ? "مزايا التكامل مع عقل" : "AqlHR Integration Benefits"}
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "مزامنة تلقائية للبيانات" : "Automated Data Synchronization"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "تحديث فوري لحالة التصاريح" : "Real-time Permit Status Updates"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "تقارير امتثال النطاقات" : "Nitaqat Compliance Reports"}
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle className="h-4 w-4 text-success" />
-                {isRTL ? "إدارة متكاملة للموارد البشرية" : "Integrated HR Management"}
-              </li>
-            </ul>
+        </CardContent>
+      </Card>
+
+      {/* Statistics Dashboard */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <Users className="h-8 w-8 text-blue-600" />
+              <div>
+                <p className="text-2xl font-bold">{activeJobPostings}</p>
+                <p className="text-sm text-muted-foreground">Active Job Postings</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <CheckCircle className="h-8 w-8 text-green-600" />
+              <div>
+                <p className="text-2xl font-bold">{totalApplications}</p>
+                <p className="text-sm text-muted-foreground">Total Applications</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <TrendingUp className="h-8 w-8 text-purple-600" />
+              <div>
+                <p className="text-2xl font-bold">{saudizationRate}%</p>
+                <p className="text-sm text-muted-foreground">Saudization Rate</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-8 w-8 text-orange-600" />
+              <div>
+                <p className="text-2xl font-bold">{complianceScore}/100</p>
+                <p className="text-sm text-muted-foreground">Compliance Score</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* QIWA Services */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Job Posting & Recruitment
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Available Services:</h4>
+              <ul className="space-y-1 text-sm text-muted-foreground">
+                <li>• Job posting on QIWA platform</li>
+                <li>• CV screening and filtering</li>
+                <li>• Interview scheduling system</li>
+                <li>• Candidate background verification</li>
+                <li>• Employment contract generation</li>
+              </ul>
+            </div>
+            <Button 
+              className="w-full" 
+              onClick={postJob}
+              disabled={connectionStatus !== 'connected' || loading}
+            >
+              Post New Job
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Building className="h-5 w-5" />
+              Compliance Management
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Compliance Features:</h4>
+              <ul className="space-y-1 text-sm text-muted-foreground">
+                <li>• Nitaqat color classification tracking</li>
+                <li>• Saudization rate monitoring</li>
+                <li>• Labor law compliance checking</li>
+                <li>• Ministry reporting automation</li>
+                <li>• Penalty prevention alerts</li>
+              </ul>
+            </div>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={updateSaudizationStatus}
+              disabled={connectionStatus !== 'connected' || loading}
+            >
+              Update Compliance Status
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recent Activities */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent QIWA Activities</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {recentActivities.map((activity, index) => (
+              <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{activity.title}</p>
+                  <p className="text-xs text-muted-foreground">{activity.description}</p>
+                </div>
+                <Badge variant="outline" className="text-xs">
+                  {activity.timestamp}
+                </Badge>
+              </div>
+            ))}
           </div>
-        </div>
-          </TabsContent>
-          
-          <TabsContent value="upload" className="space-y-6">
-            <AqlAIFileProcessor
-              platform="qiwa"
-              moduleType="government"
-              onFileProcessed={(file) => {
-                setUploadedFiles(prev => [...prev, file]);
-                toast({
-                  title: isRTL ? "تم رفع الملف بنجاح" : "File uploaded successfully",
-                  description: isRTL ? `تم رفع ${file.name} بنجاح` : `${file.name} uploaded successfully`
-                });
-              }}
-              acceptedTypes={['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel']}
-              maxFileSize={10}
-            />
-          </TabsContent>
-        </Tabs>
-      </UnifiedGovernmentInterface>
-    </FocusManager>
+        </CardContent>
+      </Card>
+
+      {/* Integration Workflow */}
+      <Card>
+        <CardHeader>
+          <CardTitle>QIWA Integration Workflow</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex flex-col items-center space-y-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
+              <span>Job Posting</span>
+            </div>
+            <div className="flex-1 h-px bg-border mx-4"></div>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">2</div>
+              <span>CV Collection</span>
+            </div>
+            <div className="flex-1 h-px bg-border mx-4"></div>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">3</div>
+              <span>Screening</span>
+            </div>
+            <div className="flex-1 h-px bg-border mx-4"></div>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">4</div>
+              <span>Compliance Check</span>
+            </div>
+            <div className="flex-1 h-px bg-border mx-4"></div>
+            <div className="flex flex-col items-center space-y-2">
+              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">5</div>
+              <span>Employment</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Integration Status */}
+      {connectionStatus === 'connected' && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-green-600">✓ QIWA Integration Active</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Successfully connected to Ministry of Human Resources & Social Development QIWA platform. 
+              Your organization can now access comprehensive labor market services, post job openings, 
+              manage recruitment processes, and maintain compliance with Saudi employment regulations.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 };
 
-export default QiwaIntegration;
+export default QIWAIntegration;
