@@ -166,6 +166,8 @@ const runQIWASpecificTests = async (): Promise<boolean> => {
 };
 
 // Run the test suite
+export { runQIWATestSuite };
+
 runQIWATestSuite().then(success => {
   if (success) {
     console.log('\n🎉 QIWA LABOR MARKET PLATFORM INTEGRATION SUCCESSFUL!');

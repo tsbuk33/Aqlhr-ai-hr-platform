@@ -87,6 +87,7 @@ const HealthInsurancePlatform = lazy(() => import('../pages/government/HealthIns
 const MedicalInsurancePlatform = lazy(() => import('../pages/government/MedicalInsurancePlatform'));
 
 // New Government Portals
+const ABSHERIntegration = lazy(() => import('../pages/government/ABSHERIntegration'));
 const QiyasAssessment = lazy(() => import('../pages/government/QiyasAssessment'));
 const NCAAAccreditation = lazy(() => import('../pages/government/NCAAAccreditation'));
 const EducationMinistry = lazy(() => import('../pages/government/EducationMinistry'));
@@ -521,7 +522,7 @@ export const ROUTES: RouteConfig[] = [
   
   // Government Integration Sub-routes
   { path: '/government/qiwa', element: QiwaIntegration, auth: true },
-  { path: '/government/absher', element: AbsherPlatform, auth: true },
+  { path: '/government/absher', element: ABSHERIntegration, auth: true },
   { path: '/government/muqeem', element: MuqeemPlatform, auth: true },
   { path: '/government/mudad', element: MUDADIntegration, auth: true },
   { path: '/government/etimad', element: ETIMADIntegration, auth: true },
