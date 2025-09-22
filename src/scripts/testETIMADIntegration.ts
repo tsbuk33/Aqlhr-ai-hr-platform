@@ -3,7 +3,7 @@
 
 import { createPortalTester, logTestResults, validatePortalDeployment } from '@/utils/governmentTestingUtils';
 
-const runETIMADTestSuite = async () => {
+export const runETIMADTestSuite = async () => {
   console.log('🚀 STARTING ETIMAD PLATFORM INTEGRATION TESTING');
   console.log('='.repeat(60));
   console.log('Portal: ETIMAD (Contractor Verification System)');

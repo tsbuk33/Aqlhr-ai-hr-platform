@@ -3,7 +3,7 @@
 
 import { createPortalTester, logTestResults, validatePortalDeployment } from '@/utils/governmentTestingUtils';
 
-const runTAWAKKALNATestSuite = async () => {
+export const runTAWAKKALNATestSuite = async () => {
   console.log('🚀 STARTING TAWAKKALNA INTEGRATION TESTING');
   console.log('='.repeat(60));
   console.log('Portal: TAWAKKALNA (Health Compliance Platform)');

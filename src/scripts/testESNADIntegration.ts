@@ -3,7 +3,7 @@
 
 import { createPortalTester, logTestResults, validatePortalDeployment } from '@/utils/governmentTestingUtils';
 
-const runESNADTestSuite = async () => {
+export const runESNADTestSuite = async () => {
   console.log('🚀 STARTING ESNAD NOTARIZATION TESTING');
   console.log('='.repeat(60));
   console.log('Portal: ESNAD (Digital Notarization Platform)');

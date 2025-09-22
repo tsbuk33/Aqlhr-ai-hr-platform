@@ -3,7 +3,7 @@
 
 import { createPortalTester, logTestResults, validatePortalDeployment } from '@/utils/governmentTestingUtils';
 
-const runMUDADTestSuite = async () => {
+export const runMUDADTestSuite = async () => {
   console.log('🚀 STARTING MUDAD PLATFORM INTEGRATION TESTING');
   console.log('='.repeat(60));
   console.log('Portal: MUDAD (Ministry of Labor Services)');
