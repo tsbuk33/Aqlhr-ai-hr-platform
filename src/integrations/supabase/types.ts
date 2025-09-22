@@ -14391,6 +14391,16 @@ export type Database = {
         }
         Relationships: []
       }
+      security_definer_status_summary: {
+        Row: {
+          compliance_notes: string | null
+          component_type: string | null
+          documented_functions: number | null
+          linter_status: string | null
+          security_status: string | null
+        }
+        Relationships: []
+      }
       security_function_registry: {
         Row: {
           approved_by: string | null
@@ -14450,6 +14460,19 @@ export type Database = {
           category: string | null
           count: number | null
           status: string | null
+        }
+        Relationships: []
+      }
+      supabase_linter_false_positive_explanation: {
+        Row: {
+          actual_status: string | null
+          business_justification: string | null
+          error_name: string | null
+          issue_category: string | null
+          linter_severity: string | null
+          resolution_status: string | null
+          root_cause: string | null
+          technical_constraint: string | null
         }
         Relationships: []
       }
