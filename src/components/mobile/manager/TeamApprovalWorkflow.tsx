@@ -16,6 +16,7 @@ import {
   AlertTriangle,
   Eye
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface ApprovalRequest {
   id: string;
@@ -259,7 +260,7 @@ export const TeamApprovalWorkflow: React.FC<TeamApprovalWorkflowProps> = ({ isAr
       case 'leave':
         return <Calendar className="h-4 w-4" />;
       case 'expense':
-        return <DollarSign className="h-4 w-4" />;
+        return <CurrencyIcon className="h-4 w-4" />;
       case 'overtime':
         return <Clock className="h-4 w-4" />;
       case 'purchase':
@@ -391,7 +392,7 @@ export const TeamApprovalWorkflow: React.FC<TeamApprovalWorkflowProps> = ({ isAr
                       
                       {approval.amount && (
                         <div className="flex items-center gap-2 text-sm">
-                          <DollarSign className="h-4 w-4" />
+                          <CurrencyIcon className="h-4 w-4" />
                           <span className="font-medium">
                             {approval.amount.toLocaleString()} {approval.currency}
                           </span>

@@ -8,7 +8,7 @@ import {
   Calculator, 
   Calendar, 
   Clock, 
-  DollarSign, 
+  DollarSign,
   FileText, 
   Settings, 
   TrendingUp, 
@@ -25,6 +25,7 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { useLanguage } from '@/hooks/useLanguage';
@@ -148,7 +149,7 @@ export const AdvancedPayrollDashboard: React.FC = () => {
                   {isArabic ? 'ريال سعودي' : 'SAR'}
                 </p>
               </div>
-              <DollarSign className="h-8 w-8 text-green-600 dark:text-green-400" />
+              <CurrencyIcon className="h-8 w-8 text-brand-success" />
             </div>
           </CardContent>
         </Card>

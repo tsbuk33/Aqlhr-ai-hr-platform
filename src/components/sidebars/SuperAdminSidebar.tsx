@@ -24,7 +24,6 @@ import {
   Brain,
   Database,
   UserPlus,
-  DollarSign,
   Gift,
   Target,
   GraduationCap,
@@ -42,19 +41,20 @@ import {
   Building2,
   Link,
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { Badge } from '@/components/ui/badge';
 
 const coreHRItems = [
   { title: 'Employee Master Data', url: '/core-hr/master-data', icon: Database },
   { title: 'Recruitment & Hiring', url: '/core-hr/recruitment', icon: UserPlus },
-  { title: 'Payroll Processing', url: '/payroll', icon: DollarSign },
+  { title: 'Payroll Processing', url: '/payroll', icon: CurrencyIcon },
   { title: 'Benefits Administration', url: '/core-hr/benefits', icon: Gift },
   { title: 'Performance Management', url: '/core-hr/performance', icon: Target },
   { title: 'Training & Development', url: '/core-hr/training', icon: GraduationCap },
   { title: 'Time & Attendance', url: '/core-hr/time-attendance', icon: Clock },
   { title: 'Leave Management', url: '/core-hr/leave', icon: Calendar },
   { title: 'Succession Planning', url: '/core-hr/succession-planning', icon: TrendingUp },
-  { title: 'Compensation Management', url: '/core-hr/compensation-management', icon: DollarSign },
+  { title: 'Compensation Management', url: '/core-hr/compensation-management', icon: CurrencyIcon },
   { title: 'Saudization & Visa Calculator', url: '/core-hr/saudization', icon: Calculator },
   { title: 'Employee Self Service', url: '/core-hr/self-service', icon: UserCheck },
   { title: 'Manager Dashboard', url: '/core-hr/organization', icon: BarChart3 },
@@ -139,13 +139,13 @@ const analyticsItems = [
 ];
 
 const payrollItems = [
-  { title: 'Payroll Home', url: '/payroll', icon: DollarSign },
-  { title: 'WPS Processing', url: '/payroll/wps', icon: DollarSign },
+  { title: 'Payroll Home', url: '/payroll', icon: CurrencyIcon },
+  { title: 'WPS Processing', url: '/payroll/wps', icon: CurrencyIcon },
   { title: 'GOSI Integration', url: '/payroll/gosi', icon: Shield },
   { title: 'EOSB Calculations', url: '/payroll/eosb', icon: Calculator },
-  { title: 'Expenses', url: '/payroll/expenses', icon: DollarSign },
+  { title: 'Expenses', url: '/payroll/expenses', icon: CurrencyIcon },
   { title: 'Payroll Analytics', url: '/payroll/analytics', icon: BarChart3 },
-  { title: 'Bank Integration', url: '/payroll/banking', icon: DollarSign },
+  { title: 'Bank Integration', url: '/payroll/banking', icon: CurrencyIcon },
   { title: 'Budget Forecasting', url: '/payroll/budgeting', icon: Calculator },
 ];
 
@@ -177,7 +177,7 @@ const diagnosticItems = [
 const localContentItems = [
   { title: 'Workforce Localization', url: '/local-content/workforce-localization', icon: Users },
   { title: 'Supplier Development', url: '/local-content/supplier-development', icon: Users },
-  { title: 'Investment Tracking', url: '/local-content/investment-tracking', icon: DollarSign },
+  { title: 'Investment Tracking', url: '/local-content/investment-tracking', icon: CurrencyIcon },
   { title: 'AI Intelligence', url: '/local-content/ai-intelligence', icon: Brain },
   { title: 'Regulatory Compliance', url: '/local-content/regulatory-compliance', icon: Shield },
   { title: 'Strategic Planning', url: '/local-content/strategic-planning', icon: Target },
@@ -582,7 +582,7 @@ export const SuperAdminSidebar: React.FC = () => {
                   onClick={() => setPayrollExpanded(!payrollExpanded)}
                   className={`hover:bg-muted/50 ${isGroupActive(payrollItems.map(i => i.url)) ? 'bg-muted text-foreground font-medium' : ''}`}
                 >
-                  <DollarSign className="h-4 w-4" />
+                  <CurrencyIcon className="h-4 w-4" />
                   {open && (
                     <div className="flex items-center justify-between w-full">
                       <span>Payroll</span>

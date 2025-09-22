@@ -8,7 +8,7 @@ import {
   TrendingDown, 
   Target, 
   Users, 
-  DollarSign, 
+  DollarSign,
   BarChart3,
   Activity,
   Award,
@@ -16,6 +16,7 @@ import {
   Calendar,
   RefreshCw
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface KPIMetric {
   id: string;
@@ -180,7 +181,7 @@ export const StrategicKPIDashboard: React.FC<StrategicKPIDashboardProps> = ({
   const getCategoryIcon = (category: KPIMetric['category']) => {
     switch (category) {
       case 'financial':
-        return <DollarSign className="h-4 w-4" />;
+        return <CurrencyIcon className="h-4 w-4" />;
       case 'operational':
         return <BarChart3 className="h-4 w-4" />;
       case 'strategic':

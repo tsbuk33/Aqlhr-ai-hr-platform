@@ -16,6 +16,7 @@ import {
   BarChart3,
   Eye
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface AIInsight {
   id: string;
@@ -179,7 +180,7 @@ export const AIPoweredInsights: React.FC<AIPoweredInsightsProps> = ({
   const getCategoryIcon = (category: AIInsight['category']) => {
     switch (category) {
       case 'financial':
-        return <DollarSign className="h-3 w-3" />;
+        return <CurrencyIcon className="h-3 w-3" />;
       case 'operational':
         return <BarChart3 className="h-3 w-3" />;
       case 'strategic':

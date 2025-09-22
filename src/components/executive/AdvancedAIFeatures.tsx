@@ -24,6 +24,7 @@ import {
   LineChart,
   Activity
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { LineChart as RechartsLineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -250,7 +251,7 @@ export const AdvancedAIFeatures: React.FC = () => {
           <Card className="border-2 border-orange-200">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-orange-600" />
+                <CurrencyIcon className="w-5 h-5 text-orange-600" />
                 {isArabic ? 'ذكاء معايير التعويضات' : 'Compensation Benchmarking AI'}
               </CardTitle>
             </CardHeader>

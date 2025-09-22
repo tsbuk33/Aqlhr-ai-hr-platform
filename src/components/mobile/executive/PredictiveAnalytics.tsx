@@ -20,6 +20,7 @@ import {
   Users,
   DollarSign
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface Prediction {
   id: string;
@@ -291,7 +292,7 @@ export const PredictiveAnalytics: React.FC<PredictiveAnalyticsProps> = ({
   const getCategoryIcon = (category: Prediction['category']) => {
     switch (category) {
       case 'financial':
-        return <DollarSign className="h-4 w-4" />;
+        return <CurrencyIcon className="h-4 w-4" />;
       case 'hr':
         return <Users className="h-4 w-4" />;
       case 'operational':

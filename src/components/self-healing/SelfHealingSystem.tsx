@@ -8,9 +8,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { 
   Activity, Shield, Database, Zap, Brain, AlertTriangle, 
   CheckCircle, XCircle, Clock, TrendingUp, TrendingDown,
-  Server, Wifi, Users, DollarSign, RefreshCw, Bell,
+  Server, Wifi, Users, RefreshCw, Bell,
   FileText, Target, Wrench, Heart, Eye, Settings
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -408,7 +409,7 @@ const SelfHealingSystem: React.FC = () => {
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-4 rounded-lg bg-emerald-50 border border-emerald-200">
-                    <DollarSign className="w-8 h-8 text-emerald-600 mx-auto mb-2" />
+                    <CurrencyIcon className="w-8 h-8 text-brand-success mx-auto mb-2" />
                     <div className="text-lg font-bold text-emerald-900">100%</div>
                     <div className="text-sm text-emerald-700">{isArabic ? 'معالجة الرواتب' : 'Payroll Processing'}</div>
                   </div>

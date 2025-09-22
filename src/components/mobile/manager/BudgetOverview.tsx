@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { 
-  DollarSign, 
+  DollarSign,
   TrendingUp, 
   TrendingDown,
   AlertTriangle,
@@ -15,6 +15,7 @@ import {
   Calculator,
   Target
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface BudgetCategory {
   id: string;
@@ -206,7 +207,7 @@ export const BudgetOverview: React.FC<BudgetOverviewProps> = ({
     return (
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <DollarSign className="h-5 w-5 text-green-500" />
+          <CurrencyIcon className="h-5 w-5 text-brand-success" />
           <span className="text-sm font-medium">
             {isArabic ? 'نظرة عامة على الميزانية' : 'Budget Overview'}
           </span>
