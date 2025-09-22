@@ -75,7 +75,8 @@ function checkGovernmentIntegrations() {
     'src/pages/government/ESNADIntegration.tsx',
     'src/pages/government/QIWAIntegration.tsx',
     'src/pages/government/ABSHERIntegration.tsx',
-    'src/pages/government/MUQEEMIntegration.tsx'
+    'src/pages/government/MUQEEMIntegration.tsx',
+    'src/pages/government/NAJIZIntegration.tsx'
   ];
 
   let allExist = true;
@@ -95,7 +96,8 @@ function checkTestSuites() {
     'src/scripts/testESNADIntegration.ts',
     'src/scripts/testQIWAIntegration.ts',
     'src/scripts/testABSHERIntegration.ts',
-    'src/scripts/testMUQEEMIntegration.ts'
+    'src/scripts/testMUQEEMIntegration.ts',
+    'src/scripts/testNAJIZIntegration.ts'
   ];
 
   let allExist = true;
