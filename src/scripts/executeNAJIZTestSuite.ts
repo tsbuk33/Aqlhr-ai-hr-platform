@@ -73,7 +73,15 @@ async function executeNAJIZTestSuite(): Promise<TestExecutionResult> {
     };
 
     // Update integration tracker
-    integrationTracker.updatePortal('NAJIZ', { status: deploymentReady ? 'completed' : 'in-progress' });
+    integrationTracker.updatePortalStatus('NAJIZ', { 
+      status: deploymentReady ? 'completed' : 'in-progress',
+      testsStatus: {
+        total: testReport.totalTests,
+        passed: testReport.summary.passed,
+        failed: testReport.summary.failed,
+        lastRun: new Date()
+      }
+    });
 
     // Save execution result
     const resultPath = path.join(process.cwd(), 'test-reports', `najiz-execution-${executionId}.json`);
@@ -127,10 +135,14 @@ async function executeNAJIZTestSuite(): Promise<TestExecutionResult> {
     console.error('\n❌ NAJIZ test suite execution failed:', error);
     
     // Update tracker with failure
-    await updateIntegrationTracker('NAJIZ', {
-      status: 'ERROR',
-      error: error instanceof Error ? error.message : 'Unknown error',
-      lastTestRun: endTime
+    integrationTracker.updatePortalStatus('NAJIZ', {
+      status: 'failed',
+      testsStatus: {
+        total: 38,
+        passed: 0,
+        failed: 38,
+        lastRun: new Date()
+      }
     });
 
     return executionResult;

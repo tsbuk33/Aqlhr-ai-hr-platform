@@ -20,7 +20,7 @@ async function completeMUQEEMIntegration(): Promise<boolean> {
     console.log('🔄 Completing MUQEEM Platform Integration...');
     
     // Mark MUQEEM as completed
-    integrationTracker.updatePortal('MUQEEM', { status: 'completed' });
+    integrationTracker.updatePortalStatus('MUQEEM', { status: 'completed' });
     
     console.log('✅ MUQEEM Platform integration marked as completed');
     return true;
@@ -35,7 +35,7 @@ async function initializeNAJIZIntegration(): Promise<boolean> {
     console.log('🚀 Initializing NAJIZ Business Gateway Integration...');
     
     // Initialize NAJIZ integration
-    integrationTracker.updatePortal('NAJIZ', { status: 'in-progress' });
+    integrationTracker.updatePortalStatus('NAJIZ', { status: 'in-progress' });
     
     console.log('✅ NAJIZ Business Gateway integration initialized');
     return true;
@@ -53,8 +53,8 @@ async function validateSequentialDevelopment(): Promise<boolean> {
     ];
     
     for (const portal of completedPortals) {
-      const status = await getIntegrationStatus(portal);
-      if (status?.status !== 'COMPLETED') {
+      const status = integrationTracker.getPortalStatus(portal);
+      if (status?.status !== 'completed') {
         throw new Error(`Portal ${portal} is not completed. Sequential development violated.`);
       }
     }
