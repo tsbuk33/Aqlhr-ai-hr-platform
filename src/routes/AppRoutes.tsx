@@ -14,6 +14,7 @@ const NITAQATIntegration = lazy(() => import('@/pages/government/NITAQATIntegrat
 const TVTCIntegration = lazy(() => import('@/pages/government/TVTCIntegration'));
 const MOLIntegration = lazy(() => import('@/pages/government/MOLIntegration'));
 const ELMIntegration = lazy(() => import('@/pages/government/ELMIntegration'));
+const TestManagerMobile = lazy(() => import('@/pages/mobile/TestManagerMobile'));
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         <Route path="/government/tvtc" element={<TVTCIntegration />} />
         <Route path="/government/mol" element={<MOLIntegration />} />
         <Route path="/government/elm" element={<ELMIntegration />} />
+        <Route path="/mobile/test-manager" element={<TestManagerMobile />} />
         
         {/* Catch all route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
