@@ -282,7 +282,7 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge className={`${getStatusColor(module.status)} text-white`}>
+                    <Badge className={`${getStatusColor(module.status)} text-primary-foreground`}>
                       {module.status}
                     </Badge>
                   </div>

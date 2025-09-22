@@ -54,13 +54,13 @@ export default function StrategicIntelligencePanel() {
   ];
 
   return (
-    <section className="w-full bg-[#0b0f16] text-slate-100 px-6 py-10 md:px-10 rounded-2xl shadow-lg ring-1 ring-white/5">
+    <section className="w-full bg-surface-dark text-foreground px-6 py-10 md:px-10 rounded-2xl shadow-lg ring-1 ring-border/50">
       {/* Header */}
       <header className="mb-8">
         <h2 className="flex items-center gap-3 text-2xl md:text-3xl font-semibold tracking-tight">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 ring-1 ring-primary/20">
             {/* decorative brain-like glyph */}
-            <span className="block h-3 w-3 rounded-full bg-white/70"></span>
+            <span className="block h-3 w-3 rounded-full bg-primary"></span>
           </span>
           Strategic Intelligence Panel
           <span className="ml-2 align-middle rounded-full bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-300 ring-1 ring-inset ring-sky-500/20">

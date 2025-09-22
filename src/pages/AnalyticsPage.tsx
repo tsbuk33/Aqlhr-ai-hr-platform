@@ -5,7 +5,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Users, DollarSign, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
+import { Users, TrendingUp, Building, MapPin, Calendar, Target, Award, AlertCircle } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, Area, AreaChart } from 'recharts';
 
 import { AITestDemo } from '@/components/AITestDemo';
@@ -230,7 +231,7 @@ const AnalyticsPage: React.FC = () => {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">{isArabic ? 'متوسط الراتب' : 'Average Salary'}</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                <CurrencyIcon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold break-words">{formatCurrency(analytics.overview.avgSalary)}</div>
@@ -454,7 +455,7 @@ const AnalyticsPage: React.FC = () => {
               </div>
 
               <div className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg border-l-4 border-orange-500">
-                <DollarSign className="h-5 w-5 text-orange-600 mt-0.5" />
+                <CurrencyIcon className="h-5 w-5 text-orange-600 mt-0.5" />
                 <div>
                   <h4 className="font-semibold text-orange-900">Compensation Range</h4>
                    <p className="text-sm text-orange-700">

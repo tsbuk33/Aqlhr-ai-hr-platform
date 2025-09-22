@@ -327,7 +327,7 @@ const PolicyUploadSystem = () => {
                       </div>
                     </div>
                   </div>
-                  <Badge className="bg-brand-success text-white">
+                  <Badge className="bg-status-success text-primary-foreground">
                     <CheckCircle className="h-3 w-3 mr-1" />
                     {t('policy.processed')}
                   </Badge>

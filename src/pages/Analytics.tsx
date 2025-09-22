@@ -14,7 +14,6 @@ import {
   BarChart, 
   Activity, 
   TrendingUp, 
-  DollarSign,
   Database,
   PieChart,
   LineChart,
@@ -44,6 +43,7 @@ import {
   Award,
   TrendingDown
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 const Analytics = () => {
   const { language } = useLanguage();
@@ -187,7 +187,7 @@ const Analytics = () => {
     {
       title: isArabic ? 'ذكاء التكاليف' : 'Cost Intelligence',
       description: isArabic ? 'تحليل ذكي للتكاليف وتحديد فرص التوفير' : 'Intelligent cost analysis and savings opportunity identification',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       metrics: ['SAR 3.24M saved', '89 cost centers', '94% accuracy'],
       status: 'active'
     },
@@ -472,7 +472,7 @@ const Analytics = () => {
                 </div>
                 
                 <div className="text-center p-6 rounded-lg bg-background/50 border">
-                  <DollarSign className="h-12 w-12 text-purple-500 mx-auto mb-4" />
+                  <CurrencyIcon className="h-12 w-12 text-purple-500 mx-auto mb-4" />
                   <h3 className="font-semibold mb-2">{isArabic ? 'توقع التكاليف' : 'Cost Prediction'}</h3>
                   <div className="text-2xl font-bold text-purple-500 mb-2">+12.7%</div>
                   <p className="text-sm text-muted-foreground">

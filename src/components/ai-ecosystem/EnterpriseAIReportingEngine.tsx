@@ -278,12 +278,9 @@ export const EnterpriseAIReportingEngine: React.FC = () => {
                     </div>
                     <div className="flex flex-col space-y-2">
                       {template.aiEnhanced && (
-                        <Badge className="bg-purple-500 text-white">
-                          {isArabic ? 'ذكي' : 'AI Enhanced'}
-                        </Badge>
-                      )}
-                      {template.saudiSpecific && (
-                        <Badge className="bg-green-500 text-white">
+                        <Badge className="bg-brand-accent text-primary-foreground">
+...
+                        <Badge className="bg-status-success text-primary-foreground">
                           {isArabic ? 'سعودي' : 'Saudi Specific'}
                         </Badge>
                       )}

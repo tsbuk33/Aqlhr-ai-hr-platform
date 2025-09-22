@@ -246,11 +246,11 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'revolutionary': return 'bg-purple-500 text-white';
-      case 'high': return 'bg-red-500 text-white';
-      case 'medium': return 'bg-orange-500 text-white';
-      case 'low': return 'bg-blue-500 text-white';
-      default: return 'bg-gray-500 text-white';
+      case 'revolutionary': return 'bg-brand-accent text-primary-foreground';
+      case 'high': return 'bg-status-danger text-primary-foreground';
+      case 'medium': return 'bg-status-warning text-primary-foreground';
+      case 'low': return 'bg-brand-primary text-primary-foreground';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -443,7 +443,7 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     <span>{isArabic ? metric.nameAr : metric.name}</span>
-                    <Badge className="bg-blue-500 text-white">
+                    <Badge className="bg-brand-primary text-primary-foreground">
                       #{metric.benchmarkPosition} {isArabic ? 'عالمياً' : 'Globally'}
                     </Badge>
                   </CardTitle>
@@ -556,7 +556,7 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {(isArabic ? strategy.implementationStepsAr : strategy.implementationSteps).map((step, idx) => (
-                        <div key={idx} className="flex items-center space-x-2 p-3 bg-white rounded-lg border">
+                        <div key={idx} className="flex items-center space-x-2 p-3 bg-card rounded-lg border">
                           <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
                             {idx + 1}
                           </div>

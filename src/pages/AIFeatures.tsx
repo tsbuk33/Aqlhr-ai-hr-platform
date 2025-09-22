@@ -54,7 +54,7 @@ const AIFeatures = () => {
         <p className="text-muted-foreground max-w-3xl mx-auto mb-4">
           {isArabic ? 'أتمتة الموارد البشرية الذكية بواسطة الذكاء الاصطناعي المتقدم' : 'Intelligent HR automation powered by advanced AI'}
         </p>
-        <Badge className="bg-brand-primary text-white px-3 py-1">
+        <Badge className="bg-brand-primary text-primary-foreground px-3 py-1">
           <Zap className="h-3 w-3 mr-1" />
           {isArabic ? '5 محركات ذكية نشطة' : '5 AI Engines Active'}
         </Badge>

@@ -104,7 +104,7 @@ const AttendancePage: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="relative">
               <Clock className="h-10 w-10 text-primary" />
-              <Brain className="absolute -top-1 -right-1 h-5 w-5 text-purple-600 bg-white rounded-full border-2 border-white" />
+              <Brain className="absolute -top-1 -right-1 h-5 w-5 text-purple-600 bg-card rounded-full border-2 border-card" />
             </div>
             <div>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-primary via-purple-600 to-blue-600 bg-clip-text text-transparent">

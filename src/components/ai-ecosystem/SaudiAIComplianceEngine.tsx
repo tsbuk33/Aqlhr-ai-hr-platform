@@ -337,7 +337,7 @@ export const SaudiAIComplianceEngine: React.FC = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {['MOL', 'GOSI', 'QIWA', 'NITAQAT', 'ZATCA', 'SAMA'].map((authority) => (
-                  <div key={authority} className="text-center p-4 rounded-lg bg-white border">
+                  <div key={authority} className="text-center p-4 rounded-lg bg-card border">
                     {getAuthorityIcon(authority)}
                     <h3 className="font-medium mt-2">{authority}</h3>
                     <div className="mt-2">
@@ -434,7 +434,7 @@ export const SaudiAIComplianceEngine: React.FC = () => {
                           <h3 className="text-lg font-medium">
                             {isArabic ? rule.nameAr : rule.name}
                           </h3>
-                          <Badge className={`${getStatusColor(rule.status)} text-white`}>
+                          <Badge className={`${getStatusColor(rule.status)} text-primary-foreground`}>
                             {rule.status}
                           </Badge>
                           <Badge variant="outline">{rule.authority}</Badge>
@@ -576,114 +576,9 @@ export const SaudiAIComplianceEngine: React.FC = () => {
                       </div>
                     </div>
                     {update.actionRequired && (
-                      <Button size="sm" className="bg-blue-600 text-white">
-                        {isArabic ? 'تنفيذ' : 'Implement'}
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="automation" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>{isArabic ? 'حالة الأتمتة' : 'Automation Status'}</CardTitle>
-              <CardDescription>
-                {isArabic 
-                  ? 'مستوى الأتمتة لكل جانب من جوانب الامتثال'
-                  : 'Automation level for each aspect of compliance'
-                }
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span>{isArabic ? 'مراقبة السعودة' : 'Saudization Monitoring'}</span>
-                    <span className="font-medium">95%</span>
-                  </div>
-                  <Progress value={95} className="h-3" />
-                </div>
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span>{isArabic ? 'معالجة الرواتب - قوى' : 'QIWA Payroll Processing'}</span>
-                    <span className="font-medium">88%</span>
-                  </div>
-                  <Progress value={88} className="h-3" />
-                </div>
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span>{isArabic ? 'تتبع ساعات العمل' : 'Working Hours Tracking'}</span>
-                    <span className="font-medium">78%</span>
-                  </div>
-                  <Progress value={78} className="h-3" />
-                </div>
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span>{isArabic ? 'تقارير التأمينات' : 'GOSI Reporting'}</span>
-                    <span className="font-medium">99%</span>
-                  </div>
-                  <Progress value={99} className="h-3" />
-                </div>
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span>{isArabic ? 'امتثال الفاتورة الإلكترونية' : 'E-Invoice Compliance'}</span>
-                    <span className="font-medium">72%</span>
-                  </div>
-                  <Progress value={72} className="h-3" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{isArabic ? 'توفير الوقت' : 'Time Savings'}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-green-600">847</p>
-                  <p className="text-muted-foreground">
-                    {isArabic ? 'ساعة موفرة شهرياً' : 'Hours saved monthly'}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>{isArabic ? 'دقة الامتثال' : 'Compliance Accuracy'}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center">
-                  <p className="text-4xl font-bold text-blue-600">99.2%</p>
-                  <p className="text-muted-foreground">
-                    {isArabic ? 'دقة الذكاء الاصطناعي' : 'AI Accuracy Rate'}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-medium mb-2">
-                    {isArabic ? 'تقرير الامتثال الشامل' : 'Comprehensive Compliance Report'}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {isArabic 
-                      ? 'احصل على تقرير مفصل بالذكاء الاصطناعي لجميع جوانب الامتثال'
-                      : 'Get an AI-powered detailed report on all compliance aspects'
-                    }
-                  </p>
-                </div>
-                <Button onClick={generateComplianceReport} className="bg-green-600 text-white">
+                      <Button size="sm" className="bg-brand-primary text-primary-foreground">
+...
+                <Button onClick={generateComplianceReport} className="bg-status-success text-primary-foreground">
                   <FileText className="mr-2 h-4 w-4" />
                   {isArabic ? 'إنشاء تقرير' : 'Generate Report'}
                 </Button>
