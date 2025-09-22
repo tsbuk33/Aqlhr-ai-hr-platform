@@ -16,25 +16,16 @@ const runETIMADTestSuite = async () => {
   
   try {
     // Run complete test suite (all 38 tests)
-    console.log('🧪 RUNNING FUNCTIONAL TESTS (8 tests)...');
-    const functionalResults = await tester.runFunctionalTests();
-    
-    console.log('🔗 RUNNING INTEGRATION TESTS (6 tests)...');
-    const integrationResults = await tester.runIntegrationTests();
+    const testSuite = await tester.runCompleteTestSuite();
     
     // Validate deployment readiness
-    console.log('🔍 DEPLOYMENT VALIDATION...');
     const deploymentReady = await validatePortalDeployment('ETIMAD', '/government/etimad');
     
-    // Generate comprehensive test report
-    const testSuite = tester.generateTestReport();
+    // ETIMAD-specific compliance checks
+    const etimadCompliance = await runETIMADSpecificTests();
     
     // Log detailed results
     logTestResults(testSuite);
-    
-    // ETIMAD-specific compliance checks
-    console.log('\n📋 ETIMAD-SPECIFIC COMPLIANCE VALIDATION...');
-    const etimadCompliance = await runETIMADSpecificTests();
     
     // Generate final report
     console.log('\n📊 FINAL ETIMAD INTEGRATION REPORT');
@@ -72,7 +63,7 @@ const runETIMADTestSuite = async () => {
       console.log('❌ Cannot proceed to next portal');
       console.log('\n🔧 REQUIRED ACTIONS:');
       
-      testSuite.results
+      testSuite.testResults
         .filter(r => r.status === 'fail')
         .forEach(result => {
           console.log(`   - Fix: ${result.testName}`);

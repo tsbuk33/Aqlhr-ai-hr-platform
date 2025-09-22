@@ -55,7 +55,7 @@ const runMUDADTestSuite = async () => {
       console.log('❌ Cannot proceed to next portal');
       console.log('\n🔧 REQUIRED ACTIONS:');
       
-      testSuite.results
+      testSuite.testResults
         .filter(r => r.status === 'fail')
         .forEach(result => {
           console.log(`   - Fix: ${result.testName}`);
