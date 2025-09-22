@@ -9,7 +9,6 @@ import {
   CheckCircle, 
   Target,
   Users,
-  DollarSign,
   Zap,
   Home,
   BarChart3,
@@ -22,6 +21,7 @@ import {
   Globe,
   Settings
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useAIDashboard, useAIRecommendations, useAISync } from '@/hooks/useAI';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -378,7 +378,7 @@ const MobileExecutiveDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                  <DollarSign className="w-5 h-5 text-blue-400" />
+                  <CurrencyIcon className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
                   <p className="font-semibold">{isArabic ? 'تحسين الإيرادات' : 'Revenue Optimization'}</p>

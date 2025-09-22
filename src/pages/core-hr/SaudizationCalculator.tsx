@@ -26,9 +26,9 @@ import {
   Upload,
   Building2,
   Crown,
-  DollarSign,
   Filter
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line } from 'recharts';
 import { AqlHRAIAssistant } from '@/components/ai';
 
@@ -605,7 +605,7 @@ const SaudizationCalculator = () => {
               <Card className="border-l-4 border-l-primary">
                 <CardContent className="pt-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <DollarSign className="h-4 w-4 text-primary" />
+                    <CurrencyIcon className="h-4 w-4 text-primary" />
                     <span className="text-sm font-medium">{isRTL ? 'نطاق الراتب (ريال سعودي)' : 'Salary Range (SAR)'}</span>
                   </div>
                   <div className="text-2xl font-bold text-primary">

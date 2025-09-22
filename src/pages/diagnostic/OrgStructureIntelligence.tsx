@@ -22,12 +22,12 @@ import {
   Settings,
   Crown,
   Lock,
-  DollarSign,
   Target,
   BookOpen,
   Download,
   BarChart3
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 const OrgStructureIntelligence = () => {
   const [currentCase, setCurrentCase] = useState<string | null>(null);
@@ -188,7 +188,7 @@ const OrgStructureIntelligence = () => {
             {t('osi', 'saudization_by_layer')}
           </TabsTrigger>
           <TabsTrigger value="costs" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
+            <CurrencyIcon className="h-4 w-4" />
             {t('osi', 'cost_to_manage')}
           </TabsTrigger>
           <TabsTrigger value="playbook" className="flex items-center gap-2">

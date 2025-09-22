@@ -28,6 +28,7 @@ import {
   Phone,
   MoreHorizontal
 } from 'lucide-react';
+import { Coins } from 'lucide-react';
 
 interface CompanyProfileStepProps {
   isArabic: boolean;
@@ -50,7 +51,7 @@ const INDUSTRIES = [
     value: 'finance', 
     labelEn: 'Finance & Banking', 
     labelAr: 'المالية والمصرفية',
-    icon: DollarSign
+    icon: Coins
   },
   { 
     value: 'manufacturing', 

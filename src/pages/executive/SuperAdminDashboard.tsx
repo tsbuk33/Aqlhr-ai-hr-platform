@@ -7,13 +7,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { 
-  Crown, Users, Building2, DollarSign, TrendingUp, Activity, 
+  Crown, Users, Building2, TrendingUp, Activity, 
   Settings, Database, Mail, Globe, Shield, Zap, Brain, 
   FileText, Target, MessageSquare, Clock, AlertTriangle,
   ChevronRight, Search, Filter, Download, RefreshCw,
   UserCheck, Star, Award, Briefcase, BarChart3, 
   PieChart, LineChart, Map, Calendar, Bell
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import SelfHealingSystem from '@/components/self-healing/SelfHealingSystem';
 
@@ -87,7 +88,7 @@ const SuperAdminDashboard: React.FC = () => {
       title: isArabic ? 'إجمالي الإيرادات' : 'Total Revenue',
       value: `SAR ${metrics.totalRevenue.toLocaleString()}`,
       change: '+24.5%',
-      icon: DollarSign,
+      icon: CurrencyIcon,
       color: 'text-emerald-600'
     },
     {
@@ -634,7 +635,7 @@ const SuperAdminDashboard: React.FC = () => {
                       <p className="text-3xl font-bold text-purple-900 mt-2">SAR {mcKinseyMetrics.revenueFromMcKinsey.toLocaleString()}</p>
                       <p className="text-sm text-purple-600 mt-1">+28% this month</p>
                     </div>
-                    <DollarSign className="h-10 w-10 text-purple-600" />
+                    <CurrencyIcon className="h-10 w-10 text-purple-600" />
                   </div>
                 </CardContent>
               </Card>

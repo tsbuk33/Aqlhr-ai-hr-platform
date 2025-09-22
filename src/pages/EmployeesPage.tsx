@@ -10,11 +10,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
-  Plus, Search, Filter, Users, Building, MapPin, Mail, Phone, Calendar, DollarSign,
+  Plus, Search, Filter, Users, Building, MapPin, Mail, Phone, Calendar,
   Brain, TrendingUp, AlertTriangle, Star, Target, Activity, Zap, Shield,
   Award, BookOpen, ChevronRight, Eye, Edit, MoreVertical, Download,
   UserCheck, Clock, Briefcase, GraduationCap, Heart, MessageCircle
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { toast } from 'sonner';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { UniversalAIIntegrator } from "@/components/ai/UniversalAIIntegrator";
@@ -564,7 +565,7 @@ const EmployeesPage: React.FC = () => {
                         </div>
                         
                         <div className="flex items-center gap-2">
-                          <DollarSign className="h-4 w-4 text-muted-foreground" />
+                          <CurrencyIcon className="h-4 w-4 text-muted-foreground" />
                           <span className="font-medium">{formatCurrency(employee.salary)}</span>
                         </div>
 

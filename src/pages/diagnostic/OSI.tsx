@@ -30,6 +30,7 @@ import {
   AlertTriangle,
   Lock
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 const OSI = () => {
   const { lang } = useParams();
@@ -248,7 +249,7 @@ const OSI = () => {
             <span className="hidden sm:inline">{isArabic ? 'نطاق الإدارة' : 'Management Span'}</span>
           </TabsTrigger>
           <TabsTrigger value="cost" className="flex items-center gap-2">
-            <DollarSign className="h-4 w-4" />
+            <CurrencyIcon className="h-4 w-4" />
             <span className="hidden sm:inline">{isArabic ? 'تكلفة الإدارة' : 'Cost of Management'}</span>
           </TabsTrigger>
           <TabsTrigger value="export" className="flex items-center gap-2">

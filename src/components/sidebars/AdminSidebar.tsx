@@ -17,7 +17,6 @@ import {
   LayoutDashboard,
   Users,
   Calendar,
-  DollarSign,
   BarChart3,
   Settings,
   FileText,
@@ -25,15 +24,15 @@ import {
   TrendingUp,
   Shield,
   Target,
+  Coins,
 } from 'lucide-react';
 
 const adminItems = [
   { key: 'main_dashboard', url: '/', icon: LayoutDashboard },
   { key: 'admin_dashboard', url: '/admin', icon: LayoutDashboard },
   { key: 'executive_strategic_dashboard', url: '/executive/strategic-dashboard', icon: Target },
-  { key: 'employee_management', url: '/employees', icon: Users },
   { key: 'attendance_time', url: '/attendance', icon: Calendar },
-  { key: 'payroll_management', url: '/payroll', icon: DollarSign },
+  { key: 'payroll_management', url: '/payroll', icon: Coins },
   { key: 'hr_analytics', url: '/hr-analytics', icon: BarChart3 },
   { key: 'performance_reviews', url: '/performance', icon: TrendingUp },
   { key: 'compliance', url: '/compliance', icon: Shield },

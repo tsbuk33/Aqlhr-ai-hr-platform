@@ -12,8 +12,7 @@ import { formatNumber, formatCurrency, formatPercent } from "@/lib/i18n/format";
 import { 
   TrendingUp, 
   TrendingDown, 
-  Users, 
-  DollarSign, 
+  Users,
   Target, 
   Award, 
   Calendar,
@@ -26,6 +25,7 @@ import {
   PieChart,
   Activity
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { 
   LineChart, 
   Line, 
@@ -465,7 +465,7 @@ const ExecutiveReporting = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" />
+            <CurrencyIcon className="h-5 w-5" />
             {t('analytics.executiveReporting.businessIntelligence')}
           </CardTitle>
           <CardDescription>

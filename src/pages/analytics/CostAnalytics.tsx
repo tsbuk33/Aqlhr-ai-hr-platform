@@ -11,8 +11,7 @@ import { useAnalytics } from "@/hooks/useAnalytics";
 import { useDashboardTrends } from "@/hooks/useDashboardTrends";
 import { formatNumber, formatCurrency, formatPercent } from "@/lib/i18n/format";
 import { 
-  DollarSign, 
-  TrendingUp, 
+  TrendingUp,
   TrendingDown, 
   PieChart, 
   Calculator, 
@@ -30,6 +29,7 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { 
   LineChart, 
   Line, 
@@ -549,7 +549,7 @@ const CostAnalytics = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" />
+            <CurrencyIcon className="h-5 w-5" />
             {t('analytics.costAnalytics.budgetTracking')}
           </CardTitle>
           <CardDescription>

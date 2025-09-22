@@ -17,6 +17,7 @@ import {
   BarChart3,
   Activity
 } from 'lucide-react';
+import { Coins } from 'lucide-react';
 
 const AutonomousGOSITest: React.FC = () => {
   const achievements = [
@@ -68,7 +69,7 @@ const AutonomousGOSITest: React.FC = () => {
     {
       label: 'Cost Savings',
       value: '43K SAR/month',
-      icon: DollarSign,
+      icon: Coins,
       color: 'text-purple-500'
     }
   ];

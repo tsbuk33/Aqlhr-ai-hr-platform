@@ -10,8 +10,7 @@ import {
   AlertTriangle, 
   CheckCircle, 
   Clock, 
-  Users, 
-  DollarSign, 
+  Users,
   Target,
   Brain,
   Shield,
@@ -25,6 +24,7 @@ import {
   Building,
   Briefcase
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useAIDashboard } from '@/hooks/useAIDashboard';
 import { useAISync } from '@/hooks/useAISync';
 import { useAIRecommendations } from '@/hooks/useAIRecommendations';
@@ -673,7 +673,7 @@ const ExecutiveMobileApp: React.FC = () => {
               <Card className="border-primary/20 bg-primary/5">
                 <CardContent className="p-4">
                   <div className="flex items-start space-x-3">
-                    <DollarSign className="h-5 w-5 text-primary mt-0.5" />
+                    <CurrencyIcon className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <div className="font-medium text-primary">Cost Optimization</div>
                       <div className="text-sm text-foreground mt-1">
