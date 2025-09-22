@@ -22,6 +22,7 @@ import {
   ClipboardCheck,
   MessageSquare,
   TrendingUp,
+  Smartphone,
 } from 'lucide-react';
 
 const managerItems = [
@@ -33,6 +34,7 @@ const managerItems = [
   { key: 'team_goals', url: '/team-goals', icon: Target },
   { key: 'approve_requests', url: '/approve-requests', icon: ClipboardCheck },
   { key: 'team_analytics', url: '/team-analytics', icon: BarChart3 },
+  { key: 'team_analytics_mobile', url: '/mobile/team-analytics', icon: Smartphone },
   { key: 'team_feedback', url: '/team-feedback', icon: MessageSquare },
 ];
 

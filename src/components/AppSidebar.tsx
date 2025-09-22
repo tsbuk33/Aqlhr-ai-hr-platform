@@ -1023,6 +1023,41 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
+        {/* Mobile Analytics */}
+        <Collapsible open={openGroups.mobile} onOpenChange={() => toggleGroup('mobile')}>
+          <SidebarGroup className="p-0">
+            <CollapsibleTrigger className="w-full">
+              <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle hover:bg-surface-hover cursor-pointer flex items-center justify-between">
+                {isArabic ? 'تحليلات الجوال' : 'Mobile Analytics'}
+                <ChevronDown className={`h-4 w-4 transition-transform ${openGroups.mobile ? 'rotate-180' : ''}`} />
+              </SidebarGroupLabel>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <SidebarGroupContent className="p-2">
+                <SidebarMenu className="space-y-1 list-none">
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <NavLink to="/mobile" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
+                        <Smartphone className="h-4 w-4 text-blue-500" />
+                        <span>{isArabic ? 'تطبيقات الجوال الأصلية' : 'Native Mobile Apps'}</span>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <NavLink to="/mobile/team-analytics" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
+                        <BarChart3 className="h-4 w-4 text-green-500" />
+                        <span>{isArabic ? 'تحليلات الفريق المتنقلة' : 'Team Analytics Mobile'}</span>
+                        <Badge className="ml-auto text-xs bg-brand-success text-primary-foreground">NEW</Badge>
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+
         {/* Tools & Support */}
         <SidebarGroup className="p-0">
           <SidebarGroupLabel className="px-4 py-2 text-xs font-medium text-muted-foreground bg-surface-subtle">

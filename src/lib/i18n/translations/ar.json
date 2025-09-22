@@ -1,0 +1,32 @@
+{
+  "navigation": {
+    "team_management": "إدارة الفريق",
+    "team_analytics_mobile": "تحليلات الفريق المتنقلة",
+    "main_dashboard": "لوحة التحكم الرئيسية",
+    "manager_dashboard": "لوحة تحكم المدير",
+    "my_team": "فريقي",
+    "team_attendance": "حضور الفريق",
+    "performance_reviews": "مراجعات الأداء",
+    "team_goals": "أهداف الفريق",
+    "approve_requests": "الموافقة على الطلبات",
+    "team_analytics": "تحليلات الفريق",
+    "team_feedback": "ملاحظات الفريق"
+  },
+  "analytics": {
+    "team_analytics_mobile": "تحليلات الفريق المتنقلة",
+    "comprehensive_mobile_insights": "رؤى شاملة للفريق المحمول وتحليلات الأداء",
+    "team_performance_metrics": "مقاييس أداء الفريق",
+    "attendance_pattern_analysis": "تحليل أنماط الحضور",
+    "productivity_trends": "اتجاهات الإنتاجية",
+    "goal_achievement_rates": "معدلات تحقيق الأهداف",
+    "workload_distribution": "توزيع عبء العمل",
+    "time_utilization_analysis": "تحليل استخدام الوقت",
+    "team_engagement_scores": "درجات مشاركة الفريق",
+    "top_performer_identification": "تحديد أفضل المؤدين",
+    "action_item_recommendations": "توصيات عناصر العمل",
+    "active_teams": "الفرق النشطة",
+    "avg_performance": "متوسط الأداء",
+    "goals_achieved": "الأهداف المحققة",
+    "engagement_score": "درجة المشاركة"
+  }
+}

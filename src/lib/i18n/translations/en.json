@@ -1,0 +1,32 @@
+{
+  "navigation": {
+    "team_management": "Team Management",
+    "team_analytics_mobile": "Team Analytics Mobile",
+    "main_dashboard": "Main Dashboard",
+    "manager_dashboard": "Manager Dashboard",
+    "my_team": "My Team",
+    "team_attendance": "Team Attendance",
+    "performance_reviews": "Performance Reviews",
+    "team_goals": "Team Goals",
+    "approve_requests": "Approve Requests",
+    "team_analytics": "Team Analytics",
+    "team_feedback": "Team Feedback"
+  },
+  "analytics": {
+    "team_analytics_mobile": "Team Analytics Mobile",
+    "comprehensive_mobile_insights": "Comprehensive mobile team insights and performance analytics",
+    "team_performance_metrics": "Team Performance Metrics",
+    "attendance_pattern_analysis": "Attendance Pattern Analysis",
+    "productivity_trends": "Productivity Trends",
+    "goal_achievement_rates": "Goal Achievement Rates",
+    "workload_distribution": "Workload Distribution",
+    "time_utilization_analysis": "Time Utilization Analysis",
+    "team_engagement_scores": "Team Engagement Scores",
+    "top_performer_identification": "Top Performer Identification",
+    "action_item_recommendations": "Action Item Recommendations",
+    "active_teams": "Active Teams",
+    "avg_performance": "Avg Performance",
+    "goals_achieved": "Goals Achieved",
+    "engagement_score": "Engagement Score"
+  }
+}

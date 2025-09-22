@@ -50,6 +50,7 @@ import BenefitsManagement from '@/pages/modules/BenefitsManagement';
 import ExpenseManagement from '@/pages/modules/ExpenseManagement';
 import FinancialPlanning from '@/pages/modules/FinancialPlanning';
 import NativeMobileApps from '@/pages/mobile/NativeMobileApps';
+import TeamAnalyticsMobile from '@/pages/mobile/TeamAnalyticsMobile';
 import MobileAuth from '@/pages/auth/MobileAuth';
 import GOSIIntegration from '@/pages/modules/GOSIIntegration';
 import MOLIntegration from '@/pages/modules/MOLIntegration';
@@ -425,6 +426,17 @@ export default function AppRoutes() {
           <Suspense fallback={<RouteLoading />}>
             <NativeMobileApps />
           </Suspense>
+        } />
+
+        {/* Team Analytics Mobile */}
+        <Route path="mobile/team-analytics" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <TeamAnalyticsMobile />
+              </Suspense>
+            </LayoutShell>
+          </ProtectedRoute>
         } />
 
         {/* Generic Module Placeholder */}
