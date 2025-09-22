@@ -93,7 +93,7 @@ const EducationMinistry = lazy(() => import('../pages/government/EducationMinist
 const TaqatHRDF = lazy(() => import('../pages/government/TaqatHRDF'));
 const NCEIEmployment = lazy(() => import('../pages/government/NCEIEmployment'));
 const InteriorMinistry = lazy(() => import('../pages/government/InteriorMinistry'));
-const ESNADNotarization = lazy(() => import('../pages/government/ESNADNotarization'));
+const ESNADIntegration = lazy(() => import('../pages/government/ESNADIntegration'));
 const SaudiPostVerification = lazy(() => import('../pages/government/SaudiPostVerification'));
 const TawakkalnaCompliance = lazy(() => import('../pages/government/TawakkalnaCompliance'));
 const UmmAlQuraCalendar = lazy(() => import('../pages/government/UmmAlQuraCalendar'));
@@ -544,7 +544,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/taqat', element: TaqatHRDF, auth: true },
   { path: '/government/ncei', element: NCEIEmployment, auth: true },
   { path: '/government/interior', element: InteriorMinistry, auth: true },
-  { path: '/government/esnad', element: ESNADNotarization, auth: true },
+  { path: '/government/esnad', element: ESNADIntegration, auth: true },
   { path: '/government/saudi-post', element: SaudiPostVerification, auth: true },
   { path: '/government/tawakkalna', element: TawakkalnaCompliance, auth: true },
   { path: '/government/umm-al-qura', element: UmmAlQuraCalendar, auth: true },
