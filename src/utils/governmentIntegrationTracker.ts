@@ -65,13 +65,16 @@ export class GovernmentIntegrationTracker {
       { code: 'QIWA', name: 'Labor Market Platform', sequence: 5 },
       { code: 'ABSHER', name: 'Government Services Platform', sequence: 6 },
       { code: 'MUQEEM', name: 'Resident Services Platform', sequence: 7 },
-      { code: 'GOSI', name: 'Social Insurance Platform', sequence: 8 },
-      { code: 'NITAQAT', name: 'Saudization Compliance', sequence: 9 },
-      { code: 'TVTC', name: 'Technical Training Corporation', sequence: 10 },
-      { code: 'MOL', name: 'Ministry of Labor Platform', sequence: 11 },
-      { code: 'ELM', name: 'Education & Learning Management', sequence: 12 },
-      { code: 'SEHA', name: 'Healthcare Platform', sequence: 13 },
-      { code: 'SAUDI_POST', name: 'Postal Verification Services', sequence: 14 }
+      { code: 'NAJIZ', name: 'Business Gateway Platform', sequence: 8 },
+      { code: 'SADAD', name: 'Payment Platform', sequence: 9 },
+      { code: 'GOSI', name: 'Social Insurance Platform', sequence: 10 },
+      { code: 'GOSI', name: 'Social Insurance Platform', sequence: 10 },
+      { code: 'NITAQAT', name: 'Saudization Compliance', sequence: 11 },
+      { code: 'TVTC', name: 'Technical Training Corporation', sequence: 12 },
+      { code: 'MOL', name: 'Ministry of Labor Platform', sequence: 13 },
+      { code: 'ELM', name: 'Education & Learning Management', sequence: 14 },
+      { code: 'ELM', name: 'Education & Learning Management', sequence: 14 },
+      { code: 'SEHA', name: 'Healthcare Platform', sequence: 15 }
     ];
 
     return portals.map(portal => ({

@@ -89,6 +89,8 @@ const MedicalInsurancePlatform = lazy(() => import('../pages/government/MedicalI
 // New Government Portals
 const ABSHERIntegration = lazy(() => import('../pages/government/ABSHERIntegration'));
 const MUQEEMIntegration = lazy(() => import('../pages/government/MUQEEMIntegration'));
+const NAJIZIntegration = lazy(() => import('../pages/government/NAJIZIntegration'));
+const SADADIntegration = lazy(() => import('../pages/government/SADADIntegration'));
 const QiyasAssessment = lazy(() => import('../pages/government/QiyasAssessment'));
 const NCAAAccreditation = lazy(() => import('../pages/government/NCAAAccreditation'));
 const EducationMinistry = lazy(() => import('../pages/government/EducationMinistry'));
@@ -524,10 +526,13 @@ export const ROUTES: RouteConfig[] = [
   // Government Integration Sub-routes
   { path: '/government/qiwa', element: QiwaIntegration, auth: true },
   { path: '/government/absher', element: ABSHERIntegration, auth: true },
-  { path: '/government/muqeem', element: MuqeemPlatform, auth: true },
+  { path: '/government/muqeem', element: MUQEEMIntegration, auth: true },
   { path: '/government/mudad', element: MUDADIntegration, auth: true },
   { path: '/government/etimad', element: ETIMADIntegration, auth: true },
   { path: '/government/tawakkalna', element: TAWAKKALNAIntegration, auth: true },
+  { path: '/government/esnad', element: ESNADIntegration, auth: true },
+  { path: '/government/najiz', element: NAJIZIntegration, auth: true },
+  { path: '/government/sadad', element: SADADIntegration, auth: true },
   { path: '/government/nitaqat', element: NitaqatCompliance, auth: true },
   { path: '/government/tvtc', element: TVTCIntegration, auth: true },
   { path: '/government/mol', element: MOLCompliance, auth: true },
