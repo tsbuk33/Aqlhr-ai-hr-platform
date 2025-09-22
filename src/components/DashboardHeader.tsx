@@ -88,7 +88,7 @@ export function DashboardHeader() {
               {isArabic ? (
                 <>
                   <p className="text-sm font-semibold text-foreground flex items-center gap-1">
-                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-yellow-500" />}
+                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-brand-accent" />}
                     {['admin', 'hr_manager'].includes(profile?.role || '') && <Shield className="w-3 h-3 text-blue-500" />}
                     {profile?.first_name || user?.email?.split('@')[0] || 'مستخدم'}
                   </p>
@@ -97,7 +97,7 @@ export function DashboardHeader() {
               ) : (
                 <>
                   <p className="text-sm font-semibold text-foreground flex items-center gap-1">
-                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-yellow-500" />}
+                    {profile?.role === 'owner' && <Crown className="w-3 h-3 text-brand-accent" />}
                     {['admin', 'hr_manager'].includes(profile?.role || '') && <Shield className="w-3 h-3 text-blue-500" />}
                     {profile?.first_name || user?.email?.split('@')[0] || 'User'}
                   </p>

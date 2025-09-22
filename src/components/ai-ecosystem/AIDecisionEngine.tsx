@@ -12,10 +12,10 @@ import {
   TrendingUp, 
   Shield, 
   Users, 
-  DollarSign,
   Target,
   Zap
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useToast } from '@/hooks/use-toast';
 
 interface Decision {
@@ -187,7 +187,7 @@ export const AIDecisionEngine: React.FC = () => {
   const getRiskColor = (level: string) => {
     switch (level) {
       case 'high': return 'text-red-600';
-      case 'medium': return 'text-yellow-600';
+      case 'medium': return 'text-status-warning';
       case 'low': return 'text-green-600';
       default: return 'text-gray-600';
     }
@@ -239,7 +239,7 @@ export const AIDecisionEngine: React.FC = () => {
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-yellow-600">{metrics.pendingDecisions}</div>
+            <div className="text-2xl font-bold text-status-warning">{metrics.pendingDecisions}</div>
             <div className="text-sm text-muted-foreground">Pending</div>
           </CardContent>
         </Card>
@@ -327,7 +327,7 @@ export const AIDecisionEngine: React.FC = () => {
                         )}
                         {decision.estimatedSavings && (
                           <div className="flex items-center gap-2">
-                            <DollarSign className="h-4 w-4 text-muted-foreground" />
+                            <CurrencyIcon className="h-4 w-4 text-muted-foreground" />
                             <span className="text-sm">{decision.estimatedSavings.toLocaleString()} SAR</span>
                           </div>
                         )}

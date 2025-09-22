@@ -222,7 +222,7 @@ export function UserManagement() {
                       <h4 className="font-medium">
                         {user.first_name} {user.last_name}
                       </h4>
-                      {user.role === 'owner' && <Crown className="h-4 w-4 text-yellow-500" />}
+                      {user.role === 'owner' && <Crown className="h-4 w-4 text-brand-accent" />}
                       {['admin', 'hr_manager'].includes(user.role) && <Shield className="h-4 w-4 text-blue-500" />}
                     </div>
                     <p className="text-sm text-muted-foreground">{user.email}</p>

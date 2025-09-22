@@ -94,7 +94,7 @@ const roleDefinitions = [
     title: 'Line Manager',
     titleAr: 'المدير المباشر',
     icon: UserCheck,
-    color: 'bg-yellow-500',
+    color: 'bg-status-warning text-primary-foreground',
     description: 'Team management, approval workflows, direct reports oversight',
     descriptionAr: 'إدارة الفريق، سير عمل الموافقات، إشراف التقارير المباشرة',
     level: 'SUPERVISORY',
@@ -323,7 +323,7 @@ export const RoleBasedAccessMatrix: React.FC = () => {
               <Card key={role.role} className="hover:shadow-md transition-shadow">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3">
-                    <div className={`p-3 rounded-lg ${role.color} text-white`}>
+                    <div className={`p-3 rounded-lg ${role.color}`}>
                       <role.icon className="h-6 w-6" />
                     </div>
                     <div>
@@ -476,7 +476,7 @@ export const RoleBasedAccessMatrix: React.FC = () => {
                   <Card key={role.role} className="h-fit">
                     <CardHeader className="pb-3">
                       <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${role.color} text-white`}>
+                        <div className={`p-2 rounded-lg ${role.color}`}>
                           <role.icon className="h-5 w-5" />
                         </div>
                         <div>

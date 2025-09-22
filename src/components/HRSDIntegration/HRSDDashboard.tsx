@@ -53,7 +53,7 @@ export default function HRSDDashboard() {
     switch (band) {
       case 'platinum': return 'bg-purple-500';
       case 'green': return 'bg-green-500';
-      case 'yellow': return 'bg-yellow-500';
+      case 'yellow': return 'bg-status-warning text-primary-foreground';
       case 'red': return 'bg-red-500';
       default: return 'bg-gray-500';
     }
@@ -63,7 +63,7 @@ export default function HRSDDashboard() {
     switch (band) {
       case 'platinum': return 'text-purple-700';
       case 'green': return 'text-green-700';
-      case 'yellow': return 'text-yellow-700';
+      case 'yellow': return 'text-status-warning';
       case 'red': return 'text-red-700';
       default: return 'text-gray-700';
     }
@@ -72,7 +72,7 @@ export default function HRSDDashboard() {
   const getComplianceIcon = (status: string) => {
     switch (status) {
       case 'compliant': return <CheckCircle2 className="h-5 w-5 text-green-500" />;
-      case 'warning': return <AlertTriangle className="h-5 w-5 text-yellow-500" />;
+      case 'warning': return <AlertTriangle className="h-5 w-5 text-status-warning" />;
       case 'non_compliant': return <AlertTriangle className="h-5 w-5 text-red-500" />;
       default: return <Clock className="h-5 w-5 text-gray-500" />;
     }
@@ -111,7 +111,7 @@ export default function HRSDDashboard() {
 
       {/* Compliance Alert */}
       {saudizationMetrics && saudizationMetrics.complianceStatus !== 'compliant' && (
-        <Alert className="border-yellow-200 bg-yellow-50">
+        <Alert className="border-status-warning bg-status-warning/10">
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>Compliance Warning</AlertTitle>
           <AlertDescription>
@@ -151,7 +151,7 @@ export default function HRSDDashboard() {
                   </div>
                   <p className="text-xs text-muted-foreground">Nitaqat Band</p>
                 </div>
-                <Trophy className="h-8 w-8 text-yellow-500" />
+                <Trophy className="h-8 w-8 text-brand-accent" />
               </div>
             </CardContent>
           </Card>

@@ -185,7 +185,7 @@ const PredictiveAnalyticsEngine = () => {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-lg bg-gradient-to-r from-brand-accent to-brand-primary text-white">
+              <div className="p-3 rounded-lg bg-card border border-border text-card-foreground">
                 <TrendingUp className="h-8 w-8" />
               </div>
               <div>

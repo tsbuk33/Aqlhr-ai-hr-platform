@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  DollarSign, 
   TrendingUp, 
   Users, 
   Target,
@@ -18,6 +17,7 @@ import {
   BarChart3,
   AlertCircle
 } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useLocale } from '../LocaleDriver';
 import { SalaryBenchmark, BenchmarkCriteria } from '../../types/salary-benchmarking';
 import { SalaryBenchmarkingService } from '../../services/salary-benchmarking.service';
@@ -72,7 +72,7 @@ export const BenchmarkingDashboard: React.FC = () => {
   const getPercentileColor = (percentile: number) => {
     if (percentile >= 75) return 'text-green-600';
     if (percentile >= 50) return 'text-blue-600';
-    if (percentile >= 25) return 'text-yellow-600';
+    if (percentile >= 25) return 'text-status-warning';
     return 'text-red-600';
   };
 
@@ -345,7 +345,7 @@ export const BenchmarkingDashboard: React.FC = () => {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-2">
                     <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
-                      <span className="text-white text-sm font-bold">AI</span>
+                      <span className="text-primary-foreground text-sm font-bold">AI</span>
                     </div>
                     <span className="font-medium">{t('salary.benchmarking.aiPowered')}</span>
                   </div>
@@ -367,7 +367,7 @@ export const BenchmarkingDashboard: React.FC = () => {
                       </div>
                     ) : (
                       <div className="flex items-center space-x-2">
-                        <DollarSign className="h-4 w-4" />
+                        <CurrencyIcon className="h-4 w-4" />
                         <span>{t('salary.benchmarking.generate')}</span>
                       </div>
                     )}
@@ -385,7 +385,7 @@ export const BenchmarkingDashboard: React.FC = () => {
               <Card className="lg:col-span-2">
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
-                    <DollarSign className="h-5 w-5" />
+                    <CurrencyIcon className="h-5 w-5" />
                     <span>{t('salary.benchmarking.results.salaryOverview')}</span>
                   </CardTitle>
                   <CardDescription>
@@ -513,7 +513,7 @@ export const BenchmarkingDashboard: React.FC = () => {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600">
-                  <span className="text-white text-sm font-bold">AI</span>
+                  <span className="text-primary-foreground text-sm font-bold">AI</span>
                 </div>
                 <span>{t('salary.benchmarking.insights.title')}</span>
               </CardTitle>

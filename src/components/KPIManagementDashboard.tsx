@@ -155,12 +155,12 @@ const KPIManagementDashboard = () => {
     if (unit === 'ms' || unit?.includes('Time')) {
       // Lower is better for latency/time metrics
       if (percentage <= 80) return 'bg-green-500';
-      if (percentage <= 100) return 'bg-yellow-500';
+      if (percentage <= 100) return 'bg-status-warning';
       return 'bg-red-500';
     } else {
       // Higher is better for most metrics
       if (percentage >= 95) return 'bg-green-500';
-      if (percentage >= 85) return 'bg-yellow-500';
+      if (percentage >= 85) return 'bg-status-warning';
       return 'bg-red-500';
     }
   };
@@ -168,7 +168,7 @@ const KPIManagementDashboard = () => {
   const getPerformanceGradeColor = (grade: string) => {
     if (grade.startsWith('A')) return 'text-green-600 bg-green-50';
     if (grade.startsWith('B')) return 'text-blue-600 bg-blue-50';
-    if (grade.startsWith('C')) return 'text-yellow-600 bg-yellow-50';
+    if (grade.startsWith('C')) return 'text-status-warning bg-status-warning/10';
     if (grade.startsWith('D')) return 'text-orange-600 bg-orange-50';
     return 'text-red-600 bg-red-50';
   };

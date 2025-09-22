@@ -229,7 +229,7 @@ export const JourneyDashboard: React.FC = () => {
     switch (priority) {
       case 'critical': return 'text-red-600';
       case 'high': return 'text-orange-600';
-      case 'medium': return 'text-yellow-600';
+      case 'medium': return 'text-status-warning';
       case 'low': return 'text-green-600';
       default: return 'text-gray-600';
     }

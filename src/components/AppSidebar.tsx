@@ -146,7 +146,7 @@ export function AppSidebar() {
                 <div className="flex items-center gap-2 mt-1">
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-status-warning rounded-full"></div>
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   </div>
                   <span className="text-xs text-muted-foreground">
@@ -235,7 +235,7 @@ export function AppSidebar() {
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <NavLink to="/executive-center" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                            <Crown className="h-4 w-4 text-yellow-500" />
+                            <Crown className="h-4 w-4 text-brand-accent" />
                             <span className="truncate">{isArabic ? 'مركز الذكاء التنفيذي' : 'Executive Intelligence Center'}</span>
                             <div className="ml-auto flex items-center gap-1">
                               <Badge className="text-xs bg-brand-warning text-primary-foreground">PREMIUM</Badge>

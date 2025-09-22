@@ -240,7 +240,7 @@ const SystemEngineerDashboard = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'healthy': return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'warning': return <AlertTriangle className="h-4 w-4 text-status-warning" />;
       case 'critical': return <XCircle className="h-4 w-4 text-red-500" />;
       default: return <Activity className="h-4 w-4 text-gray-500" />;
     }
@@ -249,7 +249,7 @@ const SystemEngineerDashboard = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'healthy': return 'bg-green-500';
-      case 'warning': return 'bg-yellow-500';
+      case 'warning': return 'bg-status-warning text-primary-foreground';
       case 'critical': return 'bg-red-500';
       default: return 'bg-gray-500';
     }
@@ -377,7 +377,7 @@ const SystemEngineerDashboard = () => {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
-                <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                <AlertTriangle className="h-4 w-4 text-status-warning" />
                 {tr.warningIssues}
               </CardTitle>
             </CardHeader>

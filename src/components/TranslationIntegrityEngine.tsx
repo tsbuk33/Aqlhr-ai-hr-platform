@@ -191,7 +191,7 @@ export const TranslationIntegrityEngine: React.FC = () => {
 
   const getHealthColor = (score: number) => {
     if (score >= 90) return 'text-green-600';
-    if (score >= 70) return 'text-yellow-600';
+    if (score >= 70) return 'text-status-warning';
     return 'text-red-600';
   };
 

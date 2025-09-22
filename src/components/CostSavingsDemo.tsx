@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { huggingFaceEmbeddings } from '@/utils/huggingface-embeddings';
-import { Loader2, Zap, DollarSign, Database, Clock } from 'lucide-react';
+import { Loader2, Zap, Database, Clock } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 const CostSavingsDemo = () => {
   const { toast } = useToast();
@@ -76,7 +77,7 @@ const CostSavingsDemo = () => {
           <Card key={index} className={item.color === 'success' ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5" />
+                <CurrencyIcon className="h-5 w-5" />
                 {item.service}
               </CardTitle>
               <CardDescription>{item.cost}</CardDescription>
