@@ -12,13 +12,13 @@ import {
   CheckCircle, 
   Brain,
   Calendar,
-  DollarSign,
   Building,
   UserPlus,
   UserMinus,
   BarChart3,
   Activity
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useToast } from '@/hooks/use-toast';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 
@@ -228,7 +228,7 @@ export const PredictiveWorkforcePlanner: React.FC = () => {
       case 'attrition_risk': return <UserMinus className="h-4 w-4 text-status-danger" />;
       case 'skill_gap': return <Brain className="h-4 w-4 text-primary" />;
       case 'capacity_shortage': return <Users className="h-4 w-4 text-brand-warning" />;
-      case 'budget_impact': return <DollarSign className="h-4 w-4 text-muted-foreground" />;
+      case 'budget_impact': return <CurrencyIcon className="h-4 w-4 text-muted-foreground" />;
       default: return <Target className="h-4 w-4 text-muted-foreground" />;
     }
   };
@@ -359,7 +359,7 @@ export const PredictiveWorkforcePlanner: React.FC = () => {
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-brand-success" />
+              <CurrencyIcon className="h-5 w-5 text-brand-success" />
               <div>
                 <p className="text-sm font-medium text-muted-foreground">
                   {isArabic ? "وفورات تكلفة" : "Cost Savings"}

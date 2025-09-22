@@ -21,7 +21,6 @@ import {
   UserX,
   Target,
   Award,
-  DollarSign,
   Video,
   Phone,
   CheckCircle,

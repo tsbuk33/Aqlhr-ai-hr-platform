@@ -12,7 +12,6 @@ import {
   Search, 
   BookOpen, 
   Scale, 
-  DollarSign,
   Calendar,
   User,
   FileText,
@@ -24,6 +23,7 @@ import {
   Eye,
   Plus
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 export const LegalResearchAssistant: React.FC = () => {
   const { t, isRTL } = useLanguage();
@@ -463,7 +463,7 @@ export const LegalResearchAssistant: React.FC = () => {
                         {isRTL ? 'الملف الشخصي' : 'View Profile'}
                       </Button>
                       <Button size="sm" variant="outline">
-                        <DollarSign className="h-3 w-3 mr-1" />
+                        <CurrencyIcon className="h-3 w-3 mr-1" />
                         {isRTL ? 'تقدير التكلفة' : 'Cost Estimation'}
                       </Button>
                     </div>

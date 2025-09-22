@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { useLocale, formatNumber } from '@/i18n/locale';
 import { useOSI } from '@/hooks/useOSI';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertTriangle, DollarSign, TrendingUp, Calculator } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Calculator } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 interface OSICostProps {
@@ -95,7 +96,7 @@ export const OSICost: React.FC<OSICostProps> = ({ tenantId }) => {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
+              <CurrencyIcon className="h-4 w-4" />
               {t('osi', 'total_monthly_cost')}
             </CardTitle>
           </CardHeader>
@@ -164,7 +165,7 @@ export const OSICost: React.FC<OSICostProps> = ({ tenantId }) => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" />
+            <CurrencyIcon className="h-5 w-5" />
             {t('osi', 'salary_cost_by_layer')}
           </CardTitle>
           <CardDescription>

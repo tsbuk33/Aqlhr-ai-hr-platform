@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { RefreshCw, TrendingUp, AlertTriangle, Users, DollarSign } from 'lucide-react';
+import { RefreshCw, TrendingUp, AlertTriangle, Users } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { Skeleton } from '@/components/ui/skeleton';
 import { OrgChart } from './OrgChart';
 
@@ -184,7 +185,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
+              <CurrencyIcon className="h-4 w-4" />
               {t('osi', 'management_cost_monthly')}
             </CardTitle>
           </CardHeader>
@@ -265,7 +266,7 @@ export const OSIOverview: React.FC<OSIOverviewProps> = ({ tenantId }) => {
               {t('osi', 'view_org_chart')}
             </Button>
             <Button variant="outline">
-              <DollarSign className="h-4 w-4 mr-2" />
+              <CurrencyIcon className="h-4 w-4 mr-2" />
               {t('osi', 'analyze_costs')}
             </Button>
           </div>

@@ -8,7 +8,6 @@ import { useLanguage } from '@/components/layout/UniversalLanguageProvider';
 import { 
   Building, 
   TrendingUp, 
-  DollarSign, 
   Target, 
   Users, 
   Award,
@@ -21,6 +20,7 @@ import {
   BarChart,
   Calendar
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 export const OrganizationalLearningIntelligence: React.FC = () => {
   const { t, isRTL } = useLanguage();
@@ -228,7 +228,7 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
 
                     <div className="grid gap-4 md:grid-cols-4">
                       <div className="text-center p-3 bg-muted rounded-lg">
-                        <DollarSign className="h-5 w-5 mx-auto mb-2 text-green-600" />
+                        <CurrencyIcon className="h-5 w-5 mx-auto mb-2 text-green-600" />
                         <p className="text-sm text-muted-foreground">ROI</p>
                         <p className="text-lg font-bold text-green-600">{dept.roi}%</p>
                       </div>
@@ -324,10 +324,10 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 <Card className="p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <DollarSign className="h-5 w-5 text-green-500" />
+                    <CurrencyIcon className="h-5 w-5 text-green-500" />
                     <h4 className="font-semibold">Total Investment</h4>
                   </div>
-                  <p className="text-2xl font-bold">$437K</p>
+                  <p className="text-2xl font-bold">1.64M SAR</p>
                   <p className="text-sm text-muted-foreground">Across all programs</p>
                 </Card>
                 
@@ -458,9 +458,9 @@ export const OrganizationalLearningIntelligence: React.FC = () => {
 
                     <div className="grid gap-4 md:grid-cols-3 mb-4">
                       <div className="text-center p-3 bg-muted rounded-lg">
-                        <DollarSign className="h-5 w-5 mx-auto mb-2 text-red-600" />
+                        <CurrencyIcon className="h-5 w-5 mx-auto mb-2 text-red-600" />
                         <p className="text-sm text-muted-foreground">Estimated Cost</p>
-                        <p className="text-lg font-bold">${need.estimatedCost.toLocaleString()}</p>
+                        <p className="text-lg font-bold">{(need.estimatedCost * 3.75).toLocaleString()} SAR</p>
                       </div>
                       <div className="text-center p-3 bg-muted rounded-lg">
                         <TrendingUp className="h-5 w-5 mx-auto mb-2 text-green-600" />

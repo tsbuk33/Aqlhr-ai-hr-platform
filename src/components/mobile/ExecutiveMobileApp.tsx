@@ -19,7 +19,6 @@ import {
   TrendingUp, 
   Users, 
   Building,
-  DollarSign,
   AlertCircle,
   Target,
   Award,

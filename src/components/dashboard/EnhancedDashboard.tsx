@@ -5,10 +5,11 @@ import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { 
   Users, Calendar, TrendingUp, ArrowUp, ArrowDown, Activity,
-  DollarSign, Clock, Sun, MapPin, Thermometer, CloudRain,
+  Clock, Sun, MapPin, Thermometer, CloudRain,
   AlertTriangle, CheckCircle, Building2, Target, Shield,
   Zap, RefreshCw, BarChart3
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { useEmployeesData } from '@/hooks/useEmployeesData';
 import { useLiveDashboard } from '@/hooks/useLiveDashboard';
@@ -178,7 +179,7 @@ export function EnhancedDashboard() {
           <Card className="aqlhr-card">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-green-400" />
+                <CurrencyIcon className="h-5 w-5 text-green-400" />
                 {isArabic ? 'استخدام الميزانية' : 'Budget Utilization'}
               </CardTitle>
             </CardHeader>

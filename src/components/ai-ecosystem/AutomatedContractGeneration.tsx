@@ -20,9 +20,9 @@ import {
   Archive,
   Search,
   Plus,
-  Calendar,
-  DollarSign
+  Calendar
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useToast } from "@/hooks/use-toast";
 
 interface ContractTemplate {
@@ -506,7 +506,7 @@ export const AutomatedContractGeneration: React.FC = () => {
                     <div>
                       <p className="text-sm text-muted-foreground">Salary</p>
                       <p className="font-medium flex items-center gap-1">
-                        <DollarSign className="h-3 w-3" />
+                        <CurrencyIcon className="h-3 w-3" />
                         {contract.salary.toLocaleString()} SAR
                       </p>
                     </div>

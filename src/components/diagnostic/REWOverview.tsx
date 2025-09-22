@@ -3,7 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangle, Users, Clock, TrendingUp, Shield, DollarSign } from "lucide-react";
+import { AlertTriangle, Users, Clock, TrendingUp, Shield } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -95,7 +96,7 @@ const REWOverview = ({ caseId }: REWOverviewProps) => {
       case 'psychological_safety': return <Shield className="h-4 w-4" />;
       case 'management_overload': return <Users className="h-4 w-4" />;
       case 'contract_expiry': return <Clock className="h-4 w-4" />;
-      case 'compensation_gap': return <DollarSign className="h-4 w-4" />;
+      case 'compensation_gap': return <CurrencyIcon className="h-4 w-4" />;
       default: return <TrendingUp className="h-4 w-4" />;
     }
   };
