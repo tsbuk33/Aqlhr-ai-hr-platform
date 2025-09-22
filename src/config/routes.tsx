@@ -56,6 +56,7 @@ const SaudizationCalculator = lazy(() => import('../pages/core-hr/SaudizationCal
 const GovIntegrationHub = lazy(() => import('../pages/government/GovIntegrationHub'));
 const MUDADIntegration = lazy(() => import('../pages/government/MUDADIntegration'));
 const ETIMADIntegration = lazy(() => import('../pages/government/ETIMADIntegration'));
+const TAWAKKALNAIntegration = lazy(() => import('../pages/government/TAWAKKALNAIntegration'));
 
 // HSE Module
 const HealthSafety = lazy(() => import('../pages/HealthSafety'));
@@ -524,6 +525,7 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/muqeem', element: MuqeemPlatform, auth: true },
   { path: '/government/mudad', element: MUDADIntegration, auth: true },
   { path: '/government/etimad', element: ETIMADIntegration, auth: true },
+  { path: '/government/tawakkalna', element: TAWAKKALNAIntegration, auth: true },
   { path: '/government/nitaqat', element: NitaqatCompliance, auth: true },
   { path: '/government/tvtc', element: TVTCIntegration, auth: true },
   { path: '/government/mol', element: MOLCompliance, auth: true },
