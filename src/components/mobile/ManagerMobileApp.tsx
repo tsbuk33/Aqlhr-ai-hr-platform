@@ -37,6 +37,11 @@ import { EmergencyTeamContact } from './manager/EmergencyTeamContact';
 import { PerformanceQuickReview } from './manager/PerformanceQuickReview';
 import { BudgetOverview } from './manager/BudgetOverview';
 import { VideoCallIntegration } from './manager/VideoCallIntegration';
+import { AttendanceTrends } from './manager/AttendanceTrends';
+import { TeamGoalTracking } from './manager/TeamGoalTracking';
+import { TaskAssignmentInterface } from './manager/TaskAssignmentInterface';
+import { TeamWorkflowStatus } from './manager/TeamWorkflowStatus';
+import { GovernmentComplianceStatus } from './manager/GovernmentComplianceStatus';
 
 interface ManagerProfile {
   id: string;
@@ -477,6 +482,8 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
 
           <TabsContent value="analytics" className="space-y-4">
             <TeamAnalytics isArabic={isArabic} teamMembers={teamMembers} />
+            <AttendanceTrends isArabic={isArabic} />
+            <TeamGoalTracking isArabic={isArabic} />
             
             <Card>
               <CardHeader>
@@ -495,51 +502,9 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
             <div className="grid grid-cols-1 gap-4">
               <BudgetOverview isArabic={isArabic} detailed={true} />
               <VideoCallIntegration isArabic={isArabic} expanded={true} />
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Briefcase className="h-5 w-5" />
-                    {isArabic ? 'أدوات الإدارة' : 'Management Tools'}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button variant="outline" className="justify-start h-auto p-3">
-                      <div className="flex flex-col items-start">
-                        <FileText className="h-4 w-4 mb-1" />
-                        <span className="text-xs">
-                          {isArabic ? 'تقارير مخصصة' : 'Custom Reports'}
-                        </span>
-                      </div>
-                    </Button>
-                    <Button variant="outline" className="justify-start h-auto p-3">
-                      <div className="flex flex-col items-start">
-                        <Target className="h-4 w-4 mb-1" />
-                        <span className="text-xs">
-                          {isArabic ? 'تتبع الأهداف' : 'Goal Tracking'}
-                        </span>
-                      </div>
-                    </Button>
-                    <Button variant="outline" className="justify-start h-auto p-3">
-                      <div className="flex flex-col items-start">
-                        <Shield className="h-4 w-4 mb-1" />
-                        <span className="text-xs">
-                          {isArabic ? 'تقارير الامتثال' : 'Compliance Reports'}
-                        </span>
-                      </div>
-                    </Button>
-                    <Button variant="outline" className="justify-start h-auto p-3">
-                      <div className="flex flex-col items-start">
-                        <Activity className="h-4 w-4 mb-1" />
-                        <span className="text-xs">
-                          {isArabic ? 'مراقبة النشاط' : 'Activity Monitor'}
-                        </span>
-                      </div>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <TaskAssignmentInterface isArabic={isArabic} />
+              <TeamWorkflowStatus isArabic={isArabic} />
+              <GovernmentComplianceStatus isArabic={isArabic} />
             </div>
           </TabsContent>
         </Tabs>
