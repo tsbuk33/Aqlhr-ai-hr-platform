@@ -577,14 +577,21 @@ export const SaudiAIComplianceEngine: React.FC = () => {
                     </div>
                     {update.actionRequired && (
                       <Button size="sm" className="bg-brand-primary text-primary-foreground">
-...
-                <Button onClick={generateComplianceReport} className="bg-status-success text-primary-foreground">
-                  <FileText className="mr-2 h-4 w-4" />
-                  {isArabic ? 'إنشاء تقرير' : 'Generate Report'}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+                        {isArabic ? 'إجراء مطلوب' : 'Action Required'}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Button onClick={generateComplianceReport} className="bg-status-success text-primary-foreground">
+              <FileText className="mr-2 h-4 w-4" />
+              {isArabic ? 'إنشاء تقرير' : 'Generate Report'}
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
 
