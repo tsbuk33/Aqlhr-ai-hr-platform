@@ -54,6 +54,8 @@ const SuccessionPlanningCore = lazy(() => import('../pages/core-hr/SuccessionPla
 const CompensationManagementCore = lazy(() => import('../pages/core-hr/CompensationManagementCore'));
 const SaudizationCalculator = lazy(() => import('../pages/core-hr/SaudizationCalculator'));
 const GovIntegrationHub = lazy(() => import('../pages/government/GovIntegrationHub'));
+const MUDADIntegration = lazy(() => import('../pages/government/MUDADIntegration'));
+const ETIMADIntegration = lazy(() => import('../pages/government/ETIMADIntegration'));
 
 // HSE Module
 const HealthSafety = lazy(() => import('../pages/HealthSafety'));
@@ -520,7 +522,8 @@ export const ROUTES: RouteConfig[] = [
   { path: '/government/qiwa', element: QiwaIntegration, auth: true },
   { path: '/government/absher', element: AbsherPlatform, auth: true },
   { path: '/government/muqeem', element: MuqeemPlatform, auth: true },
-  { path: '/government/mudad', element: MudadPlatform, auth: true },
+  { path: '/government/mudad', element: MUDADIntegration, auth: true },
+  { path: '/government/etimad', element: ETIMADIntegration, auth: true },
   { path: '/government/nitaqat', element: NitaqatCompliance, auth: true },
   { path: '/government/tvtc', element: TVTCIntegration, auth: true },
   { path: '/government/mol', element: MOLCompliance, auth: true },
