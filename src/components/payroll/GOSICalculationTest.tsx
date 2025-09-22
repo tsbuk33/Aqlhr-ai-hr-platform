@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calculator, Users, DollarSign } from 'lucide-react';
+import { Calculator, Users } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useGOSI } from '@/hooks/useGOSI';
 
 interface TestEmployee {
@@ -123,7 +124,7 @@ export const GOSICalculationTest: React.FC = () => {
         {results.length > 0 && (
           <div className="space-y-4">
             <h3 className="text-lg font-semibold flex items-center gap-2">
-              <DollarSign className="h-5 w-5" />
+              <CurrencyIcon className="h-5 w-5" />
               Calculation Results
             </h3>
             

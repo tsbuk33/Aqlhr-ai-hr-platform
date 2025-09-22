@@ -163,11 +163,11 @@ const AISystemValidator: React.FC = () => {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'passed':
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-brand-success" />;
       case 'failed':
-        return <XCircle className="h-5 w-5 text-red-500" />;
+        return <XCircle className="h-5 w-5 text-brand-danger" />;
       case 'running':
-        return <Clock className="h-5 w-5 text-blue-500 animate-spin" />;
+        return <Clock className="h-5 w-5 text-brand-primary animate-spin" />;
       default:
         return <AlertTriangle className="h-5 w-5 text-gray-400" />;
     }

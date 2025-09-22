@@ -185,8 +185,8 @@ export function AppSidebar() {
                             <Home className="h-4 w-4" />
                             <span>{isArabic ? 'نظرة عامة على النظام' : 'System Overview'}</span>
                             <div className="ml-auto flex items-center gap-1">
-                              <Network className="h-3 w-3 text-green-500" />
-                              <span className="text-xs text-green-500">{getModuleConnections('system-overview').length}</span>
+                               <Network className="h-3 w-3 text-brand-success" />
+                               <span className="text-xs text-brand-success">{getModuleConnections('system-overview').length}</span>
                             </div>
                           </NavLink>
                         </TooltipTrigger>
@@ -285,7 +285,7 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <NavLink to="/employees" className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all duration-200 ${isActive ? 'bg-primary/20 text-primary border border-primary/30' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'}`}>
-                        <Users className="h-4 w-4 text-blue-500" />
+                        <Users className="h-4 w-4 text-brand-primary" />
                         <span>{isArabic ? 'إدارة الموظفين' : 'Employees Management'}</span>
                         <Badge variant="outline" className="ml-auto text-xs">2,847</Badge>
                       </NavLink>

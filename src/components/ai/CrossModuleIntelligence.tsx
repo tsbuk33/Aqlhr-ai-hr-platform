@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/hooks/useLanguageCompat';
-import { Brain, TrendingUp, Users, DollarSign, AlertTriangle, CheckCircle, Target, Zap } from 'lucide-react';
+import { Brain, TrendingUp, Users, AlertTriangle, CheckCircle, Target, Zap } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface CrossModuleInsight {
   id: string;
@@ -287,7 +288,7 @@ const CrossModuleIntelligence = () => {
                   {formatCurrency(insights.reduce((acc, i) => acc + i.estimatedValue, 0))}
                 </p>
               </div>
-              <DollarSign className="w-8 h-8 text-brand-accent" />
+              <CurrencyIcon className="w-8 h-8 text-brand-accent" />
             </div>
           </CardContent>
         </Card>

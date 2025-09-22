@@ -4,7 +4,8 @@ import { useLanguage } from "@/hooks/useLanguageCompat";
 import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { Upload, Heart, Shield, DollarSign, Gift } from "lucide-react";
+import { Upload, Heart, Shield, Gift } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { AqlHRAIAssistant } from '@/components/ai';
 
 const BenefitsAdministration = () => {

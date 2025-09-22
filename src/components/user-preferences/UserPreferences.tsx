@@ -6,7 +6,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Save, Globe, Calendar, DollarSign, Palette, Bell } from "lucide-react";
+import { Save, Globe, Calendar, Palette, Bell } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { toast } from "@/hooks/use-toast";
 
 interface UserPreferences {

@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Users, DollarSign, Heart, Shield } from "lucide-react";
+import { Users, Heart, Shield } from "lucide-react";
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useLocale } from "@/i18n/locale";
 import PageHeader from "@/components/common/PageHeader";
 import DashboardCard from "@/components/common/DashboardCard";
@@ -26,7 +27,7 @@ const Benefits = () => {
       title: isArabic ? 'تكلفة المزايا' : 'Benefits Cost',
       subtitle: isArabic ? 'شهرياً (ريال سعودي)' : 'Monthly (SAR)',
       value: `${(benefitsData.benefitsCost / 1000).toFixed(0)}K`,
-      icon: <DollarSign className="h-8 w-8 text-green-500" />
+      icon: <CurrencyIcon className="h-8 w-8 text-brand-success" />
     },
     {
       title: isArabic ? 'التأمين الصحي' : 'Health Insurance',

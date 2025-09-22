@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Clock, Calendar, TrendingUp, Shield, DollarSign, AlertTriangle, CheckCircle, Building2, Activity, FileText, Target, Brain, BarChart } from 'lucide-react';
+import { Users, Clock, Calendar, TrendingUp, Shield, AlertTriangle, CheckCircle, Building2, Activity, FileText, Target, Brain, BarChart } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { AqlHRAIAssistant } from '@/components/ai';
 import { AIToolsTester } from '@/components/ai/AIToolsTester';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { DollarSign, Calculator, FileText, TrendingUp, Shield, Users } from 'lucide-react';
+import { Calculator, FileText, TrendingUp, Shield, Users } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 export default function PayrollPublic() {
@@ -9,7 +10,7 @@ export default function PayrollPublic() {
 
   const payrollFeatures = [
     {
-      icon: DollarSign,
+      icon: CurrencyIcon,
       title: isArabic ? 'معالجة الرواتب' : 'Salary Processing',
       description: isArabic ? 'معالجة تلقائية ودقيقة للرواتب والأجور' : 'Automatic and accurate salary and wage processing'
     },

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { DollarSign, FileText, Award, Calendar } from 'lucide-react';
+import { FileText, Award, Calendar } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import type { Employee } from '@/hooks/useEmployees';
 
 interface EmployeeJobCompTabProps {
@@ -88,7 +89,7 @@ export const EmployeeJobCompTab: React.FC<EmployeeJobCompTabProps> = ({ employee
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <DollarSign className="h-5 w-5" />
+            <CurrencyIcon className="h-5 w-5" />
             Compensation
           </CardTitle>
         </CardHeader>

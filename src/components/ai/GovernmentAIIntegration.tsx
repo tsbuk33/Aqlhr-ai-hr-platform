@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/hooks/useLanguageCompat';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { 
   Building, 
   Users, 
@@ -329,7 +330,7 @@ const GovernmentAIIntegration = () => {
                   {formatCurrency(optimizations.reduce((acc, o) => acc + o.savings, 0))}
                 </p>
               </div>
-              <DollarSign className="w-8 h-8 text-brand-accent" />
+              <CurrencyIcon className="w-8 h-8 text-brand-accent" />
             </div>
           </CardContent>
         </Card>

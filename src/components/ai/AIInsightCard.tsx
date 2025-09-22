@@ -14,10 +14,10 @@ import {
   Zap,
   Target,
   Users,
-  DollarSign,
   Calendar,
   ArrowRight
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 
 interface AIInsightCardProps {
   moduleContext: string;

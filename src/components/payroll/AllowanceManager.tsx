@@ -8,7 +8,8 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
-import { Plus, Edit, Trash2, DollarSign, Percent, Calculator, Settings } from 'lucide-react';
+import { Plus, Edit, Trash2, Percent, Calculator, Settings } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAdvancedPayroll, AllowanceDefinition } from '@/hooks/useAdvancedPayroll';
 import { toast } from 'sonner';
@@ -86,7 +87,7 @@ export const AllowanceManager: React.FC = () => {
 
   const getCalculationTypeIcon = (type: string) => {
     switch (type) {
-      case 'fixed': return <DollarSign className="h-4 w-4" />;
+      case 'fixed': return <CurrencyIcon className="h-4 w-4" />;
       case 'percentage': return <Percent className="h-4 w-4" />;
       case 'formula': return <Calculator className="h-4 w-4" />;
       default: return <Settings className="h-4 w-4" />;
@@ -178,7 +179,7 @@ export const AllowanceManager: React.FC = () => {
                     <SelectContent>
                       <SelectItem value="fixed">
                         <div className="flex items-center gap-2">
-                          <DollarSign className="h-4 w-4" />
+                          <CurrencyIcon className="h-4 w-4" />
                           {isArabic ? 'مبلغ ثابت' : 'Fixed Amount'}
                         </div>
                       </SelectItem>
@@ -482,7 +483,7 @@ export const AllowanceManager: React.FC = () => {
       {allowanceDefinitions?.length === 0 && (
         <Card>
           <CardContent className="text-center py-12">
-            <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <CurrencyIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">
               {isArabic ? 'لا توجد بدلات' : 'No Allowances'}
             </h3>

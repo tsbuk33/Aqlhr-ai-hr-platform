@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 // DatePicker component will be implemented later
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { Calculator, Calendar, Users, Clock, DollarSign, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Calculator, Calendar, Users, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { format } from 'date-fns';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useAdvancedPayroll } from '@/hooks/useAdvancedPayroll';
@@ -284,7 +285,7 @@ export const PayrollCalculator: React.FC = () => {
               
               <Card className="bg-green-50 dark:bg-green-950">
                 <CardContent className="p-4 text-center">
-                  <DollarSign className="h-6 w-6 text-green-600 mx-auto mb-2" />
+                  <CurrencyIcon className="h-6 w-6 text-green-600 mx-auto mb-2" />
                   <div className="text-2xl font-bold text-green-900 dark:text-green-100">~2.5M</div>
                   <p className="text-xs text-green-700 dark:text-green-300">
                     {isArabic ? 'إجمالي متوقع' : 'Expected Gross'}
@@ -359,7 +360,7 @@ export const PayrollCalculator: React.FC = () => {
 
         <Card>
           <CardContent className="p-4 text-center">
-            <DollarSign className="h-8 w-8 text-orange-600 mx-auto mb-3" />
+            <CurrencyIcon className="h-8 w-8 text-orange-600 mx-auto mb-3" />
             <h3 className="font-semibold mb-2">
               {isArabic ? 'البدلات المعقدة' : 'Complex Allowances'}
             </h3>
