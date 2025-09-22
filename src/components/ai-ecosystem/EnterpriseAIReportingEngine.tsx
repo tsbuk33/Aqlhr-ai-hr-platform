@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { 
   FileText, 
   TrendingUp, 
-  DollarSign, 
   Users, 
   Target,
   BarChart3,
@@ -25,6 +24,7 @@ import {
   Eye,
   Brain
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 
@@ -187,7 +187,7 @@ export const EnterpriseAIReportingEngine: React.FC = () => {
       case 'operational': return <BarChart3 className="h-5 w-5" />;
       case 'compliance': return <Globe className="h-5 w-5" />;
       case 'strategic': return <Target className="h-5 w-5" />;
-      case 'financial': return <DollarSign className="h-5 w-5" />;
+      case 'financial': return <CurrencyIcon className="h-5 w-5" />;
       default: return <FileText className="h-5 w-5" />;
     }
   };
@@ -373,10 +373,10 @@ export const EnterpriseAIReportingEngine: React.FC = () => {
                         <div className="flex items-center space-x-2 mb-2">
                           <Badge className={
                             insight.type === 'risk' 
-                              ? 'bg-red-500 text-white'
+                              ? 'bg-status-danger text-primary-foreground'
                               : insight.type === 'opportunity'
-                              ? 'bg-green-500 text-white'
-                              : 'bg-blue-500 text-white'
+                              ? 'bg-status-success text-primary-foreground'
+                              : 'bg-brand-primary text-primary-foreground'
                           }>
                             {insight.type}
                           </Badge>
@@ -451,7 +451,7 @@ export const EnterpriseAIReportingEngine: React.FC = () => {
                     </p>
                     <p className="text-3xl font-bold">4.2</p>
                   </div>
-                  <DollarSign className="h-12 w-12 text-green-600" />
+                  <CurrencyIcon className="h-12 w-12 text-status-success" />
                 </div>
               </CardContent>
             </Card>

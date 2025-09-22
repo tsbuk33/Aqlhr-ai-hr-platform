@@ -194,20 +194,20 @@ export const SaudiAIComplianceEngine: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'compliant': return 'bg-green-500';
-      case 'at_risk': return 'bg-yellow-500';
-      case 'non_compliant': return 'bg-red-500';
-      case 'pending_review': return 'bg-blue-500';
-      default: return 'bg-gray-500';
+      case 'compliant': return 'bg-status-success';
+      case 'at_risk': return 'bg-status-warning';
+      case 'non_compliant': return 'bg-status-danger';
+      case 'pending_review': return 'bg-brand-primary';
+      default: return 'bg-muted';
     }
   };
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'critical': return 'text-red-600 bg-red-50 border-red-200';
-      case 'high': return 'text-orange-600 bg-orange-50 border-orange-200';
-      case 'medium': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
-      case 'low': return 'text-green-600 bg-green-50 border-green-200';
+      case 'critical': return 'text-status-danger bg-status-danger/10 border-status-danger/30';
+      case 'high': return 'text-brand-warning bg-brand-warning/10 border-brand-warning/30';
+      case 'medium': return 'text-status-warning bg-status-warning/10 border-status-warning/30';
+      case 'low': return 'text-status-success bg-status-success/10 border-status-success/30';
       default: return 'text-gray-600 bg-gray-50 border-gray-200';
     }
   };
@@ -324,7 +324,7 @@ export const SaudiAIComplianceEngine: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Crown className="h-6 w-6 text-yellow-600" />
+                <Crown className="h-6 w-6 text-brand-accent" />
                 <span>{isArabic ? 'حالة الامتثال السعودية' : 'Saudi Compliance Status'}</span>
               </CardTitle>
               <CardDescription>
@@ -532,10 +532,10 @@ export const SaudiAIComplianceEngine: React.FC = () => {
                         <Badge variant="outline">{update.authority}</Badge>
                         <Badge className={
                           update.impact === 'high' 
-                            ? 'bg-red-500 text-white'
+                            ? 'bg-status-danger text-primary-foreground'
                             : update.impact === 'medium'
-                            ? 'bg-orange-500 text-white'
-                            : 'bg-green-500 text-white'
+                            ? 'bg-brand-warning text-primary-foreground'
+                            : 'bg-status-success text-primary-foreground'
                         }>
                           {update.impact} impact
                         </Badge>

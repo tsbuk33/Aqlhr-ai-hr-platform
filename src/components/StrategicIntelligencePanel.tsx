@@ -77,17 +77,17 @@ export default function StrategicIntelligencePanel() {
         {kpis.map((kpi) => (
           <div
             key={kpi.id}
-            className="group relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.02] p-6 transition-all duration-200 hover:bg-white/10 hover:ring-1 hover:ring-white/20"
+            className="group relative overflow-hidden rounded-xl border border-border bg-card/50 backdrop-blur-sm p-6 transition-all duration-200 hover:bg-card/80 hover:ring-1 hover:ring-border"
           >
             {/* Icon */}
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-slate-200 ring-1 ring-white/10">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-muted text-muted-foreground ring-1 ring-border">
               {kpi.icon}
             </div>
 
             {/* Value */}
             <div className="mb-2">
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl md:text-3xl font-bold leading-tight text-white">
+                <span className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
                   {kpi.value}
                 </span>
                 {kpi.delta && (
@@ -135,12 +135,12 @@ export default function StrategicIntelligencePanel() {
       </div>
 
       {/* Footer Actions */}
-      <footer className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/10 pt-6">
-        <p className="text-xs text-slate-400">
+      <footer className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-border pt-6">
+        <p className="text-xs text-muted-foreground">
           Last updated: {new Date().toLocaleDateString()} at{" "}
           {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </p>
-        <button className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 ring-1 ring-white/10 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus:ring-2 focus:ring-sky-500">
+        <button className="inline-flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground ring-1 ring-border transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-ring">
           <TrendingUp className="h-4 w-4" aria-hidden />
           View Detailed Analytics
         </button>

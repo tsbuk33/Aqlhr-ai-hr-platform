@@ -375,7 +375,7 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                           <Badge className={getImpactColor(insight.impact)}>
                             {insight.impact}
                           </Badge>
-                          <Badge variant="outline" className="bg-white">
+                          <Badge variant="outline" className="bg-card">
                             {insight.confidence}% {isArabic ? 'ثقة' : 'confidence'}
                           </Badge>
                         </div>
@@ -383,25 +383,25 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                           {isArabic ? insight.descriptionAr : insight.description}
                         </p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                          <div className="text-center p-3 bg-white rounded-lg border">
+                          <div className="text-center p-3 bg-card rounded-lg border">
                             <p className="text-2xl font-bold text-green-600">{insight.estimatedROI}%</p>
                             <p className="text-sm text-muted-foreground">
                               {isArabic ? 'عائد الاستثمار' : 'ROI'}
                             </p>
                           </div>
-                          <div className="text-center p-3 bg-white rounded-lg border">
+                          <div className="text-center p-3 bg-card rounded-lg border">
                             <p className="text-2xl font-bold text-blue-600">{insight.affectedEmployees}</p>
                             <p className="text-sm text-muted-foreground">
                               {isArabic ? 'موظف متأثر' : 'Employees'}
                             </p>
                           </div>
-                          <div className="text-center p-3 bg-white rounded-lg border">
+                          <div className="text-center p-3 bg-card rounded-lg border">
                             <p className="text-lg font-bold text-purple-600">{insight.timeToImplement}</p>
                             <p className="text-sm text-muted-foreground">
                               {isArabic ? 'وقت التنفيذ' : 'Implementation'}
                             </p>
                           </div>
-                          <div className="text-center p-3 bg-white rounded-lg border">
+                          <div className="text-center p-3 bg-card rounded-lg border">
                             <div className={`inline-flex px-2 py-1 rounded text-sm font-medium ${
                               insight.priority === 'urgent' ? 'bg-red-100 text-red-800' :
                               insight.priority === 'high' ? 'bg-orange-100 text-orange-800' :
@@ -424,7 +424,7 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                     </div>
                     <Button 
                       onClick={() => implementOptimization(insight.id)}
-                      className="bg-gradient-to-r from-purple-600 to-pink-600 text-white"
+                      className="bg-gradient-to-r from-brand-primary to-brand-accent text-primary-foreground"
                     >
                       <Rocket className="mr-2 h-4 w-4" />
                       {isArabic ? 'تنفيذ الآن' : 'Implement Now'}
@@ -557,7 +557,7 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {(isArabic ? strategy.implementationStepsAr : strategy.implementationSteps).map((step, idx) => (
                         <div key={idx} className="flex items-center space-x-2 p-3 bg-card rounded-lg border">
-                          <div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                          <div className="w-6 h-6 bg-status-success text-primary-foreground rounded-full flex items-center justify-center text-sm font-bold">
                             {idx + 1}
                           </div>
                           <span className="text-sm">{step}</span>
@@ -569,15 +569,15 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <Badge className={
-                        strategy.riskLevel === 'low' ? 'bg-green-500 text-white' :
-                        strategy.riskLevel === 'medium' ? 'bg-yellow-500 text-white' :
-                        'bg-red-500 text-white'
+                        strategy.riskLevel === 'low' ? 'bg-status-success text-primary-foreground' :
+                        strategy.riskLevel === 'medium' ? 'bg-status-warning text-primary-foreground' :
+                        'bg-status-danger text-primary-foreground'
                       }>
                         {strategy.riskLevel} {isArabic ? 'مخاطر' : 'risk'}
                       </Badge>
                       <Badge variant="outline">{strategy.category}</Badge>
                     </div>
-                    <Button className="bg-green-600 text-white">
+                    <Button className="bg-status-success text-primary-foreground">
                       <Zap className="mr-2 h-4 w-4" />
                       {isArabic ? 'بدء الاستراتيجية' : 'Start Strategy'}
                     </Button>
@@ -633,27 +633,27 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
             <Card className="border-2 border-gold-200">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Award className="h-6 w-6 text-yellow-600" />
+                  <Award className="h-6 w-6 text-brand-accent" />
                   <span>{isArabic ? 'التميز المؤسسي' : 'Organizational Excellence'}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center space-y-4">
                   <div>
-                    <p className="text-4xl font-bold text-yellow-600">98.7%</p>
+                    <p className="text-4xl font-bold text-brand-accent">98.7%</p>
                     <p className="text-muted-foreground">
                       {isArabic ? 'نقاط التميز المتوقعة' : 'Expected Excellence Score'}
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-3 bg-yellow-50 rounded-lg">
-                      <p className="text-lg font-bold text-yellow-700">#1</p>
+                    <div className="text-center p-3 bg-brand-accent/10 rounded-lg">
+                      <p className="text-lg font-bold text-brand-accent">#1</p>
                       <p className="text-xs text-muted-foreground">
                         {isArabic ? 'في المنطقة' : 'in Region'}
                       </p>
                     </div>
-                    <div className="text-center p-3 bg-yellow-50 rounded-lg">
-                      <p className="text-lg font-bold text-yellow-700">#3</p>
+                    <div className="text-center p-3 bg-brand-accent/10 rounded-lg">
+                      <p className="text-lg font-bold text-brand-accent">#3</p>
                       <p className="text-xs text-muted-foreground">
                         {isArabic ? 'عالمياً' : 'Globally'}
                       </p>
@@ -679,19 +679,19 @@ export const SuperIntelligentWorkforceOptimizer: React.FC = () => {
                   }
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center p-4 bg-white rounded-lg border-2 border-purple-200">
+                  <div className="text-center p-4 bg-card rounded-lg border-2 border-brand-accent/30">
                     <Crown className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                     <p className="font-bold">{isArabic ? 'قائد السوق' : 'Market Leader'}</p>
                   </div>
-                  <div className="text-center p-4 bg-white rounded-lg border-2 border-blue-200">
+                  <div className="text-center p-4 bg-card rounded-lg border-2 border-brand-primary/30">
                     <Globe className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                     <p className="font-bold">{isArabic ? 'معترف عالمياً' : 'Globally Recognized'}</p>
                   </div>
-                  <div className="text-center p-4 bg-white rounded-lg border-2 border-green-200">
+                  <div className="text-center p-4 bg-card rounded-lg border-2 border-status-success/30">
                     <Star className="h-8 w-8 text-green-600 mx-auto mb-2" />
                     <p className="font-bold">{isArabic ? 'أفضل بيئة عمل' : 'Best Workplace'}</p>
                   </div>
-                  <div className="text-center p-4 bg-white rounded-lg border-2 border-yellow-200">
+                  <div className="text-center p-4 bg-card rounded-lg border-2 border-brand-accent/30">
                     <Rocket className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
                     <p className="font-bold">{isArabic ? 'مبتكر رائد' : 'Innovation Pioneer'}</p>
                   </div>

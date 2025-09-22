@@ -73,11 +73,11 @@ export const AqlMindCore: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'learning': return 'bg-blue-500';
-      case 'processing': return 'bg-yellow-500';
-      case 'standby': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'active': return 'bg-status-success';
+      case 'learning': return 'bg-brand-primary';
+      case 'processing': return 'bg-status-warning';
+      case 'standby': return 'bg-muted';
+      default: return 'bg-muted';
     }
   };
 

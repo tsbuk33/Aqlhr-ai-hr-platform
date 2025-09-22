@@ -12,7 +12,6 @@ import {
   TrendingUp, 
   ShieldCheck, 
   Users, 
-  DollarSign,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -22,6 +21,7 @@ import {
   Activity,
   Layers
 } from 'lucide-react';
+import { CurrencyIcon } from '@/components/shared/CurrencyIcon';
 import { useSimpleLanguage } from '@/contexts/SimpleLanguageContext';
 import { AqlHRAIAssistant } from '@/components/ai';
 
@@ -147,11 +147,11 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'learning': return 'bg-blue-500';
-      case 'optimizing': return 'bg-yellow-500';
-      case 'maintenance': return 'bg-gray-500';
-      default: return 'bg-gray-500';
+      case 'active': return 'bg-status-success';
+      case 'learning': return 'bg-brand-primary';
+      case 'optimizing': return 'bg-status-warning';
+      case 'maintenance': return 'bg-muted';
+      default: return 'bg-muted';
     }
   };
 
@@ -168,11 +168,11 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'border-red-500 bg-red-50';
-      case 'high': return 'border-orange-500 bg-orange-50';
-      case 'medium': return 'border-yellow-500 bg-yellow-50';
-      case 'low': return 'border-green-500 bg-green-50';
-      default: return 'border-gray-500 bg-gray-50';
+      case 'urgent': return 'border-status-danger bg-status-danger/10';
+      case 'high': return 'border-brand-warning bg-brand-warning/10';
+      case 'medium': return 'border-status-warning bg-status-warning/10';
+      case 'low': return 'border-status-success bg-status-success/10';
+      default: return 'border-border bg-muted/50';
     }
   };
 
@@ -243,7 +243,7 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
                 </p>
                 <p className="text-3xl font-bold text-orange-700">{costSavings}</p>
               </div>
-              <DollarSign className="h-12 w-12 text-orange-600" />
+              <CurrencyIcon className="h-12 w-12 text-brand-warning" />
             </div>
           </CardContent>
         </Card>
@@ -345,10 +345,10 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
                         <Badge variant="outline">{insight.module}</Badge>
                         <Badge className={
                           insight.priority === 'urgent' 
-                            ? 'bg-red-500 text-white'
+                            ? 'bg-status-danger text-primary-foreground'
                             : insight.priority === 'high'
-                            ? 'bg-orange-500 text-white'
-                            : 'bg-blue-500 text-white'
+                            ? 'bg-brand-warning text-primary-foreground'
+                            : 'bg-brand-primary text-primary-foreground'
                         }>
                           {insight.priority}
                         </Badge>
@@ -368,7 +368,7 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
                       </div>
                     </div>
                     {insight.actionRequired && (
-                      <Button size="sm" className="bg-primary text-white">
+                      <Button size="sm" className="bg-brand-primary text-primary-foreground">
                         {isArabic ? 'اتخاذ إجراء' : 'Take Action'}
                       </Button>
                     )}
@@ -448,17 +448,17 @@ export const AqlHRCentralAIOrchestrator: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="text-center p-4 rounded-lg bg-white border">
+                <div className="text-center p-4 rounded-lg bg-card border border-border">
                   <ShieldCheck className="h-8 w-8 text-green-600 mx-auto mb-2" />
                   <h3 className="font-medium">{isArabic ? 'الامتثال الحكومي' : 'Government Compliance'}</h3>
                   <p className="text-sm text-muted-foreground">100%</p>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white border">
+                <div className="text-center p-4 rounded-lg bg-card border border-border">
                   <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                   <h3 className="font-medium">{isArabic ? 'السعودة المدعومة بالذكاء' : 'AI-Powered Saudization'}</h3>
                   <p className="text-sm text-muted-foreground">94.8%</p>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white border">
+                <div className="text-center p-4 rounded-lg bg-card border border-border">
                   <Network className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                   <h3 className="font-medium">{isArabic ? 'التكامل الحكومي' : 'Gov Integration'}</h3>
                   <p className="text-sm text-muted-foreground">15 {isArabic ? 'منصة' : 'Platforms'}</p>
