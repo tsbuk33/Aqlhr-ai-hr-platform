@@ -14382,6 +14382,16 @@ export type Database = {
         }
         Relationships: []
       }
+      security_definer_documentation: {
+        Row: {
+          critical_note: string | null
+          documented_functions: number | null
+          explanation: string | null
+          status: string | null
+          summary: string | null
+        }
+        Relationships: []
+      }
       security_definer_status: {
         Row: {
           analysis_type: string | null
