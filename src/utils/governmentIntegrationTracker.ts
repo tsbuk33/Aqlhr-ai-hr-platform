@@ -120,9 +120,13 @@ export class GovernmentIntegrationTracker {
         passed: testResults.passed,
         failed: testResults.failed,
         lastRun: new Date()
-      },
-      status: testResults.failed === 0 ? 'completed' : 'failed'
+      }
     });
+    
+    // Only mark as completed if no failures
+    if (testResults.failed === 0) {
+      this.updatePortalStatus(portalCode, { status: 'completed' });
+    }
   }
 
   public completePortalDeployment(portalCode: string): void {

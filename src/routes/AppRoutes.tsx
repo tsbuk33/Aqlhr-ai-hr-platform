@@ -13,6 +13,7 @@ const GOSIIntegration = lazy(() => import('@/pages/government/GOSIIntegration'))
 const NITAQATIntegration = lazy(() => import('@/pages/government/NITAQATIntegration'));
 const TVTCIntegration = lazy(() => import('@/pages/government/TVTCIntegration'));
 const MOLIntegration = lazy(() => import('@/pages/government/MOLIntegration'));
+const ELMIntegration = lazy(() => import('@/pages/government/ELMIntegration'));
 
 const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ const AppRoutes = () => {
         <Route path="/government/nitaqat" element={<NITAQATIntegration />} />
         <Route path="/government/tvtc" element={<TVTCIntegration />} />
         <Route path="/government/mol" element={<MOLIntegration />} />
+        <Route path="/government/elm" element={<ELMIntegration />} />
         
         {/* Catch all route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
