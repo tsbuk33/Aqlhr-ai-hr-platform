@@ -8,6 +8,7 @@ const SystemOverview = lazy(() => import('@/pages/SystemOverview'));
 const GovIntegrationHub = lazy(() => import('@/pages/government/GovIntegrationHub'));
 const MUDADIntegration = lazy(() => import('@/pages/government/MUDADIntegration'));
 const MUQEEMIntegration = lazy(() => import('@/pages/government/MUQEEMIntegration'));
+const NAJIZIntegration = lazy(() => import('@/pages/government/NAJIZIntegration'));
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route path="/government" element={<GovIntegrationHub />} />
         <Route path="/government/mudad" element={<MUDADIntegration />} />
         <Route path="/government/muqeem" element={<MUQEEMIntegration />} />
+        <Route path="/government/najiz" element={<NAJIZIntegration />} />
         
         {/* Catch all route */}
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
