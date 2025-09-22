@@ -121,7 +121,7 @@ export class GovernmentIntegrationTracker {
         failed: testResults.failed,
         lastRun: new Date()
       },
-      status: testResults.failed === 0 ? 'testing' : 'failed'
+      status: testResults.failed === 0 ? 'completed' : 'failed'
     });
   }
 
