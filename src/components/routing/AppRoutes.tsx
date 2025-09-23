@@ -51,6 +51,7 @@ import ExpenseManagement from '@/pages/modules/ExpenseManagement';
 import FinancialPlanning from '@/pages/modules/FinancialPlanning';
 import NativeMobileApps from '@/pages/mobile/NativeMobileApps';
 import TeamAnalyticsMobile from '@/pages/mobile/TeamAnalyticsMobile';
+import ExecutiveMobileDashboard from '@/pages/mobile/ExecutiveMobileDashboard';
 import MobileAuth from '@/pages/auth/MobileAuth';
 import GOSIIntegration from '@/pages/modules/GOSIIntegration';
 import MOLIntegration from '@/pages/modules/MOLIntegration';
@@ -434,6 +435,17 @@ export default function AppRoutes() {
             <LayoutShell>
               <Suspense fallback={<RouteLoading />}>
                 <TeamAnalyticsMobile />
+              </Suspense>
+            </LayoutShell>
+          </ProtectedRoute>
+        } />
+
+        {/* Executive Mobile Dashboard */}
+        <Route path="mobile/executive" element={
+          <ProtectedRoute>
+            <LayoutShell>
+              <Suspense fallback={<RouteLoading />}>
+                <ExecutiveMobileDashboard />
               </Suspense>
             </LayoutShell>
           </ProtectedRoute>
