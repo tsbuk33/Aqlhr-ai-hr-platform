@@ -8,6 +8,8 @@ import { useAuthOptional } from '@/hooks/useAuthOptional';
 import { EmployeeMobileApp } from './EmployeeMobileApp';
 import { ManagerMobileApp } from './ManagerMobileApp';
 import { ExecutiveMobileApp } from './ExecutiveMobileApp';
+import { DocumentManagementMobile } from './documents/DocumentManagementMobile';
+import { HRAnalyticsMobile } from './analytics/HRAnalyticsMobile';
 import { BiometricAuth } from './BiometricAuth';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -25,10 +27,12 @@ import {
   Fingerprint,
   Users,
   BarChart3,
-  User
+  User,
+  FileText,
+  Scan
 } from 'lucide-react';
 
-type UserRole = 'employee' | 'manager' | 'executive';
+type UserRole = 'employee' | 'manager' | 'executive' | 'documents' | 'analytics';
 
 interface MobileCapabilities {
   biometric: boolean;
@@ -246,18 +250,26 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
       {/* Role Selector for Demo */}
       <div className="p-4 border-b bg-muted/50">
         <Tabs value={userRole} onValueChange={(value) => switchRole(value as UserRole)} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="employee" className="flex items-center gap-1">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="employee" className="flex items-center gap-1 text-xs">
               <User className="h-3 w-3" />
               Employee
             </TabsTrigger>
-            <TabsTrigger value="manager" className="flex items-center gap-1">
+            <TabsTrigger value="manager" className="flex items-center gap-1 text-xs">
               <Users className="h-3 w-3" />
               Manager
             </TabsTrigger>
-            <TabsTrigger value="executive" className="flex items-center gap-1">
+            <TabsTrigger value="executive" className="flex items-center gap-1 text-xs">
               <BarChart3 className="h-3 w-3" />
               Executive
+            </TabsTrigger>
+            <TabsTrigger value="documents" className="flex items-center gap-1 text-xs">
+              <FileText className="h-3 w-3" />
+              Docs
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-1 text-xs">
+              <Scan className="h-3 w-3" />
+              Analytics
             </TabsTrigger>
           </TabsList>
         </Tabs>
@@ -267,6 +279,8 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
       {userRole === 'employee' && <EmployeeMobileApp user={user} />}
       {userRole === 'manager' && <ManagerMobileApp user={user} />}
       {userRole === 'executive' && <ExecutiveMobileApp />}
+      {userRole === 'documents' && <DocumentManagementMobile user={user} />}
+      {userRole === 'analytics' && <HRAnalyticsMobile user={user} />}
 
       {/* Capabilities Badges */}
       <div className="fixed bottom-4 left-4 space-y-1">

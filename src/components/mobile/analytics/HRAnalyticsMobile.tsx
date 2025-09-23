@@ -18,6 +18,9 @@ import {
 } from 'lucide-react';
 import { EmployeeLifecycleAnalytics } from './EmployeeLifecycleAnalytics';
 import { CompensationAnalysis } from './CompensationAnalysis';
+import { TurnoverPredictionDashboard } from './TurnoverPredictionDashboard';
+import { ComplianceRiskAnalytics } from './ComplianceRiskAnalytics';
+import { TrainingEffectivenessMetrics } from './TrainingEffectivenessMetrics';
 
 interface HRAnalyticsMobileProps {
   user?: any;
@@ -316,18 +319,24 @@ export const HRAnalyticsMobile: React.FC<HRAnalyticsMobileProps> = ({ user }) =>
       {/* Main Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-6 mb-4 text-xs">
             <TabsTrigger value="overview" className="text-xs">
-              {isArabic ? 'نظرة عامة' : 'Overview'}
+              {isArabic ? 'عام' : 'Overview'}
             </TabsTrigger>
             <TabsTrigger value="lifecycle" className="text-xs">
               {isArabic ? 'دورة الحياة' : 'Lifecycle'}
             </TabsTrigger>
             <TabsTrigger value="compensation" className="text-xs">
-              {isArabic ? 'التعويضات' : 'Compensation'}
+              {isArabic ? 'تعويضات' : 'Pay'}
             </TabsTrigger>
-            <TabsTrigger value="recruitment" className="text-xs">
-              {isArabic ? 'التوظيف' : 'Recruitment'}
+            <TabsTrigger value="turnover" className="text-xs">
+              {isArabic ? 'دوران' : 'Turnover'}
+            </TabsTrigger>
+            <TabsTrigger value="compliance" className="text-xs">
+              {isArabic ? 'امتثال' : 'Compliance'}
+            </TabsTrigger>
+            <TabsTrigger value="training" className="text-xs">
+              {isArabic ? 'تدريب' : 'Training'}
             </TabsTrigger>
           </TabsList>
 
@@ -343,24 +352,16 @@ export const HRAnalyticsMobile: React.FC<HRAnalyticsMobileProps> = ({ user }) =>
             <CompensationAnalysis />
           </TabsContent>
 
-          <TabsContent value="recruitment" className="space-y-4">
-            {renderRecruitmentAnalytics()}
+          <TabsContent value="turnover" className="space-y-4">
+            <TurnoverPredictionDashboard />
           </TabsContent>
 
-          <TabsContent value="performance" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Target className="h-5 w-5" />
-                  {isArabic ? 'تحليل الأداء' : 'Performance Analysis'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center text-muted-foreground py-8">
-                  {isArabic ? 'قريباً - تحليل توزيع الأداء' : 'Coming Soon - Performance Distribution'}
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="compliance" className="space-y-4">
+            <ComplianceRiskAnalytics />
+          </TabsContent>
+
+          <TabsContent value="training" className="space-y-4">
+            <TrainingEffectivenessMetrics />
           </TabsContent>
         </Tabs>
       </div>
