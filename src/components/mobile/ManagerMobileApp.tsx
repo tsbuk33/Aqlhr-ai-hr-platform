@@ -42,6 +42,16 @@ import { TeamGoalTracking } from './manager/TeamGoalTracking';
 import { TaskAssignmentInterface } from './manager/TaskAssignmentInterface';
 import { TeamWorkflowStatus } from './manager/TeamWorkflowStatus';
 import { GovernmentComplianceStatus } from './manager/GovernmentComplianceStatus';
+import { EmployeeOnboardingWorkflow } from './manager/EmployeeOnboardingWorkflow';
+import { PerformanceReviewManagement } from './manager/PerformanceReviewManagement';
+import { DisciplinaryActionProcessing } from './manager/DisciplinaryActionProcessing';
+import { PolicyAcknowledgmentTracking } from './manager/PolicyAcknowledgmentTracking';
+import EmployeeTransferWorkflow from './manager/EmployeeTransferWorkflow';
+import TrainingProgramManagement from './manager/TrainingProgramManagement';
+import CompensationChangeProcessing from './manager/CompensationChangeProcessing';
+import GovernmentSubmissionWorkflows from './manager/GovernmentSubmissionWorkflows';
+import DocumentApprovalProcesses from './manager/DocumentApprovalProcesses';
+import HRComplianceMonitoring from './manager/HRComplianceMonitoring';
 import { useManagerData } from '@/hooks/useManagerData';
 
 interface ManagerProfile {
@@ -202,12 +212,15 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
       {/* Main Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-4">
+          <TabsList className="grid w-full grid-cols-6 mb-4">
             <TabsTrigger value="dashboard" className="text-xs">
               {isArabic ? 'الرئيسية' : 'Home'}
             </TabsTrigger>
             <TabsTrigger value="team" className="text-xs">
               {isArabic ? 'الفريق' : 'Team'}
+            </TabsTrigger>
+            <TabsTrigger value="workflows" className="text-xs">
+              {isArabic ? 'سير العمل' : 'Workflows'}
             </TabsTrigger>
             <TabsTrigger value="approvals" className="text-xs">
               {isArabic ? 'الموافقات' : 'Approvals'}
@@ -401,6 +414,51 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="workflows" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Briefcase className="h-5 w-5" />
+                  {isArabic ? 'سير العمل الموارد البشرية' : 'HR Workflows'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-2">
+                <div className="grid grid-cols-2 gap-2">
+                  <Card className="p-3">
+                    <EmployeeOnboardingWorkflow />
+                  </Card>
+                  <Card className="p-3">
+                    <PerformanceReviewManagement />
+                  </Card>
+                  <Card className="p-3">
+                    <DisciplinaryActionProcessing />
+                  </Card>
+                  <Card className="p-3">
+                    <PolicyAcknowledgmentTracking />
+                  </Card>
+                  <Card className="p-3">
+                    <EmployeeTransferWorkflow />
+                  </Card>
+                  <Card className="p-3">
+                    <TrainingProgramManagement />
+                  </Card>
+                  <Card className="p-3">
+                    <CompensationChangeProcessing />
+                  </Card>
+                  <Card className="p-3">
+                    <GovernmentSubmissionWorkflows />
+                  </Card>
+                  <Card className="p-3">
+                    <DocumentApprovalProcesses />
+                  </Card>
+                  <Card className="p-3">
+                    <HRComplianceMonitoring />
+                  </Card>
                 </div>
               </CardContent>
             </Card>
