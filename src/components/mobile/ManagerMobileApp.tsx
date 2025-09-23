@@ -58,7 +58,7 @@ interface TeamMember {
   id: string;
   name: string;
   nameAr: string;
-  status: 'present' | 'absent' | 'late' | 'on_leave';
+  status: 'present' | 'absent' | 'late' | 'on_leave' | 'remote';
   checkInTime?: string;
   location?: string;
 }
@@ -106,6 +106,8 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
         return 'bg-blue-500';
       case 'absent':
         return 'bg-red-500';
+      case 'remote':
+        return 'bg-purple-500';
       default:
         return 'bg-gray-500';
     }
