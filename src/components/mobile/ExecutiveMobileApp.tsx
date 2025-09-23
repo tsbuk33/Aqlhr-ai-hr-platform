@@ -462,10 +462,10 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </div>
-  );
-};
+             </Card>
+           </TabsContent>
+         </Tabs>
+       </div>
+     </div>
+   );
+ };
