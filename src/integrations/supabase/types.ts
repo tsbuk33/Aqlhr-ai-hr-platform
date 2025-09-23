@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      action_items: {
+        Row: {
+          assigned_to: string | null
+          category: string
+          company_id: string
+          confidence_score: number | null
+          created_at: string
+          description: string | null
+          description_ar: string | null
+          due_date: string | null
+          id: string
+          is_ai_generated: boolean | null
+          manager_id: string
+          priority: string | null
+          status: string | null
+          team_member_id: string | null
+          title: string
+          title_ar: string | null
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          category: string
+          company_id: string
+          confidence_score?: number | null
+          created_at?: string
+          description?: string | null
+          description_ar?: string | null
+          due_date?: string | null
+          id?: string
+          is_ai_generated?: boolean | null
+          manager_id: string
+          priority?: string | null
+          status?: string | null
+          team_member_id?: string | null
+          title: string
+          title_ar?: string | null
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          category?: string
+          company_id?: string
+          confidence_score?: number | null
+          created_at?: string
+          description?: string | null
+          description_ar?: string | null
+          due_date?: string | null
+          id?: string
+          is_ai_generated?: boolean | null
+          manager_id?: string
+          priority?: string | null
+          status?: string | null
+          team_member_id?: string | null
+          title?: string
+          title_ar?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_items_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "action_items_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       advanced_payroll_items: {
         Row: {
           basic_salary: number
@@ -8924,6 +8999,140 @@ export type Database = {
         }
         Relationships: []
       }
+      manager_alerts: {
+        Row: {
+          action_url: string | null
+          created_at: string
+          id: string
+          is_read: boolean | null
+          manager_id: string
+          message: string
+          message_ar: string | null
+          priority: string | null
+          related_employee_id: string | null
+          title: string
+          title_ar: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          manager_id: string
+          message: string
+          message_ar?: string | null
+          priority?: string | null
+          related_employee_id?: string | null
+          title: string
+          title_ar?: string | null
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          action_url?: string | null
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          manager_id?: string
+          message?: string
+          message_ar?: string | null
+          priority?: string | null
+          related_employee_id?: string | null
+          title?: string
+          title_ar?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manager_alerts_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manager_alerts_related_employee_id_fkey"
+            columns: ["related_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manager_alerts_related_employee_id_fkey"
+            columns: ["related_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_full_pii"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "manager_alerts_related_employee_id_fkey"
+            columns: ["related_employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_safe"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manager_profiles: {
+        Row: {
+          company_id: string
+          created_at: string
+          department: string
+          department_ar: string | null
+          direct_reports: number | null
+          emergency_contact_phone: string | null
+          employee_id: string
+          id: string
+          name: string
+          name_ar: string | null
+          pending_approvals: number | null
+          team_goals_achieved: number | null
+          team_goals_total: number | null
+          team_performance_score: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          department: string
+          department_ar?: string | null
+          direct_reports?: number | null
+          emergency_contact_phone?: string | null
+          employee_id: string
+          id?: string
+          name: string
+          name_ar?: string | null
+          pending_approvals?: number | null
+          team_goals_achieved?: number | null
+          team_goals_total?: number | null
+          team_performance_score?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          department?: string
+          department_ar?: string | null
+          direct_reports?: number | null
+          emergency_contact_phone?: string | null
+          employee_id?: string
+          id?: string
+          name?: string
+          name_ar?: string | null
+          pending_approvals?: number | null
+          team_goals_achieved?: number | null
+          team_goals_total?: number | null
+          team_performance_score?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       medical_data_audit_log: {
         Row: {
           access_type: string
@@ -10556,6 +10765,65 @@ export type Database = {
             columns: ["department_id"]
             isOneToOne: false
             referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      productivity_metrics: {
+        Row: {
+          collaboration_score: number | null
+          company_id: string
+          created_at: string
+          efficiency_score: number | null
+          id: string
+          innovation_score: number | null
+          metric_date: string
+          project_contributions: number | null
+          quality_score: number | null
+          tasks_assigned: number | null
+          tasks_completed: number | null
+          team_member_id: string
+          time_utilization: number | null
+          updated_at: string
+        }
+        Insert: {
+          collaboration_score?: number | null
+          company_id: string
+          created_at?: string
+          efficiency_score?: number | null
+          id?: string
+          innovation_score?: number | null
+          metric_date?: string
+          project_contributions?: number | null
+          quality_score?: number | null
+          tasks_assigned?: number | null
+          tasks_completed?: number | null
+          team_member_id: string
+          time_utilization?: number | null
+          updated_at?: string
+        }
+        Update: {
+          collaboration_score?: number | null
+          company_id?: string
+          created_at?: string
+          efficiency_score?: number | null
+          id?: string
+          innovation_score?: number | null
+          metric_date?: string
+          project_contributions?: number | null
+          quality_score?: number | null
+          tasks_assigned?: number | null
+          tasks_completed?: number | null
+          team_member_id?: string
+          time_utilization?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "productivity_metrics_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
             referencedColumns: ["id"]
           },
         ]
@@ -12552,6 +12820,395 @@ export type Database = {
         }
         Relationships: []
       }
+      team_approvals: {
+        Row: {
+          amount: number | null
+          approval_type: string
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          currency: string | null
+          description: string | null
+          description_ar: string | null
+          employee_id: string
+          id: string
+          manager_id: string
+          priority: string | null
+          rejection_reason: string | null
+          rejection_reason_ar: string | null
+          requested_date: string | null
+          status: string | null
+          title: string
+          title_ar: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount?: number | null
+          approval_type: string
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          description_ar?: string | null
+          employee_id: string
+          id?: string
+          manager_id: string
+          priority?: string | null
+          rejection_reason?: string | null
+          rejection_reason_ar?: string | null
+          requested_date?: string | null
+          status?: string | null
+          title: string
+          title_ar?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number | null
+          approval_type?: string
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          currency?: string | null
+          description?: string | null
+          description_ar?: string | null
+          employee_id?: string
+          id?: string
+          manager_id?: string
+          priority?: string | null
+          rejection_reason?: string | null
+          rejection_reason_ar?: string | null
+          requested_date?: string | null
+          status?: string | null
+          title?: string
+          title_ar?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_approvals_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_approvals_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_full_pii"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_approvals_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_approvals_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_engagement_metrics: {
+        Row: {
+          communication_frequency: number | null
+          company_id: string
+          created_at: string
+          engagement_score: number | null
+          feedback_sentiment: number | null
+          id: string
+          metric_date: string
+          motivation_level: number | null
+          participation_rate: number | null
+          satisfaction_score: number | null
+          team_collaboration_score: number | null
+          team_member_id: string
+          updated_at: string
+        }
+        Insert: {
+          communication_frequency?: number | null
+          company_id: string
+          created_at?: string
+          engagement_score?: number | null
+          feedback_sentiment?: number | null
+          id?: string
+          metric_date?: string
+          motivation_level?: number | null
+          participation_rate?: number | null
+          satisfaction_score?: number | null
+          team_collaboration_score?: number | null
+          team_member_id: string
+          updated_at?: string
+        }
+        Update: {
+          communication_frequency?: number | null
+          company_id?: string
+          created_at?: string
+          engagement_score?: number | null
+          feedback_sentiment?: number | null
+          id?: string
+          metric_date?: string
+          motivation_level?: number | null
+          participation_rate?: number | null
+          satisfaction_score?: number | null
+          team_collaboration_score?: number | null
+          team_member_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_engagement_metrics_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_goals: {
+        Row: {
+          category: string
+          completion_percentage: number | null
+          created_at: string
+          current_value: number | null
+          description: string | null
+          description_ar: string | null
+          due_date: string | null
+          id: string
+          manager_id: string
+          priority: string | null
+          start_date: string | null
+          status: string | null
+          target_value: number | null
+          team_member_id: string | null
+          title: string
+          title_ar: string | null
+          unit: string | null
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          completion_percentage?: number | null
+          created_at?: string
+          current_value?: number | null
+          description?: string | null
+          description_ar?: string | null
+          due_date?: string | null
+          id?: string
+          manager_id: string
+          priority?: string | null
+          start_date?: string | null
+          status?: string | null
+          target_value?: number | null
+          team_member_id?: string | null
+          title: string
+          title_ar?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          completion_percentage?: number | null
+          created_at?: string
+          current_value?: number | null
+          description?: string | null
+          description_ar?: string | null
+          due_date?: string | null
+          id?: string
+          manager_id?: string
+          priority?: string | null
+          start_date?: string | null
+          status?: string | null
+          target_value?: number | null
+          team_member_id?: string | null
+          title?: string
+          title_ar?: string | null
+          unit?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_goals_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_goals_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_members: {
+        Row: {
+          check_in_time: string | null
+          check_out_time: string | null
+          created_at: string
+          employee_id: string
+          engagement_score: number | null
+          id: string
+          location: string | null
+          manager_id: string
+          name: string
+          name_ar: string | null
+          performance_score: number | null
+          position: string | null
+          position_ar: string | null
+          productivity_score: number | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string
+          employee_id: string
+          engagement_score?: number | null
+          id?: string
+          location?: string | null
+          manager_id: string
+          name: string
+          name_ar?: string | null
+          performance_score?: number | null
+          position?: string | null
+          position_ar?: string | null
+          productivity_score?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          check_in_time?: string | null
+          check_out_time?: string | null
+          created_at?: string
+          employee_id?: string
+          engagement_score?: number | null
+          id?: string
+          location?: string | null
+          manager_id?: string
+          name?: string
+          name_ar?: string | null
+          performance_score?: number | null
+          position?: string | null
+          position_ar?: string | null
+          productivity_score?: number | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_members_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_full_pii"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees_safe"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "team_members_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      team_performance_metrics: {
+        Row: {
+          active_members: number | null
+          attendance_rate: number | null
+          average_engagement_score: number | null
+          average_performance_score: number | null
+          average_productivity_score: number | null
+          company_id: string
+          created_at: string
+          goals_achieved: number | null
+          goals_total: number | null
+          id: string
+          manager_id: string | null
+          metric_date: string
+          on_time_rate: number | null
+          overtime_hours: number | null
+          tasks_assigned: number | null
+          tasks_completed: number | null
+          team_id: string | null
+          total_team_members: number | null
+          updated_at: string
+        }
+        Insert: {
+          active_members?: number | null
+          attendance_rate?: number | null
+          average_engagement_score?: number | null
+          average_performance_score?: number | null
+          average_productivity_score?: number | null
+          company_id: string
+          created_at?: string
+          goals_achieved?: number | null
+          goals_total?: number | null
+          id?: string
+          manager_id?: string | null
+          metric_date?: string
+          on_time_rate?: number | null
+          overtime_hours?: number | null
+          tasks_assigned?: number | null
+          tasks_completed?: number | null
+          team_id?: string | null
+          total_team_members?: number | null
+          updated_at?: string
+        }
+        Update: {
+          active_members?: number | null
+          attendance_rate?: number | null
+          average_engagement_score?: number | null
+          average_performance_score?: number | null
+          average_productivity_score?: number | null
+          company_id?: string
+          created_at?: string
+          goals_achieved?: number | null
+          goals_total?: number | null
+          id?: string
+          manager_id?: string | null
+          metric_date?: string
+          on_time_rate?: number | null
+          overtime_hours?: number | null
+          tasks_assigned?: number | null
+          tasks_completed?: number | null
+          team_id?: string | null
+          total_team_members?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "team_performance_metrics_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_entitlements: {
         Row: {
           active: boolean | null
@@ -13872,6 +14529,78 @@ export type Database = {
             columns: ["company_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workload_distribution: {
+        Row: {
+          actual_hours: number | null
+          company_id: string
+          created_at: string
+          estimated_hours: number | null
+          high_priority_tasks: number | null
+          id: string
+          low_priority_tasks: number | null
+          manager_id: string
+          medium_priority_tasks: number | null
+          period_end: string
+          period_start: string
+          stress_level: number | null
+          team_member_id: string
+          total_tasks: number | null
+          updated_at: string
+          workload_percentage: number | null
+        }
+        Insert: {
+          actual_hours?: number | null
+          company_id: string
+          created_at?: string
+          estimated_hours?: number | null
+          high_priority_tasks?: number | null
+          id?: string
+          low_priority_tasks?: number | null
+          manager_id: string
+          medium_priority_tasks?: number | null
+          period_end: string
+          period_start: string
+          stress_level?: number | null
+          team_member_id: string
+          total_tasks?: number | null
+          updated_at?: string
+          workload_percentage?: number | null
+        }
+        Update: {
+          actual_hours?: number | null
+          company_id?: string
+          created_at?: string
+          estimated_hours?: number | null
+          high_priority_tasks?: number | null
+          id?: string
+          low_priority_tasks?: number | null
+          manager_id?: string
+          medium_priority_tasks?: number | null
+          period_end?: string
+          period_start?: string
+          stress_level?: number | null
+          team_member_id?: string
+          total_tasks?: number | null
+          updated_at?: string
+          workload_percentage?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workload_distribution_manager_id_fkey"
+            columns: ["manager_id"]
+            isOneToOne: false
+            referencedRelation: "manager_profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workload_distribution_team_member_id_fkey"
+            columns: ["team_member_id"]
+            isOneToOne: false
+            referencedRelation: "team_members"
             referencedColumns: ["id"]
           },
         ]

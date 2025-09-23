@@ -30,11 +30,24 @@ import { TimeUtilizationAnalysis } from '@/components/mobile/analytics/TimeUtili
 import { TeamEngagementScores } from '@/components/mobile/analytics/TeamEngagementScores';
 import { TopPerformerIdentification } from '@/components/mobile/analytics/TopPerformerIdentification';
 import { ActionItemRecommendations } from '@/components/mobile/analytics/ActionItemRecommendations';
+import { useTeamAnalyticsData } from '@/hooks/useTeamAnalyticsData';
 
 const TeamAnalyticsMobile: React.FC = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('performance');
   const [screenSize, setScreenSize] = useState<'mobile' | 'tablet' | 'desktop'>('mobile');
+  const {
+    performanceMetrics,
+    attendanceAnalytics,
+    productivityMetrics,
+    workloadDistribution,
+    engagementMetrics,
+    actionItems,
+    loading,
+    error,
+    refetch,
+    seedDemoAnalyticsData,
+  } = useTeamAnalyticsData();
 
   // Detect screen size for responsive design
   useEffect(() => {
@@ -195,6 +208,22 @@ const TeamAnalyticsMobile: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Demo Data Button for Team Analytics */}
+      <div className="mb-6">
+        <Button 
+          onClick={seedDemoAnalyticsData}
+          disabled={loading}
+          className="w-full"
+        >
+          {loading ? 'Loading...' : 'Generate Demo Analytics Data'}
+        </Button>
+        {error && (
+          <div className="text-red-500 text-sm mt-2">
+            {error}
+          </div>
+        )}
       </div>
 
       {/* Mobile-Optimized Tabs */}

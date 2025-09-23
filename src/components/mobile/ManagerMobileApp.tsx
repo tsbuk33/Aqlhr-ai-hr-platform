@@ -42,6 +42,7 @@ import { TeamGoalTracking } from './manager/TeamGoalTracking';
 import { TaskAssignmentInterface } from './manager/TaskAssignmentInterface';
 import { TeamWorkflowStatus } from './manager/TeamWorkflowStatus';
 import { GovernmentComplianceStatus } from './manager/GovernmentComplianceStatus';
+import { useManagerData } from '@/hooks/useManagerData';
 
 interface ManagerProfile {
   id: string;
@@ -79,97 +80,20 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
   const { lang } = useUnifiedLocale();
   const isArabic = lang === 'ar';
 
-  const [manager, setManager] = useState<ManagerProfile | null>(null);
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
-  const [alerts, setAlerts] = useState<ManagerAlert[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
-
-  useEffect(() => {
-    if (user) {
-      loadManagerData();
-    }
-  }, [user]);
-
-  const loadManagerData = () => {
-    // Use actual user data
-    setManager({
-      id: user?.id || 'mgr_001',
-      name: user?.email?.split('@')[0] || 'Manager',
-      nameAr: 'المدير',
-      employeeId: 'MGR-2024-001',
-      department: 'Human Resources',
-      departmentAr: 'الموارد البشرية',
-      team: ['emp_001', 'emp_002', 'emp_003', 'emp_004', 'emp_005']
-    });
-
-    // Mock team data
-    setTeamMembers([
-      {
-        id: 'emp_001',
-        name: 'Ahmed Al-Rashid',
-        nameAr: 'أحمد الراشد',
-        status: 'present',
-        checkInTime: '08:30',
-        location: 'Riyadh Office'
-      },
-      {
-        id: 'emp_002',
-        name: 'Fatima Al-Zahra',
-        nameAr: 'فاطمة الزهراء',
-        status: 'late',
-        checkInTime: '09:15',
-        location: 'Remote'
-      },
-      {
-        id: 'emp_003',
-        name: 'Mohammed Al-Saud',
-        nameAr: 'محمد السعود',
-        status: 'on_leave',
-      },
-      {
-        id: 'emp_004',
-        name: 'Nora Al-Qasimi',
-        nameAr: 'نورا القاسمي',
-        status: 'present',
-        checkInTime: '08:45',
-        location: 'Riyadh Office'
-      },
-      {
-        id: 'emp_005',
-        name: 'Omar Al-Harbi',
-        nameAr: 'عمر الحربي',
-        status: 'absent'
-      }
-    ]);
-
-    // Mock alerts
-    setAlerts([
-      {
-        id: 'alert_001',
-        type: 'attendance',
-        message: 'Fatima Al-Zahra checked in late (9:15 AM)',
-        messageAr: 'فاطمة الزهراء تأخرت في الحضور (9:15 ص)',
-        timestamp: new Date().toISOString(),
-        priority: 'medium'
-      },
-      {
-        id: 'alert_002',
-        type: 'leave',
-        message: 'New leave request from Ahmed Al-Rashid',
-        messageAr: 'طلب إجازة جديد من أحمد الراشد',
-        timestamp: new Date().toISOString(),
-        priority: 'high'
-      },
-      {
-        id: 'alert_003',
-        type: 'urgent',
-        message: 'Omar Al-Harbi is absent without notice',
-        messageAr: 'عمر الحربي غائب بدون إشعار',
-        timestamp: new Date().toISOString(),
-        priority: 'high'
-      }
-    ]);
-  };
+  const {
+    profile: manager,
+    teamMembers,
+    alerts,
+    approvals,
+    loading,
+    error,
+    refetch,
+    seedDemoData,
+    markAlertAsRead,
+    approveRequest,
+    rejectRequest,
+  } = useManagerData();
 
 
   const getStatusColor = (status: TeamMember['status']) => {
@@ -187,7 +111,7 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
     }
   };
 
-  const getStatusText = (status: TeamMember['status']) => {
+  const getStatusText = (status: string) => {
     if (isArabic) {
       switch (status) {
         case 'present':
@@ -198,6 +122,8 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
           return 'في إجازة';
         case 'absent':
           return 'غائب';
+        case 'remote':
+          return 'عن بعد';
         default:
           return 'غير معروف';
       }
@@ -211,6 +137,8 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
           return 'On Leave';
         case 'absent':
           return 'Absent';
+        case 'remote':
+          return 'Remote';
         default:
           return 'Unknown';
       }
@@ -258,14 +186,14 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
           <div className="w-10 h-10 rounded-full bg-primary-foreground/20 flex items-center justify-center">
             <Users className="h-6 w-6" />
           </div>
-          <div>
-            <h2 className="font-medium">
-              {isArabic ? manager?.nameAr : manager?.name}
-            </h2>
-            <p className="text-xs opacity-80">
-              {isArabic ? 'مدير' : 'Manager'} - {manager?.employeeId}
-            </p>
-          </div>
+        <div>
+          <h2 className="font-medium">
+            {isArabic ? manager?.name_ar : manager?.name}
+          </h2>
+          <p className="text-xs opacity-80">
+            {isArabic ? 'مدير' : 'Manager'} - {manager?.employee_id}
+          </p>
+        </div>
         </div>
       </div>
 
@@ -299,7 +227,7 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                     <UserCheck className="h-8 w-8 text-green-500" />
                     <div>
                       <p className="text-2xl font-bold">
-                        {teamMembers.filter(m => m.status === 'present').length}
+                        {teamMembers.filter(m => m.status === 'present' || m.status === 'remote').length}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {isArabic ? 'حاضر' : 'Present'}
@@ -388,12 +316,12 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                       <div key={alert.id} className={`p-3 rounded-lg border-l-4 ${getPriorityColor(alert.priority)}`}>
                         <div className="flex items-center justify-between">
                           <div className="flex-1">
-                            <p className="text-sm font-medium">
-                              {isArabic ? alert.messageAr : alert.message}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {new Date(alert.timestamp).toLocaleTimeString()}
-                            </p>
+                          <p className="text-sm font-medium">
+                            {isArabic ? alert.message_ar || alert.message : alert.message}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(alert.created_at).toLocaleTimeString()}
+                          </p>
                           </div>
                           <Badge variant={alert.priority === 'high' ? 'destructive' : 'default'}>
                             {alert.priority}
@@ -425,11 +353,11 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                         <div className={`w-3 h-3 rounded-full ${getStatusColor(member.status)}`}></div>
                         <div>
                           <p className="font-medium">
-                            {isArabic ? member.nameAr : member.name}
+                            {isArabic ? member.name_ar || member.name : member.name}
                           </p>
                           <p className="text-sm text-muted-foreground">
                             {getStatusText(member.status)}
-                            {member.checkInTime && ` • ${member.checkInTime}`}
+                            {member.check_in_time && ` • ${member.check_in_time}`}
                             {member.location && ` • ${member.location}`}
                           </p>
                         </div>
@@ -457,14 +385,14 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                   {alerts.map((alert) => (
                     <div key={alert.id} className={`p-4 border rounded-lg border-l-4 ${getPriorityColor(alert.priority)}`}>
                       <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <p className="font-medium">
-                            {isArabic ? alert.messageAr : alert.message}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {new Date(alert.timestamp).toLocaleString()}
-                          </p>
-                        </div>
+                      <div className="flex-1">
+                        <p className="font-medium">
+                          {isArabic ? alert.message_ar || alert.message : alert.message}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(alert.created_at).toLocaleString()}
+                        </p>
+                      </div>
                         <Badge variant={alert.priority === 'high' ? 'destructive' : alert.priority === 'medium' ? 'default' : 'secondary'}>
                           {alert.priority}
                         </Badge>
@@ -481,7 +409,7 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
           </TabsContent>
 
           <TabsContent value="analytics" className="space-y-4">
-            <TeamAnalytics isArabic={isArabic} teamMembers={teamMembers} />
+            <TeamAnalytics isArabic={isArabic} teamMembers={teamMembers as any} />
             <AttendanceTrends isArabic={isArabic} />
             <TeamGoalTracking isArabic={isArabic} />
             
@@ -493,7 +421,29 @@ export const ManagerMobileApp: React.FC<ManagerMobileAppProps> = ({ user }) => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <PerformanceQuickReview isArabic={isArabic} teamMembers={teamMembers} />
+                <PerformanceQuickReview isArabic={isArabic} teamMembers={teamMembers as any} />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold">
+                    {isArabic ? 'لوحة تحكم المدير' : 'Manager Dashboard'}
+                  </h3>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={seedDemoData}
+                    disabled={loading}
+                  >
+                    {isArabic ? 'بيانات تجريبية' : 'Demo Data'}
+                  </Button>
+                </div>
+                {error && (
+                  <div className="text-red-500 text-sm mb-2">
+                    {error}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
