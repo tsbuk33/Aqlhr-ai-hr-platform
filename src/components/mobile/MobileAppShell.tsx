@@ -8,6 +8,7 @@ import { useAuthOptional } from '@/hooks/useAuthOptional';
 import { EmployeeMobileApp } from './EmployeeMobileApp';
 import { ManagerMobileApp } from './ManagerMobileApp';
 import { ExecutiveMobileApp } from './ExecutiveMobileApp';
+import { AdminMobileApp } from './AdminMobileApp';
 import { DocumentManagementMobile } from './documents/DocumentManagementMobile';
 import { HRAnalyticsMobile } from './analytics/HRAnalyticsMobile';
 import { BiometricAuth } from './BiometricAuth';
@@ -29,10 +30,11 @@ import {
   BarChart3,
   User,
   FileText,
-  Scan
+  Scan,
+  Shield
 } from 'lucide-react';
 
-type UserRole = 'employee' | 'manager' | 'executive' | 'documents' | 'analytics';
+type UserRole = 'employee' | 'manager' | 'executive' | 'admin' | 'documents' | 'analytics';
 
 interface MobileCapabilities {
   biometric: boolean;
@@ -250,7 +252,7 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
       {/* Role Selector for Demo */}
       <div className="p-4 border-b bg-muted/50">
         <Tabs value={userRole} onValueChange={(value) => switchRole(value as UserRole)} className="w-full">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="employee" className="flex items-center gap-1 text-xs">
               <User className="h-3 w-3" />
               Employee
@@ -262,6 +264,10 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
             <TabsTrigger value="executive" className="flex items-center gap-1 text-xs">
               <BarChart3 className="h-3 w-3" />
               Executive
+            </TabsTrigger>
+            <TabsTrigger value="admin" className="flex items-center gap-1 text-xs">
+              <Shield className="h-3 w-3" />
+              Admin
             </TabsTrigger>
             <TabsTrigger value="documents" className="flex items-center gap-1 text-xs">
               <FileText className="h-3 w-3" />
@@ -279,6 +285,7 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
       {userRole === 'employee' && <EmployeeMobileApp user={user} />}
       {userRole === 'manager' && <ManagerMobileApp user={user} />}
       {userRole === 'executive' && <ExecutiveMobileApp />}
+      {userRole === 'admin' && <AdminMobileApp user={user} />}
       {userRole === 'documents' && <DocumentManagementMobile user={user} />}
       {userRole === 'analytics' && <HRAnalyticsMobile user={user} />}
 
