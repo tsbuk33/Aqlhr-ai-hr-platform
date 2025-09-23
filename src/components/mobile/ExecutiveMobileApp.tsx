@@ -9,6 +9,7 @@ import type { User } from '@supabase/supabase-js';
 import { 
   BarChart3, 
   TrendingUp, 
+  TrendingDown,
   Users, 
   Building,
   AlertCircle,
@@ -23,6 +24,15 @@ import {
   Brain,
   AlertTriangle
 } from 'lucide-react';
+
+// Import new advanced components
+import { BoardReportGenerator } from './executive/BoardReportGenerator';
+import { VoiceCommandCenter } from './executive/VoiceCommandCenter';
+import { CrisisManagementCenter } from './executive/CrisisManagementCenter';
+import { SecureDocumentVault } from './executive/SecureDocumentVault';
+import { ExecutiveCalendar } from './executive/ExecutiveCalendar';
+import { CompetitiveIntelligence } from './executive/CompetitiveIntelligence';
+import { MultiLocationOverview } from './executive/MultiLocationOverview';
 
 interface ExecutiveProfile {
   id: string;
@@ -51,153 +61,132 @@ interface ExecutiveAlert {
   descriptionAr: string;
   severity: 'critical' | 'warning' | 'info';
   timestamp: string;
+  acknowledged: boolean;
 }
 
-interface ExecutiveMobileAppProps {
-  user?: User | null;
-}
-
-export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) => {
+export const ExecutiveMobileApp: React.FC = () => {
   const { lang } = useUnifiedLocale();
-  const isArabic = lang === 'ar';
-
-  const [executive, setExecutive] = useState<ExecutiveProfile | null>(null);
+  const { user, isLoading: authLoading } = useAuthOptional();
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [profile, setProfile] = useState<ExecutiveProfile | null>(null);
   const [metrics, setMetrics] = useState<ExecutiveMetric[]>([]);
   const [alerts, setAlerts] = useState<ExecutiveAlert[]>([]);
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const isArabic = lang === 'ar';
+
+  // Mock data for demonstration
+  const mockProfile: ExecutiveProfile = {
+    id: '1',
+    name: 'Ahmed Al-Rashid',
+    nameAr: 'أحمد الراشد',
+    title: 'Chief Executive Officer',
+    titleAr: 'الرئيس التنفيذي',
+    company: 'AqlHR Solutions'
+  };
+
+  const mockMetrics: ExecutiveMetric[] = [
+    {
+      id: '1',
+      title: 'Revenue Growth',
+      titleAr: 'نمو الإيرادات',
+      value: '12.5%',
+      change: 2.3,
+      trend: 'up',
+      period: 'Q4 2024'
+    },
+    {
+      id: '2',
+      title: 'Employee Satisfaction',
+      titleAr: 'رضا الموظفين',
+      value: '94%',
+      change: 8.1,
+      trend: 'up',
+      period: 'Last Quarter'
+    },
+    {
+      id: '3',
+      title: 'Market Share',
+      titleAr: 'الحصة السوقية',
+      value: '23.8%',
+      change: -1.2,
+      trend: 'down',
+      period: 'Current'
+    },
+    {
+      id: '4',
+      title: 'Compliance Score',
+      titleAr: 'نقاط الامتثال',
+      value: '98%',
+      change: 3.5,
+      trend: 'up',
+      period: 'Latest'
+    }
+  ];
+
+  const mockAlerts: ExecutiveAlert[] = [
+    {
+      id: '1',
+      title: 'Government Compliance Update',
+      titleAr: 'تحديث الامتثال الحكومي',
+      description: 'New MHRSD regulations require immediate attention',
+      descriptionAr: 'اللوائح الجديدة لوزارة الموارد البشرية تتطلب اهتماماً فورياً',
+      severity: 'critical',
+      timestamp: '2024-01-15T10:30:00Z',
+      acknowledged: false
+    },
+    {
+      id: '2',
+      title: 'Q4 Board Meeting',
+      titleAr: 'اجتماع مجلس الإدارة للربع الرابع',
+      description: 'Preparation required for quarterly board presentation',
+      descriptionAr: 'مطلوب التحضير لعرض مجلس الإدارة الفصلي',
+      severity: 'warning',
+      timestamp: '2024-01-15T09:15:00Z',
+      acknowledged: false
+    },
+    {
+      id: '3',
+      title: 'Performance Milestone',
+      titleAr: 'إنجاز الأداء',
+      description: 'Company exceeded annual revenue targets by 15%',
+      descriptionAr: 'تجاوزت الشركة أهداف الإيرادات السنوية بنسبة 15%',
+      severity: 'info',
+      timestamp: '2024-01-15T08:45:00Z',
+      acknowledged: true
+    }
+  ];
 
   useEffect(() => {
-    if (user) {
-      loadExecutiveData();
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+    loadExecutiveData();
+  }, []);
 
   const loadExecutiveData = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      setError(null);
-      
-      // Use actual user data
-      setExecutive({
-        id: user?.id || 'exec_001',
-        name: user?.email?.split('@')[0] || 'Executive',
-        nameAr: 'التنفيذي',
-        title: 'Chief Executive Officer',
-        titleAr: 'الرئيس التنفيذي',
-        company: 'AqlHR Solutions'
-      });
-
-      // Mock metrics
-      setMetrics([
-        {
-          id: 'metric_001',
-          title: 'Total Employees',
-          titleAr: 'إجمالي الموظفين',
-          value: 1247,
-          change: 8.5,
-          trend: 'up',
-          period: 'vs last month'
-        },
-        {
-          id: 'metric_002',
-          title: 'Employee Satisfaction',
-          titleAr: 'رضا الموظفين',
-          value: '94%',
-          change: 2.1,
-          trend: 'up',
-          period: 'vs last quarter'
-        },
-        {
-          id: 'metric_003',
-          title: 'Turnover Rate',
-          titleAr: 'معدل دوران الموظفين',
-          value: '3.2%',
-          change: -0.8,
-          trend: 'down',
-          period: 'vs last quarter'
-        },
-        {
-          id: 'metric_004',
-          title: 'Saudization Rate',
-          titleAr: 'نسبة السعودة',
-          value: '78%',
-          change: 4.2,
-          trend: 'up',
-          period: 'vs target'
-        },
-        {
-          id: 'metric_005',
-          title: 'Training Hours',
-          titleAr: 'ساعات التدريب',
-          value: '15.6K',
-          change: 12.3,
-          trend: 'up',
-          period: 'this month'
-        },
-        {
-          id: 'metric_006',
-          title: 'Performance Score',
-          titleAr: 'نقاط الأداء',
-          value: '4.7/5',
-          change: 0.3,
-          trend: 'up',
-          period: 'company average'
-        }
-      ]);
-
-      // Mock alerts
-      setAlerts([
-        {
-          id: 'alert_001',
-          title: 'Critical Compliance Issue',
-          titleAr: 'مشكلة امتثال حرجة',
-          description: 'Labour compliance report requires immediate attention',
-          descriptionAr: 'تقرير الامتثال العمالي يتطلب اهتماماً فورياً',
-          severity: 'critical',
-          timestamp: new Date().toISOString()
-        },
-        {
-          id: 'alert_002',
-          title: 'Budget Variance Alert',
-          titleAr: 'تنبيه انحراف الميزانية',
-          description: 'HR budget exceeded by 15% this quarter',
-          descriptionAr: 'تم تجاوز ميزانية الموارد البشرية بنسبة 15% هذا الربع',
-          severity: 'warning',
-          timestamp: new Date().toISOString()
-        },
-        {
-          id: 'alert_003',
-          title: 'New Regulation Update',
-          titleAr: 'تحديث اللوائح الجديدة',
-          description: 'Ministry of Labour released new guidelines',
-          descriptionAr: 'وزارة العمل أصدرت إرشادات جديدة',
-          severity: 'info',
-          timestamp: new Date().toISOString()
-        }
-      ]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      // For now, use mock data
+      // In production, this would fetch real executive data
+      setProfile(mockProfile);
+      setMetrics(mockMetrics);
+      setAlerts(mockAlerts);
+    } catch (error) {
+      console.error('Error loading executive data:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const refetch = () => {
-    loadExecutiveData();
-  };
-
-  const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
-    switch (trend) {
-      case 'up':
-        return <TrendingUp className="h-4 w-4 text-green-500" />;
-      case 'down':
-        return <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />;
-      case 'stable':
-        return <Activity className="h-4 w-4 text-blue-500" />;
+  const getMetricIcon = (title: string) => {
+    if (title.includes('Revenue') || title.includes('إيرادات')) {
+      return <TrendingUp className="h-4 w-4 text-green-500" />;
+    } else if (title.includes('Employee') || title.includes('موظف')) {
+      return <Users className="h-4 w-4 text-blue-500" />;
+    } else if (title.includes('Market') || title.includes('سوق')) {
+      return <Target className="h-4 w-4 text-purple-500" />;
+    } else if (title.includes('Compliance') || title.includes('امتثال')) {
+      return <Award className="h-4 w-4 text-orange-500" />;
+    } else {
+      return <Activity className="h-4 w-4 text-blue-500" />;
     }
   };
 
@@ -223,261 +212,330 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getSeverityBadge = (severity: 'critical' | 'warning' | 'info') => {
-    switch (severity) {
-      case 'critical':
-        return <Badge variant="destructive">{isArabic ? 'حرج' : 'Critical'}</Badge>;
-      case 'warning':
-        return <Badge variant="default">{isArabic ? 'تحذير' : 'Warning'}</Badge>;
-      case 'info':
-        return <Badge variant="secondary">{isArabic ? 'معلومات' : 'Info'}</Badge>;
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
+    if (isArabic) {
+      return date.toLocaleDateString('ar-SA', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
     }
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
-  if (loading) {
+  const tabs = [
+    { id: 'dashboard', label: 'Dashboard', labelAr: 'لوحة التحكم', icon: BarChart3 },
+    { id: 'reports', label: 'Board Reports', labelAr: 'تقارير مجلس الإدارة', icon: FileText },
+    { id: 'voice', label: 'Voice Commands', labelAr: 'الأوامر الصوتية', icon: Brain },
+    { id: 'crisis', label: 'Crisis Center', labelAr: 'مركز الأزمات', icon: AlertTriangle },
+    { id: 'documents', label: 'Secure Vault', labelAr: 'الخزانة الآمنة', icon: Settings },
+    { id: 'calendar', label: 'Calendar', labelAr: 'التقويم', icon: Calendar },
+    { id: 'intelligence', label: 'Intelligence', labelAr: 'الاستخبارات', icon: Target },
+    { id: 'locations', label: 'Locations', labelAr: 'المواقع', icon: Globe }
+  ];
+
+  const renderDashboard = () => (
+    <Tabs defaultValue="overview" className="w-full">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="overview">
+          {isArabic ? 'نظرة عامة' : 'Overview'}
+        </TabsTrigger>
+        <TabsTrigger value="metrics">
+          {isArabic ? 'المؤشرات' : 'Metrics'}
+        </TabsTrigger>
+        <TabsTrigger value="alerts">
+          {isArabic ? 'التنبيهات' : 'Alerts'}
+        </TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="overview" className="space-y-6 mt-6">
+        {/* Executive Profile */}
+        {profile && (
+          <Card>
+            <CardHeader>
+              <div className="flex items-center space-x-4 space-x-reverse">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Building className="h-8 w-8 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-semibold text-foreground">
+                    {isArabic ? profile.nameAr : profile.name}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    {isArabic ? profile.titleAr : profile.title}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {profile.company}
+                  </p>
+                </div>
+              </div>
+            </CardHeader>
+          </Card>
+        )}
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-2 gap-4">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    {isArabic ? 'إجمالي الموظفين' : 'Total Employees'}
+                  </p>
+                  <p className="text-2xl font-bold text-foreground">2,847</p>
+                </div>
+                <Users className="h-8 w-8 text-blue-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    {isArabic ? 'النمو الشهري' : 'Monthly Growth'}
+                  </p>
+                  <p className="text-2xl font-bold text-green-600">+12.5%</p>
+                </div>
+                <TrendingUp className="h-8 w-8 text-green-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    {isArabic ? 'المشاريع النشطة' : 'Active Projects'}
+                  </p>
+                  <p className="text-2xl font-bold text-foreground">18</p>
+                </div>
+                <Target className="h-8 w-8 text-purple-500" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">
+                    {isArabic ? 'معدل الامتثال' : 'Compliance Rate'}
+                  </p>
+                  <p className="text-2xl font-bold text-green-600">98%</p>
+                </div>
+                <Award className="h-8 w-8 text-orange-500" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5" />
+              {isArabic ? 'الإجراءات السريعة' : 'Quick Actions'}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button 
+              className="w-full justify-start" 
+              variant="outline"
+              onClick={() => setActiveTab('reports')}
+            >
+              <FileText className="h-4 w-4 mr-2" />
+              {isArabic ? 'إنشاء تقرير مجلس الإدارة' : 'Generate Board Report'}
+            </Button>
+            <Button 
+              className="w-full justify-start" 
+              variant="outline"
+              onClick={() => setActiveTab('voice')}
+            >
+              <Brain className="h-4 w-4 mr-2" />
+              {isArabic ? 'الأوامر الصوتية' : 'Voice Commands'}
+            </Button>
+            <Button 
+              className="w-full justify-start" 
+              variant="outline"
+              onClick={() => setActiveTab('intelligence')}
+            >
+              <Target className="h-4 w-4 mr-2" />
+              {isArabic ? 'تحليل المنافسين' : 'Competitive Analysis'}
+            </Button>
+          </CardContent>
+        </Card>
+      </TabsContent>
+
+      <TabsContent value="metrics" className="space-y-4 mt-6">
+        {metrics.map((metric) => (
+          <Card key={metric.id}>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  {getMetricIcon(metric.title)}
+                  <div>
+                    <h3 className="font-semibold text-foreground">
+                      {isArabic ? metric.titleAr : metric.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {metric.period}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-foreground">
+                    {metric.value}
+                  </p>
+                  <div className={`flex items-center gap-1 ${getTrendColor(metric.trend)}`}>
+                    {metric.trend === 'up' ? (
+                      <TrendingUp className="h-4 w-4" />
+                    ) : metric.trend === 'down' ? (
+                      <TrendingDown className="h-4 w-4" />
+                    ) : (
+                      <Activity className="h-4 w-4" />
+                    )}
+                    <span className="text-sm font-medium">
+                      {metric.change > 0 ? '+' : ''}{metric.change}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </TabsContent>
+
+      <TabsContent value="alerts" className="space-y-4 mt-6">
+        {alerts.map((alert) => (
+          <Card key={alert.id} className={`border-l-4 ${getSeverityColor(alert.severity)}`}>
+            <CardContent className="p-4">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertCircle className="h-4 w-4 text-current" />
+                    <h3 className="font-semibold text-foreground">
+                      {isArabic ? alert.titleAr : alert.title}
+                    </h3>
+                    <Badge variant={alert.acknowledged ? 'default' : 'destructive'}>
+                      {alert.acknowledged 
+                        ? (isArabic ? 'مقروء' : 'Read') 
+                        : (isArabic ? 'جديد' : 'New')
+                      }
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {isArabic ? alert.descriptionAr : alert.description}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatTimestamp(alert.timestamp)}
+                  </p>
+                </div>
+                {!alert.acknowledged && (
+                  <Button size="sm" variant="outline">
+                    {isArabic ? 'وضع علامة كمقروء' : 'Mark as Read'}
+                  </Button>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+
+        {alerts.length === 0 && (
+          <Card>
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                {isArabic ? 'لا توجد تنبيهات' : 'No Alerts'}
+              </h3>
+              <p className="text-muted-foreground">
+                {isArabic ? 'جميع التنبيهات محدثة' : 'All alerts are up to date'}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </TabsContent>
+    </Tabs>
+  );
+
+  if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="animate-pulse">
-            <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
-          </div>
-          <h2 className="text-xl font-semibold mb-2">
-            {isArabic ? 'تحميل لوحة التحكم التنفيذية' : 'Loading Executive Dashboard'}
-          </h2>
+          <Activity className="h-8 w-8 animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground">
-            {isArabic ? 'جاري تحميل البيانات التنفيذية...' : 'Loading executive data...'}
+            {isArabic ? 'جاري التحميل...' : 'Loading...'}
           </p>
         </div>
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center">
-        <div className="text-center">
-          <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-destructive" />
-          <h2 className="text-xl font-semibold mb-2">
-            {isArabic ? 'خطأ في تحميل البيانات' : 'Data Loading Error'}
-          </h2>
-          <p className="text-muted-foreground mb-4">{error}</p>
-          <Button onClick={refetch}>
-            {isArabic ? 'إعادة المحاولة' : 'Retry'}
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center gap-2">
-              <BarChart3 className="h-6 w-6 text-primary" />
-              {isArabic ? 'تنفيذي - مطلوب تسجيل الدخول' : 'Executive - Authentication Required'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-center text-muted-foreground">
-              {isArabic ? 'يرجى تسجيل الدخول للوصول إلى تطبيق التنفيذي' : 'Please authenticate to access the Executive app'}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-background" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground p-4">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">
-            <BarChart3 className="h-6 w-6" />
-          </div>
+      <div className="bg-primary text-primary-foreground p-4">
+        <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-medium">
-              {isArabic ? executive?.nameAr : executive?.name}
-            </h2>
-            <p className="text-xs opacity-90">
-              {isArabic ? executive?.titleAr : executive?.title}
+            <h1 className="text-xl font-bold">
+              {isArabic ? 'التطبيق التنفيذي' : 'Executive App'}
+            </h1>
+            <p className="text-sm opacity-90">
+              {isArabic ? 'إدارة تنفيذية متقدمة' : 'Advanced Executive Management'}
             </p>
-            <p className="text-xs opacity-80">
-              {executive?.company}
-            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary">
+              {isArabic ? 'متصل' : 'Connected'}
+            </Badge>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="p-4">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
-            <TabsTrigger value="dashboard" className="text-xs">
-              {isArabic ? 'الرئيسية' : 'Home'}
-            </TabsTrigger>
-            <TabsTrigger value="metrics" className="text-xs">
-              {isArabic ? 'المقاييس' : 'Metrics'}
-            </TabsTrigger>
-            <TabsTrigger value="alerts" className="text-xs">
-              {isArabic ? 'التنبيهات' : 'Alerts'}
-            </TabsTrigger>
-            <TabsTrigger value="insights" className="text-xs">
-              {isArabic ? 'الرؤى' : 'Insights'}
-            </TabsTrigger>
-          </TabsList>
+        {/* Navigation Tabs - Scrollable */}
+        <div className="mb-6">
+          <div className="flex space-x-2 overflow-x-auto pb-2 space-x-reverse">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <Button
+                  key={tab.id}
+                  variant={activeTab === tab.id ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setActiveTab(tab.id)}
+                  className="flex items-center gap-2 whitespace-nowrap min-w-max"
+                >
+                  <Icon className="h-4 w-4" />
+                  {isArabic ? tab.labelAr : tab.label}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
 
-          <TabsContent value="dashboard" className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              {metrics.slice(0, 4).map((metric) => (
-                <Card key={metric.id}>
-                  <CardContent className="p-4">
-                    <div className="text-center">
-                      <p className="text-xs font-medium mb-1">
-                        {isArabic ? metric.titleAr : metric.title}
-                      </p>
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <span className="text-lg font-bold">
-                          {metric.value}
-                        </span>
-                        {getTrendIcon(metric.trend)}
-                      </div>
-                      <p className={`text-xs ${getTrendColor(metric.trend)}`}>
-                        {metric.change > 0 ? '+' : ''}{metric.change}%
-                      </p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="metrics" className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              {metrics.map((metric) => (
-                <Card key={metric.id}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <p className="font-medium">
-                          {isArabic ? metric.titleAr : metric.title}
-                        </p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-2xl font-bold">
-                            {metric.value}
-                          </span>
-                          <div className="flex items-center gap-1">
-                            {getTrendIcon(metric.trend)}
-                            <span className={`text-sm font-medium ${getTrendColor(metric.trend)}`}>
-                              {metric.change > 0 ? '+' : ''}{metric.change}%
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {metric.period}
-                        </p>
-                      </div>
-                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                        <PieChart className="h-6 w-6 text-primary" />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="alerts" className="space-y-4">
-            <div className="space-y-3">
-              {alerts.map((alert) => (
-                <Card key={alert.id} className={getSeverityColor(alert.severity)}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <p className="font-medium">
-                          {isArabic ? alert.titleAr : alert.title}
-                        </p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {isArabic ? alert.descriptionAr : alert.description}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-2">
-                          {new Date(alert.timestamp).toLocaleString()}
-                        </p>
-                      </div>
-                      <div className="ml-2">
-                        {getSeverityBadge(alert.severity)}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="insights" className="space-y-4">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="h-5 w-5" />
-                  {isArabic ? 'رؤى استراتيجية' : 'Strategic Insights'}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <TrendingUp className="h-4 w-4 text-green-600" />
-                      <span className="font-medium text-green-800">
-                        {isArabic ? 'اتجاه إيجابي' : 'Positive Trend'}
-                      </span>
-                    </div>
-                    <p className="text-sm text-green-700">
-                      {isArabic 
-                        ? 'رضا الموظفين في أعلى مستوياته منذ 3 سنوات'
-                        : 'Employee satisfaction at highest level in 3 years'
-                      }
-                    </p>
-                  </div>
-                  
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Target className="h-4 w-4 text-blue-600" />
-                      <span className="font-medium text-blue-800">
-                        {isArabic ? 'تحقيق الهدف' : 'Goal Achievement'}
-                      </span>
-                    </div>
-                    <p className="text-sm text-blue-700">
-                      {isArabic 
-                        ? 'نسبة السعودة تجاوزت الهدف المطلوب بـ 8%'
-                        : 'Saudization rate exceeded target by 8%'
-                      }
-                    </p>
-                  </div>
-                  
-                  <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-600" />
-                      <span className="font-medium text-yellow-800">
-                        {isArabic ? 'يتطلب انتباه' : 'Requires Attention'}
-                      </span>
-                    </div>
-                    <p className="text-sm text-yellow-700">
-                      {isArabic 
-                        ? 'تكاليف التدريب زادت 15% هذا الربع'
-                        : 'Training costs increased 15% this quarter'
-                      }
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        {/* Tab Content */}
+        <div>
+          {activeTab === 'dashboard' && renderDashboard()}
+          {activeTab === 'reports' && <BoardReportGenerator />}
+          {activeTab === 'voice' && <VoiceCommandCenter />}
+          {activeTab === 'crisis' && <CrisisManagementCenter />}
+          {activeTab === 'documents' && <SecureDocumentVault />}
+          {activeTab === 'calendar' && <ExecutiveCalendar />}
+          {activeTab === 'intelligence' && <CompetitiveIntelligence />}
+          {activeTab === 'locations' && <MultiLocationOverview />}
+        </div>
       </div>
     </div>
   );
 };
-
-export default ExecutiveMobileApp;

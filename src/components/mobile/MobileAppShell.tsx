@@ -266,7 +266,7 @@ export const MobileAppShell: React.FC<MobileAppShellProps> = ({ user: propUser }
       {/* App Content Based on Role */}
       {userRole === 'employee' && <EmployeeMobileApp user={user} />}
       {userRole === 'manager' && <ManagerMobileApp user={user} />}
-      {userRole === 'executive' && <ExecutiveMobileApp user={user} />}
+      {userRole === 'executive' && <ExecutiveMobileApp />}
 
       {/* Capabilities Badges */}
       <div className="fixed bottom-4 left-4 space-y-1">
