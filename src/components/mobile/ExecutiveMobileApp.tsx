@@ -6,14 +6,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 import { useAuthOptional } from '@/hooks/useAuthOptional';
 import type { User } from '@supabase/supabase-js';
-import { StrategicKPIDashboard } from './executive/StrategicKPIDashboard';
-import { AIPoweredInsights } from './executive/AIPoweredInsights';
-import { BoardReportGeneration } from './executive/BoardReportGeneration';
-import { SecureDocumentAccess } from './executive/SecureDocumentAccess';
-import { ExecutiveCalendar } from './executive/ExecutiveCalendar';
-import { CrisisManagementTools } from './executive/CrisisManagementTools';
-import { PredictiveAnalytics } from './executive/PredictiveAnalytics';
-import { VoiceActivatedCommands } from './executive/VoiceActivatedCommands';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -27,7 +19,9 @@ import {
   PieChart,
   Activity,
   Globe,
-  Settings
+  Settings,
+  Brain,
+  AlertTriangle
 } from 'lucide-react';
 
 interface ExecutiveProfile {
@@ -71,114 +65,130 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
   const [metrics, setMetrics] = useState<ExecutiveMetric[]>([]);
   const [alerts, setAlerts] = useState<ExecutiveAlert[]>([]);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
       loadExecutiveData();
+    } else {
+      setLoading(false);
     }
   }, [user]);
 
-  const loadExecutiveData = () => {
-    // Use actual user data
-    setExecutive({
-      id: user?.id || 'exec_001',
-      name: user?.email?.split('@')[0] || 'Executive',
-      nameAr: 'التنفيذي',
-      title: 'Chief Executive Officer',
-      titleAr: 'الرئيس التنفيذي',
-      company: 'AqlHR Solutions'
-    });
+  const loadExecutiveData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Use actual user data
+      setExecutive({
+        id: user?.id || 'exec_001',
+        name: user?.email?.split('@')[0] || 'Executive',
+        nameAr: 'التنفيذي',
+        title: 'Chief Executive Officer',
+        titleAr: 'الرئيس التنفيذي',
+        company: 'AqlHR Solutions'
+      });
 
-    // Mock metrics
-    setMetrics([
-      {
-        id: 'metric_001',
-        title: 'Total Employees',
-        titleAr: 'إجمالي الموظفين',
-        value: 1247,
-        change: 8.5,
-        trend: 'up',
-        period: 'vs last month'
-      },
-      {
-        id: 'metric_002',
-        title: 'Employee Satisfaction',
-        titleAr: 'رضا الموظفين',
-        value: '94%',
-        change: 2.1,
-        trend: 'up',
-        period: 'vs last quarter'
-      },
-      {
-        id: 'metric_003',
-        title: 'Turnover Rate',
-        titleAr: 'معدل دوران الموظفين',
-        value: '3.2%',
-        change: -0.8,
-        trend: 'down',
-        period: 'vs last quarter'
-      },
-      {
-        id: 'metric_004',
-        title: 'Saudization Rate',
-        titleAr: 'نسبة السعودة',
-        value: '78%',
-        change: 4.2,
-        trend: 'up',
-        period: 'vs target'
-      },
-      {
-        id: 'metric_005',
-        title: 'Training Hours',
-        titleAr: 'ساعات التدريب',
-        value: '15.6K',
-        change: 12.3,
-        trend: 'up',
-        period: 'this month'
-      },
-      {
-        id: 'metric_006',
-        title: 'Performance Score',
-        titleAr: 'نقاط الأداء',
-        value: '4.7/5',
-        change: 0.3,
-        trend: 'up',
-        period: 'company average'
-      }
-    ]);
+      // Mock metrics
+      setMetrics([
+        {
+          id: 'metric_001',
+          title: 'Total Employees',
+          titleAr: 'إجمالي الموظفين',
+          value: 1247,
+          change: 8.5,
+          trend: 'up',
+          period: 'vs last month'
+        },
+        {
+          id: 'metric_002',
+          title: 'Employee Satisfaction',
+          titleAr: 'رضا الموظفين',
+          value: '94%',
+          change: 2.1,
+          trend: 'up',
+          period: 'vs last quarter'
+        },
+        {
+          id: 'metric_003',
+          title: 'Turnover Rate',
+          titleAr: 'معدل دوران الموظفين',
+          value: '3.2%',
+          change: -0.8,
+          trend: 'down',
+          period: 'vs last quarter'
+        },
+        {
+          id: 'metric_004',
+          title: 'Saudization Rate',
+          titleAr: 'نسبة السعودة',
+          value: '78%',
+          change: 4.2,
+          trend: 'up',
+          period: 'vs target'
+        },
+        {
+          id: 'metric_005',
+          title: 'Training Hours',
+          titleAr: 'ساعات التدريب',
+          value: '15.6K',
+          change: 12.3,
+          trend: 'up',
+          period: 'this month'
+        },
+        {
+          id: 'metric_006',
+          title: 'Performance Score',
+          titleAr: 'نقاط الأداء',
+          value: '4.7/5',
+          change: 0.3,
+          trend: 'up',
+          period: 'company average'
+        }
+      ]);
 
-    // Mock alerts
-    setAlerts([
-      {
-        id: 'alert_001',
-        title: 'Critical Compliance Issue',
-        titleAr: 'مشكلة امتثال حرجة',
-        description: 'Labour compliance report requires immediate attention',
-        descriptionAr: 'تقرير الامتثال العمالي يتطلب اهتماماً فورياً',
-        severity: 'critical',
-        timestamp: new Date().toISOString()
-      },
-      {
-        id: 'alert_002',
-        title: 'Budget Variance Alert',
-        titleAr: 'تنبيه انحراف الميزانية',
-        description: 'HR budget exceeded by 15% this quarter',
-        descriptionAr: 'تم تجاوز ميزانية الموارد البشرية بنسبة 15% هذا الربع',
-        severity: 'warning',
-        timestamp: new Date().toISOString()
-      },
-      {
-        id: 'alert_003',
-        title: 'New Regulation Update',
-        titleAr: 'تحديث اللوائح الجديدة',
-        description: 'Ministry of Labour released new guidelines',
-        descriptionAr: 'وزارة العمل أصدرت إرشادات جديدة',
-        severity: 'info',
-        timestamp: new Date().toISOString()
-      }
-    ]);
+      // Mock alerts
+      setAlerts([
+        {
+          id: 'alert_001',
+          title: 'Critical Compliance Issue',
+          titleAr: 'مشكلة امتثال حرجة',
+          description: 'Labour compliance report requires immediate attention',
+          descriptionAr: 'تقرير الامتثال العمالي يتطلب اهتماماً فورياً',
+          severity: 'critical',
+          timestamp: new Date().toISOString()
+        },
+        {
+          id: 'alert_002',
+          title: 'Budget Variance Alert',
+          titleAr: 'تنبيه انحراف الميزانية',
+          description: 'HR budget exceeded by 15% this quarter',
+          descriptionAr: 'تم تجاوز ميزانية الموارد البشرية بنسبة 15% هذا الربع',
+          severity: 'warning',
+          timestamp: new Date().toISOString()
+        },
+        {
+          id: 'alert_003',
+          title: 'New Regulation Update',
+          titleAr: 'تحديث اللوائح الجديدة',
+          description: 'Ministry of Labour released new guidelines',
+          descriptionAr: 'وزارة العمل أصدرت إرشادات جديدة',
+          severity: 'info',
+          timestamp: new Date().toISOString()
+        }
+      ]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+    } finally {
+      setLoading(false);
+    }
   };
 
+  const refetch = () => {
+    loadExecutiveData();
+  };
 
   const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
@@ -202,7 +212,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getSeverityColor = (severity: 'high' | 'medium' | 'low') => {
+  const getSeverityColor = (severity: 'critical' | 'warning' | 'info') => {
     switch (severity) {
       case 'critical':
         return 'border-red-500 bg-red-50';
@@ -213,7 +223,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getSeverityBadge = (severity: 'high' | 'medium' | 'low') => {
+  const getSeverityBadge = (severity: 'critical' | 'warning' | 'info') => {
     switch (severity) {
       case 'critical':
         return <Badge variant="destructive">{isArabic ? 'حرج' : 'Critical'}</Badge>;
@@ -258,6 +268,8 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
       </div>
     );
   }
+
+  if (!user) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
@@ -302,46 +314,44 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
       {/* Main Content */}
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-4">
+          <TabsList className="grid w-full grid-cols-4 mb-4">
             <TabsTrigger value="dashboard" className="text-xs">
               {isArabic ? 'الرئيسية' : 'Home'}
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="text-xs">
-              {isArabic ? 'التحليلات' : 'Analytics'}
+            <TabsTrigger value="metrics" className="text-xs">
+              {isArabic ? 'المقاييس' : 'Metrics'}
             </TabsTrigger>
-            <TabsTrigger value="reports" className="text-xs">
-              {isArabic ? 'التقارير' : 'Reports'}
+            <TabsTrigger value="alerts" className="text-xs">
+              {isArabic ? 'التنبيهات' : 'Alerts'}
             </TabsTrigger>
-            <TabsTrigger value="crisis" className="text-xs">
-              {isArabic ? 'الأزمات' : 'Crisis'}
-            </TabsTrigger>
-            <TabsTrigger value="voice" className="text-xs">
-              {isArabic ? 'الصوت' : 'Voice'}
+            <TabsTrigger value="insights" className="text-xs">
+              {isArabic ? 'الرؤى' : 'Insights'}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="dashboard" className="space-y-4">
-            <StrategicKPIDashboard isArabic={isArabic} />
-            <AIPoweredInsights screenSize="mobile" />
-            <ExecutiveCalendar isArabic={isArabic} />
-          </TabsContent>
-
-          <TabsContent value="analytics" className="space-y-4">
-            <PredictiveAnalytics isArabic={isArabic} expanded={true} />
-            <StrategicKPIDashboard isArabic={isArabic} detailed={true} />
-          </TabsContent>
-
-          <TabsContent value="reports" className="space-y-4">
-            <BoardReportGeneration isArabic={isArabic} expanded={true} />
-            <SecureDocumentAccess isArabic={isArabic} userClearanceLevel={5} expanded={true} />
-          </TabsContent>
-
-          <TabsContent value="crisis" className="space-y-4">
-            <CrisisManagementTools isArabic={isArabic} expanded={true} />
-          </TabsContent>
-
-          <TabsContent value="voice" className="space-y-4">
-            <VoiceActivatedCommands isArabic={isArabic} expanded={true} />
+            <div className="grid grid-cols-2 gap-4">
+              {metrics.slice(0, 4).map((metric) => (
+                <Card key={metric.id}>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-xs font-medium mb-1">
+                        {isArabic ? metric.titleAr : metric.title}
+                      </p>
+                      <div className="flex items-center justify-center gap-1 mb-1">
+                        <span className="text-lg font-bold">
+                          {metric.value}
+                        </span>
+                        {getTrendIcon(metric.trend)}
+                      </div>
+                      <p className={`text-xs ${getTrendColor(metric.trend)}`}>
+                        {metric.change > 0 ? '+' : ''}{metric.change}%
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           <TabsContent value="metrics" className="space-y-4">
@@ -381,7 +391,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
 
           <TabsContent value="alerts" className="space-y-4">
             <div className="space-y-3">
-              {insights.slice(0, 3).map((insight) => (
+              {alerts.map((alert) => (
                 <Card key={alert.id} className={getSeverityColor(alert.severity)}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
@@ -462,10 +472,12 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
                   </div>
                 </div>
               </CardContent>
-             </Card>
-           </TabsContent>
-         </Tabs>
-       </div>
-     </div>
-   );
- };
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default ExecutiveMobileApp;

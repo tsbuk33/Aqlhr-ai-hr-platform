@@ -376,7 +376,7 @@ export const CrisisManagementCenter: React.FC<CrisisManagementCenterProps> = ({
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-blue-600">
-                    < 5
+                    {"< 5"}
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {isArabic ? 'وقت الاستجابة (دقائق)' : 'Response Time (min)'}
