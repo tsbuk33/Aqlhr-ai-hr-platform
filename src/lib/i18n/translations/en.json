@@ -28,5 +28,23 @@
     "avg_performance": "Avg Performance",
     "goals_achieved": "Goals Achieved",
     "engagement_score": "Engagement Score"
+  },
+  "executive": {
+    "mobile_dashboard": "Executive Mobile Dashboard",
+    "c_level_intelligence_center": "C-Level Intelligence Center",
+    "strategic_kpi_widgets": "Strategic KPI Widgets",
+    "ai_powered_insights": "AI-Powered Insights",
+    "predictive_analytics": "Predictive Analytics",
+    "cross_company_performance": "Cross-Company Performance",
+    "geographic_performance": "Geographic Performance Distribution",
+    "financial_performance": "Financial Performance Metrics",
+    "strategic_goal_progress": "Strategic Goal Progress",
+    "risk_assessment": "Risk Assessment Dashboard",
+    "workforce_forecasting": "Workforce Forecasting",
+    "compliance_risk_matrix": "Compliance Risk Matrix",
+    "revenue_growth": "Revenue Growth",
+    "productivity_index": "Productivity Index",
+    "risk_level": "Risk Level",
+    "ai_insights": "AI Insights"
   }
 }

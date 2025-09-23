@@ -28,5 +28,23 @@
     "avg_performance": "متوسط الأداء",
     "goals_achieved": "الأهداف المحققة",
     "engagement_score": "درجة المشاركة"
+  },
+  "executive": {
+    "mobile_dashboard": "لوحة التحكم التنفيذية المحمولة",
+    "c_level_intelligence_center": "مركز الذكاء على مستوى المديرين التنفيذيين",
+    "strategic_kpi_widgets": "أدوات مؤشرات الأداء الاستراتيجية",
+    "ai_powered_insights": "رؤى مدعومة بالذكاء الاصطناعي",
+    "predictive_analytics": "التحليلات التنبؤية",
+    "cross_company_performance": "أداء متعدد الشركات",
+    "geographic_performance": "التوزيع الجغرافي للأداء",
+    "financial_performance": "مقاييس الأداء المالي",
+    "strategic_goal_progress": "تقدم الهدف الاستراتيجي",
+    "risk_assessment": "لوحة تقييم المخاطر",
+    "workforce_forecasting": "توقعات القوى العاملة",
+    "compliance_risk_matrix": "مصفوفة مخاطر الامتثال",
+    "revenue_growth": "نمو الإيرادات",
+    "productivity_index": "مؤشر الإنتاجية",
+    "risk_level": "مستوى المخاطر",
+    "ai_insights": "رؤى الذكاء الاصطناعي"
   }
 }

@@ -289,7 +289,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
 
           <TabsContent value="dashboard" className="space-y-4">
             <StrategicKPIDashboard isArabic={isArabic} />
-            <AIPoweredInsights isArabic={isArabic} />
+            <AIPoweredInsights screenSize="mobile" />
             <ExecutiveCalendar isArabic={isArabic} />
           </TabsContent>
 
