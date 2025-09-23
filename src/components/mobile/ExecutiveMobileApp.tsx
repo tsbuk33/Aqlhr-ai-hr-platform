@@ -180,7 +180,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
   };
 
 
-  const getTrendIcon = (trend: ExecutiveMetric['trend']) => {
+  const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
       case 'up':
         return <TrendingUp className="h-4 w-4 text-green-500" />;
@@ -191,7 +191,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getTrendColor = (trend: ExecutiveMetric['trend']) => {
+  const getTrendColor = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
       case 'up':
         return 'text-green-500';
@@ -202,7 +202,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getSeverityColor = (severity: ExecutiveAlert['severity']) => {
+  const getSeverityColor = (severity: 'high' | 'medium' | 'low') => {
     switch (severity) {
       case 'critical':
         return 'border-red-500 bg-red-50';
@@ -213,7 +213,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  const getSeverityBadge = (severity: ExecutiveAlert['severity']) => {
+  const getSeverityBadge = (severity: 'high' | 'medium' | 'low') => {
     switch (severity) {
       case 'critical':
         return <Badge variant="destructive">{isArabic ? 'حرج' : 'Critical'}</Badge>;
@@ -224,7 +224,40 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
     }
   };
 
-  if (!user) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-pulse">
+            <Brain className="h-12 w-12 mx-auto mb-4 text-primary" />
+          </div>
+          <h2 className="text-xl font-semibold mb-2">
+            {isArabic ? 'تحميل لوحة التحكم التنفيذية' : 'Loading Executive Dashboard'}
+          </h2>
+          <p className="text-muted-foreground">
+            {isArabic ? 'جاري تحميل البيانات التنفيذية...' : 'Loading executive data...'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center">
+        <div className="text-center">
+          <AlertTriangle className="h-12 w-12 mx-auto mb-4 text-destructive" />
+          <h2 className="text-xl font-semibold mb-2">
+            {isArabic ? 'خطأ في تحميل البيانات' : 'Data Loading Error'}
+          </h2>
+          <p className="text-muted-foreground mb-4">{error}</p>
+          <Button onClick={refetch}>
+            {isArabic ? 'إعادة المحاولة' : 'Retry'}
+          </Button>
+        </div>
+      </div>
+    );
+  }
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4" dir={isArabic ? 'rtl' : 'ltr'}>
         <Card className="w-full max-w-md">
@@ -348,7 +381,7 @@ export const ExecutiveMobileApp: React.FC<ExecutiveMobileAppProps> = ({ user }) 
 
           <TabsContent value="alerts" className="space-y-4">
             <div className="space-y-3">
-              {alerts.map((alert) => (
+              {insights.slice(0, 3).map((insight) => (
                 <Card key={alert.id} className={getSeverityColor(alert.severity)}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
