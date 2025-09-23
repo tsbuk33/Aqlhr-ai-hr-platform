@@ -562,6 +562,68 @@ export type Database = {
           },
         ]
       }
+      ai_insights: {
+        Row: {
+          actionable: boolean | null
+          confidence_score: number | null
+          created_at: string | null
+          data_sources: Json | null
+          description: string
+          executive_id: string | null
+          expires_at: string | null
+          id: string
+          impact_description: string | null
+          insight_type: string | null
+          priority: string | null
+          recommendations: Json | null
+          status: string | null
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          actionable?: boolean | null
+          confidence_score?: number | null
+          created_at?: string | null
+          data_sources?: Json | null
+          description: string
+          executive_id?: string | null
+          expires_at?: string | null
+          id?: string
+          impact_description?: string | null
+          insight_type?: string | null
+          priority?: string | null
+          recommendations?: Json | null
+          status?: string | null
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          actionable?: boolean | null
+          confidence_score?: number | null
+          created_at?: string | null
+          data_sources?: Json | null
+          description?: string
+          executive_id?: string | null
+          expires_at?: string | null
+          id?: string
+          impact_description?: string | null
+          insight_type?: string | null
+          priority?: string | null
+          recommendations?: Json | null
+          status?: string | null
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_insights_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ai_knowledge_base: {
         Row: {
           business_impact: string | null
@@ -3090,6 +3152,62 @@ export type Database = {
         }
         Relationships: []
       }
+      compliance_monitoring: {
+        Row: {
+          audit_findings: string | null
+          compliance_area: string
+          created_at: string | null
+          executive_id: string | null
+          id: string
+          last_audit_date: string | null
+          next_audit_date: string | null
+          regulation_name: string | null
+          remediation_actions: Json | null
+          responsible_party: string | null
+          risk_level: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          audit_findings?: string | null
+          compliance_area: string
+          created_at?: string | null
+          executive_id?: string | null
+          id?: string
+          last_audit_date?: string | null
+          next_audit_date?: string | null
+          regulation_name?: string | null
+          remediation_actions?: Json | null
+          responsible_party?: string | null
+          risk_level?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          audit_findings?: string | null
+          compliance_area?: string
+          created_at?: string | null
+          executive_id?: string | null
+          id?: string
+          last_audit_date?: string | null
+          next_audit_date?: string | null
+          regulation_name?: string | null
+          remediation_actions?: Json | null
+          responsible_party?: string | null
+          risk_level?: string | null
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compliance_monitoring_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       compliance_runs: {
         Row: {
           error: string | null
@@ -5249,6 +5367,39 @@ export type Database = {
         }
         Relationships: []
       }
+      executive_profiles: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          department: string | null
+          id: string
+          level: string | null
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          department?: string | null
+          id?: string
+          level?: string | null
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          department?: string | null
+          id?: string
+          level?: string | null
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       feature_flags: {
         Row: {
           created_at: string | null
@@ -5299,6 +5450,59 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      financial_metrics: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          executive_id: string | null
+          id: string
+          metric_category: string | null
+          metric_name: string
+          period_end: string
+          period_start: string
+          target_value: number | null
+          updated_at: string | null
+          value: number
+          variance_percentage: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          executive_id?: string | null
+          id?: string
+          metric_category?: string | null
+          metric_name: string
+          period_end: string
+          period_start: string
+          target_value?: number | null
+          updated_at?: string | null
+          value: number
+          variance_percentage?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          executive_id?: string | null
+          id?: string
+          metric_category?: string | null
+          metric_name?: string
+          period_end?: string
+          period_start?: string
+          target_value?: number | null
+          updated_at?: string | null
+          value?: number
+          variance_percentage?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_metrics_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       geo_pulses: {
         Row: {
@@ -10622,6 +10826,65 @@ export type Database = {
           },
         ]
       }
+      risk_assessments: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          executive_id: string | null
+          id: string
+          impact: string | null
+          likelihood: string | null
+          mitigation_strategies: Json | null
+          owner_name: string | null
+          review_date: string | null
+          risk_category: string | null
+          risk_score: number | null
+          risk_title: string
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          executive_id?: string | null
+          id?: string
+          impact?: string | null
+          likelihood?: string | null
+          mitigation_strategies?: Json | null
+          owner_name?: string | null
+          review_date?: string | null
+          risk_category?: string | null
+          risk_score?: number | null
+          risk_title: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          executive_id?: string | null
+          id?: string
+          impact?: string | null
+          likelihood?: string | null
+          mitigation_strategies?: Json | null
+          owner_name?: string | null
+          review_date?: string | null
+          risk_category?: string | null
+          risk_score?: number | null
+          risk_title?: string
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "risk_assessments_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales_leads: {
         Row: {
           contact_email: string | null
@@ -11747,6 +12010,112 @@ export type Database = {
           weight_percentage?: number
         }
         Relationships: []
+      }
+      strategic_goals: {
+        Row: {
+          created_at: string | null
+          department: string | null
+          description: string | null
+          executive_id: string | null
+          goal_title: string
+          id: string
+          milestones: Json | null
+          owner_name: string | null
+          progress_percentage: number | null
+          status: string | null
+          target_date: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          department?: string | null
+          description?: string | null
+          executive_id?: string | null
+          goal_title: string
+          id?: string
+          milestones?: Json | null
+          owner_name?: string | null
+          progress_percentage?: number | null
+          status?: string | null
+          target_date: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          department?: string | null
+          description?: string | null
+          executive_id?: string | null
+          goal_title?: string
+          id?: string
+          milestones?: Json | null
+          owner_name?: string | null
+          progress_percentage?: number | null
+          status?: string | null
+          target_date?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "strategic_goals_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      strategic_kpis: {
+        Row: {
+          created_at: string | null
+          current_value: number | null
+          executive_id: string | null
+          id: string
+          kpi_category: string | null
+          kpi_name: string
+          measurement_period: string | null
+          priority: string | null
+          status: string | null
+          target_value: number | null
+          unit: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_value?: number | null
+          executive_id?: string | null
+          id?: string
+          kpi_category?: string | null
+          kpi_name: string
+          measurement_period?: string | null
+          priority?: string | null
+          status?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_value?: number | null
+          executive_id?: string | null
+          id?: string
+          kpi_category?: string | null
+          kpi_name?: string
+          measurement_period?: string | null
+          priority?: string | null
+          status?: string | null
+          target_value?: number | null
+          unit?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "strategic_kpis_executive_id_fkey"
+            columns: ["executive_id"]
+            isOneToOne: false
+            referencedRelation: "executive_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       subscription_plans: {
         Row: {
