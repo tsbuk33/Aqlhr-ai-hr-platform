@@ -8,6 +8,15 @@ import { SystemConfigurationTools } from './admin/SystemConfigurationTools';
 import { SecuritySettingsManagement } from './admin/SecuritySettingsManagement';
 import { SystemPerformanceMonitoring } from './admin/SystemPerformanceMonitoring';
 import { SystemHealthMonitoring } from './admin/SystemHealthMonitoring';
+import { UsageAnalyticsDashboard } from './admin/UsageAnalyticsDashboard';
+import { GovernmentIntegrationManagement } from './admin/GovernmentIntegrationManagement';
+import { SecurityAuditInterface } from './admin/SecurityAuditInterface';
+import { DataSyncManagement } from './admin/DataSyncManagement';
+import { APIManagementTools } from './admin/APIManagementTools';
+import { ModuleConfiguration } from './admin/ModuleConfiguration';
+import { DatabaseManagementInterface } from './admin/DatabaseManagementInterface';
+import { MobileAppManagement } from './admin/MobileAppManagement';
+import { EmergencySystemControls } from './admin/EmergencySystemControls';
 import { 
   Shield, 
   Settings, 
