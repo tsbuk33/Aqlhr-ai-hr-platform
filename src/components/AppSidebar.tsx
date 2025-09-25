@@ -27,6 +27,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { useUnifiedLocale } from '@/lib/i18n/unifiedLocaleSystem';
 
 export function AppSidebar() {
+  // Use the new Compact Sidebar design
+  return <CompactSidebar />
+}
+
+// Import the new compact sidebar
+import { CompactSidebar } from './CompactSidebar';
+
+// Legacy AppSidebar function - keeping for reference but using CompactSidebar
+function LegacyAppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const location = useLocation();
