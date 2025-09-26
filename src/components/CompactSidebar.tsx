@@ -14,8 +14,26 @@ export function CompactSidebar() {
 
   return (
     <div className="w-[320px] h-screen bg-[#1e293b] text-white flex flex-col">
+      {/* Header Section */}
+      <div className="px-4 py-4 border-b border-slate-600/50">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
+            <span className="text-[#1e293b] font-bold text-xs">AQL</span>
+          </div>
+          <span className="text-white font-semibold text-sm">AqlHR Platform</span>
+          <div className="ml-auto flex gap-1">
+            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+            <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+          </div>
+        </div>
+        <div className="text-xs text-slate-300">
+          {isArabic ? 'الأنظمة تعمل بشكل طبيعي' : 'Systems operational'}
+        </div>
+      </div>
+
       {/* Main Navigation */}
-      <div className="flex-1 px-0 py-3 space-y-0">
+      <div className="flex-1 px-0 py-3 space-y-0 overflow-y-auto">
         {/* Dashboard */}
         <NavLink to="/en/dashboard" className="flex items-center justify-between px-4 py-2.5 text-sm text-white hover:bg-slate-700/50 transition-colors">
           <div className="flex items-center gap-3">
@@ -150,17 +168,21 @@ export function CompactSidebar() {
       </div>
 
       {/* Bottom Section */}
-      <div className="px-4 py-3 border-t border-slate-600/50">
+      <div className="px-4 py-4 border-t border-slate-600/50 bg-[#1e293b]">
         {/* Strategic Planning */}
-        <div className="mb-3">
+        <div className="mb-4">
           <div className="text-xs text-slate-300 font-medium mb-2">
             {isArabic ? 'التخطيط الاستراتيجي' : 'Strategic Planning'}
           </div>
-          <div className="h-8 bg-white rounded-lg"></div>
+          <input 
+            type="text" 
+            className="w-full h-8 bg-white text-slate-900 rounded px-2 text-sm border-0 focus:outline-none focus:ring-1 focus:ring-blue-400"
+            placeholder={isArabic ? 'ادخل خطتك...' : 'Enter your plan...'}
+          />
         </div>
 
         {/* Change Management */}
-        <div className="text-xs text-slate-300 font-medium">
+        <div className="text-xs text-slate-300 font-medium mb-2">
           {isArabic ? 'إدارة التغيير' : 'Change Management'}
         </div>
       </div>
